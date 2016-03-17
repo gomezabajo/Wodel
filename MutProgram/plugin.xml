@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AppliedMutations -->
+      <package
+            uri="http://appliedMutations/1.0"
+            class="appliedMutations.AppliedMutationsPackage"
+            genModel="models/AppliedMutations.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorEnvironment -->
+      <package
+            uri="http://mutatorenvironment/1.0"
+            class="mutatorenvironment.MutatorenvironmentPackage"
+            genModel="models/MutatorEnvironment.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorConfiguration -->
+      <package
+            uri="http://mutatorconfiguration/1.0"
+            class="mutatorconfiguration.MutatorconfigurationPackage"
+            genModel="models/MutatorConfiguration.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorTests -->
+      <package
+            uri="http://mutatortests/1.0"
+            class="mutatortests.MutatortestsPackage"
+            genModel="models/MutatorTests.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorGraph -->
+      <package
+            uri="http://mutatorgraph/1.0"
+            class="mutatorgraph.MutatorgraphPackage"
+            genModel="models/MutatorGraph.genmodel"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MutEdu
+Bundle-SymbolicName: MutEdu;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: mutedu.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ MutExtension,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ Mut,
+ com.google.guava
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

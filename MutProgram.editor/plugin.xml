@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated MutatorGraph -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="mutatorgraph.presentation.MutatorgraphModelWizardID"
+            name="%_UI_MutatorgraphModelWizard_label"
+            class="mutatorgraph.presentation.MutatorgraphModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MutatorgraphModelFile.gif">
+         <description>%_UI_MutatorgraphModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated MutatorGraph -->
+      <editor
+            id="mutatorgraph.presentation.MutatorgraphEditorID"
+            name="%_UI_MutatorgraphEditor_label"
+            icon="icons/full/obj16/MutatorgraphModelFile.gif"
+            extensions="mutatorgraph"
+            class="mutatorgraph.presentation.MutatorgraphEditor"
+            contributorClass="mutatorgraph.presentation.MutatorgraphActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated AppliedMutations -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="appliedMutations.presentation.AppliedMutationsModelWizardID"
+            name="%_UI_AppliedMutationsModelWizard_label"
+            class="appliedMutations.presentation.AppliedMutationsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/AppliedMutationsModelFile.gif">
+         <description>%_UI_AppliedMutationsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated AppliedMutations -->
+      <editor
+            id="appliedMutations.presentation.AppliedMutationsEditorID"
+            name="%_UI_AppliedMutationsEditor_label"
+            icon="icons/full/obj16/AppliedMutationsModelFile.gif"
+            extensions="appliedmutations"
+            class="appliedMutations.presentation.AppliedMutationsEditor"
+            contributorClass="appliedMutations.presentation.AppliedMutationsActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

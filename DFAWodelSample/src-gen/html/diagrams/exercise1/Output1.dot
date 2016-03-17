@@ -1,0 +1,17 @@
+digraph Automaton {
+
+even [shape = doublecircle];
+
+_nil [style = invis];
+
+odd [shape = circle];
+
+_nil -> even;
+
+even -> odd [label = "1"];
+
+odd -> even [label = "0, 1"];
+
+even -> even [label = "0"];
+
+}

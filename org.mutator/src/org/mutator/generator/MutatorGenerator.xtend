@@ -793,6 +793,16 @@ class MutatorGenerator implements IGenerator {
 			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 			attMut«attCounter».setAttName("«eattsec.name»");
 			«ENDIF»
+			«IF att instanceof AttributeUnset»
+			AttributeChanged attMut«attCounter» = null;
+			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
+			attMut«attCounter».setAttName("«eattsec.name»");
+			«ENDIF»
+			«IF att instanceof AttributeReverse»
+			AttributeChanged attMut«attCounter» = null;
+			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
+			attMut«attCounter».setAttName("«eattsec.name»");
+			«ENDIF»
 			oldAttVal = ((ModifyInformationMutator) mut).getOldAttValue("«eattfirst.name»");
 			newAttVal = ((ModifyInformationMutator) mut).getNewAttValue("«eattsec.name»");
 			if (oldAttVal != null) {

@@ -28,6 +28,18 @@
 <p>As an example, this repository contains an application consisting on the automated generation of exercises for particular domains
 (automata, class diagrams, electronic circuits, etc.).</p>
 
+<p>This is a sample of a Wodel program that mutates a transition target of a Deterministic Finite Automaton model:</p>
+
+<pre><code>generate 2 mutants
+in "out/"
+from "model/" all
+metamodel "http://dfaAutomaton/1.0"
+
+with commands {
+     modify target tar from one Transition to other State
+}
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>.</span>
 

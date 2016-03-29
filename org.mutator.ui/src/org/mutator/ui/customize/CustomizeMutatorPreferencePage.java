@@ -37,7 +37,7 @@ public class CustomizeMutatorPreferencePage extends LanguageRootPreferencePage {
     	new LabelFieldEditor("Check this box if you want to generate a registry of the mutations", getFieldEditorParent());
     	addField(new BooleanFieldEditor("Generate registry", "Generate registry", getFieldEditorParent()));
     	new LabelFieldEditor("Write which number of attempts will be executed until assuring mutant is unique", getFieldEditorParent());
-    	addField(new StringFieldEditor("Number of attempts", "Number of attempts", 8, getFieldEditorParent()));
+    	addField(new StringFieldEditor("Number of attempts", "", 8, getFieldEditorParent()));
     }
     @Override
     public void init(IWorkbench workbench) {

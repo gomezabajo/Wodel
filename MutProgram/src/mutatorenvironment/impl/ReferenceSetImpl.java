@@ -3,17 +3,23 @@
 package mutatorenvironment.impl;
 
 import java.util.Collection;
+
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ReferenceSet;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -31,7 +37,8 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *
  * @generated
  */
-public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements ReferenceSet {
+public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements ReferenceSet
+{
 	/**
 	 * The cached value of the '{@link #getReference() <em>Reference</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -67,7 +74,8 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReferenceSetImpl() {
+	protected ReferenceSetImpl()
+	{
 		super();
 	}
 
@@ -77,7 +85,8 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REFERENCE_SET;
 	}
 
@@ -86,8 +95,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EReference> getReference() {
-		if (reference == null) {
+	public EList<EReference> getReference()
+	{
+		if (reference == null)
+		{
 			reference = new EObjectResolvingEList<EReference>(EReference.class, this, MutatorenvironmentPackage.REFERENCE_SET__REFERENCE);
 		}
 		return reference;
@@ -98,7 +109,8 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getObject() {
+	public ObSelectionStrategy getObject()
+	{
 		return object;
 	}
 
@@ -107,10 +119,12 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetObject(ObSelectionStrategy newObject, NotificationChain msgs) {
+	public NotificationChain basicSetObject(ObSelectionStrategy newObject, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldObject = object;
 		object = newObject;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REFERENCE_SET__OBJECT, oldObject, newObject);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -122,8 +136,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setObject(ObSelectionStrategy newObject) {
-		if (newObject != object) {
+	public void setObject(ObSelectionStrategy newObject)
+	{
+		if (newObject != object)
+		{
 			NotificationChain msgs = null;
 			if (object != null)
 				msgs = ((InternalEObject)object).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.REFERENCE_SET__OBJECT, null, msgs);
@@ -141,11 +157,14 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
+	public EReference getRefType()
+	{
+		if (refType != null && refType.eIsProxy())
+		{
 			InternalEObject oldRefType = (InternalEObject)refType;
 			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+			if (refType != oldRefType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE, oldRefType, refType));
 			}
@@ -158,7 +177,8 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
+	public EReference basicGetRefType()
+	{
 		return refType;
 	}
 
@@ -167,7 +187,8 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
+	public void setRefType(EReference newRefType)
+	{
 		EReference oldRefType = refType;
 		refType = newRefType;
 		if (eNotificationRequired())
@@ -180,8 +201,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:
 				return basicSetObject(null, msgs);
 		}
@@ -194,8 +217,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_SET__REFERENCE:
 				return getReference();
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:
@@ -214,8 +239,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_SET__REFERENCE:
 				getReference().clear();
 				getReference().addAll((Collection<? extends EReference>)newValue);
@@ -236,8 +263,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_SET__REFERENCE:
 				getReference().clear();
 				return;
@@ -257,8 +286,10 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_SET__REFERENCE:
 				return reference != null && !reference.isEmpty();
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:

@@ -4,7 +4,6 @@ package mutatorenvironment;
 
 import org.eclipse.emf.ecore.EReference;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Remove Specific Reference Mutator</b></em>'.
@@ -22,7 +21,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface RemoveSpecificReferenceMutator extends RemoveReferenceMutator {
+public interface RemoveSpecificReferenceMutator extends RemoveReferenceMutator
+{
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

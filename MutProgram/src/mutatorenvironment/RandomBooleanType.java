@@ -19,7 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface RandomBooleanType extends BooleanType {
+public interface RandomBooleanType extends BooleanType
+{
 	/**
 	 * Returns the value of the '<em><b>Allows Null</b></em>' attribute.
 	 * <!-- begin-user-doc -->

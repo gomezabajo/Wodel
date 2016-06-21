@@ -62,4 +62,112 @@
       </editor>
    </extension>
 
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated MutatorTests -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="mutatortests.presentation.MutatortestsModelWizardID"
+            name="%_UI_MutatortestsModelWizard_label"
+            class="mutatortests.presentation.MutatortestsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MutatortestsModelFile.gif">
+         <description>%_UI_MutatortestsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated MutatorTests -->
+      <editor
+            id="mutatortests.presentation.MutatortestsEditorID"
+            name="%_UI_MutatortestsEditor_label"
+            icon="icons/full/obj16/MutatortestsModelFile.gif"
+            extensions="mutatortests"
+            class="mutatortests.presentation.MutatortestsEditor"
+            contributorClass="mutatortests.presentation.MutatortestsActionBarContributor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated MutatorEnvironment -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="mutatorenvironment.presentation.MutatorenvironmentModelWizardID"
+            name="%_UI_MutatorenvironmentModelWizard_label"
+            class="mutatorenvironment.presentation.MutatorenvironmentModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MutatorenvironmentModelFile.gif">
+         <description>%_UI_MutatorenvironmentModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated MutatorEnvironment -->
+      <editor
+            id="mutatorenvironment.presentation.MutatorenvironmentEditorID"
+            name="%_UI_MutatorenvironmentEditor_label"
+            icon="icons/full/obj16/MutatorenvironmentModelFile.gif"
+            extensions="mutatorenvironment"
+            class="mutatorenvironment.presentation.MutatorenvironmentEditor"
+            contributorClass="mutatorenvironment.presentation.MutatorenvironmentActionBarContributor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated IdentifyElements -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="identifyelements.presentation.IdentifyelementsModelWizardID"
+            name="%_UI_IdentifyelementsModelWizard_label"
+            class="identifyelements.presentation.IdentifyelementsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/IdentifyelementsModelFile.gif">
+         <description>%_UI_IdentifyelementsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated IdentifyElements -->
+      <editor
+            id="identifyelements.presentation.IdentifyelementsEditorID"
+            name="%_UI_IdentifyelementsEditor_label"
+            icon="icons/full/obj16/IdentifyelementsModelFile.gif"
+            extensions="identifyelements"
+            class="identifyelements.presentation.IdentifyelementsEditor"
+            contributorClass="identifyelements.presentation.IdentifyelementsActionBarContributor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated ConfigureOptions -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="configureoptions.presentation.ConfigureoptionsModelWizardID"
+            name="%_UI_ConfigureoptionsModelWizard_label"
+            class="configureoptions.presentation.ConfigureoptionsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ConfigureoptionsModelFile.gif">
+         <description>%_UI_ConfigureoptionsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated ConfigureOptions -->
+      <editor
+            id="configureoptions.presentation.ConfigureoptionsEditorID"
+            name="%_UI_ConfigureoptionsEditor_label"
+            icon="icons/full/obj16/ConfigureoptionsModelFile.gif"
+            extensions="configureoptions"
+            class="configureoptions.presentation.ConfigureoptionsEditor"
+            contributorClass="configureoptions.presentation.ConfigureoptionsActionBarContributor">
+      </editor>
+   </extension>
 </plugin>

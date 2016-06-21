@@ -61,7 +61,6 @@ public class SourceItemProvider
 			super.getPropertyDescriptors(object);
 
 			addPathPropertyDescriptor(object);
-			addMultiplePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -84,28 +83,6 @@ public class SourceItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Multiple feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMultiplePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Source_multiple_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Source_multiple_feature", "_UI_Source_type"),
-				 MutatorenvironmentPackage.Literals.SOURCE__MULTIPLE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -149,7 +126,6 @@ public class SourceItemProvider
 
 		switch (notification.getFeatureID(Source.class)) {
 			case MutatorenvironmentPackage.SOURCE__PATH:
-			case MutatorenvironmentPackage.SOURCE__MULTIPLE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

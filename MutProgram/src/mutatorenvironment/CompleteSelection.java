@@ -13,5 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface CompleteSelection extends ObSelectionStrategy {
+public interface CompleteSelection extends ObSelectionStrategy
+{
 } // CompleteSelection

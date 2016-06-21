@@ -38,7 +38,7 @@ public class MutatorGraphParser extends AbstractContentAssistParser {
 				private static final long serialVersionUID = 1L;
 				{
 					put(grammarAccess.getEStringAccess().getAlternatives(), "rule__EString__Alternatives");
-					put(grammarAccess.getNegationAccess().getAlternatives(), "rule__Negation__Alternatives");
+					put(grammarAccess.getNodeAccess().getAlternatives_3(), "rule__Node__Alternatives_3");
 					put(grammarAccess.getNodeTypeAccess().getAlternatives(), "rule__NodeType__Alternatives");
 					put(grammarAccess.getNodeShapeAccess().getAlternatives(), "rule__NodeShape__Alternatives");
 					put(grammarAccess.getMutatorGraphAccess().getGroup(), "rule__MutatorGraph__Group__0");
@@ -51,7 +51,7 @@ public class MutatorGraphParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMutatorGraphAccess().getNodesAssignment_7(), "rule__MutatorGraph__NodesAssignment_7");
 					put(grammarAccess.getMutatorGraphAccess().getEdgesAssignment_8(), "rule__MutatorGraph__EdgesAssignment_8");
 					put(grammarAccess.getNodeAccess().getNameAssignment_1(), "rule__Node__NameAssignment_1");
-					put(grammarAccess.getNodeAccess().getNegationAssignment_3(), "rule__Node__NegationAssignment_3");
+					put(grammarAccess.getNodeAccess().getNegationAssignment_3_0(), "rule__Node__NegationAssignment_3_0");
 					put(grammarAccess.getNodeAccess().getAttributeAssignment_4(), "rule__Node__AttributeAssignment_4");
 					put(grammarAccess.getNodeAccess().getTypeAssignment_7(), "rule__Node__TypeAssignment_7");
 					put(grammarAccess.getNodeAccess().getShapeAssignment_8_3(), "rule__Node__ShapeAssignment_8_3");

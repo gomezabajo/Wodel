@@ -1,6 +1,7 @@
 package mutatorproject.wizards;
 
 import manager.ModelManager;
+import manager.WodelContext;
 import mutextension.generator.IGenerator;
 import mutatorproject.builder.SampleNature;
 import mutatorproject.utils.EclipseHelper;
@@ -32,15 +33,20 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import java.io.*;
 
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
+import org.mutator.WodelUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
+
+import exceptions.MetaModelNotFoundException;
 
 /**
  * This is a sample new wizard. Its role is to create a new file resource in the
@@ -55,6 +61,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 	private ISelection selection;
 
 	private WodelWizardPage _pageOne;
+	private WodelWizardMetamodelPage _pageTwo;
 
 	private static final String WIZARD_NAME = "Wodel Project";
 
@@ -80,6 +87,10 @@ public class WodelWizard extends Wizard implements INewWizard {
 		_pageOne.setTitle("Wodel Project");
 		_pageOne.setDescription("Create a Wodel Project");
 		addPage(_pageOne);
+		_pageTwo = new WodelWizardMetamodelPage(selection);
+		_pageTwo.setTitle("Choose Metamodel");
+		_pageTwo.setDescription("Choose Metamodel for Wodel Project");
+		addPage(_pageTwo);
 	}
 
 	/**
@@ -155,41 +166,6 @@ public class WodelWizard extends Wizard implements INewWizard {
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
 
-		monitor.beginTask("Creating model folder", 6);
-		final IFolder modelFolder = project.getFolder(new Path(modelName));
-		modelFolder.create(true, true, monitor);
-
-		monitor.beginTask("Creating mutant folder", 6);
-		final IFolder mutantFolder = project.getFolder(new Path(mutantName));
-		mutantFolder.create(true, true, monitor);
-		// create a sample file
-		monitor.beginTask("Creating " + fileName, 6);
-
-		final IFolder srcFolder = project.getFolder(new Path("src"));
-
-		final IFile file = srcFolder.getFile(new Path(fileName));
-		try {
-			InputStream stream = openContentStream();
-			String def = "generate 2 mutants\n"
-					+ "in \"" + ModelManager.getOutputFolder() + "/\"\n"
-					+ "from \"" + ModelManager.getModelsFolder() + "/\" all\n"
-					+ "metamodel \"\" //fill this with the path to the meta-model\n\n"
-					+ "with commands {\n"
-					+ "\t//fill this with mutation commands\n"
-					+ "}";
-			if (file.exists()) {
-				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-				content += def;
-				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-				file.setContents(stream, true, true, monitor);
-			} else {
-				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
-				file.create(stream, true, monitor);
-			}
-			stream.close();
-		} catch (IOException e) {
-		}
-
 		monitor.beginTask("Creating config folder", 6);
 		final IFolder configFolder = project.getFolder(new Path("config"));
 		configFolder.create(true, true, monitor);
@@ -206,6 +182,85 @@ public class WodelWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 
+		monitor.beginTask("Creating model folder", 6);
+		final IFolder modelFolder = project.getFolder(new Path(modelName));
+		modelFolder.create(true, true, monitor);
+		String metamodel = null;
+		//Copies the selected meta-model
+		if (_pageTwo.file != null) {
+			metamodel = _pageTwo.file.substring(_pageTwo.file.lastIndexOf("\\") + 1);
+			IFile file = modelFolder.getFile(new Path(metamodel));
+			try {
+				FileReader fr = new FileReader(_pageTwo.file);
+				BufferedReader br = new BufferedReader(fr);
+				
+				String line = null;
+				String def = "";
+				while ((line = br.readLine()) != null) {
+					def += line + "\n";
+				}
+				br.close();
+				InputStream stream = openContentStream();
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				content += def;
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				file.create(stream, true, monitor);
+				stream.close();
+			} catch (IOException e) {
+			}
+		}
+
+		monitor.beginTask("Creating mutant folder", 6);
+		final IFolder mutantFolder = project.getFolder(new Path(mutantName));
+		mutantFolder.create(true, true, monitor);
+		// create a sample file
+		monitor.beginTask("Creating " + fileName, 6);
+
+		final IFolder srcFolder = project.getFolder(new Path("src"));
+
+		final IFile file = srcFolder.getFile(new Path(fileName));
+		try {
+			InputStream stream = openContentStream();
+			String def = "generate 2 mutants\n"
+					+ "in \"" + mutantName + "/\"\n"
+					+ "from \"" + modelName + "/\"\n";
+			if (metamodel != null) {
+				def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			}
+			else {
+				def += "metamodel \"\" //fill this with the path to the meta-model\n\n";
+			}
+			if (metamodel != null) {
+				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(projectName) + "/" + metamodel);
+				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				EClass eclass = eclasses.get(0);
+				def += "with commands {\n";
+				def += "\tcreate " + eclass.getName() + "\n";
+			}
+			else {
+				def += "\t//fill this with mutation commands\n";
+			}
+			def += "}";
+			if (file.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				content += def;
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				file.setContents(stream, true, true, monitor);
+			} else {
+				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				file.create(stream, true, monitor);
+			}
+			stream.close();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+		}
+		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + fileName)).getFullPath();
+		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
+		WodelUtils.serialize(xTextFileName, xmiFileName);
+
+
 		if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry().getConfigurationElementsFor(
@@ -219,7 +274,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 						monitor.beginTask("Creating " + src.getName()
 								+ " files", 6);
 						if (wodelExtensions.get(src.getName()) == true) {
-							src.doGenerate(fileName, project, srcFolder,
+							src.doGenerate(fileName, metamodel, projectName, mutantName, project, srcFolder,
 									configFolder, monitor);
 						}
 					}
@@ -257,6 +312,19 @@ public class WodelWizard extends Wizard implements INewWizard {
 		});
 		monitor.worked(1);
 
+	}
+	
+	/**
+	 * Toggles the finish button
+	 */
+	public boolean canFinish()
+	{
+		if(getContainer().getCurrentPage() == _pageTwo) {
+			if (_pageTwo.valid == true) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

@@ -21,7 +21,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface RandomIntegerType extends IntegerType {
+public interface RandomIntegerType extends IntegerType
+{
 	/**
 	 * Returns the value of the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->

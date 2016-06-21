@@ -13,6 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface RandomTypeSelection extends RandomSelection {
-
+public interface RandomTypeSelection extends RandomSelection
+{
 } // RandomTypeSelection

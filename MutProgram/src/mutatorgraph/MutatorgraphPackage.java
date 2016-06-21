@@ -306,16 +306,6 @@ public interface MutatorgraphPackage extends EPackage {
 	int EDGE_OPERATION_COUNT = ITEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link mutatorgraph.Negation <em>Negation</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see mutatorgraph.Negation
-	 * @see mutatorgraph.impl.MutatorgraphPackageImpl#getNegation()
-	 * @generated
-	 */
-	int NEGATION = 4;
-
-	/**
 	 * The meta object id for the '{@link mutatorgraph.GraphType <em>Graph Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -323,7 +313,7 @@ public interface MutatorgraphPackage extends EPackage {
 	 * @see mutatorgraph.impl.MutatorgraphPackageImpl#getGraphType()
 	 * @generated
 	 */
-	int GRAPH_TYPE = 5;
+	int GRAPH_TYPE = 4;
 
 	/**
 	 * The meta object id for the '{@link mutatorgraph.NodeType <em>Node Type</em>}' enum.
@@ -333,7 +323,7 @@ public interface MutatorgraphPackage extends EPackage {
 	 * @see mutatorgraph.impl.MutatorgraphPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 6;
+	int NODE_TYPE = 5;
 
 	/**
 	 * The meta object id for the '{@link mutatorgraph.NodeShape <em>Node Shape</em>}' enum.
@@ -343,7 +333,7 @@ public interface MutatorgraphPackage extends EPackage {
 	 * @see mutatorgraph.impl.MutatorgraphPackageImpl#getNodeShape()
 	 * @generated
 	 */
-	int NODE_SHAPE = 7;
+	int NODE_SHAPE = 6;
 
 
 	/**
@@ -432,11 +422,11 @@ public interface MutatorgraphPackage extends EPackage {
 	EClass getNode();
 
 	/**
-	 * Returns the meta object for the attribute '{@link mutatorgraph.Node#getNegation <em>Negation</em>}'.
+	 * Returns the meta object for the attribute '{@link mutatorgraph.Node#isNegation <em>Negation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Negation</em>'.
-	 * @see mutatorgraph.Node#getNegation()
+	 * @see mutatorgraph.Node#isNegation()
 	 * @see #getNode()
 	 * @generated
 	 */
@@ -517,16 +507,6 @@ public interface MutatorgraphPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEdge_Label();
-
-	/**
-	 * Returns the meta object for enum '{@link mutatorgraph.Negation <em>Negation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Negation</em>'.
-	 * @see mutatorgraph.Negation
-	 * @generated
-	 */
-	EEnum getNegation();
 
 	/**
 	 * Returns the meta object for enum '{@link mutatorgraph.GraphType <em>Graph Type</em>}'.
@@ -716,16 +696,6 @@ public interface MutatorgraphPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EDGE__LABEL = eINSTANCE.getEdge_Label();
-
-		/**
-		 * The meta object literal for the '{@link mutatorgraph.Negation <em>Negation</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see mutatorgraph.Negation
-		 * @see mutatorgraph.impl.MutatorgraphPackageImpl#getNegation()
-		 * @generated
-		 */
-		EEnum NEGATION = eINSTANCE.getNegation();
 
 		/**
 		 * The meta object literal for the '{@link mutatorgraph.GraphType <em>Graph Type</em>}' enum.

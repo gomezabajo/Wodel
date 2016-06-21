@@ -8,8 +8,8 @@ import mutatorenvironment.ObjectEmitter;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
@@ -27,7 +27,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container implements ObjectEmitter {
+public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container implements ObjectEmitter
+{
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -63,7 +64,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ObjectEmitterImpl() {
+	protected ObjectEmitterImpl()
+	{
 		super();
 	}
 
@@ -73,7 +75,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.OBJECT_EMITTER;
 	}
 
@@ -82,11 +85,14 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getType() {
-		if (type != null && type.eIsProxy()) {
+	public EClass getType()
+	{
+		if (type != null && type.eIsProxy())
+		{
 			InternalEObject oldType = (InternalEObject)type;
 			type = (EClass)eResolveProxy(oldType);
-			if (type != oldType) {
+			if (type != oldType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.OBJECT_EMITTER__TYPE, oldType, type));
 			}
@@ -99,7 +105,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass basicGetType() {
+	public EClass basicGetType()
+	{
 		return type;
 	}
 
@@ -108,7 +115,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(EClass newType) {
+	public void setType(EClass newType)
+	{
 		EClass oldType = type;
 		type = newType;
 		if (eNotificationRequired())
@@ -120,7 +128,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -129,7 +138,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
+	public void setName(String newName)
+	{
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
@@ -142,8 +152,10 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
@@ -159,8 +171,10 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPE:
 				setType((EClass)newValue);
 				return;
@@ -177,8 +191,10 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPE:
 				setType((EClass)null);
 				return;
@@ -195,8 +211,10 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPE:
 				return type != null;
 			case MutatorenvironmentPackage.OBJECT_EMITTER__NAME:
@@ -211,7 +229,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

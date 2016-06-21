@@ -16,8 +16,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//Item">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" eType="#//Negation"
-        defaultValueLiteral="yes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//NodeType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" eType="#//NodeShape"/>
@@ -26,10 +26,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="Negation">
-    <eLiterals name="not"/>
-    <eLiterals name="yes" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GraphType">
     <eLiterals name="diagram"/>

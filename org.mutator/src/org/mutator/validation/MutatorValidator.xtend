@@ -67,11 +67,13 @@ class MutatorValidator extends AbstractMutatorValidator {
     
     @Check
     def checkProgramModel(Program p) {
-    	if (p.source.multiple == false) {
+    	if (!p.source.path.endsWith('/')) {
+    	/*if (p.source.multiple == false) {*/
     		if (! ModelManager.checkModel(p.source.path))
     	   		error("Cannot find model"+p.source.path, null, INVALID_MODEL);
    	    }
-   	    if (p.source.multiple == true) {
+   	    if (p.source.path.endsWith('/')) {
+   	    /*if (p.source.multiple == true) {*/
    	    	val File[] files = new File(p.source.path).listFiles();
         	for (file : files) {
 				if (file.isFile() == true) {

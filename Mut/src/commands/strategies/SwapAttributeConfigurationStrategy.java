@@ -51,11 +51,12 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 			}
 		}
 		eobj = EcoreUtil.copy(o);
+		eobjatt = EcoreUtil.copy(o);
 		
 		o.eSet(this.target, eobj.eGet(this.source));
 		o.eSet(this.source, eobj.eGet(this.target));
 		
-		eobjatt = o;
+
 	}
 	
 	public SwapAttributeConfigurationStrategy(EObject obj_tar, String src_name, String target, String source, Resource model) {
@@ -78,11 +79,12 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 			}
 		}
 		eobj = EcoreUtil.copy(obj_src);
+		eobjatt = EcoreUtil.copy(obj_tar);
 		
 		obj_src.eSet(this.source, obj_tar.eGet(this.target));
 		obj_tar.eSet(this.target, eobj.eGet(this.source));
 
-		eobjatt = obj_src;
+		
 	}
 
 	public SwapAttributeConfigurationStrategy(EObject obj_tar, EObject obj_src, String target, String source) {
@@ -102,11 +104,11 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 			}
 		}
 		eobj = EcoreUtil.copy(obj_src);
+		eobjatt = EcoreUtil.copy(obj_tar);
 		
 		obj_src.eSet(this.source, obj_tar.eGet(this.target));
 		obj_tar.eSet(this.target, eobj.eGet(this.source));
 		
-		eobjatt = obj_src;
 	}
 
 	
@@ -114,8 +116,12 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 		return o.eGet(target);
 	}
 	
-	public Object getPrevious(EObject o) {
-		return o.eGet(source);
+	public Object getPrevious() {
+		return eobjatt.eGet(target);
+	}
+	
+	public EObject getOtherObject() {
+		return eobj;
 	}
 	
 	public EObject getAttObject() {

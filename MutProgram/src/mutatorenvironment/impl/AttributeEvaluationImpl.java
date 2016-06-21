@@ -6,11 +6,14 @@ import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeType;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.Operator;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -28,7 +31,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class AttributeEvaluationImpl extends EvaluationImpl implements AttributeEvaluation {
+public class AttributeEvaluationImpl extends EvaluationImpl implements AttributeEvaluation
+{
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -74,7 +78,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeEvaluationImpl() {
+	protected AttributeEvaluationImpl()
+	{
 		super();
 	}
 
@@ -84,7 +89,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION;
 	}
 
@@ -93,11 +99,14 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getName() {
-		if (name != null && name.eIsProxy()) {
+	public EAttribute getName()
+	{
+		if (name != null && name.eIsProxy())
+		{
 			InternalEObject oldName = (InternalEObject)name;
 			name = (EAttribute)eResolveProxy(oldName);
-			if (name != oldName) {
+			if (name != oldName)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME, oldName, name));
 			}
@@ -110,7 +119,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute basicGetName() {
+	public EAttribute basicGetName()
+	{
 		return name;
 	}
 
@@ -119,7 +129,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(EAttribute newName) {
+	public void setName(EAttribute newName)
+	{
 		EAttribute oldName = name;
 		name = newName;
 		if (eNotificationRequired())
@@ -131,7 +142,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operator getOperator() {
+	public Operator getOperator()
+	{
 		return operator;
 	}
 
@@ -140,7 +152,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOperator(Operator newOperator) {
+	public void setOperator(Operator newOperator)
+	{
 		Operator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
 		if (eNotificationRequired())
@@ -152,7 +165,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeType getValue() {
+	public AttributeType getValue()
+	{
 		return value;
 	}
 
@@ -161,10 +175,12 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetValue(AttributeType newValue, NotificationChain msgs) {
+	public NotificationChain basicSetValue(AttributeType newValue, NotificationChain msgs)
+	{
 		AttributeType oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE, oldValue, newValue);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -176,8 +192,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(AttributeType newValue) {
-		if (newValue != value) {
+	public void setValue(AttributeType newValue)
+	{
+		if (newValue != value)
+		{
 			NotificationChain msgs = null;
 			if (value != null)
 				msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE, null, msgs);
@@ -196,8 +214,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
 				return basicSetValue(null, msgs);
 		}
@@ -210,8 +230,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				if (resolve) return getName();
 				return basicGetName();
@@ -229,8 +251,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				setName((EAttribute)newValue);
 				return;
@@ -250,8 +274,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				setName((EAttribute)null);
 				return;
@@ -271,8 +297,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				return name != null;
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__OPERATOR:
@@ -289,7 +317,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

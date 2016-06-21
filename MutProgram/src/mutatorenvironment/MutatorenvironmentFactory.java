@@ -12,7 +12,8 @@ import org.eclipse.emf.ecore.EFactory;
  * @see mutatorenvironment.MutatorenvironmentPackage
  * @generated
  */
-public interface MutatorenvironmentFactory extends EFactory {
+public interface MutatorenvironmentFactory extends EFactory
+{
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -400,15 +401,6 @@ public interface MutatorenvironmentFactory extends EFactory {
 	SelectObjectMutator createSelectObjectMutator();
 
 	/**
-	 * Returns a new object of class '<em>Binary Operator</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Binary Operator</em>'.
-	 * @generated
-	 */
-	BinaryOperator createBinaryOperator();
-
-	/**
 	 * Returns a new object of class '<em>Attribute Evaluation</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -470,6 +462,33 @@ public interface MutatorenvironmentFactory extends EFactory {
 	 * @generated
 	 */
 	ReferenceSwap createReferenceSwap();
+
+	/**
+	 * Returns a new object of class '<em>Binary Operator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Binary Operator</em>'.
+	 * @generated
+	 */
+	BinaryOperator createBinaryOperator();
+
+	/**
+	 * Returns a new object of class '<em>Block</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Block</em>'.
+	 * @generated
+	 */
+	Block createBlock();
+
+	/**
+	 * Returns a new object of class '<em>Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Constraint</em>'.
+	 * @generated
+	 */
+	Constraint createConstraint();
 
 	/**
 	 * Returns the package supported by this factory.

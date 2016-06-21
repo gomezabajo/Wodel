@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MutRegistryPostprocessor
+Bundle-SymbolicName: MutRegistryPostprocessor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: mutregistrypostprocessor.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource
+Export-Package: mutregistrypostprocessor,
+ mutregistrypostprocessor.run

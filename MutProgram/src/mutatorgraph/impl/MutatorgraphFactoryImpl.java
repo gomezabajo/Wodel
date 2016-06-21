@@ -73,8 +73,6 @@ public class MutatorgraphFactoryImpl extends EFactoryImpl implements Mutatorgrap
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case MutatorgraphPackage.NEGATION:
-				return createNegationFromString(eDataType, initialValue);
 			case MutatorgraphPackage.GRAPH_TYPE:
 				return createGraphTypeFromString(eDataType, initialValue);
 			case MutatorgraphPackage.NODE_TYPE:
@@ -94,8 +92,6 @@ public class MutatorgraphFactoryImpl extends EFactoryImpl implements Mutatorgrap
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case MutatorgraphPackage.NEGATION:
-				return convertNegationToString(eDataType, instanceValue);
 			case MutatorgraphPackage.GRAPH_TYPE:
 				return convertGraphTypeToString(eDataType, instanceValue);
 			case MutatorgraphPackage.NODE_TYPE:
@@ -135,26 +131,6 @@ public class MutatorgraphFactoryImpl extends EFactoryImpl implements Mutatorgrap
 	public Edge createEdge() {
 		EdgeImpl edge = new EdgeImpl();
 		return edge;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Negation createNegationFromString(EDataType eDataType, String initialValue) {
-		Negation result = Negation.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertNegationToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

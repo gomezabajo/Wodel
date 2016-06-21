@@ -26,7 +26,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implements SpecificObjectSelection {
+public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implements SpecificObjectSelection
+{
 	/**
 	 * The cached value of the '{@link #getObjSel() <em>Obj Sel</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -42,7 +43,8 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SpecificObjectSelectionImpl() {
+	protected SpecificObjectSelectionImpl()
+	{
 		super();
 	}
 
@@ -52,7 +54,8 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.SPECIFIC_OBJECT_SELECTION;
 	}
 
@@ -61,11 +64,14 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObjectEmitter getObjSel() {
-		if (objSel != null && objSel.eIsProxy()) {
+	public ObjectEmitter getObjSel()
+	{
+		if (objSel != null && objSel.eIsProxy())
+		{
 			InternalEObject oldObjSel = (InternalEObject)objSel;
 			objSel = (ObjectEmitter)eResolveProxy(oldObjSel);
-			if (objSel != oldObjSel) {
+			if (objSel != oldObjSel)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.SPECIFIC_OBJECT_SELECTION__OBJ_SEL, oldObjSel, objSel));
 			}
@@ -78,7 +84,8 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObjectEmitter basicGetObjSel() {
+	public ObjectEmitter basicGetObjSel()
+	{
 		return objSel;
 	}
 
@@ -87,7 +94,8 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setObjSel(ObjectEmitter newObjSel) {
+	public void setObjSel(ObjectEmitter newObjSel)
+	{
 		ObjectEmitter oldObjSel = objSel;
 		objSel = newObjSel;
 		if (eNotificationRequired())
@@ -100,8 +108,10 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_OBJECT_SELECTION__OBJ_SEL:
 				if (resolve) return getObjSel();
 				return basicGetObjSel();
@@ -115,8 +125,10 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_OBJECT_SELECTION__OBJ_SEL:
 				setObjSel((ObjectEmitter)newValue);
 				return;
@@ -130,8 +142,10 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_OBJECT_SELECTION__OBJ_SEL:
 				setObjSel((ObjectEmitter)null);
 				return;
@@ -145,8 +159,10 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_OBJECT_SELECTION__OBJ_SEL:
 				return objSel != null;
 		}

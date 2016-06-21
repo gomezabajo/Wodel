@@ -3,17 +3,23 @@
 package mutatorenvironment.impl;
 
 import java.util.Collection;
+
 import mutatorenvironment.BinaryOperator;
 import mutatorenvironment.Evaluation;
 import mutatorenvironment.Expression;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -32,7 +38,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expression {
+public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expression
+{
 	/**
 	 * The cached value of the '{@link #getFirst() <em>First</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -42,6 +49,7 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @ordered
 	 */
 	protected Evaluation first;
+
 	/**
 	 * The cached value of the '{@link #getOperator() <em>Operator</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -51,6 +59,7 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @ordered
 	 */
 	protected EList<BinaryOperator> operator;
+
 	/**
 	 * The cached value of the '{@link #getSecond() <em>Second</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -66,7 +75,8 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExpressionImpl() {
+	protected ExpressionImpl()
+	{
 		super();
 	}
 
@@ -76,7 +86,8 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.EXPRESSION;
 	}
 
@@ -85,7 +96,8 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Evaluation getFirst() {
+	public Evaluation getFirst()
+	{
 		return first;
 	}
 
@@ -94,10 +106,12 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFirst(Evaluation newFirst, NotificationChain msgs) {
+	public NotificationChain basicSetFirst(Evaluation newFirst, NotificationChain msgs)
+	{
 		Evaluation oldFirst = first;
 		first = newFirst;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.EXPRESSION__FIRST, oldFirst, newFirst);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -109,8 +123,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFirst(Evaluation newFirst) {
-		if (newFirst != first) {
+	public void setFirst(Evaluation newFirst)
+	{
+		if (newFirst != first)
+		{
 			NotificationChain msgs = null;
 			if (first != null)
 				msgs = ((InternalEObject)first).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.EXPRESSION__FIRST, null, msgs);
@@ -128,8 +144,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<BinaryOperator> getOperator() {
-		if (operator == null) {
+	public EList<BinaryOperator> getOperator()
+	{
+		if (operator == null)
+		{
 			operator = new EObjectContainmentEList<BinaryOperator>(BinaryOperator.class, this, MutatorenvironmentPackage.EXPRESSION__OPERATOR);
 		}
 		return operator;
@@ -140,8 +158,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Evaluation> getSecond() {
-		if (second == null) {
+	public EList<Evaluation> getSecond()
+	{
+		if (second == null)
+		{
 			second = new EObjectContainmentEList<Evaluation>(Evaluation.class, this, MutatorenvironmentPackage.EXPRESSION__SECOND);
 		}
 		return second;
@@ -153,8 +173,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.EXPRESSION__FIRST:
 				return basicSetFirst(null, msgs);
 			case MutatorenvironmentPackage.EXPRESSION__OPERATOR:
@@ -171,8 +193,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.EXPRESSION__FIRST:
 				return getFirst();
 			case MutatorenvironmentPackage.EXPRESSION__OPERATOR:
@@ -190,8 +214,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.EXPRESSION__FIRST:
 				setFirst((Evaluation)newValue);
 				return;
@@ -213,8 +239,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.EXPRESSION__FIRST:
 				setFirst((Evaluation)null);
 				return;
@@ -234,8 +262,10 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.EXPRESSION__FIRST:
 				return first != null;
 			case MutatorenvironmentPackage.EXPRESSION__OPERATOR:

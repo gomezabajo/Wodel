@@ -3,7 +3,23 @@
  */
 package org.mutatortests.scoping;
 
+import java.net.URL;
+import java.util.ArrayList;
+import manager.ModelManager;
+import manager.WodelContext;
+import mutatortests.MutatorTests;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.osgi.framework.Bundle;
 
 /**
  * This class contains custom scoping description.
@@ -13,4 +29,41 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
  */
 @SuppressWarnings("all")
 public class TestsScopeProvider extends AbstractDeclarativeScopeProvider {
+  /**
+   * MutatorTests.block can refers to any block declared in the .mutator file.
+   */
+  public IScope scope_MutatorTests_block(final MutatorTests mts, final EReference ref) {
+    try {
+      IScope _xblockexpression = null;
+      {
+        String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+        String _plus = ("file:/" + _workspaceAbsolutePath);
+        String _plus_1 = (_plus + "/");
+        String _project = WodelContext.getProject();
+        String _plus_2 = (_plus_1 + _project);
+        String _plus_3 = (_plus_2 + "/");
+        String _outputFolder = ModelManager.getOutputFolder();
+        String _plus_4 = (_plus_3 + _outputFolder);
+        String _plus_5 = (_plus_4 + "/");
+        Resource _eResource = mts.eResource();
+        URI _uRI = _eResource.getURI();
+        String _lastSegment = _uRI.lastSegment();
+        String _replaceAll = _lastSegment.replaceAll("tests", "model");
+        final String xmiFileName = (_plus_5 + _replaceAll);
+        final Bundle bundle = Platform.getBundle("MutProgram");
+        final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+        URL _resolve = FileLocator.resolve(fileURL);
+        final String mutatorecore = _resolve.getFile();
+        final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+        URI _createURI = URI.createURI(xmiFileName);
+        String _fileString = _createURI.toFileString();
+        final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, _fileString);
+        ArrayList<EObject> _objectsOfType = ModelManager.getObjectsOfType("Block", mutatormodel);
+        _xblockexpression = Scopes.scopeFor(_objectsOfType);
+      }
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
 }

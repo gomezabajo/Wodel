@@ -30,7 +30,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObjectMutator {
+public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObjectMutator
+{
 	/**
 	 * The cached value of the '{@link #getContainer() <em>Container</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -66,7 +67,8 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SelectObjectMutatorImpl() {
+	protected SelectObjectMutatorImpl()
+	{
 		super();
 	}
 
@@ -76,7 +78,8 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.SELECT_OBJECT_MUTATOR;
 	}
 
@@ -85,7 +88,8 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getContainer() {
+	public ObSelectionStrategy getContainer()
+	{
 		return container;
 	}
 
@@ -94,10 +98,12 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetContainer(ObSelectionStrategy newContainer, NotificationChain msgs) {
+	public NotificationChain basicSetContainer(ObSelectionStrategy newContainer, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldContainer = container;
 		container = newContainer;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER, oldContainer, newContainer);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -109,8 +115,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setContainer(ObSelectionStrategy newContainer) {
-		if (newContainer != container) {
+	public void setContainer(ObSelectionStrategy newContainer)
+	{
+		if (newContainer != container)
+		{
 			NotificationChain msgs = null;
 			if (container != null)
 				msgs = ((InternalEObject)container).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER, null, msgs);
@@ -128,11 +136,14 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
+	public EReference getRefType()
+	{
+		if (refType != null && refType.eIsProxy())
+		{
 			InternalEObject oldRefType = (InternalEObject)refType;
 			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+			if (refType != oldRefType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE, oldRefType, refType));
 			}
@@ -145,7 +156,8 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
+	public EReference basicGetRefType()
+	{
 		return refType;
 	}
 
@@ -154,7 +166,8 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
+	public void setRefType(EReference newRefType)
+	{
 		EReference oldRefType = refType;
 		refType = newRefType;
 		if (eNotificationRequired())
@@ -166,7 +179,8 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getObject() {
+	public ObSelectionStrategy getObject()
+	{
 		return object;
 	}
 
@@ -175,10 +189,12 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetObject(ObSelectionStrategy newObject, NotificationChain msgs) {
+	public NotificationChain basicSetObject(ObSelectionStrategy newObject, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldObject = object;
 		object = newObject;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT, oldObject, newObject);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -190,8 +206,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setObject(ObSelectionStrategy newObject) {
-		if (newObject != object) {
+	public void setObject(ObSelectionStrategy newObject)
+	{
+		if (newObject != object)
+		{
 			NotificationChain msgs = null;
 			if (object != null)
 				msgs = ((InternalEObject)object).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT, null, msgs);
@@ -210,8 +228,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				return basicSetContainer(null, msgs);
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT:
@@ -226,8 +246,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				return getContainer();
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE:
@@ -245,8 +267,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				setContainer((ObSelectionStrategy)newValue);
 				return;
@@ -266,8 +290,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				setContainer((ObSelectionStrategy)null);
 				return;
@@ -287,8 +313,10 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				return container != null;
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE:

@@ -3,6 +3,7 @@
 package mutatorenvironment;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
@@ -24,13 +25,14 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface ReferenceSet extends EObject {
+public interface ReferenceSet extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>Reference</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Reference</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Reference</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

@@ -47,6 +47,7 @@ public class MutatorItemProvider extends ObjectEmitterItemProvider {
 
 			addMinPropertyDescriptor(object);
 			addMaxPropertyDescriptor(object);
+			addFixedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -96,6 +97,28 @@ public class MutatorItemProvider extends ObjectEmitterItemProvider {
 	}
 
 	/**
+	 * This adds a property descriptor for the Fixed feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFixedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Mutator_fixed_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Mutator_fixed_feature", "_UI_Mutator_type"),
+				 MutatorenvironmentPackage.Literals.MUTATOR__FIXED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -124,6 +147,7 @@ public class MutatorItemProvider extends ObjectEmitterItemProvider {
 		switch (notification.getFeatureID(Mutator.class)) {
 			case MutatorenvironmentPackage.MUTATOR__MIN:
 			case MutatorenvironmentPackage.MUTATOR__MAX:
+			case MutatorenvironmentPackage.MUTATOR__FIXED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

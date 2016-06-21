@@ -18,12 +18,18 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRemoved/object"/>
     </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//ReferenceChanged">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceChanged/refName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/object"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceChanged/srcRefName"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceChanged/refName"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/to"/>
     </genClasses>
-    <genClasses ecoreClass="AppliedMutations.ecore#//SourceReferenceChanged"/>
-    <genClasses ecoreClass="AppliedMutations.ecore#//TargetReferenceChanged"/>
+    <genClasses ecoreClass="AppliedMutations.ecore#//SourceReferenceChanged">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//SourceReferenceChanged/oldFrom"/>
+    </genClasses>
+    <genClasses ecoreClass="AppliedMutations.ecore#//TargetReferenceChanged">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//TargetReferenceChanged/oldTo"/>
+    </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//ReferenceCreated">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceCreated/object"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceCreated/ref"/>
@@ -45,6 +51,10 @@
     <genClasses ecoreClass="AppliedMutations.ecore#//ReferenceSwap">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceSwap/refObject"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceSwap/firstName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceSwap/otherFrom"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceSwap/otherFromName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceSwap/otherTo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AppliedMutations.ecore#//ReferenceSwap/otherToName"/>
     </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//AttributeSwap">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//AttributeSwap/attObject"/>

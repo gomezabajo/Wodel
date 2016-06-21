@@ -8,16 +8,13 @@ import mutatorgraph.Item;
 import mutatorgraph.MutatorGraph;
 import mutatorgraph.MutatorgraphFactory;
 import mutatorgraph.MutatorgraphPackage;
-import mutatorgraph.Negation;
 import mutatorgraph.Node;
 import mutatorgraph.NodeShape;
 import mutatorgraph.NodeType;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -55,13 +52,6 @@ public class MutatorgraphPackageImpl extends EPackageImpl implements Mutatorgrap
 	 * @generated
 	 */
 	private EClass edgeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum negationEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -294,15 +284,6 @@ public class MutatorgraphPackageImpl extends EPackageImpl implements Mutatorgrap
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getNegation() {
-		return negationEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EEnum getGraphType() {
 		return graphTypeEEnum;
 	}
@@ -374,7 +355,6 @@ public class MutatorgraphPackageImpl extends EPackageImpl implements Mutatorgrap
 		createEReference(edgeEClass, EDGE__LABEL);
 
 		// Create enums
-		negationEEnum = createEEnum(NEGATION);
 		graphTypeEEnum = createEEnum(GRAPH_TYPE);
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
 		nodeShapeEEnum = createEEnum(NODE_SHAPE);
@@ -423,7 +403,7 @@ public class MutatorgraphPackageImpl extends EPackageImpl implements Mutatorgrap
 		initEAttribute(getMutatorGraph_Metamodel(), ecorePackage.getEString(), "metamodel", null, 0, 1, MutatorGraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNode_Negation(), this.getNegation(), "negation", "yes", 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNode_Negation(), ecorePackage.getEBoolean(), "negation", "false", 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Attribute(), ecorePackage.getEAttribute(), null, "attribute", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Type(), this.getNodeType(), "type", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Shape(), this.getNodeShape(), "shape", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -434,10 +414,6 @@ public class MutatorgraphPackageImpl extends EPackageImpl implements Mutatorgrap
 		initEReference(getEdge_Label(), ecorePackage.getEReference(), null, "label", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(negationEEnum, Negation.class, "Negation");
-		addEEnumLiteral(negationEEnum, Negation.NOT);
-		addEEnumLiteral(negationEEnum, Negation.YES);
-
 		initEEnum(graphTypeEEnum, GraphType.class, "GraphType");
 		addEEnumLiteral(graphTypeEEnum, GraphType.DIAGRAM);
 

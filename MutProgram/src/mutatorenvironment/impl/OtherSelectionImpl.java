@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class OtherSelectionImpl extends ObSelectionStrategyImpl implements OtherSelection {
+public class OtherSelectionImpl extends ObSelectionStrategyImpl implements OtherSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OtherSelectionImpl() {
+	protected OtherSelectionImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public class OtherSelectionImpl extends ObSelectionStrategyImpl implements Other
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.OTHER_SELECTION;
 	}
 

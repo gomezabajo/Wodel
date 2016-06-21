@@ -119,9 +119,9 @@ ruleMutatorGraph returns [EObject current=null]
 	}
 
 )
-)	otherlv_4='->' 
+)	otherlv_4=':' 
     {
-    	newLeafNode(otherlv_4, grammarAccess.getMutatorGraphAccess().getHyphenMinusGreaterThanSignKeyword_4());
+    	newLeafNode(otherlv_4, grammarAccess.getMutatorGraphAccess().getColonKeyword_4());
     }
 (
 (
@@ -265,24 +265,26 @@ ruleNode returns [EObject current=null]
     {
     	newLeafNode(otherlv_2, grammarAccess.getNodeAccess().getLeftParenthesisKeyword_2());
     }
+((
 (
-(
-		{ 
-	        newCompositeNode(grammarAccess.getNodeAccess().getNegationNegationEnumRuleCall_3_0()); 
-	    }
-		lv_negation_3_0=ruleNegation		{
+		lv_negation_3_0=	'not' 
+    {
+        newLeafNode(lv_negation_3_0, grammarAccess.getNodeAccess().getNegationNotKeyword_3_0_0());
+    }
+ 
+	    {
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getNodeRule());
+	            $current = createModelElement(grammarAccess.getNodeRule());
 	        }
-       		set(
-       			$current, 
-       			"negation",
-        		lv_negation_3_0, 
-        		"Negation");
-	        afterParserOrEnumRuleCall();
+       		setWithLastConsumed($current, "negation", true, "not");
 	    }
 
 )
+)
+    |	otherlv_4='yes' 
+    {
+    	newLeafNode(otherlv_4, grammarAccess.getNodeAccess().getYesKeyword_3_1());
+    }
 )?(
 (
 		{
@@ -290,63 +292,63 @@ ruleNode returns [EObject current=null]
 	            $current = createModelElement(grammarAccess.getNodeRule());
 	        }
         }
-	otherlv_4=RULE_ID
+	otherlv_5=RULE_ID
 	{
-		newLeafNode(otherlv_4, grammarAccess.getNodeAccess().getAttributeEAttributeCrossReference_4_0()); 
+		newLeafNode(otherlv_5, grammarAccess.getNodeAccess().getAttributeEAttributeCrossReference_4_0()); 
 	}
 
 )
-)	otherlv_5=')' 
+)	otherlv_6=')' 
     {
-    	newLeafNode(otherlv_5, grammarAccess.getNodeAccess().getRightParenthesisKeyword_5());
+    	newLeafNode(otherlv_6, grammarAccess.getNodeAccess().getRightParenthesisKeyword_5());
     }
-	otherlv_6='->' 
+	otherlv_7=':' 
     {
-    	newLeafNode(otherlv_6, grammarAccess.getNodeAccess().getHyphenMinusGreaterThanSignKeyword_6());
+    	newLeafNode(otherlv_7, grammarAccess.getNodeAccess().getColonKeyword_6());
     }
 (
 (
 		{ 
 	        newCompositeNode(grammarAccess.getNodeAccess().getTypeNodeTypeEnumRuleCall_7_0()); 
 	    }
-		lv_type_7_0=ruleNodeType		{
+		lv_type_8_0=ruleNodeType		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getNodeRule());
 	        }
        		set(
        			$current, 
        			"type",
-        		lv_type_7_0, 
+        		lv_type_8_0, 
         		"NodeType");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)(	otherlv_8=',' 
+)(	otherlv_9=',' 
     {
-    	newLeafNode(otherlv_8, grammarAccess.getNodeAccess().getCommaKeyword_8_0());
+    	newLeafNode(otherlv_9, grammarAccess.getNodeAccess().getCommaKeyword_8_0());
     }
-	otherlv_9='shape' 
+	otherlv_10='shape' 
     {
-    	newLeafNode(otherlv_9, grammarAccess.getNodeAccess().getShapeKeyword_8_1());
+    	newLeafNode(otherlv_10, grammarAccess.getNodeAccess().getShapeKeyword_8_1());
     }
-	otherlv_10='=' 
+	otherlv_11='=' 
     {
-    	newLeafNode(otherlv_10, grammarAccess.getNodeAccess().getEqualsSignKeyword_8_2());
+    	newLeafNode(otherlv_11, grammarAccess.getNodeAccess().getEqualsSignKeyword_8_2());
     }
 (
 (
 		{ 
 	        newCompositeNode(grammarAccess.getNodeAccess().getShapeNodeShapeEnumRuleCall_8_3_0()); 
 	    }
-		lv_shape_11_0=ruleNodeShape		{
+		lv_shape_12_0=ruleNodeShape		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getNodeRule());
 	        }
        		set(
        			$current, 
        			"shape",
-        		lv_shape_11_0, 
+        		lv_shape_12_0, 
         		"NodeShape");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -430,9 +432,9 @@ ruleEdge returns [EObject current=null]
     {
     	newLeafNode(otherlv_6, grammarAccess.getEdgeAccess().getRightParenthesisKeyword_6());
     }
-	otherlv_7='->' 
+	otherlv_7=':' 
     {
-    	newLeafNode(otherlv_7, grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_7());
+    	newLeafNode(otherlv_7, grammarAccess.getEdgeAccess().getColonKeyword_7());
     }
 	otherlv_8='edge' 
     {
@@ -480,25 +482,6 @@ ruleGraphType returns [Enumerator current=null]
         newLeafNode(enumLiteral_0, grammarAccess.getGraphTypeAccess().getDiagramEnumLiteralDeclaration()); 
     }
 );
-
-
-
-// Rule Negation
-ruleNegation returns [Enumerator current=null] 
-    @init { enterRule(); }
-    @after { leaveRule(); }:
-((	enumLiteral_0='not' 
-	{
-        $current = grammarAccess.getNegationAccess().getNotEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-        newLeafNode(enumLiteral_0, grammarAccess.getNegationAccess().getNotEnumLiteralDeclaration_0()); 
-    }
-)
-    |(	enumLiteral_1='yes' 
-	{
-        $current = grammarAccess.getNegationAccess().getYesEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-        newLeafNode(enumLiteral_1, grammarAccess.getNegationAccess().getYesEnumLiteralDeclaration_1()); 
-    }
-));
 
 
 

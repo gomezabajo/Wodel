@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:TargetReferenceChanged" srcRefName="src" refName="tar">
+    <def href="../../../DFAWodelEduSample.model#//@blocks.0/@commands.0"/>
+    <object href="../../../../model/exercise3.model#_dyArUFfMEeW8KczM4ojxZQ"/>
+    <from href="../../../../model/exercise3.model#_QQLeAFfMEeW8KczM4ojxZQ"/>
+    <to href="../../../../model/exercise3.model#_Z2cNoFfMEeW8KczM4ojxZQ"/>
+    <oldTo href="../../../../model/exercise3.model#_QQLeAFfMEeW8KczM4ojxZQ"/>
+  </muts>
+</appliedMutations:Mutations>

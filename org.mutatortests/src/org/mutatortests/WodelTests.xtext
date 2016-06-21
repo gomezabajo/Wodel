@@ -5,14 +5,49 @@ grammar org.mutatortests.Tests with org.eclipse.xtext.common.Terminals
 import "platform:/resource/MutProgram/models/MutatorTests.ecore" 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
-
-MutatorTests returns MutatorTests:
-	config = Configuration
-	(tests += Test)*
+Program returns Program:
+	{Program}
+	(config = ProgramConfiguration)?
+	(exercises+=MutatorTests)+
 ;
 
-Configuration returns Configuration:
-	'retry' '=' retry=Parameter ',' 'showall' '=' showall=Parameter
+MutatorTests returns MutatorTests:
+	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation
+;
+
+AlternativeResponse returns AlternativeResponse:
+	'AlternativeResponse' (block=[ecore::EObject|ID])? '{'
+		config = TestConfiguration
+		(tests += Test)*
+	'}'
+;
+
+MultiChoiceDiagram returns MultiChoiceDiagram:
+	'MultiChoiceDiagram' (block=[ecore::EObject|ID])? '{'
+		config = TestConfiguration
+		(tests += Test)*
+	'}'
+;
+
+MultiChoiceEmendation returns MultiChoiceEmendation:
+	'MultiChoiceEmendation' (block=[ecore::EObject|ID])? '{'
+		config = MultiChoiceEmConfig
+		(tests += Test)*
+	'}'
+;
+
+ProgramConfiguration returns ProgramConfiguration:
+	'navigation' '=' navigation=Navigation
+;
+
+TestConfiguration returns TestConfiguration:
+	{TestConfiguration}
+	'retry' '=' retry?=('yes' | 'no')
+;
+
+MultiChoiceEmConfig returns MultiChoiceEmConfig:
+	{MultiChoiceEmConfig}
+	'retry' '=' retry?=('yes' | 'no') ',' 'weighted' '=' weighted?=('yes' | 'no') ',' 'penalty' '=' penalty=EDouble ',' 'order' '=' order=Order ',' 'mode' '=' mode=Mode
 ;
 
 Test returns Test:
@@ -21,6 +56,19 @@ Test returns Test:
 
 EString returns ecore::EString:
 	STRING | ID;
+	
+EDouble returns ecore::EDouble:
+	'-'? INT? '.' INT (('E'|'e') '-'? INT)?;
+	
+enum Order returns Order:
+	fixed = 'fixed' | random = 'random' | ascending = 'options-ascending' | descending = 'options-descending'
+;
 
-enum Parameter returns Parameter:
-	no = 'no' | yes = 'yes';
+enum Mode returns Mode:
+	radiobutton = 'radiobutton' | checkbox = 'checkbox'
+;
+
+enum Navigation returns Navigation:
+	free = 'free' | locked = 'locked'
+;
+

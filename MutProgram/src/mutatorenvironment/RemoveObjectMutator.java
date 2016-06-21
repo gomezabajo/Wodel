@@ -3,7 +3,6 @@
 package mutatorenvironment;
 
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Remove Object Mutator</b></em>'.
@@ -20,7 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface RemoveObjectMutator extends Mutator {
+public interface RemoveObjectMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

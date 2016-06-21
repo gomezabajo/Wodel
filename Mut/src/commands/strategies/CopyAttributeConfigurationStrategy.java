@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationStrategy {
 
@@ -18,7 +19,7 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 	protected EAttribute source;
 	protected EAttribute target;
 	protected EObject eobj;
-	protected Object previous;
+	protected EObject eobjatt;
 	
 	@Override
 	public boolean sameType(EClassifier c) {
@@ -50,7 +51,7 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 			}
 		}
 		eobj = o;
-		previous = o.eGet(this.target);
+		eobjatt = EcoreUtil.copy(o);
 	}
 
 	public CopyAttributeConfigurationStrategy(EObject obj_tar, String src_name, String target, String source, Resource model) {
@@ -73,7 +74,7 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 			}
 		}
 		eobj = obj_src;
-		previous = obj_tar.eGet(this.target);
+		eobjatt = EcoreUtil.copy(obj_tar);
 	}
 
 	public CopyAttributeConfigurationStrategy(EObject obj_tar, EObject obj_src, String target, String source) {
@@ -93,7 +94,7 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 			}
 		}
 		eobj = obj_src;
-		previous = obj_tar.eGet(this.target);
+		eobjatt = EcoreUtil.copy(obj_tar);
 	}
 
 	public Object getValue(EObject o) {
@@ -102,8 +103,7 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 		return eobj.eGet(source);
 	}
 	
-	public Object getPrevious(EObject o) {
-		return previous;
+	public EObject getAttObject() {
+		return eobjatt;
 	}
-
 }

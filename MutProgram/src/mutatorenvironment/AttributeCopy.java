@@ -19,8 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface AttributeCopy extends AttributeSet {
-
+public interface AttributeCopy extends AttributeSet
+{
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -46,4 +46,5 @@ public interface AttributeCopy extends AttributeSet {
 	 * @generated
 	 */
 	void setObject(ObSelectionStrategy value);
+
 } // AttributeCopy

@@ -77,6 +77,15 @@ import appliedMutations.ObjectCreated
 import appliedMutations.AppliedMutationsFactory
 import appliedMutations.CompositeMutation
 import appliedMutations.ReferenceCreated
+import mutatorenvironment.Block
+import java.util.HashMap
+import java.io.File
+import mutatorenvironment.Repeat
+import appliedMutations.Mutations
+import mutatorenvironment.Constraint
+import org.eclipse.emf.ecore.EPackage
+import java.util.HashSet
+import exceptions.ModelNotFoundException
 
 /**
  * Generates code from your model files on save.
@@ -111,7 +120,7 @@ class MutatorGenerator implements IGenerator {
 	private String className;
 	private String path;
 	private String xmiFileName;
-	private ArrayList<String> listNMuts;
+	private int nMut;
 	//private ArrayList<EPackage> packages;
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
@@ -131,15 +140,15 @@ class MutatorGenerator implements IGenerator {
 		}
 	}
 	
-//	def getRandom(int range) {
-//		if(range==1) return 0
-//		
-//        var value = System.nanoTime()%(range-1)
-//        if (value<0) value= value*-1
-//        
-//        return value
-//	}
-//	
+	def getRandom(int range) {
+		if(range==1) return 0
+		
+        var int value = System.nanoTime().intValue % range
+        if (value<0) value= value*-1
+        
+        return value
+	}
+	
 	def method(Mutator mut)'''
 		private ArrayList<Mutator> «methodName»(ArrayList<EPackage> packages, Resource model, HashMap<String, EObject> hmObjects, HashMap<String, List<EObject>> hmList) throws ReferenceNonExistingException {
 			ArrayList<Mutator> mutations = new ArrayList<Mutator>();
@@ -637,6 +646,7 @@ class MutatorGenerator implements IGenerator {
 			«FOR c : mut.commands»
 			«IF c instanceof CompositeMutator»
 				//COMMAND: «nCompositeCommands = nCompositeCommands + 1»
+				«IF c.fixed == 0»
 				«IF (c.max - c.min > 0)»
 				int cmax«nCompositeCommands» = getRandom(«c.max - c.min») + «c.min»;
 				«ENDIF»
@@ -644,6 +654,9 @@ class MutatorGenerator implements IGenerator {
 				int cmax«nCompositeCommands» = 1;
 				«ELSEIF (c.min == c.max)»
 				int cmax«nCompositeCommands» = «c.min»;
+				«ENDIF»
+				«ELSE»
+				int cmax«nCompositeCommands» = «c.fixed»;
 				«ENDIF»
 				for (int j«nCompositeCommands» = 0; j«nCompositeCommands» < cmax«nCompositeCommands»; j«nCompositeCommands»++) {
 					//COMPOSITE METHOD NAME:«compositeMethodName = "compositeMutation" + localNCompositeMethod.toString()»
@@ -658,6 +671,7 @@ class MutatorGenerator implements IGenerator {
 				//COMPOSITE METHOD INC: «localNCompositeMethod+= ModelManager.compositeMutatorSize(c) - 1»
 			«ELSE»
 			//COMMAND: «nCommands = nCommands + 1»
+			«IF c.fixed == 0»
 			«IF (c.max - c.min > 0)»
 			int max«nCommands» = getRandom(«c.max - c.min») + «c.min»;
 			«ENDIF»
@@ -665,6 +679,9 @@ class MutatorGenerator implements IGenerator {
 			int max«nCommands» = 1;
 			«ELSEIF (c.min == c.max)»
 			int max«nCommands» = «c.min»;
+			«ENDIF»
+			«ELSE»
+			int max«nCommands» = «c.fixed»;
 			«ENDIF»
 			for (int j = 0; j < max«nCommands»; j++) {
 				«IF c.name != null»
@@ -687,7 +704,6 @@ class MutatorGenerator implements IGenerator {
 			return mutations;	
 		}
 	'''
-
 	def generateMethods(Mutator mut) '''
 		«IF mut instanceof CompositeMutator»
 			//COUNTER COMPOSITE: «nCompositeMethod = nCompositeMethod + 1»
@@ -706,27 +722,37 @@ class MutatorGenerator implements IGenerator {
 			«mut.method»			
 		«ENDIF»
 	'''
-
 	def registryMethod(Mutator mut)'''
 	//REGISTRY COUNTER: «nRegistryMutation++»
 	private AppMutation «registryMethodName»(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed) {
 		AppMutation appMut = null;
 	«IF mut instanceof CreateObjectMutator»
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
-		cMut.getObject().add(mut.getObject());
+		if (mut.getObject() != null) {
+			cMut.getObject().add(mut.getObject());
+		}
 		cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = cMut;
 	«ENDIF»
 	«IF mut instanceof RemoveObjectMutator»
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-		rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));
+		System.out.println("ModelManager.getObject(seed, mut.getObject()): " + ModelManager.getObject(seed, mut.getObject()));
+		if (ModelManager.getObject(seed, mut.getObject()) != null) {
+			if (ModelManager.getObject(seed, mut.getObject()) != null) {
+				rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));
+			}
+		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
 	«ENDIF»
 	«IF mut instanceof CreateReferenceMutator»
 		ReferenceCreated rMut = AppliedMutationsFactory.eINSTANCE.createReferenceCreated();
-		rMut.getObject().add(mut.getObject());
-		rMut.getRef().add(((CreateReferenceMutator) mut).getReference());
+		if (mut.getObject() != null) {
+			rMut.getObject().add(mut.getObject());
+		}
+		if (((CreateReferenceMutator) mut).getReference() != null) {
+			rMut.getRef().add(((CreateReferenceMutator) mut).getReference());
+		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
 	«ENDIF»
@@ -734,10 +760,14 @@ class MutatorGenerator implements IGenerator {
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
 		List<EObject> objects = new ArrayList<EObject>();
 		for (EObject obj : ((RemoveReferenceMutator) mut).getObjects()) {
-			objects.add(ModelManager.getObject(seed, obj));
+			if (ModelManager.getObject(seed, obj) != null) {
+				objects.add(ModelManager.getObject(seed, obj));
+			}
 		}
 		rMut.getObject().addAll(objects);
-		rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+		if (((RemoveReferenceMutator) mut).getReference() != null) {
+			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
 	«ENDIF»
@@ -745,10 +775,14 @@ class MutatorGenerator implements IGenerator {
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
 		List<EObject> objects = new ArrayList<EObject>();
 		for (EObject obj : ((RemoveReferenceMutator) mut).getObjects()) {
-			objects.add(ModelManager.getObject(seed, obj));
+			if (ModelManager.getObject(seed, obj) != null) {
+				objects.add(ModelManager.getObject(seed, obj));
+			}
 		}
 		rMut.getObject().addAll(objects);
-		rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+		if (((RemoveReferenceMutator) mut).getReference() != null) {
+			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
 	«ENDIF»
@@ -756,7 +790,9 @@ class MutatorGenerator implements IGenerator {
 		ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
 		List<EObject> objects = new ArrayList<EObject>();
 		for (EObject obj : ((RemoveReferenceMutator) mut).getObjects()) {
-			objects.add(ModelManager.getObject(seed, obj));
+			if (ModelManager.getObject(seed, obj) != null) {
+				objects.add(ModelManager.getObject(seed, obj));
+			}
 		}
 		rMut.getObject().addAll(objects);
 		rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
@@ -784,7 +820,9 @@ class MutatorGenerator implements IGenerator {
 			appliedMutations.AttributeSwap attMut«attCounter» = null;
 			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeSwap();
 			attMut«attCounter».setFirstName("«eattfirst.name»");
-			attMut«attCounter».setAttObject(((ModifyInformationMutator) mut).getAttObject());
+			if (ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getOtherObject()) != null) {
+				attMut«attCounter».setAttObject(ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getOtherObject()));
+			}
 			attMut«attCounter».setAttName("«eattsec.name»");
 			«ENDIF»
 			«IF att instanceof AttributeCopy»
@@ -828,6 +866,7 @@ class MutatorGenerator implements IGenerator {
 			ReferenceChanged refMut«refCounter» = null;
 			refMut«refCounter» = AppliedMutationsFactory.eINSTANCE.createReferenceChanged();
 			refMut«refCounter».setRefName("«eref.name»");
+			refMut«refCounter».getObject().add(((ModifyInformationMutator) mut).getObject());
 			«ENDIF»
 			«IF ref instanceof ReferenceSwap»
 			//«var ereffirst = ref.reference.get(0)»
@@ -835,8 +874,14 @@ class MutatorGenerator implements IGenerator {
 			appliedMutations.ReferenceSwap refMut«refCounter» = null;
 			refMut«refCounter» = AppliedMutationsFactory.eINSTANCE.createReferenceSwap();
 			refMut«refCounter».setFirstName("«ereffirst.name»");
-			refMut«refCounter».setRefObject(ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefObject()));
+			if (ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefObject()) != null) {
+				refMut«refCounter».setRefObject(ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefObject()));
+			}
 			refMut«refCounter».setRefName("«erefsec.name»");
+			refMut«refCounter».setOtherFrom(((ModifyInformationMutator) mut).getOtherSource());
+			refMut«refCounter».setOtherFromName(((ModifyInformationMutator) mut).getOtherSourceName());
+			refMut«refCounter».setOtherTo(((ModifyInformationMutator) mut).getOtherTarget());
+			refMut«refCounter».setOtherToName(((ModifyInformationMutator) mut).getOtherTargetName());
 			«ENDIF»
 			previous = ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getPrevious());
 			next = ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getNext());
@@ -864,8 +909,13 @@ class MutatorGenerator implements IGenerator {
 	«ENDIF»
 	«IF mut instanceof ModifyTargetReferenceMutator»
 			TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
+			if (((ModifyTargetReferenceMutator) mut).getObject() != null) {
+				trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));
+			}
 			trcMut.setFrom(((ModifyTargetReferenceMutator) mut).getSource());
+			trcMut.setSrcRefName(((ModifyTargetReferenceMutator) mut).getSrcRefType());
 			trcMut.setTo(((ModifyTargetReferenceMutator) mut).getNewTarget());
+			trcMut.setOldTo(((ModifyTargetReferenceMutator) mut).getOldTarget());
 			trcMut.setRefName(((ModifyTargetReferenceMutator) mut).getRefType());
 			trcMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 			appMut = trcMut;
@@ -903,7 +953,6 @@ class MutatorGenerator implements IGenerator {
 	}
 	«ENDIF»
    '''
-
 	def generateRegistryMethods(Mutator mut) '''
 		«IF mut instanceof CompositeMutator»
 			//COUNTER COMPOSITE REGISTRY: «nCompositeRegistryMethod = nCompositeRegistryMethod + 1»
@@ -923,7 +972,34 @@ class MutatorGenerator implements IGenerator {
 			«mut.registryMethod»			
 		«ENDIF»
 	'''
-
+	
+	def generateBlock(Block b,
+		int numMethod,
+		int numCompositeMethod,
+		int numMutation,
+		int numRegistryMutation,
+		int numRegistryMethod,
+		int numCompositeRegistryMethod,
+		int numCompositeCommands
+	) '''
+		«FOR c : b.commands»
+			«c.generateMethods»
+			«c.generateRegistryMethods»
+		«ENDFOR»
+		public void block_«b.name»(int maxAttempts, int numMutants, boolean registry, ArrayList<String> fromNames, HashMap<String, HashSet<String>> hashmapMutants) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
+ 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
+		if (maxAttempts <= 0) {
+			maxAttempts = 1;
+		}
+		//«var e = b.eContainer as MutatorEnvironment»
+		«IF e.definition instanceof Program»
+		«val program = e.definition as Program»
+		«e.multipleBlock(b, numMethod, numCompositeMethod, numMutation, numRegistryMutation, numRegistryMethod, numCompositeRegistryMethod, numCompositeCommands)»
+		«ENDIF»
+	}
+	'''
+	
 	def compile(MutatorEnvironment e) ''' 
 
 import java.io.File;
@@ -962,19 +1038,19 @@ import org.osgi.framework.Bundle;
 public class «className» extends manager.MutatorUtils implements manager.IMutatorExecutor {
 	
 	«IF e.definition instanceof Program»
-   	//RESET COUNTER: «nCompositeMethod = 0»
    	//RESET COUNTER: «nMethod = 0»
+   	//RESET COUNTER: «nCompositeMethod = 0»
    	//RESET COUNTER: «nRegistryMethod = 0»
    	//RESET COUNTER: «nCompositeRegistryMethod = 0»
    	//RESET COUNTER: «nMutation = 0»
    	//RESET COUNTER: «nRegistryMutation = 0»
+	//RESET COUNTER: «nCompositeCommands = 0»
+   	«IF e.commands.length > 0»
 	«FOR c : e.commands»
 		«c.generateMethods»
 		«c.generateRegistryMethods»
 	«ENDFOR»
-	«ENDIF»
-	
-	public void execute(int maxAttempts, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
@@ -983,107 +1059,121 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		}
 		«IF e.definition instanceof Program»
 		«val program = e.definition as Program»
-		«IF program.source.multiple == false»
-		«e.once»
-		«ENDIF»
-		«IF program.source.multiple == true»
 		«e.multiple»
-		«ENDIF»
 		«ENDIF»
 	}
 	
 }
+	«ENDIF»
+	«ENDIF»
+	«IF e.blocks.length > 0»
+	«FOR b : e.blocks»
+		«b.generateBlock(nMethod, nCompositeMethod, nMutation, nRegistryMutation, nRegistryMethod, nCompositeRegistryMethod, nCompositeCommands)»
+	«ENDFOR»
+	public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
+ 												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
+ 		
+ 		HashMap<String, HashSet<String>> hashmapMutants = new HashMap<String, HashSet<String>>();
+		ArrayList<String> fromNames = null;
+		«FOR b : e.blocks»
+		fromNames = new ArrayList<String>();
+		«FOR from : b.from»
+		fromNames.add("«from.name»");
+		«ENDFOR»
+		block_«b.name»(maxAttempts, numMutants, registry, fromNames, hashmapMutants);
+		«ENDFOR»
+	}
+	
+}
+	«ENDIF»
 
 	'''
-	def once(MutatorEnvironment e) '''
-	   
-	   «e.definition.onceCompile»
-	   «var nMut = 0»
-	   //MUTANTS: «listNMuts = new ArrayList<String>()»
-	   
-	    «while (nMut<(e.definition as Program).num){
-	   		listNMuts.add("")
-	   		nMut=nMut+1
-	   	}»
-	   	
-	   	«e.execute»
-	'''
-
 	def multiple(MutatorEnvironment e) '''
 	
-	   «e.definition.multipleCompile»
-	   «var nMut = 0»
-	   //MUTANTS: «listNMuts = new ArrayList<String>()»
-	   
-	    «while (nMut<(e.definition as Program).num){
-	   		listNMuts.add("")
-	   		nMut=nMut+1
-	   	}»
+	    «e.definition.multipleCompile»
+	    //«nMut = (e.definition as Program).num»
+	   	«IF nMut != 0»
+	   	numMutants = «nMut»;
+	   	«ENDIF»
 	   	
 	   	«e.execute»
 
 	}
 	'''
-	def onceCompile(Definition e)
-	'''		
-		String ecoreURI = "«e.metamodel»";
-		«IF e instanceof Program»
-		«IF e.source.multiple == false»
-		«var String modelPath = path+'/'+e.source.path»
-		«var String outputPath = path+'/'+e.output» 
-		String modelPath = "«modelPath»";
-		String modelsURI = "«outputPath»";
-		
-		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		File modelFile = new File(modelPath);
-		String modelFilename = modelFile.getPath();
-		hashmapModelFilenames.put(modelFilename, modelsURI + modelFile.getName().substring(0, modelFile.getName().length() - ".model".length()));
+	
+	def multipleBlock(MutatorEnvironment e,
+		Block b,
+		int numMethod,
+		int numCompositeMethod,
+		int numMutation,
+		int numRegistryMutation,
+		int numRegistryMethod,
+		int numCompositeRegistryMethod,
+		int numCompositeCommands
+	) '''
+	
+	   «e.definition.multipleBlockCompile(b)»
+	   «var nMut = 0»
+	   «IF (b.fixed == 0)»
+	   «IF (b.max - b.min > 0)»
+			//«nMut = b.min + (b.max - b.min).getRandom»
 		«ENDIF»
+		«IF (b.min == 0) && (b.max == 0)»
+			//«nMut = (e.definition as Program).num»
+		«ELSEIF (b.min == b.max)»
+			//«nMut = b.min»
 		«ENDIF»
-		
-		//Load MetaModel
-		ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);
+		«ELSE»
+			//«nMut = b.fixed»
+		«ENDIF»
+	   	«IF nMut != 0»
+	   	numMutants = «nMut»;
+	   	«ENDIF»
+	   	
+	   	
+	   	«e.executeBlock(b,
+	   		numMethod,
+	   		numCompositeMethod,
+	   		numMutation,
+	   		numRegistryMutation,
+	   		numRegistryMethod,
+	   		numCompositeRegistryMethod,
+	   		numCompositeCommands
+	   	)»
 
-		HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
-		HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
-
-		«IF e instanceof Program»
-		//Load Model
-		HashSet<String> hashsetMutants = new HashSet<String>();
-		hashsetMutants.add(modelFilename);
-		Resource model = ModelManager.loadModel(packages, modelFilename);
-		Resource seed = ModelManager.loadModel(packages, modelFilename);
-		«ENDIF»
-   '''
+	}
+	'''
    
 	def multipleCompile(Definition e) '''
 		String ecoreURI = "«e.metamodel»";
 		«IF e instanceof Program»
-		«IF e.source.multiple == true»
+		«/*IF e.source.multiple == true*/»
 		«var String modelPath = path+'/'+e.source.path»
 		«var String outputPath = path+'/'+e.output» 
 		String modelURI = "«modelPath»";
 		String modelsURI = "«outputPath»";
 		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
+		«IF (e.source.path.endsWith("/"))»
 		File[] files = new File(modelURI).listFiles();
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isFile() == true) {
-					String pathfile = files[i].getPath();
-					if (pathfile.endsWith(".model") == true) {
-						hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
-					}
+		«ELSE»
+		File[] files = new File[1];
+		files[0] = new File(modelURI);
+		«ENDIF»
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isFile() == true) {
+				String pathfile = files[i].getPath();
+				if (pathfile.endsWith(".model") == true) {
+					hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
 				}
 			}
-		«ENDIF»
+		}
 		«ENDIF»
 		
+		«IF e instanceof Program»
 		//Load MetaModel
 		ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);
 		
-		HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
-		HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
-
-		«IF e instanceof Program»
 		//Load Model
 		Set<String> modelFilenames = hashmapModelFilenames.keySet();
 		for (String modelFilename : modelFilenames) {
@@ -1091,9 +1181,99 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			hashsetMutants.add(modelFilename);
 			Resource model = ModelManager.loadModel(packages, modelFilename);
 			Resource seed = ModelManager.loadModel(packages, modelFilename);
+
+			HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
+			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
 		«ENDIF»
    '''
    
+	def multipleBlockCompile(Definition e, Block b) '''
+		String ecoreURI = "«e.metamodel»";
+		«IF e instanceof Program»
+		«var String modelPath = path+'/'+e.source.path»
+		«var String outputPath = path+'/'+e.output» 
+		String modelURI = "«modelPath»";
+		String modelsURI = "«outputPath»";
+		
+		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
+		HashMap<String, String> hashmapModelFolders = new HashMap<String, String>();
+		HashMap<String, String> seedModelFilenames = new HashMap<String, String>();
+		«IF (e.source.path.endsWith("/"))»
+		File[] files = new File(modelURI).listFiles();
+		«ELSE»
+		File[] files = new File[1];
+		files[0] = new File(modelURI);
+		«ENDIF»
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isFile() == true) {
+				if (files[i].getName().endsWith(".model") == true) {
+					if (fromNames.size() == 0) {
+						String pathfile = files[i].getPath();
+						if (pathfile.endsWith(".model") == true) {
+							hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
+							seedModelFilenames.put(pathfile, files[i].getPath());
+						}
+					}
+					else {
+						for (String fromName : fromNames) {
+							String modelFolder = modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()) + "/" + fromName + "/";
+							System.out.println("modelFolder: " + modelFolder);
+							File[] mutFiles = new File(modelFolder).listFiles();
+							if (mutFiles != null) {
+								for (int j = 0; j < mutFiles.length; j++) {
+									if (mutFiles[j].isFile() == true) {
+										String pathfile = mutFiles[j].getPath();
+										if (pathfile.endsWith(".model") == true) {
+											hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
+											hashmapModelFolders.put(pathfile, fromName + "/" + mutFiles[j].getName().substring(0, mutFiles[j].getName().length() - ".model".length()));
+											seedModelFilenames.put(pathfile, files[i].getPath());
+										}
+									}
+									else {
+										generateModelPaths(fromName, mutFiles[j], mutFiles[j].getName(), hashmapModelFilenames, hashmapModelFolders, seedModelFilenames, modelsURI, files[i]);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		«ENDIF»
+		
+		«IF e instanceof Program»
+		//Load MetaModel
+		ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);
+		
+		//Load Model
+		Set<String> modelFilenames = hashmapModelFilenames.keySet();
+		for (String modelFilename : modelFilenames) {
+			String seedModelFilename = seedModelFilenames.get(modelFilename);
+			HashSet<String> hashsetMutantsBlock = null;
+			«IF b.repeat == Repeat.YES»
+			hashsetMutantsBlock = new HashSet<String>();
+			«ELSEIF b.repeat == Repeat.NO»
+			if (seedModelFilename != null) {
+				if (hashmapMutants.get(seedModelFilename) != null) {
+					hashsetMutantsBlock = hashmapMutants.get(seedModelFilename);
+				}
+			}
+			if (hashsetMutantsBlock == null) {
+				hashsetMutantsBlock = new HashSet<String>();
+			}
+			«ENDIF»
+			if (hashsetMutantsBlock.contains(seedModelFilename) == false) {
+				hashsetMutantsBlock.add(seedModelFilename);
+			}
+			Resource model = ModelManager.loadModel(packages, modelFilename);
+			Resource seed = ModelManager.loadModel(packages, modelFilename);
+
+			HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
+			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
+
+		«ENDIF»
+   '''
+
     def method(AttributeSet e) '''
     	«IF e.attribute.get(0) !=null»
 		«val EAttribute attribute = e.attribute.get(0)»
@@ -1111,7 +1291,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		atts.put("«attributeName»", new ReverseBooleanConfigurationStrategy("«attributeName»"));
    		«ENDIF»
 	'''	
-
 	def method(ReferenceSet e) '''
     	«IF e.reference.get(0) !=null»
 		«val EReference reference = e.reference.get(0)»
@@ -1124,7 +1303,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		refs.put("«referenceName»", refSelection«nReference»);
    		«ENDIF»
 	'''	
-
 	def method(AttributeType e) '''
 	«IF e instanceof StringType»
 		«(e as StringType).method»
@@ -1214,7 +1392,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	'''
 	//END DATA TYPES COMPILES
 	//************************
-
 	//********************
 	//REFERENCES COMPILES
 	def method(ObSelectionStrategy e) '''
@@ -1400,7 +1577,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		«ENDFOR»
    '''
    //END CLAUSES
-
    //COMMANDS
    
    def execute(MutatorEnvironment e)'''
@@ -1414,7 +1590,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		
 		HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
 				
-   	   	for (int i = 0; i < «listNMuts.size»; i++) {
+   	   	for (int i = 0; i < numMutants; i++) {
    	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + ".model";
    	   		boolean isRepeated = true;
    			int attempts = 0;
@@ -1424,13 +1600,12 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    				attempts++;
    				//RESET COUNTER: «nMethod = 0»
    				//RESET COUNTER: «nCompositeMethod = 0»
-   				//RESET COUNTER: «nCompositeCommands = 0»
    				//RESET COUNTER: «nMutation = 0»
    				//RESET COUNTER: «nRegistryMutation = 0»
    				//RESET COUNTER: «nRegistryMethod = 0»
-   				//RESET COUNTER: «nCompositeMethod = 0»
    				//RESET COUNTER: «nCompositeRegistryMethod = 0»
-   				
+   				//RESET COUNTER: «nCompositeCommands = 0»
+
    	   			«FOR c : e.commands »
    	   				«IF c instanceof Mutator»
    	   				«c.compile»		
@@ -1441,7 +1616,16 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		   		int valid = complete(packages, model);
 	       		if (valid != 1) {
 	       			// VERIFY THE OCL CONSTRAINTS
-		       		if (matchesOCL(model) == true) {
+	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
+	       			«FOR constraint : e.constraints»
+	       			if (rules.get("«constraint.type.name»") == null) {
+	       				rules.put("«constraint.type.name»", new ArrayList<String>());
+	       			}
+	       			ArrayList<String> newrules = rules.get("«constraint.type.name»");
+	       			newrules.add("«constraint.rule»");
+       				rules.put("«constraint.type.name»", newrules);
+	       			«ENDFOR»
+		       		if (matchesOCL(model, rules) == true) {
 	   					// VERIFY IF MUTANT IS DIFFERENT
    						isRepeated = different(packages, model, hashsetMutants);
    					
@@ -1459,15 +1643,23 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 								for (AppMutation mut : muts.getMuts()) {
        			      				if (mut instanceof ObjectCreated) {
        			      					List<EObject> emuts = ((ObjectCreated) mut).getObject();
-		   	       			      		EObject emutated = emuts.get(0);
-		   	       			      		emuts.remove(0);
-		   	       			      		emuts.add(ModelManager.getObject(mutant, emutated));
+       			      					if (emuts.size() > 0) {
+		   	       			      			EObject emutated = emuts.get(0);
+		   	       			      			emuts.remove(0);
+		   	       			      			if (ModelManager.getObject(mutant, emutated) != null) {
+		   	       			      				emuts.add(ModelManager.getObject(mutant, emutated));
+		   	       			      			}
+		   	       			      		}
 									}
 									if (mut instanceof ReferenceCreated) {
 		   								List<EReference> emuts = ((ReferenceCreated) mut).getRef();
-		   								EReference emutated = emuts.get(0);
-		   								emuts.remove(0);
-		   								emuts.add(ModelManager.getReference(mutant, emutated));
+		   								if (emuts.size() > 0) {
+		   									EReference emutated = emuts.get(0);
+		   									emuts.remove(0);
+		   									if (ModelManager.getReference(mutant, emutated) != null) {
+		   										emuts.add(ModelManager.getReference(mutant, emutated));
+		   									}
+		   								}
 		   							}
        			      			}
 	       			      		File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
@@ -1488,11 +1680,83 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    			}
    		}   
 	'''
+	
+	def executeBlock(MutatorEnvironment e,
+		Block b,
+		int numMethod,
+		int numCompositeMethod,
+		int numMutation,
+		int numRegistryMutation,
+		int numRegistryMethod,
+		int numCompositeRegistryMethod,
+		int numCompositeCommands
+	)'''
+   		Bundle bundle = Platform.getBundle("MutProgram");
+   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+		String mutatorecore = FileLocator.resolve(fileURL).getFile();
+		
+		//Load MetaModel
+		ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+		Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI("«xmiFileName»").toFileString());
+		
+		HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
+				
+   	   	for (int i = 0; i < numMutants; i++) {
+   	   		«IF b.from.size == 0»
+   	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + ".model";
+   	   		«ELSE»
+   	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + i + ".model";
+   	   		«ENDIF»
+   	   		boolean isRepeated = true;
+   			int attempts = 0;
+   			int max = 0;
+   			while ((isRepeated == true) && (attempts < maxAttempts)) {
+				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+   				attempts++;
+   				//RESET COUNTER: «nMethod = numMethod»
+   				//RESET COUNTER: «nCompositeMethod = numCompositeMethod»
+   				//RESET COUNTER: «nMutation = numMutation»
+   				//RESET COUNTER: «nRegistryMutation = numRegistryMutation»
+   				//RESET COUNTER: «nRegistryMethod = numRegistryMethod»
+   				//RESET COUNTER: «nCompositeRegistryMethod = numCompositeRegistryMethod»
+   				//RESET COUNTER: «nCompositeCommands = numCompositeCommands»
 
+   	   			«FOR c : b.commands »
+   	   				«IF c instanceof Mutator»
+   	   				«c.compile»		
+   	   				«ENDIF»
+				«ENDFOR»
+				
+				// MUTANT COMPLETION AND REGISTRY
+				HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
+	       		«FOR constraint : e.constraints»
+	       		if (rules.get("«constraint.type.name»") == null) {
+	       			rules.put("«constraint.type.name»", new ArrayList<String>());
+	       		}
+	       		ArrayList<String> newrules = rules.get("«constraint.type.name»");
+	       		newrules.add("«constraint.rule»");
+       			rules.put("«constraint.type.name»", newrules);
+       			«ENDFOR»
+       			
+				isRepeated = registryMutantWithBlocks(packages, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i);
+      
+	    		//Reload input
+	    		try {
+					model.unload();
+					model.load(null); 
+				} catch (Exception e) {}
+   			}
+   		}
+   		«IF b.repeat == Repeat.YES»
+   		hashmapMutants.put(modelFilename, hashsetMutantsBlock);
+   		«ENDIF»
+	'''
+	
 	def compile(Mutator e)'''
 	«IF e instanceof CompositeMutator»
 		//COUNTER: «nMethod = nMethod + ModelManager.mutatorSize(e)»
 		//COMPOSITE REGISTRY COUNTER: «nCompositeRegistryMethod = nCompositeRegistryMethod + 1»
+		«IF (e.fixed == 0)»
 		«IF (e.max - e.min > 0)»
 		int max«nCompositeCommands» = getRandom(«e.max - e.min») + «e.min»;
 		«ENDIF»
@@ -1500,6 +1764,9 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		int max«nCompositeCommands» = 1;
 		«ELSEIF (e.min == e.max)»
 		int max«nCompositeCommands» = «e.min»;
+		«ENDIF»
+		«ELSE»
+		int max«nCompositeCommands» = «e.fixed»;
 		«ENDIF»
 		for (int j«nCompositeCommands» = 0; j«nCompositeCommands» < max«nCompositeCommands»; j«nCompositeCommands»++) {
 		«IF e.name != null»
@@ -1533,6 +1800,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    	   	//COUNTER: «nMethod = nMethod + 1»	
 		//COMMAND: «nCommands = nCommands + 1»
 		//REGISTRY COUNTER: «nRegistryMethod = nRegistryMethod + 1»
+		«IF (e.fixed == 0)»
 		«IF (e.max - e.min > 0)»
 		max = getRandom(«e.max - e.min») + «e.min»;
 		«ENDIF»
@@ -1540,6 +1808,9 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		max = 1;
 		«ELSEIF (e.min == e.max)»
 		max = «e.min»;
+		«ENDIF»
+		«ELSE»
+		max = «e.fixed»;
 		«ENDIF»
 		for (int j = 0; j < max; j++) {
 		«IF e.name != null»

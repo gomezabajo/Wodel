@@ -4,10 +4,9 @@ package mutatorenvironment;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Case String Type</b></em>'.
+ * A representation of the model object '<em><b>List String Type</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -21,13 +20,14 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface ListStringType extends AttributeType {
+public interface ListStringType extends AttributeType
+{
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Values</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Value</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -38,4 +38,4 @@ public interface ListStringType extends AttributeType {
 	 */
 	EList<String> getValue();
 
-} // SpecificStringType
+} // ListStringType

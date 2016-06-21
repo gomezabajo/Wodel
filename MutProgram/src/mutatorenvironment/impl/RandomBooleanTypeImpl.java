@@ -24,7 +24,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBooleanType {
+public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBooleanType
+{
 	/**
 	 * The default value of the '{@link #isAllowsNull() <em>Allows Null</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,7 +51,8 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RandomBooleanTypeImpl() {
+	protected RandomBooleanTypeImpl()
+	{
 		super();
 	}
 
@@ -60,7 +62,8 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.RANDOM_BOOLEAN_TYPE;
 	}
 
@@ -69,7 +72,8 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isAllowsNull() {
+	public boolean isAllowsNull()
+	{
 		return allowsNull;
 	}
 
@@ -78,7 +82,8 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAllowsNull(boolean newAllowsNull) {
+	public void setAllowsNull(boolean newAllowsNull)
+	{
 		boolean oldAllowsNull = allowsNull;
 		allowsNull = newAllowsNull;
 		if (eNotificationRequired())
@@ -91,8 +96,10 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_BOOLEAN_TYPE__ALLOWS_NULL:
 				return isAllowsNull();
 		}
@@ -105,8 +112,10 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_BOOLEAN_TYPE__ALLOWS_NULL:
 				setAllowsNull((Boolean)newValue);
 				return;
@@ -120,8 +129,10 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_BOOLEAN_TYPE__ALLOWS_NULL:
 				setAllowsNull(ALLOWS_NULL_EDEFAULT);
 				return;
@@ -135,8 +146,10 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_BOOLEAN_TYPE__ALLOWS_NULL:
 				return allowsNull != ALLOWS_NULL_EDEFAULT;
 		}
@@ -149,7 +162,8 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

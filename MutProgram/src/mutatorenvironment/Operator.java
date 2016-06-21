@@ -5,11 +5,13 @@ package mutatorenvironment;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Operator</b></em>'.
+ * A representation of the literals of the enumeration '<em><b>Operator</b></em>',
+ * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see mutatorenvironment.MutatorenvironmentPackage#getOperator()
  * @model
@@ -26,6 +28,7 @@ public enum Operator implements Enumerator
 	 * @ordered
 	 */
 	EQUALS(0, "equals", "="),
+
 	/**
 	 * The '<em><b>Different</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -35,6 +38,7 @@ public enum Operator implements Enumerator
 	 * @ordered
 	 */
 	DIFFERENT(1, "different", "<>");
+
 	/**
 	 * The '<em><b>Equals</b></em>' literal value.
 	 * <!-- begin-user-doc -->
@@ -72,7 +76,8 @@ public enum Operator implements Enumerator
 	 * @generated
 	 */
 	private static final Operator[] VALUES_ARRAY =
-		new Operator[] {
+		new Operator[]
+		{
 			EQUALS,
 			DIFFERENT,
 		};
@@ -91,10 +96,13 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Operator get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+	public static Operator get(String literal)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
 			Operator result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
+			if (result.toString().equals(literal))
+			{
 				return result;
 			}
 		}
@@ -107,10 +115,13 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Operator getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+	public static Operator getByName(String name)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
 			Operator result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
+			if (result.getName().equals(name))
+			{
 				return result;
 			}
 		}
@@ -123,8 +134,10 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Operator get(int value) {
-		switch (value) {
+	public static Operator get(int value)
+	{
+		switch (value)
+		{
 			case EQUALS_VALUE: return EQUALS;
 			case DIFFERENT_VALUE: return DIFFERENT;
 		}
@@ -158,7 +171,8 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Operator(int value, String name, String literal) {
+	private Operator(int value, String name, String literal)
+	{
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -169,7 +183,8 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 	  return value;
 	}
 
@@ -178,7 +193,8 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
+	public String getName()
+	{
 	  return name;
 	}
 
@@ -187,7 +203,8 @@ public enum Operator implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getLiteral() {
+	public String getLiteral()
+	{
 	  return literal;
 	}
 
@@ -198,7 +215,9 @@ public enum Operator implements Enumerator
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return literal;
 	}
-}
+	
+} //Operator

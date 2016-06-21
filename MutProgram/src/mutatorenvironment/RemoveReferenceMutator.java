@@ -3,7 +3,6 @@
 package mutatorenvironment;
 
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Remove Reference Mutator</b></em>'.
@@ -14,6 +13,6 @@ package mutatorenvironment;
  * @model abstract="true"
  * @generated
  */
-public interface RemoveReferenceMutator extends Mutator {
-
+public interface RemoveReferenceMutator extends Mutator
+{
 } // RemoveReferenceMutator

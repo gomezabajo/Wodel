@@ -3,6 +3,21 @@
  */
 package org.mutatortests.scoping
 
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.xtext.scoping.IScope
+import mutatortests.MutatorTests
+import org.eclipse.emf.ecore.EReference
+import manager.ModelManager
+import org.osgi.framework.Bundle
+import org.eclipse.core.runtime.Platform
+import java.net.URL
+import org.eclipse.core.runtime.FileLocator
+import java.util.ArrayList
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.common.util.URI
+import org.eclipse.xtext.scoping.Scopes
+
 /**
  * This class contains custom scoping description.
  * 
@@ -10,6 +25,18 @@ package org.mutatortests.scoping
  * on how and when to use it.
  *
  */
-class TestsScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
+class TestsScopeProvider extends AbstractDeclarativeScopeProvider {
 
+	/**
+	 * MutatorTests.block can refers to any block declared in the .mutator file.
+	 */
+	def IScope scope_MutatorTests_block(MutatorTests mts, EReference ref) {
+		val xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject + '/' + ModelManager.getOutputFolder + '/' +  mts.eResource.URI.lastSegment.replaceAll("tests", "model")
+		val Bundle bundle = Platform.getBundle("MutProgram")
+   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
+		val String mutatorecore = FileLocator.resolve(fileURL).getFile
+		val ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
+		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
+       	Scopes.scopeFor(ModelManager.getObjectsOfType("Block", mutatormodel))   
+	}			
 }

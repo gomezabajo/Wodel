@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class CompleteSelectionImpl extends ObSelectionStrategyImpl implements CompleteSelection {
+public class CompleteSelectionImpl extends ObSelectionStrategyImpl implements CompleteSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CompleteSelectionImpl() {
+	protected CompleteSelectionImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public class CompleteSelectionImpl extends ObSelectionStrategyImpl implements Co
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.COMPLETE_SELECTION;
 	}
 

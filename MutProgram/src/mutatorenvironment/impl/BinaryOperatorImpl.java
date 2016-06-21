@@ -7,7 +7,9 @@ import mutatorenvironment.LogicOperator;
 import mutatorenvironment.MutatorenvironmentPackage;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
@@ -24,7 +26,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements BinaryOperator {
+public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements BinaryOperator
+{
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -34,6 +37,7 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @ordered
 	 */
 	protected static final LogicOperator TYPE_EDEFAULT = LogicOperator.AND;
+
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -49,7 +53,8 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BinaryOperatorImpl() {
+	protected BinaryOperatorImpl()
+	{
 		super();
 	}
 
@@ -59,7 +64,8 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.BINARY_OPERATOR;
 	}
 
@@ -68,7 +74,8 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LogicOperator getType() {
+	public LogicOperator getType()
+	{
 		return type;
 	}
 
@@ -77,7 +84,8 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(LogicOperator newType) {
+	public void setType(LogicOperator newType)
+	{
 		LogicOperator oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		if (eNotificationRequired())
@@ -90,8 +98,10 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.BINARY_OPERATOR__TYPE:
 				return getType();
 		}
@@ -104,8 +114,10 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.BINARY_OPERATOR__TYPE:
 				setType((LogicOperator)newValue);
 				return;
@@ -119,8 +131,10 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.BINARY_OPERATOR__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
@@ -134,8 +148,10 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.BINARY_OPERATOR__TYPE:
 				return type != TYPE_EDEFAULT;
 		}
@@ -148,7 +164,8 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

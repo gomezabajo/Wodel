@@ -22,7 +22,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface ObjectEmitter extends EObject {
+public interface ObjectEmitter extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

@@ -28,7 +28,7 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final CrossReference cNameEClassCrossReference_3_0 = (CrossReference)cNameAssignment_3.eContents().get(0);
 		private final RuleCall cNameEClassIDTerminalRuleCall_3_0_1 = (RuleCall)cNameEClassCrossReference_3_0.eContents().get(1);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cColonKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Assignment cTypeAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cTypeGraphTypeEnumRuleCall_5_0 = (RuleCall)cTypeAssignment_5.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
@@ -39,11 +39,11 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
 		
 		//MutatorGraph:
-		//	{MutatorGraph} "metamodel" metamodel=EString name=[ecore::EClass] "->" type=GraphType "{" nodes+=Node* edges+=Edge*
+		//	{MutatorGraph} "metamodel" metamodel=EString name=[ecore::EClass] ":" type=GraphType "{" nodes+=Node* edges+=Edge*
 		//	"}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{MutatorGraph} "metamodel" metamodel=EString name=[ecore::EClass] "->" type=GraphType "{" nodes+=Node* edges+=Edge* "}"
+		//{MutatorGraph} "metamodel" metamodel=EString name=[ecore::EClass] ":" type=GraphType "{" nodes+=Node* edges+=Edge* "}"
 		public Group getGroup() { return cGroup; }
 
 		//{MutatorGraph}
@@ -67,8 +67,8 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameEClassIDTerminalRuleCall_3_0_1() { return cNameEClassIDTerminalRuleCall_3_0_1; }
 
-		//"->"
-		public Keyword getHyphenMinusGreaterThanSignKeyword_4() { return cHyphenMinusGreaterThanSignKeyword_4; }
+		//":"
+		public Keyword getColonKeyword_4() { return cColonKeyword_4; }
 
 		//type=GraphType
 		public Assignment getTypeAssignment_5() { return cTypeAssignment_5; }
@@ -123,13 +123,15 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		private final CrossReference cNameEClassCrossReference_1_0 = (CrossReference)cNameAssignment_1.eContents().get(0);
 		private final RuleCall cNameEClassIDTerminalRuleCall_1_0_1 = (RuleCall)cNameEClassCrossReference_1_0.eContents().get(1);
 		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cNegationAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cNegationNegationEnumRuleCall_3_0 = (RuleCall)cNegationAssignment_3.eContents().get(0);
+		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
+		private final Assignment cNegationAssignment_3_0 = (Assignment)cAlternatives_3.eContents().get(0);
+		private final Keyword cNegationNotKeyword_3_0_0 = (Keyword)cNegationAssignment_3_0.eContents().get(0);
+		private final Keyword cYesKeyword_3_1 = (Keyword)cAlternatives_3.eContents().get(1);
 		private final Assignment cAttributeAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final CrossReference cAttributeEAttributeCrossReference_4_0 = (CrossReference)cAttributeAssignment_4.eContents().get(0);
 		private final RuleCall cAttributeEAttributeIDTerminalRuleCall_4_0_1 = (RuleCall)cAttributeEAttributeCrossReference_4_0.eContents().get(1);
 		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Keyword cColonKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		private final Assignment cTypeAssignment_7 = (Assignment)cGroup.eContents().get(7);
 		private final RuleCall cTypeNodeTypeEnumRuleCall_7_0 = (RuleCall)cTypeAssignment_7.eContents().get(0);
 		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
@@ -140,12 +142,12 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cShapeNodeShapeEnumRuleCall_8_3_0 = (RuleCall)cShapeAssignment_8_3.eContents().get(0);
 		
 		//Node:
-		//	{Node} name=[ecore::EClass] "(" negation=Negation? attribute=[ecore::EAttribute] ")" "->" type=NodeType ("," "shape"
-		//	"=" shape=NodeShape)?;
+		//	{Node} name=[ecore::EClass] "(" (negation?="not" | "yes")? attribute=[ecore::EAttribute] ")" ":" type=NodeType (","
+		//	"shape" "=" shape=NodeShape)?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{Node} name=[ecore::EClass] "(" negation=Negation? attribute=[ecore::EAttribute] ")" "->" type=NodeType ("," "shape" "="
-		//shape=NodeShape)?
+		//{Node} name=[ecore::EClass] "(" (negation?="not" | "yes")? attribute=[ecore::EAttribute] ")" ":" type=NodeType (","
+		//"shape" "=" shape=NodeShape)?
 		public Group getGroup() { return cGroup; }
 
 		//{Node}
@@ -163,11 +165,17 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		//"("
 		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
 
-		//negation=Negation?
-		public Assignment getNegationAssignment_3() { return cNegationAssignment_3; }
+		//(negation?="not" | "yes")?
+		public Alternatives getAlternatives_3() { return cAlternatives_3; }
 
-		//Negation
-		public RuleCall getNegationNegationEnumRuleCall_3_0() { return cNegationNegationEnumRuleCall_3_0; }
+		//negation?="not"
+		public Assignment getNegationAssignment_3_0() { return cNegationAssignment_3_0; }
+
+		//"not"
+		public Keyword getNegationNotKeyword_3_0_0() { return cNegationNotKeyword_3_0_0; }
+
+		//"yes"
+		public Keyword getYesKeyword_3_1() { return cYesKeyword_3_1; }
 
 		//attribute=[ecore::EAttribute]
 		public Assignment getAttributeAssignment_4() { return cAttributeAssignment_4; }
@@ -181,8 +189,8 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		//")"
 		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
 
-		//"->"
-		public Keyword getHyphenMinusGreaterThanSignKeyword_6() { return cHyphenMinusGreaterThanSignKeyword_6; }
+		//":"
+		public Keyword getColonKeyword_6() { return cColonKeyword_6; }
 
 		//type=NodeType
 		public Assignment getTypeAssignment_7() { return cTypeAssignment_7; }
@@ -225,7 +233,7 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		private final CrossReference cTargetEReferenceCrossReference_5_0 = (CrossReference)cTargetAssignment_5.eContents().get(0);
 		private final RuleCall cTargetEReferenceIDTerminalRuleCall_5_0_1 = (RuleCall)cTargetEReferenceCrossReference_5_0.eContents().get(1);
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		private final Keyword cColonKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		private final Keyword cEdgeKeyword_8 = (Keyword)cGroup.eContents().get(8);
 		private final Keyword cCommaKeyword_9 = (Keyword)cGroup.eContents().get(9);
 		private final Keyword cLabelKeyword_10 = (Keyword)cGroup.eContents().get(10);
@@ -235,12 +243,12 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLabelEReferenceIDTerminalRuleCall_12_0_1 = (RuleCall)cLabelEReferenceCrossReference_12_0.eContents().get(1);
 		
 		//Edge:
-		//	{Edge} name=[ecore::EClass] "(" source=[ecore::EReference] "," target=[ecore::EReference] ")" "->" "edge" "," "label"
+		//	{Edge} name=[ecore::EClass] "(" source=[ecore::EReference] "," target=[ecore::EReference] ")" ":" "edge" "," "label"
 		//	"=" label=[ecore::EReference];
 		@Override public ParserRule getRule() { return rule; }
 
-		//{Edge} name=[ecore::EClass] "(" source=[ecore::EReference] "," target=[ecore::EReference] ")" "->" "edge" "," "label"
-		//"=" label=[ecore::EReference]
+		//{Edge} name=[ecore::EClass] "(" source=[ecore::EReference] "," target=[ecore::EReference] ")" ":" "edge" "," "label" "="
+		//label=[ecore::EReference]
 		public Group getGroup() { return cGroup; }
 
 		//{Edge}
@@ -282,8 +290,8 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		//")"
 		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
 
-		//"->"
-		public Keyword getHyphenMinusGreaterThanSignKeyword_7() { return cHyphenMinusGreaterThanSignKeyword_7; }
+		//":"
+		public Keyword getColonKeyword_7() { return cColonKeyword_7; }
 
 		//"edge"
 		public Keyword getEdgeKeyword_8() { return cEdgeKeyword_8; }
@@ -322,34 +330,6 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"diagram"
 		public Keyword getDiagramDiagramKeyword_0() { return cDiagramDiagramKeyword_0; }
-	}
-
-	public class NegationElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "Negation");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final EnumLiteralDeclaration cNotEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
-		private final Keyword cNotNotKeyword_0_0 = (Keyword)cNotEnumLiteralDeclaration_0.eContents().get(0);
-		private final EnumLiteralDeclaration cYesEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
-		private final Keyword cYesYesKeyword_1_0 = (Keyword)cYesEnumLiteralDeclaration_1.eContents().get(0);
-		
-		//enum Negation:
-		//	not | yes;
-		public EnumRule getRule() { return rule; }
-
-		//not | yes
-		public Alternatives getAlternatives() { return cAlternatives; }
-
-		//not
-		public EnumLiteralDeclaration getNotEnumLiteralDeclaration_0() { return cNotEnumLiteralDeclaration_0; }
-
-		//"not"
-		public Keyword getNotNotKeyword_0_0() { return cNotNotKeyword_0_0; }
-
-		//yes
-		public EnumLiteralDeclaration getYesEnumLiteralDeclaration_1() { return cYesEnumLiteralDeclaration_1; }
-
-		//"yes"
-		public Keyword getYesYesKeyword_1_0() { return cYesYesKeyword_1_0; }
 	}
 
 	public class NodeTypeElements extends AbstractEnumRuleElementFinder {
@@ -413,7 +393,6 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 	private final GraphTypeElements unknownRuleGraphType;
 	private final NodeElements pNode;
 	private final EdgeElements pEdge;
-	private final NegationElements unknownRuleNegation;
 	private final NodeTypeElements unknownRuleNodeType;
 	private final NodeShapeElements unknownRuleNodeShape;
 	
@@ -431,7 +410,6 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 		this.unknownRuleGraphType = new GraphTypeElements();
 		this.pNode = new NodeElements();
 		this.pEdge = new EdgeElements();
-		this.unknownRuleNegation = new NegationElements();
 		this.unknownRuleNodeType = new NodeTypeElements();
 		this.unknownRuleNodeShape = new NodeShapeElements();
 	}
@@ -464,7 +442,7 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//MutatorGraph:
-	//	{MutatorGraph} "metamodel" metamodel=EString name=[ecore::EClass] "->" type=GraphType "{" nodes+=Node* edges+=Edge*
+	//	{MutatorGraph} "metamodel" metamodel=EString name=[ecore::EClass] ":" type=GraphType "{" nodes+=Node* edges+=Edge*
 	//	"}";
 	public MutatorGraphElements getMutatorGraphAccess() {
 		return pMutatorGraph;
@@ -495,8 +473,8 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Node:
-	//	{Node} name=[ecore::EClass] "(" negation=Negation? attribute=[ecore::EAttribute] ")" "->" type=NodeType ("," "shape"
-	//	"=" shape=NodeShape)?;
+	//	{Node} name=[ecore::EClass] "(" (negation?="not" | "yes")? attribute=[ecore::EAttribute] ")" ":" type=NodeType (","
+	//	"shape" "=" shape=NodeShape)?;
 	public NodeElements getNodeAccess() {
 		return pNode;
 	}
@@ -506,7 +484,7 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Edge:
-	//	{Edge} name=[ecore::EClass] "(" source=[ecore::EReference] "," target=[ecore::EReference] ")" "->" "edge" "," "label"
+	//	{Edge} name=[ecore::EClass] "(" source=[ecore::EReference] "," target=[ecore::EReference] ")" ":" "edge" "," "label"
 	//	"=" label=[ecore::EReference];
 	public EdgeElements getEdgeAccess() {
 		return pEdge;
@@ -514,16 +492,6 @@ public class MutatorGraphGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getEdgeRule() {
 		return getEdgeAccess().getRule();
-	}
-
-	//enum Negation:
-	//	not | yes;
-	public NegationElements getNegationAccess() {
-		return unknownRuleNegation;
-	}
-	
-	public EnumRule getNegationRule() {
-		return getNegationAccess().getRule();
 	}
 
 	//enum NodeType:

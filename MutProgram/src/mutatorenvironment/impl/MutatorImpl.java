@@ -4,8 +4,11 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -17,12 +20,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getMax <em>Max</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.MutatorImpl#getFixed <em>Fixed</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
+public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator
+{
 	/**
 	 * The default value of the '{@link #getMin() <em>Min</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -32,6 +37,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @ordered
 	 */
 	protected static final int MIN_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getMin() <em>Min</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -41,6 +47,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @ordered
 	 */
 	protected int min = MIN_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getMax() <em>Max</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,6 +57,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @ordered
 	 */
 	protected static final int MAX_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getMax() <em>Max</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -61,11 +69,32 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	protected int max = MAX_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getFixed() <em>Fixed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFixed()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int FIXED_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getFixed() <em>Fixed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFixed()
+	 * @generated
+	 * @ordered
+	 */
+	protected int fixed = FIXED_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MutatorImpl() {
+	protected MutatorImpl()
+	{
 		super();
 	}
 
@@ -75,7 +104,8 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.MUTATOR;
 	}
 
@@ -84,28 +114,8 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getMax() {
-		return max;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMax(int newMax) {
-		int oldMax = max;
-		max = newMax;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MUTATOR__MAX, oldMax, max));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getMin() {
+	public int getMin()
+	{
 		return min;
 	}
 
@@ -114,7 +124,8 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMin(int newMin) {
+	public void setMin(int newMin)
+	{
 		int oldMin = min;
 		min = newMin;
 		if (eNotificationRequired())
@@ -126,13 +137,63 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getMax()
+	{
+		return max;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMax(int newMax)
+	{
+		int oldMax = max;
+		max = newMax;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MUTATOR__MAX, oldMax, max));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getFixed()
+	{
+		return fixed;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFixed(int newFixed)
+	{
+		int oldFixed = fixed;
+		fixed = newFixed;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MUTATOR__FIXED, oldFixed, fixed));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR__MIN:
 				return getMin();
 			case MutatorenvironmentPackage.MUTATOR__MAX:
 				return getMax();
+			case MutatorenvironmentPackage.MUTATOR__FIXED:
+				return getFixed();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -143,13 +204,18 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR__MIN:
 				setMin((Integer)newValue);
 				return;
 			case MutatorenvironmentPackage.MUTATOR__MAX:
 				setMax((Integer)newValue);
+				return;
+			case MutatorenvironmentPackage.MUTATOR__FIXED:
+				setFixed((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -161,13 +227,18 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR__MIN:
 				setMin(MIN_EDEFAULT);
 				return;
 			case MutatorenvironmentPackage.MUTATOR__MAX:
 				setMax(MAX_EDEFAULT);
+				return;
+			case MutatorenvironmentPackage.MUTATOR__FIXED:
+				setFixed(FIXED_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -179,12 +250,16 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR__MIN:
 				return min != MIN_EDEFAULT;
 			case MutatorenvironmentPackage.MUTATOR__MAX:
 				return max != MAX_EDEFAULT;
+			case MutatorenvironmentPackage.MUTATOR__FIXED:
+				return fixed != FIXED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -195,7 +270,8 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
@@ -203,6 +279,8 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 		result.append(min);
 		result.append(", max: ");
 		result.append(max);
+		result.append(", fixed: ");
+		result.append(fixed);
 		result.append(')');
 		return result.toString();
 	}

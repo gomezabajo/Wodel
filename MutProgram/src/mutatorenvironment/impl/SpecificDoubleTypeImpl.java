@@ -24,7 +24,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDoubleType {
+public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDoubleType
+{
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,7 +51,8 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SpecificDoubleTypeImpl() {
+	protected SpecificDoubleTypeImpl()
+	{
 		super();
 	}
 
@@ -60,7 +62,8 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.SPECIFIC_DOUBLE_TYPE;
 	}
 
@@ -69,7 +72,8 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getValue() {
+	public double getValue()
+	{
 		return value;
 	}
 
@@ -78,7 +82,8 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(double newValue) {
+	public void setValue(double newValue)
+	{
 		double oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
@@ -91,8 +96,10 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_DOUBLE_TYPE__VALUE:
 				return getValue();
 		}
@@ -105,8 +112,10 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_DOUBLE_TYPE__VALUE:
 				setValue((Double)newValue);
 				return;
@@ -120,8 +129,10 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_DOUBLE_TYPE__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
@@ -135,8 +146,10 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_DOUBLE_TYPE__VALUE:
 				return value != VALUE_EDEFAULT;
 		}
@@ -149,7 +162,8 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

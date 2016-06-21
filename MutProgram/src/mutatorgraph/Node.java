@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EAttribute;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link mutatorgraph.Node#getNegation <em>Negation</em>}</li>
+ *   <li>{@link mutatorgraph.Node#isNegation <em>Negation</em>}</li>
  *   <li>{@link mutatorgraph.Node#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link mutatorgraph.Node#getType <em>Type</em>}</li>
  *   <li>{@link mutatorgraph.Node#getShape <em>Shape</em>}</li>
@@ -28,8 +28,7 @@ import org.eclipse.emf.ecore.EAttribute;
 public interface Node extends Item {
 	/**
 	 * Returns the value of the '<em><b>Negation</b></em>' attribute.
-	 * The default value is <code>"yes"</code>.
-	 * The literals are from the enumeration {@link mutatorgraph.Negation}.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Negation</em>' attribute isn't clear,
@@ -37,24 +36,22 @@ public interface Node extends Item {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Negation</em>' attribute.
-	 * @see mutatorgraph.Negation
-	 * @see #setNegation(Negation)
+	 * @see #setNegation(boolean)
 	 * @see mutatorgraph.MutatorgraphPackage#getNode_Negation()
-	 * @model default="yes"
+	 * @model default="false"
 	 * @generated
 	 */
-	Negation getNegation();
+	boolean isNegation();
 
 	/**
-	 * Sets the value of the '{@link mutatorgraph.Node#getNegation <em>Negation</em>}' attribute.
+	 * Sets the value of the '{@link mutatorgraph.Node#isNegation <em>Negation</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Negation</em>' attribute.
-	 * @see mutatorgraph.Negation
-	 * @see #getNegation()
+	 * @see #isNegation()
 	 * @generated
 	 */
-	void setNegation(Negation value);
+	void setNegation(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Attribute</b></em>' reference.

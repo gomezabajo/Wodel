@@ -25,7 +25,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implements Definition {
+public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implements Definition
+{
 	/**
 	 * The default value of the '{@link #getMetamodel() <em>Metamodel</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,7 +52,8 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DefinitionImpl() {
+	protected DefinitionImpl()
+	{
 		super();
 	}
 
@@ -61,7 +63,8 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.DEFINITION;
 	}
 
@@ -70,7 +73,8 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getMetamodel() {
+	public String getMetamodel()
+	{
 		return metamodel;
 	}
 
@@ -79,7 +83,8 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMetamodel(String newMetamodel) {
+	public void setMetamodel(String newMetamodel)
+	{
 		String oldMetamodel = metamodel;
 		metamodel = newMetamodel;
 		if (eNotificationRequired())
@@ -92,8 +97,10 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.DEFINITION__METAMODEL:
 				return getMetamodel();
 		}
@@ -106,8 +113,10 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.DEFINITION__METAMODEL:
 				setMetamodel((String)newValue);
 				return;
@@ -121,8 +130,10 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.DEFINITION__METAMODEL:
 				setMetamodel(METAMODEL_EDEFAULT);
 				return;
@@ -136,8 +147,10 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.DEFINITION__METAMODEL:
 				return METAMODEL_EDEFAULT == null ? metamodel != null : !METAMODEL_EDEFAULT.equals(metamodel);
 		}
@@ -150,7 +163,8 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

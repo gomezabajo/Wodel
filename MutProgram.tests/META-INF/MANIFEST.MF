@@ -9,7 +9,10 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: mutatorgraph.tests,
  appliedMutations.tests,
- mutatorenvironment.tests
+ mutatorenvironment.tests,
+ mutatortests.tests,
+ identifyelements.tests,
+ configureoptions.tests
 Require-Bundle: org.eclipse.core.runtime,
  MutProgram;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,

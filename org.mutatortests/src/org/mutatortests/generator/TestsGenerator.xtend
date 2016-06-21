@@ -7,14 +7,54 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
 import manager.WodelContext
-import mutatortests.MutatorTests
 import java.util.ArrayList
 import java.util.HashMap
 import mutatortests.Test
 import java.io.File
 import manager.ModelManager
-import mutatortests.Parameter
-import java.util.Random
+import mutatortests.Program
+import mutatortests.AlternativeResponse
+import mutatortests.MultiChoiceDiagram
+import mutatortests.MultiChoiceEmendation
+import org.osgi.framework.Bundle
+import org.eclipse.core.runtime.Platform
+import java.net.URL
+import org.eclipse.core.runtime.FileLocator
+import org.eclipse.emf.ecore.EPackage
+import java.util.Collections
+import appliedMutations.AppMutation
+import org.eclipse.emf.ecore.EObject
+import appliedMutations.ObjectCreated
+import appliedMutations.ObjectRemoved
+import appliedMutations.SourceReferenceChanged
+import appliedMutations.TargetReferenceChanged
+import appliedMutations.ReferenceSwap
+import appliedMutations.ReferenceCreated
+import appliedMutations.ReferenceRemoved
+import appliedMutations.InformationChanged
+import appliedMutations.AttributeChanged
+import appliedMutations.AttributeSwap
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.common.util.EList
+import mutatortests.Order
+import java.util.Comparator
+import mutatortests.MutatorTests
+import mutatorenvironment.Block
+import mutatortests.Navigation
+import org.eclipse.emf.common.util.URI
+import mutatortests.Mode
+import exceptions.ModelNotFoundException
+import configureoptions.Option
+import identifyelements.Element
+import configureoptions.Text
+import configureoptions.Word
+import configureoptions.Constant
+import configureoptions.Variable
+import configureoptions.VariableType
+import appliedMutations.ReferenceChanged
+import manager.TestUtils.TestOption
+import manager.TestUtils.Registry
+import manager.TestUtils
 
 /**
  * Generates code from your model files on save.
@@ -25,29 +65,112 @@ class TestsGenerator implements IGenerator {
 	private String fileName;
 	private String pageName;
 	private int num;
-	private HashMap<Test, ArrayList<String>> diagrams;
-	private HashMap<Test, ArrayList<String>> rand;
+	private HashMap<MutatorTests, HashMap<Test, ArrayList<String>>> diagrams;
+	private HashMap<MutatorTests, HashMap<Test, ArrayList<String>>> rand;
+	private HashMap<MutatorTests, HashMap<Test, Registry>> dataRegistry;
+	private HashMap<MutatorTests, HashMap<Test, Double>> puntuation;
+	private HashMap<MutatorTests, HashMap<Test, Double>> penalty;
+	private HashMap<MutatorTests, Integer> total;
+	private HashMap<MutatorTests, ArrayList<Test>> tests;
+	private HashMap<MutatorTests, HashMap<Test, ArrayList<TestOption>>> options;
+	private ArrayList<Block> blocks;
 	
+	def Resource loadResource(Resource resource, String ext, String metamodel) {
+	}
+
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		var i = 0;
-		
-		for(e: resource.allContents.toIterable.filter(MutatorTests)) {
-			if (i == 0) {
-				fileName = 'html/' + WodelContext.getProject() + '.html'
-				pageName = WodelContext.getProject() + '.html'
+		try {
+			var i = 0;
+			//loads the mutator model
+			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
+			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".tests", ".model")
+			var Bundle bundle = Platform.getBundle("MutProgram")
+			var URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
+			val String mutatorecore = FileLocator.resolve(fileURL).getFile
+			val ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
+			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
+			val ArrayList<EObject> blockobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
+			blocks = new ArrayList<Block>()
+			for (EObject blockobj : blockobjects) {
+				blocks.add(ModelManager.getObject(mutatormodel, blockobj) as Block)
+			}	
+
+			for (p : resource.allContents.toIterable.filter(Program)) {
+				if (i == 0) {
+					fileName = 'html/' + WodelContext.getProject() + '.html'
+					pageName = WodelContext.getProject() + '.html'
+				} else {
+					fileName = 'html/' + WodelContext.getProject() + i + '.html'
+					pageName = WodelContext.getProject() + i + '.html'
+				}
+				fsa.generateFile(fileName, p.compile(resource))
+				i++
 			}
-			else {
-				fileName = 'html/' + WodelContext.getProject() + i + '.html'
-				pageName = WodelContext.getProject() + i + '.html'
-			}
-			fsa.generateFile(fileName, e.compile)
-			i++
+		}
+		catch (ModelNotFoundException e) {
 		}
 	}
+
+	def boolean subsumeRadio(ArrayList<TestOption> testOptions, TestOption opt) {
+		for (optCheck : testOptions) {
+			var ArrayList<String> textOptions = new ArrayList<String>()
+			textOptions.addAll(optCheck.text)
+			var int equals = 0
+			for (text : optCheck.text) {
+				for (newText : opt.text) {
+					if (text.equals(newText)) {
+						equals++
+					}
+				}
+			}
+			if (equals == optCheck.text.size) {
+				if (optCheck.solution == false) {
+					testOptions.remove(optCheck)
+					return false
+				}
+				else {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	def boolean subsumeCheckbox(ArrayList<TestOption> testOptions, TestOption opt) {
+		for (optCheck : testOptions) {
+			var String textOption = optCheck.text.get(0)
+			var String newText = opt.text.get(0)
+			if (newText.equals(textOption)) {
+				if (optCheck.solution == false) {
+					testOptions.remove(optCheck)
+					return false
+				}
+				else {
+					return true
+				}
+			}
+		}
+		return false
+	}
 	
-	def compile(MutatorTests mts) '''
-		<!-- DIAGRAMS: «diagrams = new HashMap<Test, ArrayList<String>>()»
-   		«FOR test : mts.tests»
+	def process(MutatorTests exercise, Resource resource) '''
+	'''
+	
+	def compile(Program program, Resource resource) '''
+		<!--TESTS: «tests = new HashMap<MutatorTests, ArrayList<Test>>()»-->
+		<!--DIAGRAMS: «diagrams = new HashMap<MutatorTests, HashMap<Test, ArrayList<String>>>()»-->
+		<!--RANDOM ARRAY: «rand = new HashMap<MutatorTests, HashMap<Test, ArrayList<String>>>()»-->
+		<!--REGISTRY: «dataRegistry = new HashMap<MutatorTests, HashMap<Test, Registry>>()»-->
+		<!--PUNTUATION: «puntuation = new HashMap<MutatorTests, HashMap<Test, Double>>()»-->
+		<!--PENALTY: «penalty = new HashMap<MutatorTests, HashMap<Test, Double>>()»-->
+		<!--TOTAL: «total = new HashMap<MutatorTests, Integer>()»-->		
+		<!--OPTIONS: «options = new HashMap<MutatorTests, HashMap<Test, ArrayList<TestOption>>>()»-->
+		«FOR exercise : program.exercises»
+		<!--«total.put(exercise, 0)»-->
+		<!--«var diags = new HashMap<Test, ArrayList<String>>()»-->
+		«IF exercise instanceof AlternativeResponse»
+		<!--
+   		«FOR test : exercise.tests»
 	   		«var File folder = new File(ModelManager.getWorkspaceAbsolutePath() + '/' 
 	   			+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '')
 	   		)»
@@ -55,36 +178,1592 @@ class TestsGenerator implements IGenerator {
 			«IF (folder.isDirectory() == true)»
 				«FOR f : folder.listFiles()»
 					«IF f.name.endsWith('.png')»
-					«fileNames.add(f.name)»
+						«fileNames.add(f.name)»
 					«ENDIF»
 				«ENDFOR»
 			«ENDIF»
-			«diagrams.put(test, fileNames)»
+			«IF exercise.block != null»
+				«folder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
+					+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + (exercise.block as Block).name 
+				)»
+				«IF (folder.isDirectory() == true)»
+					«FOR f : folder.listFiles()»
+						«IF f.name.endsWith('.png')»
+							«fileNames.add((exercise.block as Block).name + '/' + f.name)»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+				«IF (exercise.block as Block).from.length > 0»
+					«FOR b : (exercise.block as Block).from»
+						«var File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
+							+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + b.name + '/' + (exercise.block as Block).name
+						)»
+						«IF (wrongFolder.isDirectory() == true)»
+							«FOR f : wrongFolder.listFiles()»
+								«IF (f.isDirectory() == true)»
+									«FOR w : f.listFiles()»
+										«IF w.name.endsWith('.png')»
+											«fileNames.add(b.name + '/' + (exercise.block as Block).name + '/' + f.name + '/' + w.name)»
+										«ENDIF»
+									«ENDFOR»
+								«ENDIF»
+							«ENDFOR»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDIF»
+			«diags.put(test, fileNames)»
     	«ENDFOR»
-		<!-- RANDOM ARRAY: «rand = new HashMap<Test, ArrayList<String>>()»
-   		«FOR test : mts.tests»
-		<!--RANDOM ARRAY: «var entry = new ArrayList<String>()»
-			«var order = new ArrayList<String>()»
-	   		«FOR diagram : diagrams.get(test)»
-   				«order.add(diagram)»
-   			«ENDFOR»
-			«FOR diagram : diagrams.get(test)»
-				«var rnd = ModelManager.getRandomIndex(order)»
-				«entry.add(order.get(rnd))»
-				«order.remove(rnd)»
-			«ENDFOR»
-			«rand.put(test, entry)»
+    	-->
+	    <!--«diagrams.put(exercise, diags)»-->
+   		<!--RANDOM: «var random = new HashMap<Test, ArrayList<String>>()»-->
+   		«FOR test : exercise.tests»
+		<!--RANDOM ARRAY: «var entry = diagrams.get(exercise).get(test)»
+		«Collections.shuffle(entry)»
+		«random.put(test, entry)»
+   		-->
    		«ENDFOR»
+   		<!--«rand.put(exercise, random)»-->
+   		«ENDIF»
+		«IF exercise instanceof MultiChoiceDiagram»
+		<!--
+   		«FOR test : exercise.tests»
+	   		«var File folder = new File(ModelManager.getWorkspaceAbsolutePath() + '/' 
+	   			+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '')
+	   		)»
+	   		«var fileNames = new ArrayList<String>()»
+			«IF (folder.isDirectory() == true)»
+				«FOR f : folder.listFiles()»
+					«IF f.name.endsWith('.png')»
+						«fileNames.add(f.name)»
+					«ENDIF»
+				«ENDFOR»
+			«ENDIF»
+			«IF exercise.block != null»
+				«folder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
+					+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + (exercise.block as Block).name 
+				)»
+				«IF (folder.isDirectory() == true)»
+					«FOR f : folder.listFiles()»
+						«IF f.name.endsWith('.png')»
+							«fileNames.add((exercise.block as Block).name + '/' + f.name)»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+				«IF (exercise.block as Block).from.length > 0»
+					«FOR b : (exercise.block as Block).from»
+						«var File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
+							+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + b.name + '/' + (exercise.block as Block).name
+						)»
+						«IF (wrongFolder.isDirectory() == true)»
+							«FOR f : wrongFolder.listFiles()»
+								«IF (f.isDirectory() == true)»
+									«FOR w : f.listFiles()»
+										«IF w.name.endsWith('.png')»
+											«fileNames.add(b.name + '/' + (exercise.block as Block).name + '/' + f.name + '/' + w.name)»
+										«ENDIF»
+									«ENDFOR»
+								«ENDIF»
+							«ENDFOR»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDIF»
+			«diags.put(test, fileNames)»
+    	«ENDFOR»
+    	-->
+	    <!--«diagrams.put(exercise, diags)»-->
+   		<!--RANDOM: «var random = new HashMap<Test, ArrayList<String>>()»-->
+   		«FOR test : exercise.tests»
+		<!--RANDOM ARRAY: «var entry = diagrams.get(exercise).get(test)»
+		«Collections.shuffle(entry)»
+		«random.put(test, entry)»
+   		-->
+   		«ENDFOR»
+   		<!--«rand.put(exercise, random)»-->
+   		«ENDIF»
+		«IF exercise instanceof MultiChoiceEmendation»
+		<!-- REGISTRY: «var dataReg = new HashMap<Test, Registry>()»
+		«val Bundle bundle = Platform.getBundle('MutProgram')»
+		«var URL fileURL = bundle.getEntry('/models/AppliedMutations.ecore')»
+		«val String ecore = ModelManager.getMetaModel().replace("\\", "/")»
+		«val ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore)»
+		«val String registryecore = FileLocator.resolve(fileURL).getFile()»
+		«val ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore)»
+		«/*loads the idelems model*/»
+		«var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
+			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".tests", "_idelems.model")»
+		«System.out.println("xmiFileName: " + xmiFileName)»
+		«fileURL = bundle.getEntry('/models/IdentifyElements.ecore')»
+		«val String idelemsecore = FileLocator.resolve(fileURL).getFile»
+		«val ArrayList<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore)»
+		«val idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString)»
+		«/*loads the cfgopts model*/»
+		«xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
+			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".tests", "_cfgopts.model")»
+		«System.out.println("xmiFileName: " + xmiFileName)»
+		«fileURL = bundle.getEntry('/models/ConfigureOptions.ecore')»
+		«val String cfgoptsecore = FileLocator.resolve(fileURL).getFile»
+		«val ArrayList<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore)»
+		«val cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString)»
+		<!--
+		«FOR test : exercise.tests»
+			«dataReg.put(test, TestUtils.getRegistry(exercise, test, blocks, packages, registrypackages))»
+		«ENDFOR»
 		-->
-    	«IF mts.config.showall == Parameter.YES»
-    	«mts.showall»
-	    «ENDIF»
-    	«IF mts.config.showall == Parameter.NO»
-    	«mts.showone»
-	    «ENDIF»
-	'''
-	
-	def showall(MutatorTests mts) '''
+		<!--«dataRegistry.put(exercise, dataReg)»-->
+		<!--«var HashMap<Test, ArrayList<TestOption>> testOptions = new HashMap<Test, ArrayList<TestOption>>()»
+		«FOR test : exercise.tests»
+			«IF dataRegistry.get(exercise).get(test).mutants.size() > 0»
+			«var rnd = ModelManager.getRandomIndex(dataRegistry.get(exercise).get(test).mutants)»
+			«var TestOption opt = new TestOption()»
+			«var Registry reg = dataRegistry.get(exercise).get(test)»
+			«opt.path = 'diagrams' + reg.mutants.get(rnd).URI.path.replace(ModelManager.outputPath.substring(2, ModelManager.outputPath.length), '').replace('.model', '.png')»
+			«opt.resource = reg.history.get(rnd)»
+			«opt.seed = reg.seed»
+			«opt.solution = true»
+			«var ArrayList<TestOption> opts = new ArrayList<TestOption>()»
+			«opts.add(opt)»
+			«FOR wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(rnd))»
+				«IF wrongRegistry.mutants.size > 0»
+				«rnd = ModelManager.getRandomIndex(wrongRegistry.mutants)»
+				«opt = new TestOption()»
+				«opt.path = 'diagrams' + wrongRegistry.mutants.get(rnd).URI.path.replace(ModelManager.outputPath.substring(2, ModelManager.outputPath.length), '').replace('.model', '.png')»
+				«opt.resource = wrongRegistry.history.get(rnd)»
+				«opt.seed = wrongRegistry.seed»
+				«opt.solution = false»
+				«opts.add(opt)»
+				«ENDIF»
+			«ENDFOR»
+			«testOptions.put(test, opts)»
+			«ENDIF»
+		«ENDFOR»
+		«options.put(exercise, testOptions)»
+		«IF exercise.config.mode == Mode.RADIOBUTTON»
+		«FOR test : exercise.tests»
+			«var ArrayList<TestOption> opts = new ArrayList<TestOption>()»
+			«IF options.get(exercise).get(test) != null»
+			«FOR opt : options.get(exercise).get(test)»
+				«opt.text = new ArrayList<String>()»
+				«var ArrayList<EObject> mutations = ModelManager.getMutations(ModelManager.getObjects(opt.resource))»
+				«FOR mutation : mutations»
+					«var String text = ''»
+					«IF mutation instanceof AppMutation»
+					«var AppMutation appMut = mutation as AppMutation»
+					«IF appMut instanceof ObjectCreated»
+					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' is a new object'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' has to be created'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.object.get(0)»
+					«ELSE»
+					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof ObjectRemoved»
+					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' has been removed'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' has to be removed'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.object.get(0)»
+					«ELSE»
+					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof SourceReferenceChanged»
+					«/*var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)*/»
+					«/*var EObject srcObject = appMut.getFrom.eGet(srcRef) as EObject*/»
+					«/*var EStructuralFeature srcName = srcObject.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature tarRef = appMut.getTo.eClass.getEStructuralFeature(appMut.getRefName)*/»
+					«/*var EObject tarObject = appMut.getTo.eGet(tarRef) as EObject*/»
+					«/*var EStructuralFeature tarName = tarObject.eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource)»
+					«var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)»
+					«var Element refElement = ModelManager.getRefElement((appMut.getFrom.eGet(srcRef) as EObject), srcRef, idelemsresource)»
+					«var Element srcElement = ModelManager.getElement((appMut.getFrom.eGet(srcRef) as EObject), idelemsresource)»
+					«var EStructuralFeature tarRef = appMut.getTo.eClass.getEStructuralFeature(appMut.getRefName)»
+					«var Element tarElement = ModelManager.getElement((appMut.getTo.eGet(tarRef) as EObject), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'Source reference ' + appMut.getRefName + ' from ' + srcObject.eGet(srcName) + ' to ' + tarObject.eGet(tarName)*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'Source reference ' + appMut.getRefName + ' from ' + srcObject.eGet(srcName) + ' to ' + tarObject.eGet(tarName)*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OLD_FROM_OBJECT»
+					«FOR identifyelements.Word v : srcElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getFrom.eGet(srcRef) as EObject»
+					«ELSE»
+					«o = (appMut.getFrom.eGet(srcRef) as EObject).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getFrom.eGet(srcRef) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.FROM_OBJECT»
+					«FOR identifyelements.Word v : tarElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getTo.eGet(tarRef) as EObject»
+					«ELSE»
+					«o = (appMut.getTo.eGet(tarRef) as EObject).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getTo.eGet(tarRef) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«FOR identifyelements.Word v : refElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof TargetReferenceChanged»
+					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.object.get(0), idelemsresource)»
+					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(appMut.srcRefName, appMut.object.get(0))»
+					«var Element refSrcElement = ModelManager.getRefElement(appMut.object.get(0), refSrc, idelemsresource)»
+					«var EStructuralFeature refTar = ModelManager.getReferenceByName(appMut.refName, appMut.object.get(0))»
+					«var Element refTarElement = ModelManager.getRefElement(appMut.object.get(0), refTar, idelemsresource)»
+					«var Element fromElement = ModelManager.getElement(appMut.getFrom, idelemsresource)»
+					«var Element toElement = ModelManager.getElement(appMut.getTo, idelemsresource)»
+					«var Element oldToElement = ModelManager.getElement(appMut.getOldTo, idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'Change ' + appMut.getRefName + ' from ' + appMut.object.get(0).eClass.name + ' with ' + appMut.srcRefName + ' ' + appMut.getFrom.eGet(fromName) + ' from ' + appMut.getTo.eGet(toName) + ' to ' + appMut.getOldTo.eGet(oldToName)*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'Change ' + appMut.getRefName + ' from ' + appMut.object.get(0).eClass.name + ' with ' + appMut.srcRefName + ' ' + appMut.getFrom.eGet(fromName) + ' from ' + appMut.getOldTo.eGet(oldToName) + ' to ' + appMut.getTo.eGet(toName)*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.object.get(0)»
+					«ELSE»
+					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.FROM_OBJECT»
+					«FOR identifyelements.Word v : fromElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getFrom»
+					«ELSE»
+					«o = appMut.getFrom.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getFrom as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.TO_OBJECT»
+					«FOR identifyelements.Word v : toElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getTo»
+					«ELSE»
+					«o = appMut.getTo.eGet((v as identifyelements.Variable).ref) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.OLD_TO_OBJECT»
+					«FOR identifyelements.Word v : oldToElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getOldTo»
+					«ELSE»
+					«o = appMut.getOldTo.eGet((v as identifyelements.Variable).ref) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«FOR identifyelements.Word v : refTarElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.SRC_REF_NAME»
+					«FOR identifyelements.Word v : refSrcElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof ReferenceSwap»
+					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature firstRef = appMut.getRefObject.eClass.getEStructuralFeature(appMut.getRefName)*/»
+					«/*var EObject refObject = appMut.getRefObject.eGet(firstRef) as EObject*/»
+					«/*var EStructuralFeature otherToName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature otherFromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+					«ENDIF»
+					«IF appMut instanceof ReferenceCreated»
+					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = appMut.getRef.get(0).name + ' is a new reference in the ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = appMut.getRef.get(0).name + ' reference has to be created in the ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getObject.get(0)»
+					«ELSE»
+					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«text += appMut.getRef.get(0).name + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof ReferenceRemoved»
+					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'The ' + appMut.getRef.get(0).name + ' reference has been removed in a ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'The ' + appMut.getRef.get(0).name + ' reference has to be removed in a ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getObject.get(0)»
+					«ELSE»
+					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«text += appMut.getRef.get(0).name + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof InformationChanged»
+					«/*var EStructuralFeature name = appMut.getObject.eClass.getEStructuralFeature('name')*/»
+					«var EList<AttributeChanged> atts = appMut.getAttChanges»
+					«var ArrayList<String> attributes = new ArrayList<String>()»
+					«FOR att : atts»
+						«text = ''»
+						«IF att instanceof AttributeSwap»
+						«var EStructuralFeature attName = appMut.getObject.eClass.getEStructuralFeature(att.attName)»
+						«/*var EStructuralFeature objectName = att.attObject.eClass.getEStructuralFeature('name')*/»
+						«var Option cfgopt = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource)»
+						«var Element firstElement = ModelManager.getElement(appMut.getObject, idelemsresource)»
+						«var Element secondElement = ModelManager.getElement(att.attObject, idelemsresource)»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*text = 'Attribute ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) +  ' with value ' + appMut.getObject.eGet(attName) + ' and ' + att.firstName + ' from ' + att.attObject.eClass.name + ' ' + att.attObject.eGet(objectName) + ' with value ' + att.newVal + ' were swapped'*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*text = 'Attribute ' + att.firstName + ' from ' + att.attObject.eClass.name + ' ' + att.attObject.eGet(objectName) + ' with value ' + appMut.getObject.eGet(attName) + ' and ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) +  ' with value ' + att.newVal + ' were swapped'*/»
+						«ENDIF»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FIRST_OBJECT»
+						«FOR identifyelements.Word v : firstElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = appMut.getObject»
+						«ELSE»
+						«o = appMut.getObject.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getObject)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_OBJECT»
+						«FOR identifyelements.Word v : secondElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = att.getAttObject»
+						«ELSE»
+						«o = att.getAttObject.eGet((v as identifyelements.Variable).ref) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_ATT_NAME»
+						«text += att.attName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_ATT_NAME»
+						«text += att.firstName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_VALUE»
+						«text += appMut.getObject.eGet(attName) + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_VALUE»
+						«text += att.newVal + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«IF attributes.contains(text) != true»
+						«attributes.add(text)»
+						«ENDIF»
+						«ELSE»
+						«var Option cfgopt = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource)»
+						«var Element element = ModelManager.getElement(appMut.getObject, idelemsresource)»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*attributes.add('Attribute ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) + ' with value ' + att.oldVal + ' has been changed to ' + att.newVal)*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*attributes.add('Attribute ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) + ' with value ' + att.newVal + ' has been changed to ' + att.oldVal)*/»
+						«ENDIF»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR identifyelements.Word v : element.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = appMut.object»
+						«ELSE»
+						«o = appMut.object.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.ATT_NAME»
+						«text += att.attName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.OLD_VALUE»
+						«text += att.oldVal + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.NEW_VALUE»
+						«text += att.newVal + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«IF attributes.contains(text) != true»
+						«attributes.add(text)»
+						«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+					«FOR txt : attributes»
+					«IF opt.text.contains(txt) != true»
+						«opt.text.add(txt)»
+					«ENDIF»
+					«ENDFOR»
+					«var EList<ReferenceChanged> refs = appMut.getRefChanges»
+					«var ArrayList<String> references = new ArrayList<String>()»
+					«FOR ref : refs»
+						«text = ''»
+						«IF ref instanceof ReferenceSwap»
+						«text = ''»
+						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource)»
+						«var Element firstElement = ModelManager.getElement(appMut.object, idelemsresource)»
+						«System.out.println("firstElement: " + firstElement)»
+						«var Element firstFromElement = ModelManager.getElement(ref.getFrom, idelemsresource)»
+						«var Element firstToElement = ModelManager.getElement(ref.getTo, idelemsresource)»
+						«var Element secondElement = ModelManager.getElement(ref.getRefObject, idelemsresource)»
+						«System.out.println("secondElement: " + secondElement)»
+						«var Element secondFromElement = ModelManager.getElement(ref.getOtherFrom, idelemsresource)»
+						«var Element secondToElement = ModelManager.getElement(ref.getOtherTo, idelemsresource)»
+						«/*System.out.println("toName: " + toName)*/»
+						«/*System.out.println("fromName: " + fromName)*/»
+						«/*System.out.println("firstRef: " + firstRef)*/»
+						«/*System.out.println("refObject: " + refObject)*/»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*text = 'Reference ' + appMut.getRefName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getOtherFrom.eGet(otherFromName) + ' to ' + appMut.getFrom.eGet(fromName) + ' and reference ' + appMut.getFirstName + ' from ' + appMut.getRefObject.eClass.name + ' from '  + appMut.getOtherTo.eGet(otherToName) + ' to ' + appMut.getTo.eGet(toName) + ' were swapped'*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*text = 'Reference ' + appMut.getRefName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getTo.eGet(toName) + ' to ' + appMut.getOtherFrom.eGet(otherFromName) + ' and reference ' + appMut.getFirstName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getOtherTo.eGet(otherToName) +  ' to ' + appMut.getFrom.eGet(fromName) + ' were swapped'*/»
+						«ENDIF»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FIRST_OBJECT»
+						«FOR identifyelements.Word v : firstElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«System.out.println("REF: " + (v as identifyelements.Variable).ref)»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getRefObject»
+						«ELSE»
+						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getRefObject)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_FROM_OBJECT»
+						«FOR identifyelements.Word v : firstFromElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getOtherFrom»
+						«ELSE»
+						«o = ref.getOtherFrom.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getOtherFrom)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_TO_OBJECT»
+						«FOR identifyelements.Word v : firstToElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getFrom»
+						«ELSE»
+						«o = ref.getFrom.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getFrom)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_OBJECT»
+						«FOR identifyelements.Word v : secondElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«System.out.println("REF: " + (v as identifyelements.Variable).ref)»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getRefObject»
+						«ELSE»
+						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getRefObject)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_FROM_OBJECT»
+						«FOR identifyelements.Word v : secondFromElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getOtherTo»
+						«ELSE»
+						«o = ref.getOtherTo.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getOtherTo)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_TO_OBJECT»
+						«FOR identifyelements.Word v : secondToElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getTo»
+						«ELSE»
+						«o = ref.getTo.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getTo)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_REF_NAME»
+						«text += ref.getRefName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_REF_NAME»
+						«text += ref.getFirstName + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«IF references.contains(text) != true»
+						«references.add(text)»
+						«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+					«FOR txt : references»
+					«IF opt.text.contains(txt) != true»
+						«opt.text.add(txt)»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«/*CHECKS IF THIS OPTION IS ALREADY IN THE LIST*/»
+					«IF opt.text != null»
+					«var boolean isRepeated = opts.subsumeRadio(opt)»
+					«IF isRepeated == false»
+					«total.put(exercise, total.get(exercise) + 1)»
+					«opts.add(opt)»
+					«ENDIF»
+					«ENDIF»
+				«ENDFOR»
+			«ENDFOR»
+			«Collections.shuffle(opts)»
+			«testOptions.put(test, opts)»
+			«ENDIF»
+		«ENDFOR»
+		«ELSEIF exercise.config.mode == Mode.CHECKBOX»
+		«FOR test : exercise.tests»
+			«var ArrayList<TestOption> opts = new ArrayList<TestOption>()»
+			«IF options.get(exercise).get(test) != null»
+			«FOR opt : options.get(exercise).get(test)»
+				«var ArrayList<EObject> mutations = ModelManager.getMutations(ModelManager.getObjects(opt.resource))»
+				«FOR mutation : mutations»
+					«var String text = ''»
+					«IF mutation instanceof AppMutation»
+					«var AppMutation appMut = mutation as AppMutation»
+					«IF appMut instanceof ObjectCreated»
+					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' is a new object'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' has to be created'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.object.get(0)»
+					«ELSE»
+					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«opt.text = new ArrayList<String>()»
+					«opt.text.add(text)»
+					«var TestOption optClone = opt.clone as TestOption»
+					«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+					«IF isRepeated == false»
+					«total.put(exercise, total.get(exercise) + 1)»
+					«opts.add(optClone)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof ObjectRemoved»
+					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' has been removed'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'The ' + appMut.getObject.get(0).eClass.name + ' ' + appMut.getObject.get(0).eGet(name) + ' has to be removed'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.object.get(0)»
+					«ELSE»
+					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«opt.text = new ArrayList<String>()»
+					«opt.text.add(text)»
+					«var TestOption optClone = opt.clone as TestOption»
+					«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+					«IF isRepeated == false»
+					«total.put(exercise, total.get(exercise) + 1)»
+					«opts.add(optClone)»
+					«ENDIF»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof SourceReferenceChanged»
+					«/*var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)*/»
+					«/*var EObject srcObject = appMut.getFrom.eGet(srcRef) as EObject*/»
+					«/*var EStructuralFeature srcName = srcObject.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature tarRef = appMut.getTo.eClass.getEStructuralFeature(appMut.getRefName)*/»
+					«/*var EObject tarObject = appMut.getTo.eGet(tarRef) as EObject*/»
+					«/*var EStructuralFeature tarName = tarObject.eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource)»
+					«var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)»
+					«var Element refElement = ModelManager.getRefElement((appMut.getFrom.eGet(srcRef) as EObject), srcRef, idelemsresource)»
+					«var Element srcElement = ModelManager.getElement((appMut.getFrom.eGet(srcRef) as EObject), idelemsresource)»
+					«var EStructuralFeature tarRef = appMut.getTo.eClass.getEStructuralFeature(appMut.getRefName)»
+					«var Element tarElement = ModelManager.getElement((appMut.getTo.eGet(tarRef) as EObject), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'Source reference ' + appMut.getRefName + ' from ' + srcObject.eGet(srcName) + ' to ' + tarObject.eGet(tarName)*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'Source reference ' + appMut.getRefName + ' from ' + srcObject.eGet(srcName) + ' to ' + tarObject.eGet(tarName)*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OLD_FROM_OBJECT»
+					«FOR identifyelements.Word v : srcElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getFrom.eGet(srcRef) as EObject»
+					«ELSE»
+					«o = (appMut.getFrom.eGet(srcRef) as EObject).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getFrom.eGet(srcRef) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.FROM_OBJECT»
+					«FOR identifyelements.Word v : tarElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getTo.eGet(tarRef) as EObject»
+					«ELSE»
+					«o = (appMut.getTo.eGet(tarRef) as EObject).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getTo.eGet(tarRef) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«FOR identifyelements.Word v : refElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«opt.text = new ArrayList<String>()»
+					«opt.text.add(text)»
+					«var TestOption optClone = opt.clone as TestOption»
+					«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+					«IF isRepeated == false»
+					«total.put(exercise, total.get(exercise) + 1)»
+					«opts.add(optClone)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof TargetReferenceChanged»
+					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
+					«var Option cfgopt = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.object.get(0), idelemsresource)»
+					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(appMut.srcRefName, appMut.object.get(0))»
+					«var Element refSrcElement = ModelManager.getRefElement(appMut.object.get(0), refSrc, idelemsresource)»
+					«var EStructuralFeature refTar = ModelManager.getReferenceByName(appMut.refName, appMut.object.get(0))»
+					«var Element refTarElement = ModelManager.getRefElement(appMut.object.get(0), refTar, idelemsresource)»
+					«var Element fromElement = ModelManager.getElement(appMut.getFrom, idelemsresource)»
+					«var Element toElement = ModelManager.getElement(appMut.getTo, idelemsresource)»
+					«var Element oldToElement = ModelManager.getElement(appMut.getOldTo, idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'Change ' + appMut.getRefName + ' from ' + appMut.object.get(0).eClass.name + ' with ' + appMut.srcRefName + ' ' + appMut.getFrom.eGet(fromName) + ' from ' + appMut.getTo.eGet(toName) + ' to ' + appMut.getOldTo.eGet(oldToName)*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'Change ' + appMut.getRefName + ' from ' + appMut.object.get(0).eClass.name + ' with ' + appMut.srcRefName + ' ' + appMut.getFrom.eGet(fromName) + ' from ' + appMut.getOldTo.eGet(oldToName) + ' to ' + appMut.getTo.eGet(toName)*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«IF element.att == null»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.object.get(0)»
+					«ELSE»
+					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«IF variable.type == VariableType.FROM_OBJECT»
+					«FOR identifyelements.Word v : fromElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getFrom»
+					«ELSE»
+					«o = appMut.getFrom.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getFrom as EObject)) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.TO_OBJECT»
+					«FOR identifyelements.Word v : toElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getTo»
+					«ELSE»
+					«o = appMut.getTo.eGet((v as identifyelements.Variable).ref) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.OLD_TO_OBJECT»
+					«FOR identifyelements.Word v : oldToElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getOldTo»
+					«ELSE»
+					«o = appMut.getOldTo.eGet((v as identifyelements.Variable).ref) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«FOR identifyelements.Word v : refTarElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.SRC_REF_NAME»
+					«FOR identifyelements.Word v : refSrcElement.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«opt.text = new ArrayList<String>()»
+					«opt.text.add(text)»
+					«var TestOption optClone = opt.clone as TestOption»
+					«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+					«IF isRepeated == false»
+					«total.put(exercise, total.get(exercise) + 1)»
+					«opts.add(optClone)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof ReferenceSwap»
+					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature firstRef = appMut.getRefObject.eClass.getEStructuralFeature(appMut.getRefName)*/»
+					«/*var EObject refObject = appMut.getRefObject.eGet(firstRef) as EObject*/»
+					«/*var EStructuralFeature otherToName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+					«/*var EStructuralFeature otherFromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+					«ENDIF»
+					«IF appMut instanceof ReferenceCreated»
+					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = appMut.getRef.get(0).name + ' is a new reference in the ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = appMut.getRef.get(0).name + ' reference has to be created in the ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getObject.get(0)»
+					«ELSE»
+					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«text += appMut.getRef.get(0).name + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«opt.text = new ArrayList<String>()»
+					«opt.text.add(text)»
+					«var TestOption optClone = opt.clone as TestOption»
+					«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+					«IF isRepeated == false»
+					«total.put(exercise, total.get(exercise) + 1)»
+					«opts.add(optClone)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof ReferenceRemoved»
+					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource)»
+					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var Text t = null»
+					«IF opt.solution == true»
+					«t = cfgopt.valid»
+					«/*text = 'The ' + appMut.getRef.get(0).name + ' reference has been removed in a ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ELSE»
+					«t = cfgopt.invalid»
+					«/*text = 'The ' + appMut.getRef.get(0).name + ' reference has to be removed in a ' + appMut.getObject.get(0).eClass.name + ' object'*/»
+					«ENDIF»
+					«FOR Word w : t.words»
+					«IF w instanceof Constant»
+					«text += w.value + " "»
+					«ENDIF»
+					«IF w instanceof Variable»
+					«var variable = w as Variable»
+					«IF variable.type == VariableType.OBJECT»
+					«FOR identifyelements.Word v : element.words»
+					«IF v instanceof identifyelements.Constant»
+					«text += v.value + " "»
+					«ENDIF»
+					«IF v instanceof identifyelements.Variable»
+					«var EObject o = null»
+					«IF (v as identifyelements.Variable).ref == null»
+					«o = appMut.getObject.get(0)»
+					«ELSE»
+					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«ENDIF»
+					«IF o != null»
+					«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«IF variable.type == VariableType.REF_NAME»
+					«text += appMut.getRef.get(0).name + " "»
+					«ENDIF»
+					«ENDIF»
+					«ENDFOR»
+					«IF opt.text.contains(text) != true»
+					«opt.text.add(text)»
+					«ENDIF»
+					«ENDIF»
+					«IF appMut instanceof InformationChanged»
+					«/*var EStructuralFeature name = appMut.getObject.eClass.getEStructuralFeature('name')*/»
+					«var EList<AttributeChanged> atts = appMut.getAttChanges»
+					«FOR att : atts»
+						«text = ''»
+						«IF att instanceof AttributeSwap»
+						«var EStructuralFeature attName = appMut.getObject.eClass.getEStructuralFeature(att.attName)»
+						«/*var EStructuralFeature objectName = att.attObject.eClass.getEStructuralFeature('name')*/»
+						«var Option cfgopt = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource)»
+						«var Element firstElement = ModelManager.getElement(appMut.getObject, idelemsresource)»
+						«var Element secondElement = ModelManager.getElement(att.attObject, idelemsresource)»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*text = 'Attribute ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) +  ' with value ' + appMut.getObject.eGet(attName) + ' and ' + att.firstName + ' from ' + att.attObject.eClass.name + ' ' + att.attObject.eGet(objectName) + ' with value ' + att.newVal + ' were swapped'*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*text = 'Attribute ' + att.firstName + ' from ' + att.attObject.eClass.name + ' ' + att.attObject.eGet(objectName) + ' with value ' + appMut.getObject.eGet(attName) + ' and ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) +  ' with value ' + att.newVal + ' were swapped'*/»
+						«ENDIF»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FIRST_OBJECT»
+						«FOR identifyelements.Word v : firstElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = appMut.getObject»
+						«ELSE»
+						«o = appMut.getObject.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.getObject)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_OBJECT»
+						«FOR identifyelements.Word v : secondElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = att.getAttObject»
+						«ELSE»
+						«o = att.getAttObject.eGet((v as identifyelements.Variable).ref) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_ATT_NAME»
+						«text += att.attName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_ATT_NAME»
+						«text += att.firstName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_VALUE»
+						«text += appMut.getObject.eGet(attName) + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_VALUE»
+						«text += att.newVal + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«opt.text = new ArrayList<String>()»
+						«opt.text.add(text)»
+						«var TestOption optClone = opt.clone as TestOption»
+						«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+						«IF isRepeated == false»
+						«total.put(exercise, total.get(exercise) + 1)»
+						«opts.add(optClone)»
+						«ENDIF»
+						«ELSE»
+						«var Option cfgopt = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource)»
+						«var Element element = ModelManager.getElement(appMut.getObject, idelemsresource)»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*attributes.add('Attribute ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) + ' with value ' + att.oldVal + ' has been changed to ' + att.newVal)*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*attributes.add('Attribute ' + att.attName + ' from ' + appMut.getObject.eClass.name + ' ' + appMut.getObject.eGet(name) + ' with value ' + att.newVal + ' has been changed to ' + att.oldVal)*/»
+						«ENDIF»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR identifyelements.Word v : element.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = appMut.object»
+						«ELSE»
+						«o = appMut.object.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, appMut.object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.ATT_NAME»
+						«text += att.attName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.OLD_VALUE»
+						«text += att.oldVal + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.NEW_VALUE»
+						«text += att.newVal + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«opt.text = new ArrayList<String>()»
+						«opt.text.add(text)»
+						«var TestOption optClone = opt.clone as TestOption»
+						«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+						«IF isRepeated == false»
+						«total.put(exercise, total.get(exercise) + 1)»
+						«opts.add(optClone)»
+						«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+					«var EList<ReferenceChanged> refs = appMut.getRefChanges»
+					«FOR ref : refs»
+						«text = ''»
+						«IF ref instanceof ReferenceSwap»
+						«text = ''»
+						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource)»
+						«var Element firstElement = ModelManager.getElement(appMut.object, idelemsresource)»
+						«System.out.println("firstElement: " + firstElement)»
+						«var Element firstFromElement = ModelManager.getElement(ref.getFrom, idelemsresource)»
+						«var Element firstToElement = ModelManager.getElement(ref.getTo, idelemsresource)»
+						«var Element secondElement = ModelManager.getElement(ref.getRefObject, idelemsresource)»
+						«System.out.println("secondElement: " + secondElement)»
+						«var Element secondFromElement = ModelManager.getElement(ref.getOtherFrom, idelemsresource)»
+						«var Element secondToElement = ModelManager.getElement(ref.getOtherTo, idelemsresource)»
+						«/*System.out.println("toName: " + toName)*/»
+						«/*System.out.println("fromName: " + fromName)*/»
+						«/*System.out.println("firstRef: " + firstRef)*/»
+						«/*System.out.println("refObject: " + refObject)*/»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*text = 'Reference ' + appMut.getRefName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getOtherFrom.eGet(otherFromName) + ' to ' + appMut.getFrom.eGet(fromName) + ' and reference ' + appMut.getFirstName + ' from ' + appMut.getRefObject.eClass.name + ' from '  + appMut.getOtherTo.eGet(otherToName) + ' to ' + appMut.getTo.eGet(toName) + ' were swapped'*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*text = 'Reference ' + appMut.getRefName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getTo.eGet(toName) + ' to ' + appMut.getOtherFrom.eGet(otherFromName) + ' and reference ' + appMut.getFirstName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getOtherTo.eGet(otherToName) +  ' to ' + appMut.getFrom.eGet(fromName) + ' were swapped'*/»
+						«ENDIF»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FIRST_OBJECT»
+						«FOR identifyelements.Word v : firstElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«System.out.println("REF: " + (v as identifyelements.Variable).ref)»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getRefObject»
+						«ELSE»
+						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getRefObject)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_FROM_OBJECT»
+						«FOR identifyelements.Word v : firstFromElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getOtherFrom»
+						«ELSE»
+						«o = ref.getOtherFrom.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getOtherFrom)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_TO_OBJECT»
+						«FOR identifyelements.Word v : firstToElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getFrom»
+						«ELSE»
+						«o = ref.getFrom.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getFrom)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_OBJECT»
+						«FOR identifyelements.Word v : secondElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«System.out.println("REF: " + (v as identifyelements.Variable).ref)»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getRefObject»
+						«ELSE»
+						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getRefObject)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_FROM_OBJECT»
+						«FOR identifyelements.Word v : secondFromElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getOtherTo»
+						«ELSE»
+						«o = ref.getOtherTo.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getOtherTo)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_TO_OBJECT»
+						«FOR identifyelements.Word v : secondToElement.words»
+						«IF v instanceof identifyelements.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof identifyelements.Variable»
+						«var EObject o = null»
+						«IF (v as identifyelements.Variable).ref == null»
+						«o = ref.getTo»
+						«ELSE»
+						«o = ref.getTo.eGet(ModelManager.getReferenceByName((v as identifyelements.Variable).ref.name, ref.getTo)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as identifyelements.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.FIRST_REF_NAME»
+						«text += ref.getRefName + " "»
+						«ENDIF»
+						«IF variable.type == VariableType.SECOND_REF_NAME»
+						«text += ref.getFirstName + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«opt.text = new ArrayList<String>()»
+						«opt.text.add(text)»
+						«var TestOption optClone = opt.clone as TestOption»
+						«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+						«IF isRepeated == false»
+						«total.put(exercise, total.get(exercise) + 1)»
+						«opts.add(optClone)»
+						«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+					«ENDIF»
+					«ENDIF»
+				«ENDFOR»
+			«ENDFOR»
+			«Collections.shuffle(opts)»
+			«testOptions.put(test, opts)»
+			«ENDIF»
+		«ENDFOR»
+		«ENDIF»
+		«options.put(exercise, testOptions)»
+		«ENDIF»
+		«ENDFOR»
+	    
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
@@ -99,18 +1778,131 @@ class TestsGenerator implements IGenerator {
     	<body style="background-color: white;">
     	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
     	<script language="javascript" type="text/javascript">
-    	var currentTotal = «mts.tests.size»;
+		if (!String.prototype.startsWith) {
+  			String.prototype.startsWith = function(searchString, position) {
+    			position = position || 0;
+    			return this.indexOf(searchString, position) === position;
+  			};
+		}
+    	// Pass the checkbox name to the function
+		function getCheckedBoxes(chkboxName) {
+			var checkboxes = document.getElementsByName(chkboxName);
+			var checkboxesChecked = [];
+			// loop over them all
+			for (var i=0; i<checkboxes.length; i++) {
+				// And stick the checked ones onto an array...
+				if (checkboxes[i].checked) {
+					checkboxesChecked.push(checkboxes[i]);
+				}
+			}
+			// Return the array if it is non-empty, or null
+			return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+		}
+   		function show(part) {
+		    //«var int part = 0»
+    		«FOR exercise : program.exercises»
+    		//«part++»
+   			var test = document.getElementById('table-test-«part»');
+   			if (test != null) {
+	    		if (part == «part») {
+    				test.style.display = 'block';
+    			}
+	    		else {
+	    			test.style.display = 'none';
+	    		}
+    		}
+    		«ENDFOR»
+    	}
+	    //«part = 0»
+		«FOR exercise : program.exercises»
+		//«part++»
+		//«var ArrayList<Test> ltests = new ArrayList<Test>()»
+		«IF exercise instanceof MultiChoiceEmendation»
+		«/* GENERATES THE PUNTUATION FOR EACH TEST */»
+		//«var points = new HashMap<Test, Double>()»
+		«FOR test : exercise.tests»
+			«IF options.get(exercise).get(test) != null»
+				«IF total.get(exercise) != null»
+					//«points.put(test, 1.0 * options.get(exercise).get(test).size / total.get(exercise))»
+				«ENDIF»
+			«ENDIF»
+		«ENDFOR»
+		//«puntuation.put(exercise, points)»
+		«/* GENERATES THE PENALTY FOR EACH TEST */»
+		//«var penal = new HashMap<Test, Double>()»
+		«FOR test : exercise.tests»
+			«IF exercise instanceof MultiChoiceEmendation»
+			«IF puntuation.get(exercise).get(test) != null»
+			//«penal.put(test, puntuation.get(exercise).get(test) * exercise.config.penalty)»
+			«ELSE»
+			//«penal.put(test, 0.0)»
+			«ENDIF»
+			«ENDIF»
+			«IF exercise instanceof AlternativeResponse»
+			//«penal.put(test, 0.0)»
+			«ENDIF»
+			«IF exercise instanceof MultiChoiceDiagram»
+			//«penal.put(test, 0.0)»
+			«ENDIF»
+		«ENDFOR»
+		//«penalty.put(exercise, penal)»
+		«/* REORDERS THE TESTS */»
+		«FOR test : exercise.tests»
+			//«ltests.add(test)»
+		«ENDFOR»
+		«IF exercise.config.order == Order.FIXED»
+		«/* DO NOTHING */»
+		«ENDIF»
+		«IF exercise.config.order == Order.RANDOM»
+		//«Collections.shuffle(ltests)»
+		«ENDIF»
+		«IF exercise.config.order == Order.ASCENDING»
+		//«Collections.sort(ltests, new Comparator<Test>() {
+			override compare(Test t1, Test t2) {
+				if (options.get(exercise).get(t1) != null && options.get(exercise).get(t2) != null) {
+					return options.get(exercise).get(t1).size - options.get(exercise).get(t2).size
+				}
+				return 0
+			}
+		})»
+		«ENDIF»
+		«IF exercise.config.order == Order.DESCENDING»
+		//«Collections.sort(ltests, new Comparator<Test>() {
+			override compare(Test t1, Test t2) {
+				if (options.get(exercise).get(t1) != null && options.get(exercise).get(t2) != null) {
+					return options.get(exercise).get(t2).size - options.get(exercise).get(t1).size
+				}
+				return 0
+			}
+		})»
+		«ENDIF»
+		«ENDIF»
+		«IF exercise instanceof AlternativeResponse»
+		//«ltests.addAll(exercise.tests)»
+		«ENDIF»
+		«IF exercise instanceof MultiChoiceDiagram»
+		//«ltests.addAll(exercise.tests)»
+		«ENDIF»
+		//«tests.put(exercise, ltests)»
+		var currentTotal«part» = «exercise.tests.size»;
 		//COUNTER: «num = 0»
-		«FOR test : mts.tests»
+		«FOR test : tests.get(exercise)»
    		//COUNTER: «num = num + 1»
-   		var exercise«num»Mark = false;
+   		var exercise«num»_«part»Mark = false;
+   		«IF exercise instanceof MultiChoiceEmendation»
+   		var weight«num»_«part»Mark = «puntuation.get(exercise).get(test)»;
+   		«ENDIF»
+   		var answered«num»_«part»Exercise = false;
+   		«IF exercise instanceof MultiChoiceEmendation»
+   		var penalty«num»_«part»Mark = «penalty.get(exercise).get(test)»;
+   		«ENDIF»
    		«ENDFOR»
-    	function show(num) {
+   		function show«part»(num) {
     		var exercise = null;
     		//COUNTER: «num = 0»
-    		«FOR test : mts.tests»
+    		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
-    		exercise = document.getElementById('exercise-«num»');
+    		exercise = document.getElementById('exercise-«num»-«part»');
     		if (num == «num») {
     			exercise.style.display = 'block';
     		}
@@ -119,272 +1911,359 @@ class TestsGenerator implements IGenerator {
     		}
     		«ENDFOR»
     	}
-    	function check(num, diagram) {
+    	«IF exercise instanceof AlternativeResponse»
+    	function right«part»(num, diagram) {
     		var image = null;
 	    	var currentMark = 0;
     		//COUNTER: «num = 0»
-    		«FOR test : mts.tests»
+    		«System.out.println("exercise: " + exercise)»
+    		«FOR test : tests.get(exercise)»
+    			«System.out.println("test: " + test)»
+    			«System.out.println("rand.get(exercise): " + rand.get(exercise))»
+    			«System.out.println("rand.get(exercise).get(test): " + rand.get(exercise).get(test))»
+    		«ENDFOR»
+    		«FOR test : tests.get(exercise)»
     		//COUNTER: «num = num + 1»
-			«FOR diagram : diagrams.get(test)»
-    		image = document.getElementById('td-exercise-«num»-«diagram»');
+    		«IF rand.get(exercise).get(test).size() > 0»
+			//DIAGRAM: «var diagram = rand.get(exercise).get(test).get(0)»
+    		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
     		if (num == «num») {
+    			«IF diagram.indexOf('/') > 0»
+    			if (diagram == '«diagram.substring(diagram.indexOf('/') + 1)»') {
+    			«ELSE»
     			if (diagram == '«diagram»') {
+    			«ENDIF»
     				image.style.border = '1px solid #000000';
     				if (diagram == '«test.source.replace('.model', '.png')»') {
-    					exercise«num»Mark = true;
-    					document.getElementById('td-score-null-«num»').style.display = 'none';
-    					document.getElementById('td-score-accept-«num»').style.display = 'block';
-    					document.getElementById('td-score-wrong-«num»').style.display = 'none';
-    					document.getElementById('mark-«num»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
+    					exercise«num»_«part»Mark = true;
+    					document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-accept-«num»-«part»').style.display = 'block';
+    					document.getElementById('td-score-wrong-«num»-«part»').style.display = 'none';
+    					document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
     				}
     				else {
     					exercise«num»Mark = false;
-    					document.getElementById('td-score-null-«num»').style.display = 'none';
-    					document.getElementById('td-score-accept-«num»').style.display = 'none';
-    					document.getElementById('td-score-wrong-«num»').style.display = 'block';
-    					document.getElementById('mark-«num»').innerHTML = '<img src="images/wrong.png" alt="wrong" style="height: 40px; width: 40px;" />';
+    					document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-accept-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-wrong-«num»-«part»').style.display = 'block';
+    					document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />';
     				}
     			}
 	    		else {
     				image.style.border = '';
     			}
-    			«IF mts.config.retry == Parameter.NO»
-	    		document.getElementById('a-exercise-«num»-«diagram»').onclick = function() { return; }
+    			«IF exercise.config.retry == false»
+	    		document.getElementById('a-right-«num»-«part»-«diagram.replace('/', '-')»').onclick = function() { return; }
+	    		document.getElementById('a-wrong-«num»-«part»-«diagram.replace('/', '-')»').onclick = function() { return; }
+	    		«ENDIF»
+    		}
+   			if (exercise«num»_«part»Mark == true) {
+   				currentMark = currentMark + 1;
+   			}
+   			«ENDIF»
+    		«ENDFOR»
+    		if (document.getElementById('current-mark-«part»') != null) {
+    			document.getElementById('current-mark-«part»').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal«part» + '</label>';//SETS THE CURRENT MARK
+    		}
+			window.location.replace(window.location);
+    	}
+    	function wrong«part»(num, diagram) {
+    		var image = null;
+	    	var currentMark = 0;
+    		//COUNTER: «num = 0»
+    		«FOR test : tests.get(exercise)»
+    		//COUNTER: «num = num + 1»
+    		«IF rand.get(exercise).get(test).size > 0»
+			//DIAGRAM: «var diagram = rand.get(exercise).get(test).get(0)»
+    		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
+    		if (num == «num») {
+    			«IF diagram.indexOf('/') > 0»
+    			if (diagram == '«diagram.substring(diagram.indexOf('/') + 1)»') {
+    			«ELSE»
+    			if (diagram == '«diagram»') {
+    			«ENDIF»
+    				image.style.border = '1px solid #000000';
+    				if (diagram != '«test.source.replace('.model', '.png')»') {
+    					exercise«num»_«part»Mark = true;
+    					document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-accept-«num»-«part»').style.display = 'block';
+    					document.getElementById('td-score-wrong-«num»-«part»').style.display = 'none';
+    					document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
+    				}
+    				else {
+    					exercise«num»_«part»Mark = false;
+    					document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-accept-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-wrong-«num»-«part»').style.display = 'block';
+    					document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />';
+    				}
+    			}
+	    		else {
+    				image.style.border = '';
+    			}
+    			«IF exercise.config.retry == false»
+	    		document.getElementById('a-right-«num»-«part»-«diagram.replace('/', '-')»').onclick = function() { return; }
+	    		document.getElementById('a-wrong-«num»-«part»-«diagram.replace('/', '-')»').onclick = function() { return; }
+	    		«ENDIF»
+    		}
+   			if (exercise«num»_«part»Mark == true) {
+   				currentMark = currentMark + 1;
+   			}
+   			«ENDIF»
+    		«ENDFOR»
+    		if (document.getElementById('current-mark-«part»') != null) {
+    			document.getElementById('current-mark-«part»').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal«part» + '</label>';//SETS THE CURRENT MARK
+    		}
+			window.location.replace(window.location);
+    	}
+    	«ENDIF»
+    	«IF exercise instanceof MultiChoiceDiagram»
+    	function check«part»(num, diagram) {
+    		var image = null;
+	    	var currentMark = 0;
+    		//COUNTER: «num = 0»
+    		«FOR test : tests.get(exercise)»
+    		//COUNTER: «num = num + 1»
+			«FOR diagram : diagrams.get(exercise).get(test)»
+    		image = document.getElementById('td-exercise-«num»-«part»-«diagram.replace('/', '-')»');
+    		if (num == «num») {
+    			«IF diagram.indexOf('/') > 0»
+    			if (diagram == '«diagram.substring(diagram.indexOf('/') + 1)»') {
+    			«ELSE»
+    			if (diagram == '«diagram»') {
+    			«ENDIF»
+    				image.style.border = '1px solid #000000';
+    				if (diagram == '«test.source.replace('.model', '.png')»') {
+    					exercise«num»_«part»Mark = true;
+    					document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-accept-«num»-«part»').style.display = 'block';
+    					document.getElementById('td-score-wrong-«num»-«part»').style.display = 'none';
+    					document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
+    				}
+    				else {
+    					exercise«num»_«part»Mark = false;
+    					document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-accept-«num»-«part»').style.display = 'none';
+    					document.getElementById('td-score-wrong-«num»-«part»').style.display = 'block';
+    					document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/wrong.png" alt="wrong" style="height: 40px; width: 40px;" />';
+    				}
+    			}
+	    		else {
+    				image.style.border = '';
+    			}
+    			«IF exercise.config.retry == false»
+	    		document.getElementById('a-exercise-«num»-«part»-«diagram.replace('/', '-')»').onclick = function() { return; }
 	    		«ENDIF»
     		}
     		«ENDFOR»
-   			if (exercise«num»Mark == true) {
+   			if (exercise«num»_«part»Mark == true) {
    				currentMark = currentMark + 1;
    			}
     		«ENDFOR»
-    		document.getElementById('current-mark').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal + '</label>';//SETS THE CURRENT MARK
+    		if (document.getElementById('current-mark-«part»') != null) {
+    			document.getElementById('current-mark-«part»').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal«part» + '</label>';//SETS THE CURRENT MARK
+    		}
 			window.location.replace(window.location);
     	}
-	    </script>
-	    <table style="height: 100%;">
-	    <tr>
-	    <td valign="top">
-	    <div id="pretty-menu">
-	    <ul>
-    	<!--COUNTER: «num = 0»--> 
-		«FOR test : mts.tests»
-			<!--COUNTER: «num = num + 1»-->
-			<li class="score-«num»">
-			<table class="score-«num»" id="score-«num»">
-			<tr>
-			<td id="td-score-null-«num»" style="display: block;">
-			<img src="images/null.png" alt="null" style="height: 40px; width: 40px;" />
-			</td>
-			<td id="td-score-accept-«num»" style="display: none;">
-			<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />
-			</td>
-			<td id="td-score-wrong-«num»" style="display: none;">
-			<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />
-			</td>
-			<td>
-			<a href="#" class="ex-«num»" id="ex-«num»" onclick="show(«num»);">Exercise «num»</a>
-			</td>
-			</tr>
-			</table>
-			</li>
-		«ENDFOR»
-		<li><p class="current-mark" id="current-mark"></p></li>
-		</ul>
-		</div>
-		</td>
-    	<!--COUNTER: «num = 0»--> 
-		«FOR test : mts.tests»
-			<!--COUNTER: «num = num + 1»-->
-			<td class="exercise-«num»" id="exercise-«num»" valign="top" style="display: none;">
-			<fieldset valign="top">
-			<legend class="text"><font color="black">«test.question»&nbsp;&nbsp;&nbsp;<div class="mark-«num»" id="mark-«num»"></div></font></legend>
-			<table class="pretty">
-			<tr>
-			<td valign="top">
-			<table class="pretty">
-			<tr>
-			«FOR diagram : rand.get(test)»
-			<td id="td-exercise-«num»-«diagram»" valign="top">
-			<a href="#" class="a-exercise-«num»-«diagram»" id="a-exercise-«num»-«diagram»" onclick="check(«num»,'«diagram»');"><img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«diagram»" id="exercise-«num»-«diagram»" name="«» class="images" /></a>
-			</td>
+    	«ENDIF»
+    	«IF exercise instanceof MultiChoiceEmendation»
+    	function submit«part»(num, diagram) {
+	    	var currentMark = 0;
+	    	var weightedMark = 0.0;
+	    	var penaltyMark = 0.0;
+    		//COUNTER: «num = 0»
+    		«FOR test : tests.get(exercise)»
+    		//COUNTER: «num = num + 1»
+    		if (num == «num») {
+    			var answered«num»_«part»Exercise = false;
+				//«var String diagram = ''»
+				«IF options.get(exercise).get(test) != null»
+				«FOR opt : options.get(exercise).get(test)»
+				«IF opt.solution == true»
+				//«diagram = opt.path»
+				«ENDIF»
+				«ENDFOR»
+				«ENDIF»
+    			if (diagram == '«diagram.replace('/', '-')»') {
+					var correction = true;
+    				«IF exercise.config.mode == Mode.CHECKBOX»
+   					var checkboxes = document.getElementsByName('checkbox-«num»-«part»-«diagram.replace('/', '-')»');
+   					if (getCheckedBoxes('checkbox-«num»-«part»-«diagram.replace('/', '-')»') == null) {
+   						correction = false;
+   					}
+   					else {
+   						for (var i = 0; i < checkboxes.length; i++) {
+   							var value = checkboxes[i].value;
+   							if (value.startsWith('«diagram.replace('/', '-')»') == true) {
+   								if (checkboxes[i].checked == false) {
+   									correction = false;
+   									break;
+   								}
+   							}
+   							else {
+   								if (checkboxes[i].checked == true) {
+   									correction = false;
+   									break;
+   								}
+   							}
+   						}
+   					}
+   					«ELSEIF exercise.config.mode == Mode.RADIOBUTTON»
+   					var radiobuttons = document.getElementsByName('radiobutton-«num»-«part»-«diagram.replace('/', '-')»');
+   					if (getCheckedBoxes('radiobutton-«num»-«part»-«diagram.replace('/', '-')»') == null) {
+   						correction = false;
+   					}
+   					else {
+   						for (var i = 0; i < radiobuttons.length; i++) {
+   							var value = radiobuttons[i].value;
+   							if (value.startsWith('«diagram.replace('/', '-')»') == true) {
+   								if (radiobuttons[i].checked == false) {
+   									correction = false;
+   									break;
+   								}
+   							}
+   							else {
+   								if (radiobuttons[i].checked == true) {
+   									correction = false;
+   									break;
+   								}
+   							}
+   						}
+   					}
+   					«ENDIF»
+					if (correction == true) {
+						exercise«num»_«part»Mark = true;
+						document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+						document.getElementById('td-score-accept-«num»-«part»').style.display = 'block';
+						document.getElementById('td-score-wrong-«num»-«part»').style.display = 'none';
+						document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
+					}
+   					else {
+						exercise«num»_«part»Mark = false;
+						document.getElementById('td-score-null-«num»-«part»').style.display = 'none';
+						document.getElementById('td-score-accept-«num»-«part»').style.display = 'none';
+						document.getElementById('td-score-wrong-«num»-«part»').style.display = 'block';
+						document.getElementById('mark-«num»-«part»').innerHTML = '<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />';
+					}
+					answered«num»_«part»Exercise = true;
+    			}
+   				«IF exercise.config.retry == false»
+   				if (document.getElementById('a-submit-«num»-«part»-«diagram.replace('/', '-')»') != null) {
+    				document.getElementById('a-submit-«num»-«part»-«diagram.replace('/', '-')»').onclick = function() { return; }
+    			}
+    			«ENDIF»
+	   		}
+  			if (exercise«num»_«part»Mark == true) {
+				currentMark = currentMark + 1;
+				weightedMark = weightedMark + weight«num»_«part»Mark;
+			}
+			if ((answered«num»_«part»Exercise == true) && (exercise«num»_«part»Mark == false)) {
+				penaltyMark = penaltyMark + penalty«num»_«part»Mark;
+			}
 			«ENDFOR»
-			</tr>
-			</table>
-			</td>
-			</tr>
-			</table>
-			</fieldset>
-			</td>
-		«ENDFOR»
+		   	if (document.getElementById('current-mark-«part»') != null) {
+    			document.getElementById('current-mark-«part»').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal«part» + '</label>';//SETS THE CURRENT MARK
+    		}
+    		var tempMark = weightedMark - penaltyMark;
+    		if (tempMark < 0) {
+    			tempMark = 0.0;
+    		}
+    		if (document.getElementById('weighted-mark-«part»') != null) {
+    			document.getElementById('weighted-mark-«part»').innerHTML = '<label class="text">Current mark: ' + Math.round(tempMark * 100) + '%</label>';//SETS THE WEIGHTED MARK
+    		}
+   			window.location.replace(window.location);
+    	}
+    	«ENDIF»
+    	«ENDFOR»
+	    </script>
+	    <!--«part = 0»-->
+		«FOR exercise : program.exercises»
+		<!--«part++»-->
+		«IF part == 1»
+	    <table class="table-test-«part»" id="table-test-«part»" style="height: 100%; display: block;">
+	    «ELSE»
+	    <table class="table-test-«part»" id="table-test-«part»" style="height: 100%; display: none;">
+	    «ENDIF»
+	    «IF program.config != null»
+	    «IF program.config.navigation == Navigation.FREE»
+		«IF part > 1»
+		<tr>
+		<td align="left">
+		<a href="#" class="test-back-«part - 1»" id="test-back-«part - 1»" onclick="show(«part - 1»);"><img src="images/back.png" alt="back" style="height: 30px; width: 30px;" /></a>
+		</td>
+		</tr>
+		«ENDIF»
+		«ENDIF»
+		«ENDIF»
+		«IF part < program.exercises.length»
+		<tr>
+		<td align="left">
+		<a href="#" class="test-continue-«part + 1»" id="test-continue-«part + 1»" onclick="show(«part + 1»);"><img src="images/continue.png" alt="continue" style="height: 30px; width: 30px;" /></a>
+		</td>
+		</tr>
+		«ENDIF»
+	    <tr>
+		«IF exercise instanceof AlternativeResponse»
+    	«exercise.showone(part)»
+	    «ENDIF»
+		«IF exercise instanceof MultiChoiceDiagram»
+    	«exercise.showall(part)»
+	    «ENDIF»
+	    «IF exercise instanceof MultiChoiceEmendation»
+    	«exercise.show(part)»
+	    «ENDIF»
 		</tr>
 		</table>
+	    «ENDFOR»
 		</body>
 		</html>
 	'''
-
-	def showone(MutatorTests mts) '''
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		<html xmlns="http://www.w3.org/1999/xhtml">
-		<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link type="text/css" rel="stylesheet" href="css/wodel.css">
-        <link type="text/css" rel="stylesheet" href="css/menu.css">
-        <link type="text/css" rel="stylesheet" href="css/table.css">
-        <title>Wodel</title>
-    	</head>
-    	<body style="background-color: white;">
-    	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
-    	<script language="javascript" type="text/javascript">
-    	var currentTotal = «mts.tests.size»;
-		//COUNTER: «num = 0»
-		«FOR test : mts.tests»
-   		//COUNTER: «num = num + 1»
-   		var exercise«num»Mark = false;
-   		«ENDFOR»
-    	function show(num) {
-    		var exercise = null;
-    		//COUNTER: «num = 0»
-    		«FOR test : mts.tests»
-    		//COUNTER: «num = num + 1»
-    		exercise = document.getElementById('exercise-«num»');
-    		if (num == «num») {
-    			exercise.style.display = 'block';
-    		}
-    		else {
-    			exercise.style.display = 'none';
-    		}
-    		«ENDFOR»
-    	}
-    	function right(num, diagram) {
-    		var image = null;
-	    	var currentMark = 0;
-    		//COUNTER: «num = 0»
-    		«FOR test : mts.tests»
-    		//COUNTER: «num = num + 1»
-			//DIAGRAM: «var diagram = rand.get(test).get(0)»
-    		image = document.getElementById('td-exercise-«num»-«diagram»');
-    		if (num == «num») {
-    			if (diagram == '«diagram»') {
-    				image.style.border = '1px solid #000000';
-    				if (diagram == '«test.source.replace('.model', '.png')»') {
-    					exercise«num»Mark = true;
-    					document.getElementById('td-score-null-«num»').style.display = 'none';
-    					document.getElementById('td-score-accept-«num»').style.display = 'block';
-    					document.getElementById('td-score-wrong-«num»').style.display = 'none';
-    					document.getElementById('mark-«num»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
-    				}
-    				else {
-    					exercise«num»Mark = false;
-    					document.getElementById('td-score-null-«num»').style.display = 'none';
-    					document.getElementById('td-score-accept-«num»').style.display = 'none';
-    					document.getElementById('td-score-wrong-«num»').style.display = 'block';
-    					document.getElementById('mark-«num»').innerHTML = '<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />';
-    				}
-    			}
-	    		else {
-    				image.style.border = '';
-    			}
-    			«IF mts.config.retry == Parameter.NO»
-	    		document.getElementById('a-right-«num»-«diagram»').onclick = function() { return; }
-	    		document.getElementById('a-wrong-«num»-«diagram»').onclick = function() { return; }
-	    		«ENDIF»
-    		}
-   			if (exercise«num»Mark == true) {
-   				currentMark = currentMark + 1;
-   			}
-    		«ENDFOR»
-    		document.getElementById('current-mark').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal + '</label>';//SETS THE CURRENT MARK
-			window.location.replace(window.location);
-    	}
-    	function wrong(num, diagram) {
-    		var image = null;
-	    	var currentMark = 0;
-    		//COUNTER: «num = 0»
-    		«FOR test : mts.tests»
-    		//COUNTER: «num = num + 1»
-			//DIAGRAM: «var diagram = rand.get(test).get(0)»
-    		image = document.getElementById('td-exercise-«num»-«diagram»');
-    		if (num == «num») {
-    			if (diagram == '«diagram»') {
-    				image.style.border = '1px solid #000000';
-    				if (diagram != '«test.source.replace('.model', '.png')»') {
-    					exercise«num»Mark = true;
-    					document.getElementById('td-score-null-«num»').style.display = 'none';
-    					document.getElementById('td-score-accept-«num»').style.display = 'block';
-    					document.getElementById('td-score-wrong-«num»').style.display = 'none';
-    					document.getElementById('mark-«num»').innerHTML = '<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />';
-    				}
-    				else {
-    					exercise«num»Mark = false;
-    					document.getElementById('td-score-null-«num»').style.display = 'none';
-    					document.getElementById('td-score-accept-«num»').style.display = 'none';
-    					document.getElementById('td-score-wrong-«num»').style.display = 'block';
-    					document.getElementById('mark-«num»').innerHTML = '<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />';
-    				}
-    			}
-	    		else {
-    				image.style.border = '';
-    			}
-    			«IF mts.config.retry == Parameter.NO»
-	    		document.getElementById('a-right-«num»-«diagram»').onclick = function() { return; }
-	    		document.getElementById('a-wrong-«num»-«diagram»').onclick = function() { return; }
-	    		«ENDIF»
-    		}
-   			if (exercise«num»Mark == true) {
-   				currentMark = currentMark + 1;
-   			}
-    		«ENDFOR»
-    		document.getElementById('current-mark').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal + '</label>';//SETS THE CURRENT MARK
-			window.location.replace(window.location);
-    	}
-	    </script>
-	    <table style="height: 100%;">
-	    <tr>
+	
+	def showone(AlternativeResponse ss, int part) '''
 	    <td valign="top">
 	    <div id="pretty-menu">
 	    <ul>
     	<!--COUNTER: «num = 0»--> 
-		«FOR test : mts.tests»
+		«FOR test : ss.tests»
 			<!--COUNTER: «num = num + 1»-->
-			<li class="score-«num»">
-			<table class="score-«num»" id="score-«num»">
+			<li class="score-«num»-«part»">
+			<table class="score-«num»-«part»" id="score-«num»-«part»">
 			<tr>
-			<td id="td-score-null-«num»" style="display: block;">
+			<td id="td-score-null-«num»-«part»" style="display: block;">
 			<img src="images/null.png" alt="null" style="height: 40px; width: 40px;" />
 			</td>
-			<td id="td-score-accept-«num»" style="display: none;">
+			<td id="td-score-accept-«num»-«part»" style="display: none;">
 			<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />
 			</td>
-			<td id="td-score-wrong-«num»" style="display: none;">
+			<td id="td-score-wrong-«num»-«part»" style="display: none;">
 			<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />
 			</td>
 			<td>
-			<a href="#" class="ex-«num»" id="ex-«num»" onclick="show(«num»);">Exercise «num»</a>
+			<a href="#" class="ex-«num»-«part»" id="ex-«num»-«part»" onclick="show«part»(«num»);">Exercise «num»</a>
 			</td>
 			</tr>
 			</table>
 			</li>
 		«ENDFOR»
-		<li><p class="current-mark" id="current-mark"></p></li>
+		<li><p class="current-mark-«part»" id="current-mark-«part»"></p></li>
 		</ul>
 		</div>
 		</td>
     	<!--COUNTER: «num = 0»--> 
-		«FOR test : mts.tests»
-    		<!--DIAGRAM: «var diagram = rand.get(test).get(0)»-->
+		«FOR test : ss.tests»
+			«IF rand.get(ss).get(test).size > 0»
+    		<!--DIAGRAM: «var diagram = rand.get(ss).get(test).get(0)»-->
 			<!--COUNTER: «num = num + 1»-->
-			<td class="exercise-«num»" id="exercise-«num»" valign="top" style="display: none;">
+			<td class="exercise-«num»-«part»" id="exercise-«num»-«part»" valign="top" style="display: none;">
 			<fieldset valign="top">
-			<legend class="text"><font color="black">«test.question»&nbsp;&nbsp;&nbsp;<div class="mark-«num»" id="mark-«num»"></div></font></legend>
+			<legend class="text"><font color="black">«test.question»&nbsp;&nbsp;&nbsp;<div class="mark-«num»-«part»" id="mark-«num»-«part»"></div></font></legend>
 			<table class="pretty">
 			<tr>
 			<td valign="top">
 			<table class="pretty">
 			<tr>
-			<td id="td-exercise-«num»-«diagram»" valign="top">
-			<a href="#" class="a-exercise-«num»-«diagram»" id="a-exercise-«num»-«diagram»""><img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«diagram»" id="exercise-«num»-«diagram»" name="«» class="images" /></a>
+			<td id="td-exercise-«num»-«part»-«diagram.replace('/', '-')»" valign="top">
+			<img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«part»-«diagram.replace('/', '-')»" id="exercise-«num»-«part»-«diagram.replace('/', '-')»" name="exercise-«num»-«part»-«diagram.replace('/', '-')»" class="images" />
 			</td>
 			</tr>
 			</table>
@@ -394,11 +2273,199 @@ class TestsGenerator implements IGenerator {
 			<td>
 			<table class="pretty" width="100%">
 			<tr>
-			<td id="td-right-«num»-«diagram»" valign="top" style="text-align:left">
-			<a href="#" class="a-right-«num»-«diagram»" id="a-right-«num»-«diagram»" onclick="right(«num»,'«diagram»');"><img src="images/accept.png" alt="accept" style="height: 40px; width: 40px;" class="images" /></a>
+			<td id="td-right-«num»-«part»-«diagram.replace('/', '-')»" valign="top" style="text-align:left">
+			«IF diagram.indexOf('/') > 0»
+			<a href="#" class="a-right-«num»-«part»-«diagram.replace('/', '-')»" id="a-right-«num»-«part»-«diagram.replace('/', '-')»" onclick="right«part»(«num»,'«diagram.substring(diagram.indexOf('/') + 1)»');"><img src="images/accept.png" alt="accept" style="height: 40px; width: 40px;" class="images" /></a>
+			«ELSE»
+			<a href="#" class="a-right-«num»-«part»-«diagram.replace('/', '-')»" id="a-right-«num»-«part»-«diagram.replace('/', '-')»" onclick="right«part»(«num»,'«diagram»');"><img src="images/accept.png" alt="accept" style="height: 40px; width: 40px;" class="images" /></a>
+			«ENDIF»
 			</td>
-			<td id="td-wrong-«num»-«diagram»"" valign="top" style="text-align:right">
-			<a href="#" class="a-wrong-«num»-«diagram»" id="a-wrong-«num»-«diagram»" onclick="wrong(«num»,'«diagram»');"><img src="images/wrong.png" alt="wrong" style="height: 40px; width: 40px;" class="images" /></a>
+			<td id="td-wrong-«num»-«diagram»" valign="top" style="text-align:right">
+			«IF diagram.indexOf('/') > 0»
+			<a href="#" class="a-wrong-«num»-«part»-«diagram.replace('/', '-')»" id="a-wrong-«num»-«part»-«diagram.replace('/', '-')»" onclick="wrong«part»(«num»,'«diagram.substring(diagram.indexOf('/') + 1)»');"><img src="images/wrong.png" alt="wrong" style="height: 40px; width: 40px;" class="images" /></a>
+			«ELSE»
+			<a href="#" class="a-wrong-«num»-«part»-«diagram.replace('/', '-')»" id="a-wrong-«num»-«part»-«diagram.replace('/', '-')»" onclick="wrong«part»(«num»,'«diagram»');"><img src="images/wrong.png" alt="wrong" style="height: 40px; width: 40px;" class="images" /></a>
+			«ENDIF»
+			</td>
+			</tr>
+			</table>
+			</td>
+			</tr>
+			</table>
+			</fieldset>
+			</td>
+			«ENDIF»
+		«ENDFOR»
+	'''
+	
+	def showall(MultiChoiceDiagram ss, int part) '''
+	    <td valign="top">
+	    <div id="pretty-menu">
+	    <ul>
+    	<!--COUNTER: «num = 0»--> 
+		«FOR test : ss.tests»
+			<!--COUNTER: «num = num + 1»-->
+			<li class="score-«num»-«part»">
+			<table class="score-«num»-«part»" id="score-«num»-«part»">
+			<tr>
+			<td id="td-score-null-«num»-«part»" style="display: block;">
+			<img src="images/null.png" alt="null" style="height: 40px; width: 40px;" />
+			</td>
+			<td id="td-score-accept-«num»-«part»" style="display: none;">
+			<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />
+			</td>
+			<td id="td-score-wrong-«num»-«part»" style="display: none;">
+			<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />
+			</td>
+			<td>
+			<a href="#" class="ex-«num»-«part»" id="ex-«num»-«part»" onclick="show«part»(«num»);">Exercise «num»</a>
+			</td>
+			</tr>
+			</table>
+			</li>
+		«ENDFOR»
+		<li><p class="current-mark-«part»" id="current-mark-«part»"></p></li>
+		</ul>
+		</div>
+		</td>
+    	<!--COUNTER: «num = 0»--> 
+		«FOR test : ss.tests»
+			<!--COUNTER: «num = num + 1»-->
+			<td class="exercise-«num»-«part»" id="exercise-«num»-«part»" valign="top" style="display: none;">
+			<fieldset valign="top">
+			<legend class="text"><font color="black">«test.question»&nbsp;&nbsp;&nbsp;<div class="mark-«num»-«part»" id="mark-«num»-«part»"></div></font></legend>
+			<table class="pretty">
+			<tr>
+			<td valign="top">
+			<table class="pretty">
+			<tr>
+			«FOR diagram : rand.get(ss).get(test)»
+			<td id="td-exercise-«num»-«part»-«diagram.replace('/', '-')»" valign="top">
+			«IF diagram.indexOf('/') > 0»
+			<a href="#" class="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" id="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" onclick="check«part»(«num»,'«diagram.substring(diagram.indexOf('/') + 1)»');"><img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«diagram.replace('/', '-')»" id="exercise-«num»-«diagram.replace('/', '-')»" name="exercise-«num»-«diagram.replace('/', '-')»" class="images" /></a>
+			«ELSE»
+			<a href="#" class="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" id="a-exercise-«num»-«part»-«diagram.replace('/', '-')»" onclick="check«part»(«num»,'«diagram»');"><img src="diagrams/«test.source.replace('.model', '')»/«diagram»" title="exercise-«num»-«diagram.replace('/', '-')»" id="exercise-«num»-«diagram.replace('/', '-')»" name="exercise-«num»-«diagram.replace('/', '-')»" class="images" /></a>
+			«ENDIF»
+			</td>
+			«ENDFOR»
+			</tr>
+			</table>
+			</td>
+			</tr>
+			</table>
+			</fieldset>
+			</td>
+		«ENDFOR»
+	'''
+
+	def show(MultiChoiceEmendation sc, int part) '''
+	    <td valign="top">
+	    <div id="pretty-menu">
+	    <ul>
+    	<!--COUNTER: «num = 0»--> 
+		«FOR test : tests.get(sc)»
+			<!--COUNTER: «num = num + 1»-->
+			<li class="score-«num»-«part»">
+			<table class="score-«num»-«part»" id="score-«num»-«part»">
+			<tr>
+			<td id="td-score-null-«num»-«part»" style="display: block;">
+			<img src="images/null.png" alt="null" style="height: 40px; width: 40px;" />
+			</td>
+			<td id="td-score-accept-«num»-«part»" style="display: none;">
+			<img src="images/accept.png" alt="ok" style="height: 40px; width: 40px;" />
+			</td>
+			<td id="td-score-wrong-«num»-«part»" style="display: none;">
+			<img src="images/wrong.png" alt="error" style="height: 40px; width: 40px;" />
+			</td>
+			<td>
+			<a href="#" class="ex-«num»-«part»" id="ex-«num»-«part»" onclick="show«part»(«num»);">Exercise «num»</a>
+			</td>
+			</tr>
+			</table>
+			</li>
+		«ENDFOR»
+		«IF sc.config.weighted == false»
+		<li><p class="current-mark-«part»" id="current-mark-«part»"></p></li>
+		<li><p class="weighted-mark-«part»" id="weighted-mark-«part»" style="display: none;"></p></li>
+		«ENDIF»
+		«IF sc.config.weighted == true»
+		<li><p class="current-mark-«part»" id="current-mark-«part»" style="display: none;"></p></li>
+		<li><p class="weighted-mark-«part»" id="weighted-mark-«part»"></p></li>
+		«ENDIF»
+		</ul>
+		</div>
+		</td>
+    	<!--COUNTER: «num = 0»--> 
+		«FOR test : tests.get(sc)»
+			<!--«var String diagram = ''»-->
+			«IF (options.get(sc).get(test) != null)»
+			«FOR opt : options.get(sc).get(test)»
+			«IF opt.solution == true»
+				<!--«diagram = opt.path»-->
+			«ENDIF»
+			«ENDFOR»
+			«ENDIF»
+			«System.out.println("diagram: " + diagram)»
+			<!--COUNTER: «num = num + 1»-->
+			<td class="exercise-«num»-«part»" id="exercise-«num»-«part»" valign="top" style="display: none;">
+			<fieldset valign="top">
+			<legend class="text"><font color="black">«test.question»&nbsp;&nbsp;&nbsp;<div class="mark-«num»-«part»" id="mark-«num»-«part»"></div></font></legend>
+			<table class="pretty">
+			<tr>
+			<td valign="top">
+			<table class="pretty">
+			<tr>
+			<td id="td-exercise-«num»-«part»-«diagram.replace('/', '-')»" valign="top">
+			<img src="«diagram»" title="exercise-«num»-«part»-«diagram.replace('/', '-')»" id="exercise-«num»-«part»-«diagram.replace('/', '-')»" name="exercise-«num»-«part»-«diagram.replace('/', '-')»" class="images" />
+			</td>
+			</tr>
+			</table>
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<table class="pretty" width="100%">
+			<!--«var i = 0»-->
+			«IF options.get(sc).get(test) != null»
+			«FOR opt : options.get(sc).get(test)»
+			«IF sc.config.mode == Mode.CHECKBOX»
+			«IF opt.text.size > 0»
+			<tr>
+			<td valign="top" style="text-align:left">
+			<input type="checkbox" name="checkbox-«num»-«part»-«diagram.replace('/', '-')»" value="«opt.path.replace('/', '-')»-«i»" />
+			«opt.text.get(0)»
+			<!--«i++»-->
+			<td>
+			</tr>
+			«ENDIF»
+			«ELSEIF sc.config.mode == Mode.RADIOBUTTON»
+			<tr>
+			<td valign="top" style="text-align:left">
+			<input type="radio" name="radiobutton-«num»-«part»-«diagram.replace('/', '-')»" value="«opt.path.replace('/', '-')»-«i»" />
+			<!--«var j = 0»-->
+			«FOR text : opt.text»
+			«IF j < opt.text.size»
+			«text»<br/>
+			«ELSE»
+			«text»
+			«ENDIF»
+			<!--«j++»-->
+			«ENDFOR»
+			<!--«i++»-->
+			<td>
+			</tr>
+			«ENDIF»
+			«ENDFOR»
+			«ENDIF»
+			</table>
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<table class="pretty" width="100%">
+			<tr>
+			<td id="td-submit-«num»-«part»-«diagram.replace('/', '-')»" valign="top" style="text-align:left">
+			<a href="#" class="a-submit-«num»-«part»-«diagram.replace('/', '-')»" id="a-submit-«num»-«part»-«diagram.replace('/', '-')»" onclick="submit«part»(«num»,'«diagram.replace('/', '-')»');"><img src="images/submit.png" alt="submit" style="height: 40px; width: 160px;" class="images" /></a>
 			</td>
 			</tr>
 			</table>
@@ -408,9 +2475,5 @@ class TestsGenerator implements IGenerator {
 			</fieldset>
 			</td>
 		«ENDFOR»
-		</tr>
-		</table>
-		</body>
-		</html>
 	'''
 }

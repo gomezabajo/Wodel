@@ -1,5 +1,7 @@
 package manager;
 
+import identifyelements.Element;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -25,6 +27,7 @@ import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.core.runtime.*;
 import org.eclipse.emf.common.util.EList;
@@ -46,6 +49,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -76,6 +80,7 @@ import commands.selection.strategies.ObSelectionStrategy;
 import commands.selection.strategies.RandomTypeSelection;
 import commands.strategies.AttributeConfigurationStrategy;
 import commands.strategies.ReferenceConfigurationStrategy;
+import configureoptions.Option;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import exceptions.ReferenceNonExistingException;
@@ -143,6 +148,7 @@ public class ModelManager {
 		return ret;
 
 	}
+	
 
 	public static URI createURI(String path) {
 		return createURI(path, null);
@@ -192,16 +198,15 @@ public class ModelManager {
 		IPath path = Platform.getLocation().makeAbsolute();
 		System.out.println("PATH: " + path.toOSString());
 
-		URI uri = null;
+		URI uri = URI.createFileURI(model);
 
 		// The URI is relative so we have to complete it
-		if (URI.createURI(model).isRelative()) {
+		if (uri.hasAbsolutePath() != true) {
 			uri = URI.createFileURI(path.toString() + "/"
 					+ WodelContext.getProject() + "/" + model);
 			System.out.println("Relative:" + path.toString() + "/"
 					+ WodelContext.getProject() + "/" + model);
 		} else {
-			uri = URI.createFileURI(model);
 			System.out.println("No Relative:" + model);
 		}
 
@@ -239,6 +244,21 @@ public class ModelManager {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
 					+ WodelContext.getProject();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/config/config.txt"));
+
+			return path + '/' + br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMetaModelPath(String project) {
+		try {
+			String path = getWorkspaceAbsolutePath() + '/' + project;
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/config/config.txt"));
@@ -379,6 +399,39 @@ public class ModelManager {
 	 */
 	public static Resource loadModel(ArrayList<EPackage> packages,
 			String modelURI) throws ModelNotFoundException {
+		if (modelURI == null) {
+			System.out.println("-->modelURI:" + modelURI);
+		}
+		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
+		URI uri = ModelManager.getModelWithFolder(modelURI);
+		for (EPackage p : packages) {
+			// Add packages to package registry
+			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
+				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
+		}
+		Resource model;
+		try {
+			model = resourceSet.createResource(uri);
+			model.load(null);
+			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
+			// load model using the URI
+		} catch (IOException r) {
+			throw new ModelNotFoundException(modelURI);
+		}
+
+		return model;
+	}
+	
+	/**
+	 * @param packages
+	 *            MetaModel
+	 * @param modelURI
+	 *            URI of the Model
+	 * @return Resource Loaded Model
+	 * @throws
+	 */
+	public static Resource loadMetaModelAsResource(ArrayList<EPackage> packages,
+			String modelURI) throws ModelNotFoundException {
 
 		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
 		URI uri = ModelManager.getModelWithFolder(modelURI);
@@ -398,6 +451,25 @@ public class ModelManager {
 		}
 
 		return model;
+	}
+
+	/**
+	 * @param metamodel
+	 *            : path of the MetaModel
+	 * @return boolean True if the MetaModel is validated
+	 * @throws MetaModelNotFoundException, ModelNotFoundException
+	 */
+	public static boolean validateMetaModel(String metamodel)
+			throws MetaModelNotFoundException, ModelNotFoundException {
+		
+		ArrayList<EPackage> packages = loadMetaModel(metamodel);
+		Resource rs = loadMetaModelAsResource(packages, metamodel);
+		
+		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(rs.getContents().get(0));
+		if (diagnostic.getSeverity() != Diagnostic.OK) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -567,6 +639,38 @@ public class ModelManager {
 		}
 
 		return parents;
+
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @param containment
+	 *            Name of the containment Class
+	 * @return Containers
+	 */
+	public static ArrayList<EObject> getContainerObjects(Resource model,
+			String containment) {
+
+		ArrayList<EObject> objs = new ArrayList<EObject>();
+		ArrayList<EObject> containers = new ArrayList<EObject>();
+
+		objs = getAllObjects(model);
+
+		for (EObject o : objs) {
+			// We search the references inside the objects
+			for (EObject cont : o.eContents()) {
+				if (cont instanceof EReference) {
+					EReference ref = (EReference) cont;
+					if (ref.getEType().getName().equals(containment)) {
+						containers.add(o);
+						containers.addAll(getContainerObjects(model, ((EClass) o).getName()));
+					}
+				}
+			}
+		}
+
+		return containers;
 
 	}
 
@@ -1070,6 +1174,27 @@ public class ModelManager {
 		}
 		return sf;
 	}
+	
+	/**
+	 * @param name
+	 *            Name of the reference
+	 * @param object
+	 *            Object one wants to explore
+	 * @return EStructuralFeature Specified reference
+	 */
+	public static EStructuralFeature getAttributeByName(String name,
+			EObject object) {
+		EStructuralFeature sf = null;
+
+		List<EAttribute> atts = getAttributes(object);
+
+		for (EStructuralFeature sf2 : atts) {
+			if (sf2.getName().equals(name)) {
+				sf = sf2;
+			}
+		}
+		return sf;
+	}
 
 	/**
 	 * @param model
@@ -1253,5 +1378,115 @@ public class ModelManager {
 			}
 		}
 		return count;
+	}
+	
+	public static ArrayList<EObject> getMutations(ArrayList<EObject> objects) {
+		ArrayList<EObject> mutations = new ArrayList<EObject>();
+		for (EObject obj : objects) {
+			String name = obj.eClass().getName();
+			if (name.equals("ObjectCreated")
+					|| name.equals("ObjectRemoved")
+					|| name.equals("SourceReferenceChanged")
+					|| name.equals("TargetReferenceChanged")
+					|| name.equals("ReferenceCreated")
+					|| name.equals("ReferenceRemoved")
+					|| name.equals("InformationChanged")
+					|| name.equals("AttributeChanged")
+					|| name.equals("ReferenceSwap")
+					|| name.equals("AttributeSwap")) {
+				mutations.add(obj);
+			}
+		}
+		
+		return mutations;
+	}
+	
+	public static Option getConfigureOption(String type, Resource model) {
+		Iterator<EObject> objects = model.getAllContents();
+
+		while (objects.hasNext()) {
+			EObject object = objects.next();
+			if (object instanceof Option) {
+				Option opt = (Option) object;
+				if (opt.getType().getName().equals(type)) {
+					return opt;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static Element getElement(EObject object, Resource model) {
+		Iterator<EObject> objects = model.getAllContents();
+
+//		while (objects.hasNext()) {
+//			EObject obj = objects.next();
+//			if (obj instanceof Element) {
+//				Element element = (Element) obj;
+//				if (element.getType().getName().equals(object.eClass().getName())) {
+//					if (element.getAtt() != null) {
+//						if (element.getAtt().getNegation() == Negation.YES) { 
+//							System.out.println("element.getAtt().getAtt().getName(): " + element.getAtt().getAtt().getName());
+//							System.out.println("object.eGet(ModelManager.getAttributeByName('name', object)): " + object.eGet(ModelManager.getAttributeByName("name", object)));
+//							System.out.println("object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)): " + object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)));
+//							boolean value = (boolean) object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object));
+//							if (value == true) {
+//								return element;
+//							}
+//							continue;
+//						}
+//						if (element.getAtt().getNegation() == Negation.NOT) { 
+//							System.out.println("element.getAtt().getAtt().getName(): " + element.getAtt().getAtt().getName());
+//							System.out.println("object.eGet(ModelManager.getAttributeByName('name', object)): " + object.eGet(ModelManager.getAttributeByName("name", object)));
+//							System.out.println("object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)): " + object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)));
+//							boolean value = (boolean) object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object));
+//							if (value == false) {
+//								return element;
+//							}
+//							continue;
+//						}
+//					}
+//				}
+//			}
+//		}
+		objects = model.getAllContents();
+		while (objects.hasNext()) {
+			EObject obj = objects.next();
+			if (obj instanceof Element) {
+				Element element = (Element) obj;
+				if (element.getType().getName().equals(object.eClass().getName())) {
+					if (element.getAtt() == null) {
+						return element;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	public static Element getRefElement(EObject object, EStructuralFeature feature, Resource model) {
+		Iterator<EObject> objects = model.getAllContents();
+
+		objects = model.getAllContents();
+		while (objects.hasNext()) {
+			EObject obj = objects.next();
+			if (obj instanceof Element) {
+				Element element = (Element) obj;
+				if (element.getType().getName().equals(object.eClass().getName())) {
+					if (element.getAtt() == null) {
+						if (feature != null) {
+							if (element.getRef() != null) {
+								if (element.getRef().getName().equals(feature.getName())) {
+									return element;
+								}
+							}
+						}
+						else {
+							return element;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

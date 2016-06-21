@@ -3,12 +3,17 @@
 package mutatorenvironment.impl;
 
 import java.util.Collection;
+
 import mutatorenvironment.AttributeSet;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -24,7 +29,8 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *
  * @generated
  */
-public class AttributeSetImpl extends MinimalEObjectImpl.Container implements AttributeSet {
+public class AttributeSetImpl extends MinimalEObjectImpl.Container implements AttributeSet
+{
 	/**
 	 * The cached value of the '{@link #getAttribute() <em>Attribute</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -40,7 +46,8 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeSetImpl() {
+	protected AttributeSetImpl()
+	{
 		super();
 	}
 
@@ -50,7 +57,8 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.ATTRIBUTE_SET;
 	}
 
@@ -59,8 +67,10 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EAttribute> getAttribute() {
-		if (attribute == null) {
+	public EList<EAttribute> getAttribute()
+	{
+		if (attribute == null)
+		{
 			attribute = new EObjectResolvingEList<EAttribute>(EAttribute.class, this, MutatorenvironmentPackage.ATTRIBUTE_SET__ATTRIBUTE);
 		}
 		return attribute;
@@ -72,8 +82,10 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_SET__ATTRIBUTE:
 				return getAttribute();
 		}
@@ -87,8 +99,10 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_SET__ATTRIBUTE:
 				getAttribute().clear();
 				getAttribute().addAll((Collection<? extends EAttribute>)newValue);
@@ -103,8 +117,10 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_SET__ATTRIBUTE:
 				getAttribute().clear();
 				return;
@@ -118,8 +134,10 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.ATTRIBUTE_SET__ATTRIBUTE:
 				return attribute != null && !attribute.isEmpty();
 		}

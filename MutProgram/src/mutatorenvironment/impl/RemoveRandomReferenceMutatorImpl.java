@@ -26,7 +26,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl implements RemoveRandomReferenceMutator {
+public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl implements RemoveRandomReferenceMutator
+{
 	/**
 	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -36,12 +37,14 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * @ordered
 	 */
 	protected EReference refType;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RemoveRandomReferenceMutatorImpl() {
+	protected RemoveRandomReferenceMutatorImpl()
+	{
 		super();
 	}
 
@@ -51,7 +54,8 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REMOVE_RANDOM_REFERENCE_MUTATOR;
 	}
 
@@ -60,11 +64,14 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
+	public EReference getRefType()
+	{
+		if (refType != null && refType.eIsProxy())
+		{
 			InternalEObject oldRefType = (InternalEObject)refType;
 			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+			if (refType != oldRefType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REMOVE_RANDOM_REFERENCE_MUTATOR__REF_TYPE, oldRefType, refType));
 			}
@@ -77,7 +84,8 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
+	public EReference basicGetRefType()
+	{
 		return refType;
 	}
 
@@ -86,7 +94,8 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
+	public void setRefType(EReference newRefType)
+	{
 		EReference oldRefType = refType;
 		refType = newRefType;
 		if (eNotificationRequired())
@@ -99,8 +108,10 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_RANDOM_REFERENCE_MUTATOR__REF_TYPE:
 				if (resolve) return getRefType();
 				return basicGetRefType();
@@ -114,8 +125,10 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_RANDOM_REFERENCE_MUTATOR__REF_TYPE:
 				setRefType((EReference)newValue);
 				return;
@@ -129,8 +142,10 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_RANDOM_REFERENCE_MUTATOR__REF_TYPE:
 				setRefType((EReference)null);
 				return;
@@ -144,8 +159,10 @@ public class RemoveRandomReferenceMutatorImpl extends RemoveReferenceMutatorImpl
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_RANDOM_REFERENCE_MUTATOR__REF_TYPE:
 				return refType != null;
 		}

@@ -45,6 +45,8 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import mutatorenvironment.ReferenceSwap
 import mutatorenvironment.ReferenceSet
 import mutatorenvironment.ObSelectionStrategy
+import mutatorenvironment.Block
+import mutatorenvironment.Constraint
 
 /**
  * This class contains custom scoping description.
@@ -422,10 +424,12 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def private ArrayList<EClass> HelperRandomTypeSelectionModelEClasses(Definition definition, Program program) {
 		val scope = new ArrayList()
-		if (program.source.multiple == false) {
+		/*if (program.source.multiple == false) {*/
+		if (!program.source.path.endsWith('/')) {
         	scope.addAll(getModelEClasses(definition.metamodel, program.source.path))
         }
-		if (program.source.multiple == true) {
+        if (program.source.path.endsWith('/')) {
+		/*if (program.source.multiple == true) {*/
         	val File[] files = new File(program.source.path).listFiles()
         	for (file : files) {
 				if (file.isFile() == true) {
@@ -506,7 +510,8 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
         
         if(definition instanceof Program) {
         	val scope = new ArrayList()
-			if (definition.source.multiple == false) {
+        	if (!definition.source.path.endsWith('/')) {
+			/*if (definition.source.multiple == false) {*/
         		val String model = definition.source.path
         		val List<EClass> classes  = getModelEClasses(definition.metamodel, model)
         		val List<String> sclasses = new ArrayList<String>() 
@@ -522,7 +527,8 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
 		        	scope.addAll(objects)
 				}
 			}
-			if (definition.source.multiple == true) {
+			if (definition.source.path.endsWith('/')) {
+			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
 				val File[] files = new File(definition.source.path).listFiles()
         		for (file : files) {
@@ -594,10 +600,12 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def private ArrayList<EClass> HelperRandomTypeSelectionModelESources(Definition definition, Program program, String refTypeName) {
 		val scope = new ArrayList()
-		if (program.source.multiple == false) {
+		if (!program.source.path.endsWith('/')) {
+		/*if (program.source.multiple == false) {*/
         	scope.addAll(getModelEClasses(definition.metamodel, program.source.path))
         }
-		if (program.source.multiple == true) {
+        if (program.source.path.endsWith('/')) {
+		/*if (program.source.multiple == true) { */
         	val File[] files = new File(program.source.path).listFiles()
         	for (file : files) {
 				if (file.isFile() == true) {
@@ -705,7 +713,8 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
         
         if(definition instanceof Program) {
         	val scope = new ArrayList()
-			if (definition.source.multiple == false) {
+        	if (!definition.source.path.endsWith('/')) {
+			/*if (definition.source.multiple == false) {*/
         		val String model = definition.source.path
 	        	val List<EClass> containers  = getModelESources(definition.metamodel, model, com.refType.name)
 	        	val List<String> scontainers = new ArrayList<String>() 
@@ -720,7 +729,8 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
 				}
 	        	scope.addAll(objects)
     	    }
-			if (definition.source.multiple == true) {
+    	    if (definition.source.path.endsWith('/')) {
+			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
 				val File[] files = new File(definition.source.path).listFiles()
         		for (file : files) {
@@ -1098,6 +1108,17 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
        	Scopes.scopeFor(scope)             
     }
     
+    /**
+	 * Constraint.type can contain any EClass from the input meta-model.
+	 */
+	def IScope scope_Constraint_type(Constraint c, EReference ref) {
+		System.out.println("34.")
+		val MutatorEnvironment env = getMutatorEnvironment(c)
+        val Definition  definition = env.definition
+       	// add metamodel classes to scope
+       	Scopes.scopeFor( getEClasses(definition.metamodel) )   
+	}				
+    
  	//--------------------------------------------------------------------------------------
 	// PRIVATE METHODS
 	//--------------------------------------------------------------------------------------
@@ -1107,6 +1128,7 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
 	 */
 	 def private MutatorEnvironment getMutatorEnvironment (ObjectEmitter oe) { EcoreUtil2.getContainerOfType(oe, MutatorEnvironment) }
 	 def private MutatorEnvironment getMutatorEnvironment (ReferenceSet  oe) { EcoreUtil2.getContainerOfType(oe, MutatorEnvironment) }
+	 def private MutatorEnvironment getMutatorEnvironment (Constraint oe) { EcoreUtil2.getContainerOfType(oe, MutatorEnvironment) }
 	 
 	/**
 	 * It returns the list of commands in the scope of the received mutator. 
@@ -1115,6 +1137,7 @@ class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * @return List<Mutator>
 	 */
 	def private List<Mutator> getCommands (Mutator com) {
+		if (com.eContainer instanceof Block) return (com.eContainer as Block).commands
 		if (com.eContainer instanceof CompositeMutator)   return (com.eContainer as CompositeMutator).commands
 		if (com.eContainer instanceof MutatorEnvironment) return (com.eContainer as MutatorEnvironment).commands
 		return new ArrayList<Mutator>()

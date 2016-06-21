@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.AttributeReverse;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class AttributeReverseImpl extends AttributeSetImpl implements AttributeReverse {
+public class AttributeReverseImpl extends AttributeSetImpl implements AttributeReverse
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeReverseImpl() {
+	protected AttributeReverseImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public class AttributeReverseImpl extends AttributeSetImpl implements AttributeR
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.ATTRIBUTE_REVERSE;
 	}
 

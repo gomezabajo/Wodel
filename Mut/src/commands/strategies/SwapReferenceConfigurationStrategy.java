@@ -20,6 +20,10 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	protected EReference target;
 	protected EObject eobjsrc;
 	protected EObject eobjtar;
+	protected EObject othereobjsrc;
+	protected String othereobjsrcname;
+	protected EObject othereobjtar;
+	protected String othereobjtarname;
 	
 	@Override
 	public boolean sameType() {
@@ -50,6 +54,27 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				break;
 			}
 		}
+		
+		for (EReference r : ModelManager.getReferences(o)) {
+			if (r.getName().equals(source)) {
+				continue;
+			}
+			if (r.getEType().getName().equals(((EObject) o.eGet(this.source)).eClass().getName())) {
+				othereobjsrc = (EObject) o.eGet(r, true);
+				othereobjsrcname = r.getName();
+			}
+		}
+				
+		for (EReference r : ModelManager.getReferences(o)) {
+			if (r.getName().equals(target)) {
+				continue;
+			}
+			if (r.getEType().getName().equals(((EObject) o.eGet(this.target)).eClass().getName())) {
+				othereobjtar = (EObject) o.eGet(r, true);
+				othereobjtarname = r.getName();
+			}
+		}
+
 		eobjsrc = EcoreUtil.copy(o);
 		eobjtar = EcoreUtil.copy(o);
 		
@@ -76,6 +101,26 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				break;
 			}
 		}
+		
+		for (EReference r : ModelManager.getReferences(obj_src)) {
+			if (r.getName().equals(source)) {
+				continue;
+			}
+			if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
+				othereobjsrc = (EObject) obj_src.eGet(r, true);
+				othereobjsrcname = r.getName();
+			}
+		}
+				
+		for (EReference r : ModelManager.getReferences(obj_tar)) {
+			if (r.getName().equals(target)) {
+				continue;
+			}
+			if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
+				othereobjtar = (EObject) obj_tar.eGet(r, true);
+				othereobjtarname = r.getName();
+			}
+		}
 
 		eobjsrc = EcoreUtil.copy(obj_src);
 		eobjtar = EcoreUtil.copy(obj_tar);
@@ -100,6 +145,28 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				break;
 			}
 		}
+		
+		for (EReference r : ModelManager.getReferences(obj_src)) {
+			if (r.getName().equals(source)) {
+				continue;
+			}
+			System.out.println("obj_src.eGet(r): " + obj_src.eGet(r));
+			if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
+				othereobjsrc = (EObject) obj_src.eGet(r, true);
+				othereobjsrcname = r.getName();
+			}
+		}
+				
+		for (EReference r : ModelManager.getReferences(obj_tar)) {
+			if (r.getName().equals(target)) {
+				continue;
+			}
+			if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
+				othereobjtar = (EObject) obj_tar.eGet(r, true);
+				othereobjtarname = r.getName();
+			}
+		}
+		
 		eobjsrc = EcoreUtil.copy(obj_src);
 		eobjtar = EcoreUtil.copy(obj_tar);
 
@@ -122,5 +189,21 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	
 	public EObject getRefObject() {
 		return eobjtar;
+	}
+	
+	public EObject getOtherSource() {
+		return othereobjsrc;
+	}
+	
+	public String getOtherSourceName() {
+		return othereobjsrcname;
+	}
+
+	public EObject getOtherTarget() {
+		return othereobjtar;
+	}
+	
+	public String getOtherTargetName() {
+		return othereobjtarname;
 	}
 }

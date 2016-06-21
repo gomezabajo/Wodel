@@ -20,13 +20,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link mutatorenvironment.impl.SourceImpl#getPath <em>Path</em>}</li>
- *   <li>{@link mutatorenvironment.impl.SourceImpl#isMultiple <em>Multiple</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
+public class SourceImpl extends MinimalEObjectImpl.Container implements Source
+{
 	/**
 	 * The default value of the '{@link #getPath() <em>Path</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -48,31 +48,12 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	protected String path = PATH_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isMultiple() <em>Multiple</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isMultiple()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean MULTIPLE_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isMultiple() <em>Multiple</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isMultiple()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean multiple = MULTIPLE_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SourceImpl() {
+	protected SourceImpl()
+	{
 		super();
 	}
 
@@ -82,7 +63,8 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.SOURCE;
 	}
 
@@ -91,7 +73,8 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPath() {
+	public String getPath()
+	{
 		return path;
 	}
 
@@ -100,7 +83,8 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPath(String newPath) {
+	public void setPath(String newPath)
+	{
 		String oldPath = path;
 		path = newPath;
 		if (eNotificationRequired())
@@ -112,34 +96,13 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isMultiple() {
-		return multiple;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMultiple(boolean newMultiple) {
-		boolean oldMultiple = multiple;
-		multiple = newMultiple;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SOURCE__MULTIPLE, oldMultiple, multiple));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SOURCE__PATH:
 				return getPath();
-			case MutatorenvironmentPackage.SOURCE__MULTIPLE:
-				return isMultiple();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -150,13 +113,12 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SOURCE__PATH:
 				setPath((String)newValue);
-				return;
-			case MutatorenvironmentPackage.SOURCE__MULTIPLE:
-				setMultiple((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -168,13 +130,12 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SOURCE__PATH:
 				setPath(PATH_EDEFAULT);
-				return;
-			case MutatorenvironmentPackage.SOURCE__MULTIPLE:
-				setMultiple(MULTIPLE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -186,12 +147,12 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SOURCE__PATH:
 				return PATH_EDEFAULT == null ? path != null : !PATH_EDEFAULT.equals(path);
-			case MutatorenvironmentPackage.SOURCE__MULTIPLE:
-				return multiple != MULTIPLE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -202,14 +163,13 @@ public class SourceImpl extends MinimalEObjectImpl.Container implements Source {
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (path: ");
 		result.append(path);
-		result.append(", multiple: ");
-		result.append(multiple);
 		result.append(')');
 		return result.toString();
 	}

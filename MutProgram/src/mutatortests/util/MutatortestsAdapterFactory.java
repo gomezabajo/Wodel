@@ -68,12 +68,40 @@ public class MutatortestsAdapterFactory extends AdapterFactoryImpl {
 	protected MutatortestsSwitch<Adapter> modelSwitch =
 		new MutatortestsSwitch<Adapter>() {
 			@Override
+			public Adapter caseProgram(Program object) {
+				return createProgramAdapter();
+			}
+			@Override
 			public Adapter caseMutatorTests(MutatorTests object) {
 				return createMutatorTestsAdapter();
 			}
 			@Override
 			public Adapter caseConfiguration(Configuration object) {
 				return createConfigurationAdapter();
+			}
+			@Override
+			public Adapter caseProgramConfiguration(ProgramConfiguration object) {
+				return createProgramConfigurationAdapter();
+			}
+			@Override
+			public Adapter caseTestConfiguration(TestConfiguration object) {
+				return createTestConfigurationAdapter();
+			}
+			@Override
+			public Adapter caseMultiChoiceEmConfig(MultiChoiceEmConfig object) {
+				return createMultiChoiceEmConfigAdapter();
+			}
+			@Override
+			public Adapter caseAlternativeResponse(AlternativeResponse object) {
+				return createAlternativeResponseAdapter();
+			}
+			@Override
+			public Adapter caseMultiChoiceDiagram(MultiChoiceDiagram object) {
+				return createMultiChoiceDiagramAdapter();
+			}
+			@Override
+			public Adapter caseMultiChoiceEmendation(MultiChoiceEmendation object) {
+				return createMultiChoiceEmendationAdapter();
 			}
 			@Override
 			public Adapter caseTest(Test object) {
@@ -100,6 +128,20 @@ public class MutatortestsAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.Program <em>Program</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.Program
+	 * @generated
+	 */
+	public Adapter createProgramAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link mutatortests.MutatorTests <em>Mutator Tests</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -124,6 +166,90 @@ public class MutatortestsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.ProgramConfiguration <em>Program Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.ProgramConfiguration
+	 * @generated
+	 */
+	public Adapter createProgramConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.TestConfiguration <em>Test Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.TestConfiguration
+	 * @generated
+	 */
+	public Adapter createTestConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.MultiChoiceEmConfig <em>Multi Choice Em Config</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.MultiChoiceEmConfig
+	 * @generated
+	 */
+	public Adapter createMultiChoiceEmConfigAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.AlternativeResponse <em>Alternative Response</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.AlternativeResponse
+	 * @generated
+	 */
+	public Adapter createAlternativeResponseAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.MultiChoiceDiagram <em>Multi Choice Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.MultiChoiceDiagram
+	 * @generated
+	 */
+	public Adapter createMultiChoiceDiagramAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatortests.MultiChoiceEmendation <em>Multi Choice Emendation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatortests.MultiChoiceEmendation
+	 * @generated
+	 */
+	public Adapter createMultiChoiceEmendationAdapter() {
 		return null;
 	}
 

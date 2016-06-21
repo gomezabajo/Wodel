@@ -3,10 +3,14 @@
 package mutatorenvironment.impl;
 
 import java.util.Collection;
+
 import mutatorenvironment.ListStringType;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 /**
@@ -22,7 +26,8 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  *
  * @generated
  */
-public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringType {
+public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringType
+{
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute list.
 	 * <!-- begin-user-doc -->
@@ -32,12 +37,14 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * @ordered
 	 */
 	protected EList<String> value;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ListStringTypeImpl() {
+	protected ListStringTypeImpl()
+	{
 		super();
 	}
 
@@ -47,7 +54,8 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.LIST_STRING_TYPE;
 	}
 
@@ -56,8 +64,10 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<String> getValue() {
-		if (value == null) {
+	public EList<String> getValue()
+	{
+		if (value == null)
+		{
 			value = new EDataTypeUniqueEList<String>(String.class, this, MutatorenvironmentPackage.LIST_STRING_TYPE__VALUE);
 		}
 		return value;
@@ -69,8 +79,10 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LIST_STRING_TYPE__VALUE:
 				return getValue();
 		}
@@ -84,8 +96,10 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LIST_STRING_TYPE__VALUE:
 				getValue().clear();
 				getValue().addAll((Collection<? extends String>)newValue);
@@ -100,8 +114,10 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LIST_STRING_TYPE__VALUE:
 				getValue().clear();
 				return;
@@ -115,8 +131,10 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LIST_STRING_TYPE__VALUE:
 				return value != null && !value.isEmpty();
 		}
@@ -129,7 +147,8 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

@@ -21,7 +21,13 @@ Export-Package: appliedMutations,
  mutatortests.util,
  mutatorgraph,
  mutatorgraph.impl,
- mutatorgraph.util
+ mutatorgraph.util,
+ identifyelements,
+ identifyelements.impl,
+ identifyelements.util,
+ configureoptions,
+ configureoptions.impl,
+ configureoptions.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy

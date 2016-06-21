@@ -25,6 +25,12 @@ Workflow {
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}.ui/src-gen"
 	}
+	
+	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+        genModel = "platform:/resource/MutProgram/models/MutatorEnvironment.genmodel"
+        srcPath = "platform:/resource/MutProgram/src"
+    }
+ 
 
 	component = Generator {
 		pathRtProject = runtimeProject

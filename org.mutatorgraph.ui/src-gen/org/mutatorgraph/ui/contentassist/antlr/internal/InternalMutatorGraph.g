@@ -189,25 +189,6 @@ finally {
 
 
 
-// Rule Negation
-ruleNegation
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-(
-{ before(grammarAccess.getNegationAccess().getAlternatives()); }
-(rule__Negation__Alternatives)
-{ after(grammarAccess.getNegationAccess().getAlternatives()); }
-)
-
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-
 // Rule NodeType
 ruleNodeType
     @init {
@@ -268,23 +249,23 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Negation__Alternatives
+rule__Node__Alternatives_3
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getNegationAccess().getNotEnumLiteralDeclaration_0()); }
-(	'not' 
-)
-{ after(grammarAccess.getNegationAccess().getNotEnumLiteralDeclaration_0()); }
+{ before(grammarAccess.getNodeAccess().getNegationAssignment_3_0()); }
+(rule__Node__NegationAssignment_3_0)
+{ after(grammarAccess.getNodeAccess().getNegationAssignment_3_0()); }
 )
 
     |(
-{ before(grammarAccess.getNegationAccess().getYesEnumLiteralDeclaration_1()); }
-(	'yes' 
-)
-{ after(grammarAccess.getNegationAccess().getYesEnumLiteralDeclaration_1()); }
+{ before(grammarAccess.getNodeAccess().getYesKeyword_3_1()); }
+
+	'yes' 
+
+{ after(grammarAccess.getNodeAccess().getYesKeyword_3_1()); }
 )
 
 ;
@@ -480,11 +461,11 @@ rule__MutatorGraph__Group__4__Impl
     }
 :
 (
-{ before(grammarAccess.getMutatorGraphAccess().getHyphenMinusGreaterThanSignKeyword_4()); }
+{ before(grammarAccess.getMutatorGraphAccess().getColonKeyword_4()); }
 
-	'->' 
+	':' 
 
-{ after(grammarAccess.getMutatorGraphAccess().getHyphenMinusGreaterThanSignKeyword_4()); }
+{ after(grammarAccess.getMutatorGraphAccess().getColonKeyword_4()); }
 )
 
 ;
@@ -770,9 +751,9 @@ rule__Node__Group__3__Impl
     }
 :
 (
-{ before(grammarAccess.getNodeAccess().getNegationAssignment_3()); }
-(rule__Node__NegationAssignment_3)?
-{ after(grammarAccess.getNodeAccess().getNegationAssignment_3()); }
+{ before(grammarAccess.getNodeAccess().getAlternatives_3()); }
+(rule__Node__Alternatives_3)?
+{ after(grammarAccess.getNodeAccess().getAlternatives_3()); }
 )
 
 ;
@@ -859,11 +840,11 @@ rule__Node__Group__6__Impl
     }
 :
 (
-{ before(grammarAccess.getNodeAccess().getHyphenMinusGreaterThanSignKeyword_6()); }
+{ before(grammarAccess.getNodeAccess().getColonKeyword_6()); }
 
-	'->' 
+	':' 
 
-{ after(grammarAccess.getNodeAccess().getHyphenMinusGreaterThanSignKeyword_6()); }
+{ after(grammarAccess.getNodeAccess().getColonKeyword_6()); }
 )
 
 ;
@@ -1305,11 +1286,11 @@ rule__Edge__Group__7__Impl
     }
 :
 (
-{ before(grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_7()); }
+{ before(grammarAccess.getEdgeAccess().getColonKeyword_7()); }
 
-	'->' 
+	':' 
 
-{ after(grammarAccess.getEdgeAccess().getHyphenMinusGreaterThanSignKeyword_7()); }
+{ after(grammarAccess.getEdgeAccess().getColonKeyword_7()); }
 )
 
 ;
@@ -1595,14 +1576,22 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Node__NegationAssignment_3
+rule__Node__NegationAssignment_3_0
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getNodeAccess().getNegationNegationEnumRuleCall_3_0()); }
-	ruleNegation{ after(grammarAccess.getNodeAccess().getNegationNegationEnumRuleCall_3_0()); }
+{ before(grammarAccess.getNodeAccess().getNegationNotKeyword_3_0_0()); }
+(
+{ before(grammarAccess.getNodeAccess().getNegationNotKeyword_3_0_0()); }
+
+	'not' 
+
+{ after(grammarAccess.getNodeAccess().getNegationNotKeyword_3_0_0()); }
+)
+
+{ after(grammarAccess.getNodeAccess().getNegationNotKeyword_3_0_0()); }
 )
 
 ;

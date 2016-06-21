@@ -30,7 +30,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements ModifySourceReferenceMutator {
+public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements ModifySourceReferenceMutator
+{
 	/**
 	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -66,7 +67,8 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ModifySourceReferenceMutatorImpl() {
+	protected ModifySourceReferenceMutatorImpl()
+	{
 		super();
 	}
 
@@ -76,7 +78,8 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.MODIFY_SOURCE_REFERENCE_MUTATOR;
 	}
 
@@ -85,11 +88,14 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
+	public EReference getRefType()
+	{
+		if (refType != null && refType.eIsProxy())
+		{
 			InternalEObject oldRefType = (InternalEObject)refType;
 			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+			if (refType != oldRefType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__REF_TYPE, oldRefType, refType));
 			}
@@ -102,7 +108,8 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
+	public EReference basicGetRefType()
+	{
 		return refType;
 	}
 
@@ -111,7 +118,8 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
+	public void setRefType(EReference newRefType)
+	{
 		EReference oldRefType = refType;
 		refType = newRefType;
 		if (eNotificationRequired())
@@ -123,7 +131,8 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getSource() {
+	public ObSelectionStrategy getSource()
+	{
 		return source;
 	}
 
@@ -132,10 +141,12 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSource(ObSelectionStrategy newSource, NotificationChain msgs) {
+	public NotificationChain basicSetSource(ObSelectionStrategy newSource, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldSource = source;
 		source = newSource;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__SOURCE, oldSource, newSource);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -147,8 +158,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSource(ObSelectionStrategy newSource) {
-		if (newSource != source) {
+	public void setSource(ObSelectionStrategy newSource)
+	{
+		if (newSource != source)
+		{
 			NotificationChain msgs = null;
 			if (source != null)
 				msgs = ((InternalEObject)source).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__SOURCE, null, msgs);
@@ -166,7 +179,8 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getNewSource() {
+	public ObSelectionStrategy getNewSource()
+	{
 		return newSource;
 	}
 
@@ -175,10 +189,12 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetNewSource(ObSelectionStrategy newNewSource, NotificationChain msgs) {
+	public NotificationChain basicSetNewSource(ObSelectionStrategy newNewSource, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldNewSource = newSource;
 		newSource = newNewSource;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__NEW_SOURCE, oldNewSource, newNewSource);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -190,8 +206,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNewSource(ObSelectionStrategy newNewSource) {
-		if (newNewSource != newSource) {
+	public void setNewSource(ObSelectionStrategy newNewSource)
+	{
+		if (newNewSource != newSource)
+		{
 			NotificationChain msgs = null;
 			if (newSource != null)
 				msgs = ((InternalEObject)newSource).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__NEW_SOURCE, null, msgs);
@@ -210,8 +228,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__SOURCE:
 				return basicSetSource(null, msgs);
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__NEW_SOURCE:
@@ -226,8 +246,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__REF_TYPE:
 				if (resolve) return getRefType();
 				return basicGetRefType();
@@ -245,8 +267,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__REF_TYPE:
 				setRefType((EReference)newValue);
 				return;
@@ -266,8 +290,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__REF_TYPE:
 				setRefType((EReference)null);
 				return;
@@ -287,8 +313,10 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__REF_TYPE:
 				return refType != null;
 			case MutatorenvironmentPackage.MODIFY_SOURCE_REFERENCE_MUTATOR__SOURCE:

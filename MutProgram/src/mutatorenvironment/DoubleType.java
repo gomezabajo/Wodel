@@ -13,6 +13,6 @@ package mutatorenvironment;
  * @model abstract="true"
  * @generated
  */
-public interface DoubleType extends AttributeType {
-
+public interface DoubleType extends AttributeType
+{
 } // DoubleType

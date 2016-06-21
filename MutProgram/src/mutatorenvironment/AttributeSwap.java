@@ -19,8 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface AttributeSwap extends AttributeSet {
-
+public interface AttributeSwap extends AttributeSet
+{
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -46,4 +46,5 @@ public interface AttributeSwap extends AttributeSet {
 	 * @generated
 	 */
 	void setObject(ObSelectionStrategy value);
+
 } // AttributeSwap

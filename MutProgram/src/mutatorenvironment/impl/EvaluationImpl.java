@@ -18,13 +18,15 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class EvaluationImpl extends MinimalEObjectImpl.Container implements Evaluation {
+public abstract class EvaluationImpl extends MinimalEObjectImpl.Container implements Evaluation
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EvaluationImpl() {
+	protected EvaluationImpl()
+	{
 		super();
 	}
 
@@ -34,7 +36,8 @@ public abstract class EvaluationImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.EVALUATION;
 	}
 

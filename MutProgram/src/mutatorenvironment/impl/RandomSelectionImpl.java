@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class RandomSelectionImpl extends ObSelectionStrategyImpl implements RandomSelection {
+public abstract class RandomSelectionImpl extends ObSelectionStrategyImpl implements RandomSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RandomSelectionImpl() {
+	protected RandomSelectionImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public abstract class RandomSelectionImpl extends ObSelectionStrategyImpl implem
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.RANDOM_SELECTION;
 	}
 

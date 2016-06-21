@@ -276,8 +276,26 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getReferenceChanged_Object() {
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferenceChanged_SrcRefName() {
+		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getReferenceChanged_RefName() {
-		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(0);
+		return (EAttribute)referenceChangedEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -286,7 +304,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * @generated
 	 */
 	public EReference getReferenceChanged_From() {
-		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(1);
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -295,7 +313,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * @generated
 	 */
 	public EReference getReferenceChanged_To() {
-		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(2);
+		return (EReference)referenceChangedEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -312,8 +330,26 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSourceReferenceChanged_OldFrom() {
+		return (EReference)sourceReferenceChangedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTargetReferenceChanged() {
 		return targetReferenceChangedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTargetReferenceChanged_OldTo() {
+		return (EReference)targetReferenceChangedEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -474,6 +510,42 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getReferenceSwap_OtherFrom() {
+		return (EReference)referenceSwapEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferenceSwap_OtherFromName() {
+		return (EAttribute)referenceSwapEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReferenceSwap_OtherTo() {
+		return (EReference)referenceSwapEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferenceSwap_OtherToName() {
+		return (EAttribute)referenceSwapEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttributeSwap() {
 		return attributeSwapEClass;
 	}
@@ -564,13 +636,17 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 		createEReference(objectRemovedEClass, OBJECT_REMOVED__OBJECT);
 
 		referenceChangedEClass = createEClass(REFERENCE_CHANGED);
-		createEAttribute(referenceChangedEClass, REFERENCE_CHANGED__REF_NAME);
+		createEReference(referenceChangedEClass, REFERENCE_CHANGED__OBJECT);
+		createEAttribute(referenceChangedEClass, REFERENCE_CHANGED__SRC_REF_NAME);
 		createEReference(referenceChangedEClass, REFERENCE_CHANGED__FROM);
+		createEAttribute(referenceChangedEClass, REFERENCE_CHANGED__REF_NAME);
 		createEReference(referenceChangedEClass, REFERENCE_CHANGED__TO);
 
 		sourceReferenceChangedEClass = createEClass(SOURCE_REFERENCE_CHANGED);
+		createEReference(sourceReferenceChangedEClass, SOURCE_REFERENCE_CHANGED__OLD_FROM);
 
 		targetReferenceChangedEClass = createEClass(TARGET_REFERENCE_CHANGED);
+		createEReference(targetReferenceChangedEClass, TARGET_REFERENCE_CHANGED__OLD_TO);
 
 		referenceCreatedEClass = createEClass(REFERENCE_CREATED);
 		createEReference(referenceCreatedEClass, REFERENCE_CREATED__OBJECT);
@@ -593,6 +669,10 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 		referenceSwapEClass = createEClass(REFERENCE_SWAP);
 		createEReference(referenceSwapEClass, REFERENCE_SWAP__REF_OBJECT);
 		createEAttribute(referenceSwapEClass, REFERENCE_SWAP__FIRST_NAME);
+		createEReference(referenceSwapEClass, REFERENCE_SWAP__OTHER_FROM);
+		createEAttribute(referenceSwapEClass, REFERENCE_SWAP__OTHER_FROM_NAME);
+		createEReference(referenceSwapEClass, REFERENCE_SWAP__OTHER_TO);
+		createEAttribute(referenceSwapEClass, REFERENCE_SWAP__OTHER_TO_NAME);
 
 		attributeSwapEClass = createEClass(ATTRIBUTE_SWAP);
 		createEReference(attributeSwapEClass, ATTRIBUTE_SWAP__ATT_OBJECT);
@@ -658,13 +738,17 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 		initEReference(getObjectRemoved_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ObjectRemoved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(referenceChangedEClass, ReferenceChanged.class, "ReferenceChanged", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getReferenceChanged_RefName(), ecorePackage.getEString(), "refName", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferenceChanged_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getReferenceChanged_SrcRefName(), ecorePackage.getEString(), "srcRefName", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceChanged_From(), ecorePackage.getEObject(), null, "from", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferenceChanged_RefName(), ecorePackage.getEString(), "refName", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceChanged_To(), ecorePackage.getEObject(), null, "to", null, 1, 1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sourceReferenceChangedEClass, SourceReferenceChanged.class, "SourceReferenceChanged", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSourceReferenceChanged_OldFrom(), ecorePackage.getEObject(), null, "oldFrom", null, 1, 1, SourceReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(targetReferenceChangedEClass, TargetReferenceChanged.class, "TargetReferenceChanged", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTargetReferenceChanged_OldTo(), ecorePackage.getEObject(), null, "oldTo", null, 1, 1, TargetReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(referenceCreatedEClass, ReferenceCreated.class, "ReferenceCreated", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceCreated_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ReferenceCreated.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -687,6 +771,10 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 		initEClass(referenceSwapEClass, ReferenceSwap.class, "ReferenceSwap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceSwap_RefObject(), ecorePackage.getEObject(), null, "refObject", null, 1, 1, ReferenceSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getReferenceSwap_FirstName(), ecorePackage.getEString(), "firstName", null, 1, 1, ReferenceSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferenceSwap_OtherFrom(), ecorePackage.getEObject(), null, "otherFrom", null, 1, 1, ReferenceSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferenceSwap_OtherFromName(), ecorePackage.getEString(), "otherFromName", null, 1, 1, ReferenceSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferenceSwap_OtherTo(), ecorePackage.getEObject(), null, "otherTo", null, 1, 1, ReferenceSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferenceSwap_OtherToName(), ecorePackage.getEString(), "otherToName", null, 1, 1, ReferenceSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeSwapEClass, AttributeSwap.class, "AttributeSwap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttributeSwap_AttObject(), ecorePackage.getEObject(), null, "attObject", null, 1, 1, AttributeSwap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

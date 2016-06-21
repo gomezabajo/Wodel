@@ -14,22 +14,32 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.configureoptions.ConfigureOptionsUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.identifyelements.IdentifyElementsUtils;
+import org.osgi.framework.Bundle;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
-import manager.IMutatorGraph;
+import exceptions.MetaModelNotFoundException;
+import manager.ModelManager;
 import mutextension.generator.IGenerator;
 
 public class Generator implements IGenerator {
@@ -81,7 +91,7 @@ public class Generator implements IGenerator {
 	}
 
 	@Override
-	public boolean doGenerate(String fileName, IProject mutProject, IFolder srcPath, IFolder configPath, 
+	public boolean doGenerate(String fileName, String metamodel, String project, String outputPath, IProject mutProject, IFolder srcPath, IFolder configPath, 
 			IProgressMonitor monitor) {
 		Path filePath = new Path(fileName);
 		String fileExtension = filePath.getFileExtension();
@@ -89,16 +99,44 @@ public class Generator implements IGenerator {
 		// create a sample file
 		monitor.beginTask("Creating " + graphFileName, 2);
 		String testsFileName = fileName.replace(fileExtension, "tests");
+		String idelemsFileName = fileName.replace(fileExtension, "idelems");
+		String cfgoptsFileName = fileName.replace(fileExtension, "cfgopts");
 		final IFile graphFile = srcPath.getFile(new Path(graphFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "metamodel \"\" //fill this with the path to the meta-model\n\n"
-					+ "RootClass -> diagram {\n"
-					+ "\tStartingNode(isInitial) -> markednode\n"
-					+ "\tSimpleNode(not isFinal) -> node, shape=circle\n"
-					+ "\tEndingNode(isFinal) -> node, shape=doublecircle\n"
-					+ "\tRelation(source, target) -> edge, label=symbol\n"
-					+ "}";
+			String def = "";
+			if (metamodel != null) {
+				def += "metamodel \"" + ModelManager.getMetaModelPath(project) + "/" + metamodel + "\"\n\n";
+			}
+			else {
+				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
+			}
+			
+			if (metamodel != null) {
+				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
+				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				EClass eclass = eclasses.get(1);
+				EList<EAttribute> eatts = eclass.getEAllAttributes();
+				EAttribute eatt = null;
+				if (eatts != null) {
+					if (eatts.size() > 0) {
+						eatt = eatts.get(0);
+					}
+				}
+				EClass rooteclass = eclasses.get(0);
+				def += rooteclass.getName() + ": diagram {\n";
+				if (eatt != null) {
+					def += "\t" + eclass.getName() + "(" + eatt.getName() + "): node, shape=circle\n";
+				}
+			}
+			else {
+				def += "//RootNode: diagram {\n";
+			}
+			def += "\t//InitialNode(isInitial): markednode\n"
+				+ "\t//SimpleNode(not isFinal): node, shape=circle\n"
+				+ "\t//EndingNode(isFinal): node, shape=doublecircle\n"
+				+ "\t//Relation(source, target): edge, label=symbol\n"
+			+ "}";
 			if (graphFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 				content += def;
@@ -109,14 +147,28 @@ public class Generator implements IGenerator {
 				graphFile.create(stream, true, monitor);
 			}
 			stream.close();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
 		final IFile testsFile = srcPath.getFile(new Path(testsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "retry=yes, showall=yes\n\n"
-					+ "description for 'model1-name.model' = ''\n";
+			String def = "Tests {\n"
+					+ "\tnavigation=free\n"
+					+ "\tSimpleSelection {\n"
+					+ "\t\tretry=yes, showall=yes\n"
+					+ "\t\t//description for 'model1-name.model' = 'Description for model1'\n"
+					+ "\t\t//other descriptions...\n"
+					+ "\t}\n"
+					+ "\tSelectCorrection {\n"
+					+ "\t\tretry=yes, weighted=no, penalty=0.0, order=mutations descending, mode=checkbox\n"
+					+ "\t\t//description for 'model2-name.model' = 'Description for model2'\n"
+					+ "\t\t//other descriptions...\n"
+					+ "\t}\n"
+					+ "}";
 			if (testsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 				content += def;
@@ -130,6 +182,129 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
+		final IFile idelemsFile = srcPath.getFile(new Path(idelemsFileName));
+		try {
+			InputStream stream = openContentStream();
+			String def = "";
+			if (metamodel != null) {
+				def += "metamodel \"" + ModelManager.getMetaModelPath(project) + "/" + metamodel + "\"\n\n";
+			}
+			else {
+				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
+			}
+			
+			if (metamodel != null) {
+				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
+				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				EClass eclass = eclasses.get(0);
+				EList<EAttribute> eatts = eclass.getEAllAttributes();
+				EAttribute eatt1 = null;
+				EAttribute eatt2 = null;
+				if (eatts != null) {
+					if (eatts.size() > 0) {
+						eatt1 = eatts.get(0);
+					}
+					if (eatts.size() > 1) {
+						eatt2 = eatts.get(1);
+					}
+				}
+				if ((eatt1 != null) && (eatt2 != null)) {
+					def += ">" + eclass.getName() + "(" + eatt2.getName() + "): " + eclass.getName() + " %" + eatt1.getName() + "\n";
+				}
+				if (eatt1 != null) {
+					def += ">" + eclass.getName() + ": " + eclass.getName() + " %" + eatt1.getName() + "\n";
+				}
+			}
+			def += "//>ClassName(attName): (LeftText %AttributeName|%ReferenceName.AttributeName RightText)+\n";
+			if (idelemsFile.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				content += def;
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				idelemsFile.setContents(stream, true, true, monitor);
+			} else {
+				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				idelemsFile.create(stream, true, monitor);
+			}
+			stream.close();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CoreException e) {
+		} catch (IOException e) {
+		}
+		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + mutProject.getFolder(new Path("/src/" + idelemsFileName)).getFullPath();
+		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + mutProject.getFolder(new Path('/' + outputPath + '/' + idelemsFileName.replaceAll(".idelems", "_idelems.model"))).getFullPath();
+		IdentifyElementsUtils.serialize(xTextFileName, xmiFileName);
+
+		final IFile cfgoptsFile = srcPath.getFile(new Path(cfgoptsFileName));
+		try {
+			InputStream stream = openContentStream();
+			String def = "";
+			if (metamodel != null) {
+				def += "metamodel \"" + ModelManager.getMetaModelPath(project) + "/" + metamodel + "\"\n\n";
+			}
+			else {
+				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
+			}
+			
+			if (metamodel != null) {
+				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
+				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+				EClass eclass = eclasses.get(0);
+				Bundle bundle = Platform.getBundle("MutProgram");
+				URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+				ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(FileLocator.resolve(fileURL).getFile());
+				ArrayList<EClass> registryeclasses = ModelManager.getEClasses(registrypackages);
+				EClass registryeclass = registryeclasses.get(0);
+				EList<EAttribute> registryeatts = registryeclass.getEAllAttributes();
+				EAttribute registryeatt = null;
+				if (registryeatts != null) {
+					if (registryeatts.size() > 0) {
+						registryeatt = registryeatts.get(0);
+					}
+				}
+				EList<EReference> registryerefs = registryeclass.getEAllReferences();
+				EReference registryeref = null;
+				if (registryerefs != null) {
+					if (registryerefs.size() > 0) {
+						registryeref = registryerefs.get(0);
+					}
+				}
+				if ((registryeatt != null) && (registryeref != null)) {
+					def += ">" + registryeclass.getName() + "(" + eclass.getName() + "): This is the text for the right options of the mutation on the attribute %attName and on the reference %refName /\n";
+					def += "\t\tThis is the text for the wrong options of the mutation on the attribute %attName and on the reference %refName\n";
+				}
+				if (registryeatt != null) {
+					def += ">" + registryeclass.getName() + "(" + eclass.getName() + "): This is the text for the right options of the mutation on the attribute %attName /\n";
+					def += "\t\tThis is the text for the wrong options of the mutation on the attribute %attName\n";
+				}
+				if (registryeref != null) {
+					def += ">" + registryeclass.getName() + "(" + eclass.getName() + "): This is the text for the right options of the mutation on the reference %refName /\n";
+					def += "\t\tThis is the text for the wrong options of the mutation on the reference %refName\n";
+				}
+			}
+			def += "//>RegistryClassName(ClassName): (LeftOptionOkText %variable RightOptionOkText)+ /\n";
+			def += "//\t\t(LeftOptionWrongText %variable RightOptionWrongText)+";
+			if (cfgoptsFile.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				content += def;
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				cfgoptsFile.setContents(stream, true, true, monitor);
+			} else {
+				stream = new ByteArrayInputStream(def.getBytes(Charsets.UTF_8));
+				cfgoptsFile.create(stream, true, monitor);
+			}
+			stream.close();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CoreException e) {
+		} catch (IOException e) {
+		}
+		
+		xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + mutProject.getFolder(new Path("/src/" + cfgoptsFileName)).getFullPath();
+		xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + mutProject.getFolder(new Path('/' + outputPath + '/' + cfgoptsFileName.replaceAll(".cfgopts", "_cfgopts.model"))).getFullPath();
+		ConfigureOptionsUtils.serialize(xTextFileName, xmiFileName);
 		
 		final IFile configFile = configPath.getFile(new Path("config.txt"));
 		try {

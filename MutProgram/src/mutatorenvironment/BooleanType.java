@@ -13,6 +13,6 @@ package mutatorenvironment;
  * @model abstract="true"
  * @generated
  */
-public interface BooleanType extends AttributeType {
-
+public interface BooleanType extends AttributeType
+{
 } // BooleanType

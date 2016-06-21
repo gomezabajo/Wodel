@@ -8,7 +8,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 MutatorGraph returns MutatorGraph:
 	{MutatorGraph}
 	'metamodel' metamodel=EString
-	name=[ecore::EClass|ID] '->' type=GraphType
+	name=[ecore::EClass|ID] ':' type=GraphType
 	'{'
 	(nodes+=Node)*
 	(edges+=Edge)*
@@ -23,16 +23,13 @@ enum GraphType returns GraphType:
 
 Node returns Node:
 	{Node}
-	name=[ecore::EClass|ID] '(' (negation=Negation)? attribute=[ecore::EAttribute|ID] ')' '->' type=NodeType (',' 'shape' '=' shape=NodeShape)?
+	name=[ecore::EClass|ID] '(' (negation?='not' | 'yes')? attribute=[ecore::EAttribute|ID] ')' ':' type=NodeType (',' 'shape' '=' shape=NodeShape)?
 ;
 
 Edge returns Edge:
 	{Edge}
-	name=[ecore::EClass|ID] '(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' '->' 'edge' ',' 'label' '=' label=[ecore::EReference|ID]
+	name=[ecore::EClass|ID] '(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' ':' 'edge' ',' 'label' '=' label=[ecore::EReference|ID]
 ;
-
-enum Negation returns Negation:
-				not = 'not' | yes = 'yes';
 
 enum NodeType returns NodeType:
 				node = 'node' | markednode = 'markednode';

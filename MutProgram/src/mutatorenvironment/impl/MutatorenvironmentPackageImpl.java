@@ -11,12 +11,14 @@ import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeType;
 import mutatorenvironment.AttributeUnset;
 import mutatorenvironment.BinaryOperator;
+import mutatorenvironment.Block;
 import mutatorenvironment.BooleanType;
 import mutatorenvironment.CatEndStringType;
 import mutatorenvironment.CatStartStringType;
 import mutatorenvironment.CompleteSelection;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
+import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Definition;
@@ -57,6 +59,7 @@ import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RemoveRandomReferenceMutator;
 import mutatorenvironment.RemoveReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
+import mutatorenvironment.Repeat;
 import mutatorenvironment.ReplaceStringType;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.Source;
@@ -69,11 +72,13 @@ import mutatorenvironment.SpecificSelection;
 import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.StringType;
 import mutatorenvironment.UpperStringType;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -82,7 +87,8 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class MutatorenvironmentPackageImpl extends EPackageImpl implements MutatorenvironmentPackage {
+public class MutatorenvironmentPackageImpl extends EPackageImpl implements MutatorenvironmentPackage
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -466,49 +472,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass binaryOperatorEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum logicOperatorEEnum = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum operatorEEnum = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass attributeEvaluationEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass expressionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass referenceSwapEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass evaluationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -539,6 +503,69 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	private EClass referenceEvaluationEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass expressionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referenceSwapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass evaluationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass binaryOperatorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass blockEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass constraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum logicOperatorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum operatorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum repeatEEnum = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -553,7 +580,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @see #init()
 	 * @generated
 	 */
-	private MutatorenvironmentPackageImpl() {
+	private MutatorenvironmentPackageImpl()
+	{
 		super(eNS_URI, MutatorenvironmentFactory.eINSTANCE);
 	}
 
@@ -576,7 +604,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static MutatorenvironmentPackage init() {
+	public static MutatorenvironmentPackage init()
+	{
 		if (isInited) return (MutatorenvironmentPackage)EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
 
 		// Obtain or create and register package
@@ -604,7 +633,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMutatorEnvironment() {
+	public EClass getMutatorEnvironment()
+	{
 		return mutatorEnvironmentEClass;
 	}
 
@@ -613,7 +643,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorEnvironment_Definition() {
+	public EReference getMutatorEnvironment_Definition()
+	{
 		return (EReference)mutatorEnvironmentEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -622,7 +653,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorEnvironment_Commands() {
+	public EReference getMutatorEnvironment_Commands()
+	{
 		return (EReference)mutatorEnvironmentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -631,7 +663,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorEnvironment_Load() {
+	public EReference getMutatorEnvironment_Load()
+	{
 		return (EReference)mutatorEnvironmentEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -640,7 +673,28 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDefinition() {
+	public EReference getMutatorEnvironment_Blocks()
+	{
+		return (EReference)mutatorEnvironmentEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMutatorEnvironment_Constraints()
+	{
+		return (EReference)mutatorEnvironmentEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDefinition()
+	{
 		return definitionEClass;
 	}
 
@@ -649,7 +703,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDefinition_Metamodel() {
+	public EAttribute getDefinition_Metamodel()
+	{
 		return (EAttribute)definitionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -658,7 +713,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLibrary() {
+	public EClass getLibrary()
+	{
 		return libraryEClass;
 	}
 
@@ -667,7 +723,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProgram() {
+	public EClass getProgram()
+	{
 		return programEClass;
 	}
 
@@ -676,7 +733,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProgram_Output() {
+	public EAttribute getProgram_Output()
+	{
 		return (EAttribute)programEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -685,7 +743,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProgram_Num() {
+	public EAttribute getProgram_Num()
+	{
 		return (EAttribute)programEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -694,7 +753,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProgram_Source() {
+	public EReference getProgram_Source()
+	{
 		return (EReference)programEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -703,7 +763,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getObjectEmitter() {
+	public EClass getObjectEmitter()
+	{
 		return objectEmitterEClass;
 	}
 
@@ -712,7 +773,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObjectEmitter_Type() {
+	public EReference getObjectEmitter_Type()
+	{
 		return (EReference)objectEmitterEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -721,7 +783,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getObjectEmitter_Name() {
+	public EAttribute getObjectEmitter_Name()
+	{
 		return (EAttribute)objectEmitterEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -730,7 +793,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMutator() {
+	public EClass getMutator()
+	{
 		return mutatorEClass;
 	}
 
@@ -739,16 +803,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMutator_Max() {
-		return (EAttribute)mutatorEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMutator_Min() {
+	public EAttribute getMutator_Min()
+	{
 		return (EAttribute)mutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -757,7 +813,28 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCompositeMutator() {
+	public EAttribute getMutator_Max()
+	{
+		return (EAttribute)mutatorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMutator_Fixed()
+	{
+		return (EAttribute)mutatorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCompositeMutator()
+	{
 		return compositeMutatorEClass;
 	}
 
@@ -766,7 +843,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCompositeMutator_Commands() {
+	public EReference getCompositeMutator_Commands()
+	{
 		return (EReference)compositeMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -775,7 +853,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLoad() {
+	public EClass getLoad()
+	{
 		return loadEClass;
 	}
 
@@ -784,7 +863,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLoad_File() {
+	public EAttribute getLoad_File()
+	{
 		return (EAttribute)loadEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -793,7 +873,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCreateObjectMutator() {
+	public EClass getCreateObjectMutator()
+	{
 		return createObjectMutatorEClass;
 	}
 
@@ -802,7 +883,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateObjectMutator_Container() {
+	public EReference getCreateObjectMutator_Container()
+	{
 		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -811,7 +893,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateObjectMutator_Attributes() {
+	public EReference getCreateObjectMutator_Attributes()
+	{
 		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -820,7 +903,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateObjectMutator_RefType() {
+	public EReference getCreateObjectMutator_RefType()
+	{
 		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -829,7 +913,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateObjectMutator_References() {
+	public EReference getCreateObjectMutator_References()
+	{
 		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -838,7 +923,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getObSelectionStrategy() {
+	public EClass getObSelectionStrategy()
+	{
 		return obSelectionStrategyEClass;
 	}
 
@@ -847,7 +933,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObSelectionStrategy_Expression() {
+	public EReference getObSelectionStrategy_Expression()
+	{
 		return (EReference)obSelectionStrategyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -856,7 +943,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRandomSelection() {
+	public EClass getRandomSelection()
+	{
 		return randomSelectionEClass;
 	}
 
@@ -865,7 +953,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRandomTypeSelection() {
+	public EClass getRandomTypeSelection()
+	{
 		return randomTypeSelectionEClass;
 	}
 
@@ -874,7 +963,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificObjectSelection() {
+	public EClass getSpecificObjectSelection()
+	{
 		return specificObjectSelectionEClass;
 	}
 
@@ -883,7 +973,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpecificObjectSelection_ObjSel() {
+	public EReference getSpecificObjectSelection_ObjSel()
+	{
 		return (EReference)specificObjectSelectionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -892,7 +983,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeInit() {
+	public EClass getAttributeInit()
+	{
 		return attributeInitEClass;
 	}
 
@@ -901,7 +993,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeInit_Value() {
+	public EReference getAttributeInit_Value()
+	{
 		return (EReference)attributeInitEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -910,7 +1003,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeType() {
+	public EClass getAttributeType()
+	{
 		return attributeTypeEClass;
 	}
 
@@ -919,7 +1013,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getBooleanType() {
+	public EClass getBooleanType()
+	{
 		return booleanTypeEClass;
 	}
 
@@ -928,7 +1023,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificBooleanType() {
+	public EClass getSpecificBooleanType()
+	{
 		return specificBooleanTypeEClass;
 	}
 
@@ -937,7 +1033,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSpecificBooleanType_Value() {
+	public EAttribute getSpecificBooleanType_Value()
+	{
 		return (EAttribute)specificBooleanTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -946,7 +1043,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRandomBooleanType() {
+	public EClass getRandomBooleanType()
+	{
 		return randomBooleanTypeEClass;
 	}
 
@@ -955,7 +1053,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomBooleanType_AllowsNull() {
+	public EAttribute getRandomBooleanType_AllowsNull()
+	{
 		return (EAttribute)randomBooleanTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -964,7 +1063,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getStringType() {
+	public EClass getStringType()
+	{
 		return stringTypeEClass;
 	}
 
@@ -973,7 +1073,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificStringType() {
+	public EClass getSpecificStringType()
+	{
 		return specificStringTypeEClass;
 	}
 
@@ -982,7 +1083,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSpecificStringType_Value() {
+	public EAttribute getSpecificStringType_Value()
+	{
 		return (EAttribute)specificStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -991,7 +1093,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRandomStringType() {
+	public EClass getRandomStringType()
+	{
 		return randomStringTypeEClass;
 	}
 
@@ -1000,7 +1103,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomStringType_Min() {
+	public EAttribute getRandomStringType_Min()
+	{
 		return (EAttribute)randomStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1009,7 +1113,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomStringType_Max() {
+	public EAttribute getRandomStringType_Max()
+	{
 		return (EAttribute)randomStringTypeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1018,7 +1123,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomStringType_AllowsNull() {
+	public EAttribute getRandomStringType_AllowsNull()
+	{
 		return (EAttribute)randomStringTypeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1027,7 +1133,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getIntegerType() {
+	public EClass getIntegerType()
+	{
 		return integerTypeEClass;
 	}
 
@@ -1036,7 +1143,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificIntegerType() {
+	public EClass getSpecificIntegerType()
+	{
 		return specificIntegerTypeEClass;
 	}
 
@@ -1045,7 +1153,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSpecificIntegerType_Value() {
+	public EAttribute getSpecificIntegerType_Value()
+	{
 		return (EAttribute)specificIntegerTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1054,7 +1163,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRandomIntegerType() {
+	public EClass getRandomIntegerType()
+	{
 		return randomIntegerTypeEClass;
 	}
 
@@ -1063,7 +1173,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomIntegerType_Min() {
+	public EAttribute getRandomIntegerType_Min()
+	{
 		return (EAttribute)randomIntegerTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1072,7 +1183,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomIntegerType_Max() {
+	public EAttribute getRandomIntegerType_Max()
+	{
 		return (EAttribute)randomIntegerTypeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1081,7 +1193,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomIntegerType_AllowsNull() {
+	public EAttribute getRandomIntegerType_AllowsNull()
+	{
 		return (EAttribute)randomIntegerTypeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1090,7 +1203,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDoubleType() {
+	public EClass getDoubleType()
+	{
 		return doubleTypeEClass;
 	}
 
@@ -1099,7 +1213,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificDoubleType() {
+	public EClass getSpecificDoubleType()
+	{
 		return specificDoubleTypeEClass;
 	}
 
@@ -1108,7 +1223,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSpecificDoubleType_Value() {
+	public EAttribute getSpecificDoubleType_Value()
+	{
 		return (EAttribute)specificDoubleTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1117,7 +1233,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRandomDoubleType() {
+	public EClass getRandomDoubleType()
+	{
 		return randomDoubleTypeEClass;
 	}
 
@@ -1126,7 +1243,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomDoubleType_Min() {
+	public EAttribute getRandomDoubleType_Min()
+	{
 		return (EAttribute)randomDoubleTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1135,7 +1253,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomDoubleType_Max() {
+	public EAttribute getRandomDoubleType_Max()
+	{
 		return (EAttribute)randomDoubleTypeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1144,7 +1263,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRandomDoubleType_AllowsNull() {
+	public EAttribute getRandomDoubleType_AllowsNull()
+	{
 		return (EAttribute)randomDoubleTypeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1153,7 +1273,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModifySourceReferenceMutator() {
+	public EClass getModifySourceReferenceMutator()
+	{
 		return modifySourceReferenceMutatorEClass;
 	}
 
@@ -1162,7 +1283,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifySourceReferenceMutator_RefType() {
+	public EReference getModifySourceReferenceMutator_RefType()
+	{
 		return (EReference)modifySourceReferenceMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1171,7 +1293,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifySourceReferenceMutator_Source() {
+	public EReference getModifySourceReferenceMutator_Source()
+	{
 		return (EReference)modifySourceReferenceMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1180,7 +1303,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifySourceReferenceMutator_NewSource() {
+	public EReference getModifySourceReferenceMutator_NewSource()
+	{
 		return (EReference)modifySourceReferenceMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1189,7 +1313,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificSelection() {
+	public EClass getSpecificSelection()
+	{
 		return specificSelectionEClass;
 	}
 
@@ -1198,7 +1323,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSpecificReferenceSelection() {
+	public EClass getSpecificReferenceSelection()
+	{
 		return specificReferenceSelectionEClass;
 	}
 
@@ -1207,7 +1333,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpecificReferenceSelection_RefType() {
+	public EReference getSpecificReferenceSelection_RefType()
+	{
 		return (EReference)specificReferenceSelectionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1216,7 +1343,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpecificReferenceSelection_ObjectEmitter() {
+	public EReference getSpecificReferenceSelection_ObjectEmitter()
+	{
 		return (EReference)specificReferenceSelectionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1225,7 +1353,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModifyTargetReferenceMutator() {
+	public EClass getModifyTargetReferenceMutator()
+	{
 		return modifyTargetReferenceMutatorEClass;
 	}
 
@@ -1234,7 +1363,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifyTargetReferenceMutator_RefType() {
+	public EReference getModifyTargetReferenceMutator_RefType()
+	{
 		return (EReference)modifyTargetReferenceMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1243,7 +1373,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifyTargetReferenceMutator_Source() {
+	public EReference getModifyTargetReferenceMutator_Source()
+	{
 		return (EReference)modifyTargetReferenceMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1252,7 +1383,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifyTargetReferenceMutator_NewTarget() {
+	public EReference getModifyTargetReferenceMutator_NewTarget()
+	{
 		return (EReference)modifyTargetReferenceMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1261,7 +1393,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCreateReferenceMutator() {
+	public EClass getCreateReferenceMutator()
+	{
 		return createReferenceMutatorEClass;
 	}
 
@@ -1270,7 +1403,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateReferenceMutator_Source() {
+	public EReference getCreateReferenceMutator_Source()
+	{
 		return (EReference)createReferenceMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1279,7 +1413,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateReferenceMutator_Target() {
+	public EReference getCreateReferenceMutator_Target()
+	{
 		return (EReference)createReferenceMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1288,7 +1423,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateReferenceMutator_RefType() {
+	public EReference getCreateReferenceMutator_RefType()
+	{
 		return (EReference)createReferenceMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1297,7 +1433,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRemoveObjectMutator() {
+	public EClass getRemoveObjectMutator()
+	{
 		return removeObjectMutatorEClass;
 	}
 
@@ -1306,7 +1443,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRemoveObjectMutator_Object() {
+	public EReference getRemoveObjectMutator_Object()
+	{
 		return (EReference)removeObjectMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1315,7 +1453,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRemoveReferenceMutator() {
+	public EClass getRemoveReferenceMutator()
+	{
 		return removeReferenceMutatorEClass;
 	}
 
@@ -1324,7 +1463,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModifyInformationMutator() {
+	public EClass getModifyInformationMutator()
+	{
 		return modifyInformationMutatorEClass;
 	}
 
@@ -1333,7 +1473,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifyInformationMutator_Object() {
+	public EReference getModifyInformationMutator_Object()
+	{
 		return (EReference)modifyInformationMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1342,7 +1483,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifyInformationMutator_Attributes() {
+	public EReference getModifyInformationMutator_Attributes()
+	{
 		return (EReference)modifyInformationMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1351,7 +1493,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModifyInformationMutator_References() {
+	public EReference getModifyInformationMutator_References()
+	{
 		return (EReference)modifyInformationMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1360,7 +1503,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUpperStringType() {
+	public EClass getUpperStringType()
+	{
 		return upperStringTypeEClass;
 	}
 
@@ -1369,7 +1513,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUpperStringType_Value() {
+	public EAttribute getUpperStringType_Value()
+	{
 		return (EAttribute)upperStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1378,7 +1523,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLowerStringType() {
+	public EClass getLowerStringType()
+	{
 		return lowerStringTypeEClass;
 	}
 
@@ -1387,7 +1533,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLowerStringType_Value() {
+	public EAttribute getLowerStringType_Value()
+	{
 		return (EAttribute)lowerStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1396,7 +1543,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getListStringType() {
+	public EClass getListStringType()
+	{
 		return listStringTypeEClass;
 	}
 
@@ -1405,7 +1553,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getListStringType_Value() {
+	public EAttribute getListStringType_Value()
+	{
 		return (EAttribute)listStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1414,7 +1563,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCatStartStringType() {
+	public EClass getCatStartStringType()
+	{
 		return catStartStringTypeEClass;
 	}
 
@@ -1423,7 +1573,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCatStartStringType_Value() {
+	public EAttribute getCatStartStringType_Value()
+	{
 		return (EAttribute)catStartStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1432,7 +1583,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCatEndStringType() {
+	public EClass getCatEndStringType()
+	{
 		return catEndStringTypeEClass;
 	}
 
@@ -1441,7 +1593,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCatEndStringType_Value() {
+	public EAttribute getCatEndStringType_Value()
+	{
 		return (EAttribute)catEndStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1450,7 +1603,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeUnset() {
+	public EClass getAttributeUnset()
+	{
 		return attributeUnsetEClass;
 	}
 
@@ -1459,7 +1613,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeSet() {
+	public EClass getAttributeSet()
+	{
 		return attributeSetEClass;
 	}
 
@@ -1468,7 +1623,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeSet_Attribute() {
+	public EReference getAttributeSet_Attribute()
+	{
 		return (EReference)attributeSetEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1477,7 +1633,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeSwap() {
+	public EClass getAttributeSwap()
+	{
 		return attributeSwapEClass;
 	}
 
@@ -1486,7 +1643,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeSwap_Object() {
+	public EReference getAttributeSwap_Object()
+	{
 		return (EReference)attributeSwapEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1495,7 +1653,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReplaceStringType() {
+	public EClass getReplaceStringType()
+	{
 		return replaceStringTypeEClass;
 	}
 
@@ -1504,7 +1663,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getReplaceStringType_Oldstring() {
+	public EAttribute getReplaceStringType_Oldstring()
+	{
 		return (EAttribute)replaceStringTypeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1513,7 +1673,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getReplaceStringType_Newstring() {
+	public EAttribute getReplaceStringType_Newstring()
+	{
 		return (EAttribute)replaceStringTypeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1522,7 +1683,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeCopy() {
+	public EClass getAttributeCopy()
+	{
 		return attributeCopyEClass;
 	}
 
@@ -1531,7 +1693,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeCopy_Object() {
+	public EReference getAttributeCopy_Object()
+	{
 		return (EReference)attributeCopyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1540,7 +1703,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRemoveRandomReferenceMutator() {
+	public EClass getRemoveRandomReferenceMutator()
+	{
 		return removeRandomReferenceMutatorEClass;
 	}
 
@@ -1549,7 +1713,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRemoveRandomReferenceMutator_RefType() {
+	public EReference getRemoveRandomReferenceMutator_RefType()
+	{
 		return (EReference)removeRandomReferenceMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1558,7 +1723,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRemoveSpecificReferenceMutator() {
+	public EClass getRemoveSpecificReferenceMutator()
+	{
 		return removeSpecificReferenceMutatorEClass;
 	}
 
@@ -1567,7 +1733,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRemoveSpecificReferenceMutator_RefType() {
+	public EReference getRemoveSpecificReferenceMutator_RefType()
+	{
 		return (EReference)removeSpecificReferenceMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1576,7 +1743,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRemoveSpecificReferenceMutator_Container() {
+	public EReference getRemoveSpecificReferenceMutator_Container()
+	{
 		return (EReference)removeSpecificReferenceMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1585,7 +1753,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCompleteSelection() {
+	public EClass getCompleteSelection()
+	{
 		return completeSelectionEClass;
 	}
 
@@ -1594,7 +1763,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCompleteTypeSelection() {
+	public EClass getCompleteTypeSelection()
+	{
 		return completeTypeSelectionEClass;
 	}
 
@@ -1603,7 +1773,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRemoveCompleteReferenceMutator() {
+	public EClass getRemoveCompleteReferenceMutator()
+	{
 		return removeCompleteReferenceMutatorEClass;
 	}
 
@@ -1612,7 +1783,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRemoveCompleteReferenceMutator_RefType() {
+	public EReference getRemoveCompleteReferenceMutator_RefType()
+	{
 		return (EReference)removeCompleteReferenceMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1621,7 +1793,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSource() {
+	public EClass getSource()
+	{
 		return sourceEClass;
 	}
 
@@ -1630,7 +1803,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSource_Path() {
+	public EAttribute getSource_Path()
+	{
 		return (EAttribute)sourceEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1639,16 +1813,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSource_Multiple() {
-		return (EAttribute)sourceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getOtherSelection() {
+	public EClass getOtherSelection()
+	{
 		return otherSelectionEClass;
 	}
 
@@ -1657,7 +1823,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOtherTypeSelection() {
+	public EClass getOtherTypeSelection()
+	{
 		return otherTypeSelectionEClass;
 	}
 
@@ -1666,7 +1833,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSelectObjectMutator() {
+	public EClass getSelectObjectMutator()
+	{
 		return selectObjectMutatorEClass;
 	}
 
@@ -1675,7 +1843,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSelectObjectMutator_Container() {
+	public EReference getSelectObjectMutator_Container()
+	{
 		return (EReference)selectObjectMutatorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1684,7 +1853,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSelectObjectMutator_RefType() {
+	public EReference getSelectObjectMutator_RefType()
+	{
 		return (EReference)selectObjectMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1693,7 +1863,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSelectObjectMutator_Object() {
+	public EReference getSelectObjectMutator_Object()
+	{
 		return (EReference)selectObjectMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1702,43 +1873,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getOperator() {
-		return operatorEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getBinaryOperator() {
-		return binaryOperatorEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getBinaryOperator_Type() {
-		return (EAttribute)binaryOperatorEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EEnum getLogicOperator() {
-		return logicOperatorEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getAttributeEvaluation() {
+	public EClass getAttributeEvaluation()
+	{
 		return attributeEvaluationEClass;
 	}
 
@@ -1747,7 +1883,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeEvaluation_Name() {
+	public EReference getAttributeEvaluation_Name()
+	{
 		return (EReference)attributeEvaluationEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1756,7 +1893,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAttributeEvaluation_Operator() {
+	public EAttribute getAttributeEvaluation_Operator()
+	{
 		return (EAttribute)attributeEvaluationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1765,7 +1903,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeEvaluation_Value() {
+	public EReference getAttributeEvaluation_Value()
+	{
 		return (EReference)attributeEvaluationEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1774,61 +1913,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getExpression() {
-		return expressionEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpression_First() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpression_Operator() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpression_Second() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getReferenceSwap() {
-		return referenceSwapEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getEvaluation() {
-		return evaluationEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getAttributeReverse() {
+	public EClass getAttributeReverse()
+	{
 		return attributeReverseEClass;
 	}
 
@@ -1837,7 +1923,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReferenceSet() {
+	public EClass getReferenceSet()
+	{
 		return referenceSetEClass;
 	}
 
@@ -1846,7 +1933,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceSet_Reference() {
+	public EReference getReferenceSet_Reference()
+	{
 		return (EReference)referenceSetEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1855,7 +1943,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceSet_Object() {
+	public EReference getReferenceSet_Object()
+	{
 		return (EReference)referenceSetEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1864,7 +1953,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceSet_RefType() {
+	public EReference getReferenceSet_RefType()
+	{
 		return (EReference)referenceSetEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1873,7 +1963,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReferenceInit() {
+	public EClass getReferenceInit()
+	{
 		return referenceInitEClass;
 	}
 
@@ -1882,7 +1973,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReferenceEvaluation() {
+	public EClass getReferenceEvaluation()
+	{
 		return referenceEvaluationEClass;
 	}
 
@@ -1891,7 +1983,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceEvaluation_Name() {
+	public EReference getReferenceEvaluation_Name()
+	{
 		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1900,7 +1993,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getReferenceEvaluation_Operator() {
+	public EAttribute getReferenceEvaluation_Operator()
+	{
 		return (EAttribute)referenceEvaluationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1909,7 +2003,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceEvaluation_Value() {
+	public EReference getReferenceEvaluation_Value()
+	{
 		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1918,7 +2013,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceEvaluation_RefType() {
+	public EReference getReferenceEvaluation_RefType()
+	{
 		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -1927,7 +2023,238 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MutatorenvironmentFactory getMutatorenvironmentFactory() {
+	public EClass getExpression()
+	{
+		return expressionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpression_First()
+	{
+		return (EReference)expressionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpression_Operator()
+	{
+		return (EReference)expressionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpression_Second()
+	{
+		return (EReference)expressionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReferenceSwap()
+	{
+		return referenceSwapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEvaluation()
+	{
+		return evaluationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBinaryOperator()
+	{
+		return binaryOperatorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBinaryOperator_Type()
+	{
+		return (EAttribute)binaryOperatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBlock()
+	{
+		return blockEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Name()
+	{
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBlock_Commands()
+	{
+		return (EReference)blockEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBlock_From()
+	{
+		return (EReference)blockEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Repeat()
+	{
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Min()
+	{
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Max()
+	{
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Fixed()
+	{
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getConstraint()
+	{
+		return constraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConstraint_Id()
+	{
+		return (EAttribute)constraintEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConstraint_Type()
+	{
+		return (EReference)constraintEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConstraint_Rule()
+	{
+		return (EAttribute)constraintEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getLogicOperator()
+	{
+		return logicOperatorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getOperator()
+	{
+		return operatorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getRepeat()
+	{
+		return repeatEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MutatorenvironmentFactory getMutatorenvironmentFactory()
+	{
 		return (MutatorenvironmentFactory)getEFactoryInstance();
 	}
 
@@ -1945,7 +2272,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void createPackageContents() {
+	public void createPackageContents()
+	{
 		if (isCreated) return;
 		isCreated = true;
 
@@ -1954,6 +2282,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEReference(mutatorEnvironmentEClass, MUTATOR_ENVIRONMENT__DEFINITION);
 		createEReference(mutatorEnvironmentEClass, MUTATOR_ENVIRONMENT__COMMANDS);
 		createEReference(mutatorEnvironmentEClass, MUTATOR_ENVIRONMENT__LOAD);
+		createEReference(mutatorEnvironmentEClass, MUTATOR_ENVIRONMENT__BLOCKS);
+		createEReference(mutatorEnvironmentEClass, MUTATOR_ENVIRONMENT__CONSTRAINTS);
 
 		definitionEClass = createEClass(DEFINITION);
 		createEAttribute(definitionEClass, DEFINITION__METAMODEL);
@@ -1972,6 +2302,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		mutatorEClass = createEClass(MUTATOR);
 		createEAttribute(mutatorEClass, MUTATOR__MIN);
 		createEAttribute(mutatorEClass, MUTATOR__MAX);
+		createEAttribute(mutatorEClass, MUTATOR__FIXED);
 
 		compositeMutatorEClass = createEClass(COMPOSITE_MUTATOR);
 		createEReference(compositeMutatorEClass, COMPOSITE_MUTATOR__COMMANDS);
@@ -2115,7 +2446,6 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		sourceEClass = createEClass(SOURCE);
 		createEAttribute(sourceEClass, SOURCE__PATH);
-		createEAttribute(sourceEClass, SOURCE__MULTIPLE);
 
 		otherSelectionEClass = createEClass(OTHER_SELECTION);
 
@@ -2158,9 +2488,24 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		binaryOperatorEClass = createEClass(BINARY_OPERATOR);
 		createEAttribute(binaryOperatorEClass, BINARY_OPERATOR__TYPE);
 
+		blockEClass = createEClass(BLOCK);
+		createEAttribute(blockEClass, BLOCK__NAME);
+		createEReference(blockEClass, BLOCK__COMMANDS);
+		createEReference(blockEClass, BLOCK__FROM);
+		createEAttribute(blockEClass, BLOCK__REPEAT);
+		createEAttribute(blockEClass, BLOCK__MIN);
+		createEAttribute(blockEClass, BLOCK__MAX);
+		createEAttribute(blockEClass, BLOCK__FIXED);
+
+		constraintEClass = createEClass(CONSTRAINT);
+		createEAttribute(constraintEClass, CONSTRAINT__ID);
+		createEReference(constraintEClass, CONSTRAINT__TYPE);
+		createEAttribute(constraintEClass, CONSTRAINT__RULE);
+
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
 		operatorEEnum = createEEnum(OPERATOR);
+		repeatEEnum = createEEnum(REPEAT);
 	}
 
 	/**
@@ -2177,7 +2522,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void initializePackageContents() {
+	public void initializePackageContents()
+	{
 		if (isInitialized) return;
 		isInitialized = true;
 
@@ -2249,6 +2595,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEReference(getMutatorEnvironment_Definition(), this.getDefinition(), null, "definition", null, 1, 1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorEnvironment_Commands(), this.getMutator(), null, "commands", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorEnvironment_Load(), this.getLoad(), null, "load", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorEnvironment_Blocks(), this.getBlock(), null, "blocks", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorEnvironment_Constraints(), this.getConstraint(), null, "constraints", null, 0, -1, MutatorEnvironment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(definitionEClass, Definition.class, "Definition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDefinition_Metamodel(), ecorePackage.getEString(), "metamodel", null, 0, 1, Definition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2267,6 +2615,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(mutatorEClass, Mutator.class, "Mutator", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMutator_Min(), ecorePackage.getEInt(), "min", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMutator_Max(), ecorePackage.getEInt(), "max", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMutator_Fixed(), ecorePackage.getEInt(), "fixed", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compositeMutatorEClass, CompositeMutator.class, "CompositeMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompositeMutator_Commands(), this.getMutator(), null, "commands", null, 0, -1, CompositeMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -2410,7 +2759,6 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		initEClass(sourceEClass, Source.class, "Source", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSource_Path(), ecorePackage.getEString(), "path", null, 1, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSource_Multiple(), ecorePackage.getEBoolean(), "multiple", null, 1, 1, Source.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(otherSelectionEClass, OtherSelection.class, "OtherSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2453,6 +2801,20 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(binaryOperatorEClass, BinaryOperator.class, "BinaryOperator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBinaryOperator_Type(), this.getLogicOperator(), "type", null, 1, 1, BinaryOperator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(blockEClass, Block.class, "Block", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBlock_Name(), ecorePackage.getEString(), "name", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBlock_Commands(), this.getMutator(), null, "commands", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBlock_From(), this.getBlock(), null, "from", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBlock_Repeat(), this.getRepeat(), "repeat", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBlock_Min(), ecorePackage.getEInt(), "min", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBlock_Max(), ecorePackage.getEInt(), "max", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBlock_Fixed(), ecorePackage.getEInt(), "fixed", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getConstraint_Id(), ecorePackage.getEString(), "id", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConstraint_Type(), ecorePackage.getEClass(), null, "type", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConstraint_Rule(), ecorePackage.getEString(), "rule", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");
 		addEEnumLiteral(logicOperatorEEnum, LogicOperator.AND);
@@ -2461,6 +2823,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEEnum(operatorEEnum, Operator.class, "Operator");
 		addEEnumLiteral(operatorEEnum, Operator.EQUALS);
 		addEEnumLiteral(operatorEEnum, Operator.DIFFERENT);
+
+		initEEnum(repeatEEnum, Repeat.class, "Repeat");
+		addEEnumLiteral(repeatEEnum, Repeat.YES);
+		addEEnumLiteral(repeatEEnum, Repeat.NO);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -2476,12 +2842,14 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void createImportAnnotations() {
+	protected void createImportAnnotations()
+	{
 		String source = "http://www.eclipse.org/OCL/Import";	
 		addAnnotation
 		  (this, 
 		   source, 
-		   new String[] {
+		   new String[] 
+		   {
 			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
 		   });
 	}

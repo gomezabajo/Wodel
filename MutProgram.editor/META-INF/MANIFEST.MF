@@ -4,13 +4,16 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: MutProgram.editor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: appliedMutations.presentation.AppliedMutationsEditorPlugin$Implementation
+Bundle-Activator: mutatorenvironment.presentation.MutatorEnvironmentEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: mutatorgraph.presentation,
  appliedMutations.presentation,
- mutatorenvironment.presentation
+ mutatorenvironment.presentation,
+ mutatortests.presentation,
+ identifyelements.presentation,
+ configureoptions.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  MutProgram.edit;visibility:=reexport,

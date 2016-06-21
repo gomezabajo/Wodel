@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface RemoveRandomReferenceMutator extends RemoveReferenceMutator {
+public interface RemoveRandomReferenceMutator extends RemoveReferenceMutator
+{
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

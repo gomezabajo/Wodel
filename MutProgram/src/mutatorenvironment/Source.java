@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link mutatorenvironment.Source#getPath <em>Path</em>}</li>
- *   <li>{@link mutatorenvironment.Source#isMultiple <em>Multiple</em>}</li>
  * </ul>
  * </p>
  *
@@ -21,7 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Source extends EObject {
+public interface Source extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>Path</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -47,31 +47,5 @@ public interface Source extends EObject {
 	 * @generated
 	 */
 	void setPath(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Multiple</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Multiple</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Multiple</em>' attribute.
-	 * @see #setMultiple(boolean)
-	 * @see mutatorenvironment.MutatorenvironmentPackage#getSource_Multiple()
-	 * @model required="true"
-	 * @generated
-	 */
-	boolean isMultiple();
-
-	/**
-	 * Sets the value of the '{@link mutatorenvironment.Source#isMultiple <em>Multiple</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Multiple</em>' attribute.
-	 * @see #isMultiple()
-	 * @generated
-	 */
-	void setMultiple(boolean value);
 
 } // Source

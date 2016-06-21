@@ -22,7 +22,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface ModifyTargetReferenceMutator extends Mutator {
+public interface ModifyTargetReferenceMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -53,7 +54,7 @@ public interface ModifyTargetReferenceMutator extends Mutator {
 	 * Returns the value of the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Source</em>' reference isn't clear,
+	 * If the meaning of the '<em>Source</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -79,7 +80,7 @@ public interface ModifyTargetReferenceMutator extends Mutator {
 	 * Returns the value of the '<em><b>New Target</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>New Target</em>' reference isn't clear,
+	 * If the meaning of the '<em>New Target</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

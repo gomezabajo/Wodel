@@ -22,22 +22,67 @@ public interface MutatortestsFactory extends EFactory {
 	MutatortestsFactory eINSTANCE = mutatortests.impl.MutatortestsFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Mutator Tests</em>'.
+	 * Returns a new object of class '<em>Program</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Mutator Tests</em>'.
+	 * @return a new object of class '<em>Program</em>'.
 	 * @generated
 	 */
-	MutatorTests createMutatorTests();
+	Program createProgram();
 
 	/**
-	 * Returns a new object of class '<em>Configuration</em>'.
+	 * Returns a new object of class '<em>Program Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Configuration</em>'.
+	 * @return a new object of class '<em>Program Configuration</em>'.
 	 * @generated
 	 */
-	Configuration createConfiguration();
+	ProgramConfiguration createProgramConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Test Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Test Configuration</em>'.
+	 * @generated
+	 */
+	TestConfiguration createTestConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Multi Choice Em Config</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Choice Em Config</em>'.
+	 * @generated
+	 */
+	MultiChoiceEmConfig createMultiChoiceEmConfig();
+
+	/**
+	 * Returns a new object of class '<em>Alternative Response</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Alternative Response</em>'.
+	 * @generated
+	 */
+	AlternativeResponse createAlternativeResponse();
+
+	/**
+	 * Returns a new object of class '<em>Multi Choice Diagram</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Choice Diagram</em>'.
+	 * @generated
+	 */
+	MultiChoiceDiagram createMultiChoiceDiagram();
+
+	/**
+	 * Returns a new object of class '<em>Multi Choice Emendation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Choice Emendation</em>'.
+	 * @generated
+	 */
+	MultiChoiceEmendation createMultiChoiceEmendation();
 
 	/**
 	 * Returns a new object of class '<em>Test</em>'.

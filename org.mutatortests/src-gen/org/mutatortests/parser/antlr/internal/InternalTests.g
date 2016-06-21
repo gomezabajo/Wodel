@@ -45,7 +45,7 @@ import org.mutatortests.services.TestsGrammarAccess;
     
     @Override
     protected String getFirstRuleName() {
-    	return "MutatorTests";	
+    	return "Program";	
    	}
    	
    	@Override
@@ -64,6 +64,69 @@ import org.mutatortests.services.TestsGrammarAccess;
 
 
 
+// Entry rule entryRuleProgram
+entryRuleProgram returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getProgramRule()); }
+	 iv_ruleProgram=ruleProgram 
+	 { $current=$iv_ruleProgram.current; } 
+	 EOF 
+;
+
+// Rule Program
+ruleProgram returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getProgramAccess().getProgramAction_0(),
+            $current);
+    }
+)(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getProgramAccess().getConfigProgramConfigurationParserRuleCall_1_0()); 
+	    }
+		lv_config_1_0=ruleProgramConfiguration		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getProgramRule());
+	        }
+       		set(
+       			$current, 
+       			"config",
+        		lv_config_1_0, 
+        		"ProgramConfiguration");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)?(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getProgramAccess().getExercisesMutatorTestsParserRuleCall_2_0()); 
+	    }
+		lv_exercises_2_0=ruleMutatorTests		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getProgramRule());
+	        }
+       		add(
+       			$current, 
+       			"exercises",
+        		lv_exercises_2_0, 
+        		"MutatorTests");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)+)
+;
+
+
+
+
+
 // Entry rule entryRuleMutatorTests
 entryRuleMutatorTests returns [EObject current=null] 
 	:
@@ -78,20 +141,91 @@ ruleMutatorTests returns [EObject current=null]
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-((
+(
+    { 
+        newCompositeNode(grammarAccess.getMutatorTestsAccess().getAlternativeResponseParserRuleCall_0()); 
+    }
+    this_AlternativeResponse_0=ruleAlternativeResponse
+    { 
+        $current = $this_AlternativeResponse_0.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getMutatorTestsAccess().getMultiChoiceDiagramParserRuleCall_1()); 
+    }
+    this_MultiChoiceDiagram_1=ruleMultiChoiceDiagram
+    { 
+        $current = $this_MultiChoiceDiagram_1.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getMutatorTestsAccess().getMultiChoiceEmendationParserRuleCall_2()); 
+    }
+    this_MultiChoiceEmendation_2=ruleMultiChoiceEmendation
+    { 
+        $current = $this_MultiChoiceEmendation_2.current; 
+        afterParserOrEnumRuleCall();
+    }
+)
+;
+
+
+
+
+
+// Entry rule entryRuleAlternativeResponse
+entryRuleAlternativeResponse returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getAlternativeResponseRule()); }
+	 iv_ruleAlternativeResponse=ruleAlternativeResponse 
+	 { $current=$iv_ruleAlternativeResponse.current; } 
+	 EOF 
+;
+
+// Rule AlternativeResponse
+ruleAlternativeResponse returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(	otherlv_0='AlternativeResponse' 
+    {
+    	newLeafNode(otherlv_0, grammarAccess.getAlternativeResponseAccess().getAlternativeResponseKeyword_0());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getAlternativeResponseRule());
+	        }
+        }
+	otherlv_1=RULE_ID
+	{
+		newLeafNode(otherlv_1, grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); 
+	}
+
+)
+)?	otherlv_2='{' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getAlternativeResponseAccess().getLeftCurlyBracketKeyword_2());
+    }
+(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMutatorTestsAccess().getConfigConfigurationParserRuleCall_0_0()); 
+	        newCompositeNode(grammarAccess.getAlternativeResponseAccess().getConfigTestConfigurationParserRuleCall_3_0()); 
 	    }
-		lv_config_0_0=ruleConfiguration		{
+		lv_config_3_0=ruleTestConfiguration		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMutatorTestsRule());
+	            $current = createModelElementForParent(grammarAccess.getAlternativeResponseRule());
 	        }
        		set(
        			$current, 
        			"config",
-        		lv_config_0_0, 
-        		"Configuration");
+        		lv_config_3_0, 
+        		"TestConfiguration");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -99,94 +233,494 @@ ruleMutatorTests returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMutatorTestsAccess().getTestsTestParserRuleCall_1_0()); 
+	        newCompositeNode(grammarAccess.getAlternativeResponseAccess().getTestsTestParserRuleCall_4_0()); 
 	    }
-		lv_tests_1_0=ruleTest		{
+		lv_tests_4_0=ruleTest		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMutatorTestsRule());
+	            $current = createModelElementForParent(grammarAccess.getAlternativeResponseRule());
 	        }
        		add(
        			$current, 
        			"tests",
-        		lv_tests_1_0, 
+        		lv_tests_4_0, 
         		"Test");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*)
+)*	otherlv_5='}' 
+    {
+    	newLeafNode(otherlv_5, grammarAccess.getAlternativeResponseAccess().getRightCurlyBracketKeyword_5());
+    }
+)
 ;
 
 
 
 
 
-// Entry rule entryRuleConfiguration
-entryRuleConfiguration returns [EObject current=null] 
+// Entry rule entryRuleMultiChoiceDiagram
+entryRuleMultiChoiceDiagram returns [EObject current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getConfigurationRule()); }
-	 iv_ruleConfiguration=ruleConfiguration 
-	 { $current=$iv_ruleConfiguration.current; } 
+	{ newCompositeNode(grammarAccess.getMultiChoiceDiagramRule()); }
+	 iv_ruleMultiChoiceDiagram=ruleMultiChoiceDiagram 
+	 { $current=$iv_ruleMultiChoiceDiagram.current; } 
 	 EOF 
 ;
 
-// Rule Configuration
-ruleConfiguration returns [EObject current=null] 
+// Rule MultiChoiceDiagram
+ruleMultiChoiceDiagram returns [EObject current=null] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-(	otherlv_0='retry' 
+(	otherlv_0='MultiChoiceDiagram' 
     {
-    	newLeafNode(otherlv_0, grammarAccess.getConfigurationAccess().getRetryKeyword_0());
+    	newLeafNode(otherlv_0, grammarAccess.getMultiChoiceDiagramAccess().getMultiChoiceDiagramKeyword_0());
     }
-	otherlv_1='=' 
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMultiChoiceDiagramRule());
+	        }
+        }
+	otherlv_1=RULE_ID
+	{
+		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); 
+	}
+
+)
+)?	otherlv_2='{' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getConfigurationAccess().getEqualsSignKeyword_1());
+    	newLeafNode(otherlv_2, grammarAccess.getMultiChoiceDiagramAccess().getLeftCurlyBracketKeyword_2());
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getConfigurationAccess().getRetryParameterEnumRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getMultiChoiceDiagramAccess().getConfigTestConfigurationParserRuleCall_3_0()); 
 	    }
-		lv_retry_2_0=ruleParameter		{
+		lv_config_3_0=ruleTestConfiguration		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getConfigurationRule());
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceDiagramRule());
 	        }
        		set(
        			$current, 
-       			"retry",
-        		lv_retry_2_0, 
-        		"Parameter");
+       			"config",
+        		lv_config_3_0, 
+        		"TestConfiguration");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)	otherlv_3=',' 
+)(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMultiChoiceDiagramAccess().getTestsTestParserRuleCall_4_0()); 
+	    }
+		lv_tests_4_0=ruleTest		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceDiagramRule());
+	        }
+       		add(
+       			$current, 
+       			"tests",
+        		lv_tests_4_0, 
+        		"Test");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*	otherlv_5='}' 
     {
-    	newLeafNode(otherlv_3, grammarAccess.getConfigurationAccess().getCommaKeyword_3());
+    	newLeafNode(otherlv_5, grammarAccess.getMultiChoiceDiagramAccess().getRightCurlyBracketKeyword_5());
     }
-	otherlv_4='showall' 
-    {
-    	newLeafNode(otherlv_4, grammarAccess.getConfigurationAccess().getShowallKeyword_4());
+)
+;
+
+
+
+
+
+// Entry rule entryRuleMultiChoiceEmendation
+entryRuleMultiChoiceEmendation returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getMultiChoiceEmendationRule()); }
+	 iv_ruleMultiChoiceEmendation=ruleMultiChoiceEmendation 
+	 { $current=$iv_ruleMultiChoiceEmendation.current; } 
+	 EOF 
+;
+
+// Rule MultiChoiceEmendation
+ruleMultiChoiceEmendation returns [EObject current=null] 
+    @init { enterRule(); 
     }
-	otherlv_5='=' 
+    @after { leaveRule(); }:
+(	otherlv_0='MultiChoiceEmendation' 
     {
-    	newLeafNode(otherlv_5, grammarAccess.getConfigurationAccess().getEqualsSignKeyword_5());
+    	newLeafNode(otherlv_0, grammarAccess.getMultiChoiceEmendationAccess().getMultiChoiceEmendationKeyword_0());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMultiChoiceEmendationRule());
+	        }
+        }
+	otherlv_1=RULE_ID
+	{
+		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); 
+	}
+
+)
+)?	otherlv_2='{' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getMultiChoiceEmendationAccess().getLeftCurlyBracketKeyword_2());
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getConfigurationAccess().getShowallParameterEnumRuleCall_6_0()); 
+	        newCompositeNode(grammarAccess.getMultiChoiceEmendationAccess().getConfigMultiChoiceEmConfigParserRuleCall_3_0()); 
 	    }
-		lv_showall_6_0=ruleParameter		{
+		lv_config_3_0=ruleMultiChoiceEmConfig		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getConfigurationRule());
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceEmendationRule());
 	        }
        		set(
        			$current, 
-       			"showall",
-        		lv_showall_6_0, 
-        		"Parameter");
+       			"config",
+        		lv_config_3_0, 
+        		"MultiChoiceEmConfig");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMultiChoiceEmendationAccess().getTestsTestParserRuleCall_4_0()); 
+	    }
+		lv_tests_4_0=ruleTest		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceEmendationRule());
+	        }
+       		add(
+       			$current, 
+       			"tests",
+        		lv_tests_4_0, 
+        		"Test");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*	otherlv_5='}' 
+    {
+    	newLeafNode(otherlv_5, grammarAccess.getMultiChoiceEmendationAccess().getRightCurlyBracketKeyword_5());
+    }
+)
+;
+
+
+
+
+
+// Entry rule entryRuleProgramConfiguration
+entryRuleProgramConfiguration returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getProgramConfigurationRule()); }
+	 iv_ruleProgramConfiguration=ruleProgramConfiguration 
+	 { $current=$iv_ruleProgramConfiguration.current; } 
+	 EOF 
+;
+
+// Rule ProgramConfiguration
+ruleProgramConfiguration returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(	otherlv_0='navigation' 
+    {
+    	newLeafNode(otherlv_0, grammarAccess.getProgramConfigurationAccess().getNavigationKeyword_0());
+    }
+	otherlv_1='=' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getProgramConfigurationAccess().getEqualsSignKeyword_1());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getProgramConfigurationAccess().getNavigationNavigationEnumRuleCall_2_0()); 
+	    }
+		lv_navigation_2_0=ruleNavigation		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getProgramConfigurationRule());
+	        }
+       		set(
+       			$current, 
+       			"navigation",
+        		lv_navigation_2_0, 
+        		"Navigation");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleTestConfiguration
+entryRuleTestConfiguration returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getTestConfigurationRule()); }
+	 iv_ruleTestConfiguration=ruleTestConfiguration 
+	 { $current=$iv_ruleTestConfiguration.current; } 
+	 EOF 
+;
+
+// Rule TestConfiguration
+ruleTestConfiguration returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getTestConfigurationAccess().getTestConfigurationAction_0(),
+            $current);
+    }
+)	otherlv_1='retry' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getTestConfigurationAccess().getRetryKeyword_1());
+    }
+	otherlv_2='=' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getTestConfigurationAccess().getEqualsSignKeyword_2());
+    }
+(
+(
+(
+		lv_retry_3_1=	'yes' 
+    {
+        newLeafNode(lv_retry_3_1, grammarAccess.getTestConfigurationAccess().getRetryYesKeyword_3_0_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getTestConfigurationRule());
+	        }
+       		setWithLastConsumed($current, "retry", true, null);
+	    }
+
+    |		lv_retry_3_2=	'no' 
+    {
+        newLeafNode(lv_retry_3_2, grammarAccess.getTestConfigurationAccess().getRetryNoKeyword_3_0_1());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getTestConfigurationRule());
+	        }
+       		setWithLastConsumed($current, "retry", true, null);
+	    }
+
+)
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleMultiChoiceEmConfig
+entryRuleMultiChoiceEmConfig returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getMultiChoiceEmConfigRule()); }
+	 iv_ruleMultiChoiceEmConfig=ruleMultiChoiceEmConfig 
+	 { $current=$iv_ruleMultiChoiceEmConfig.current; } 
+	 EOF 
+;
+
+// Rule MultiChoiceEmConfig
+ruleMultiChoiceEmConfig returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getMultiChoiceEmConfigAccess().getMultiChoiceEmConfigAction_0(),
+            $current);
+    }
+)	otherlv_1='retry' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmConfigAccess().getRetryKeyword_1());
+    }
+	otherlv_2='=' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_2());
+    }
+(
+(
+(
+		lv_retry_3_1=	'yes' 
+    {
+        newLeafNode(lv_retry_3_1, grammarAccess.getMultiChoiceEmConfigAccess().getRetryYesKeyword_3_0_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		setWithLastConsumed($current, "retry", true, null);
+	    }
+
+    |		lv_retry_3_2=	'no' 
+    {
+        newLeafNode(lv_retry_3_2, grammarAccess.getMultiChoiceEmConfigAccess().getRetryNoKeyword_3_0_1());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		setWithLastConsumed($current, "retry", true, null);
+	    }
+
+)
+
+)
+)	otherlv_4=',' 
+    {
+    	newLeafNode(otherlv_4, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_4());
+    }
+	otherlv_5='weighted' 
+    {
+    	newLeafNode(otherlv_5, grammarAccess.getMultiChoiceEmConfigAccess().getWeightedKeyword_5());
+    }
+	otherlv_6='=' 
+    {
+    	newLeafNode(otherlv_6, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_6());
+    }
+(
+(
+(
+		lv_weighted_7_1=	'yes' 
+    {
+        newLeafNode(lv_weighted_7_1, grammarAccess.getMultiChoiceEmConfigAccess().getWeightedYesKeyword_7_0_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		setWithLastConsumed($current, "weighted", true, null);
+	    }
+
+    |		lv_weighted_7_2=	'no' 
+    {
+        newLeafNode(lv_weighted_7_2, grammarAccess.getMultiChoiceEmConfigAccess().getWeightedNoKeyword_7_0_1());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		setWithLastConsumed($current, "weighted", true, null);
+	    }
+
+)
+
+)
+)	otherlv_8=',' 
+    {
+    	newLeafNode(otherlv_8, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_8());
+    }
+	otherlv_9='penalty' 
+    {
+    	newLeafNode(otherlv_9, grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyKeyword_9());
+    }
+	otherlv_10='=' 
+    {
+    	newLeafNode(otherlv_10, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_10());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyEDoubleParserRuleCall_11_0()); 
+	    }
+		lv_penalty_11_0=ruleEDouble		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		set(
+       			$current, 
+       			"penalty",
+        		lv_penalty_11_0, 
+        		"EDouble");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)	otherlv_12=',' 
+    {
+    	newLeafNode(otherlv_12, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_12());
+    }
+	otherlv_13='order' 
+    {
+    	newLeafNode(otherlv_13, grammarAccess.getMultiChoiceEmConfigAccess().getOrderKeyword_13());
+    }
+	otherlv_14='=' 
+    {
+    	newLeafNode(otherlv_14, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_14());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMultiChoiceEmConfigAccess().getOrderOrderEnumRuleCall_15_0()); 
+	    }
+		lv_order_15_0=ruleOrder		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		set(
+       			$current, 
+       			"order",
+        		lv_order_15_0, 
+        		"Order");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)	otherlv_16=',' 
+    {
+    	newLeafNode(otherlv_16, grammarAccess.getMultiChoiceEmConfigAccess().getCommaKeyword_16());
+    }
+	otherlv_17='mode' 
+    {
+    	newLeafNode(otherlv_17, grammarAccess.getMultiChoiceEmConfigAccess().getModeKeyword_17());
+    }
+	otherlv_18='=' 
+    {
+    	newLeafNode(otherlv_18, grammarAccess.getMultiChoiceEmConfigAccess().getEqualsSignKeyword_18());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMultiChoiceEmConfigAccess().getModeModeEnumRuleCall_19_0()); 
+	    }
+		lv_mode_19_0=ruleMode		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMultiChoiceEmConfigRule());
+	        }
+       		set(
+       			$current, 
+       			"mode",
+        		lv_mode_19_0, 
+        		"Mode");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -303,20 +837,143 @@ ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
 
 
 
-// Rule Parameter
-ruleParameter returns [Enumerator current=null] 
+// Entry rule entryRuleEDouble
+entryRuleEDouble returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getEDoubleRule()); } 
+	 iv_ruleEDouble=ruleEDouble 
+	 { $current=$iv_ruleEDouble.current.getText(); }  
+	 EOF 
+;
+
+// Rule EDouble
+ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+	kw='-' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_0()); 
+    }
+)?(    this_INT_1=RULE_INT    {
+		$current.merge(this_INT_1);
+    }
+
+    { 
+    newLeafNode(this_INT_1, grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_1()); 
+    }
+)?
+	kw='.' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getEDoubleAccess().getFullStopKeyword_2()); 
+    }
+    this_INT_3=RULE_INT    {
+		$current.merge(this_INT_3);
+    }
+
+    { 
+    newLeafNode(this_INT_3, grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_3()); 
+    }
+((
+	kw='E' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getEDoubleAccess().getEKeyword_4_0_0()); 
+    }
+
+    |
+	kw='e' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getEDoubleAccess().getEKeyword_4_0_1()); 
+    }
+)(
+	kw='-' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_4_1()); 
+    }
+)?    this_INT_7=RULE_INT    {
+		$current.merge(this_INT_7);
+    }
+
+    { 
+    newLeafNode(this_INT_7, grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_4_2()); 
+    }
+)?)
+    ;
+
+
+
+
+
+// Rule Order
+ruleOrder returns [Enumerator current=null] 
     @init { enterRule(); }
     @after { leaveRule(); }:
-((	enumLiteral_0='no' 
+((	enumLiteral_0='fixed' 
 	{
-        $current = grammarAccess.getParameterAccess().getNoEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-        newLeafNode(enumLiteral_0, grammarAccess.getParameterAccess().getNoEnumLiteralDeclaration_0()); 
+        $current = grammarAccess.getOrderAccess().getFixedEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_0, grammarAccess.getOrderAccess().getFixedEnumLiteralDeclaration_0()); 
     }
 )
-    |(	enumLiteral_1='yes' 
+    |(	enumLiteral_1='random' 
 	{
-        $current = grammarAccess.getParameterAccess().getYesEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-        newLeafNode(enumLiteral_1, grammarAccess.getParameterAccess().getYesEnumLiteralDeclaration_1()); 
+        $current = grammarAccess.getOrderAccess().getRandomEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_1, grammarAccess.getOrderAccess().getRandomEnumLiteralDeclaration_1()); 
+    }
+)
+    |(	enumLiteral_2='options-ascending' 
+	{
+        $current = grammarAccess.getOrderAccess().getAscendingEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_2, grammarAccess.getOrderAccess().getAscendingEnumLiteralDeclaration_2()); 
+    }
+)
+    |(	enumLiteral_3='options-descending' 
+	{
+        $current = grammarAccess.getOrderAccess().getDescendingEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_3, grammarAccess.getOrderAccess().getDescendingEnumLiteralDeclaration_3()); 
+    }
+));
+
+
+
+// Rule Mode
+ruleMode returns [Enumerator current=null] 
+    @init { enterRule(); }
+    @after { leaveRule(); }:
+((	enumLiteral_0='radiobutton' 
+	{
+        $current = grammarAccess.getModeAccess().getRadiobuttonEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_0, grammarAccess.getModeAccess().getRadiobuttonEnumLiteralDeclaration_0()); 
+    }
+)
+    |(	enumLiteral_1='checkbox' 
+	{
+        $current = grammarAccess.getModeAccess().getCheckboxEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_1, grammarAccess.getModeAccess().getCheckboxEnumLiteralDeclaration_1()); 
+    }
+));
+
+
+
+// Rule Navigation
+ruleNavigation returns [Enumerator current=null] 
+    @init { enterRule(); }
+    @after { leaveRule(); }:
+((	enumLiteral_0='free' 
+	{
+        $current = grammarAccess.getNavigationAccess().getFreeEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_0, grammarAccess.getNavigationAccess().getFreeEnumLiteralDeclaration_0()); 
+    }
+)
+    |(	enumLiteral_1='locked' 
+	{
+        $current = grammarAccess.getNavigationAccess().getLockedEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_1, grammarAccess.getNavigationAccess().getLockedEnumLiteralDeclaration_1()); 
     }
 ));
 

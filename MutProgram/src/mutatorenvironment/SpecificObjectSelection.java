@@ -19,7 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface SpecificObjectSelection extends SpecificSelection {
+public interface SpecificObjectSelection extends SpecificSelection
+{
 	/**
 	 * Returns the value of the '<em><b>Obj Sel</b></em>' reference.
 	 * <!-- begin-user-doc -->

@@ -10,7 +10,7 @@ public interface IGenerator extends IExecutableExtension {
 	
 	public String getName();
 	
-	public boolean doGenerate(String fileName, IProject project, IFolder srcPath, IFolder configPath, IProgressMonitor monitor);
+	public boolean doGenerate(String fileName, String metamodel, String project, String outputPath, IProject mutProject, IFolder srcPath, IFolder configPath, IProgressMonitor monitor);
 	
 	public void doRun(IFile file);
 }

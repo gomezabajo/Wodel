@@ -5,7 +5,6 @@ Bundle-SymbolicName: MutStaticPostprocessor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: mutstaticpostprocessor.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
  MutPostprocessor,
  org.emfjson.core;bundle-version="0.10.0",
  org.emfjson.jackson;bundle-version="0.10.0",

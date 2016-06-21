@@ -24,9 +24,15 @@ import exceptions.ReferenceNonExistingException;
 public class ModifyTargetReferenceMutator extends Mutator {
 
 	/**
+	 * Original EObject
+	 */
+	private EObject object;
+	
+	/**
 	 * Original source
 	 */
 	private ObSelectionStrategy source;
+	
 	/**
 	 * New target
 	 */
@@ -39,6 +45,21 @@ public class ModifyTargetReferenceMutator extends Mutator {
 	 * New target
 	 */
 	private EObject result;
+	
+	/**
+	 * Source of the relation
+	 */
+	private EObject srcObject;
+	
+	/**
+	 * Source reference name of the relation
+	 */
+	private String srcRefType;
+	
+	/**
+	 * Old target
+	 */
+	private EObject oldTarget;
 
 	/**
 	 * @param model
@@ -95,7 +116,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 			result = null;
 			return null;
 		}
-
+		
 		// We select a random new Target
 		if (newTarget == null) {
 			ArrayList<EObject> newTargets = new ArrayList<EObject>();
@@ -118,8 +139,21 @@ public class ModifyTargetReferenceMutator extends Mutator {
 			return null;
 		}
 
-		// We get the firstone (does not matter whichone)
-		EStructuralFeature ref = refs.get(0);
+		// We get a different object
+		EStructuralFeature ref = null;
+		for (EStructuralFeature r : refs) {
+			oldTarget = (EObject) container.eGet(r);
+			if (!EcoreUtil.equals(oldTarget, newTarget)) {
+				ref = r;
+				break;
+			}
+		}
+		if (EcoreUtil.equals(oldTarget, newTarget)) {
+			result = null;
+			return null;
+		}
+
+		object = EcoreUtil.copy(container);
 
 		if (!ref.getEType().getName().equals(newTarget.eClass().getName())) {
 			result = null;
@@ -173,10 +207,24 @@ public class ModifyTargetReferenceMutator extends Mutator {
 
 			result = newTarget;
 		}
+
+		// Source of the transition
+		for (EReference r : ModelManager.getReferences(container)) {
+			if (r.getName().equals(refType)) {
+				continue;
+			}
+			if (r.getEType().getName().equals(newTarget.eClass().getName())) {
+				srcObject = (EObject) container.eGet(r, true);
+				srcRefType = r.getName();
+			}
+		}
+
+
 		return this.result;
 	}
 
 	// GETTERS AND SETTERS
+	/*
 	public EObject getSource() {
 		if (source != null) {
 			try {
@@ -188,17 +236,43 @@ public class ModifyTargetReferenceMutator extends Mutator {
 		}
 		return null;
 	}
+	*/
+	public EObject getSource() {
+		return srcObject;
+	}
+	
+	public String getSrcRefType() {
+		return srcRefType;
+	}
 
+	public EObject getObject() {
+		return object;
+		//if (source != null) {
+		//	try {
+		//		return source.getObject();
+		//	} catch (ReferenceNonExistingException e) {
+		//		// TODO Auto-generated catch block
+		//		e.printStackTrace();
+		//	}
+		//}
+		//return null;
+	}
+	
 	public EObject getNewTarget() {
-		if (newTarget != null) {
-			try {
-				return newTarget.getObject();
-			} catch (ReferenceNonExistingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return null;
+		return result;
+		//if (newTarget != null) {
+		//	try {
+		//		return newTarget.getObject();
+		//	} catch (ReferenceNonExistingException e) {
+		//		// TODO Auto-generated catch block
+		//		e.printStackTrace();
+		//	}
+		//}
+		//return null;
+	}
+	
+	public EObject getOldTarget() {
+		return oldTarget;
 	}
 
 	public String getRefType() {

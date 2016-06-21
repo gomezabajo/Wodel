@@ -3,7 +3,6 @@
 package mutatorenvironment;
 
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Reference Swap</b></em>'.
@@ -14,6 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface ReferenceSwap extends ReferenceSet {
-
+public interface ReferenceSwap extends ReferenceSet
+{
 } // ReferenceSwap

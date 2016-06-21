@@ -21,7 +21,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface RandomStringType extends StringType {
+public interface RandomStringType extends StringType
+{
 	/**
 	 * Returns the value of the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->

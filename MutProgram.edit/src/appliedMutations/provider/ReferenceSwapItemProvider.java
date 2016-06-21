@@ -47,6 +47,10 @@ public class ReferenceSwapItemProvider extends ReferenceChangedItemProvider {
 
 			addRefObjectPropertyDescriptor(object);
 			addFirstNamePropertyDescriptor(object);
+			addOtherFromPropertyDescriptor(object);
+			addOtherFromNamePropertyDescriptor(object);
+			addOtherToPropertyDescriptor(object);
+			addOtherToNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -96,6 +100,94 @@ public class ReferenceSwapItemProvider extends ReferenceChangedItemProvider {
 	}
 
 	/**
+	 * This adds a property descriptor for the Other From feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOtherFromPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferenceSwap_otherFrom_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferenceSwap_otherFrom_feature", "_UI_ReferenceSwap_type"),
+				 AppliedMutationsPackage.Literals.REFERENCE_SWAP__OTHER_FROM,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Other From Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOtherFromNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferenceSwap_otherFromName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferenceSwap_otherFromName_feature", "_UI_ReferenceSwap_type"),
+				 AppliedMutationsPackage.Literals.REFERENCE_SWAP__OTHER_FROM_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Other To feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOtherToPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferenceSwap_otherTo_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferenceSwap_otherTo_feature", "_UI_ReferenceSwap_type"),
+				 AppliedMutationsPackage.Literals.REFERENCE_SWAP__OTHER_TO,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Other To Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOtherToNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferenceSwap_otherToName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferenceSwap_otherToName_feature", "_UI_ReferenceSwap_type"),
+				 AppliedMutationsPackage.Literals.REFERENCE_SWAP__OTHER_TO_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns ReferenceSwap.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -114,7 +206,7 @@ public class ReferenceSwapItemProvider extends ReferenceChangedItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ReferenceSwap)object).getRefName();
+		String label = ((ReferenceSwap)object).getSrcRefName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ReferenceSwap_type") :
 			getString("_UI_ReferenceSwap_type") + " " + label;
@@ -134,6 +226,8 @@ public class ReferenceSwapItemProvider extends ReferenceChangedItemProvider {
 
 		switch (notification.getFeatureID(ReferenceSwap.class)) {
 			case AppliedMutationsPackage.REFERENCE_SWAP__FIRST_NAME:
+			case AppliedMutationsPackage.REFERENCE_SWAP__OTHER_FROM_NAME:
+			case AppliedMutationsPackage.REFERENCE_SWAP__OTHER_TO_NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

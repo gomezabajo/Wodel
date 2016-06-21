@@ -13,10 +13,16 @@
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/equals"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/different"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//Repeat">
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Repeat/yes"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Repeat/no"/>
+    </genEnums>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//MutatorEnvironment">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/definition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/commands"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/load"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/blocks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/constraints"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//Definition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Definition/metamodel"/>
@@ -34,6 +40,7 @@
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//Mutator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/min"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/max"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/fixed"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//CompositeMutator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CompositeMutator/commands"/>
@@ -165,7 +172,6 @@
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//Source">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Source/path"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Source/multiple"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//OtherSelection"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//OtherTypeSelection"/>
@@ -201,6 +207,20 @@
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//Evaluation"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//BinaryOperator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//BinaryOperator/type"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//Block">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Block/commands"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Block/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/repeat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/min"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/max"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/fixed"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//Constraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Constraint/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/rule"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

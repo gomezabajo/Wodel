@@ -3,7 +3,6 @@
 package mutatorgraph.impl;
 
 import mutatorgraph.MutatorgraphPackage;
-import mutatorgraph.Negation;
 import mutatorgraph.Node;
 import mutatorgraph.NodeShape;
 import mutatorgraph.NodeType;
@@ -20,7 +19,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link mutatorgraph.impl.NodeImpl#getNegation <em>Negation</em>}</li>
+ *   <li>{@link mutatorgraph.impl.NodeImpl#isNegation <em>Negation</em>}</li>
  *   <li>{@link mutatorgraph.impl.NodeImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link mutatorgraph.impl.NodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link mutatorgraph.impl.NodeImpl#getShape <em>Shape</em>}</li>
@@ -31,24 +30,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class NodeImpl extends ItemImpl implements Node {
 	/**
-	 * The default value of the '{@link #getNegation() <em>Negation</em>}' attribute.
+	 * The default value of the '{@link #isNegation() <em>Negation</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNegation()
+	 * @see #isNegation()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Negation NEGATION_EDEFAULT = Negation.YES;
+	protected static final boolean NEGATION_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #getNegation() <em>Negation</em>}' attribute.
+	 * The cached value of the '{@link #isNegation() <em>Negation</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNegation()
+	 * @see #isNegation()
 	 * @generated
 	 * @ordered
 	 */
-	protected Negation negation = NEGATION_EDEFAULT;
+	protected boolean negation = NEGATION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getAttribute() <em>Attribute</em>}' reference.
@@ -124,7 +123,7 @@ public class NodeImpl extends ItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Negation getNegation() {
+	public boolean isNegation() {
 		return negation;
 	}
 
@@ -133,9 +132,9 @@ public class NodeImpl extends ItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNegation(Negation newNegation) {
-		Negation oldNegation = negation;
-		negation = newNegation == null ? NEGATION_EDEFAULT : newNegation;
+	public void setNegation(boolean newNegation) {
+		boolean oldNegation = negation;
+		negation = newNegation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MutatorgraphPackage.NODE__NEGATION, oldNegation, negation));
 	}
@@ -229,7 +228,7 @@ public class NodeImpl extends ItemImpl implements Node {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MutatorgraphPackage.NODE__NEGATION:
-				return getNegation();
+				return isNegation();
 			case MutatorgraphPackage.NODE__ATTRIBUTE:
 				if (resolve) return getAttribute();
 				return basicGetAttribute();
@@ -250,7 +249,7 @@ public class NodeImpl extends ItemImpl implements Node {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case MutatorgraphPackage.NODE__NEGATION:
-				setNegation((Negation)newValue);
+				setNegation((Boolean)newValue);
 				return;
 			case MutatorgraphPackage.NODE__ATTRIBUTE:
 				setAttribute((EAttribute)newValue);

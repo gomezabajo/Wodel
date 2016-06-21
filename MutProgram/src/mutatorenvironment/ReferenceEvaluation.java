@@ -23,7 +23,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface ReferenceEvaluation extends Evaluation {
+public interface ReferenceEvaluation extends Evaluation
+{
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' reference.
 	 * <!-- begin-user-doc -->

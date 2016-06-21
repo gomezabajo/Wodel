@@ -75,6 +75,8 @@ public class MutatorEnvironmentItemProvider
 			childrenFeatures.add(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__DEFINITION);
 			childrenFeatures.add(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__COMMANDS);
 			childrenFeatures.add(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__LOAD);
+			childrenFeatures.add(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__BLOCKS);
+			childrenFeatures.add(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__CONSTRAINTS);
 		}
 		return childrenFeatures;
 	}
@@ -130,6 +132,8 @@ public class MutatorEnvironmentItemProvider
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION:
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__COMMANDS:
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__LOAD:
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS:
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -216,6 +220,16 @@ public class MutatorEnvironmentItemProvider
 			(createChildParameter
 				(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__LOAD,
 				 MutatorenvironmentFactory.eINSTANCE.createLoad()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__BLOCKS,
+				 MutatorenvironmentFactory.eINSTANCE.createBlock()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT__CONSTRAINTS,
+				 MutatorenvironmentFactory.eINSTANCE.createConstraint()));
 	}
 
 	/**

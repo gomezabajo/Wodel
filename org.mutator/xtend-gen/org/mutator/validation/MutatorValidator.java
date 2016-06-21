@@ -69,42 +69,43 @@ public class MutatorValidator extends AbstractMutatorValidator {
   @Check
   public void checkProgramModel(final Program p) {
     Source _source = p.getSource();
-    boolean _isMultiple = _source.isMultiple();
-    boolean _equals = (_isMultiple == false);
-    if (_equals) {
+    String _path = _source.getPath();
+    boolean _endsWith = _path.endsWith("/");
+    boolean _not = (!_endsWith);
+    if (_not) {
       Source _source_1 = p.getSource();
-      String _path = _source_1.getPath();
-      boolean _checkModel = ModelManager.checkModel(_path);
-      boolean _not = (!_checkModel);
-      if (_not) {
+      String _path_1 = _source_1.getPath();
+      boolean _checkModel = ModelManager.checkModel(_path_1);
+      boolean _not_1 = (!_checkModel);
+      if (_not_1) {
         Source _source_2 = p.getSource();
-        String _path_1 = _source_2.getPath();
-        String _plus = ("Cannot find model" + _path_1);
+        String _path_2 = _source_2.getPath();
+        String _plus = ("Cannot find model" + _path_2);
         this.error(_plus, null, MutatorValidator.INVALID_MODEL);
       }
     }
     Source _source_3 = p.getSource();
-    boolean _isMultiple_1 = _source_3.isMultiple();
-    boolean _equals_1 = (_isMultiple_1 == true);
-    if (_equals_1) {
+    String _path_3 = _source_3.getPath();
+    boolean _endsWith_1 = _path_3.endsWith("/");
+    if (_endsWith_1) {
       Source _source_4 = p.getSource();
-      String _path_2 = _source_4.getPath();
-      File _file = new File(_path_2);
+      String _path_4 = _source_4.getPath();
+      File _file = new File(_path_4);
       final File[] files = _file.listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
-        boolean _equals_2 = (_isFile == true);
-        if (_equals_2) {
-          String _path_3 = file.getPath();
-          boolean _endsWith = _path_3.endsWith(".model");
-          boolean _equals_3 = (_endsWith == true);
-          if (_equals_3) {
-            String _path_4 = file.getPath();
-            boolean _checkModel_1 = ModelManager.checkModel(_path_4);
-            boolean _not_1 = (!_checkModel_1);
-            if (_not_1) {
-              String _path_5 = file.getPath();
-              String _plus_1 = ("Cannot find model " + _path_5);
+        boolean _equals = (_isFile == true);
+        if (_equals) {
+          String _path_5 = file.getPath();
+          boolean _endsWith_2 = _path_5.endsWith(".model");
+          boolean _equals_1 = (_endsWith_2 == true);
+          if (_equals_1) {
+            String _path_6 = file.getPath();
+            boolean _checkModel_1 = ModelManager.checkModel(_path_6);
+            boolean _not_2 = (!_checkModel_1);
+            if (_not_2) {
+              String _path_7 = file.getPath();
+              String _plus_1 = ("Cannot find model " + _path_7);
               this.error(_plus_1, null, MutatorValidator.INVALID_MODEL);
             }
           }

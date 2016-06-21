@@ -13,5 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface OtherSelection extends ObSelectionStrategy {
+public interface OtherSelection extends ObSelectionStrategy
+{
 } // OtherSelection

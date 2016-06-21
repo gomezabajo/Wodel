@@ -12,10 +12,12 @@ import mutatorenvironment.AttributeReverse;
 import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeUnset;
 import mutatorenvironment.BinaryOperator;
+import mutatorenvironment.Block;
 import mutatorenvironment.CatEndStringType;
 import mutatorenvironment.CatStartStringType;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
+import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Expression;
@@ -94,6 +96,9 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 			case MutatorenvironmentPackage.BINARY_OPERATOR:
 				sequence_BinaryOperator(context, (BinaryOperator) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.BLOCK:
+				sequence_Block(context, (Block) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.CAT_END_STRING_TYPE:
 				sequence_CatEndStringType(context, (CatEndStringType) semanticObject); 
 				return; 
@@ -105,6 +110,9 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 				return; 
 			case MutatorenvironmentPackage.COMPOSITE_MUTATOR:
 				sequence_CompositeMutator(context, (CompositeMutator) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.CONSTRAINT:
+				sequence_Constraint(context, (Constraint) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR:
 				sequence_CreateObjectMutator(context, (CreateObjectMutator) semanticObject); 
@@ -297,6 +305,22 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
+	 *     (
+	 *         name=ID 
+	 *         (from+=[Block|ID] from+=[Block|ID]*)? 
+	 *         repeat=Repeat? 
+	 *         commands+=Mutator 
+	 *         commands+=Mutator* 
+	 *         ((min=EInt max=MaxCardinality) | fixed=EInt)?
+	 *     )
+	 */
+	protected void sequence_Block(EObject context, Block semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     value=EString
 	 */
 	protected void sequence_CatEndStringType(EObject context, CatEndStringType semanticObject) {
@@ -338,10 +362,32 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (name=ID? commands+=Mutator commands+=Mutator* (min=EInt? max=MaxCardinality)?)
+	 *     (name=ID? commands+=Mutator commands+=Mutator* ((min=EInt max=MaxCardinality) | fixed=EInt)?)
 	 */
 	protected void sequence_CompositeMutator(EObject context, CompositeMutator semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (type=[EClass|ID] id=EString rule=EString)
+	 */
+	protected void sequence_Constraint(EObject context, Constraint semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__ID) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__ID));
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__TYPE));
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__RULE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__RULE));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getConstraintAccess().getTypeEClassIDTerminalRuleCall_1_0_1(), semanticObject.getType());
+		feeder.accept(grammarAccess.getConstraintAccess().getIdEStringParserRuleCall_2_0(), semanticObject.getId());
+		feeder.accept(grammarAccess.getConstraintAccess().getRuleEStringParserRuleCall_4_0(), semanticObject.getRule());
+		feeder.finish();
 	}
 	
 	
@@ -462,7 +508,12 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (load+=Load* definition=Definition commands+=Mutator commands+=Mutator*)
+	 *     (
+	 *         load+=Load* 
+	 *         definition=Definition 
+	 *         ((blocks+=Block blocks+=Block*) | (commands+=Mutator commands+=Mutator*)) 
+	 *         (constraints+=Constraint constraints+=Constraint*)?
+	 *     )
 	 */
 	protected void sequence_MutatorEnvironment(EObject context, MutatorEnvironment semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -480,26 +531,10 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (num=EInt output=EString source=Source metamodel=EString)
+	 *     (num=EInt? output=EString source=Source metamodel=EString)
 	 */
 	protected void sequence_Program(EObject context, Program semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.DEFINITION__METAMODEL) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.DEFINITION__METAMODEL));
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.PROGRAM__OUTPUT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.PROGRAM__OUTPUT));
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.PROGRAM__NUM) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.PROGRAM__NUM));
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.PROGRAM__SOURCE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.PROGRAM__SOURCE));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getProgramAccess().getNumEIntParserRuleCall_2_0(), semanticObject.getNum());
-		feeder.accept(grammarAccess.getProgramAccess().getOutputEStringParserRuleCall_5_0(), semanticObject.getOutput());
-		feeder.accept(grammarAccess.getProgramAccess().getSourceSourceParserRuleCall_7_0(), semanticObject.getSource());
-		feeder.accept(grammarAccess.getProgramAccess().getMetamodelEStringParserRuleCall_9_0(), semanticObject.getMetamodel());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -641,10 +676,17 @@ public abstract class AbstractMutatorSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (path=EString multiple?='all'?)
+	 *     path=EString
 	 */
 	protected void sequence_Source(EObject context, Source semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.SOURCE__PATH) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.SOURCE__PATH));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getSourceAccess().getPathEStringParserRuleCall_1_0(), semanticObject.getPath());
+		feeder.finish();
 	}
 	
 	

@@ -1,0 +1,32 @@
+generate mutants
+in "out/"
+from "model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelEduSample/model/DFAAutomaton.ecore"
+
+with blocks {
+	simple1 {
+		modify target tar from one Transition to other State
+	} [2]
+	simple2 {
+		s0 = select one State where {isInitial = true}
+		s1 = select one State where {isFinal = false}
+		t0 = select one Transition where {src = s0}
+		modify one Transition where {tar = s1} with {swapref(tar, t0.tar)}
+	} [1]
+	first {
+		modify target tar from one Transition to other State
+		modify one State with {reverse(isFinal)}
+	} [3]
+	second from first repeat=no{
+		modify target tar from one Transition to other State
+		modify one State with {reverse(isFinal)}
+	} [3]
+	third from first repeat=no {
+		modify target tar from one Transition to other State
+		modify one State with {reverse(isFinal)}
+	} [3]
+}
+
+constraints {
+	context State connected: "isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
+}

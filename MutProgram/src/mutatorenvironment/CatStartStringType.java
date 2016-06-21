@@ -19,7 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface CatStartStringType extends StringType {
+public interface CatStartStringType extends StringType
+{
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->

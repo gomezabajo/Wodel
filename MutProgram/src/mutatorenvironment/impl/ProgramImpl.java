@@ -5,10 +5,13 @@ package mutatorenvironment.impl;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.Program;
 import mutatorenvironment.Source;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -26,7 +29,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class ProgramImpl extends DefinitionImpl implements Program {
+public class ProgramImpl extends DefinitionImpl implements Program
+{
 	/**
 	 * The default value of the '{@link #getOutput() <em>Output</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -82,7 +86,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ProgramImpl() {
+	protected ProgramImpl()
+	{
 		super();
 	}
 
@@ -92,7 +97,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.PROGRAM;
 	}
 
@@ -101,7 +107,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getOutput() {
+	public String getOutput()
+	{
 		return output;
 	}
 
@@ -110,7 +117,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOutput(String newOutput) {
+	public void setOutput(String newOutput)
+	{
 		String oldOutput = output;
 		output = newOutput;
 		if (eNotificationRequired())
@@ -122,7 +130,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getNum() {
+	public int getNum()
+	{
 		return num;
 	}
 
@@ -131,7 +140,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNum(int newNum) {
+	public void setNum(int newNum)
+	{
 		int oldNum = num;
 		num = newNum;
 		if (eNotificationRequired())
@@ -143,7 +153,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Source getSource() {
+	public Source getSource()
+	{
 		return source;
 	}
 
@@ -152,10 +163,12 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSource(Source newSource, NotificationChain msgs) {
+	public NotificationChain basicSetSource(Source newSource, NotificationChain msgs)
+	{
 		Source oldSource = source;
 		source = newSource;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.PROGRAM__SOURCE, oldSource, newSource);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -167,8 +180,10 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSource(Source newSource) {
-		if (newSource != source) {
+	public void setSource(Source newSource)
+	{
+		if (newSource != source)
+		{
 			NotificationChain msgs = null;
 			if (source != null)
 				msgs = ((InternalEObject)source).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.PROGRAM__SOURCE, null, msgs);
@@ -187,8 +202,10 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.PROGRAM__SOURCE:
 				return basicSetSource(null, msgs);
 		}
@@ -201,8 +218,10 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.PROGRAM__OUTPUT:
 				return getOutput();
 			case MutatorenvironmentPackage.PROGRAM__NUM:
@@ -219,8 +238,10 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.PROGRAM__OUTPUT:
 				setOutput((String)newValue);
 				return;
@@ -240,8 +261,10 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.PROGRAM__OUTPUT:
 				setOutput(OUTPUT_EDEFAULT);
 				return;
@@ -261,8 +284,10 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.PROGRAM__OUTPUT:
 				return OUTPUT_EDEFAULT == null ? output != null : !OUTPUT_EDEFAULT.equals(output);
 			case MutatorenvironmentPackage.PROGRAM__NUM:
@@ -279,7 +304,8 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

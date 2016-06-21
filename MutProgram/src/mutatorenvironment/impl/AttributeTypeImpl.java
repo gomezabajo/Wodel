@@ -18,13 +18,15 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class AttributeTypeImpl extends MinimalEObjectImpl.Container implements AttributeType {
+public abstract class AttributeTypeImpl extends MinimalEObjectImpl.Container implements AttributeType
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeTypeImpl() {
+	protected AttributeTypeImpl()
+	{
 		super();
 	}
 
@@ -34,7 +36,8 @@ public abstract class AttributeTypeImpl extends MinimalEObjectImpl.Container imp
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE;
 	}
 

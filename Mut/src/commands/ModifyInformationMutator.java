@@ -55,11 +55,17 @@ public class ModifyInformationMutator extends Mutator {
 	
 	private EObject next;
 
+	private EObject eobjother;
 	private EObject eobjatt;
 	
 	private EObject eobjref;
 	
 	private EObject eobject;
+	
+	private EObject othereobjsrc;
+	private String othereobjsrcname;
+	private EObject othereobjtar;
+	private String othereobjtarname;
 
 	/**
 	 * @param model
@@ -95,14 +101,18 @@ public class ModifyInformationMutator extends Mutator {
 				if (e.getValue() instanceof SwapAttributeConfigurationStrategy) {
 					SwapAttributeConfigurationStrategy sacs = (SwapAttributeConfigurationStrategy) e.getValue();
 					eobjatt = sacs.getAttObject();
+					eobjother = sacs.getOtherObject();
+					
 					//oldAttValue = sacs.getPrevious(object);
 				}
 				else {
 					if (e.getValue() instanceof CopyAttributeConfigurationStrategy) {
 						CopyAttributeConfigurationStrategy cacs = (CopyAttributeConfigurationStrategy) e.getValue();
+						eobjatt = cacs.getAttObject();
 						//oldAttValue = cacs.getPrevious(object);
 					}
 					else {
+						eobjatt = EcoreUtil.copy(object);
 						//oldAttValue = ModelManager.getAttribute(e.getKey(), object);
 					}
 				}
@@ -127,6 +137,10 @@ public class ModifyInformationMutator extends Mutator {
 					eobjref = EcoreUtil.copy(srcf.getRefObject());
 					previous = (EObject) srcf.getPrevious(eobjref);
 					next = (EObject) srcf.getNext(eobjref);
+					othereobjsrc = srcf.getOtherSource();
+					othereobjsrcname = srcf.getOtherSourceName();
+					othereobjtar = srcf.getOtherTarget();
+					othereobjtarname = srcf.getOtherTargetName();
 				}
 				else {
 					previous = ModelManager.getReference(e.getKey(), object);
@@ -150,10 +164,10 @@ public class ModifyInformationMutator extends Mutator {
 
 	public Object getOldAttValue(String attName) {
 		//return oldAttValue;
-		EList<EAttribute> atts = ModelManager.getAttributes(eobject);
+		EList<EAttribute> atts = ModelManager.getAttributes(eobjatt);
 		for (EAttribute att : atts) {
 			if (att.getName().equals(attName)) {
-				return eobject.eGet(att);
+				return eobjatt.eGet(att);
 			}
 		}
 		return null;
@@ -182,7 +196,27 @@ public class ModifyInformationMutator extends Mutator {
 		return eobjatt;
 	}
 	
+	public EObject getOtherObject() {
+		return eobjother;
+	}
+	
 	public EObject getRefObject() {
 		return eobjref;
+	}
+	
+	public EObject getOtherSource() {
+		return othereobjsrc;
+	}
+	
+	public String getOtherSourceName() {
+		return othereobjsrcname;
+	}
+
+	public EObject getOtherTarget() {
+		return othereobjtar;
+	}
+	
+	public String getOtherTargetName() {
+		return othereobjtarname;
 	}
 }

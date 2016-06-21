@@ -13,5 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface Library extends Definition {
+public interface Library extends Definition
+{
 } // Library

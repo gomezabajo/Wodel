@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.BooleanType;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class BooleanTypeImpl extends AttributeTypeImpl implements BooleanType {
+public abstract class BooleanTypeImpl extends AttributeTypeImpl implements BooleanType
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BooleanTypeImpl() {
+	protected BooleanTypeImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public abstract class BooleanTypeImpl extends AttributeTypeImpl implements Boole
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.BOOLEAN_TYPE;
 	}
 

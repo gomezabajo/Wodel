@@ -13,6 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface AttributeReverse extends AttributeSet {
-
+public interface AttributeReverse extends AttributeSet
+{
 } // AttributeReverse

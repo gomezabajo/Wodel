@@ -5,7 +5,7 @@ package mutatorenvironment;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Case String Type</b></em>'.
+ * A representation of the model object '<em><b>Lower String Type</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -19,7 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface LowerStringType extends StringType {
+public interface LowerStringType extends StringType
+{
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -46,4 +47,4 @@ public interface LowerStringType extends StringType {
 	 */
 	void setValue(String value);
 
-} // SpecificStringType
+} // LowerStringType

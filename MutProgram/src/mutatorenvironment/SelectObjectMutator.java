@@ -22,7 +22,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface SelectObjectMutator extends Mutator {
+public interface SelectObjectMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Container</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

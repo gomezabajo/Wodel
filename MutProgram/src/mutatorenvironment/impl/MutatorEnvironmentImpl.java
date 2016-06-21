@@ -4,6 +4,8 @@ package mutatorenvironment.impl;
 
 import java.util.Collection;
 
+import mutatorenvironment.Block;
+import mutatorenvironment.Constraint;
 import mutatorenvironment.Definition;
 import mutatorenvironment.Load;
 import mutatorenvironment.Mutator;
@@ -34,12 +36,15 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getDefinition <em>Definition</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getCommands <em>Commands</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getLoad <em>Load</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getBlocks <em>Blocks</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getConstraints <em>Constraints</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container implements MutatorEnvironment {
+public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container implements MutatorEnvironment
+{
 	/**
 	 * The cached value of the '{@link #getDefinition() <em>Definition</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -71,11 +76,32 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	protected EList<Load> load;
 
 	/**
+	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBlocks()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Block> blocks;
+
+	/**
+	 * The cached value of the '{@link #getConstraints() <em>Constraints</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConstraints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Constraint> constraints;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MutatorEnvironmentImpl() {
+	protected MutatorEnvironmentImpl()
+	{
 		super();
 	}
 
@@ -85,7 +111,8 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.MUTATOR_ENVIRONMENT;
 	}
 
@@ -94,7 +121,8 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Definition getDefinition() {
+	public Definition getDefinition()
+	{
 		return definition;
 	}
 
@@ -103,10 +131,12 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetDefinition(Definition newDefinition, NotificationChain msgs) {
+	public NotificationChain basicSetDefinition(Definition newDefinition, NotificationChain msgs)
+	{
 		Definition oldDefinition = definition;
 		definition = newDefinition;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION, oldDefinition, newDefinition);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -118,8 +148,10 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDefinition(Definition newDefinition) {
-		if (newDefinition != definition) {
+	public void setDefinition(Definition newDefinition)
+	{
+		if (newDefinition != definition)
+		{
 			NotificationChain msgs = null;
 			if (definition != null)
 				msgs = ((InternalEObject)definition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION, null, msgs);
@@ -137,8 +169,10 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Mutator> getCommands() {
-		if (commands == null) {
+	public EList<Mutator> getCommands()
+	{
+		if (commands == null)
+		{
 			commands = new EObjectContainmentEList<Mutator>(Mutator.class, this, MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__COMMANDS);
 		}
 		return commands;
@@ -149,8 +183,10 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Load> getLoad() {
-		if (load == null) {
+	public EList<Load> getLoad()
+	{
+		if (load == null)
+		{
 			load = new EObjectContainmentEList<Load>(Load.class, this, MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__LOAD);
 		}
 		return load;
@@ -161,15 +197,49 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Block> getBlocks()
+	{
+		if (blocks == null)
+		{
+			blocks = new EObjectContainmentEList<Block>(Block.class, this, MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS);
+		}
+		return blocks;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Constraint> getConstraints()
+	{
+		if (constraints == null)
+		{
+			constraints = new EObjectContainmentEList<Constraint>(Constraint.class, this, MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS);
+		}
+		return constraints;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION:
 				return basicSetDefinition(null, msgs);
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__COMMANDS:
 				return ((InternalEList<?>)getCommands()).basicRemove(otherEnd, msgs);
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__LOAD:
 				return ((InternalEList<?>)getLoad()).basicRemove(otherEnd, msgs);
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS:
+				return ((InternalEList<?>)getBlocks()).basicRemove(otherEnd, msgs);
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS:
+				return ((InternalEList<?>)getConstraints()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -180,14 +250,20 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION:
 				return getDefinition();
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__COMMANDS:
 				return getCommands();
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__LOAD:
 				return getLoad();
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS:
+				return getBlocks();
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS:
+				return getConstraints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -199,8 +275,10 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION:
 				setDefinition((Definition)newValue);
 				return;
@@ -212,6 +290,14 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 				getLoad().clear();
 				getLoad().addAll((Collection<? extends Load>)newValue);
 				return;
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS:
+				getBlocks().clear();
+				getBlocks().addAll((Collection<? extends Block>)newValue);
+				return;
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS:
+				getConstraints().clear();
+				getConstraints().addAll((Collection<? extends Constraint>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -222,8 +308,10 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION:
 				setDefinition((Definition)null);
 				return;
@@ -232,6 +320,12 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 				return;
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__LOAD:
 				getLoad().clear();
+				return;
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS:
+				getBlocks().clear();
+				return;
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS:
+				getConstraints().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -243,14 +337,20 @@ public class MutatorEnvironmentImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__DEFINITION:
 				return definition != null;
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__COMMANDS:
 				return commands != null && !commands.isEmpty();
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__LOAD:
 				return load != null && !load.isEmpty();
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__BLOCKS:
+				return blocks != null && !blocks.isEmpty();
+			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT__CONSTRAINTS:
+				return constraints != null && !constraints.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.RemoveReferenceMutator;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class RemoveReferenceMutatorImpl extends MutatorImpl implements RemoveReferenceMutator {
+public abstract class RemoveReferenceMutatorImpl extends MutatorImpl implements RemoveReferenceMutator
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RemoveReferenceMutatorImpl() {
+	protected RemoveReferenceMutatorImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public abstract class RemoveReferenceMutatorImpl extends MutatorImpl implements 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REMOVE_REFERENCE_MUTATOR;
 	}
 

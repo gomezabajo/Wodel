@@ -20,9 +20,15 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ocl.common;bundle-version="1.2.0",
  org.eclipse.ocl;bundle-version="3.4.2",
  org.eclipse.ocl.ecore;bundle-version="3.3.100",
- org.eclipse.xtext
+ org.eclipse.xtext,
+ org.eclipse.osgi,
+ org.eclipse.emf.common,
+ MutProgram
 Bundle-ActivationPolicy: lazy
-Import-Package: mutatorenvironment,
+Import-Package: configureoptions,
+ identifyelements,
+ mutatorenvironment,
+ mutatortests,
  org.eclipse.emf.codegen.ecore.generator,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,

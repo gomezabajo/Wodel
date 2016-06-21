@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Load extends EObject {
+public interface Load extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>File</b></em>' attribute.
 	 * <!-- begin-user-doc -->

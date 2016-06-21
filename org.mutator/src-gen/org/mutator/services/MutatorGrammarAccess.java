@@ -26,19 +26,39 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cDefinitionAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cDefinitionDefinitionParserRuleCall_1_0 = (RuleCall)cDefinitionAssignment_1.eContents().get(0);
 		private final Keyword cWithKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Keyword cCommandsKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final Keyword cLeftCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cCommandsAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cCommandsMutatorParserRuleCall_5_0 = (RuleCall)cCommandsAssignment_5.eContents().get(0);
-		private final Assignment cCommandsAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cCommandsMutatorParserRuleCall_6_0 = (RuleCall)cCommandsAssignment_6.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
+		private final Group cGroup_3_0 = (Group)cAlternatives_3.eContents().get(0);
+		private final Keyword cBlocksKeyword_3_0_0 = (Keyword)cGroup_3_0.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_3_0_1 = (Keyword)cGroup_3_0.eContents().get(1);
+		private final Assignment cBlocksAssignment_3_0_2 = (Assignment)cGroup_3_0.eContents().get(2);
+		private final RuleCall cBlocksBlockParserRuleCall_3_0_2_0 = (RuleCall)cBlocksAssignment_3_0_2.eContents().get(0);
+		private final Assignment cBlocksAssignment_3_0_3 = (Assignment)cGroup_3_0.eContents().get(3);
+		private final RuleCall cBlocksBlockParserRuleCall_3_0_3_0 = (RuleCall)cBlocksAssignment_3_0_3.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_3_0_4 = (Keyword)cGroup_3_0.eContents().get(4);
+		private final Group cGroup_3_1 = (Group)cAlternatives_3.eContents().get(1);
+		private final Keyword cCommandsKeyword_3_1_0 = (Keyword)cGroup_3_1.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_3_1_1 = (Keyword)cGroup_3_1.eContents().get(1);
+		private final Assignment cCommandsAssignment_3_1_2 = (Assignment)cGroup_3_1.eContents().get(2);
+		private final RuleCall cCommandsMutatorParserRuleCall_3_1_2_0 = (RuleCall)cCommandsAssignment_3_1_2.eContents().get(0);
+		private final Assignment cCommandsAssignment_3_1_3 = (Assignment)cGroup_3_1.eContents().get(3);
+		private final RuleCall cCommandsMutatorParserRuleCall_3_1_3_0 = (RuleCall)cCommandsAssignment_3_1_3.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_3_1_4 = (Keyword)cGroup_3_1.eContents().get(4);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cConstraintsKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Assignment cConstraintsAssignment_4_2 = (Assignment)cGroup_4.eContents().get(2);
+		private final RuleCall cConstraintsConstraintParserRuleCall_4_2_0 = (RuleCall)cConstraintsAssignment_4_2.eContents().get(0);
+		private final Assignment cConstraintsAssignment_4_3 = (Assignment)cGroup_4.eContents().get(3);
+		private final RuleCall cConstraintsConstraintParserRuleCall_4_3_0 = (RuleCall)cConstraintsAssignment_4_3.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_4_4 = (Keyword)cGroup_4.eContents().get(4);
 		
 		//MutatorEnvironment:
-		//	load+=Load* definition=Definition "with" "commands" "{" commands+=Mutator commands+=Mutator* "}";
+		//	load+=Load* definition=Definition "with" ("blocks" "{" blocks+=Block blocks+=Block* "}" | "commands" "{"
+		//	commands+=Mutator commands+=Mutator* "}") ("constraints" "{" constraints+=Constraint constraints+=Constraint* "}")?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//load+=Load* definition=Definition "with" "commands" "{" commands+=Mutator commands+=Mutator* "}"
+		//load+=Load* definition=Definition "with" ("blocks" "{" blocks+=Block blocks+=Block* "}" | "commands" "{"
+		//commands+=Mutator commands+=Mutator* "}") ("constraints" "{" constraints+=Constraint constraints+=Constraint* "}")?
 		public Group getGroup() { return cGroup; }
 
 		//load+=Load*
@@ -56,26 +76,80 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		//"with"
 		public Keyword getWithKeyword_2() { return cWithKeyword_2; }
 
-		//"commands"
-		public Keyword getCommandsKeyword_3() { return cCommandsKeyword_3; }
+		//"blocks" "{" blocks+=Block blocks+=Block* "}" | "commands" "{" commands+=Mutator commands+=Mutator* "}"
+		public Alternatives getAlternatives_3() { return cAlternatives_3; }
+
+		//"blocks" "{" blocks+=Block blocks+=Block* "}"
+		public Group getGroup_3_0() { return cGroup_3_0; }
+
+		//"blocks"
+		public Keyword getBlocksKeyword_3_0_0() { return cBlocksKeyword_3_0_0; }
 
 		//"{"
-		public Keyword getLeftCurlyBracketKeyword_4() { return cLeftCurlyBracketKeyword_4; }
+		public Keyword getLeftCurlyBracketKeyword_3_0_1() { return cLeftCurlyBracketKeyword_3_0_1; }
 
-		//commands+=Mutator
-		public Assignment getCommandsAssignment_5() { return cCommandsAssignment_5; }
+		//blocks+=Block
+		public Assignment getBlocksAssignment_3_0_2() { return cBlocksAssignment_3_0_2; }
 
-		//Mutator
-		public RuleCall getCommandsMutatorParserRuleCall_5_0() { return cCommandsMutatorParserRuleCall_5_0; }
+		//Block
+		public RuleCall getBlocksBlockParserRuleCall_3_0_2_0() { return cBlocksBlockParserRuleCall_3_0_2_0; }
 
-		//commands+=Mutator*
-		public Assignment getCommandsAssignment_6() { return cCommandsAssignment_6; }
+		//blocks+=Block*
+		public Assignment getBlocksAssignment_3_0_3() { return cBlocksAssignment_3_0_3; }
 
-		//Mutator
-		public RuleCall getCommandsMutatorParserRuleCall_6_0() { return cCommandsMutatorParserRuleCall_6_0; }
+		//Block
+		public RuleCall getBlocksBlockParserRuleCall_3_0_3_0() { return cBlocksBlockParserRuleCall_3_0_3_0; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
+		public Keyword getRightCurlyBracketKeyword_3_0_4() { return cRightCurlyBracketKeyword_3_0_4; }
+
+		//"commands" "{" commands+=Mutator commands+=Mutator* "}"
+		public Group getGroup_3_1() { return cGroup_3_1; }
+
+		//"commands"
+		public Keyword getCommandsKeyword_3_1_0() { return cCommandsKeyword_3_1_0; }
+
+		//"{"
+		public Keyword getLeftCurlyBracketKeyword_3_1_1() { return cLeftCurlyBracketKeyword_3_1_1; }
+
+		//commands+=Mutator
+		public Assignment getCommandsAssignment_3_1_2() { return cCommandsAssignment_3_1_2; }
+
+		//Mutator
+		public RuleCall getCommandsMutatorParserRuleCall_3_1_2_0() { return cCommandsMutatorParserRuleCall_3_1_2_0; }
+
+		//commands+=Mutator*
+		public Assignment getCommandsAssignment_3_1_3() { return cCommandsAssignment_3_1_3; }
+
+		//Mutator
+		public RuleCall getCommandsMutatorParserRuleCall_3_1_3_0() { return cCommandsMutatorParserRuleCall_3_1_3_0; }
+
+		//"}"
+		public Keyword getRightCurlyBracketKeyword_3_1_4() { return cRightCurlyBracketKeyword_3_1_4; }
+
+		//("constraints" "{" constraints+=Constraint constraints+=Constraint* "}")?
+		public Group getGroup_4() { return cGroup_4; }
+
+		//"constraints"
+		public Keyword getConstraintsKeyword_4_0() { return cConstraintsKeyword_4_0; }
+
+		//"{"
+		public Keyword getLeftCurlyBracketKeyword_4_1() { return cLeftCurlyBracketKeyword_4_1; }
+
+		//constraints+=Constraint
+		public Assignment getConstraintsAssignment_4_2() { return cConstraintsAssignment_4_2; }
+
+		//Constraint
+		public RuleCall getConstraintsConstraintParserRuleCall_4_2_0() { return cConstraintsConstraintParserRuleCall_4_2_0; }
+
+		//constraints+=Constraint*
+		public Assignment getConstraintsAssignment_4_3() { return cConstraintsAssignment_4_3; }
+
+		//Constraint
+		public RuleCall getConstraintsConstraintParserRuleCall_4_3_0() { return cConstraintsConstraintParserRuleCall_4_3_0; }
+
+		//"}"
+		public Keyword getRightCurlyBracketKeyword_4_4() { return cRightCurlyBracketKeyword_4_4; }
 	}
 
 	public class DefinitionElements extends AbstractParserRuleElementFinder {
@@ -153,10 +227,10 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cMetamodelEStringParserRuleCall_9_0 = (RuleCall)cMetamodelAssignment_9.eContents().get(0);
 		
 		//Program:
-		//	{Program} "generate" num=EInt "mutants" "in" output=EString "from" source=Source "metamodel" metamodel=EString;
+		//	{Program} "generate" num=EInt? "mutants" "in" output=EString "from" source=Source "metamodel" metamodel=EString;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{Program} "generate" num=EInt "mutants" "in" output=EString "from" source=Source "metamodel" metamodel=EString
+		//{Program} "generate" num=EInt? "mutants" "in" output=EString "from" source=Source "metamodel" metamodel=EString
 		public Group getGroup() { return cGroup; }
 
 		//{Program}
@@ -165,7 +239,7 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		//"generate"
 		public Keyword getGenerateKeyword_1() { return cGenerateKeyword_1; }
 
-		//num=EInt
+		//num=EInt?
 		public Assignment getNumAssignment_2() { return cNumAssignment_2; }
 
 		//EInt
@@ -208,30 +282,224 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		private final Action cSourceAction_0 = (Action)cGroup.eContents().get(0);
 		private final Assignment cPathAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cPathEStringParserRuleCall_1_0 = (RuleCall)cPathAssignment_1.eContents().get(0);
-		private final Assignment cMultipleAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final Keyword cMultipleAllKeyword_2_0 = (Keyword)cMultipleAssignment_2.eContents().get(0);
 		
 		//Source:
-		//	{Source} path=EString multiple?="all"?;
+		//	{Source} path= / *(multiple?='all')?* / EString;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{Source} path=EString multiple?="all"?
+		//{Source} path= / *(multiple?='all')?* / EString
 		public Group getGroup() { return cGroup; }
 
 		//{Source}
 		public Action getSourceAction_0() { return cSourceAction_0; }
 
-		//path=EString
+		//path= / *(multiple?='all')?* / EString
 		public Assignment getPathAssignment_1() { return cPathAssignment_1; }
 
-		//EString
+		/// *(multiple?='all')?* / EString
 		public RuleCall getPathEStringParserRuleCall_1_0() { return cPathEStringParserRuleCall_1_0; }
+	}
 
-		//multiple?="all"?
-		public Assignment getMultipleAssignment_2() { return cMultipleAssignment_2; }
+	public class BlockElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Block");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cFromKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cFromAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final CrossReference cFromBlockCrossReference_1_1_0 = (CrossReference)cFromAssignment_1_1.eContents().get(0);
+		private final RuleCall cFromBlockIDTerminalRuleCall_1_1_0_1 = (RuleCall)cFromBlockCrossReference_1_1_0.eContents().get(1);
+		private final Group cGroup_1_2 = (Group)cGroup_1.eContents().get(2);
+		private final Keyword cCommaKeyword_1_2_0 = (Keyword)cGroup_1_2.eContents().get(0);
+		private final Assignment cFromAssignment_1_2_1 = (Assignment)cGroup_1_2.eContents().get(1);
+		private final CrossReference cFromBlockCrossReference_1_2_1_0 = (CrossReference)cFromAssignment_1_2_1.eContents().get(0);
+		private final RuleCall cFromBlockIDTerminalRuleCall_1_2_1_0_1 = (RuleCall)cFromBlockCrossReference_1_2_1_0.eContents().get(1);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cRepeatKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
+		private final Assignment cRepeatAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
+		private final RuleCall cRepeatRepeatEnumRuleCall_2_2_0 = (RuleCall)cRepeatAssignment_2_2.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cCommandsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cCommandsMutatorParserRuleCall_4_0 = (RuleCall)cCommandsAssignment_4.eContents().get(0);
+		private final Assignment cCommandsAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cCommandsMutatorParserRuleCall_5_0 = (RuleCall)cCommandsAssignment_5.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
+		private final Keyword cLeftSquareBracketKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
+		private final Alternatives cAlternatives_7_1 = (Alternatives)cGroup_7.eContents().get(1);
+		private final Group cGroup_7_1_0 = (Group)cAlternatives_7_1.eContents().get(0);
+		private final Assignment cMinAssignment_7_1_0_0 = (Assignment)cGroup_7_1_0.eContents().get(0);
+		private final RuleCall cMinEIntParserRuleCall_7_1_0_0_0 = (RuleCall)cMinAssignment_7_1_0_0.eContents().get(0);
+		private final Keyword cFullStopFullStopKeyword_7_1_0_1 = (Keyword)cGroup_7_1_0.eContents().get(1);
+		private final Assignment cMaxAssignment_7_1_0_2 = (Assignment)cGroup_7_1_0.eContents().get(2);
+		private final RuleCall cMaxMaxCardinalityParserRuleCall_7_1_0_2_0 = (RuleCall)cMaxAssignment_7_1_0_2.eContents().get(0);
+		private final Assignment cFixedAssignment_7_1_1 = (Assignment)cAlternatives_7_1.eContents().get(1);
+		private final RuleCall cFixedEIntParserRuleCall_7_1_1_0 = (RuleCall)cFixedAssignment_7_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_7_2 = (Keyword)cGroup_7.eContents().get(2);
+		
+		//Block:
+		//	name=ID ("from" from+=[Block] ("," from+=[Block])*)? ("repeat" "=" repeat=Repeat)? "{" commands+=Mutator
+		//	commands+=Mutator* "}" ("[" (min=EInt ".." max=MaxCardinality | fixed=EInt) "]")?;
+		@Override public ParserRule getRule() { return rule; }
 
-		//"all"
-		public Keyword getMultipleAllKeyword_2_0() { return cMultipleAllKeyword_2_0; }
+		//name=ID ("from" from+=[Block] ("," from+=[Block])*)? ("repeat" "=" repeat=Repeat)? "{" commands+=Mutator
+		//commands+=Mutator* "}" ("[" (min=EInt ".." max=MaxCardinality | fixed=EInt) "]")?
+		public Group getGroup() { return cGroup; }
+
+		//name=ID
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
+
+		//("from" from+=[Block] ("," from+=[Block])*)?
+		public Group getGroup_1() { return cGroup_1; }
+
+		//"from"
+		public Keyword getFromKeyword_1_0() { return cFromKeyword_1_0; }
+
+		//from+=[Block]
+		public Assignment getFromAssignment_1_1() { return cFromAssignment_1_1; }
+
+		//[Block]
+		public CrossReference getFromBlockCrossReference_1_1_0() { return cFromBlockCrossReference_1_1_0; }
+
+		//ID
+		public RuleCall getFromBlockIDTerminalRuleCall_1_1_0_1() { return cFromBlockIDTerminalRuleCall_1_1_0_1; }
+
+		//("," from+=[Block])*
+		public Group getGroup_1_2() { return cGroup_1_2; }
+
+		//","
+		public Keyword getCommaKeyword_1_2_0() { return cCommaKeyword_1_2_0; }
+
+		//from+=[Block]
+		public Assignment getFromAssignment_1_2_1() { return cFromAssignment_1_2_1; }
+
+		//[Block]
+		public CrossReference getFromBlockCrossReference_1_2_1_0() { return cFromBlockCrossReference_1_2_1_0; }
+
+		//ID
+		public RuleCall getFromBlockIDTerminalRuleCall_1_2_1_0_1() { return cFromBlockIDTerminalRuleCall_1_2_1_0_1; }
+
+		//("repeat" "=" repeat=Repeat)?
+		public Group getGroup_2() { return cGroup_2; }
+
+		//"repeat"
+		public Keyword getRepeatKeyword_2_0() { return cRepeatKeyword_2_0; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_2_1() { return cEqualsSignKeyword_2_1; }
+
+		//repeat=Repeat
+		public Assignment getRepeatAssignment_2_2() { return cRepeatAssignment_2_2; }
+
+		//Repeat
+		public RuleCall getRepeatRepeatEnumRuleCall_2_2_0() { return cRepeatRepeatEnumRuleCall_2_2_0; }
+
+		//"{"
+		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
+
+		//commands+=Mutator
+		public Assignment getCommandsAssignment_4() { return cCommandsAssignment_4; }
+
+		//Mutator
+		public RuleCall getCommandsMutatorParserRuleCall_4_0() { return cCommandsMutatorParserRuleCall_4_0; }
+
+		//commands+=Mutator*
+		public Assignment getCommandsAssignment_5() { return cCommandsAssignment_5; }
+
+		//Mutator
+		public RuleCall getCommandsMutatorParserRuleCall_5_0() { return cCommandsMutatorParserRuleCall_5_0; }
+
+		//"}"
+		public Keyword getRightCurlyBracketKeyword_6() { return cRightCurlyBracketKeyword_6; }
+
+		//("[" (min=EInt ".." max=MaxCardinality | fixed=EInt) "]")?
+		public Group getGroup_7() { return cGroup_7; }
+
+		//"["
+		public Keyword getLeftSquareBracketKeyword_7_0() { return cLeftSquareBracketKeyword_7_0; }
+
+		//min=EInt ".." max=MaxCardinality | fixed=EInt
+		public Alternatives getAlternatives_7_1() { return cAlternatives_7_1; }
+
+		//min=EInt ".." max=MaxCardinality
+		public Group getGroup_7_1_0() { return cGroup_7_1_0; }
+
+		//min=EInt
+		public Assignment getMinAssignment_7_1_0_0() { return cMinAssignment_7_1_0_0; }
+
+		//EInt
+		public RuleCall getMinEIntParserRuleCall_7_1_0_0_0() { return cMinEIntParserRuleCall_7_1_0_0_0; }
+
+		//".."
+		public Keyword getFullStopFullStopKeyword_7_1_0_1() { return cFullStopFullStopKeyword_7_1_0_1; }
+
+		//max=MaxCardinality
+		public Assignment getMaxAssignment_7_1_0_2() { return cMaxAssignment_7_1_0_2; }
+
+		//MaxCardinality
+		public RuleCall getMaxMaxCardinalityParserRuleCall_7_1_0_2_0() { return cMaxMaxCardinalityParserRuleCall_7_1_0_2_0; }
+
+		//fixed=EInt
+		public Assignment getFixedAssignment_7_1_1() { return cFixedAssignment_7_1_1; }
+
+		//EInt
+		public RuleCall getFixedEIntParserRuleCall_7_1_1_0() { return cFixedEIntParserRuleCall_7_1_1_0; }
+
+		//"]"
+		public Keyword getRightSquareBracketKeyword_7_2() { return cRightSquareBracketKeyword_7_2; }
+	}
+
+	public class ConstraintElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Constraint");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cContextKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cTypeEClassCrossReference_1_0 = (CrossReference)cTypeAssignment_1.eContents().get(0);
+		private final RuleCall cTypeEClassIDTerminalRuleCall_1_0_1 = (RuleCall)cTypeEClassCrossReference_1_0.eContents().get(1);
+		private final Assignment cIdAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cIdEStringParserRuleCall_2_0 = (RuleCall)cIdAssignment_2.eContents().get(0);
+		private final Keyword cColonKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cRuleAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cRuleEStringParserRuleCall_4_0 = (RuleCall)cRuleAssignment_4.eContents().get(0);
+		
+		//Constraint:
+		//	"context" type=[ecore::EClass] id=EString ":" rule=EString;
+		@Override public ParserRule getRule() { return rule; }
+
+		//"context" type=[ecore::EClass] id=EString ":" rule=EString
+		public Group getGroup() { return cGroup; }
+
+		//"context"
+		public Keyword getContextKeyword_0() { return cContextKeyword_0; }
+
+		//type=[ecore::EClass]
+		public Assignment getTypeAssignment_1() { return cTypeAssignment_1; }
+
+		//[ecore::EClass]
+		public CrossReference getTypeEClassCrossReference_1_0() { return cTypeEClassCrossReference_1_0; }
+
+		//ID
+		public RuleCall getTypeEClassIDTerminalRuleCall_1_0_1() { return cTypeEClassIDTerminalRuleCall_1_0_1; }
+
+		//id=EString
+		public Assignment getIdAssignment_2() { return cIdAssignment_2; }
+
+		//EString
+		public RuleCall getIdEStringParserRuleCall_2_0() { return cIdEStringParserRuleCall_2_0; }
+
+		//":"
+		public Keyword getColonKeyword_3() { return cColonKeyword_3; }
+
+		//rule=EString
+		public Assignment getRuleAssignment_4() { return cRuleAssignment_4; }
+
+		//EString
+		public RuleCall getRuleEStringParserRuleCall_4_0() { return cRuleEStringParserRuleCall_4_0; }
 	}
 
 	public class MutatorElements extends AbstractParserRuleElementFinder {
@@ -1825,19 +2093,23 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
 		private final Keyword cLeftSquareBracketKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Group cGroup_5_1 = (Group)cGroup_5.eContents().get(1);
-		private final Assignment cMinAssignment_5_1_0 = (Assignment)cGroup_5_1.eContents().get(0);
-		private final RuleCall cMinEIntParserRuleCall_5_1_0_0 = (RuleCall)cMinAssignment_5_1_0.eContents().get(0);
-		private final Keyword cFullStopFullStopKeyword_5_1_1 = (Keyword)cGroup_5_1.eContents().get(1);
-		private final Assignment cMaxAssignment_5_2 = (Assignment)cGroup_5.eContents().get(2);
-		private final RuleCall cMaxMaxCardinalityParserRuleCall_5_2_0 = (RuleCall)cMaxAssignment_5_2.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_5_3 = (Keyword)cGroup_5.eContents().get(3);
+		private final Alternatives cAlternatives_5_1 = (Alternatives)cGroup_5.eContents().get(1);
+		private final Group cGroup_5_1_0 = (Group)cAlternatives_5_1.eContents().get(0);
+		private final Assignment cMinAssignment_5_1_0_0 = (Assignment)cGroup_5_1_0.eContents().get(0);
+		private final RuleCall cMinEIntParserRuleCall_5_1_0_0_0 = (RuleCall)cMinAssignment_5_1_0_0.eContents().get(0);
+		private final Keyword cFullStopFullStopKeyword_5_1_0_1 = (Keyword)cGroup_5_1_0.eContents().get(1);
+		private final Assignment cMaxAssignment_5_1_0_2 = (Assignment)cGroup_5_1_0.eContents().get(2);
+		private final RuleCall cMaxMaxCardinalityParserRuleCall_5_1_0_2_0 = (RuleCall)cMaxAssignment_5_1_0_2.eContents().get(0);
+		private final Assignment cFixedAssignment_5_1_1 = (Assignment)cAlternatives_5_1.eContents().get(1);
+		private final RuleCall cFixedEIntParserRuleCall_5_1_1_0 = (RuleCall)cFixedAssignment_5_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
 		
 		//CompositeMutator:
-		//	(name=ID "=")? "[" commands+=Mutator commands+=Mutator* "]" ("[" (min=EInt "..")? max=MaxCardinality "]")?;
+		//	(name=ID "=")? "[" commands+=Mutator commands+=Mutator* "]" ("[" (min=EInt ".." max=MaxCardinality | fixed=EInt)
+		//	"]")?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(name=ID "=")? "[" commands+=Mutator commands+=Mutator* "]" ("[" (min=EInt "..")? max=MaxCardinality "]")?
+		//(name=ID "=")? "[" commands+=Mutator commands+=Mutator* "]" ("[" (min=EInt ".." max=MaxCardinality | fixed=EInt) "]")?
 		public Group getGroup() { return cGroup; }
 
 		//(name=ID "=")?
@@ -1870,32 +2142,41 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		//"]"
 		public Keyword getRightSquareBracketKeyword_4() { return cRightSquareBracketKeyword_4; }
 
-		//("[" (min=EInt "..")? max=MaxCardinality "]")?
+		//("[" (min=EInt ".." max=MaxCardinality | fixed=EInt) "]")?
 		public Group getGroup_5() { return cGroup_5; }
 
 		//"["
 		public Keyword getLeftSquareBracketKeyword_5_0() { return cLeftSquareBracketKeyword_5_0; }
 
-		//(min=EInt "..")?
-		public Group getGroup_5_1() { return cGroup_5_1; }
+		//min=EInt ".." max=MaxCardinality | fixed=EInt
+		public Alternatives getAlternatives_5_1() { return cAlternatives_5_1; }
+
+		//min=EInt ".." max=MaxCardinality
+		public Group getGroup_5_1_0() { return cGroup_5_1_0; }
 
 		//min=EInt
-		public Assignment getMinAssignment_5_1_0() { return cMinAssignment_5_1_0; }
+		public Assignment getMinAssignment_5_1_0_0() { return cMinAssignment_5_1_0_0; }
 
 		//EInt
-		public RuleCall getMinEIntParserRuleCall_5_1_0_0() { return cMinEIntParserRuleCall_5_1_0_0; }
+		public RuleCall getMinEIntParserRuleCall_5_1_0_0_0() { return cMinEIntParserRuleCall_5_1_0_0_0; }
 
 		//".."
-		public Keyword getFullStopFullStopKeyword_5_1_1() { return cFullStopFullStopKeyword_5_1_1; }
+		public Keyword getFullStopFullStopKeyword_5_1_0_1() { return cFullStopFullStopKeyword_5_1_0_1; }
 
 		//max=MaxCardinality
-		public Assignment getMaxAssignment_5_2() { return cMaxAssignment_5_2; }
+		public Assignment getMaxAssignment_5_1_0_2() { return cMaxAssignment_5_1_0_2; }
 
 		//MaxCardinality
-		public RuleCall getMaxMaxCardinalityParserRuleCall_5_2_0() { return cMaxMaxCardinalityParserRuleCall_5_2_0; }
+		public RuleCall getMaxMaxCardinalityParserRuleCall_5_1_0_2_0() { return cMaxMaxCardinalityParserRuleCall_5_1_0_2_0; }
+
+		//fixed=EInt
+		public Assignment getFixedAssignment_5_1_1() { return cFixedAssignment_5_1_1; }
+
+		//EInt
+		public RuleCall getFixedEIntParserRuleCall_5_1_1_0() { return cFixedEIntParserRuleCall_5_1_1_0; }
 
 		//"]"
-		public Keyword getRightSquareBracketKeyword_5_3() { return cRightSquareBracketKeyword_5_3; }
+		public Keyword getRightSquareBracketKeyword_5_2() { return cRightSquareBracketKeyword_5_2; }
 	}
 
 	public class AttributeSetElements extends AbstractParserRuleElementFinder {
@@ -3197,12 +3478,42 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		//"<>"
 		public Keyword getDifferentLessThanSignGreaterThanSignKeyword_1_0() { return cDifferentLessThanSignGreaterThanSignKeyword_1_0; }
 	}
+
+	public class RepeatElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "Repeat");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cYesEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cYesYesKeyword_0_0 = (Keyword)cYesEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cNoEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cNoNoKeyword_1_0 = (Keyword)cNoEnumLiteralDeclaration_1.eContents().get(0);
+		
+		//enum Repeat:
+		//	yes | no;
+		public EnumRule getRule() { return rule; }
+
+		//yes | no
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//yes
+		public EnumLiteralDeclaration getYesEnumLiteralDeclaration_0() { return cYesEnumLiteralDeclaration_0; }
+
+		//"yes"
+		public Keyword getYesYesKeyword_0_0() { return cYesYesKeyword_0_0; }
+
+		//no
+		public EnumLiteralDeclaration getNoEnumLiteralDeclaration_1() { return cNoEnumLiteralDeclaration_1; }
+
+		//"no"
+		public Keyword getNoNoKeyword_1_0() { return cNoNoKeyword_1_0; }
+	}
 	
 	private final MutatorEnvironmentElements pMutatorEnvironment;
 	private final DefinitionElements pDefinition;
 	private final LibraryElements pLibrary;
 	private final ProgramElements pProgram;
 	private final SourceElements pSource;
+	private final BlockElements pBlock;
+	private final ConstraintElements pConstraint;
 	private final MutatorElements pMutator;
 	private final ObSelectionStrategyElements pObSelectionStrategy;
 	private final RandomSelectionElements pRandomSelection;
@@ -3217,6 +3528,7 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 	private final EBooleanElements pEBoolean;
 	private final LogicOperatorElements unknownRuleLogicOperator;
 	private final OperatorElements unknownRuleOperator;
+	private final RepeatElements unknownRuleRepeat;
 	private final BinaryOperatorElements pBinaryOperator;
 	private final AttributeEvaluationElements pAttributeEvaluation;
 	private final ReferenceEvaluationElements pReferenceEvaluation;
@@ -3281,6 +3593,8 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		this.pLibrary = new LibraryElements();
 		this.pProgram = new ProgramElements();
 		this.pSource = new SourceElements();
+		this.pBlock = new BlockElements();
+		this.pConstraint = new ConstraintElements();
 		this.pMutator = new MutatorElements();
 		this.pObSelectionStrategy = new ObSelectionStrategyElements();
 		this.pRandomSelection = new RandomSelectionElements();
@@ -3295,6 +3609,7 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 		this.pEBoolean = new EBooleanElements();
 		this.unknownRuleLogicOperator = new LogicOperatorElements();
 		this.unknownRuleOperator = new OperatorElements();
+		this.unknownRuleRepeat = new RepeatElements();
 		this.pBinaryOperator = new BinaryOperatorElements();
 		this.pAttributeEvaluation = new AttributeEvaluationElements();
 		this.pReferenceEvaluation = new ReferenceEvaluationElements();
@@ -3374,7 +3689,8 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//MutatorEnvironment:
-	//	load+=Load* definition=Definition "with" "commands" "{" commands+=Mutator commands+=Mutator* "}";
+	//	load+=Load* definition=Definition "with" ("blocks" "{" blocks+=Block blocks+=Block* "}" | "commands" "{"
+	//	commands+=Mutator commands+=Mutator* "}") ("constraints" "{" constraints+=Constraint constraints+=Constraint* "}")?;
 	public MutatorEnvironmentElements getMutatorEnvironmentAccess() {
 		return pMutatorEnvironment;
 	}
@@ -3404,7 +3720,7 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Program:
-	//	{Program} "generate" num=EInt "mutants" "in" output=EString "from" source=Source "metamodel" metamodel=EString;
+	//	{Program} "generate" num=EInt? "mutants" "in" output=EString "from" source=Source "metamodel" metamodel=EString;
 	public ProgramElements getProgramAccess() {
 		return pProgram;
 	}
@@ -3414,13 +3730,34 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Source:
-	//	{Source} path=EString multiple?="all"?;
+	//	{Source} path= / *(multiple?='all')?* / EString;
 	public SourceElements getSourceAccess() {
 		return pSource;
 	}
 	
 	public ParserRule getSourceRule() {
 		return getSourceAccess().getRule();
+	}
+
+	//Block:
+	//	name=ID ("from" from+=[Block] ("," from+=[Block])*)? ("repeat" "=" repeat=Repeat)? "{" commands+=Mutator
+	//	commands+=Mutator* "}" ("[" (min=EInt ".." max=MaxCardinality | fixed=EInt) "]")?;
+	public BlockElements getBlockAccess() {
+		return pBlock;
+	}
+	
+	public ParserRule getBlockRule() {
+		return getBlockAccess().getRule();
+	}
+
+	//Constraint:
+	//	"context" type=[ecore::EClass] id=EString ":" rule=EString;
+	public ConstraintElements getConstraintAccess() {
+		return pConstraint;
+	}
+	
+	public ParserRule getConstraintRule() {
+		return getConstraintAccess().getRule();
 	}
 
 	//Mutator:
@@ -3563,6 +3900,16 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public EnumRule getOperatorRule() {
 		return getOperatorAccess().getRule();
+	}
+
+	//enum Repeat:
+	//	yes | no;
+	public RepeatElements getRepeatAccess() {
+		return unknownRuleRepeat;
+	}
+	
+	public EnumRule getRepeatRule() {
+		return getRepeatAccess().getRule();
 	}
 
 	//BinaryOperator:
@@ -3747,7 +4094,8 @@ public class MutatorGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CompositeMutator:
-	//	(name=ID "=")? "[" commands+=Mutator commands+=Mutator* "]" ("[" (min=EInt "..")? max=MaxCardinality "]")?;
+	//	(name=ID "=")? "[" commands+=Mutator commands+=Mutator* "]" ("[" (min=EInt ".." max=MaxCardinality | fixed=EInt)
+	//	"]")?;
 	public CompositeMutatorElements getCompositeMutatorAccess() {
 		return pCompositeMutator;
 	}

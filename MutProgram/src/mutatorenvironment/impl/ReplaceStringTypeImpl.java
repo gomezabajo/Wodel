@@ -25,7 +25,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStringType {
+public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStringType
+{
 	/**
 	 * The default value of the '{@link #getOldstring() <em>Oldstring</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -71,7 +72,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReplaceStringTypeImpl() {
+	protected ReplaceStringTypeImpl()
+	{
 		super();
 	}
 
@@ -81,7 +83,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REPLACE_STRING_TYPE;
 	}
 
@@ -90,7 +93,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getOldstring() {
+	public String getOldstring()
+	{
 		return oldstring;
 	}
 
@@ -99,7 +103,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOldstring(String newOldstring) {
+	public void setOldstring(String newOldstring)
+	{
 		String oldOldstring = oldstring;
 		oldstring = newOldstring;
 		if (eNotificationRequired())
@@ -111,7 +116,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getNewstring() {
+	public String getNewstring()
+	{
 		return newstring;
 	}
 
@@ -120,7 +126,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNewstring(String newNewstring) {
+	public void setNewstring(String newNewstring)
+	{
 		String oldNewstring = newstring;
 		newstring = newNewstring;
 		if (eNotificationRequired())
@@ -133,8 +140,10 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE__OLDSTRING:
 				return getOldstring();
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE__NEWSTRING:
@@ -149,8 +158,10 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE__OLDSTRING:
 				setOldstring((String)newValue);
 				return;
@@ -167,8 +178,10 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE__OLDSTRING:
 				setOldstring(OLDSTRING_EDEFAULT);
 				return;
@@ -185,8 +198,10 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE__OLDSTRING:
 				return OLDSTRING_EDEFAULT == null ? oldstring != null : !OLDSTRING_EDEFAULT.equals(oldstring);
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE__NEWSTRING:
@@ -201,7 +216,8 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

@@ -4,7 +4,6 @@ package mutatorenvironment;
 
 import org.eclipse.emf.ecore.EObject;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Binary Operator</b></em>'.
@@ -21,8 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface BinaryOperator extends EObject {
-
+public interface BinaryOperator extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link mutatorenvironment.LogicOperator}.
@@ -51,4 +50,5 @@ public interface BinaryOperator extends EObject {
 	 * @generated
 	 */
 	void setType(LogicOperator value);
+
 } // BinaryOperator

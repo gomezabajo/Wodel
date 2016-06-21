@@ -21,7 +21,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface RandomDoubleType extends DoubleType {
+public interface RandomDoubleType extends DoubleType
+{
 	/**
 	 * Returns the value of the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->

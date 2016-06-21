@@ -1219,6 +1219,52 @@ public class MutatorenvironmentItemProviderAdapterFactory extends Mutatorenviron
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link mutatorenvironment.Block} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BlockItemProvider blockItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link mutatorenvironment.Block}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBlockAdapter() {
+		if (blockItemProvider == null) {
+			blockItemProvider = new BlockItemProvider(this);
+		}
+
+		return blockItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link mutatorenvironment.Constraint} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ConstraintItemProvider constraintItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link mutatorenvironment.Constraint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createConstraintAdapter() {
+		if (constraintItemProvider == null) {
+			constraintItemProvider = new ConstraintItemProvider(this);
+		}
+
+		return constraintItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1367,6 +1413,8 @@ public class MutatorenvironmentItemProviderAdapterFactory extends Mutatorenviron
 		if (expressionItemProvider != null) expressionItemProvider.dispose();
 		if (referenceSwapItemProvider != null) referenceSwapItemProvider.dispose();
 		if (binaryOperatorItemProvider != null) binaryOperatorItemProvider.dispose();
+		if (blockItemProvider != null) blockItemProvider.dispose();
+		if (constraintItemProvider != null) constraintItemProvider.dispose();
 	}
 
 }

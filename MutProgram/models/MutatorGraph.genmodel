@@ -5,10 +5,6 @@
     complianceLevel="7.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>MutatorGraph.ecore</foreignModel>
   <genPackages prefix="Mutatorgraph" disposableProviderFactory="true" ecorePackage="MutatorGraph.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorGraph.ecore#//Negation">
-      <genEnumLiterals ecoreEnumLiteral="MutatorGraph.ecore#//Negation/not"/>
-      <genEnumLiterals ecoreEnumLiteral="MutatorGraph.ecore#//Negation/yes"/>
-    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorGraph.ecore#//GraphType">
       <genEnumLiterals ecoreEnumLiteral="MutatorGraph.ecore#//GraphType/diagram"/>
     </genEnums>

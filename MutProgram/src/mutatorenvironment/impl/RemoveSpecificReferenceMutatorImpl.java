@@ -5,11 +5,14 @@ package mutatorenvironment.impl;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -26,7 +29,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorImpl implements RemoveSpecificReferenceMutator {
+public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorImpl implements RemoveSpecificReferenceMutator
+{
 	/**
 	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -36,6 +40,7 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @ordered
 	 */
 	protected EReference refType;
+
 	/**
 	 * The cached value of the '{@link #getContainer() <em>Container</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -45,12 +50,14 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @ordered
 	 */
 	protected ObSelectionStrategy container;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RemoveSpecificReferenceMutatorImpl() {
+	protected RemoveSpecificReferenceMutatorImpl()
+	{
 		super();
 	}
 
@@ -60,7 +67,8 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REMOVE_SPECIFIC_REFERENCE_MUTATOR;
 	}
 
@@ -69,11 +77,14 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
+	public EReference getRefType()
+	{
+		if (refType != null && refType.eIsProxy())
+		{
 			InternalEObject oldRefType = (InternalEObject)refType;
 			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+			if (refType != oldRefType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__REF_TYPE, oldRefType, refType));
 			}
@@ -86,7 +97,8 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
+	public EReference basicGetRefType()
+	{
 		return refType;
 	}
 
@@ -95,7 +107,8 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
+	public void setRefType(EReference newRefType)
+	{
 		EReference oldRefType = refType;
 		refType = newRefType;
 		if (eNotificationRequired())
@@ -107,7 +120,8 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getContainer() {
+	public ObSelectionStrategy getContainer()
+	{
 		return container;
 	}
 
@@ -116,10 +130,12 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetContainer(ObSelectionStrategy newContainer, NotificationChain msgs) {
+	public NotificationChain basicSetContainer(ObSelectionStrategy newContainer, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldContainer = container;
 		container = newContainer;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__CONTAINER, oldContainer, newContainer);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -131,8 +147,10 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setContainer(ObSelectionStrategy newContainer) {
-		if (newContainer != container) {
+	public void setContainer(ObSelectionStrategy newContainer)
+	{
+		if (newContainer != container)
+		{
 			NotificationChain msgs = null;
 			if (container != null)
 				msgs = ((InternalEObject)container).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__CONTAINER, null, msgs);
@@ -151,8 +169,10 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__CONTAINER:
 				return basicSetContainer(null, msgs);
 		}
@@ -165,8 +185,10 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__REF_TYPE:
 				if (resolve) return getRefType();
 				return basicGetRefType();
@@ -182,8 +204,10 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__REF_TYPE:
 				setRefType((EReference)newValue);
 				return;
@@ -200,8 +224,10 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__REF_TYPE:
 				setRefType((EReference)null);
 				return;
@@ -218,8 +244,10 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__REF_TYPE:
 				return refType != null;
 			case MutatorenvironmentPackage.REMOVE_SPECIFIC_REFERENCE_MUTATOR__CONTAINER:

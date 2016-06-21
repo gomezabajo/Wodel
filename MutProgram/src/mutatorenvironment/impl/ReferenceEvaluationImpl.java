@@ -6,11 +6,14 @@ import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.Operator;
 import mutatorenvironment.ReferenceEvaluation;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -29,7 +32,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class ReferenceEvaluationImpl extends EvaluationImpl implements ReferenceEvaluation {
+public class ReferenceEvaluationImpl extends EvaluationImpl implements ReferenceEvaluation
+{
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -85,7 +89,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReferenceEvaluationImpl() {
+	protected ReferenceEvaluationImpl()
+	{
 		super();
 	}
 
@@ -95,7 +100,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REFERENCE_EVALUATION;
 	}
 
@@ -104,11 +110,14 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getName() {
-		if (name != null && name.eIsProxy()) {
+	public EReference getName()
+	{
+		if (name != null && name.eIsProxy())
+		{
 			InternalEObject oldName = (InternalEObject)name;
 			name = (EReference)eResolveProxy(oldName);
-			if (name != oldName) {
+			if (name != oldName)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME, oldName, name));
 			}
@@ -121,7 +130,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetName() {
+	public EReference basicGetName()
+	{
 		return name;
 	}
 
@@ -130,7 +140,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(EReference newName) {
+	public void setName(EReference newName)
+	{
 		EReference oldName = name;
 		name = newName;
 		if (eNotificationRequired())
@@ -142,7 +153,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operator getOperator() {
+	public Operator getOperator()
+	{
 		return operator;
 	}
 
@@ -151,7 +163,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOperator(Operator newOperator) {
+	public void setOperator(Operator newOperator)
+	{
 		Operator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
 		if (eNotificationRequired())
@@ -163,7 +176,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getValue() {
+	public ObSelectionStrategy getValue()
+	{
 		return value;
 	}
 
@@ -172,10 +186,12 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetValue(ObSelectionStrategy newValue, NotificationChain msgs) {
+	public NotificationChain basicSetValue(ObSelectionStrategy newValue, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REFERENCE_EVALUATION__VALUE, oldValue, newValue);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -187,8 +203,10 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(ObSelectionStrategy newValue) {
-		if (newValue != value) {
+	public void setValue(ObSelectionStrategy newValue)
+	{
+		if (newValue != value)
+		{
 			NotificationChain msgs = null;
 			if (value != null)
 				msgs = ((InternalEObject)value).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.REFERENCE_EVALUATION__VALUE, null, msgs);
@@ -206,11 +224,14 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
+	public EReference getRefType()
+	{
+		if (refType != null && refType.eIsProxy())
+		{
 			InternalEObject oldRefType = (InternalEObject)refType;
 			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+			if (refType != oldRefType)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_TYPE, oldRefType, refType));
 			}
@@ -223,7 +244,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
+	public EReference basicGetRefType()
+	{
 		return refType;
 	}
 
@@ -232,7 +254,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
+	public void setRefType(EReference newRefType)
+	{
 		EReference oldRefType = refType;
 		refType = newRefType;
 		if (eNotificationRequired())
@@ -245,8 +268,10 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__VALUE:
 				return basicSetValue(null, msgs);
 		}
@@ -259,8 +284,10 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				if (resolve) return getName();
 				return basicGetName();
@@ -281,8 +308,10 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				setName((EReference)newValue);
 				return;
@@ -305,8 +334,10 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				setName((EReference)null);
 				return;
@@ -329,8 +360,10 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				return name != null;
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__OPERATOR:
@@ -349,7 +382,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

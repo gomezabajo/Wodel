@@ -23,13 +23,22 @@
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceChanged" eSuperTypes="#//AppMutation">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refName" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="srcRefName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SourceReferenceChanged" eSuperTypes="#//ReferenceChanged"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TargetReferenceChanged" eSuperTypes="#//ReferenceChanged"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceReferenceChanged" eSuperTypes="#//ReferenceChanged">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldFrom" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TargetReferenceChanged" eSuperTypes="#//ReferenceChanged">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldTo" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceCreated" eSuperTypes="#//AppMutation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
@@ -62,6 +71,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="refObject" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="otherFrom" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="otherFromName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="otherTo" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="otherToName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeSwap" eSuperTypes="#//AttributeChanged">

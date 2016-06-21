@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.DoubleType;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class DoubleTypeImpl extends AttributeTypeImpl implements DoubleType {
+public abstract class DoubleTypeImpl extends AttributeTypeImpl implements DoubleType
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DoubleTypeImpl() {
+	protected DoubleTypeImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public abstract class DoubleTypeImpl extends AttributeTypeImpl implements Double
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.DOUBLE_TYPE;
 	}
 

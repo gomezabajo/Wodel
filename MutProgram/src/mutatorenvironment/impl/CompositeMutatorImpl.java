@@ -31,7 +31,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutator {
+public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutator
+{
 	/**
 	 * The cached value of the '{@link #getCommands() <em>Commands</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -47,7 +48,8 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CompositeMutatorImpl() {
+	protected CompositeMutatorImpl()
+	{
 		super();
 	}
 
@@ -57,7 +59,8 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.COMPOSITE_MUTATOR;
 	}
 
@@ -66,8 +69,10 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Mutator> getCommands() {
-		if (commands == null) {
+	public EList<Mutator> getCommands()
+	{
+		if (commands == null)
+		{
 			commands = new EObjectContainmentEList<Mutator>(Mutator.class, this, MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS);
 		}
 		return commands;
@@ -79,8 +84,10 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS:
 				return ((InternalEList<?>)getCommands()).basicRemove(otherEnd, msgs);
 		}
@@ -93,8 +100,10 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS:
 				return getCommands();
 		}
@@ -108,8 +117,10 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS:
 				getCommands().clear();
 				getCommands().addAll((Collection<? extends Mutator>)newValue);
@@ -124,8 +135,10 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS:
 				getCommands().clear();
 				return;
@@ -139,8 +152,10 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS:
 				return commands != null && !commands.isEmpty();
 		}

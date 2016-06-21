@@ -19,8 +19,8 @@ package mutatorenvironment;
  * @model abstract="true"
  * @generated
  */
-public interface ObSelectionStrategy extends ObjectEmitter {
-
+public interface ObSelectionStrategy extends ObjectEmitter
+{
 	/**
 	 * Returns the value of the '<em><b>Expression</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -46,4 +46,5 @@ public interface ObSelectionStrategy extends ObjectEmitter {
 	 * @generated
 	 */
 	void setExpression(Expression value);
+
 } // ObSelectionStrategy

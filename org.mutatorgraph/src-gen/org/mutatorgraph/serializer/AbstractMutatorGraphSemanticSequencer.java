@@ -11,12 +11,15 @@ import mutatorgraph.MutatorgraphPackage;
 import mutatorgraph.Node;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
+import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
 import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
+import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
 import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
+import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 import org.mutatorgraph.services.MutatorGraphGrammarAccess;
 
 @SuppressWarnings("all")
@@ -46,7 +49,23 @@ public abstract class AbstractMutatorGraphSemanticSequencer extends AbstractDele
 	 *     (name=[EClass|ID] source=[EReference|ID] target=[EReference|ID] label=[EReference|ID])
 	 */
 	protected void sequence_Edge(EObject context, Edge semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorgraphPackage.Literals.ITEM__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorgraphPackage.Literals.ITEM__NAME));
+			if(transientValues.isValueTransient(semanticObject, MutatorgraphPackage.Literals.EDGE__SOURCE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorgraphPackage.Literals.EDGE__SOURCE));
+			if(transientValues.isValueTransient(semanticObject, MutatorgraphPackage.Literals.EDGE__TARGET) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorgraphPackage.Literals.EDGE__TARGET));
+			if(transientValues.isValueTransient(semanticObject, MutatorgraphPackage.Literals.EDGE__LABEL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorgraphPackage.Literals.EDGE__LABEL));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getEdgeAccess().getNameEClassIDTerminalRuleCall_1_0_1(), semanticObject.getName());
+		feeder.accept(grammarAccess.getEdgeAccess().getSourceEReferenceIDTerminalRuleCall_3_0_1(), semanticObject.getSource());
+		feeder.accept(grammarAccess.getEdgeAccess().getTargetEReferenceIDTerminalRuleCall_5_0_1(), semanticObject.getTarget());
+		feeder.accept(grammarAccess.getEdgeAccess().getLabelEReferenceIDTerminalRuleCall_12_0_1(), semanticObject.getLabel());
+		feeder.finish();
 	}
 	
 	
@@ -61,7 +80,7 @@ public abstract class AbstractMutatorGraphSemanticSequencer extends AbstractDele
 	
 	/**
 	 * Constraint:
-	 *     (name=[EClass|ID] negation=Negation? attribute=[EAttribute|ID] type=NodeType shape=NodeShape?)
+	 *     (name=[EClass|ID] negation?='not'? attribute=[EAttribute|ID] type=NodeType shape=NodeShape?)
 	 */
 	protected void sequence_Node(EObject context, Node semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

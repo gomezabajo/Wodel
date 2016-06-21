@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class SpecificSelectionImpl extends ObSelectionStrategyImpl implements SpecificSelection {
+public abstract class SpecificSelectionImpl extends ObSelectionStrategyImpl implements SpecificSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SpecificSelectionImpl() {
+	protected SpecificSelectionImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public abstract class SpecificSelectionImpl extends ObSelectionStrategyImpl impl
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.SPECIFIC_SELECTION;
 	}
 

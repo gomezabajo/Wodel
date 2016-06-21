@@ -20,7 +20,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface ReplaceStringType extends StringType {
+public interface ReplaceStringType extends StringType
+{
 	/**
 	 * Returns the value of the '<em><b>Oldstring</b></em>' attribute.
 	 * <!-- begin-user-doc -->

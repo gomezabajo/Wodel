@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../../DFAWodelEduSample.model#//@blocks.2/@commands.1"/>
+    <object href="../../../../model/exercise9.model#_c5lgEGFEEeW5yMxFQxbbHw"/>
+    <attChanges attName="isFinal" oldVal="false" newVal="true">
+      <def href="../../../DFAWodelEduSample.model#//@blocks.2/@commands.1"/>
+    </attChanges>
+  </muts>
+  <muts xsi:type="appliedMutations:TargetReferenceChanged" srcRefName="src" refName="tar">
+    <def href="../../../DFAWodelEduSample.model#//@blocks.2/@commands.0"/>
+    <object href="../../../../model/exercise9.model#_FTm30GFFEeW5yMxFQxbbHw"/>
+    <from href="../../../../model/exercise9.model#_iYicEGFEEeW5yMxFQxbbHw"/>
+    <to href="../../../../model/exercise9.model#_c5lgEGFEEeW5yMxFQxbbHw"/>
+    <oldTo href="../../../../model/exercise9.model#_joF_cGFEEeW5yMxFQxbbHw"/>
+  </muts>
+</appliedMutations:Mutations>

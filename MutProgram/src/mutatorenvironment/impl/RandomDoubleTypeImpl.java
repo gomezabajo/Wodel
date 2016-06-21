@@ -26,7 +26,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDoubleType {
+public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDoubleType
+{
 	/**
 	 * The default value of the '{@link #getMin() <em>Min</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -92,7 +93,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RandomDoubleTypeImpl() {
+	protected RandomDoubleTypeImpl()
+	{
 		super();
 	}
 
@@ -102,7 +104,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.RANDOM_DOUBLE_TYPE;
 	}
 
@@ -111,7 +114,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getMin() {
+	public double getMin()
+	{
 		return min;
 	}
 
@@ -120,7 +124,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMin(double newMin) {
+	public void setMin(double newMin)
+	{
 		double oldMin = min;
 		min = newMin;
 		if (eNotificationRequired())
@@ -132,7 +137,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getMax() {
+	public double getMax()
+	{
 		return max;
 	}
 
@@ -141,7 +147,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMax(double newMax) {
+	public void setMax(double newMax)
+	{
 		double oldMax = max;
 		max = newMax;
 		if (eNotificationRequired())
@@ -153,7 +160,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isAllowsNull() {
+	public boolean isAllowsNull()
+	{
 		return allowsNull;
 	}
 
@@ -162,7 +170,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAllowsNull(boolean newAllowsNull) {
+	public void setAllowsNull(boolean newAllowsNull)
+	{
 		boolean oldAllowsNull = allowsNull;
 		allowsNull = newAllowsNull;
 		if (eNotificationRequired())
@@ -175,8 +184,10 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE__MIN:
 				return getMin();
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE__MAX:
@@ -193,8 +204,10 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE__MIN:
 				setMin((Double)newValue);
 				return;
@@ -214,8 +227,10 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE__MIN:
 				setMin(MIN_EDEFAULT);
 				return;
@@ -235,8 +250,10 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE__MIN:
 				return min != MIN_EDEFAULT;
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE__MAX:
@@ -253,7 +270,8 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

@@ -13,6 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface ReferenceInit extends ReferenceSet {
-
+public interface ReferenceInit extends ReferenceSet
+{
 } // ReferenceInit

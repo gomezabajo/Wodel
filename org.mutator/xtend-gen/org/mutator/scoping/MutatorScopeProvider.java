@@ -8,8 +8,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
+import mutatorenvironment.Block;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
+import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Definition;
@@ -793,34 +795,35 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
   private ArrayList<EClass> HelperRandomTypeSelectionModelEClasses(final Definition definition, final Program program) {
     final ArrayList<EClass> scope = new ArrayList<EClass>();
     Source _source = program.getSource();
-    boolean _isMultiple = _source.isMultiple();
-    boolean _equals = (_isMultiple == false);
-    if (_equals) {
+    String _path = _source.getPath();
+    boolean _endsWith = _path.endsWith("/");
+    boolean _not = (!_endsWith);
+    if (_not) {
       String _metamodel = definition.getMetamodel();
       Source _source_1 = program.getSource();
-      String _path = _source_1.getPath();
-      List<EClass> _modelEClasses = this.getModelEClasses(_metamodel, _path);
+      String _path_1 = _source_1.getPath();
+      List<EClass> _modelEClasses = this.getModelEClasses(_metamodel, _path_1);
       scope.addAll(_modelEClasses);
     }
     Source _source_2 = program.getSource();
-    boolean _isMultiple_1 = _source_2.isMultiple();
-    boolean _equals_1 = (_isMultiple_1 == true);
-    if (_equals_1) {
+    String _path_2 = _source_2.getPath();
+    boolean _endsWith_1 = _path_2.endsWith("/");
+    if (_endsWith_1) {
       Source _source_3 = program.getSource();
-      String _path_1 = _source_3.getPath();
-      File _file = new File(_path_1);
+      String _path_3 = _source_3.getPath();
+      File _file = new File(_path_3);
       final File[] files = _file.listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
-        boolean _equals_2 = (_isFile == true);
-        if (_equals_2) {
-          String _path_2 = file.getPath();
-          boolean _endsWith = _path_2.endsWith(".model");
-          boolean _equals_3 = (_endsWith == true);
-          if (_equals_3) {
+        boolean _equals = (_isFile == true);
+        if (_equals) {
+          String _path_4 = file.getPath();
+          boolean _endsWith_2 = _path_4.endsWith(".model");
+          boolean _equals_1 = (_endsWith_2 == true);
+          if (_equals_1) {
             String _metamodel_1 = definition.getMetamodel();
-            String _path_3 = file.getPath();
-            List<EClass> _modelEClasses_1 = this.getModelEClasses(_metamodel_1, _path_3);
+            String _path_5 = file.getPath();
+            List<EClass> _modelEClasses_1 = this.getModelEClasses(_metamodel_1, _path_5);
             scope.addAll(_modelEClasses_1);
           }
         }
@@ -935,9 +938,10 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
         {
           final ArrayList<Mutator> scope = new ArrayList<Mutator>();
           Source _source = ((Program)definition).getSource();
-          boolean _isMultiple = _source.isMultiple();
-          boolean _equals = (_isMultiple == false);
-          if (_equals) {
+          String _path = _source.getPath();
+          boolean _endsWith = _path.endsWith("/");
+          boolean _not = (!_endsWith);
+          if (_not) {
             Source _source_1 = ((Program)definition).getSource();
             final String model = _source_1.getPath();
             String _metamodel = ((Program)definition).getMetamodel();
@@ -984,24 +988,24 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
             }
           }
           Source _source_2 = ((Program)definition).getSource();
-          boolean _isMultiple_1 = _source_2.isMultiple();
-          boolean _equals_1 = (_isMultiple_1 == true);
-          if (_equals_1) {
+          String _path_1 = _source_2.getPath();
+          boolean _endsWith_1 = _path_1.endsWith("/");
+          if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
             Source _source_3 = ((Program)definition).getSource();
-            String _path = _source_3.getPath();
-            File _file = new File(_path);
+            String _path_2 = _source_3.getPath();
+            File _file = new File(_path_2);
             final File[] files = _file.listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
-              boolean _equals_2 = (_isFile == true);
-              if (_equals_2) {
-                String _path_1 = file.getPath();
-                boolean _endsWith = _path_1.endsWith(".model");
-                boolean _equals_3 = (_endsWith == true);
-                if (_equals_3) {
-                  String _path_2 = file.getPath();
-                  models.add(_path_2);
+              boolean _equals = (_isFile == true);
+              if (_equals) {
+                String _path_3 = file.getPath();
+                boolean _endsWith_2 = _path_3.endsWith(".model");
+                boolean _equals_1 = (_endsWith_2 == true);
+                if (_equals_1) {
+                  String _path_4 = file.getPath();
+                  models.add(_path_4);
                 }
               }
             }
@@ -1124,34 +1128,35 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
   private ArrayList<EClass> HelperRandomTypeSelectionModelESources(final Definition definition, final Program program, final String refTypeName) {
     final ArrayList<EClass> scope = new ArrayList<EClass>();
     Source _source = program.getSource();
-    boolean _isMultiple = _source.isMultiple();
-    boolean _equals = (_isMultiple == false);
-    if (_equals) {
+    String _path = _source.getPath();
+    boolean _endsWith = _path.endsWith("/");
+    boolean _not = (!_endsWith);
+    if (_not) {
       String _metamodel = definition.getMetamodel();
       Source _source_1 = program.getSource();
-      String _path = _source_1.getPath();
-      List<EClass> _modelEClasses = this.getModelEClasses(_metamodel, _path);
+      String _path_1 = _source_1.getPath();
+      List<EClass> _modelEClasses = this.getModelEClasses(_metamodel, _path_1);
       scope.addAll(_modelEClasses);
     }
     Source _source_2 = program.getSource();
-    boolean _isMultiple_1 = _source_2.isMultiple();
-    boolean _equals_1 = (_isMultiple_1 == true);
-    if (_equals_1) {
+    String _path_2 = _source_2.getPath();
+    boolean _endsWith_1 = _path_2.endsWith("/");
+    if (_endsWith_1) {
       Source _source_3 = program.getSource();
-      String _path_1 = _source_3.getPath();
-      File _file = new File(_path_1);
+      String _path_3 = _source_3.getPath();
+      File _file = new File(_path_3);
       final File[] files = _file.listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
-        boolean _equals_2 = (_isFile == true);
-        if (_equals_2) {
-          String _path_2 = file.getPath();
-          boolean _endsWith = _path_2.endsWith(".model");
-          boolean _equals_3 = (_endsWith == true);
-          if (_equals_3) {
+        boolean _equals = (_isFile == true);
+        if (_equals) {
+          String _path_4 = file.getPath();
+          boolean _endsWith_2 = _path_4.endsWith(".model");
+          boolean _equals_1 = (_endsWith_2 == true);
+          if (_equals_1) {
             String _metamodel_1 = definition.getMetamodel();
-            String _path_3 = file.getPath();
-            List<EClass> _modelESources = this.getModelESources(_metamodel_1, _path_3, refTypeName);
+            String _path_5 = file.getPath();
+            List<EClass> _modelESources = this.getModelESources(_metamodel_1, _path_5, refTypeName);
             scope.addAll(_modelESources);
           }
         }
@@ -1318,9 +1323,10 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
         {
           final ArrayList<Mutator> scope = new ArrayList<Mutator>();
           Source _source = ((Program)definition).getSource();
-          boolean _isMultiple = _source.isMultiple();
-          boolean _equals = (_isMultiple == false);
-          if (_equals) {
+          String _path = _source.getPath();
+          boolean _endsWith = _path.endsWith("/");
+          boolean _not = (!_endsWith);
+          if (_not) {
             Source _source_1 = ((Program)definition).getSource();
             final String model = _source_1.getPath();
             String _metamodel = ((Program)definition).getMetamodel();
@@ -1367,24 +1373,24 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
             scope.addAll(objects);
           }
           Source _source_2 = ((Program)definition).getSource();
-          boolean _isMultiple_1 = _source_2.isMultiple();
-          boolean _equals_1 = (_isMultiple_1 == true);
-          if (_equals_1) {
+          String _path_1 = _source_2.getPath();
+          boolean _endsWith_1 = _path_1.endsWith("/");
+          if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
             Source _source_3 = ((Program)definition).getSource();
-            String _path = _source_3.getPath();
-            File _file = new File(_path);
+            String _path_2 = _source_3.getPath();
+            File _file = new File(_path_2);
             final File[] files = _file.listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
-              boolean _equals_2 = (_isFile == true);
-              if (_equals_2) {
-                String _path_1 = file.getPath();
-                boolean _endsWith = _path_1.endsWith(".model");
-                boolean _equals_3 = (_endsWith == true);
-                if (_equals_3) {
-                  String _path_2 = file.getPath();
-                  models.add(_path_2);
+              boolean _equals = (_isFile == true);
+              if (_equals) {
+                String _path_3 = file.getPath();
+                boolean _endsWith_2 = _path_3.endsWith(".model");
+                boolean _equals_1 = (_endsWith_2 == true);
+                if (_equals_1) {
+                  String _path_4 = file.getPath();
+                  models.add(_path_4);
                 }
               }
             }
@@ -2231,6 +2237,22 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
+   * Constraint.type can contain any EClass from the input meta-model.
+   */
+  public IScope scope_Constraint_type(final Constraint c, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("34.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(c);
+      final Definition definition = env.getDefinition();
+      String _metamodel = definition.getMetamodel();
+      List<EClass> _eClasses = this.getEClasses(_metamodel);
+      _xblockexpression = Scopes.scopeFor(_eClasses);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
    * It returns the mutator environment that contains an object
    */
   private MutatorEnvironment getMutatorEnvironment(final ObjectEmitter oe) {
@@ -2238,6 +2260,10 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   private MutatorEnvironment getMutatorEnvironment(final ReferenceSet oe) {
+    return EcoreUtil2.<MutatorEnvironment>getContainerOfType(oe, MutatorEnvironment.class);
+  }
+  
+  private MutatorEnvironment getMutatorEnvironment(final Constraint oe) {
     return EcoreUtil2.<MutatorEnvironment>getContainerOfType(oe, MutatorEnvironment.class);
   }
   
@@ -2249,14 +2275,19 @@ public class MutatorScopeProvider extends AbstractDeclarativeScopeProvider {
    */
   private List<Mutator> getCommands(final Mutator com) {
     EObject _eContainer = com.eContainer();
-    if ((_eContainer instanceof CompositeMutator)) {
+    if ((_eContainer instanceof Block)) {
       EObject _eContainer_1 = com.eContainer();
-      return ((CompositeMutator) _eContainer_1).getCommands();
+      return ((Block) _eContainer_1).getCommands();
     }
     EObject _eContainer_2 = com.eContainer();
-    if ((_eContainer_2 instanceof MutatorEnvironment)) {
+    if ((_eContainer_2 instanceof CompositeMutator)) {
       EObject _eContainer_3 = com.eContainer();
-      return ((MutatorEnvironment) _eContainer_3).getCommands();
+      return ((CompositeMutator) _eContainer_3).getCommands();
+    }
+    EObject _eContainer_4 = com.eContainer();
+    if ((_eContainer_4 instanceof MutatorEnvironment)) {
+      EObject _eContainer_5 = com.eContainer();
+      return ((MutatorEnvironment) _eContainer_5).getCommands();
     }
     return new ArrayList<Mutator>();
   }

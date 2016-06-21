@@ -5,10 +5,15 @@ package org.mutatortests.serializer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import mutatortests.Configuration;
-import mutatortests.MutatorTests;
+import mutatortests.AlternativeResponse;
+import mutatortests.MultiChoiceDiagram;
+import mutatortests.MultiChoiceEmConfig;
+import mutatortests.MultiChoiceEmendation;
 import mutatortests.MutatortestsPackage;
+import mutatortests.Program;
+import mutatortests.ProgramConfiguration;
 import mutatortests.Test;
+import mutatortests.TestConfiguration;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
@@ -31,14 +36,29 @@ public abstract class AbstractTestsSemanticSequencer extends AbstractDelegatingS
 	@Override
 	public void createSequence(EObject context, EObject semanticObject) {
 		if(semanticObject.eClass().getEPackage() == MutatortestsPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
-			case MutatortestsPackage.CONFIGURATION:
-				sequence_Configuration(context, (Configuration) semanticObject); 
+			case MutatortestsPackage.ALTERNATIVE_RESPONSE:
+				sequence_AlternativeResponse(context, (AlternativeResponse) semanticObject); 
 				return; 
-			case MutatortestsPackage.MUTATOR_TESTS:
-				sequence_MutatorTests(context, (MutatorTests) semanticObject); 
+			case MutatortestsPackage.MULTI_CHOICE_DIAGRAM:
+				sequence_MultiChoiceDiagram(context, (MultiChoiceDiagram) semanticObject); 
+				return; 
+			case MutatortestsPackage.MULTI_CHOICE_EM_CONFIG:
+				sequence_MultiChoiceEmConfig(context, (MultiChoiceEmConfig) semanticObject); 
+				return; 
+			case MutatortestsPackage.MULTI_CHOICE_EMENDATION:
+				sequence_MultiChoiceEmendation(context, (MultiChoiceEmendation) semanticObject); 
+				return; 
+			case MutatortestsPackage.PROGRAM:
+				sequence_Program(context, (Program) semanticObject); 
+				return; 
+			case MutatortestsPackage.PROGRAM_CONFIGURATION:
+				sequence_ProgramConfiguration(context, (ProgramConfiguration) semanticObject); 
 				return; 
 			case MutatortestsPackage.TEST:
 				sequence_Test(context, (Test) semanticObject); 
+				return; 
+			case MutatortestsPackage.TEST_CONFIGURATION:
+				sequence_TestConfiguration(context, (TestConfiguration) semanticObject); 
 				return; 
 			}
 		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
@@ -46,28 +66,70 @@ public abstract class AbstractTestsSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (retry=Parameter showall=Parameter)
+	 *     (block=[EObject|ID]? config=TestConfiguration tests+=Test*)
 	 */
-	protected void sequence_Configuration(EObject context, Configuration semanticObject) {
+	protected void sequence_AlternativeResponse(EObject context, AlternativeResponse semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (block=[EObject|ID]? config=TestConfiguration tests+=Test*)
+	 */
+	protected void sequence_MultiChoiceDiagram(EObject context, MultiChoiceDiagram semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     ((retry?='yes' | retry?='no') (weighted?='yes' | weighted?='no') penalty=EDouble order=Order mode=Mode)
+	 */
+	protected void sequence_MultiChoiceEmConfig(EObject context, MultiChoiceEmConfig semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (block=[EObject|ID]? config=MultiChoiceEmConfig tests+=Test*)
+	 */
+	protected void sequence_MultiChoiceEmendation(EObject context, MultiChoiceEmendation semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     navigation=Navigation
+	 */
+	protected void sequence_ProgramConfiguration(EObject context, ProgramConfiguration semanticObject) {
 		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, MutatortestsPackage.Literals.CONFIGURATION__RETRY) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatortestsPackage.Literals.CONFIGURATION__RETRY));
-			if(transientValues.isValueTransient(semanticObject, MutatortestsPackage.Literals.CONFIGURATION__SHOWALL) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatortestsPackage.Literals.CONFIGURATION__SHOWALL));
+			if(transientValues.isValueTransient(semanticObject, MutatortestsPackage.Literals.PROGRAM_CONFIGURATION__NAVIGATION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatortestsPackage.Literals.PROGRAM_CONFIGURATION__NAVIGATION));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getConfigurationAccess().getRetryParameterEnumRuleCall_2_0(), semanticObject.getRetry());
-		feeder.accept(grammarAccess.getConfigurationAccess().getShowallParameterEnumRuleCall_6_0(), semanticObject.getShowall());
+		feeder.accept(grammarAccess.getProgramConfigurationAccess().getNavigationNavigationEnumRuleCall_2_0(), semanticObject.getNavigation());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (config=Configuration tests+=Test*)
+	 *     (config=ProgramConfiguration? exercises+=MutatorTests+)
 	 */
-	protected void sequence_MutatorTests(EObject context, MutatorTests semanticObject) {
+	protected void sequence_Program(EObject context, Program semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (retry?='yes' | retry?='no')
+	 */
+	protected void sequence_TestConfiguration(EObject context, TestConfiguration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

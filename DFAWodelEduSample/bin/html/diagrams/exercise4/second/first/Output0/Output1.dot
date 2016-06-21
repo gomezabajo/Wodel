@@ -1,0 +1,29 @@
+digraph Automaton {
+
+q1 [shape = doublecircle];
+
+q2 [shape = doublecircle];
+
+q3 [shape = doublecircle];
+
+_nil [style = invis];
+
+q0 [shape = circle];
+
+q2 -> q0 [label = "b"];
+
+_nil -> q0;
+
+q1 -> q1 [label = "a"];
+
+q3 -> q3 [label = "a, b"];
+
+q1 -> q2 [label = "b"];
+
+q0 -> q0 [label = "b"];
+
+q2 -> q3 [label = "a"];
+
+q0 -> q1 [label = "a"];
+
+}

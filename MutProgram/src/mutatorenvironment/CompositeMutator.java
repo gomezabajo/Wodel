@@ -20,7 +20,8 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface CompositeMutator extends Mutator {
+public interface CompositeMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Commands</b></em>' containment reference list.
 	 * The list contents are of type {@link mutatorenvironment.Mutator}.

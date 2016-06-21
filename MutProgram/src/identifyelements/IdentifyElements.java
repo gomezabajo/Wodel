@@ -1,0 +1,69 @@
+/**
+ */
+package identifyelements;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Identify Elements</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link identifyelements.IdentifyElements#getMetamodel <em>Metamodel</em>}</li>
+ *   <li>{@link identifyelements.IdentifyElements#getElements <em>Elements</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @see identifyelements.IdentifyelementsPackage#getIdentifyElements()
+ * @model
+ * @generated
+ */
+public interface IdentifyElements extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Metamodel</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Metamodel</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Metamodel</em>' attribute.
+	 * @see #setMetamodel(String)
+	 * @see identifyelements.IdentifyelementsPackage#getIdentifyElements_Metamodel()
+	 * @model required="true"
+	 * @generated
+	 */
+	String getMetamodel();
+
+	/**
+	 * Sets the value of the '{@link identifyelements.IdentifyElements#getMetamodel <em>Metamodel</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Metamodel</em>' attribute.
+	 * @see #getMetamodel()
+	 * @generated
+	 */
+	void setMetamodel(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Elements</b></em>' containment reference list.
+	 * The list contents are of type {@link identifyelements.Element}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Elements</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Elements</em>' containment reference list.
+	 * @see identifyelements.IdentifyelementsPackage#getIdentifyElements_Elements()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Element> getElements();
+
+} // IdentifyElements

@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ReferenceInit;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class ReferenceInitImpl extends ReferenceSetImpl implements ReferenceInit {
+public class ReferenceInitImpl extends ReferenceSetImpl implements ReferenceInit
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReferenceInitImpl() {
+	protected ReferenceInitImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public class ReferenceInitImpl extends ReferenceSetImpl implements ReferenceInit
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REFERENCE_INIT;
 	}
 

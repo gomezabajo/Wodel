@@ -78,10 +78,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__12;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:12:7: ( 'not' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:12:9: 'not'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:12:7: ( 'yes' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:12:9: 'yes'
             {
-            match("not"); 
+            match("yes"); 
 
 
             }
@@ -99,10 +99,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__13;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:13:7: ( 'yes' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:13:9: 'yes'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:13:7: ( 'node' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:13:9: 'node'
             {
-            match("yes"); 
+            match("node"); 
 
 
             }
@@ -120,10 +120,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__14;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:14:7: ( 'node' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:14:9: 'node'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:14:7: ( 'markednode' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:14:9: 'markednode'
             {
-            match("node"); 
+            match("markednode"); 
 
 
             }
@@ -141,10 +141,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__15;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:15:7: ( 'markednode' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:15:9: 'markednode'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:15:7: ( 'circle' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:15:9: 'circle'
             {
-            match("markednode"); 
+            match("circle"); 
 
 
             }
@@ -162,10 +162,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:16:7: ( 'circle' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:16:9: 'circle'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:16:7: ( 'doublecircle' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:16:9: 'doublecircle'
             {
-            match("circle"); 
+            match("doublecircle"); 
 
 
             }
@@ -183,10 +183,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:17:7: ( 'doublecircle' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:17:9: 'doublecircle'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:17:7: ( 'metamodel' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:17:9: 'metamodel'
             {
-            match("doublecircle"); 
+            match("metamodel"); 
 
 
             }
@@ -204,11 +204,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:18:7: ( 'metamodel' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:18:9: 'metamodel'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:18:7: ( ':' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:18:9: ':'
             {
-            match("metamodel"); 
-
+            match(':'); 
 
             }
 
@@ -225,11 +224,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:19:7: ( '->' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:19:9: '->'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:19:7: ( '{' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:19:9: '{'
             {
-            match("->"); 
-
+            match('{'); 
 
             }
 
@@ -246,10 +244,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:20:7: ( '{' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:20:9: '{'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:20:7: ( '}' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:20:9: '}'
             {
-            match('{'); 
+            match('}'); 
 
             }
 
@@ -266,10 +264,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:21:7: ( '}' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:21:9: '}'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:21:7: ( '(' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:21:9: '('
             {
-            match('}'); 
+            match('('); 
 
             }
 
@@ -286,10 +284,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:22:7: ( '(' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:22:9: '('
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:22:7: ( ')' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:22:9: ')'
             {
-            match('('); 
+            match(')'); 
 
             }
 
@@ -306,10 +304,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:23:7: ( ')' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:23:9: ')'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:23:7: ( ',' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:23:9: ','
             {
-            match(')'); 
+            match(','); 
 
             }
 
@@ -326,10 +324,11 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:24:7: ( ',' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:24:9: ','
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:24:7: ( 'shape' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:24:9: 'shape'
             {
-            match(','); 
+            match("shape"); 
+
 
             }
 
@@ -346,11 +345,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:25:7: ( 'shape' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:25:9: 'shape'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:25:7: ( '=' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:25:9: '='
             {
-            match("shape"); 
-
+            match('='); 
 
             }
 
@@ -367,10 +365,11 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:26:7: ( '=' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:26:9: '='
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:26:7: ( 'edge' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:26:9: 'edge'
             {
-            match('='); 
+            match("edge"); 
+
 
             }
 
@@ -387,10 +386,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:27:7: ( 'edge' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:27:9: 'edge'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:27:7: ( 'label' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:27:9: 'label'
             {
-            match("edge"); 
+            match("label"); 
 
 
             }
@@ -408,10 +407,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:28:7: ( 'label' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:28:9: 'label'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:28:7: ( 'not' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:28:9: 'not'
             {
-            match("label"); 
+            match("not"); 
 
 
             }
@@ -429,10 +428,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1739:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1739:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1728:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1728:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1739:11: ( '^' )?
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1728:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -441,7 +440,7 @@ public class InternalMutatorGraphLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1739:11: '^'
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1728:11: '^'
                     {
                     match('^'); 
 
@@ -459,7 +458,7 @@ public class InternalMutatorGraphLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1739:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1728:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -508,10 +507,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1741:10: ( ( '0' .. '9' )+ )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1741:12: ( '0' .. '9' )+
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1730:10: ( ( '0' .. '9' )+ )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1730:12: ( '0' .. '9' )+
             {
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1741:12: ( '0' .. '9' )+
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1730:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -525,7 +524,7 @@ public class InternalMutatorGraphLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1741:13: '0' .. '9'
+            	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1730:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -557,10 +556,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -578,10 +577,10 @@ public class InternalMutatorGraphLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -597,7 +596,7 @@ public class InternalMutatorGraphLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:21: '\\\\' .
+                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -605,7 +604,7 @@ public class InternalMutatorGraphLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -630,10 +629,10 @@ public class InternalMutatorGraphLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -649,7 +648,7 @@ public class InternalMutatorGraphLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:54: '\\\\' .
+                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -657,7 +656,7 @@ public class InternalMutatorGraphLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1743:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1732:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -700,12 +699,12 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1745:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1745:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1734:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1734:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1745:24: ( options {greedy=false; } : . )*
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1734:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -730,7 +729,7 @@ public class InternalMutatorGraphLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1745:52: .
+            	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1734:52: .
             	    {
             	    matchAny(); 
 
@@ -760,12 +759,12 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -778,7 +777,7 @@ public class InternalMutatorGraphLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -798,7 +797,7 @@ public class InternalMutatorGraphLexer extends Lexer {
                 }
             } while (true);
 
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:40: ( ( '\\r' )? '\\n' )?
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -807,9 +806,9 @@ public class InternalMutatorGraphLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:41: ( '\\r' )? '\\n'
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:41: ( '\\r' )? '\\n'
                     {
-                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:41: ( '\\r' )?
+                    // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -818,7 +817,7 @@ public class InternalMutatorGraphLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1747:41: '\\r'
+                            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1736:41: '\\r'
                             {
                             match('\r'); 
 
@@ -850,10 +849,10 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1749:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1749:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1738:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1738:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1749:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1738:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -907,8 +906,8 @@ public class InternalMutatorGraphLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1751:16: ( . )
-            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1751:18: .
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1740:16: ( . )
+            // ../org.mutatorgraph.ui/src-gen/org/mutatorgraph/ui/contentassist/antlr/internal/InternalMutatorGraph.g:1740:18: .
             {
             matchAny(); 
 
@@ -1110,52 +1109,52 @@ public class InternalMutatorGraphLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\5\32\1\27\5\uffff\1\32\1\uffff\2\32\1\27\2\uffff\3\27"+
-        "\2\uffff\2\32\1\uffff\5\32\6\uffff\1\32\1\uffff\2\32\5\uffff\2\32"+
-        "\1\74\1\32\1\76\10\32\1\uffff\1\107\1\uffff\4\32\1\114\3\32\1\uffff"+
-        "\3\32\1\123\1\uffff\1\124\4\32\1\131\2\uffff\1\132\3\32\2\uffff"+
-        "\5\32\1\143\1\32\1\145\1\uffff\1\32\1\uffff\1\147\1\uffff";
+        "\1\uffff\5\32\6\uffff\1\32\1\uffff\2\32\1\27\2\uffff\3\27\2\uffff"+
+        "\2\32\1\uffff\5\32\6\uffff\1\32\1\uffff\2\32\5\uffff\2\32\1\74\1"+
+        "\32\1\76\10\32\1\uffff\1\107\1\uffff\4\32\1\114\3\32\1\uffff\3\32"+
+        "\1\123\1\uffff\1\124\4\32\1\131\2\uffff\1\132\3\32\2\uffff\5\32"+
+        "\1\143\1\32\1\145\1\uffff\1\32\1\uffff\1\147\1\uffff";
     static final String DFA12_eofS =
         "\150\uffff";
     static final String DFA12_minS =
-        "\1\0\1\151\1\157\1\145\1\141\1\151\1\76\5\uffff\1\150\1\uffff\1"+
-        "\144\1\141\1\101\2\uffff\2\0\1\52\2\uffff\1\141\1\165\1\uffff\1"+
-        "\144\1\163\1\162\1\164\1\162\6\uffff\1\141\1\uffff\1\147\1\142\5"+
-        "\uffff\1\147\1\142\1\60\1\145\1\60\1\153\1\141\1\143\1\160\2\145"+
-        "\1\162\1\154\1\uffff\1\60\1\uffff\1\145\1\155\1\154\1\145\1\60\1"+
-        "\154\1\141\1\145\1\uffff\1\144\1\157\1\145\1\60\1\uffff\1\60\1\155"+
-        "\1\143\1\156\1\144\1\60\2\uffff\1\60\1\151\1\157\1\145\2\uffff\1"+
-        "\162\1\144\1\154\1\143\1\145\1\60\1\154\1\60\1\uffff\1\145\1\uffff"+
-        "\1\60\1\uffff";
+        "\1\0\1\151\1\145\1\157\1\141\1\151\6\uffff\1\150\1\uffff\1\144"+
+        "\1\141\1\101\2\uffff\2\0\1\52\2\uffff\1\141\1\165\1\uffff\1\163"+
+        "\1\144\1\162\1\164\1\162\6\uffff\1\141\1\uffff\1\147\1\142\5\uffff"+
+        "\1\147\1\142\1\60\1\145\1\60\1\153\1\141\1\143\1\160\2\145\1\162"+
+        "\1\154\1\uffff\1\60\1\uffff\1\145\1\155\1\154\1\145\1\60\1\154\1"+
+        "\141\1\145\1\uffff\1\144\1\157\1\145\1\60\1\uffff\1\60\1\155\1\143"+
+        "\1\156\1\144\1\60\2\uffff\1\60\1\151\1\157\1\145\2\uffff\1\162\1"+
+        "\144\1\154\1\143\1\145\1\60\1\154\1\60\1\uffff\1\145\1\uffff\1\60"+
+        "\1\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\2\157\2\145\1\151\1\76\5\uffff\1\150\1\uffff\1\144\1\141"+
-        "\1\172\2\uffff\2\uffff\1\57\2\uffff\1\141\1\165\1\uffff\1\164\1"+
-        "\163\1\162\1\164\1\162\6\uffff\1\141\1\uffff\1\147\1\142\5\uffff"+
-        "\1\147\1\142\1\172\1\145\1\172\1\153\1\141\1\143\1\160\2\145\1\162"+
-        "\1\154\1\uffff\1\172\1\uffff\1\145\1\155\1\154\1\145\1\172\1\154"+
-        "\1\141\1\145\1\uffff\1\144\1\157\1\145\1\172\1\uffff\1\172\1\155"+
-        "\1\143\1\156\1\144\1\172\2\uffff\1\172\1\151\1\157\1\145\2\uffff"+
-        "\1\162\1\144\1\154\1\143\1\145\1\172\1\154\1\172\1\uffff\1\145\1"+
-        "\uffff\1\172\1\uffff";
+        "\1\uffff\1\157\1\145\1\157\1\145\1\151\6\uffff\1\150\1\uffff\1"+
+        "\144\1\141\1\172\2\uffff\2\uffff\1\57\2\uffff\1\141\1\165\1\uffff"+
+        "\1\163\1\164\1\162\1\164\1\162\6\uffff\1\141\1\uffff\1\147\1\142"+
+        "\5\uffff\1\147\1\142\1\172\1\145\1\172\1\153\1\141\1\143\1\160\2"+
+        "\145\1\162\1\154\1\uffff\1\172\1\uffff\1\145\1\155\1\154\1\145\1"+
+        "\172\1\154\1\141\1\145\1\uffff\1\144\1\157\1\145\1\172\1\uffff\1"+
+        "\172\1\155\1\143\1\156\1\144\1\172\2\uffff\1\172\1\151\1\157\1\145"+
+        "\2\uffff\1\162\1\144\1\154\1\143\1\145\1\172\1\154\1\172\1\uffff"+
+        "\1\145\1\uffff\1\172\1\uffff";
     static final String DFA12_acceptS =
-        "\7\uffff\1\12\1\13\1\14\1\15\1\16\1\uffff\1\20\3\uffff\1\23\1\24"+
-        "\3\uffff\1\30\1\31\2\uffff\1\23\5\uffff\1\11\1\12\1\13\1\14\1\15"+
-        "\1\16\1\uffff\1\20\2\uffff\1\24\1\25\1\26\1\27\1\30\15\uffff\1\2"+
-        "\1\uffff\1\3\10\uffff\1\4\4\uffff\1\21\6\uffff\1\17\1\22\4\uffff"+
-        "\1\6\1\1\10\uffff\1\10\1\uffff\1\5\1\uffff\1\7";
+        "\6\uffff\1\10\1\11\1\12\1\13\1\14\1\15\1\uffff\1\17\3\uffff\1\23"+
+        "\1\24\3\uffff\1\30\1\31\2\uffff\1\23\5\uffff\1\10\1\11\1\12\1\13"+
+        "\1\14\1\15\1\uffff\1\17\2\uffff\1\24\1\25\1\26\1\27\1\30\15\uffff"+
+        "\1\2\1\uffff\1\22\10\uffff\1\3\4\uffff\1\20\6\uffff\1\16\1\21\4"+
+        "\uffff\1\5\1\1\10\uffff\1\7\1\uffff\1\4\1\uffff\1\6";
     static final String DFA12_specialS =
         "\1\1\22\uffff\1\0\1\2\123\uffff}>";
     static final String[] DFA12_transitionS = {
             "\11\27\2\26\2\27\1\26\22\27\1\26\1\27\1\23\4\27\1\24\1\11\1"+
-            "\12\2\27\1\13\1\6\1\27\1\25\12\22\3\27\1\15\3\27\32\21\3\27"+
-            "\1\20\1\21\1\27\2\21\1\5\1\1\1\16\6\21\1\17\1\4\1\2\4\21\1\14"+
-            "\5\21\1\3\1\21\1\7\1\27\1\10\uff82\27",
+            "\12\2\27\1\13\2\27\1\25\12\22\1\6\2\27\1\15\3\27\32\21\3\27"+
+            "\1\20\1\21\1\27\2\21\1\5\1\1\1\16\6\21\1\17\1\4\1\3\4\21\1\14"+
+            "\5\21\1\2\1\21\1\7\1\27\1\10\uff82\27",
             "\1\30\5\uffff\1\31",
             "\1\33",
             "\1\34",
             "\1\35\3\uffff\1\36",
             "\1\37",
-            "\1\40",
+            "",
             "",
             "",
             "",
@@ -1176,8 +1175,8 @@ public class InternalMutatorGraphLexer extends Lexer {
             "\1\57",
             "\1\60",
             "",
-            "\1\62\17\uffff\1\61",
-            "\1\63",
+            "\1\61",
+            "\1\62\17\uffff\1\63",
             "\1\64",
             "\1\65",
             "\1\66",
@@ -1307,15 +1306,15 @@ public class InternalMutatorGraphLexer extends Lexer {
                         s = -1;
                         if ( (LA12_0=='d') ) {s = 1;}
 
-                        else if ( (LA12_0=='n') ) {s = 2;}
+                        else if ( (LA12_0=='y') ) {s = 2;}
 
-                        else if ( (LA12_0=='y') ) {s = 3;}
+                        else if ( (LA12_0=='n') ) {s = 3;}
 
                         else if ( (LA12_0=='m') ) {s = 4;}
 
                         else if ( (LA12_0=='c') ) {s = 5;}
 
-                        else if ( (LA12_0=='-') ) {s = 6;}
+                        else if ( (LA12_0==':') ) {s = 6;}
 
                         else if ( (LA12_0=='{') ) {s = 7;}
 
@@ -1349,7 +1348,7 @@ public class InternalMutatorGraphLexer extends Lexer {
 
                         else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 22;}
 
-                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||LA12_0=='!'||(LA12_0>='#' && LA12_0<='&')||(LA12_0>='*' && LA12_0<='+')||LA12_0=='.'||(LA12_0>=':' && LA12_0<='<')||(LA12_0>='>' && LA12_0<='@')||(LA12_0>='[' && LA12_0<=']')||LA12_0=='`'||LA12_0=='|'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 23;}
+                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||LA12_0=='!'||(LA12_0>='#' && LA12_0<='&')||(LA12_0>='*' && LA12_0<='+')||(LA12_0>='-' && LA12_0<='.')||(LA12_0>=';' && LA12_0<='<')||(LA12_0>='>' && LA12_0<='@')||(LA12_0>='[' && LA12_0<=']')||LA12_0=='`'||LA12_0=='|'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 23;}
 
                         if ( s>=0 ) return s;
                         break;

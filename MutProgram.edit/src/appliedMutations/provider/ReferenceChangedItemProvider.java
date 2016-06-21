@@ -45,11 +45,57 @@ public class ReferenceChangedItemProvider extends AppMutationItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addRefNamePropertyDescriptor(object);
+			addObjectPropertyDescriptor(object);
+			addSrcRefNamePropertyDescriptor(object);
 			addFromPropertyDescriptor(object);
+			addRefNamePropertyDescriptor(object);
 			addToPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Object feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addObjectPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferenceChanged_object_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferenceChanged_object_feature", "_UI_ReferenceChanged_type"),
+				 AppliedMutationsPackage.Literals.REFERENCE_CHANGED__OBJECT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Src Ref Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSrcRefNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferenceChanged_srcRefName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferenceChanged_srcRefName_feature", "_UI_ReferenceChanged_type"),
+				 AppliedMutationsPackage.Literals.REFERENCE_CHANGED__SRC_REF_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -137,7 +183,7 @@ public class ReferenceChangedItemProvider extends AppMutationItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ReferenceChanged)object).getRefName();
+		String label = ((ReferenceChanged)object).getSrcRefName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ReferenceChanged_type") :
 			getString("_UI_ReferenceChanged_type") + " " + label;
@@ -156,6 +202,7 @@ public class ReferenceChangedItemProvider extends AppMutationItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ReferenceChanged.class)) {
+			case AppliedMutationsPackage.REFERENCE_CHANGED__SRC_REF_NAME:
 			case AppliedMutationsPackage.REFERENCE_CHANGED__REF_NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

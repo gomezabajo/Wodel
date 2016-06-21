@@ -13,5 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface OtherTypeSelection extends OtherSelection {
+public interface OtherTypeSelection extends OtherSelection
+{
 } // OtherTypeSelection

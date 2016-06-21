@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ASCII"?>
+<configureoptions:Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:configureoptions="http://configureoptions/1.0" metamodel="C:/eclipse/runtime-EclipseApplication/DFAWodelEduSample/model/DFAAutomaton.ecore">
+  <options>
+    <type href="../../../workspace/MutProgram/models/AppliedMutations.ecore#//TargetReferenceChanged"/>
+    <valid>
+      <words xsi:type="configureoptions:Constant" value="Change"/>
+      <words xsi:type="configureoptions:Variable"/>
+      <words xsi:type="configureoptions:Constant" value="from"/>
+      <words xsi:type="configureoptions:Variable" type="fromObject"/>
+      <words xsi:type="configureoptions:Constant" value="to"/>
+      <words xsi:type="configureoptions:Variable" type="toObject"/>
+      <words xsi:type="configureoptions:Constant" value="with"/>
+      <words xsi:type="configureoptions:Constant" value="new"/>
+      <words xsi:type="configureoptions:Variable" type="refName"/>
+      <words xsi:type="configureoptions:Variable" type="oldToObject"/>
+    </valid>
+    <invalid>
+      <words xsi:type="configureoptions:Constant" value="Change"/>
+      <words xsi:type="configureoptions:Variable"/>
+      <words xsi:type="configureoptions:Constant" value="from"/>
+      <words xsi:type="configureoptions:Variable" type="fromObject"/>
+      <words xsi:type="configureoptions:Constant" value="to"/>
+      <words xsi:type="configureoptions:Variable" type="oldToObject"/>
+      <words xsi:type="configureoptions:Constant" value="with"/>
+      <words xsi:type="configureoptions:Constant" value="new"/>
+      <words xsi:type="configureoptions:Variable" type="refName"/>
+      <words xsi:type="configureoptions:Variable" type="toObject"/>
+    </invalid>
+  </options>
+  <options>
+    <type href="../../../workspace/MutProgram/models/AppliedMutations.ecore#//AttributeChanged"/>
+    <valid>
+      <words xsi:type="configureoptions:Constant" value="Change"/>
+      <words xsi:type="configureoptions:Constant" value="attribute"/>
+      <words xsi:type="configureoptions:Variable" type="attName"/>
+      <words xsi:type="configureoptions:Constant" value="from"/>
+      <words xsi:type="configureoptions:Variable"/>
+      <words xsi:type="configureoptions:Constant" value="with"/>
+      <words xsi:type="configureoptions:Constant" value="value"/>
+      <words xsi:type="configureoptions:Variable" type="newValue"/>
+      <words xsi:type="configureoptions:Constant" value="to"/>
+      <words xsi:type="configureoptions:Variable" type="oldValue"/>
+    </valid>
+    <invalid>
+      <words xsi:type="configureoptions:Constant" value="Change"/>
+      <words xsi:type="configureoptions:Constant" value="attribute"/>
+      <words xsi:type="configureoptions:Variable" type="attName"/>
+      <words xsi:type="configureoptions:Constant" value="from"/>
+      <words xsi:type="configureoptions:Variable"/>
+      <words xsi:type="configureoptions:Constant" value="with"/>
+      <words xsi:type="configureoptions:Constant" value="value"/>
+      <words xsi:type="configureoptions:Variable" type="oldValue"/>
+      <words xsi:type="configureoptions:Constant" value="to"/>
+      <words xsi:type="configureoptions:Variable" type="newValue"/>
+    </invalid>
+  </options>
+</configureoptions:Configuration>

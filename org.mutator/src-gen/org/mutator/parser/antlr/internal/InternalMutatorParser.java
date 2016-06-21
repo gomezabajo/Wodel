@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalMutatorParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'with'", "'commands'", "'{'", "'}'", "'library'", "'for'", "'metamodel'", "'generate'", "'mutants'", "'in'", "'from'", "'all'", "'import'", "'-'", "'.'", "'E'", "'e'", "'true'", "'false'", "'self'", "'null'", "'remove'", "'['", "'..'", "']'", "'one'", "'reference'", "'='", "'create'", "','", "'select'", "'modify'", "'to'", "'source'", "'target'", "'unset'", "'('", "')'", "'swap'", "'copy'", "'reverse'", "'swapref'", "'where'", "'other'", "'random-boolean'", "'random-string'", "'upper'", "'catstart'", "'catend'", "'inside'", "'lower'", "'replace'", "'random-double'", "'random-int'", "'*'", "'and'", "'or'", "'<>'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'with'", "'blocks'", "'{'", "'}'", "'commands'", "'constraints'", "'library'", "'for'", "'metamodel'", "'generate'", "'mutants'", "'in'", "'from'", "','", "'repeat'", "'='", "'['", "'..'", "']'", "'context'", "':'", "'import'", "'-'", "'.'", "'E'", "'e'", "'true'", "'false'", "'self'", "'null'", "'remove'", "'one'", "'reference'", "'all'", "'create'", "'select'", "'modify'", "'to'", "'source'", "'target'", "'unset'", "'('", "')'", "'swap'", "'copy'", "'reverse'", "'swapref'", "'where'", "'other'", "'random-boolean'", "'random-string'", "'upper'", "'catstart'", "'catend'", "'inside'", "'lower'", "'replace'", "'random-double'", "'random-int'", "'*'", "'and'", "'or'", "'<>'", "'yes'", "'no'"
     };
     public static final int T__50=50;
     public static final int T__19=19;
@@ -45,7 +45,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
     public static final int T__54=54;
     public static final int T__60=60;
     public static final int T__61=61;
-    public static final int RULE_ID=5;
+    public static final int RULE_ID=4;
     public static final int T__26=26;
     public static final int T__27=27;
     public static final int T__28=28;
@@ -59,13 +59,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
     public static final int T__24=24;
     public static final int T__68=68;
     public static final int T__25=25;
+    public static final int T__69=69;
     public static final int T__62=62;
     public static final int T__63=63;
     public static final int T__20=20;
     public static final int T__64=64;
     public static final int T__21=21;
     public static final int T__65=65;
-    public static final int RULE_STRING=4;
+    public static final int T__70=70;
+    public static final int T__71=71;
+    public static final int T__72=72;
+    public static final int RULE_STRING=5;
     public static final int RULE_SL_COMMENT=8;
     public static final int T__37=37;
     public static final int T__38=38;
@@ -74,9 +78,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
     public static final int T__34=34;
     public static final int T__35=35;
     public static final int T__36=36;
+    public static final int T__73=73;
     public static final int EOF=-1;
     public static final int T__30=30;
+    public static final int T__74=74;
     public static final int T__31=31;
+    public static final int T__75=75;
     public static final int T__32=32;
     public static final int RULE_WS=9;
     public static final int RULE_ANY_OTHER=10;
@@ -166,7 +173,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMutatorEnvironment"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:77:1: ruleMutatorEnvironment returns [EObject current=null] : ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' otherlv_3= 'commands' otherlv_4= '{' ( (lv_commands_5_0= ruleMutator ) ) ( (lv_commands_6_0= ruleMutator ) )* otherlv_7= '}' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:77:1: ruleMutatorEnvironment returns [EObject current=null] : ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' ( (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' ) | (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' ) ) (otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}' )? ) ;
     public final EObject ruleMutatorEnvironment() throws RecognitionException {
         EObject current = null;
 
@@ -174,23 +181,37 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
         Token otherlv_3=null;
         Token otherlv_4=null;
         Token otherlv_7=null;
+        Token otherlv_8=null;
+        Token otherlv_9=null;
+        Token otherlv_12=null;
+        Token otherlv_13=null;
+        Token otherlv_14=null;
+        Token otherlv_17=null;
         EObject lv_load_0_0 = null;
 
         EObject lv_definition_1_0 = null;
 
-        EObject lv_commands_5_0 = null;
+        EObject lv_blocks_5_0 = null;
 
-        EObject lv_commands_6_0 = null;
+        EObject lv_blocks_6_0 = null;
+
+        EObject lv_commands_10_0 = null;
+
+        EObject lv_commands_11_0 = null;
+
+        EObject lv_constraints_15_0 = null;
+
+        EObject lv_constraints_16_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:80:28: ( ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' otherlv_3= 'commands' otherlv_4= '{' ( (lv_commands_5_0= ruleMutator ) ) ( (lv_commands_6_0= ruleMutator ) )* otherlv_7= '}' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:1: ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' otherlv_3= 'commands' otherlv_4= '{' ( (lv_commands_5_0= ruleMutator ) ) ( (lv_commands_6_0= ruleMutator ) )* otherlv_7= '}' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:80:28: ( ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' ( (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' ) | (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' ) ) (otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:1: ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' ( (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' ) | (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' ) ) (otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:1: ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' otherlv_3= 'commands' otherlv_4= '{' ( (lv_commands_5_0= ruleMutator ) ) ( (lv_commands_6_0= ruleMutator ) )* otherlv_7= '}' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:2: ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' otherlv_3= 'commands' otherlv_4= '{' ( (lv_commands_5_0= ruleMutator ) ) ( (lv_commands_6_0= ruleMutator ) )* otherlv_7= '}'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:1: ( ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' ( (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' ) | (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' ) ) (otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:2: ( (lv_load_0_0= ruleLoad ) )* ( (lv_definition_1_0= ruleDefinition ) ) otherlv_2= 'with' ( (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' ) | (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' ) ) (otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}' )?
             {
             // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:81:2: ( (lv_load_0_0= ruleLoad ) )*
             loop1:
@@ -198,7 +219,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==23) ) {
+                if ( (LA1_0==32) ) {
                     alt1=1;
                 }
 
@@ -276,98 +297,343 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                 	newLeafNode(otherlv_2, grammarAccess.getMutatorEnvironmentAccess().getWithKeyword_2());
                 
-            otherlv_3=(Token)match(input,12,FollowSets000.FOLLOW_12_in_ruleMutatorEnvironment177); 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:121:1: ( (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' ) | (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' ) )
+            int alt4=2;
+            int LA4_0 = input.LA(1);
 
-                	newLeafNode(otherlv_3, grammarAccess.getMutatorEnvironmentAccess().getCommandsKeyword_3());
-                
-            otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleMutatorEnvironment189); 
+            if ( (LA4_0==12) ) {
+                alt4=1;
+            }
+            else if ( (LA4_0==15) ) {
+                alt4=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 4, 0, input);
 
-                	newLeafNode(otherlv_4, grammarAccess.getMutatorEnvironmentAccess().getLeftCurlyBracketKeyword_4());
-                
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:129:1: ( (lv_commands_5_0= ruleMutator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:130:1: (lv_commands_5_0= ruleMutator )
-            {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:130:1: (lv_commands_5_0= ruleMutator )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:131:3: lv_commands_5_0= ruleMutator
-            {
-             
-            	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getCommandsMutatorParserRuleCall_5_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleMutatorEnvironment210);
-            lv_commands_5_0=ruleMutator();
+                throw nvae;
+            }
+            switch (alt4) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:121:2: (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:121:2: (otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:121:4: otherlv_3= 'blocks' otherlv_4= '{' ( (lv_blocks_5_0= ruleBlock ) ) ( (lv_blocks_6_0= ruleBlock ) )* otherlv_7= '}'
+                    {
+                    otherlv_3=(Token)match(input,12,FollowSets000.FOLLOW_12_in_ruleMutatorEnvironment179); 
 
-            state._fsp--;
+                        	newLeafNode(otherlv_3, grammarAccess.getMutatorEnvironmentAccess().getBlocksKeyword_3_0_0());
+                        
+                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleMutatorEnvironment191); 
+
+                        	newLeafNode(otherlv_4, grammarAccess.getMutatorEnvironmentAccess().getLeftCurlyBracketKeyword_3_0_1());
+                        
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:129:1: ( (lv_blocks_5_0= ruleBlock ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:130:1: (lv_blocks_5_0= ruleBlock )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:130:1: (lv_blocks_5_0= ruleBlock )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:131:3: lv_blocks_5_0= ruleBlock
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getBlocksBlockParserRuleCall_3_0_2_0()); 
+                    	    
+                    pushFollow(FollowSets000.FOLLOW_ruleBlock_in_ruleMutatorEnvironment212);
+                    lv_blocks_5_0=ruleBlock();
+
+                    state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
-            	        }
-                   		add(
-                   			current, 
-                   			"commands",
-                    		lv_commands_5_0, 
-                    		"Mutator");
-            	        afterParserOrEnumRuleCall();
-            	    
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
+                    	        }
+                           		add(
+                           			current, 
+                           			"blocks",
+                            		lv_blocks_5_0, 
+                            		"Block");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:147:2: ( (lv_blocks_6_0= ruleBlock ) )*
+                    loop2:
+                    do {
+                        int alt2=2;
+                        int LA2_0 = input.LA(1);
+
+                        if ( (LA2_0==RULE_ID) ) {
+                            alt2=1;
+                        }
+
+
+                        switch (alt2) {
+                    	case 1 :
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:148:1: (lv_blocks_6_0= ruleBlock )
+                    	    {
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:148:1: (lv_blocks_6_0= ruleBlock )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:149:3: lv_blocks_6_0= ruleBlock
+                    	    {
+                    	     
+                    	    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getBlocksBlockParserRuleCall_3_0_3_0()); 
+                    	    	    
+                    	    pushFollow(FollowSets000.FOLLOW_ruleBlock_in_ruleMutatorEnvironment233);
+                    	    lv_blocks_6_0=ruleBlock();
+
+                    	    state._fsp--;
+
+
+                    	    	        if (current==null) {
+                    	    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
+                    	    	        }
+                    	           		add(
+                    	           			current, 
+                    	           			"blocks",
+                    	            		lv_blocks_6_0, 
+                    	            		"Block");
+                    	    	        afterParserOrEnumRuleCall();
+                    	    	    
+
+                    	    }
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop2;
+                        }
+                    } while (true);
+
+                    otherlv_7=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleMutatorEnvironment246); 
+
+                        	newLeafNode(otherlv_7, grammarAccess.getMutatorEnvironmentAccess().getRightCurlyBracketKeyword_3_0_4());
+                        
+
+                    }
+
+
+                    }
+                    break;
+                case 2 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:170:6: (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:170:6: (otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:170:8: otherlv_8= 'commands' otherlv_9= '{' ( (lv_commands_10_0= ruleMutator ) ) ( (lv_commands_11_0= ruleMutator ) )* otherlv_12= '}'
+                    {
+                    otherlv_8=(Token)match(input,15,FollowSets000.FOLLOW_15_in_ruleMutatorEnvironment266); 
+
+                        	newLeafNode(otherlv_8, grammarAccess.getMutatorEnvironmentAccess().getCommandsKeyword_3_1_0());
+                        
+                    otherlv_9=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleMutatorEnvironment278); 
+
+                        	newLeafNode(otherlv_9, grammarAccess.getMutatorEnvironmentAccess().getLeftCurlyBracketKeyword_3_1_1());
+                        
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:178:1: ( (lv_commands_10_0= ruleMutator ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:179:1: (lv_commands_10_0= ruleMutator )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:179:1: (lv_commands_10_0= ruleMutator )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:180:3: lv_commands_10_0= ruleMutator
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getCommandsMutatorParserRuleCall_3_1_2_0()); 
+                    	    
+                    pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleMutatorEnvironment299);
+                    lv_commands_10_0=ruleMutator();
+
+                    state._fsp--;
+
+
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
+                    	        }
+                           		add(
+                           			current, 
+                           			"commands",
+                            		lv_commands_10_0, 
+                            		"Mutator");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:196:2: ( (lv_commands_11_0= ruleMutator ) )*
+                    loop3:
+                    do {
+                        int alt3=2;
+                        int LA3_0 = input.LA(1);
+
+                        if ( (LA3_0==RULE_ID||LA3_0==27||LA3_0==41||LA3_0==45||LA3_0==47) ) {
+                            alt3=1;
+                        }
+
+
+                        switch (alt3) {
+                    	case 1 :
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:197:1: (lv_commands_11_0= ruleMutator )
+                    	    {
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:197:1: (lv_commands_11_0= ruleMutator )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:198:3: lv_commands_11_0= ruleMutator
+                    	    {
+                    	     
+                    	    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getCommandsMutatorParserRuleCall_3_1_3_0()); 
+                    	    	    
+                    	    pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleMutatorEnvironment320);
+                    	    lv_commands_11_0=ruleMutator();
+
+                    	    state._fsp--;
+
+
+                    	    	        if (current==null) {
+                    	    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
+                    	    	        }
+                    	           		add(
+                    	           			current, 
+                    	           			"commands",
+                    	            		lv_commands_11_0, 
+                    	            		"Mutator");
+                    	    	        afterParserOrEnumRuleCall();
+                    	    	    
+
+                    	    }
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop3;
+                        }
+                    } while (true);
+
+                    otherlv_12=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleMutatorEnvironment333); 
+
+                        	newLeafNode(otherlv_12, grammarAccess.getMutatorEnvironmentAccess().getRightCurlyBracketKeyword_3_1_4());
+                        
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:218:3: (otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}' )?
+            int alt6=2;
+            int LA6_0 = input.LA(1);
+
+            if ( (LA6_0==16) ) {
+                alt6=1;
+            }
+            switch (alt6) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:218:5: otherlv_13= 'constraints' otherlv_14= '{' ( (lv_constraints_15_0= ruleConstraint ) ) ( (lv_constraints_16_0= ruleConstraint ) )* otherlv_17= '}'
+                    {
+                    otherlv_13=(Token)match(input,16,FollowSets000.FOLLOW_16_in_ruleMutatorEnvironment348); 
+
+                        	newLeafNode(otherlv_13, grammarAccess.getMutatorEnvironmentAccess().getConstraintsKeyword_4_0());
+                        
+                    otherlv_14=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleMutatorEnvironment360); 
+
+                        	newLeafNode(otherlv_14, grammarAccess.getMutatorEnvironmentAccess().getLeftCurlyBracketKeyword_4_1());
+                        
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:226:1: ( (lv_constraints_15_0= ruleConstraint ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:227:1: (lv_constraints_15_0= ruleConstraint )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:227:1: (lv_constraints_15_0= ruleConstraint )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:228:3: lv_constraints_15_0= ruleConstraint
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getConstraintsConstraintParserRuleCall_4_2_0()); 
+                    	    
+                    pushFollow(FollowSets000.FOLLOW_ruleConstraint_in_ruleMutatorEnvironment381);
+                    lv_constraints_15_0=ruleConstraint();
+
+                    state._fsp--;
+
+
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
+                    	        }
+                           		add(
+                           			current, 
+                           			"constraints",
+                            		lv_constraints_15_0, 
+                            		"Constraint");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:244:2: ( (lv_constraints_16_0= ruleConstraint ) )*
+                    loop5:
+                    do {
+                        int alt5=2;
+                        int LA5_0 = input.LA(1);
+
+                        if ( (LA5_0==30) ) {
+                            alt5=1;
+                        }
+
+
+                        switch (alt5) {
+                    	case 1 :
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:245:1: (lv_constraints_16_0= ruleConstraint )
+                    	    {
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:245:1: (lv_constraints_16_0= ruleConstraint )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:246:3: lv_constraints_16_0= ruleConstraint
+                    	    {
+                    	     
+                    	    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getConstraintsConstraintParserRuleCall_4_3_0()); 
+                    	    	    
+                    	    pushFollow(FollowSets000.FOLLOW_ruleConstraint_in_ruleMutatorEnvironment402);
+                    	    lv_constraints_16_0=ruleConstraint();
+
+                    	    state._fsp--;
+
+
+                    	    	        if (current==null) {
+                    	    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
+                    	    	        }
+                    	           		add(
+                    	           			current, 
+                    	           			"constraints",
+                    	            		lv_constraints_16_0, 
+                    	            		"Constraint");
+                    	    	        afterParserOrEnumRuleCall();
+                    	    	    
+
+                    	    }
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop5;
+                        }
+                    } while (true);
+
+                    otherlv_17=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleMutatorEnvironment415); 
+
+                        	newLeafNode(otherlv_17, grammarAccess.getMutatorEnvironmentAccess().getRightCurlyBracketKeyword_4_4());
+                        
+
+                    }
+                    break;
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:147:2: ( (lv_commands_6_0= ruleMutator ) )*
-            loop2:
-            do {
-                int alt2=2;
-                int LA2_0 = input.LA(1);
-
-                if ( (LA2_0==RULE_ID||(LA2_0>=32 && LA2_0<=33)||LA2_0==39||LA2_0==42) ) {
-                    alt2=1;
-                }
-
-
-                switch (alt2) {
-            	case 1 :
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:148:1: (lv_commands_6_0= ruleMutator )
-            	    {
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:148:1: (lv_commands_6_0= ruleMutator )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:149:3: lv_commands_6_0= ruleMutator
-            	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getMutatorEnvironmentAccess().getCommandsMutatorParserRuleCall_6_0()); 
-            	    	    
-            	    pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleMutatorEnvironment231);
-            	    lv_commands_6_0=ruleMutator();
-
-            	    state._fsp--;
-
-
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getMutatorEnvironmentRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"commands",
-            	            		lv_commands_6_0, 
-            	            		"Mutator");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
-
-            	    }
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop2;
-                }
-            } while (true);
-
-            otherlv_7=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleMutatorEnvironment244); 
-
-                	newLeafNode(otherlv_7, grammarAccess.getMutatorEnvironmentAccess().getRightCurlyBracketKeyword_7());
-                
 
             }
 
@@ -389,7 +655,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleDefinition"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:177:1: entryRuleDefinition returns [EObject current=null] : iv_ruleDefinition= ruleDefinition EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:274:1: entryRuleDefinition returns [EObject current=null] : iv_ruleDefinition= ruleDefinition EOF ;
     public final EObject entryRuleDefinition() throws RecognitionException {
         EObject current = null;
 
@@ -397,17 +663,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:178:2: (iv_ruleDefinition= ruleDefinition EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:179:2: iv_ruleDefinition= ruleDefinition EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:275:2: (iv_ruleDefinition= ruleDefinition EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:276:2: iv_ruleDefinition= ruleDefinition EOF
             {
              newCompositeNode(grammarAccess.getDefinitionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleDefinition_in_entryRuleDefinition280);
+            pushFollow(FollowSets000.FOLLOW_ruleDefinition_in_entryRuleDefinition453);
             iv_ruleDefinition=ruleDefinition();
 
             state._fsp--;
 
              current =iv_ruleDefinition; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleDefinition290); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleDefinition463); 
 
             }
 
@@ -425,7 +691,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleDefinition"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:186:1: ruleDefinition returns [EObject current=null] : (this_Library_0= ruleLibrary | this_Program_1= ruleProgram ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:283:1: ruleDefinition returns [EObject current=null] : (this_Library_0= ruleLibrary | this_Program_1= ruleProgram ) ;
     public final EObject ruleDefinition() throws RecognitionException {
         EObject current = null;
 
@@ -437,33 +703,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:189:28: ( (this_Library_0= ruleLibrary | this_Program_1= ruleProgram ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:190:1: (this_Library_0= ruleLibrary | this_Program_1= ruleProgram )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:286:28: ( (this_Library_0= ruleLibrary | this_Program_1= ruleProgram ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:287:1: (this_Library_0= ruleLibrary | this_Program_1= ruleProgram )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:190:1: (this_Library_0= ruleLibrary | this_Program_1= ruleProgram )
-            int alt3=2;
-            int LA3_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:287:1: (this_Library_0= ruleLibrary | this_Program_1= ruleProgram )
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            if ( (LA3_0==15) ) {
-                alt3=1;
+            if ( (LA7_0==17) ) {
+                alt7=1;
             }
-            else if ( (LA3_0==18) ) {
-                alt3=2;
+            else if ( (LA7_0==20) ) {
+                alt7=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 3, 0, input);
+                    new NoViableAltException("", 7, 0, input);
 
                 throw nvae;
             }
-            switch (alt3) {
+            switch (alt7) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:191:5: this_Library_0= ruleLibrary
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:288:5: this_Library_0= ruleLibrary
                     {
                      
                             newCompositeNode(grammarAccess.getDefinitionAccess().getLibraryParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleLibrary_in_ruleDefinition337);
+                    pushFollow(FollowSets000.FOLLOW_ruleLibrary_in_ruleDefinition510);
                     this_Library_0=ruleLibrary();
 
                     state._fsp--;
@@ -476,12 +742,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:201:5: this_Program_1= ruleProgram
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:298:5: this_Program_1= ruleProgram
                     {
                      
                             newCompositeNode(grammarAccess.getDefinitionAccess().getProgramParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleProgram_in_ruleDefinition364);
+                    pushFollow(FollowSets000.FOLLOW_ruleProgram_in_ruleDefinition537);
                     this_Program_1=ruleProgram();
 
                     state._fsp--;
@@ -514,7 +780,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLibrary"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:217:1: entryRuleLibrary returns [EObject current=null] : iv_ruleLibrary= ruleLibrary EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:314:1: entryRuleLibrary returns [EObject current=null] : iv_ruleLibrary= ruleLibrary EOF ;
     public final EObject entryRuleLibrary() throws RecognitionException {
         EObject current = null;
 
@@ -522,17 +788,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:218:2: (iv_ruleLibrary= ruleLibrary EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:219:2: iv_ruleLibrary= ruleLibrary EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:315:2: (iv_ruleLibrary= ruleLibrary EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:316:2: iv_ruleLibrary= ruleLibrary EOF
             {
              newCompositeNode(grammarAccess.getLibraryRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleLibrary_in_entryRuleLibrary399);
+            pushFollow(FollowSets000.FOLLOW_ruleLibrary_in_entryRuleLibrary572);
             iv_ruleLibrary=ruleLibrary();
 
             state._fsp--;
 
              current =iv_ruleLibrary; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleLibrary409); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleLibrary582); 
 
             }
 
@@ -550,7 +816,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLibrary"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:226:1: ruleLibrary returns [EObject current=null] : ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:323:1: ruleLibrary returns [EObject current=null] : ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) ) ;
     public final EObject ruleLibrary() throws RecognitionException {
         EObject current = null;
 
@@ -563,14 +829,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:229:28: ( ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:230:1: ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:326:28: ( ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:327:1: ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:230:1: ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:230:2: () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:327:1: ( () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:327:2: () otherlv_1= 'library' otherlv_2= 'for' otherlv_3= 'metamodel' ( (lv_metamodel_4_0= ruleEString ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:230:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:231:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:327:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:328:5: 
             {
 
                     current = forceCreateModelElement(
@@ -580,28 +846,28 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,15,FollowSets000.FOLLOW_15_in_ruleLibrary455); 
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleLibrary628); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getLibraryAccess().getLibraryKeyword_1());
                 
-            otherlv_2=(Token)match(input,16,FollowSets000.FOLLOW_16_in_ruleLibrary467); 
+            otherlv_2=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleLibrary640); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getLibraryAccess().getForKeyword_2());
                 
-            otherlv_3=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleLibrary479); 
+            otherlv_3=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleLibrary652); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getLibraryAccess().getMetamodelKeyword_3());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:248:1: ( (lv_metamodel_4_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:249:1: (lv_metamodel_4_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:345:1: ( (lv_metamodel_4_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:346:1: (lv_metamodel_4_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:249:1: (lv_metamodel_4_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:250:3: lv_metamodel_4_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:346:1: (lv_metamodel_4_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:347:3: lv_metamodel_4_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getLibraryAccess().getMetamodelEStringParserRuleCall_4_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleLibrary500);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleLibrary673);
             lv_metamodel_4_0=ruleEString();
 
             state._fsp--;
@@ -644,7 +910,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleProgram"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:274:1: entryRuleProgram returns [EObject current=null] : iv_ruleProgram= ruleProgram EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:371:1: entryRuleProgram returns [EObject current=null] : iv_ruleProgram= ruleProgram EOF ;
     public final EObject entryRuleProgram() throws RecognitionException {
         EObject current = null;
 
@@ -652,17 +918,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:275:2: (iv_ruleProgram= ruleProgram EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:276:2: iv_ruleProgram= ruleProgram EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:372:2: (iv_ruleProgram= ruleProgram EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:373:2: iv_ruleProgram= ruleProgram EOF
             {
              newCompositeNode(grammarAccess.getProgramRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleProgram_in_entryRuleProgram536);
+            pushFollow(FollowSets000.FOLLOW_ruleProgram_in_entryRuleProgram709);
             iv_ruleProgram=ruleProgram();
 
             state._fsp--;
 
              current =iv_ruleProgram; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleProgram546); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleProgram719); 
 
             }
 
@@ -680,7 +946,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleProgram"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:283:1: ruleProgram returns [EObject current=null] : ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) ) otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:380:1: ruleProgram returns [EObject current=null] : ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) )? otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) ) ;
     public final EObject ruleProgram() throws RecognitionException {
         EObject current = null;
 
@@ -701,14 +967,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:286:28: ( ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) ) otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:287:1: ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) ) otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:383:28: ( ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) )? otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:384:1: ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) )? otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:287:1: ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) ) otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:287:2: () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) ) otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:384:1: ( () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) )? otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:384:2: () otherlv_1= 'generate' ( (lv_num_2_0= ruleEInt ) )? otherlv_3= 'mutants' otherlv_4= 'in' ( (lv_output_5_0= ruleEString ) ) otherlv_6= 'from' ( (lv_source_7_0= ruleSource ) ) otherlv_8= 'metamodel' ( (lv_metamodel_9_0= ruleEString ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:287:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:288:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:384:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:385:5: 
             {
 
                     current = forceCreateModelElement(
@@ -718,59 +984,70 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleProgram592); 
+            otherlv_1=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleProgram765); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getProgramAccess().getGenerateKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:297:1: ( (lv_num_2_0= ruleEInt ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:298:1: (lv_num_2_0= ruleEInt )
-            {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:298:1: (lv_num_2_0= ruleEInt )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:299:3: lv_num_2_0= ruleEInt
-            {
-             
-            	        newCompositeNode(grammarAccess.getProgramAccess().getNumEIntParserRuleCall_2_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleProgram613);
-            lv_num_2_0=ruleEInt();
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:394:1: ( (lv_num_2_0= ruleEInt ) )?
+            int alt8=2;
+            int LA8_0 = input.LA(1);
 
-            state._fsp--;
+            if ( (LA8_0==RULE_INT||LA8_0==33) ) {
+                alt8=1;
+            }
+            switch (alt8) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:395:1: (lv_num_2_0= ruleEInt )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:395:1: (lv_num_2_0= ruleEInt )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:396:3: lv_num_2_0= ruleEInt
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getProgramAccess().getNumEIntParserRuleCall_2_0()); 
+                    	    
+                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleProgram786);
+                    lv_num_2_0=ruleEInt();
+
+                    state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getProgramRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"num",
-                    		lv_num_2_0, 
-                    		"EInt");
-            	        afterParserOrEnumRuleCall();
-            	    
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getProgramRule());
+                    	        }
+                           		set(
+                           			current, 
+                           			"num",
+                            		lv_num_2_0, 
+                            		"EInt");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
-
-            }
-
-            otherlv_3=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleProgram625); 
+            otherlv_3=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleProgram799); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getProgramAccess().getMutantsKeyword_3());
                 
-            otherlv_4=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleProgram637); 
+            otherlv_4=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleProgram811); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getProgramAccess().getInKeyword_4());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:323:1: ( (lv_output_5_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:324:1: (lv_output_5_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:420:1: ( (lv_output_5_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:421:1: (lv_output_5_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:324:1: (lv_output_5_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:325:3: lv_output_5_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:421:1: (lv_output_5_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:422:3: lv_output_5_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getProgramAccess().getOutputEStringParserRuleCall_5_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleProgram658);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleProgram832);
             lv_output_5_0=ruleEString();
 
             state._fsp--;
@@ -792,20 +1069,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_6=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleProgram670); 
+            otherlv_6=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleProgram844); 
 
                 	newLeafNode(otherlv_6, grammarAccess.getProgramAccess().getFromKeyword_6());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:345:1: ( (lv_source_7_0= ruleSource ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:346:1: (lv_source_7_0= ruleSource )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:442:1: ( (lv_source_7_0= ruleSource ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:443:1: (lv_source_7_0= ruleSource )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:346:1: (lv_source_7_0= ruleSource )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:347:3: lv_source_7_0= ruleSource
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:443:1: (lv_source_7_0= ruleSource )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:444:3: lv_source_7_0= ruleSource
             {
              
             	        newCompositeNode(grammarAccess.getProgramAccess().getSourceSourceParserRuleCall_7_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleSource_in_ruleProgram691);
+            pushFollow(FollowSets000.FOLLOW_ruleSource_in_ruleProgram865);
             lv_source_7_0=ruleSource();
 
             state._fsp--;
@@ -827,20 +1104,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_8=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleProgram703); 
+            otherlv_8=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleProgram877); 
 
                 	newLeafNode(otherlv_8, grammarAccess.getProgramAccess().getMetamodelKeyword_8());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:367:1: ( (lv_metamodel_9_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:368:1: (lv_metamodel_9_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:464:1: ( (lv_metamodel_9_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:465:1: (lv_metamodel_9_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:368:1: (lv_metamodel_9_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:369:3: lv_metamodel_9_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:465:1: (lv_metamodel_9_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:466:3: lv_metamodel_9_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getProgramAccess().getMetamodelEStringParserRuleCall_9_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleProgram724);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleProgram898);
             lv_metamodel_9_0=ruleEString();
 
             state._fsp--;
@@ -883,7 +1160,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSource"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:393:1: entryRuleSource returns [EObject current=null] : iv_ruleSource= ruleSource EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:490:1: entryRuleSource returns [EObject current=null] : iv_ruleSource= ruleSource EOF ;
     public final EObject entryRuleSource() throws RecognitionException {
         EObject current = null;
 
@@ -891,17 +1168,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:394:2: (iv_ruleSource= ruleSource EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:395:2: iv_ruleSource= ruleSource EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:491:2: (iv_ruleSource= ruleSource EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:492:2: iv_ruleSource= ruleSource EOF
             {
              newCompositeNode(grammarAccess.getSourceRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSource_in_entryRuleSource760);
+            pushFollow(FollowSets000.FOLLOW_ruleSource_in_entryRuleSource934);
             iv_ruleSource=ruleSource();
 
             state._fsp--;
 
              current =iv_ruleSource; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSource770); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSource944); 
 
             }
 
@@ -919,25 +1196,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSource"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:402:1: ruleSource returns [EObject current=null] : ( () ( (lv_path_1_0= ruleEString ) ) ( (lv_multiple_2_0= 'all' ) )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:499:1: ruleSource returns [EObject current=null] : ( () ( (lv_path_1_0= ruleEString ) ) ) ;
     public final EObject ruleSource() throws RecognitionException {
         EObject current = null;
 
-        Token lv_multiple_2_0=null;
         AntlrDatatypeRuleToken lv_path_1_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:405:28: ( ( () ( (lv_path_1_0= ruleEString ) ) ( (lv_multiple_2_0= 'all' ) )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:406:1: ( () ( (lv_path_1_0= ruleEString ) ) ( (lv_multiple_2_0= 'all' ) )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:502:28: ( ( () ( (lv_path_1_0= ruleEString ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:503:1: ( () ( (lv_path_1_0= ruleEString ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:406:1: ( () ( (lv_path_1_0= ruleEString ) ) ( (lv_multiple_2_0= 'all' ) )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:406:2: () ( (lv_path_1_0= ruleEString ) ) ( (lv_multiple_2_0= 'all' ) )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:503:1: ( () ( (lv_path_1_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:503:2: () ( (lv_path_1_0= ruleEString ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:406:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:407:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:503:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:504:5: 
             {
 
                     current = forceCreateModelElement(
@@ -947,16 +1223,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:412:2: ( (lv_path_1_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:413:1: (lv_path_1_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:509:2: ( (lv_path_1_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:510:1: (lv_path_1_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:413:1: (lv_path_1_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:414:3: lv_path_1_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:510:1: (lv_path_1_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:511:3: lv_path_1_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getSourceAccess().getPathEStringParserRuleCall_1_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleSource825);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleSource999);
             lv_path_1_0=ruleEString();
 
             state._fsp--;
@@ -975,39 +1251,6 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-
-            }
-
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:430:2: ( (lv_multiple_2_0= 'all' ) )?
-            int alt4=2;
-            int LA4_0 = input.LA(1);
-
-            if ( (LA4_0==22) ) {
-                alt4=1;
-            }
-            switch (alt4) {
-                case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:431:1: (lv_multiple_2_0= 'all' )
-                    {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:431:1: (lv_multiple_2_0= 'all' )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:432:3: lv_multiple_2_0= 'all'
-                    {
-                    lv_multiple_2_0=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleSource843); 
-
-                            newLeafNode(lv_multiple_2_0, grammarAccess.getSourceAccess().getMultipleAllKeyword_2_0());
-                        
-
-                    	        if (current==null) {
-                    	            current = createModelElement(grammarAccess.getSourceRule());
-                    	        }
-                           		setWithLastConsumed(current, "multiple", true, "all");
-                    	    
-
-                    }
-
-
-                    }
-                    break;
 
             }
 
@@ -1031,8 +1274,729 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleSource"
 
 
+    // $ANTLR start "entryRuleBlock"
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:535:1: entryRuleBlock returns [EObject current=null] : iv_ruleBlock= ruleBlock EOF ;
+    public final EObject entryRuleBlock() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleBlock = null;
+
+
+        try {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:536:2: (iv_ruleBlock= ruleBlock EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:537:2: iv_ruleBlock= ruleBlock EOF
+            {
+             newCompositeNode(grammarAccess.getBlockRule()); 
+            pushFollow(FollowSets000.FOLLOW_ruleBlock_in_entryRuleBlock1035);
+            iv_ruleBlock=ruleBlock();
+
+            state._fsp--;
+
+             current =iv_ruleBlock; 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleBlock1045); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleBlock"
+
+
+    // $ANTLR start "ruleBlock"
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:544:1: ruleBlock returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* )? (otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) ) )? otherlv_8= '{' ( (lv_commands_9_0= ruleMutator ) ) ( (lv_commands_10_0= ruleMutator ) )* otherlv_11= '}' (otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']' )? ) ;
+    public final EObject ruleBlock() throws RecognitionException {
+        EObject current = null;
+
+        Token lv_name_0_0=null;
+        Token otherlv_1=null;
+        Token otherlv_2=null;
+        Token otherlv_3=null;
+        Token otherlv_4=null;
+        Token otherlv_5=null;
+        Token otherlv_6=null;
+        Token otherlv_8=null;
+        Token otherlv_11=null;
+        Token otherlv_12=null;
+        Token otherlv_14=null;
+        Token otherlv_17=null;
+        Enumerator lv_repeat_7_0 = null;
+
+        EObject lv_commands_9_0 = null;
+
+        EObject lv_commands_10_0 = null;
+
+        AntlrDatatypeRuleToken lv_min_13_0 = null;
+
+        AntlrDatatypeRuleToken lv_max_15_0 = null;
+
+        AntlrDatatypeRuleToken lv_fixed_16_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:547:28: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* )? (otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) ) )? otherlv_8= '{' ( (lv_commands_9_0= ruleMutator ) ) ( (lv_commands_10_0= ruleMutator ) )* otherlv_11= '}' (otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:548:1: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* )? (otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) ) )? otherlv_8= '{' ( (lv_commands_9_0= ruleMutator ) ) ( (lv_commands_10_0= ruleMutator ) )* otherlv_11= '}' (otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']' )? )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:548:1: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* )? (otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) ) )? otherlv_8= '{' ( (lv_commands_9_0= ruleMutator ) ) ( (lv_commands_10_0= ruleMutator ) )* otherlv_11= '}' (otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:548:2: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* )? (otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) ) )? otherlv_8= '{' ( (lv_commands_9_0= ruleMutator ) ) ( (lv_commands_10_0= ruleMutator ) )* otherlv_11= '}' (otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']' )?
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:548:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:549:1: (lv_name_0_0= RULE_ID )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:549:1: (lv_name_0_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:550:3: lv_name_0_0= RULE_ID
+            {
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleBlock1087); 
+
+            			newLeafNode(lv_name_0_0, grammarAccess.getBlockAccess().getNameIDTerminalRuleCall_0_0()); 
+            		
+
+            	        if (current==null) {
+            	            current = createModelElement(grammarAccess.getBlockRule());
+            	        }
+                   		setWithLastConsumed(
+                   			current, 
+                   			"name",
+                    		lv_name_0_0, 
+                    		"ID");
+            	    
+
+            }
+
+
+            }
+
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:566:2: (otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* )?
+            int alt10=2;
+            int LA10_0 = input.LA(1);
+
+            if ( (LA10_0==23) ) {
+                alt10=1;
+            }
+            switch (alt10) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:566:4: otherlv_1= 'from' ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )*
+                    {
+                    otherlv_1=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleBlock1105); 
+
+                        	newLeafNode(otherlv_1, grammarAccess.getBlockAccess().getFromKeyword_1_0());
+                        
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:570:1: ( (otherlv_2= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:571:1: (otherlv_2= RULE_ID )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:571:1: (otherlv_2= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:572:3: otherlv_2= RULE_ID
+                    {
+
+                    			if (current==null) {
+                    	            current = createModelElement(grammarAccess.getBlockRule());
+                    	        }
+                            
+                    otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleBlock1125); 
+
+                    		newLeafNode(otherlv_2, grammarAccess.getBlockAccess().getFromBlockCrossReference_1_1_0()); 
+                    	
+
+                    }
+
+
+                    }
+
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:583:2: (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )*
+                    loop9:
+                    do {
+                        int alt9=2;
+                        int LA9_0 = input.LA(1);
+
+                        if ( (LA9_0==24) ) {
+                            alt9=1;
+                        }
+
+
+                        switch (alt9) {
+                    	case 1 :
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:583:4: otherlv_3= ',' ( (otherlv_4= RULE_ID ) )
+                    	    {
+                    	    otherlv_3=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleBlock1138); 
+
+                    	        	newLeafNode(otherlv_3, grammarAccess.getBlockAccess().getCommaKeyword_1_2_0());
+                    	        
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:587:1: ( (otherlv_4= RULE_ID ) )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:588:1: (otherlv_4= RULE_ID )
+                    	    {
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:588:1: (otherlv_4= RULE_ID )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:589:3: otherlv_4= RULE_ID
+                    	    {
+
+                    	    			if (current==null) {
+                    	    	            current = createModelElement(grammarAccess.getBlockRule());
+                    	    	        }
+                    	            
+                    	    otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleBlock1158); 
+
+                    	    		newLeafNode(otherlv_4, grammarAccess.getBlockAccess().getFromBlockCrossReference_1_2_1_0()); 
+                    	    	
+
+                    	    }
+
+
+                    	    }
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop9;
+                        }
+                    } while (true);
+
+
+                    }
+                    break;
+
+            }
+
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:600:6: (otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) ) )?
+            int alt11=2;
+            int LA11_0 = input.LA(1);
+
+            if ( (LA11_0==25) ) {
+                alt11=1;
+            }
+            switch (alt11) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:600:8: otherlv_5= 'repeat' otherlv_6= '=' ( (lv_repeat_7_0= ruleRepeat ) )
+                    {
+                    otherlv_5=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleBlock1175); 
+
+                        	newLeafNode(otherlv_5, grammarAccess.getBlockAccess().getRepeatKeyword_2_0());
+                        
+                    otherlv_6=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleBlock1187); 
+
+                        	newLeafNode(otherlv_6, grammarAccess.getBlockAccess().getEqualsSignKeyword_2_1());
+                        
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:608:1: ( (lv_repeat_7_0= ruleRepeat ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:609:1: (lv_repeat_7_0= ruleRepeat )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:609:1: (lv_repeat_7_0= ruleRepeat )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:610:3: lv_repeat_7_0= ruleRepeat
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getBlockAccess().getRepeatRepeatEnumRuleCall_2_2_0()); 
+                    	    
+                    pushFollow(FollowSets000.FOLLOW_ruleRepeat_in_ruleBlock1208);
+                    lv_repeat_7_0=ruleRepeat();
+
+                    state._fsp--;
+
+
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getBlockRule());
+                    	        }
+                           		set(
+                           			current, 
+                           			"repeat",
+                            		lv_repeat_7_0, 
+                            		"Repeat");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+            otherlv_8=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleBlock1222); 
+
+                	newLeafNode(otherlv_8, grammarAccess.getBlockAccess().getLeftCurlyBracketKeyword_3());
+                
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:630:1: ( (lv_commands_9_0= ruleMutator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:631:1: (lv_commands_9_0= ruleMutator )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:631:1: (lv_commands_9_0= ruleMutator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:632:3: lv_commands_9_0= ruleMutator
+            {
+             
+            	        newCompositeNode(grammarAccess.getBlockAccess().getCommandsMutatorParserRuleCall_4_0()); 
+            	    
+            pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleBlock1243);
+            lv_commands_9_0=ruleMutator();
+
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getBlockRule());
+            	        }
+                   		add(
+                   			current, 
+                   			"commands",
+                    		lv_commands_9_0, 
+                    		"Mutator");
+            	        afterParserOrEnumRuleCall();
+            	    
+
+            }
+
+
+            }
+
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:648:2: ( (lv_commands_10_0= ruleMutator ) )*
+            loop12:
+            do {
+                int alt12=2;
+                int LA12_0 = input.LA(1);
+
+                if ( (LA12_0==RULE_ID||LA12_0==27||LA12_0==41||LA12_0==45||LA12_0==47) ) {
+                    alt12=1;
+                }
+
+
+                switch (alt12) {
+            	case 1 :
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:649:1: (lv_commands_10_0= ruleMutator )
+            	    {
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:649:1: (lv_commands_10_0= ruleMutator )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:650:3: lv_commands_10_0= ruleMutator
+            	    {
+            	     
+            	    	        newCompositeNode(grammarAccess.getBlockAccess().getCommandsMutatorParserRuleCall_5_0()); 
+            	    	    
+            	    pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleBlock1264);
+            	    lv_commands_10_0=ruleMutator();
+
+            	    state._fsp--;
+
+
+            	    	        if (current==null) {
+            	    	            current = createModelElementForParent(grammarAccess.getBlockRule());
+            	    	        }
+            	           		add(
+            	           			current, 
+            	           			"commands",
+            	            		lv_commands_10_0, 
+            	            		"Mutator");
+            	    	        afterParserOrEnumRuleCall();
+            	    	    
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop12;
+                }
+            } while (true);
+
+            otherlv_11=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleBlock1277); 
+
+                	newLeafNode(otherlv_11, grammarAccess.getBlockAccess().getRightCurlyBracketKeyword_6());
+                
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:670:1: (otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']' )?
+            int alt14=2;
+            int LA14_0 = input.LA(1);
+
+            if ( (LA14_0==27) ) {
+                alt14=1;
+            }
+            switch (alt14) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:670:3: otherlv_12= '[' ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) ) otherlv_17= ']'
+                    {
+                    otherlv_12=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleBlock1290); 
+
+                        	newLeafNode(otherlv_12, grammarAccess.getBlockAccess().getLeftSquareBracketKeyword_7_0());
+                        
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:674:1: ( ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_16_0= ruleEInt ) ) )
+                    int alt13=2;
+                    int LA13_0 = input.LA(1);
+
+                    if ( (LA13_0==33) ) {
+                        int LA13_1 = input.LA(2);
+
+                        if ( (LA13_1==RULE_INT) ) {
+                            int LA13_2 = input.LA(3);
+
+                            if ( (LA13_2==29) ) {
+                                alt13=2;
+                            }
+                            else if ( (LA13_2==28) ) {
+                                alt13=1;
+                            }
+                            else {
+                                NoViableAltException nvae =
+                                    new NoViableAltException("", 13, 2, input);
+
+                                throw nvae;
+                            }
+                        }
+                        else {
+                            NoViableAltException nvae =
+                                new NoViableAltException("", 13, 1, input);
+
+                            throw nvae;
+                        }
+                    }
+                    else if ( (LA13_0==RULE_INT) ) {
+                        int LA13_2 = input.LA(2);
+
+                        if ( (LA13_2==29) ) {
+                            alt13=2;
+                        }
+                        else if ( (LA13_2==28) ) {
+                            alt13=1;
+                        }
+                        else {
+                            NoViableAltException nvae =
+                                new NoViableAltException("", 13, 2, input);
+
+                            throw nvae;
+                        }
+                    }
+                    else {
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 13, 0, input);
+
+                        throw nvae;
+                    }
+                    switch (alt13) {
+                        case 1 :
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:674:2: ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:674:2: ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:674:3: ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' ( (lv_max_15_0= ruleMaxCardinality ) )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:674:3: ( (lv_min_13_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:675:1: (lv_min_13_0= ruleEInt )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:675:1: (lv_min_13_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:676:3: lv_min_13_0= ruleEInt
+                            {
+                             
+                            	        newCompositeNode(grammarAccess.getBlockAccess().getMinEIntParserRuleCall_7_1_0_0_0()); 
+                            	    
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleBlock1313);
+                            lv_min_13_0=ruleEInt();
+
+                            state._fsp--;
+
+
+                            	        if (current==null) {
+                            	            current = createModelElementForParent(grammarAccess.getBlockRule());
+                            	        }
+                                   		set(
+                                   			current, 
+                                   			"min",
+                                    		lv_min_13_0, 
+                                    		"EInt");
+                            	        afterParserOrEnumRuleCall();
+                            	    
+
+                            }
+
+
+                            }
+
+                            otherlv_14=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleBlock1325); 
+
+                                	newLeafNode(otherlv_14, grammarAccess.getBlockAccess().getFullStopFullStopKeyword_7_1_0_1());
+                                
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:696:1: ( (lv_max_15_0= ruleMaxCardinality ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:697:1: (lv_max_15_0= ruleMaxCardinality )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:697:1: (lv_max_15_0= ruleMaxCardinality )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:698:3: lv_max_15_0= ruleMaxCardinality
+                            {
+                             
+                            	        newCompositeNode(grammarAccess.getBlockAccess().getMaxMaxCardinalityParserRuleCall_7_1_0_2_0()); 
+                            	    
+                            pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleBlock1346);
+                            lv_max_15_0=ruleMaxCardinality();
+
+                            state._fsp--;
+
+
+                            	        if (current==null) {
+                            	            current = createModelElementForParent(grammarAccess.getBlockRule());
+                            	        }
+                                   		set(
+                                   			current, 
+                                   			"max",
+                                    		lv_max_15_0, 
+                                    		"MaxCardinality");
+                            	        afterParserOrEnumRuleCall();
+                            	    
+
+                            }
+
+
+                            }
+
+
+                            }
+
+
+                            }
+                            break;
+                        case 2 :
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:715:6: ( (lv_fixed_16_0= ruleEInt ) )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:715:6: ( (lv_fixed_16_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:716:1: (lv_fixed_16_0= ruleEInt )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:716:1: (lv_fixed_16_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:717:3: lv_fixed_16_0= ruleEInt
+                            {
+                             
+                            	        newCompositeNode(grammarAccess.getBlockAccess().getFixedEIntParserRuleCall_7_1_1_0()); 
+                            	    
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleBlock1374);
+                            lv_fixed_16_0=ruleEInt();
+
+                            state._fsp--;
+
+
+                            	        if (current==null) {
+                            	            current = createModelElementForParent(grammarAccess.getBlockRule());
+                            	        }
+                                   		set(
+                                   			current, 
+                                   			"fixed",
+                                    		lv_fixed_16_0, 
+                                    		"EInt");
+                            	        afterParserOrEnumRuleCall();
+                            	    
+
+                            }
+
+
+                            }
+
+
+                            }
+                            break;
+
+                    }
+
+                    otherlv_17=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleBlock1387); 
+
+                        	newLeafNode(otherlv_17, grammarAccess.getBlockAccess().getRightSquareBracketKeyword_7_2());
+                        
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleBlock"
+
+
+    // $ANTLR start "entryRuleConstraint"
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:745:1: entryRuleConstraint returns [EObject current=null] : iv_ruleConstraint= ruleConstraint EOF ;
+    public final EObject entryRuleConstraint() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleConstraint = null;
+
+
+        try {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:746:2: (iv_ruleConstraint= ruleConstraint EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:747:2: iv_ruleConstraint= ruleConstraint EOF
+            {
+             newCompositeNode(grammarAccess.getConstraintRule()); 
+            pushFollow(FollowSets000.FOLLOW_ruleConstraint_in_entryRuleConstraint1425);
+            iv_ruleConstraint=ruleConstraint();
+
+            state._fsp--;
+
+             current =iv_ruleConstraint; 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleConstraint1435); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleConstraint"
+
+
+    // $ANTLR start "ruleConstraint"
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:754:1: ruleConstraint returns [EObject current=null] : (otherlv_0= 'context' ( (otherlv_1= RULE_ID ) ) ( (lv_id_2_0= ruleEString ) ) otherlv_3= ':' ( (lv_rule_4_0= ruleEString ) ) ) ;
+    public final EObject ruleConstraint() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_0=null;
+        Token otherlv_1=null;
+        Token otherlv_3=null;
+        AntlrDatatypeRuleToken lv_id_2_0 = null;
+
+        AntlrDatatypeRuleToken lv_rule_4_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:757:28: ( (otherlv_0= 'context' ( (otherlv_1= RULE_ID ) ) ( (lv_id_2_0= ruleEString ) ) otherlv_3= ':' ( (lv_rule_4_0= ruleEString ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:758:1: (otherlv_0= 'context' ( (otherlv_1= RULE_ID ) ) ( (lv_id_2_0= ruleEString ) ) otherlv_3= ':' ( (lv_rule_4_0= ruleEString ) ) )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:758:1: (otherlv_0= 'context' ( (otherlv_1= RULE_ID ) ) ( (lv_id_2_0= ruleEString ) ) otherlv_3= ':' ( (lv_rule_4_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:758:3: otherlv_0= 'context' ( (otherlv_1= RULE_ID ) ) ( (lv_id_2_0= ruleEString ) ) otherlv_3= ':' ( (lv_rule_4_0= ruleEString ) )
+            {
+            otherlv_0=(Token)match(input,30,FollowSets000.FOLLOW_30_in_ruleConstraint1472); 
+
+                	newLeafNode(otherlv_0, grammarAccess.getConstraintAccess().getContextKeyword_0());
+                
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:762:1: ( (otherlv_1= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:763:1: (otherlv_1= RULE_ID )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:763:1: (otherlv_1= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:764:3: otherlv_1= RULE_ID
+            {
+
+            			if (current==null) {
+            	            current = createModelElement(grammarAccess.getConstraintRule());
+            	        }
+                    
+            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleConstraint1492); 
+
+            		newLeafNode(otherlv_1, grammarAccess.getConstraintAccess().getTypeEClassCrossReference_1_0()); 
+            	
+
+            }
+
+
+            }
+
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:775:2: ( (lv_id_2_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:776:1: (lv_id_2_0= ruleEString )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:776:1: (lv_id_2_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:777:3: lv_id_2_0= ruleEString
+            {
+             
+            	        newCompositeNode(grammarAccess.getConstraintAccess().getIdEStringParserRuleCall_2_0()); 
+            	    
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleConstraint1513);
+            lv_id_2_0=ruleEString();
+
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getConstraintRule());
+            	        }
+                   		set(
+                   			current, 
+                   			"id",
+                    		lv_id_2_0, 
+                    		"EString");
+            	        afterParserOrEnumRuleCall();
+            	    
+
+            }
+
+
+            }
+
+            otherlv_3=(Token)match(input,31,FollowSets000.FOLLOW_31_in_ruleConstraint1525); 
+
+                	newLeafNode(otherlv_3, grammarAccess.getConstraintAccess().getColonKeyword_3());
+                
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:797:1: ( (lv_rule_4_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:798:1: (lv_rule_4_0= ruleEString )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:798:1: (lv_rule_4_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:799:3: lv_rule_4_0= ruleEString
+            {
+             
+            	        newCompositeNode(grammarAccess.getConstraintAccess().getRuleEStringParserRuleCall_4_0()); 
+            	    
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleConstraint1546);
+            lv_rule_4_0=ruleEString();
+
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getConstraintRule());
+            	        }
+                   		set(
+                   			current, 
+                   			"rule",
+                    		lv_rule_4_0, 
+                    		"EString");
+            	        afterParserOrEnumRuleCall();
+            	    
+
+            }
+
+
+            }
+
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleConstraint"
+
+
     // $ANTLR start "entryRuleMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:453:1: entryRuleMutator returns [EObject current=null] : iv_ruleMutator= ruleMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:823:1: entryRuleMutator returns [EObject current=null] : iv_ruleMutator= ruleMutator EOF ;
     public final EObject entryRuleMutator() throws RecognitionException {
         EObject current = null;
 
@@ -1040,17 +2004,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:454:2: (iv_ruleMutator= ruleMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:455:2: iv_ruleMutator= ruleMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:824:2: (iv_ruleMutator= ruleMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:825:2: iv_ruleMutator= ruleMutator EOF
             {
              newCompositeNode(grammarAccess.getMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleMutator_in_entryRuleMutator893);
+            pushFollow(FollowSets000.FOLLOW_ruleMutator_in_entryRuleMutator1582);
             iv_ruleMutator=ruleMutator();
 
             state._fsp--;
 
              current =iv_ruleMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleMutator903); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleMutator1592); 
 
             }
 
@@ -1068,7 +2032,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:462:1: ruleMutator returns [EObject current=null] : (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:832:1: ruleMutator returns [EObject current=null] : (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator ) ;
     public final EObject ruleMutator() throws RecognitionException {
         EObject current = null;
 
@@ -1094,20 +2058,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:465:28: ( (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:466:1: (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:835:28: ( (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:836:1: (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:466:1: (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator )
-            int alt5=9;
-            alt5 = dfa5.predict(input);
-            switch (alt5) {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:836:1: (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator )
+            int alt15=9;
+            alt15 = dfa15.predict(input);
+            switch (alt15) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:467:5: this_CreateObjectMutator_0= ruleCreateObjectMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:837:5: this_CreateObjectMutator_0= ruleCreateObjectMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getCreateObjectMutatorParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleCreateObjectMutator_in_ruleMutator950);
+                    pushFollow(FollowSets000.FOLLOW_ruleCreateObjectMutator_in_ruleMutator1639);
                     this_CreateObjectMutator_0=ruleCreateObjectMutator();
 
                     state._fsp--;
@@ -1120,12 +2084,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:477:5: this_SelectObjectMutator_1= ruleSelectObjectMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:847:5: this_SelectObjectMutator_1= ruleSelectObjectMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getSelectObjectMutatorParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleSelectObjectMutator_in_ruleMutator977);
+                    pushFollow(FollowSets000.FOLLOW_ruleSelectObjectMutator_in_ruleMutator1666);
                     this_SelectObjectMutator_1=ruleSelectObjectMutator();
 
                     state._fsp--;
@@ -1138,12 +2102,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:487:5: this_CompositeMutator_2= ruleCompositeMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:857:5: this_CompositeMutator_2= ruleCompositeMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getCompositeMutatorParserRuleCall_2()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleCompositeMutator_in_ruleMutator1004);
+                    pushFollow(FollowSets000.FOLLOW_ruleCompositeMutator_in_ruleMutator1693);
                     this_CompositeMutator_2=ruleCompositeMutator();
 
                     state._fsp--;
@@ -1156,12 +2120,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:497:5: this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:867:5: this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getModifySourceReferenceMutatorParserRuleCall_3()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleModifySourceReferenceMutator_in_ruleMutator1031);
+                    pushFollow(FollowSets000.FOLLOW_ruleModifySourceReferenceMutator_in_ruleMutator1720);
                     this_ModifySourceReferenceMutator_3=ruleModifySourceReferenceMutator();
 
                     state._fsp--;
@@ -1174,12 +2138,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:507:5: this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:877:5: this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getModifyTargetReferenceMutatorParserRuleCall_4()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleModifyTargetReferenceMutator_in_ruleMutator1058);
+                    pushFollow(FollowSets000.FOLLOW_ruleModifyTargetReferenceMutator_in_ruleMutator1747);
                     this_ModifyTargetReferenceMutator_4=ruleModifyTargetReferenceMutator();
 
                     state._fsp--;
@@ -1192,12 +2156,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:517:5: this_CreateReferenceMutator_5= ruleCreateReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:887:5: this_CreateReferenceMutator_5= ruleCreateReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getCreateReferenceMutatorParserRuleCall_5()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleCreateReferenceMutator_in_ruleMutator1085);
+                    pushFollow(FollowSets000.FOLLOW_ruleCreateReferenceMutator_in_ruleMutator1774);
                     this_CreateReferenceMutator_5=ruleCreateReferenceMutator();
 
                     state._fsp--;
@@ -1210,12 +2174,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:527:5: this_RemoveObjectMutator_6= ruleRemoveObjectMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:897:5: this_RemoveObjectMutator_6= ruleRemoveObjectMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getRemoveObjectMutatorParserRuleCall_6()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRemoveObjectMutator_in_ruleMutator1112);
+                    pushFollow(FollowSets000.FOLLOW_ruleRemoveObjectMutator_in_ruleMutator1801);
                     this_RemoveObjectMutator_6=ruleRemoveObjectMutator();
 
                     state._fsp--;
@@ -1228,12 +2192,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:537:5: this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:907:5: this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getRemoveReferenceMutatorParserRuleCall_7()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRemoveReferenceMutator_in_ruleMutator1139);
+                    pushFollow(FollowSets000.FOLLOW_ruleRemoveReferenceMutator_in_ruleMutator1828);
                     this_RemoveReferenceMutator_7=ruleRemoveReferenceMutator();
 
                     state._fsp--;
@@ -1246,12 +2210,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 9 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:547:5: this_ModifyInformationMutator_8= ruleModifyInformationMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:917:5: this_ModifyInformationMutator_8= ruleModifyInformationMutator
                     {
                      
                             newCompositeNode(grammarAccess.getMutatorAccess().getModifyInformationMutatorParserRuleCall_8()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleModifyInformationMutator_in_ruleMutator1166);
+                    pushFollow(FollowSets000.FOLLOW_ruleModifyInformationMutator_in_ruleMutator1855);
                     this_ModifyInformationMutator_8=ruleModifyInformationMutator();
 
                     state._fsp--;
@@ -1284,7 +2248,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleObSelectionStrategy"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:563:1: entryRuleObSelectionStrategy returns [EObject current=null] : iv_ruleObSelectionStrategy= ruleObSelectionStrategy EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:933:1: entryRuleObSelectionStrategy returns [EObject current=null] : iv_ruleObSelectionStrategy= ruleObSelectionStrategy EOF ;
     public final EObject entryRuleObSelectionStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -1292,17 +2256,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:564:2: (iv_ruleObSelectionStrategy= ruleObSelectionStrategy EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:565:2: iv_ruleObSelectionStrategy= ruleObSelectionStrategy EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:934:2: (iv_ruleObSelectionStrategy= ruleObSelectionStrategy EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:935:2: iv_ruleObSelectionStrategy= ruleObSelectionStrategy EOF
             {
              newCompositeNode(grammarAccess.getObSelectionStrategyRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_entryRuleObSelectionStrategy1201);
+            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_entryRuleObSelectionStrategy1890);
             iv_ruleObSelectionStrategy=ruleObSelectionStrategy();
 
             state._fsp--;
 
              current =iv_ruleObSelectionStrategy; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleObSelectionStrategy1211); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleObSelectionStrategy1900); 
 
             }
 
@@ -1320,7 +2284,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleObSelectionStrategy"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:572:1: ruleObSelectionStrategy returns [EObject current=null] : (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:942:1: ruleObSelectionStrategy returns [EObject current=null] : (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection ) ;
     public final EObject ruleObSelectionStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -1336,47 +2300,47 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:575:28: ( (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:576:1: (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:945:28: ( (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:946:1: (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:576:1: (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection )
-            int alt6=4;
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:946:1: (this_RandomSelection_0= ruleRandomSelection | this_SpecificSelection_1= ruleSpecificSelection | this_CompleteSelection_2= ruleCompleteSelection | this_OtherSelection_3= ruleOtherSelection )
+            int alt16=4;
             switch ( input.LA(1) ) {
-            case 36:
+            case 42:
                 {
-                alt6=1;
+                alt16=1;
                 }
                 break;
             case RULE_ID:
                 {
-                alt6=2;
+                alt16=2;
                 }
                 break;
-            case 22:
+            case 44:
                 {
-                alt6=3;
+                alt16=3;
                 }
                 break;
-            case 54:
+            case 59:
                 {
-                alt6=4;
+                alt16=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 6, 0, input);
+                    new NoViableAltException("", 16, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt6) {
+            switch (alt16) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:577:5: this_RandomSelection_0= ruleRandomSelection
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:947:5: this_RandomSelection_0= ruleRandomSelection
                     {
                      
                             newCompositeNode(grammarAccess.getObSelectionStrategyAccess().getRandomSelectionParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRandomSelection_in_ruleObSelectionStrategy1258);
+                    pushFollow(FollowSets000.FOLLOW_ruleRandomSelection_in_ruleObSelectionStrategy1947);
                     this_RandomSelection_0=ruleRandomSelection();
 
                     state._fsp--;
@@ -1389,12 +2353,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:587:5: this_SpecificSelection_1= ruleSpecificSelection
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:957:5: this_SpecificSelection_1= ruleSpecificSelection
                     {
                      
                             newCompositeNode(grammarAccess.getObSelectionStrategyAccess().getSpecificSelectionParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleSpecificSelection_in_ruleObSelectionStrategy1285);
+                    pushFollow(FollowSets000.FOLLOW_ruleSpecificSelection_in_ruleObSelectionStrategy1974);
                     this_SpecificSelection_1=ruleSpecificSelection();
 
                     state._fsp--;
@@ -1407,12 +2371,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:597:5: this_CompleteSelection_2= ruleCompleteSelection
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:967:5: this_CompleteSelection_2= ruleCompleteSelection
                     {
                      
                             newCompositeNode(grammarAccess.getObSelectionStrategyAccess().getCompleteSelectionParserRuleCall_2()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleCompleteSelection_in_ruleObSelectionStrategy1312);
+                    pushFollow(FollowSets000.FOLLOW_ruleCompleteSelection_in_ruleObSelectionStrategy2001);
                     this_CompleteSelection_2=ruleCompleteSelection();
 
                     state._fsp--;
@@ -1425,12 +2389,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:607:5: this_OtherSelection_3= ruleOtherSelection
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:977:5: this_OtherSelection_3= ruleOtherSelection
                     {
                      
                             newCompositeNode(grammarAccess.getObSelectionStrategyAccess().getOtherSelectionParserRuleCall_3()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleOtherSelection_in_ruleObSelectionStrategy1339);
+                    pushFollow(FollowSets000.FOLLOW_ruleOtherSelection_in_ruleObSelectionStrategy2028);
                     this_OtherSelection_3=ruleOtherSelection();
 
                     state._fsp--;
@@ -1463,7 +2427,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:623:1: entryRuleRandomSelection returns [EObject current=null] : iv_ruleRandomSelection= ruleRandomSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:993:1: entryRuleRandomSelection returns [EObject current=null] : iv_ruleRandomSelection= ruleRandomSelection EOF ;
     public final EObject entryRuleRandomSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1471,17 +2435,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:624:2: (iv_ruleRandomSelection= ruleRandomSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:625:2: iv_ruleRandomSelection= ruleRandomSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:994:2: (iv_ruleRandomSelection= ruleRandomSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:995:2: iv_ruleRandomSelection= ruleRandomSelection EOF
             {
              newCompositeNode(grammarAccess.getRandomSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomSelection_in_entryRuleRandomSelection1374);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomSelection_in_entryRuleRandomSelection2063);
             iv_ruleRandomSelection=ruleRandomSelection();
 
             state._fsp--;
 
              current =iv_ruleRandomSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomSelection1384); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomSelection2073); 
 
             }
 
@@ -1499,7 +2463,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:632:1: ruleRandomSelection returns [EObject current=null] : this_RandomTypeSelection_0= ruleRandomTypeSelection ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1002:1: ruleRandomSelection returns [EObject current=null] : this_RandomTypeSelection_0= ruleRandomTypeSelection ;
     public final EObject ruleRandomSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1509,13 +2473,13 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:635:28: (this_RandomTypeSelection_0= ruleRandomTypeSelection )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:637:5: this_RandomTypeSelection_0= ruleRandomTypeSelection
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1005:28: (this_RandomTypeSelection_0= ruleRandomTypeSelection )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1007:5: this_RandomTypeSelection_0= ruleRandomTypeSelection
             {
              
                     newCompositeNode(grammarAccess.getRandomSelectionAccess().getRandomTypeSelectionParserRuleCall()); 
                 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomTypeSelection_in_ruleRandomSelection1430);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomTypeSelection_in_ruleRandomSelection2119);
             this_RandomTypeSelection_0=ruleRandomTypeSelection();
 
             state._fsp--;
@@ -1542,7 +2506,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:653:1: entryRuleSpecificSelection returns [EObject current=null] : iv_ruleSpecificSelection= ruleSpecificSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1023:1: entryRuleSpecificSelection returns [EObject current=null] : iv_ruleSpecificSelection= ruleSpecificSelection EOF ;
     public final EObject entryRuleSpecificSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1550,17 +2514,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:654:2: (iv_ruleSpecificSelection= ruleSpecificSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:655:2: iv_ruleSpecificSelection= ruleSpecificSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1024:2: (iv_ruleSpecificSelection= ruleSpecificSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1025:2: iv_ruleSpecificSelection= ruleSpecificSelection EOF
             {
              newCompositeNode(grammarAccess.getSpecificSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificSelection_in_entryRuleSpecificSelection1464);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificSelection_in_entryRuleSpecificSelection2153);
             iv_ruleSpecificSelection=ruleSpecificSelection();
 
             state._fsp--;
 
              current =iv_ruleSpecificSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificSelection1474); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificSelection2163); 
 
             }
 
@@ -1578,7 +2542,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:662:1: ruleSpecificSelection returns [EObject current=null] : this_SpecificObjectSelection_0= ruleSpecificObjectSelection ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1032:1: ruleSpecificSelection returns [EObject current=null] : this_SpecificObjectSelection_0= ruleSpecificObjectSelection ;
     public final EObject ruleSpecificSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1588,13 +2552,13 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:665:28: (this_SpecificObjectSelection_0= ruleSpecificObjectSelection )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:667:5: this_SpecificObjectSelection_0= ruleSpecificObjectSelection
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1035:28: (this_SpecificObjectSelection_0= ruleSpecificObjectSelection )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1037:5: this_SpecificObjectSelection_0= ruleSpecificObjectSelection
             {
              
                     newCompositeNode(grammarAccess.getSpecificSelectionAccess().getSpecificObjectSelectionParserRuleCall()); 
                 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificObjectSelection_in_ruleSpecificSelection1520);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificObjectSelection_in_ruleSpecificSelection2209);
             this_SpecificObjectSelection_0=ruleSpecificObjectSelection();
 
             state._fsp--;
@@ -1621,7 +2585,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCompleteSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:683:1: entryRuleCompleteSelection returns [EObject current=null] : iv_ruleCompleteSelection= ruleCompleteSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1053:1: entryRuleCompleteSelection returns [EObject current=null] : iv_ruleCompleteSelection= ruleCompleteSelection EOF ;
     public final EObject entryRuleCompleteSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1629,17 +2593,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:684:2: (iv_ruleCompleteSelection= ruleCompleteSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:685:2: iv_ruleCompleteSelection= ruleCompleteSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1054:2: (iv_ruleCompleteSelection= ruleCompleteSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1055:2: iv_ruleCompleteSelection= ruleCompleteSelection EOF
             {
              newCompositeNode(grammarAccess.getCompleteSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCompleteSelection_in_entryRuleCompleteSelection1554);
+            pushFollow(FollowSets000.FOLLOW_ruleCompleteSelection_in_entryRuleCompleteSelection2243);
             iv_ruleCompleteSelection=ruleCompleteSelection();
 
             state._fsp--;
 
              current =iv_ruleCompleteSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCompleteSelection1564); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCompleteSelection2253); 
 
             }
 
@@ -1657,7 +2621,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCompleteSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:692:1: ruleCompleteSelection returns [EObject current=null] : this_CompleteTypeSelection_0= ruleCompleteTypeSelection ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1062:1: ruleCompleteSelection returns [EObject current=null] : this_CompleteTypeSelection_0= ruleCompleteTypeSelection ;
     public final EObject ruleCompleteSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1667,13 +2631,13 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:695:28: (this_CompleteTypeSelection_0= ruleCompleteTypeSelection )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:697:5: this_CompleteTypeSelection_0= ruleCompleteTypeSelection
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1065:28: (this_CompleteTypeSelection_0= ruleCompleteTypeSelection )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1067:5: this_CompleteTypeSelection_0= ruleCompleteTypeSelection
             {
              
                     newCompositeNode(grammarAccess.getCompleteSelectionAccess().getCompleteTypeSelectionParserRuleCall()); 
                 
-            pushFollow(FollowSets000.FOLLOW_ruleCompleteTypeSelection_in_ruleCompleteSelection1610);
+            pushFollow(FollowSets000.FOLLOW_ruleCompleteTypeSelection_in_ruleCompleteSelection2299);
             this_CompleteTypeSelection_0=ruleCompleteTypeSelection();
 
             state._fsp--;
@@ -1700,7 +2664,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOtherSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:713:1: entryRuleOtherSelection returns [EObject current=null] : iv_ruleOtherSelection= ruleOtherSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1083:1: entryRuleOtherSelection returns [EObject current=null] : iv_ruleOtherSelection= ruleOtherSelection EOF ;
     public final EObject entryRuleOtherSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1708,17 +2672,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:714:2: (iv_ruleOtherSelection= ruleOtherSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:715:2: iv_ruleOtherSelection= ruleOtherSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1084:2: (iv_ruleOtherSelection= ruleOtherSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1085:2: iv_ruleOtherSelection= ruleOtherSelection EOF
             {
              newCompositeNode(grammarAccess.getOtherSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleOtherSelection_in_entryRuleOtherSelection1644);
+            pushFollow(FollowSets000.FOLLOW_ruleOtherSelection_in_entryRuleOtherSelection2333);
             iv_ruleOtherSelection=ruleOtherSelection();
 
             state._fsp--;
 
              current =iv_ruleOtherSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOtherSelection1654); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOtherSelection2343); 
 
             }
 
@@ -1736,7 +2700,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOtherSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:722:1: ruleOtherSelection returns [EObject current=null] : this_OtherTypeSelection_0= ruleOtherTypeSelection ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1092:1: ruleOtherSelection returns [EObject current=null] : this_OtherTypeSelection_0= ruleOtherTypeSelection ;
     public final EObject ruleOtherSelection() throws RecognitionException {
         EObject current = null;
 
@@ -1746,13 +2710,13 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:725:28: (this_OtherTypeSelection_0= ruleOtherTypeSelection )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:727:5: this_OtherTypeSelection_0= ruleOtherTypeSelection
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1095:28: (this_OtherTypeSelection_0= ruleOtherTypeSelection )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1097:5: this_OtherTypeSelection_0= ruleOtherTypeSelection
             {
              
                     newCompositeNode(grammarAccess.getOtherSelectionAccess().getOtherTypeSelectionParserRuleCall()); 
                 
-            pushFollow(FollowSets000.FOLLOW_ruleOtherTypeSelection_in_ruleOtherSelection1700);
+            pushFollow(FollowSets000.FOLLOW_ruleOtherTypeSelection_in_ruleOtherSelection2389);
             this_OtherTypeSelection_0=ruleOtherTypeSelection();
 
             state._fsp--;
@@ -1779,7 +2743,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:743:1: entryRuleAttributeType returns [EObject current=null] : iv_ruleAttributeType= ruleAttributeType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1113:1: entryRuleAttributeType returns [EObject current=null] : iv_ruleAttributeType= ruleAttributeType EOF ;
     public final EObject entryRuleAttributeType() throws RecognitionException {
         EObject current = null;
 
@@ -1787,17 +2751,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:744:2: (iv_ruleAttributeType= ruleAttributeType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:745:2: iv_ruleAttributeType= ruleAttributeType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1114:2: (iv_ruleAttributeType= ruleAttributeType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1115:2: iv_ruleAttributeType= ruleAttributeType EOF
             {
              newCompositeNode(grammarAccess.getAttributeTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeType_in_entryRuleAttributeType1734);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeType_in_entryRuleAttributeType2423);
             iv_ruleAttributeType=ruleAttributeType();
 
             state._fsp--;
 
              current =iv_ruleAttributeType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeType1744); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeType2433); 
 
             }
 
@@ -1815,7 +2779,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:752:1: ruleAttributeType returns [EObject current=null] : (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1122:1: ruleAttributeType returns [EObject current=null] : (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType ) ;
     public final EObject ruleAttributeType() throws RecognitionException {
         EObject current = null;
 
@@ -1833,38 +2797,38 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:755:28: ( (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:756:1: (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1125:28: ( (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1126:1: (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:756:1: (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType )
-            int alt7=5;
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1126:1: (this_IntegerType_0= ruleIntegerType | this_BooleanType_1= ruleBooleanType | this_StringType_2= ruleStringType | this_DoubleType_3= ruleDoubleType | this_ListStringType_4= ruleListStringType )
+            int alt17=5;
             switch ( input.LA(1) ) {
-            case 24:
+            case 33:
                 {
-                int LA7_1 = input.LA(2);
+                int LA17_1 = input.LA(2);
 
-                if ( (LA7_1==RULE_INT) ) {
-                    int LA7_2 = input.LA(3);
+                if ( (LA17_1==RULE_INT) ) {
+                    int LA17_2 = input.LA(3);
 
-                    if ( (LA7_2==EOF||LA7_2==14||LA7_2==40||(LA7_2>=66 && LA7_2<=67)) ) {
-                        alt7=1;
+                    if ( (LA17_2==EOF||LA17_2==14||LA17_2==24||(LA17_2>=71 && LA17_2<=72)) ) {
+                        alt17=1;
                     }
-                    else if ( (LA7_2==25) ) {
-                        alt7=4;
+                    else if ( (LA17_2==34) ) {
+                        alt17=4;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 7, 2, input);
+                            new NoViableAltException("", 17, 2, input);
 
                         throw nvae;
                     }
                 }
-                else if ( (LA7_1==25) ) {
-                    alt7=4;
+                else if ( (LA17_1==34) ) {
+                    alt17=4;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 7, 1, input);
+                        new NoViableAltException("", 17, 1, input);
 
                     throw nvae;
                 }
@@ -1872,71 +2836,71 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                 break;
             case RULE_INT:
                 {
-                int LA7_2 = input.LA(2);
+                int LA17_2 = input.LA(2);
 
-                if ( (LA7_2==EOF||LA7_2==14||LA7_2==40||(LA7_2>=66 && LA7_2<=67)) ) {
-                    alt7=1;
+                if ( (LA17_2==EOF||LA17_2==14||LA17_2==24||(LA17_2>=71 && LA17_2<=72)) ) {
+                    alt17=1;
                 }
-                else if ( (LA7_2==25) ) {
-                    alt7=4;
+                else if ( (LA17_2==34) ) {
+                    alt17=4;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 7, 2, input);
+                        new NoViableAltException("", 17, 2, input);
 
                     throw nvae;
                 }
                 }
                 break;
-            case 64:
+            case 69:
                 {
-                alt7=1;
+                alt17=1;
                 }
                 break;
-            case 28:
-            case 29:
-            case 55:
+            case 37:
+            case 38:
+            case 60:
                 {
-                alt7=2;
+                alt17=2;
                 }
                 break;
             case RULE_STRING:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
             case 61:
             case 62:
-                {
-                alt7=3;
-                }
-                break;
-            case 25:
             case 63:
+            case 64:
+            case 66:
+            case 67:
                 {
-                alt7=4;
+                alt17=3;
                 }
                 break;
-            case 60:
+            case 34:
+            case 68:
                 {
-                alt7=5;
+                alt17=4;
+                }
+                break;
+            case 65:
+                {
+                alt17=5;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 7, 0, input);
+                    new NoViableAltException("", 17, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt7) {
+            switch (alt17) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:757:5: this_IntegerType_0= ruleIntegerType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1127:5: this_IntegerType_0= ruleIntegerType
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeTypeAccess().getIntegerTypeParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleIntegerType_in_ruleAttributeType1791);
+                    pushFollow(FollowSets000.FOLLOW_ruleIntegerType_in_ruleAttributeType2480);
                     this_IntegerType_0=ruleIntegerType();
 
                     state._fsp--;
@@ -1949,12 +2913,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:767:5: this_BooleanType_1= ruleBooleanType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1137:5: this_BooleanType_1= ruleBooleanType
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeTypeAccess().getBooleanTypeParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleBooleanType_in_ruleAttributeType1818);
+                    pushFollow(FollowSets000.FOLLOW_ruleBooleanType_in_ruleAttributeType2507);
                     this_BooleanType_1=ruleBooleanType();
 
                     state._fsp--;
@@ -1967,12 +2931,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:777:5: this_StringType_2= ruleStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1147:5: this_StringType_2= ruleStringType
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeTypeAccess().getStringTypeParserRuleCall_2()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleStringType_in_ruleAttributeType1845);
+                    pushFollow(FollowSets000.FOLLOW_ruleStringType_in_ruleAttributeType2534);
                     this_StringType_2=ruleStringType();
 
                     state._fsp--;
@@ -1985,12 +2949,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:787:5: this_DoubleType_3= ruleDoubleType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1157:5: this_DoubleType_3= ruleDoubleType
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeTypeAccess().getDoubleTypeParserRuleCall_3()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleDoubleType_in_ruleAttributeType1872);
+                    pushFollow(FollowSets000.FOLLOW_ruleDoubleType_in_ruleAttributeType2561);
                     this_DoubleType_3=ruleDoubleType();
 
                     state._fsp--;
@@ -2003,12 +2967,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:797:5: this_ListStringType_4= ruleListStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1167:5: this_ListStringType_4= ruleListStringType
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeTypeAccess().getListStringTypeParserRuleCall_4()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleListStringType_in_ruleAttributeType1899);
+                    pushFollow(FollowSets000.FOLLOW_ruleListStringType_in_ruleAttributeType2588);
                     this_ListStringType_4=ruleListStringType();
 
                     state._fsp--;
@@ -2041,7 +3005,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLoad"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:813:1: entryRuleLoad returns [EObject current=null] : iv_ruleLoad= ruleLoad EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1183:1: entryRuleLoad returns [EObject current=null] : iv_ruleLoad= ruleLoad EOF ;
     public final EObject entryRuleLoad() throws RecognitionException {
         EObject current = null;
 
@@ -2049,17 +3013,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:814:2: (iv_ruleLoad= ruleLoad EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:815:2: iv_ruleLoad= ruleLoad EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1184:2: (iv_ruleLoad= ruleLoad EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1185:2: iv_ruleLoad= ruleLoad EOF
             {
              newCompositeNode(grammarAccess.getLoadRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleLoad_in_entryRuleLoad1934);
+            pushFollow(FollowSets000.FOLLOW_ruleLoad_in_entryRuleLoad2623);
             iv_ruleLoad=ruleLoad();
 
             state._fsp--;
 
              current =iv_ruleLoad; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleLoad1944); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleLoad2633); 
 
             }
 
@@ -2077,7 +3041,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLoad"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:822:1: ruleLoad returns [EObject current=null] : ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1192:1: ruleLoad returns [EObject current=null] : ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) ) ;
     public final EObject ruleLoad() throws RecognitionException {
         EObject current = null;
 
@@ -2088,14 +3052,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:825:28: ( ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:826:1: ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1195:28: ( ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1196:1: ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:826:1: ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:826:2: () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1196:1: ( () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1196:2: () otherlv_1= 'import' ( (lv_file_2_0= ruleEString ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:826:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:827:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1196:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1197:5: 
             {
 
                     current = forceCreateModelElement(
@@ -2105,20 +3069,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleLoad1990); 
+            otherlv_1=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleLoad2679); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getLoadAccess().getImportKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:836:1: ( (lv_file_2_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:837:1: (lv_file_2_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1206:1: ( (lv_file_2_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1207:1: (lv_file_2_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:837:1: (lv_file_2_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:838:3: lv_file_2_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1207:1: (lv_file_2_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1208:3: lv_file_2_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getLoadAccess().getFileEStringParserRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleLoad2011);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleLoad2700);
             lv_file_2_0=ruleEString();
 
             state._fsp--;
@@ -2161,7 +3125,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEString"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:862:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1232:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
     public final String entryRuleEString() throws RecognitionException {
         String current = null;
 
@@ -2169,17 +3133,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:863:2: (iv_ruleEString= ruleEString EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:864:2: iv_ruleEString= ruleEString EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1233:2: (iv_ruleEString= ruleEString EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1234:2: iv_ruleEString= ruleEString EOF
             {
              newCompositeNode(grammarAccess.getEStringRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_entryRuleEString2048);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_entryRuleEString2737);
             iv_ruleEString=ruleEString();
 
             state._fsp--;
 
              current =iv_ruleEString.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEString2059); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEString2748); 
 
             }
 
@@ -2197,7 +3161,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEString"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:871:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1241:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
     public final AntlrDatatypeRuleToken ruleEString() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -2207,30 +3171,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:874:28: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:875:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1244:28: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1245:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:875:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
-            int alt8=2;
-            int LA8_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1245:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            int alt18=2;
+            int LA18_0 = input.LA(1);
 
-            if ( (LA8_0==RULE_STRING) ) {
-                alt8=1;
+            if ( (LA18_0==RULE_STRING) ) {
+                alt18=1;
             }
-            else if ( (LA8_0==RULE_ID) ) {
-                alt8=2;
+            else if ( (LA18_0==RULE_ID) ) {
+                alt18=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 8, 0, input);
+                    new NoViableAltException("", 18, 0, input);
 
                 throw nvae;
             }
-            switch (alt8) {
+            switch (alt18) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:875:6: this_STRING_0= RULE_STRING
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1245:6: this_STRING_0= RULE_STRING
                     {
-                    this_STRING_0=(Token)match(input,RULE_STRING,FollowSets000.FOLLOW_RULE_STRING_in_ruleEString2099); 
+                    this_STRING_0=(Token)match(input,RULE_STRING,FollowSets000.FOLLOW_RULE_STRING_in_ruleEString2788); 
 
                     		current.merge(this_STRING_0);
                         
@@ -2241,9 +3205,9 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:883:10: this_ID_1= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1253:10: this_ID_1= RULE_ID
                     {
-                    this_ID_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleEString2125); 
+                    this_ID_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleEString2814); 
 
                     		current.merge(this_ID_1);
                         
@@ -2274,7 +3238,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEInt"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:898:1: entryRuleEInt returns [String current=null] : iv_ruleEInt= ruleEInt EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1268:1: entryRuleEInt returns [String current=null] : iv_ruleEInt= ruleEInt EOF ;
     public final String entryRuleEInt() throws RecognitionException {
         String current = null;
 
@@ -2282,17 +3246,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:899:2: (iv_ruleEInt= ruleEInt EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:900:2: iv_ruleEInt= ruleEInt EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1269:2: (iv_ruleEInt= ruleEInt EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1270:2: iv_ruleEInt= ruleEInt EOF
             {
              newCompositeNode(grammarAccess.getEIntRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_entryRuleEInt2171);
+            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_entryRuleEInt2860);
             iv_ruleEInt=ruleEInt();
 
             state._fsp--;
 
              current =iv_ruleEInt.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEInt2182); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEInt2871); 
 
             }
 
@@ -2310,7 +3274,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEInt"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:907:1: ruleEInt returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? this_INT_1= RULE_INT ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1277:1: ruleEInt returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? this_INT_1= RULE_INT ) ;
     public final AntlrDatatypeRuleToken ruleEInt() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -2320,24 +3284,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:910:28: ( ( (kw= '-' )? this_INT_1= RULE_INT ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:911:1: ( (kw= '-' )? this_INT_1= RULE_INT )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1280:28: ( ( (kw= '-' )? this_INT_1= RULE_INT ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1281:1: ( (kw= '-' )? this_INT_1= RULE_INT )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:911:1: ( (kw= '-' )? this_INT_1= RULE_INT )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:911:2: (kw= '-' )? this_INT_1= RULE_INT
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1281:1: ( (kw= '-' )? this_INT_1= RULE_INT )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1281:2: (kw= '-' )? this_INT_1= RULE_INT
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:911:2: (kw= '-' )?
-            int alt9=2;
-            int LA9_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1281:2: (kw= '-' )?
+            int alt19=2;
+            int LA19_0 = input.LA(1);
 
-            if ( (LA9_0==24) ) {
-                alt9=1;
+            if ( (LA19_0==33) ) {
+                alt19=1;
             }
-            switch (alt9) {
+            switch (alt19) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:912:2: kw= '-'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1282:2: kw= '-'
                     {
-                    kw=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleEInt2221); 
+                    kw=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleEInt2910); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getEIntAccess().getHyphenMinusKeyword_0()); 
@@ -2348,7 +3312,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            this_INT_1=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEInt2238); 
+            this_INT_1=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEInt2927); 
 
             		current.merge(this_INT_1);
                 
@@ -2376,7 +3340,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEDouble"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:932:1: entryRuleEDouble returns [String current=null] : iv_ruleEDouble= ruleEDouble EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1302:1: entryRuleEDouble returns [String current=null] : iv_ruleEDouble= ruleEDouble EOF ;
     public final String entryRuleEDouble() throws RecognitionException {
         String current = null;
 
@@ -2384,17 +3348,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:933:2: (iv_ruleEDouble= ruleEDouble EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:934:2: iv_ruleEDouble= ruleEDouble EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1303:2: (iv_ruleEDouble= ruleEDouble EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1304:2: iv_ruleEDouble= ruleEDouble EOF
             {
              newCompositeNode(grammarAccess.getEDoubleRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_entryRuleEDouble2284);
+            pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_entryRuleEDouble2973);
             iv_ruleEDouble=ruleEDouble();
 
             state._fsp--;
 
              current =iv_ruleEDouble.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEDouble2295); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEDouble2984); 
 
             }
 
@@ -2412,7 +3376,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEDouble"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:941:1: ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1311:1: ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) ;
     public final AntlrDatatypeRuleToken ruleEDouble() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -2424,24 +3388,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:944:28: ( ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:945:1: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1314:28: ( ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1315:1: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:945:1: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:945:2: (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1315:1: ( (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1315:2: (kw= '-' )? (this_INT_1= RULE_INT )? kw= '.' this_INT_3= RULE_INT ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:945:2: (kw= '-' )?
-            int alt10=2;
-            int LA10_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1315:2: (kw= '-' )?
+            int alt20=2;
+            int LA20_0 = input.LA(1);
 
-            if ( (LA10_0==24) ) {
-                alt10=1;
+            if ( (LA20_0==33) ) {
+                alt20=1;
             }
-            switch (alt10) {
+            switch (alt20) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:946:2: kw= '-'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1316:2: kw= '-'
                     {
-                    kw=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleEDouble2334); 
+                    kw=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleEDouble3023); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_0()); 
@@ -2452,18 +3416,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:951:3: (this_INT_1= RULE_INT )?
-            int alt11=2;
-            int LA11_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1321:3: (this_INT_1= RULE_INT )?
+            int alt21=2;
+            int LA21_0 = input.LA(1);
 
-            if ( (LA11_0==RULE_INT) ) {
-                alt11=1;
+            if ( (LA21_0==RULE_INT) ) {
+                alt21=1;
             }
-            switch (alt11) {
+            switch (alt21) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:951:8: this_INT_1= RULE_INT
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1321:8: this_INT_1= RULE_INT
                     {
-                    this_INT_1=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEDouble2352); 
+                    this_INT_1=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEDouble3041); 
 
                     		current.merge(this_INT_1);
                         
@@ -2476,50 +3440,50 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            kw=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleEDouble2372); 
+            kw=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleEDouble3061); 
 
                     current.merge(kw);
                     newLeafNode(kw, grammarAccess.getEDoubleAccess().getFullStopKeyword_2()); 
                 
-            this_INT_3=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEDouble2387); 
+            this_INT_3=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEDouble3076); 
 
             		current.merge(this_INT_3);
                 
              
                 newLeafNode(this_INT_3, grammarAccess.getEDoubleAccess().getINTTerminalRuleCall_3()); 
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:971:1: ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
-            int alt14=2;
-            int LA14_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1341:1: ( (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT )?
+            int alt24=2;
+            int LA24_0 = input.LA(1);
 
-            if ( ((LA14_0>=26 && LA14_0<=27)) ) {
-                alt14=1;
+            if ( ((LA24_0>=35 && LA24_0<=36)) ) {
+                alt24=1;
             }
-            switch (alt14) {
+            switch (alt24) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:971:2: (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1341:2: (kw= 'E' | kw= 'e' ) (kw= '-' )? this_INT_7= RULE_INT
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:971:2: (kw= 'E' | kw= 'e' )
-                    int alt12=2;
-                    int LA12_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1341:2: (kw= 'E' | kw= 'e' )
+                    int alt22=2;
+                    int LA22_0 = input.LA(1);
 
-                    if ( (LA12_0==26) ) {
-                        alt12=1;
+                    if ( (LA22_0==35) ) {
+                        alt22=1;
                     }
-                    else if ( (LA12_0==27) ) {
-                        alt12=2;
+                    else if ( (LA22_0==36) ) {
+                        alt22=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 12, 0, input);
+                            new NoViableAltException("", 22, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt12) {
+                    switch (alt22) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:972:2: kw= 'E'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1342:2: kw= 'E'
                             {
-                            kw=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleEDouble2407); 
+                            kw=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleEDouble3096); 
 
                                     current.merge(kw);
                                     newLeafNode(kw, grammarAccess.getEDoubleAccess().getEKeyword_4_0_0()); 
@@ -2528,9 +3492,9 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:979:2: kw= 'e'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1349:2: kw= 'e'
                             {
-                            kw=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleEDouble2426); 
+                            kw=(Token)match(input,36,FollowSets000.FOLLOW_36_in_ruleEDouble3115); 
 
                                     current.merge(kw);
                                     newLeafNode(kw, grammarAccess.getEDoubleAccess().getEKeyword_4_0_1()); 
@@ -2541,18 +3505,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:984:2: (kw= '-' )?
-                    int alt13=2;
-                    int LA13_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1354:2: (kw= '-' )?
+                    int alt23=2;
+                    int LA23_0 = input.LA(1);
 
-                    if ( (LA13_0==24) ) {
-                        alt13=1;
+                    if ( (LA23_0==33) ) {
+                        alt23=1;
                     }
-                    switch (alt13) {
+                    switch (alt23) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:985:2: kw= '-'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1355:2: kw= '-'
                             {
-                            kw=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleEDouble2441); 
+                            kw=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleEDouble3130); 
 
                                     current.merge(kw);
                                     newLeafNode(kw, grammarAccess.getEDoubleAccess().getHyphenMinusKeyword_4_1()); 
@@ -2563,7 +3527,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    this_INT_7=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEDouble2458); 
+                    this_INT_7=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleEDouble3147); 
 
                     		current.merge(this_INT_7);
                         
@@ -2597,7 +3561,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEBoolean"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1005:1: entryRuleEBoolean returns [String current=null] : iv_ruleEBoolean= ruleEBoolean EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1375:1: entryRuleEBoolean returns [String current=null] : iv_ruleEBoolean= ruleEBoolean EOF ;
     public final String entryRuleEBoolean() throws RecognitionException {
         String current = null;
 
@@ -2605,17 +3569,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1006:2: (iv_ruleEBoolean= ruleEBoolean EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1007:2: iv_ruleEBoolean= ruleEBoolean EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1376:2: (iv_ruleEBoolean= ruleEBoolean EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1377:2: iv_ruleEBoolean= ruleEBoolean EOF
             {
              newCompositeNode(grammarAccess.getEBooleanRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEBoolean_in_entryRuleEBoolean2506);
+            pushFollow(FollowSets000.FOLLOW_ruleEBoolean_in_entryRuleEBoolean3195);
             iv_ruleEBoolean=ruleEBoolean();
 
             state._fsp--;
 
              current =iv_ruleEBoolean.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEBoolean2517); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEBoolean3206); 
 
             }
 
@@ -2633,7 +3597,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEBoolean"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1014:1: ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'true' | kw= 'false' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1384:1: ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'true' | kw= 'false' ) ;
     public final AntlrDatatypeRuleToken ruleEBoolean() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -2642,30 +3606,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1017:28: ( (kw= 'true' | kw= 'false' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1018:1: (kw= 'true' | kw= 'false' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1387:28: ( (kw= 'true' | kw= 'false' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1388:1: (kw= 'true' | kw= 'false' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1018:1: (kw= 'true' | kw= 'false' )
-            int alt15=2;
-            int LA15_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1388:1: (kw= 'true' | kw= 'false' )
+            int alt25=2;
+            int LA25_0 = input.LA(1);
 
-            if ( (LA15_0==28) ) {
-                alt15=1;
+            if ( (LA25_0==37) ) {
+                alt25=1;
             }
-            else if ( (LA15_0==29) ) {
-                alt15=2;
+            else if ( (LA25_0==38) ) {
+                alt25=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 15, 0, input);
+                    new NoViableAltException("", 25, 0, input);
 
                 throw nvae;
             }
-            switch (alt15) {
+            switch (alt25) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1019:2: kw= 'true'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1389:2: kw= 'true'
                     {
-                    kw=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleEBoolean2555); 
+                    kw=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleEBoolean3244); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getEBooleanAccess().getTrueKeyword_0()); 
@@ -2674,9 +3638,9 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1026:2: kw= 'false'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1396:2: kw= 'false'
                     {
-                    kw=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleEBoolean2574); 
+                    kw=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleEBoolean3263); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getEBooleanAccess().getFalseKeyword_1()); 
@@ -2705,7 +3669,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBinaryOperator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1039:1: entryRuleBinaryOperator returns [EObject current=null] : iv_ruleBinaryOperator= ruleBinaryOperator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1409:1: entryRuleBinaryOperator returns [EObject current=null] : iv_ruleBinaryOperator= ruleBinaryOperator EOF ;
     public final EObject entryRuleBinaryOperator() throws RecognitionException {
         EObject current = null;
 
@@ -2713,17 +3677,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1040:2: (iv_ruleBinaryOperator= ruleBinaryOperator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1041:2: iv_ruleBinaryOperator= ruleBinaryOperator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1410:2: (iv_ruleBinaryOperator= ruleBinaryOperator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1411:2: iv_ruleBinaryOperator= ruleBinaryOperator EOF
             {
              newCompositeNode(grammarAccess.getBinaryOperatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleBinaryOperator_in_entryRuleBinaryOperator2614);
+            pushFollow(FollowSets000.FOLLOW_ruleBinaryOperator_in_entryRuleBinaryOperator3303);
             iv_ruleBinaryOperator=ruleBinaryOperator();
 
             state._fsp--;
 
              current =iv_ruleBinaryOperator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleBinaryOperator2624); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleBinaryOperator3313); 
 
             }
 
@@ -2741,7 +3705,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBinaryOperator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1048:1: ruleBinaryOperator returns [EObject current=null] : ( () ( (lv_type_1_0= ruleLogicOperator ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1418:1: ruleBinaryOperator returns [EObject current=null] : ( () ( (lv_type_1_0= ruleLogicOperator ) ) ) ;
     public final EObject ruleBinaryOperator() throws RecognitionException {
         EObject current = null;
 
@@ -2751,14 +3715,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1051:28: ( ( () ( (lv_type_1_0= ruleLogicOperator ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1052:1: ( () ( (lv_type_1_0= ruleLogicOperator ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1421:28: ( ( () ( (lv_type_1_0= ruleLogicOperator ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1422:1: ( () ( (lv_type_1_0= ruleLogicOperator ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1052:1: ( () ( (lv_type_1_0= ruleLogicOperator ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1052:2: () ( (lv_type_1_0= ruleLogicOperator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1422:1: ( () ( (lv_type_1_0= ruleLogicOperator ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1422:2: () ( (lv_type_1_0= ruleLogicOperator ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1052:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1053:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1422:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1423:5: 
             {
 
                     current = forceCreateModelElement(
@@ -2768,16 +3732,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1058:2: ( (lv_type_1_0= ruleLogicOperator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1059:1: (lv_type_1_0= ruleLogicOperator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1428:2: ( (lv_type_1_0= ruleLogicOperator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1429:1: (lv_type_1_0= ruleLogicOperator )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1059:1: (lv_type_1_0= ruleLogicOperator )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1060:3: lv_type_1_0= ruleLogicOperator
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1429:1: (lv_type_1_0= ruleLogicOperator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1430:3: lv_type_1_0= ruleLogicOperator
             {
              
             	        newCompositeNode(grammarAccess.getBinaryOperatorAccess().getTypeLogicOperatorEnumRuleCall_1_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleLogicOperator_in_ruleBinaryOperator2679);
+            pushFollow(FollowSets000.FOLLOW_ruleLogicOperator_in_ruleBinaryOperator3368);
             lv_type_1_0=ruleLogicOperator();
 
             state._fsp--;
@@ -2820,7 +3784,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeEvaluation"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1084:1: entryRuleAttributeEvaluation returns [EObject current=null] : iv_ruleAttributeEvaluation= ruleAttributeEvaluation EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1454:1: entryRuleAttributeEvaluation returns [EObject current=null] : iv_ruleAttributeEvaluation= ruleAttributeEvaluation EOF ;
     public final EObject entryRuleAttributeEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -2828,17 +3792,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1085:2: (iv_ruleAttributeEvaluation= ruleAttributeEvaluation EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1086:2: iv_ruleAttributeEvaluation= ruleAttributeEvaluation EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1455:2: (iv_ruleAttributeEvaluation= ruleAttributeEvaluation EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1456:2: iv_ruleAttributeEvaluation= ruleAttributeEvaluation EOF
             {
              newCompositeNode(grammarAccess.getAttributeEvaluationRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeEvaluation_in_entryRuleAttributeEvaluation2715);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeEvaluation_in_entryRuleAttributeEvaluation3404);
             iv_ruleAttributeEvaluation=ruleAttributeEvaluation();
 
             state._fsp--;
 
              current =iv_ruleAttributeEvaluation; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeEvaluation2725); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeEvaluation3414); 
 
             }
 
@@ -2856,7 +3820,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeEvaluation"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1093:1: ruleAttributeEvaluation returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1463:1: ruleAttributeEvaluation returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) ;
     public final EObject ruleAttributeEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -2869,14 +3833,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1096:28: ( ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1097:1: ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1466:28: ( ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1467:1: ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1097:1: ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1097:2: () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1467:1: ( () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1467:2: () ( (otherlv_1= RULE_ID ) ) ( (lv_operator_2_0= ruleOperator ) ) ( (lv_value_3_0= ruleAttributeType ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1097:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1098:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1467:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1468:5: 
             {
 
                     current = forceCreateModelElement(
@@ -2886,18 +3850,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1103:2: ( (otherlv_1= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1104:1: (otherlv_1= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1473:2: ( (otherlv_1= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1474:1: (otherlv_1= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1104:1: (otherlv_1= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1105:3: otherlv_1= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1474:1: (otherlv_1= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1475:3: otherlv_1= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeEvaluationRule());
             	        }
                     
-            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeEvaluation2779); 
+            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeEvaluation3468); 
 
             		newLeafNode(otherlv_1, grammarAccess.getAttributeEvaluationAccess().getNameEAttributeCrossReference_1_0()); 
             	
@@ -2907,16 +3871,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1116:2: ( (lv_operator_2_0= ruleOperator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1117:1: (lv_operator_2_0= ruleOperator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1486:2: ( (lv_operator_2_0= ruleOperator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1487:1: (lv_operator_2_0= ruleOperator )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1117:1: (lv_operator_2_0= ruleOperator )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1118:3: lv_operator_2_0= ruleOperator
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1487:1: (lv_operator_2_0= ruleOperator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1488:3: lv_operator_2_0= ruleOperator
             {
              
             	        newCompositeNode(grammarAccess.getAttributeEvaluationAccess().getOperatorOperatorEnumRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleOperator_in_ruleAttributeEvaluation2800);
+            pushFollow(FollowSets000.FOLLOW_ruleOperator_in_ruleAttributeEvaluation3489);
             lv_operator_2_0=ruleOperator();
 
             state._fsp--;
@@ -2938,16 +3902,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1134:2: ( (lv_value_3_0= ruleAttributeType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1135:1: (lv_value_3_0= ruleAttributeType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1504:2: ( (lv_value_3_0= ruleAttributeType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1505:1: (lv_value_3_0= ruleAttributeType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1135:1: (lv_value_3_0= ruleAttributeType )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1136:3: lv_value_3_0= ruleAttributeType
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1505:1: (lv_value_3_0= ruleAttributeType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1506:3: lv_value_3_0= ruleAttributeType
             {
              
             	        newCompositeNode(grammarAccess.getAttributeEvaluationAccess().getValueAttributeTypeParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeType_in_ruleAttributeEvaluation2821);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeType_in_ruleAttributeEvaluation3510);
             lv_value_3_0=ruleAttributeType();
 
             state._fsp--;
@@ -2990,7 +3954,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceEvaluation"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1160:1: entryRuleReferenceEvaluation returns [EObject current=null] : iv_ruleReferenceEvaluation= ruleReferenceEvaluation EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1530:1: entryRuleReferenceEvaluation returns [EObject current=null] : iv_ruleReferenceEvaluation= ruleReferenceEvaluation EOF ;
     public final EObject entryRuleReferenceEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -2998,17 +3962,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1161:2: (iv_ruleReferenceEvaluation= ruleReferenceEvaluation EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1162:2: iv_ruleReferenceEvaluation= ruleReferenceEvaluation EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1531:2: (iv_ruleReferenceEvaluation= ruleReferenceEvaluation EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1532:2: iv_ruleReferenceEvaluation= ruleReferenceEvaluation EOF
             {
              newCompositeNode(grammarAccess.getReferenceEvaluationRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleReferenceEvaluation_in_entryRuleReferenceEvaluation2857);
+            pushFollow(FollowSets000.FOLLOW_ruleReferenceEvaluation_in_entryRuleReferenceEvaluation3546);
             iv_ruleReferenceEvaluation=ruleReferenceEvaluation();
 
             state._fsp--;
 
              current =iv_ruleReferenceEvaluation; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceEvaluation2867); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceEvaluation3556); 
 
             }
 
@@ -3026,7 +3990,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceEvaluation"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1169:1: ruleReferenceEvaluation returns [EObject current=null] : ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1539:1: ruleReferenceEvaluation returns [EObject current=null] : ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) ) ;
     public final EObject ruleReferenceEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -3043,14 +4007,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1172:28: ( ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1173:1: ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1542:28: ( ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1543:1: ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1173:1: ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1173:2: () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1543:1: ( () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1543:2: () ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' ) ( (lv_operator_3_0= ruleOperator ) ) ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1173:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1174:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1543:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1544:5: 
             {
 
                     current = forceCreateModelElement(
@@ -3060,38 +4024,38 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1179:2: ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' )
-            int alt16=2;
-            int LA16_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1549:2: ( ( (otherlv_1= RULE_ID ) ) | otherlv_2= 'self' )
+            int alt26=2;
+            int LA26_0 = input.LA(1);
 
-            if ( (LA16_0==RULE_ID) ) {
-                alt16=1;
+            if ( (LA26_0==RULE_ID) ) {
+                alt26=1;
             }
-            else if ( (LA16_0==30) ) {
-                alt16=2;
+            else if ( (LA26_0==39) ) {
+                alt26=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 16, 0, input);
+                    new NoViableAltException("", 26, 0, input);
 
                 throw nvae;
             }
-            switch (alt16) {
+            switch (alt26) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1179:3: ( (otherlv_1= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1549:3: ( (otherlv_1= RULE_ID ) )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1179:3: ( (otherlv_1= RULE_ID ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1180:1: (otherlv_1= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1549:3: ( (otherlv_1= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1550:1: (otherlv_1= RULE_ID )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1180:1: (otherlv_1= RULE_ID )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1181:3: otherlv_1= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1550:1: (otherlv_1= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1551:3: otherlv_1= RULE_ID
                     {
 
                     			if (current==null) {
                     	            current = createModelElement(grammarAccess.getReferenceEvaluationRule());
                     	        }
                             
-                    otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceEvaluation2922); 
+                    otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceEvaluation3611); 
 
                     		newLeafNode(otherlv_1, grammarAccess.getReferenceEvaluationAccess().getNameEReferenceCrossReference_1_0_0()); 
                     	
@@ -3105,9 +4069,9 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1193:7: otherlv_2= 'self'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1563:7: otherlv_2= 'self'
                     {
-                    otherlv_2=(Token)match(input,30,FollowSets000.FOLLOW_30_in_ruleReferenceEvaluation2940); 
+                    otherlv_2=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleReferenceEvaluation3629); 
 
                         	newLeafNode(otherlv_2, grammarAccess.getReferenceEvaluationAccess().getSelfKeyword_1_1());
                         
@@ -3117,16 +4081,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1197:2: ( (lv_operator_3_0= ruleOperator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1198:1: (lv_operator_3_0= ruleOperator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1567:2: ( (lv_operator_3_0= ruleOperator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1568:1: (lv_operator_3_0= ruleOperator )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1198:1: (lv_operator_3_0= ruleOperator )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1199:3: lv_operator_3_0= ruleOperator
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1568:1: (lv_operator_3_0= ruleOperator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1569:3: lv_operator_3_0= ruleOperator
             {
              
             	        newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getOperatorOperatorEnumRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleOperator_in_ruleReferenceEvaluation2962);
+            pushFollow(FollowSets000.FOLLOW_ruleOperator_in_ruleReferenceEvaluation3651);
             lv_operator_3_0=ruleOperator();
 
             state._fsp--;
@@ -3148,39 +4112,39 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1215:2: ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' )
-            int alt18=2;
-            int LA18_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1585:2: ( ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? ) | otherlv_7= 'null' )
+            int alt28=2;
+            int LA28_0 = input.LA(1);
 
-            if ( (LA18_0==RULE_ID||LA18_0==22||LA18_0==36||LA18_0==54) ) {
-                alt18=1;
+            if ( (LA28_0==RULE_ID||LA28_0==42||LA28_0==44||LA28_0==59) ) {
+                alt28=1;
             }
-            else if ( (LA18_0==31) ) {
-                alt18=2;
+            else if ( (LA28_0==40) ) {
+                alt28=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 18, 0, input);
+                    new NoViableAltException("", 28, 0, input);
 
                 throw nvae;
             }
-            switch (alt18) {
+            switch (alt28) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1215:3: ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1585:3: ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1215:3: ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1215:4: ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )?
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1585:3: ( ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )? )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1585:4: ( (lv_value_4_0= ruleObSelectionStrategy ) ) (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )?
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1215:4: ( (lv_value_4_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1216:1: (lv_value_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1585:4: ( (lv_value_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1586:1: (lv_value_4_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1216:1: (lv_value_4_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1217:3: lv_value_4_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1586:1: (lv_value_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1587:3: lv_value_4_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getReferenceEvaluationAccess().getValueObSelectionStrategyParserRuleCall_3_0_0_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleReferenceEvaluation2985);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleReferenceEvaluation3674);
                     lv_value_4_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -3202,33 +4166,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1233:2: (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )?
-                    int alt17=2;
-                    int LA17_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1603:2: (otherlv_5= '.' ( (otherlv_6= RULE_ID ) ) )?
+                    int alt27=2;
+                    int LA27_0 = input.LA(1);
 
-                    if ( (LA17_0==25) ) {
-                        alt17=1;
+                    if ( (LA27_0==34) ) {
+                        alt27=1;
                     }
-                    switch (alt17) {
+                    switch (alt27) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1233:4: otherlv_5= '.' ( (otherlv_6= RULE_ID ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1603:4: otherlv_5= '.' ( (otherlv_6= RULE_ID ) )
                             {
-                            otherlv_5=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleReferenceEvaluation2998); 
+                            otherlv_5=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleReferenceEvaluation3687); 
 
                                 	newLeafNode(otherlv_5, grammarAccess.getReferenceEvaluationAccess().getFullStopKeyword_3_0_1_0());
                                 
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1237:1: ( (otherlv_6= RULE_ID ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1238:1: (otherlv_6= RULE_ID )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1607:1: ( (otherlv_6= RULE_ID ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1608:1: (otherlv_6= RULE_ID )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1238:1: (otherlv_6= RULE_ID )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1239:3: otherlv_6= RULE_ID
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1608:1: (otherlv_6= RULE_ID )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1609:3: otherlv_6= RULE_ID
                             {
 
                             			if (current==null) {
                             	            current = createModelElement(grammarAccess.getReferenceEvaluationRule());
                             	        }
                                     
-                            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceEvaluation3018); 
+                            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceEvaluation3707); 
 
                             		newLeafNode(otherlv_6, grammarAccess.getReferenceEvaluationAccess().getRefTypeEReferenceCrossReference_3_0_1_1_0()); 
                             	
@@ -3251,9 +4215,9 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1251:7: otherlv_7= 'null'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1621:7: otherlv_7= 'null'
                     {
-                    otherlv_7=(Token)match(input,31,FollowSets000.FOLLOW_31_in_ruleReferenceEvaluation3039); 
+                    otherlv_7=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleReferenceEvaluation3728); 
 
                         	newLeafNode(otherlv_7, grammarAccess.getReferenceEvaluationAccess().getNullKeyword_3_1());
                         
@@ -3284,7 +4248,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEvaluation"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1263:1: entryRuleEvaluation returns [EObject current=null] : iv_ruleEvaluation= ruleEvaluation EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1633:1: entryRuleEvaluation returns [EObject current=null] : iv_ruleEvaluation= ruleEvaluation EOF ;
     public final EObject entryRuleEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -3292,17 +4256,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1264:2: (iv_ruleEvaluation= ruleEvaluation EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1265:2: iv_ruleEvaluation= ruleEvaluation EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1634:2: (iv_ruleEvaluation= ruleEvaluation EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1635:2: iv_ruleEvaluation= ruleEvaluation EOF
             {
              newCompositeNode(grammarAccess.getEvaluationRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEvaluation_in_entryRuleEvaluation3076);
+            pushFollow(FollowSets000.FOLLOW_ruleEvaluation_in_entryRuleEvaluation3765);
             iv_ruleEvaluation=ruleEvaluation();
 
             state._fsp--;
 
              current =iv_ruleEvaluation; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEvaluation3086); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEvaluation3775); 
 
             }
 
@@ -3320,7 +4284,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEvaluation"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1272:1: ruleEvaluation returns [EObject current=null] : (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1642:1: ruleEvaluation returns [EObject current=null] : (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) ;
     public final EObject ruleEvaluation() throws RecognitionException {
         EObject current = null;
 
@@ -3332,72 +4296,72 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1275:28: ( (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1276:1: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1645:28: ( (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1646:1: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1276:1: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
-            int alt19=2;
-            int LA19_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1646:1: (this_AttributeEvaluation_0= ruleAttributeEvaluation | this_ReferenceEvaluation_1= ruleReferenceEvaluation )
+            int alt29=2;
+            int LA29_0 = input.LA(1);
 
-            if ( (LA19_0==RULE_ID) ) {
-                int LA19_1 = input.LA(2);
+            if ( (LA29_0==RULE_ID) ) {
+                int LA29_1 = input.LA(2);
 
-                if ( (LA19_1==38) ) {
-                    int LA19_3 = input.LA(3);
+                if ( (LA29_1==26) ) {
+                    int LA29_3 = input.LA(3);
 
-                    if ( (LA19_3==RULE_STRING||LA19_3==RULE_INT||(LA19_3>=24 && LA19_3<=25)||(LA19_3>=28 && LA19_3<=29)||(LA19_3>=55 && LA19_3<=64)) ) {
-                        alt19=1;
+                    if ( ((LA29_3>=RULE_STRING && LA29_3<=RULE_INT)||(LA29_3>=33 && LA29_3<=34)||(LA29_3>=37 && LA29_3<=38)||(LA29_3>=60 && LA29_3<=69)) ) {
+                        alt29=1;
                     }
-                    else if ( (LA19_3==RULE_ID||LA19_3==22||LA19_3==31||LA19_3==36||LA19_3==54) ) {
-                        alt19=2;
+                    else if ( (LA29_3==RULE_ID||LA29_3==40||LA29_3==42||LA29_3==44||LA29_3==59) ) {
+                        alt29=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 19, 3, input);
+                            new NoViableAltException("", 29, 3, input);
 
                         throw nvae;
                     }
                 }
-                else if ( (LA19_1==68) ) {
-                    int LA19_4 = input.LA(3);
+                else if ( (LA29_1==73) ) {
+                    int LA29_4 = input.LA(3);
 
-                    if ( (LA19_4==RULE_ID||LA19_4==22||LA19_4==31||LA19_4==36||LA19_4==54) ) {
-                        alt19=2;
+                    if ( (LA29_4==RULE_ID||LA29_4==40||LA29_4==42||LA29_4==44||LA29_4==59) ) {
+                        alt29=2;
                     }
-                    else if ( (LA19_4==RULE_STRING||LA19_4==RULE_INT||(LA19_4>=24 && LA19_4<=25)||(LA19_4>=28 && LA19_4<=29)||(LA19_4>=55 && LA19_4<=64)) ) {
-                        alt19=1;
+                    else if ( ((LA29_4>=RULE_STRING && LA29_4<=RULE_INT)||(LA29_4>=33 && LA29_4<=34)||(LA29_4>=37 && LA29_4<=38)||(LA29_4>=60 && LA29_4<=69)) ) {
+                        alt29=1;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 19, 4, input);
+                            new NoViableAltException("", 29, 4, input);
 
                         throw nvae;
                     }
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 19, 1, input);
+                        new NoViableAltException("", 29, 1, input);
 
                     throw nvae;
                 }
             }
-            else if ( (LA19_0==30) ) {
-                alt19=2;
+            else if ( (LA29_0==39) ) {
+                alt29=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 19, 0, input);
+                    new NoViableAltException("", 29, 0, input);
 
                 throw nvae;
             }
-            switch (alt19) {
+            switch (alt29) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1277:5: this_AttributeEvaluation_0= ruleAttributeEvaluation
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1647:5: this_AttributeEvaluation_0= ruleAttributeEvaluation
                     {
                      
                             newCompositeNode(grammarAccess.getEvaluationAccess().getAttributeEvaluationParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleAttributeEvaluation_in_ruleEvaluation3133);
+                    pushFollow(FollowSets000.FOLLOW_ruleAttributeEvaluation_in_ruleEvaluation3822);
                     this_AttributeEvaluation_0=ruleAttributeEvaluation();
 
                     state._fsp--;
@@ -3410,12 +4374,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1287:5: this_ReferenceEvaluation_1= ruleReferenceEvaluation
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1657:5: this_ReferenceEvaluation_1= ruleReferenceEvaluation
                     {
                      
                             newCompositeNode(grammarAccess.getEvaluationAccess().getReferenceEvaluationParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleReferenceEvaluation_in_ruleEvaluation3160);
+                    pushFollow(FollowSets000.FOLLOW_ruleReferenceEvaluation_in_ruleEvaluation3849);
                     this_ReferenceEvaluation_1=ruleReferenceEvaluation();
 
                     state._fsp--;
@@ -3448,7 +4412,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleExpression"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1303:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1673:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
     public final EObject entryRuleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -3456,17 +4420,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1304:2: (iv_ruleExpression= ruleExpression EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1305:2: iv_ruleExpression= ruleExpression EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1674:2: (iv_ruleExpression= ruleExpression EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1675:2: iv_ruleExpression= ruleExpression EOF
             {
              newCompositeNode(grammarAccess.getExpressionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleExpression_in_entryRuleExpression3195);
+            pushFollow(FollowSets000.FOLLOW_ruleExpression_in_entryRuleExpression3884);
             iv_ruleExpression=ruleExpression();
 
             state._fsp--;
 
              current =iv_ruleExpression; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleExpression3205); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleExpression3894); 
 
             }
 
@@ -3484,7 +4448,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExpression"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1312:1: ruleExpression returns [EObject current=null] : ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1682:1: ruleExpression returns [EObject current=null] : ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) ;
     public final EObject ruleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -3498,14 +4462,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1315:28: ( ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1316:1: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1685:28: ( ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1686:1: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1316:1: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1316:2: () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1686:1: ( () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )* )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1686:2: () ( (lv_first_1_0= ruleEvaluation ) ) ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1316:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1317:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1686:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1687:5: 
             {
 
                     current = forceCreateModelElement(
@@ -3515,16 +4479,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1322:2: ( (lv_first_1_0= ruleEvaluation ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1323:1: (lv_first_1_0= ruleEvaluation )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1692:2: ( (lv_first_1_0= ruleEvaluation ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1693:1: (lv_first_1_0= ruleEvaluation )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1323:1: (lv_first_1_0= ruleEvaluation )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1324:3: lv_first_1_0= ruleEvaluation
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1693:1: (lv_first_1_0= ruleEvaluation )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1694:3: lv_first_1_0= ruleEvaluation
             {
              
             	        newCompositeNode(grammarAccess.getExpressionAccess().getFirstEvaluationParserRuleCall_1_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEvaluation_in_ruleExpression3260);
+            pushFollow(FollowSets000.FOLLOW_ruleEvaluation_in_ruleExpression3949);
             lv_first_1_0=ruleEvaluation();
 
             state._fsp--;
@@ -3546,31 +4510,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1340:2: ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
-            loop20:
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1710:2: ( ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) ) )*
+            loop30:
             do {
-                int alt20=2;
-                int LA20_0 = input.LA(1);
+                int alt30=2;
+                int LA30_0 = input.LA(1);
 
-                if ( ((LA20_0>=66 && LA20_0<=67)) ) {
-                    alt20=1;
+                if ( ((LA30_0>=71 && LA30_0<=72)) ) {
+                    alt30=1;
                 }
 
 
-                switch (alt20) {
+                switch (alt30) {
             	case 1 :
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1340:3: ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1710:3: ( (lv_operator_2_0= ruleBinaryOperator ) ) ( (lv_second_3_0= ruleEvaluation ) )
             	    {
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1340:3: ( (lv_operator_2_0= ruleBinaryOperator ) )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1341:1: (lv_operator_2_0= ruleBinaryOperator )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1710:3: ( (lv_operator_2_0= ruleBinaryOperator ) )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1711:1: (lv_operator_2_0= ruleBinaryOperator )
             	    {
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1341:1: (lv_operator_2_0= ruleBinaryOperator )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1342:3: lv_operator_2_0= ruleBinaryOperator
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1711:1: (lv_operator_2_0= ruleBinaryOperator )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1712:3: lv_operator_2_0= ruleBinaryOperator
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getExpressionAccess().getOperatorBinaryOperatorParserRuleCall_2_0_0()); 
             	    	    
-            	    pushFollow(FollowSets000.FOLLOW_ruleBinaryOperator_in_ruleExpression3282);
+            	    pushFollow(FollowSets000.FOLLOW_ruleBinaryOperator_in_ruleExpression3971);
             	    lv_operator_2_0=ruleBinaryOperator();
 
             	    state._fsp--;
@@ -3592,16 +4556,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1358:2: ( (lv_second_3_0= ruleEvaluation ) )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1359:1: (lv_second_3_0= ruleEvaluation )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1728:2: ( (lv_second_3_0= ruleEvaluation ) )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1729:1: (lv_second_3_0= ruleEvaluation )
             	    {
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1359:1: (lv_second_3_0= ruleEvaluation )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1360:3: lv_second_3_0= ruleEvaluation
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1729:1: (lv_second_3_0= ruleEvaluation )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1730:3: lv_second_3_0= ruleEvaluation
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getExpressionAccess().getSecondEvaluationParserRuleCall_2_1_0()); 
             	    	    
-            	    pushFollow(FollowSets000.FOLLOW_ruleEvaluation_in_ruleExpression3303);
+            	    pushFollow(FollowSets000.FOLLOW_ruleEvaluation_in_ruleExpression3992);
             	    lv_second_3_0=ruleEvaluation();
 
             	    state._fsp--;
@@ -3628,7 +4592,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop20;
+            	    break loop30;
                 }
             } while (true);
 
@@ -3653,7 +4617,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveObjectMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1384:1: entryRuleRemoveObjectMutator returns [EObject current=null] : iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1754:1: entryRuleRemoveObjectMutator returns [EObject current=null] : iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF ;
     public final EObject entryRuleRemoveObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -3661,17 +4625,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1385:2: (iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1386:2: iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1755:2: (iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1756:2: iv_ruleRemoveObjectMutator= ruleRemoveObjectMutator EOF
             {
              newCompositeNode(grammarAccess.getRemoveObjectMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRemoveObjectMutator_in_entryRuleRemoveObjectMutator3341);
+            pushFollow(FollowSets000.FOLLOW_ruleRemoveObjectMutator_in_entryRuleRemoveObjectMutator4030);
             iv_ruleRemoveObjectMutator=ruleRemoveObjectMutator();
 
             state._fsp--;
 
              current =iv_ruleRemoveObjectMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveObjectMutator3351); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveObjectMutator4040); 
 
             }
 
@@ -3689,7 +4653,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveObjectMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1393:1: ruleRemoveObjectMutator returns [EObject current=null] : ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1763:1: ruleRemoveObjectMutator returns [EObject current=null] : ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? ) ;
     public final EObject ruleRemoveObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -3707,14 +4671,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1396:28: ( ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1397:1: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1766:28: ( ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1767:1: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1397:1: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1397:2: () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1767:1: ( () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1767:2: () otherlv_1= 'remove' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1397:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1398:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1767:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1768:5: 
             {
 
                     current = forceCreateModelElement(
@@ -3724,20 +4688,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleRemoveObjectMutator3397); 
+            otherlv_1=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleRemoveObjectMutator4086); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRemoveObjectMutatorAccess().getRemoveKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1407:1: ( (lv_object_2_0= ruleObSelectionStrategy ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1408:1: (lv_object_2_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1777:1: ( (lv_object_2_0= ruleObSelectionStrategy ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1778:1: (lv_object_2_0= ruleObSelectionStrategy )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1408:1: (lv_object_2_0= ruleObSelectionStrategy )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1409:3: lv_object_2_0= ruleObSelectionStrategy
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1778:1: (lv_object_2_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1779:3: lv_object_2_0= ruleObSelectionStrategy
             {
              
             	        newCompositeNode(grammarAccess.getRemoveObjectMutatorAccess().getObjectObSelectionStrategyParserRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleRemoveObjectMutator3418);
+            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleRemoveObjectMutator4107);
             lv_object_2_0=ruleObSelectionStrategy();
 
             state._fsp--;
@@ -3759,61 +4723,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1425:2: (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )?
-            int alt22=2;
-            int LA22_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1795:2: (otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']' )?
+            int alt32=2;
+            int LA32_0 = input.LA(1);
 
-            if ( (LA22_0==33) ) {
-                int LA22_1 = input.LA(2);
+            if ( (LA32_0==27) ) {
+                int LA32_1 = input.LA(2);
 
-                if ( (LA22_1==RULE_INT||LA22_1==24||LA22_1==65) ) {
-                    alt22=1;
+                if ( (LA32_1==RULE_INT||LA32_1==33||LA32_1==70) ) {
+                    alt32=1;
                 }
             }
-            switch (alt22) {
+            switch (alt32) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1425:4: otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1795:4: otherlv_3= '[' ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )? ( (lv_max_6_0= ruleMaxCardinality ) ) otherlv_7= ']'
                     {
-                    otherlv_3=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleRemoveObjectMutator3431); 
+                    otherlv_3=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleRemoveObjectMutator4120); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getRemoveObjectMutatorAccess().getLeftSquareBracketKeyword_3_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1429:1: ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )?
-                    int alt21=2;
-                    int LA21_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1799:1: ( ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..' )?
+                    int alt31=2;
+                    int LA31_0 = input.LA(1);
 
-                    if ( (LA21_0==24) ) {
-                        int LA21_1 = input.LA(2);
+                    if ( (LA31_0==33) ) {
+                        int LA31_1 = input.LA(2);
 
-                        if ( (LA21_1==RULE_INT) ) {
-                            int LA21_2 = input.LA(3);
+                        if ( (LA31_1==RULE_INT) ) {
+                            int LA31_2 = input.LA(3);
 
-                            if ( (LA21_2==34) ) {
-                                alt21=1;
+                            if ( (LA31_2==28) ) {
+                                alt31=1;
                             }
                         }
                     }
-                    else if ( (LA21_0==RULE_INT) ) {
-                        int LA21_2 = input.LA(2);
+                    else if ( (LA31_0==RULE_INT) ) {
+                        int LA31_2 = input.LA(2);
 
-                        if ( (LA21_2==34) ) {
-                            alt21=1;
+                        if ( (LA31_2==28) ) {
+                            alt31=1;
                         }
                     }
-                    switch (alt21) {
+                    switch (alt31) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1429:2: ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1799:2: ( (lv_min_4_0= ruleEInt ) ) otherlv_5= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1429:2: ( (lv_min_4_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1430:1: (lv_min_4_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1799:2: ( (lv_min_4_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1800:1: (lv_min_4_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1430:1: (lv_min_4_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1431:3: lv_min_4_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1800:1: (lv_min_4_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1801:3: lv_min_4_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getRemoveObjectMutatorAccess().getMinEIntParserRuleCall_3_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRemoveObjectMutator3453);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRemoveObjectMutator4142);
                             lv_min_4_0=ruleEInt();
 
                             state._fsp--;
@@ -3835,7 +4799,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_5=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleRemoveObjectMutator3465); 
+                            otherlv_5=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleRemoveObjectMutator4154); 
 
                                 	newLeafNode(otherlv_5, grammarAccess.getRemoveObjectMutatorAccess().getFullStopFullStopKeyword_3_1_1());
                                 
@@ -3845,16 +4809,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1451:3: ( (lv_max_6_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1452:1: (lv_max_6_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1821:3: ( (lv_max_6_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1822:1: (lv_max_6_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1452:1: (lv_max_6_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1453:3: lv_max_6_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1822:1: (lv_max_6_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1823:3: lv_max_6_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getRemoveObjectMutatorAccess().getMaxMaxCardinalityParserRuleCall_3_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleRemoveObjectMutator3488);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleRemoveObjectMutator4177);
                     lv_max_6_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -3876,7 +4840,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_7=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleRemoveObjectMutator3500); 
+                    otherlv_7=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleRemoveObjectMutator4189); 
 
                         	newLeafNode(otherlv_7, grammarAccess.getRemoveObjectMutatorAccess().getRightSquareBracketKeyword_3_3());
                         
@@ -3907,7 +4871,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1481:1: entryRuleRemoveReferenceMutator returns [EObject current=null] : iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1851:1: entryRuleRemoveReferenceMutator returns [EObject current=null] : iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF ;
     public final EObject entryRuleRemoveReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -3915,17 +4879,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1482:2: (iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1483:2: iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1852:2: (iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1853:2: iv_ruleRemoveReferenceMutator= ruleRemoveReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getRemoveReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRemoveReferenceMutator_in_entryRuleRemoveReferenceMutator3538);
+            pushFollow(FollowSets000.FOLLOW_ruleRemoveReferenceMutator_in_entryRuleRemoveReferenceMutator4227);
             iv_ruleRemoveReferenceMutator=ruleRemoveReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleRemoveReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveReferenceMutator3548); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveReferenceMutator4237); 
 
             }
 
@@ -3943,7 +4907,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1490:1: ruleRemoveReferenceMutator returns [EObject current=null] : (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1860:1: ruleRemoveReferenceMutator returns [EObject current=null] : (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) ;
     public final EObject ruleRemoveReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -3957,33 +4921,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1493:28: ( (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1494:1: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1863:28: ( (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1864:1: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1494:1: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
-            int alt23=3;
-            int LA23_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1864:1: (this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator | this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator | this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator )
+            int alt33=3;
+            int LA33_0 = input.LA(1);
 
-            if ( (LA23_0==32) ) {
+            if ( (LA33_0==41) ) {
                 switch ( input.LA(2) ) {
-                case 36:
+                case 42:
                     {
-                    alt23=1;
+                    alt33=1;
                     }
                     break;
-                case 22:
+                case 44:
                     {
-                    alt23=3;
+                    alt33=3;
                     }
                     break;
-                case 37:
+                case 43:
                     {
-                    alt23=2;
+                    alt33=2;
                     }
                     break;
                 default:
                     NoViableAltException nvae =
-                        new NoViableAltException("", 23, 1, input);
+                        new NoViableAltException("", 33, 1, input);
 
                     throw nvae;
                 }
@@ -3991,18 +4955,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 23, 0, input);
+                    new NoViableAltException("", 33, 0, input);
 
                 throw nvae;
             }
-            switch (alt23) {
+            switch (alt33) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1495:5: this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1865:5: this_RemoveRandomReferenceMutator_0= ruleRemoveRandomReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getRemoveReferenceMutatorAccess().getRemoveRandomReferenceMutatorParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRemoveRandomReferenceMutator_in_ruleRemoveReferenceMutator3595);
+                    pushFollow(FollowSets000.FOLLOW_ruleRemoveRandomReferenceMutator_in_ruleRemoveReferenceMutator4284);
                     this_RemoveRandomReferenceMutator_0=ruleRemoveRandomReferenceMutator();
 
                     state._fsp--;
@@ -4015,12 +4979,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1505:5: this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1875:5: this_RemoveSpecificReferenceMutator_1= ruleRemoveSpecificReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getRemoveReferenceMutatorAccess().getRemoveSpecificReferenceMutatorParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRemoveSpecificReferenceMutator_in_ruleRemoveReferenceMutator3622);
+                    pushFollow(FollowSets000.FOLLOW_ruleRemoveSpecificReferenceMutator_in_ruleRemoveReferenceMutator4311);
                     this_RemoveSpecificReferenceMutator_1=ruleRemoveSpecificReferenceMutator();
 
                     state._fsp--;
@@ -4033,12 +4997,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1515:5: this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1885:5: this_RemoveCompleteReferenceMutator_2= ruleRemoveCompleteReferenceMutator
                     {
                      
                             newCompositeNode(grammarAccess.getRemoveReferenceMutatorAccess().getRemoveCompleteReferenceMutatorParserRuleCall_2()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRemoveCompleteReferenceMutator_in_ruleRemoveReferenceMutator3649);
+                    pushFollow(FollowSets000.FOLLOW_ruleRemoveCompleteReferenceMutator_in_ruleRemoveReferenceMutator4338);
                     this_RemoveCompleteReferenceMutator_2=ruleRemoveCompleteReferenceMutator();
 
                     state._fsp--;
@@ -4071,7 +5035,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveRandomReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1531:1: entryRuleRemoveRandomReferenceMutator returns [EObject current=null] : iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1901:1: entryRuleRemoveRandomReferenceMutator returns [EObject current=null] : iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF ;
     public final EObject entryRuleRemoveRandomReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4079,17 +5043,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1532:2: (iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1533:2: iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1902:2: (iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1903:2: iv_ruleRemoveRandomReferenceMutator= ruleRemoveRandomReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getRemoveRandomReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRemoveRandomReferenceMutator_in_entryRuleRemoveRandomReferenceMutator3684);
+            pushFollow(FollowSets000.FOLLOW_ruleRemoveRandomReferenceMutator_in_entryRuleRemoveRandomReferenceMutator4373);
             iv_ruleRemoveRandomReferenceMutator=ruleRemoveRandomReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleRemoveRandomReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveRandomReferenceMutator3694); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveRandomReferenceMutator4383); 
 
             }
 
@@ -4107,7 +5071,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveRandomReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1540:1: ruleRemoveRandomReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1910:1: ruleRemoveRandomReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleRemoveRandomReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4128,14 +5092,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1543:28: ( ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1544:1: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1913:28: ( ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1914:1: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1544:1: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1544:2: () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1914:1: ( () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1914:2: () otherlv_1= 'remove' otherlv_2= 'one' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1544:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1545:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1914:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1915:5: 
             {
 
                     current = forceCreateModelElement(
@@ -4145,30 +5109,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleRemoveRandomReferenceMutator3740); 
+            otherlv_1=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleRemoveRandomReferenceMutator4429); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRemoveRandomReferenceMutatorAccess().getRemoveKeyword_1());
                 
-            otherlv_2=(Token)match(input,36,FollowSets000.FOLLOW_36_in_ruleRemoveRandomReferenceMutator3752); 
+            otherlv_2=(Token)match(input,42,FollowSets000.FOLLOW_42_in_ruleRemoveRandomReferenceMutator4441); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getRemoveRandomReferenceMutatorAccess().getOneKeyword_2());
                 
-            otherlv_3=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleRemoveRandomReferenceMutator3764); 
+            otherlv_3=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleRemoveRandomReferenceMutator4453); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getRemoveRandomReferenceMutatorAccess().getReferenceKeyword_3());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1562:1: ( (otherlv_4= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1563:1: (otherlv_4= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1932:1: ( (otherlv_4= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1933:1: (otherlv_4= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1563:1: (otherlv_4= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1564:3: otherlv_4= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1933:1: (otherlv_4= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1934:3: otherlv_4= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRemoveRandomReferenceMutatorRule());
             	        }
                     
-            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator3784); 
+            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator4473); 
 
             		newLeafNode(otherlv_4, grammarAccess.getRemoveRandomReferenceMutatorAccess().getRefTypeEReferenceCrossReference_4_0()); 
             	
@@ -4178,22 +5142,22 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_5=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleRemoveRandomReferenceMutator3796); 
+            otherlv_5=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleRemoveRandomReferenceMutator4485); 
 
                 	newLeafNode(otherlv_5, grammarAccess.getRemoveRandomReferenceMutatorAccess().getInKeyword_5());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1579:1: ( (otherlv_6= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1580:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1949:1: ( (otherlv_6= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1950:1: (otherlv_6= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1580:1: (otherlv_6= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1581:3: otherlv_6= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1950:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1951:3: otherlv_6= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRemoveRandomReferenceMutatorRule());
             	        }
                     
-            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator3816); 
+            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator4505); 
 
             		newLeafNode(otherlv_6, grammarAccess.getRemoveRandomReferenceMutatorAccess().getTypeEClassCrossReference_6_0()); 
             	
@@ -4203,61 +5167,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1592:2: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
-            int alt25=2;
-            int LA25_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1962:2: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            int alt35=2;
+            int LA35_0 = input.LA(1);
 
-            if ( (LA25_0==33) ) {
-                int LA25_1 = input.LA(2);
+            if ( (LA35_0==27) ) {
+                int LA35_1 = input.LA(2);
 
-                if ( (LA25_1==RULE_INT||LA25_1==24||LA25_1==65) ) {
-                    alt25=1;
+                if ( (LA35_1==RULE_INT||LA35_1==33||LA35_1==70) ) {
+                    alt35=1;
                 }
             }
-            switch (alt25) {
+            switch (alt35) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1592:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1962:4: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
                     {
-                    otherlv_7=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleRemoveRandomReferenceMutator3829); 
+                    otherlv_7=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleRemoveRandomReferenceMutator4518); 
 
                         	newLeafNode(otherlv_7, grammarAccess.getRemoveRandomReferenceMutatorAccess().getLeftSquareBracketKeyword_7_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1596:1: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
-                    int alt24=2;
-                    int LA24_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1966:1: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
+                    int alt34=2;
+                    int LA34_0 = input.LA(1);
 
-                    if ( (LA24_0==24) ) {
-                        int LA24_1 = input.LA(2);
+                    if ( (LA34_0==33) ) {
+                        int LA34_1 = input.LA(2);
 
-                        if ( (LA24_1==RULE_INT) ) {
-                            int LA24_2 = input.LA(3);
+                        if ( (LA34_1==RULE_INT) ) {
+                            int LA34_2 = input.LA(3);
 
-                            if ( (LA24_2==34) ) {
-                                alt24=1;
+                            if ( (LA34_2==28) ) {
+                                alt34=1;
                             }
                         }
                     }
-                    else if ( (LA24_0==RULE_INT) ) {
-                        int LA24_2 = input.LA(2);
+                    else if ( (LA34_0==RULE_INT) ) {
+                        int LA34_2 = input.LA(2);
 
-                        if ( (LA24_2==34) ) {
-                            alt24=1;
+                        if ( (LA34_2==28) ) {
+                            alt34=1;
                         }
                     }
-                    switch (alt24) {
+                    switch (alt34) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1596:2: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1966:2: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1596:2: ( (lv_min_8_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1597:1: (lv_min_8_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1966:2: ( (lv_min_8_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1967:1: (lv_min_8_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1597:1: (lv_min_8_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1598:3: lv_min_8_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1967:1: (lv_min_8_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1968:3: lv_min_8_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getRemoveRandomReferenceMutatorAccess().getMinEIntParserRuleCall_7_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRemoveRandomReferenceMutator3851);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRemoveRandomReferenceMutator4540);
                             lv_min_8_0=ruleEInt();
 
                             state._fsp--;
@@ -4279,7 +5243,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_9=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleRemoveRandomReferenceMutator3863); 
+                            otherlv_9=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleRemoveRandomReferenceMutator4552); 
 
                                 	newLeafNode(otherlv_9, grammarAccess.getRemoveRandomReferenceMutatorAccess().getFullStopFullStopKeyword_7_1_1());
                                 
@@ -4289,16 +5253,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1618:3: ( (lv_max_10_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1619:1: (lv_max_10_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1988:3: ( (lv_max_10_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1989:1: (lv_max_10_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1619:1: (lv_max_10_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1620:3: lv_max_10_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1989:1: (lv_max_10_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1990:3: lv_max_10_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getRemoveRandomReferenceMutatorAccess().getMaxMaxCardinalityParserRuleCall_7_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleRemoveRandomReferenceMutator3886);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleRemoveRandomReferenceMutator4575);
                     lv_max_10_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -4320,7 +5284,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_11=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleRemoveRandomReferenceMutator3898); 
+                    otherlv_11=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleRemoveRandomReferenceMutator4587); 
 
                         	newLeafNode(otherlv_11, grammarAccess.getRemoveRandomReferenceMutatorAccess().getRightSquareBracketKeyword_7_3());
                         
@@ -4351,7 +5315,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveSpecificReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1648:1: entryRuleRemoveSpecificReferenceMutator returns [EObject current=null] : iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2018:1: entryRuleRemoveSpecificReferenceMutator returns [EObject current=null] : iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF ;
     public final EObject entryRuleRemoveSpecificReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4359,17 +5323,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1649:2: (iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1650:2: iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2019:2: (iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2020:2: iv_ruleRemoveSpecificReferenceMutator= ruleRemoveSpecificReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getRemoveSpecificReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRemoveSpecificReferenceMutator_in_entryRuleRemoveSpecificReferenceMutator3936);
+            pushFollow(FollowSets000.FOLLOW_ruleRemoveSpecificReferenceMutator_in_entryRuleRemoveSpecificReferenceMutator4625);
             iv_ruleRemoveSpecificReferenceMutator=ruleRemoveSpecificReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleRemoveSpecificReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveSpecificReferenceMutator3946); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveSpecificReferenceMutator4635); 
 
             }
 
@@ -4387,7 +5351,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveSpecificReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1657:1: ruleRemoveSpecificReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2027:1: ruleRemoveSpecificReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) ;
     public final EObject ruleRemoveSpecificReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4408,14 +5372,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1660:28: ( ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1661:1: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2030:28: ( ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2031:1: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1661:1: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1661:2: () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2031:1: ( () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2031:2: () otherlv_1= 'remove' otherlv_2= 'reference' ( (otherlv_3= RULE_ID ) ) otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1661:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1662:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2031:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2032:5: 
             {
 
                     current = forceCreateModelElement(
@@ -4425,26 +5389,26 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleRemoveSpecificReferenceMutator3992); 
+            otherlv_1=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleRemoveSpecificReferenceMutator4681); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getRemoveKeyword_1());
                 
-            otherlv_2=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleRemoveSpecificReferenceMutator4004); 
+            otherlv_2=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleRemoveSpecificReferenceMutator4693); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getReferenceKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1675:1: ( (otherlv_3= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1676:1: (otherlv_3= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2045:1: ( (otherlv_3= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2046:1: (otherlv_3= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1676:1: (otherlv_3= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1677:3: otherlv_3= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2046:1: (otherlv_3= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2047:3: otherlv_3= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRemoveSpecificReferenceMutatorRule());
             	        }
                     
-            otherlv_3=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveSpecificReferenceMutator4024); 
+            otherlv_3=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveSpecificReferenceMutator4713); 
 
             		newLeafNode(otherlv_3, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getRefTypeEReferenceCrossReference_3_0()); 
             	
@@ -4454,20 +5418,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleRemoveSpecificReferenceMutator4036); 
+            otherlv_4=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleRemoveSpecificReferenceMutator4725); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getInKeyword_4());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1692:1: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1693:1: (lv_container_5_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2062:1: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2063:1: (lv_container_5_0= ruleObSelectionStrategy )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1693:1: (lv_container_5_0= ruleObSelectionStrategy )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1694:3: lv_container_5_0= ruleObSelectionStrategy
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2063:1: (lv_container_5_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2064:3: lv_container_5_0= ruleObSelectionStrategy
             {
              
             	        newCompositeNode(grammarAccess.getRemoveSpecificReferenceMutatorAccess().getContainerObSelectionStrategyParserRuleCall_5_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleRemoveSpecificReferenceMutator4057);
+            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleRemoveSpecificReferenceMutator4746);
             lv_container_5_0=ruleObSelectionStrategy();
 
             state._fsp--;
@@ -4489,61 +5453,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1710:2: (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
-            int alt27=2;
-            int LA27_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2080:2: (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
+            int alt37=2;
+            int LA37_0 = input.LA(1);
 
-            if ( (LA27_0==33) ) {
-                int LA27_1 = input.LA(2);
+            if ( (LA37_0==27) ) {
+                int LA37_1 = input.LA(2);
 
-                if ( (LA27_1==RULE_INT||LA27_1==24||LA27_1==65) ) {
-                    alt27=1;
+                if ( (LA37_1==RULE_INT||LA37_1==33||LA37_1==70) ) {
+                    alt37=1;
                 }
             }
-            switch (alt27) {
+            switch (alt37) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1710:4: otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2080:4: otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']'
                     {
-                    otherlv_6=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleRemoveSpecificReferenceMutator4070); 
+                    otherlv_6=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleRemoveSpecificReferenceMutator4759); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getLeftSquareBracketKeyword_6_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1714:1: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )?
-                    int alt26=2;
-                    int LA26_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2084:1: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )?
+                    int alt36=2;
+                    int LA36_0 = input.LA(1);
 
-                    if ( (LA26_0==24) ) {
-                        int LA26_1 = input.LA(2);
+                    if ( (LA36_0==33) ) {
+                        int LA36_1 = input.LA(2);
 
-                        if ( (LA26_1==RULE_INT) ) {
-                            int LA26_2 = input.LA(3);
+                        if ( (LA36_1==RULE_INT) ) {
+                            int LA36_2 = input.LA(3);
 
-                            if ( (LA26_2==34) ) {
-                                alt26=1;
+                            if ( (LA36_2==28) ) {
+                                alt36=1;
                             }
                         }
                     }
-                    else if ( (LA26_0==RULE_INT) ) {
-                        int LA26_2 = input.LA(2);
+                    else if ( (LA36_0==RULE_INT) ) {
+                        int LA36_2 = input.LA(2);
 
-                        if ( (LA26_2==34) ) {
-                            alt26=1;
+                        if ( (LA36_2==28) ) {
+                            alt36=1;
                         }
                     }
-                    switch (alt26) {
+                    switch (alt36) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1714:2: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2084:2: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1714:2: ( (lv_min_7_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1715:1: (lv_min_7_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2084:2: ( (lv_min_7_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2085:1: (lv_min_7_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1715:1: (lv_min_7_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1716:3: lv_min_7_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2085:1: (lv_min_7_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2086:3: lv_min_7_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getRemoveSpecificReferenceMutatorAccess().getMinEIntParserRuleCall_6_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRemoveSpecificReferenceMutator4092);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRemoveSpecificReferenceMutator4781);
                             lv_min_7_0=ruleEInt();
 
                             state._fsp--;
@@ -4565,7 +5529,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_8=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleRemoveSpecificReferenceMutator4104); 
+                            otherlv_8=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleRemoveSpecificReferenceMutator4793); 
 
                                 	newLeafNode(otherlv_8, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getFullStopFullStopKeyword_6_1_1());
                                 
@@ -4575,16 +5539,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1736:3: ( (lv_max_9_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1737:1: (lv_max_9_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2106:3: ( (lv_max_9_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2107:1: (lv_max_9_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1737:1: (lv_max_9_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1738:3: lv_max_9_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2107:1: (lv_max_9_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2108:3: lv_max_9_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getRemoveSpecificReferenceMutatorAccess().getMaxMaxCardinalityParserRuleCall_6_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleRemoveSpecificReferenceMutator4127);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleRemoveSpecificReferenceMutator4816);
                     lv_max_9_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -4606,7 +5570,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_10=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleRemoveSpecificReferenceMutator4139); 
+                    otherlv_10=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleRemoveSpecificReferenceMutator4828); 
 
                         	newLeafNode(otherlv_10, grammarAccess.getRemoveSpecificReferenceMutatorAccess().getRightSquareBracketKeyword_6_3());
                         
@@ -4637,7 +5601,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRemoveCompleteReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1766:1: entryRuleRemoveCompleteReferenceMutator returns [EObject current=null] : iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2136:1: entryRuleRemoveCompleteReferenceMutator returns [EObject current=null] : iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF ;
     public final EObject entryRuleRemoveCompleteReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4645,17 +5609,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1767:2: (iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1768:2: iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2137:2: (iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2138:2: iv_ruleRemoveCompleteReferenceMutator= ruleRemoveCompleteReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getRemoveCompleteReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRemoveCompleteReferenceMutator_in_entryRuleRemoveCompleteReferenceMutator4177);
+            pushFollow(FollowSets000.FOLLOW_ruleRemoveCompleteReferenceMutator_in_entryRuleRemoveCompleteReferenceMutator4866);
             iv_ruleRemoveCompleteReferenceMutator=ruleRemoveCompleteReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleRemoveCompleteReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveCompleteReferenceMutator4187); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRemoveCompleteReferenceMutator4876); 
 
             }
 
@@ -4673,7 +5637,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRemoveCompleteReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1775:1: ruleRemoveCompleteReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2145:1: ruleRemoveCompleteReferenceMutator returns [EObject current=null] : ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) ;
     public final EObject ruleRemoveCompleteReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4687,14 +5651,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1778:28: ( ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1779:1: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2148:28: ( ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2149:1: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1779:1: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1779:2: () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2149:1: ( () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2149:2: () otherlv_1= 'remove' otherlv_2= 'all' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) otherlv_5= 'in' ( (otherlv_6= RULE_ID ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1779:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1780:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2149:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2150:5: 
             {
 
                     current = forceCreateModelElement(
@@ -4704,30 +5668,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleRemoveCompleteReferenceMutator4233); 
+            otherlv_1=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleRemoveCompleteReferenceMutator4922); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getRemoveKeyword_1());
                 
-            otherlv_2=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleRemoveCompleteReferenceMutator4245); 
+            otherlv_2=(Token)match(input,44,FollowSets000.FOLLOW_44_in_ruleRemoveCompleteReferenceMutator4934); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getAllKeyword_2());
                 
-            otherlv_3=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleRemoveCompleteReferenceMutator4257); 
+            otherlv_3=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleRemoveCompleteReferenceMutator4946); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getReferenceKeyword_3());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1797:1: ( (otherlv_4= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1798:1: (otherlv_4= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2167:1: ( (otherlv_4= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2168:1: (otherlv_4= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1798:1: (otherlv_4= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1799:3: otherlv_4= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2168:1: (otherlv_4= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2169:3: otherlv_4= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRemoveCompleteReferenceMutatorRule());
             	        }
                     
-            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4277); 
+            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4966); 
 
             		newLeafNode(otherlv_4, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getRefTypeEReferenceCrossReference_4_0()); 
             	
@@ -4737,22 +5701,22 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_5=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleRemoveCompleteReferenceMutator4289); 
+            otherlv_5=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleRemoveCompleteReferenceMutator4978); 
 
                 	newLeafNode(otherlv_5, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getInKeyword_5());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1814:1: ( (otherlv_6= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1815:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2184:1: ( (otherlv_6= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2185:1: (otherlv_6= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1815:1: (otherlv_6= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1816:3: otherlv_6= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2185:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2186:3: otherlv_6= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRemoveCompleteReferenceMutatorRule());
             	        }
                     
-            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4309); 
+            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4998); 
 
             		newLeafNode(otherlv_6, grammarAccess.getRemoveCompleteReferenceMutatorAccess().getTypeEClassCrossReference_6_0()); 
             	
@@ -4783,7 +5747,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCreateObjectMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1835:1: entryRuleCreateObjectMutator returns [EObject current=null] : iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2205:1: entryRuleCreateObjectMutator returns [EObject current=null] : iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF ;
     public final EObject entryRuleCreateObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4791,17 +5755,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1836:2: (iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1837:2: iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2206:2: (iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2207:2: iv_ruleCreateObjectMutator= ruleCreateObjectMutator EOF
             {
              newCompositeNode(grammarAccess.getCreateObjectMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCreateObjectMutator_in_entryRuleCreateObjectMutator4345);
+            pushFollow(FollowSets000.FOLLOW_ruleCreateObjectMutator_in_entryRuleCreateObjectMutator5034);
             iv_ruleCreateObjectMutator=ruleCreateObjectMutator();
 
             state._fsp--;
 
              current =iv_ruleCreateObjectMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCreateObjectMutator4355); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCreateObjectMutator5044); 
 
             }
 
@@ -4819,7 +5783,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCreateObjectMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1844:1: ruleCreateObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2214:1: ruleCreateObjectMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? ) ;
     public final EObject ruleCreateObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -4855,30 +5819,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1847:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1848:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2217:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2218:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1848:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1848:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2218:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2218:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )? (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1848:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
-            int alt28=2;
-            int LA28_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2218:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA28_0==RULE_ID) ) {
-                alt28=1;
+            if ( (LA38_0==RULE_ID) ) {
+                alt38=1;
             }
-            switch (alt28) {
+            switch (alt38) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1848:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2218:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1848:3: ( (lv_name_0_0= RULE_ID ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1849:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2218:3: ( (lv_name_0_0= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2219:1: (lv_name_0_0= RULE_ID )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1849:1: (lv_name_0_0= RULE_ID )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1850:3: lv_name_0_0= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2219:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2220:3: lv_name_0_0= RULE_ID
                     {
-                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateObjectMutator4398); 
+                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateObjectMutator5087); 
 
                     			newLeafNode(lv_name_0_0, grammarAccess.getCreateObjectMutatorAccess().getNameIDTerminalRuleCall_0_0_0()); 
                     		
@@ -4898,7 +5862,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleCreateObjectMutator4415); 
+                    otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleCreateObjectMutator5104); 
 
                         	newLeafNode(otherlv_1, grammarAccess.getCreateObjectMutatorAccess().getEqualsSignKeyword_0_1());
                         
@@ -4908,22 +5872,22 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleCreateObjectMutator4429); 
+            otherlv_2=(Token)match(input,45,FollowSets000.FOLLOW_45_in_ruleCreateObjectMutator5118); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getCreateObjectMutatorAccess().getCreateKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1874:1: ( (otherlv_3= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1875:1: (otherlv_3= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2244:1: ( (otherlv_3= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2245:1: (otherlv_3= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1875:1: (otherlv_3= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1876:3: otherlv_3= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2245:1: (otherlv_3= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2246:3: otherlv_3= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getCreateObjectMutatorRule());
             	        }
                     
-            otherlv_3=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateObjectMutator4449); 
+            otherlv_3=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateObjectMutator5138); 
 
             		newLeafNode(otherlv_3, grammarAccess.getCreateObjectMutatorAccess().getTypeEClassCrossReference_2_0()); 
             	
@@ -4933,31 +5897,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1887:2: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )?
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2257:2: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )?
+            int alt40=2;
+            int LA40_0 = input.LA(1);
 
-            if ( (LA30_0==20) ) {
-                alt30=1;
+            if ( (LA40_0==22) ) {
+                alt40=1;
             }
-            switch (alt30) {
+            switch (alt40) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1887:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2257:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
                     {
-                    otherlv_4=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleCreateObjectMutator4462); 
+                    otherlv_4=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleCreateObjectMutator5151); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getCreateObjectMutatorAccess().getInKeyword_3_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1891:1: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1892:1: (lv_container_5_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2261:1: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2262:1: (lv_container_5_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1892:1: (lv_container_5_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1893:3: lv_container_5_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2262:1: (lv_container_5_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2263:3: lv_container_5_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getContainerObSelectionStrategyParserRuleCall_3_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleCreateObjectMutator4483);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleCreateObjectMutator5172);
                     lv_container_5_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -4979,33 +5943,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1909:2: (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
-                    int alt29=2;
-                    int LA29_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2279:2: (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
+                    int alt39=2;
+                    int LA39_0 = input.LA(1);
 
-                    if ( (LA29_0==25) ) {
-                        alt29=1;
+                    if ( (LA39_0==34) ) {
+                        alt39=1;
                     }
-                    switch (alt29) {
+                    switch (alt39) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1909:4: otherlv_6= '.' ( (otherlv_7= RULE_ID ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2279:4: otherlv_6= '.' ( (otherlv_7= RULE_ID ) )
                             {
-                            otherlv_6=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleCreateObjectMutator4496); 
+                            otherlv_6=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleCreateObjectMutator5185); 
 
                                 	newLeafNode(otherlv_6, grammarAccess.getCreateObjectMutatorAccess().getFullStopKeyword_3_2_0());
                                 
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1913:1: ( (otherlv_7= RULE_ID ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1914:1: (otherlv_7= RULE_ID )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2283:1: ( (otherlv_7= RULE_ID ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2284:1: (otherlv_7= RULE_ID )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1914:1: (otherlv_7= RULE_ID )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1915:3: otherlv_7= RULE_ID
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2284:1: (otherlv_7= RULE_ID )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2285:3: otherlv_7= RULE_ID
                             {
 
                             			if (current==null) {
                             	            current = createModelElement(grammarAccess.getCreateObjectMutatorRule());
                             	        }
                                     
-                            otherlv_7=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateObjectMutator4516); 
+                            otherlv_7=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateObjectMutator5205); 
 
                             		newLeafNode(otherlv_7, grammarAccess.getCreateObjectMutatorAccess().getRefTypeEReferenceCrossReference_3_2_1_0()); 
                             	
@@ -5027,73 +5991,73 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1926:6: (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2296:6: (otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}' )?
+            int alt44=2;
+            int LA44_0 = input.LA(1);
 
-            if ( (LA34_0==11) ) {
-                alt34=1;
+            if ( (LA44_0==11) ) {
+                alt44=1;
             }
-            switch (alt34) {
+            switch (alt44) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1926:8: otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2296:8: otherlv_8= 'with' otherlv_9= '{' ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )? (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )* otherlv_15= '}'
                     {
-                    otherlv_8=(Token)match(input,11,FollowSets000.FOLLOW_11_in_ruleCreateObjectMutator4533); 
+                    otherlv_8=(Token)match(input,11,FollowSets000.FOLLOW_11_in_ruleCreateObjectMutator5222); 
 
                         	newLeafNode(otherlv_8, grammarAccess.getCreateObjectMutatorAccess().getWithKeyword_4_0());
                         
-                    otherlv_9=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleCreateObjectMutator4545); 
+                    otherlv_9=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleCreateObjectMutator5234); 
 
                         	newLeafNode(otherlv_9, grammarAccess.getCreateObjectMutatorAccess().getLeftCurlyBracketKeyword_4_1());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1934:1: ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )?
-                    int alt31=3;
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2304:1: ( ( (lv_attributes_10_0= ruleAttributeSet ) ) | ( (lv_references_11_0= ruleReferenceSet ) ) )?
+                    int alt41=3;
                     switch ( input.LA(1) ) {
                         case RULE_ID:
                             {
-                            int LA31_1 = input.LA(2);
+                            int LA41_1 = input.LA(2);
 
-                            if ( (LA31_1==38) ) {
-                                int LA31_5 = input.LA(3);
+                            if ( (LA41_1==26) ) {
+                                int LA41_5 = input.LA(3);
 
-                                if ( (LA31_5==RULE_ID||LA31_5==22||LA31_5==36||LA31_5==54) ) {
-                                    alt31=2;
+                                if ( (LA41_5==RULE_ID||LA41_5==42||LA41_5==44||LA41_5==59) ) {
+                                    alt41=2;
                                 }
-                                else if ( (LA31_5==RULE_STRING||LA31_5==RULE_INT||(LA31_5>=24 && LA31_5<=25)||(LA31_5>=28 && LA31_5<=29)||(LA31_5>=55 && LA31_5<=64)) ) {
-                                    alt31=1;
+                                else if ( ((LA41_5>=RULE_STRING && LA41_5<=RULE_INT)||(LA41_5>=33 && LA41_5<=34)||(LA41_5>=37 && LA41_5<=38)||(LA41_5>=60 && LA41_5<=69)) ) {
+                                    alt41=1;
                                 }
                             }
                             }
                             break;
-                        case 46:
-                        case 49:
-                        case 50:
                         case 51:
+                        case 54:
+                        case 55:
+                        case 56:
                             {
-                            alt31=1;
+                            alt41=1;
                             }
                             break;
-                        case 52:
+                        case 57:
                             {
-                            alt31=2;
+                            alt41=2;
                             }
                             break;
                     }
 
-                    switch (alt31) {
+                    switch (alt41) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1934:2: ( (lv_attributes_10_0= ruleAttributeSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2304:2: ( (lv_attributes_10_0= ruleAttributeSet ) )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1934:2: ( (lv_attributes_10_0= ruleAttributeSet ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1935:1: (lv_attributes_10_0= ruleAttributeSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2304:2: ( (lv_attributes_10_0= ruleAttributeSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2305:1: (lv_attributes_10_0= ruleAttributeSet )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1935:1: (lv_attributes_10_0= ruleAttributeSet )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1936:3: lv_attributes_10_0= ruleAttributeSet
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2305:1: (lv_attributes_10_0= ruleAttributeSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2306:3: lv_attributes_10_0= ruleAttributeSet
                             {
                              
                             	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getAttributesAttributeSetParserRuleCall_4_2_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator4567);
+                            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator5256);
                             lv_attributes_10_0=ruleAttributeSet();
 
                             state._fsp--;
@@ -5119,18 +6083,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1953:6: ( (lv_references_11_0= ruleReferenceSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2323:6: ( (lv_references_11_0= ruleReferenceSet ) )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1953:6: ( (lv_references_11_0= ruleReferenceSet ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1954:1: (lv_references_11_0= ruleReferenceSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2323:6: ( (lv_references_11_0= ruleReferenceSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2324:1: (lv_references_11_0= ruleReferenceSet )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1954:1: (lv_references_11_0= ruleReferenceSet )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1955:3: lv_references_11_0= ruleReferenceSet
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2324:1: (lv_references_11_0= ruleReferenceSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2325:3: lv_references_11_0= ruleReferenceSet
                             {
                              
                             	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getReferencesReferenceSetParserRuleCall_4_2_1_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator4594);
+                            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator5283);
                             lv_references_11_0=ruleReferenceSet();
 
                             state._fsp--;
@@ -5158,90 +6122,90 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1971:4: (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )*
-                    loop33:
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2341:4: (otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) ) )*
+                    loop43:
                     do {
-                        int alt33=2;
-                        int LA33_0 = input.LA(1);
+                        int alt43=2;
+                        int LA43_0 = input.LA(1);
 
-                        if ( (LA33_0==40) ) {
-                            alt33=1;
+                        if ( (LA43_0==24) ) {
+                            alt43=1;
                         }
 
 
-                        switch (alt33) {
+                        switch (alt43) {
                     	case 1 :
-                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1971:6: otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2341:6: otherlv_12= ',' ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) )
                     	    {
-                    	    otherlv_12=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleCreateObjectMutator4609); 
+                    	    otherlv_12=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleCreateObjectMutator5298); 
 
                     	        	newLeafNode(otherlv_12, grammarAccess.getCreateObjectMutatorAccess().getCommaKeyword_4_3_0());
                     	        
-                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1975:1: ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) )
-                    	    int alt32=2;
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2345:1: ( ( (lv_attributes_13_0= ruleAttributeSet ) ) | ( (lv_references_14_0= ruleReferenceSet ) ) )
+                    	    int alt42=2;
                     	    switch ( input.LA(1) ) {
                     	    case RULE_ID:
                     	        {
-                    	        int LA32_1 = input.LA(2);
+                    	        int LA42_1 = input.LA(2);
 
-                    	        if ( (LA32_1==38) ) {
-                    	            int LA32_4 = input.LA(3);
+                    	        if ( (LA42_1==26) ) {
+                    	            int LA42_4 = input.LA(3);
 
-                    	            if ( (LA32_4==RULE_STRING||LA32_4==RULE_INT||(LA32_4>=24 && LA32_4<=25)||(LA32_4>=28 && LA32_4<=29)||(LA32_4>=55 && LA32_4<=64)) ) {
-                    	                alt32=1;
+                    	            if ( ((LA42_4>=RULE_STRING && LA42_4<=RULE_INT)||(LA42_4>=33 && LA42_4<=34)||(LA42_4>=37 && LA42_4<=38)||(LA42_4>=60 && LA42_4<=69)) ) {
+                    	                alt42=1;
                     	            }
-                    	            else if ( (LA32_4==RULE_ID||LA32_4==22||LA32_4==36||LA32_4==54) ) {
-                    	                alt32=2;
+                    	            else if ( (LA42_4==RULE_ID||LA42_4==42||LA42_4==44||LA42_4==59) ) {
+                    	                alt42=2;
                     	            }
                     	            else {
                     	                NoViableAltException nvae =
-                    	                    new NoViableAltException("", 32, 4, input);
+                    	                    new NoViableAltException("", 42, 4, input);
 
                     	                throw nvae;
                     	            }
                     	        }
                     	        else {
                     	            NoViableAltException nvae =
-                    	                new NoViableAltException("", 32, 1, input);
+                    	                new NoViableAltException("", 42, 1, input);
 
                     	            throw nvae;
                     	        }
                     	        }
                     	        break;
-                    	    case 46:
-                    	    case 49:
-                    	    case 50:
                     	    case 51:
+                    	    case 54:
+                    	    case 55:
+                    	    case 56:
                     	        {
-                    	        alt32=1;
+                    	        alt42=1;
                     	        }
                     	        break;
-                    	    case 52:
+                    	    case 57:
                     	        {
-                    	        alt32=2;
+                    	        alt42=2;
                     	        }
                     	        break;
                     	    default:
                     	        NoViableAltException nvae =
-                    	            new NoViableAltException("", 32, 0, input);
+                    	            new NoViableAltException("", 42, 0, input);
 
                     	        throw nvae;
                     	    }
 
-                    	    switch (alt32) {
+                    	    switch (alt42) {
                     	        case 1 :
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1975:2: ( (lv_attributes_13_0= ruleAttributeSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2345:2: ( (lv_attributes_13_0= ruleAttributeSet ) )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1975:2: ( (lv_attributes_13_0= ruleAttributeSet ) )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1976:1: (lv_attributes_13_0= ruleAttributeSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2345:2: ( (lv_attributes_13_0= ruleAttributeSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2346:1: (lv_attributes_13_0= ruleAttributeSet )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1976:1: (lv_attributes_13_0= ruleAttributeSet )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1977:3: lv_attributes_13_0= ruleAttributeSet
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2346:1: (lv_attributes_13_0= ruleAttributeSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2347:3: lv_attributes_13_0= ruleAttributeSet
                     	            {
                     	             
                     	            	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getAttributesAttributeSetParserRuleCall_4_3_1_0_0()); 
                     	            	    
-                    	            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator4631);
+                    	            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator5320);
                     	            lv_attributes_13_0=ruleAttributeSet();
 
                     	            state._fsp--;
@@ -5267,18 +6231,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     	            }
                     	            break;
                     	        case 2 :
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1994:6: ( (lv_references_14_0= ruleReferenceSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2364:6: ( (lv_references_14_0= ruleReferenceSet ) )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1994:6: ( (lv_references_14_0= ruleReferenceSet ) )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1995:1: (lv_references_14_0= ruleReferenceSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2364:6: ( (lv_references_14_0= ruleReferenceSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2365:1: (lv_references_14_0= ruleReferenceSet )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1995:1: (lv_references_14_0= ruleReferenceSet )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:1996:3: lv_references_14_0= ruleReferenceSet
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2365:1: (lv_references_14_0= ruleReferenceSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2366:3: lv_references_14_0= ruleReferenceSet
                     	            {
                     	             
                     	            	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getReferencesReferenceSetParserRuleCall_4_3_1_1_0()); 
                     	            	    
-                    	            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator4658);
+                    	            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator5347);
                     	            lv_references_14_0=ruleReferenceSet();
 
                     	            state._fsp--;
@@ -5311,11 +6275,11 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     	    break;
 
                     	default :
-                    	    break loop33;
+                    	    break loop43;
                         }
                     } while (true);
 
-                    otherlv_15=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleCreateObjectMutator4673); 
+                    otherlv_15=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleCreateObjectMutator5362); 
 
                         	newLeafNode(otherlv_15, grammarAccess.getCreateObjectMutatorAccess().getRightCurlyBracketKeyword_4_4());
                         
@@ -5325,61 +6289,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2016:3: (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )?
-            int alt36=2;
-            int LA36_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2386:3: (otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']' )?
+            int alt46=2;
+            int LA46_0 = input.LA(1);
 
-            if ( (LA36_0==33) ) {
-                int LA36_1 = input.LA(2);
+            if ( (LA46_0==27) ) {
+                int LA46_1 = input.LA(2);
 
-                if ( (LA36_1==RULE_INT||LA36_1==24||LA36_1==65) ) {
-                    alt36=1;
+                if ( (LA46_1==RULE_INT||LA46_1==33||LA46_1==70) ) {
+                    alt46=1;
                 }
             }
-            switch (alt36) {
+            switch (alt46) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2016:5: otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2386:5: otherlv_16= '[' ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )? ( (lv_max_19_0= ruleMaxCardinality ) ) otherlv_20= ']'
                     {
-                    otherlv_16=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleCreateObjectMutator4688); 
+                    otherlv_16=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleCreateObjectMutator5377); 
 
                         	newLeafNode(otherlv_16, grammarAccess.getCreateObjectMutatorAccess().getLeftSquareBracketKeyword_5_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2020:1: ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )?
-                    int alt35=2;
-                    int LA35_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2390:1: ( ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..' )?
+                    int alt45=2;
+                    int LA45_0 = input.LA(1);
 
-                    if ( (LA35_0==24) ) {
-                        int LA35_1 = input.LA(2);
+                    if ( (LA45_0==33) ) {
+                        int LA45_1 = input.LA(2);
 
-                        if ( (LA35_1==RULE_INT) ) {
-                            int LA35_2 = input.LA(3);
+                        if ( (LA45_1==RULE_INT) ) {
+                            int LA45_2 = input.LA(3);
 
-                            if ( (LA35_2==34) ) {
-                                alt35=1;
+                            if ( (LA45_2==28) ) {
+                                alt45=1;
                             }
                         }
                     }
-                    else if ( (LA35_0==RULE_INT) ) {
-                        int LA35_2 = input.LA(2);
+                    else if ( (LA45_0==RULE_INT) ) {
+                        int LA45_2 = input.LA(2);
 
-                        if ( (LA35_2==34) ) {
-                            alt35=1;
+                        if ( (LA45_2==28) ) {
+                            alt45=1;
                         }
                     }
-                    switch (alt35) {
+                    switch (alt45) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2020:2: ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2390:2: ( (lv_min_17_0= ruleEInt ) ) otherlv_18= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2020:2: ( (lv_min_17_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2021:1: (lv_min_17_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2390:2: ( (lv_min_17_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2391:1: (lv_min_17_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2021:1: (lv_min_17_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2022:3: lv_min_17_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2391:1: (lv_min_17_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:3: lv_min_17_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getMinEIntParserRuleCall_5_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCreateObjectMutator4710);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCreateObjectMutator5399);
                             lv_min_17_0=ruleEInt();
 
                             state._fsp--;
@@ -5401,7 +6365,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_18=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleCreateObjectMutator4722); 
+                            otherlv_18=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleCreateObjectMutator5411); 
 
                                 	newLeafNode(otherlv_18, grammarAccess.getCreateObjectMutatorAccess().getFullStopFullStopKeyword_5_1_1());
                                 
@@ -5411,16 +6375,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2042:3: ( (lv_max_19_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2043:1: (lv_max_19_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2412:3: ( (lv_max_19_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2413:1: (lv_max_19_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2043:1: (lv_max_19_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2044:3: lv_max_19_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2413:1: (lv_max_19_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2414:3: lv_max_19_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getCreateObjectMutatorAccess().getMaxMaxCardinalityParserRuleCall_5_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleCreateObjectMutator4745);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleCreateObjectMutator5434);
                     lv_max_19_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -5442,7 +6406,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_20=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleCreateObjectMutator4757); 
+                    otherlv_20=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleCreateObjectMutator5446); 
 
                         	newLeafNode(otherlv_20, grammarAccess.getCreateObjectMutatorAccess().getRightSquareBracketKeyword_5_3());
                         
@@ -5473,7 +6437,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSelectObjectMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2072:1: entryRuleSelectObjectMutator returns [EObject current=null] : iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2442:1: entryRuleSelectObjectMutator returns [EObject current=null] : iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF ;
     public final EObject entryRuleSelectObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -5481,17 +6445,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2073:2: (iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2074:2: iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2443:2: (iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2444:2: iv_ruleSelectObjectMutator= ruleSelectObjectMutator EOF
             {
              newCompositeNode(grammarAccess.getSelectObjectMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSelectObjectMutator_in_entryRuleSelectObjectMutator4795);
+            pushFollow(FollowSets000.FOLLOW_ruleSelectObjectMutator_in_entryRuleSelectObjectMutator5484);
             iv_ruleSelectObjectMutator=ruleSelectObjectMutator();
 
             state._fsp--;
 
              current =iv_ruleSelectObjectMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSelectObjectMutator4805); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSelectObjectMutator5494); 
 
             }
 
@@ -5509,7 +6473,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSelectObjectMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2081:1: ruleSelectObjectMutator returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2451:1: ruleSelectObjectMutator returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? ) ;
     public final EObject ruleSelectObjectMutator() throws RecognitionException {
         EObject current = null;
 
@@ -5527,19 +6491,19 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2084:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2085:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2454:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2455:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2085:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2085:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2455:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2455:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' otherlv_2= 'select' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2085:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2086:1: (lv_name_0_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2455:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2456:1: (lv_name_0_0= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2086:1: (lv_name_0_0= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2087:3: lv_name_0_0= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2456:1: (lv_name_0_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2457:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSelectObjectMutator4847); 
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSelectObjectMutator5536); 
 
             			newLeafNode(lv_name_0_0, grammarAccess.getSelectObjectMutatorAccess().getNameIDTerminalRuleCall_0_0()); 
             		
@@ -5559,24 +6523,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleSelectObjectMutator4864); 
+            otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleSelectObjectMutator5553); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getSelectObjectMutatorAccess().getEqualsSignKeyword_1());
                 
-            otherlv_2=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleSelectObjectMutator4876); 
+            otherlv_2=(Token)match(input,46,FollowSets000.FOLLOW_46_in_ruleSelectObjectMutator5565); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getSelectObjectMutatorAccess().getSelectKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2111:1: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2112:1: (lv_object_3_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2481:1: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2482:1: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2112:1: (lv_object_3_0= ruleObSelectionStrategy )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2113:3: lv_object_3_0= ruleObSelectionStrategy
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2482:1: (lv_object_3_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2483:3: lv_object_3_0= ruleObSelectionStrategy
             {
              
             	        newCompositeNode(grammarAccess.getSelectObjectMutatorAccess().getObjectObSelectionStrategyParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator4897);
+            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator5586);
             lv_object_3_0=ruleObSelectionStrategy();
 
             state._fsp--;
@@ -5598,31 +6562,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2129:2: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )?
-            int alt38=2;
-            int LA38_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2499:2: (otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )? )?
+            int alt48=2;
+            int LA48_0 = input.LA(1);
 
-            if ( (LA38_0==20) ) {
-                alt38=1;
+            if ( (LA48_0==22) ) {
+                alt48=1;
             }
-            switch (alt38) {
+            switch (alt48) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2129:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2499:4: otherlv_4= 'in' ( (lv_container_5_0= ruleObSelectionStrategy ) ) (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
                     {
-                    otherlv_4=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleSelectObjectMutator4910); 
+                    otherlv_4=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleSelectObjectMutator5599); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getSelectObjectMutatorAccess().getInKeyword_4_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2133:1: ( (lv_container_5_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2134:1: (lv_container_5_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2503:1: ( (lv_container_5_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2504:1: (lv_container_5_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2134:1: (lv_container_5_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2135:3: lv_container_5_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2504:1: (lv_container_5_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2505:3: lv_container_5_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getSelectObjectMutatorAccess().getContainerObSelectionStrategyParserRuleCall_4_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator4931);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator5620);
                     lv_container_5_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -5644,33 +6608,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2151:2: (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
-                    int alt37=2;
-                    int LA37_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2521:2: (otherlv_6= '.' ( (otherlv_7= RULE_ID ) ) )?
+                    int alt47=2;
+                    int LA47_0 = input.LA(1);
 
-                    if ( (LA37_0==25) ) {
-                        alt37=1;
+                    if ( (LA47_0==34) ) {
+                        alt47=1;
                     }
-                    switch (alt37) {
+                    switch (alt47) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2151:4: otherlv_6= '.' ( (otherlv_7= RULE_ID ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2521:4: otherlv_6= '.' ( (otherlv_7= RULE_ID ) )
                             {
-                            otherlv_6=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleSelectObjectMutator4944); 
+                            otherlv_6=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleSelectObjectMutator5633); 
 
                                 	newLeafNode(otherlv_6, grammarAccess.getSelectObjectMutatorAccess().getFullStopKeyword_4_2_0());
                                 
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2155:1: ( (otherlv_7= RULE_ID ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2156:1: (otherlv_7= RULE_ID )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2525:1: ( (otherlv_7= RULE_ID ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2526:1: (otherlv_7= RULE_ID )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2156:1: (otherlv_7= RULE_ID )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2157:3: otherlv_7= RULE_ID
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2526:1: (otherlv_7= RULE_ID )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2527:3: otherlv_7= RULE_ID
                             {
 
                             			if (current==null) {
                             	            current = createModelElement(grammarAccess.getSelectObjectMutatorRule());
                             	        }
                                     
-                            otherlv_7=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSelectObjectMutator4964); 
+                            otherlv_7=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSelectObjectMutator5653); 
 
                             		newLeafNode(otherlv_7, grammarAccess.getSelectObjectMutatorAccess().getRefTypeEReferenceCrossReference_4_2_1_0()); 
                             	
@@ -5713,7 +6677,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModifyInformationMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2176:1: entryRuleModifyInformationMutator returns [EObject current=null] : iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2546:1: entryRuleModifyInformationMutator returns [EObject current=null] : iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF ;
     public final EObject entryRuleModifyInformationMutator() throws RecognitionException {
         EObject current = null;
 
@@ -5721,17 +6685,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2177:2: (iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2178:2: iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2547:2: (iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2548:2: iv_ruleModifyInformationMutator= ruleModifyInformationMutator EOF
             {
              newCompositeNode(grammarAccess.getModifyInformationMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleModifyInformationMutator_in_entryRuleModifyInformationMutator5004);
+            pushFollow(FollowSets000.FOLLOW_ruleModifyInformationMutator_in_entryRuleModifyInformationMutator5693);
             iv_ruleModifyInformationMutator=ruleModifyInformationMutator();
 
             state._fsp--;
 
              current =iv_ruleModifyInformationMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleModifyInformationMutator5014); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleModifyInformationMutator5703); 
 
             }
 
@@ -5749,7 +6713,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModifyInformationMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2185:1: ruleModifyInformationMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2555:1: ruleModifyInformationMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) ;
     public final EObject ruleModifyInformationMutator() throws RecognitionException {
         EObject current = null;
 
@@ -5781,30 +6745,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2188:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2189:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2558:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2559:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2189:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2189:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2559:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2559:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'modify' ( (lv_object_3_0= ruleObSelectionStrategy ) ) (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )? (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2189:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2559:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            int alt49=2;
+            int LA49_0 = input.LA(1);
 
-            if ( (LA39_0==RULE_ID) ) {
-                alt39=1;
+            if ( (LA49_0==RULE_ID) ) {
+                alt49=1;
             }
-            switch (alt39) {
+            switch (alt49) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2189:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2559:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2189:3: ( (lv_name_0_0= RULE_ID ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2190:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2559:3: ( (lv_name_0_0= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2560:1: (lv_name_0_0= RULE_ID )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2190:1: (lv_name_0_0= RULE_ID )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2191:3: lv_name_0_0= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2560:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2561:3: lv_name_0_0= RULE_ID
                     {
-                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleModifyInformationMutator5057); 
+                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleModifyInformationMutator5746); 
 
                     			newLeafNode(lv_name_0_0, grammarAccess.getModifyInformationMutatorAccess().getNameIDTerminalRuleCall_0_0_0()); 
                     		
@@ -5824,7 +6788,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleModifyInformationMutator5074); 
+                    otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleModifyInformationMutator5763); 
 
                         	newLeafNode(otherlv_1, grammarAccess.getModifyInformationMutatorAccess().getEqualsSignKeyword_0_1());
                         
@@ -5834,20 +6798,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,42,FollowSets000.FOLLOW_42_in_ruleModifyInformationMutator5088); 
+            otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleModifyInformationMutator5777); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getModifyInformationMutatorAccess().getModifyKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2215:1: ( (lv_object_3_0= ruleObSelectionStrategy ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2216:1: (lv_object_3_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2585:1: ( (lv_object_3_0= ruleObSelectionStrategy ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2586:1: (lv_object_3_0= ruleObSelectionStrategy )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2216:1: (lv_object_3_0= ruleObSelectionStrategy )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2217:3: lv_object_3_0= ruleObSelectionStrategy
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2586:1: (lv_object_3_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2587:3: lv_object_3_0= ruleObSelectionStrategy
             {
              
             	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getObjectObSelectionStrategyParserRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifyInformationMutator5109);
+            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifyInformationMutator5798);
             lv_object_3_0=ruleObSelectionStrategy();
 
             state._fsp--;
@@ -5869,73 +6833,73 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2233:2: (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )?
-            int alt43=2;
-            int LA43_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2603:2: (otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}' )?
+            int alt53=2;
+            int LA53_0 = input.LA(1);
 
-            if ( (LA43_0==11) ) {
-                alt43=1;
+            if ( (LA53_0==11) ) {
+                alt53=1;
             }
-            switch (alt43) {
+            switch (alt53) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2233:4: otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2603:4: otherlv_4= 'with' otherlv_5= '{' ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )? (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )* otherlv_11= '}'
                     {
-                    otherlv_4=(Token)match(input,11,FollowSets000.FOLLOW_11_in_ruleModifyInformationMutator5122); 
+                    otherlv_4=(Token)match(input,11,FollowSets000.FOLLOW_11_in_ruleModifyInformationMutator5811); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getModifyInformationMutatorAccess().getWithKeyword_3_0());
                         
-                    otherlv_5=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleModifyInformationMutator5134); 
+                    otherlv_5=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleModifyInformationMutator5823); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getModifyInformationMutatorAccess().getLeftCurlyBracketKeyword_3_1());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2241:1: ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )?
-                    int alt40=3;
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2611:1: ( ( (lv_attributes_6_0= ruleAttributeSet ) ) | ( (lv_references_7_0= ruleReferenceSet ) ) )?
+                    int alt50=3;
                     switch ( input.LA(1) ) {
                         case RULE_ID:
                             {
-                            int LA40_1 = input.LA(2);
+                            int LA50_1 = input.LA(2);
 
-                            if ( (LA40_1==38) ) {
-                                int LA40_5 = input.LA(3);
+                            if ( (LA50_1==26) ) {
+                                int LA50_5 = input.LA(3);
 
-                                if ( (LA40_5==RULE_ID||LA40_5==22||LA40_5==36||LA40_5==54) ) {
-                                    alt40=2;
+                                if ( (LA50_5==RULE_ID||LA50_5==42||LA50_5==44||LA50_5==59) ) {
+                                    alt50=2;
                                 }
-                                else if ( (LA40_5==RULE_STRING||LA40_5==RULE_INT||(LA40_5>=24 && LA40_5<=25)||(LA40_5>=28 && LA40_5<=29)||(LA40_5>=55 && LA40_5<=64)) ) {
-                                    alt40=1;
+                                else if ( ((LA50_5>=RULE_STRING && LA50_5<=RULE_INT)||(LA50_5>=33 && LA50_5<=34)||(LA50_5>=37 && LA50_5<=38)||(LA50_5>=60 && LA50_5<=69)) ) {
+                                    alt50=1;
                                 }
                             }
                             }
                             break;
-                        case 46:
-                        case 49:
-                        case 50:
                         case 51:
+                        case 54:
+                        case 55:
+                        case 56:
                             {
-                            alt40=1;
+                            alt50=1;
                             }
                             break;
-                        case 52:
+                        case 57:
                             {
-                            alt40=2;
+                            alt50=2;
                             }
                             break;
                     }
 
-                    switch (alt40) {
+                    switch (alt50) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2241:2: ( (lv_attributes_6_0= ruleAttributeSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2611:2: ( (lv_attributes_6_0= ruleAttributeSet ) )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2241:2: ( (lv_attributes_6_0= ruleAttributeSet ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2242:1: (lv_attributes_6_0= ruleAttributeSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2611:2: ( (lv_attributes_6_0= ruleAttributeSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2612:1: (lv_attributes_6_0= ruleAttributeSet )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2242:1: (lv_attributes_6_0= ruleAttributeSet )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2243:3: lv_attributes_6_0= ruleAttributeSet
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2612:1: (lv_attributes_6_0= ruleAttributeSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2613:3: lv_attributes_6_0= ruleAttributeSet
                             {
                              
                             	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getAttributesAttributeSetParserRuleCall_3_2_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5156);
+                            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5845);
                             lv_attributes_6_0=ruleAttributeSet();
 
                             state._fsp--;
@@ -5961,18 +6925,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2260:6: ( (lv_references_7_0= ruleReferenceSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2630:6: ( (lv_references_7_0= ruleReferenceSet ) )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2260:6: ( (lv_references_7_0= ruleReferenceSet ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2261:1: (lv_references_7_0= ruleReferenceSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2630:6: ( (lv_references_7_0= ruleReferenceSet ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2631:1: (lv_references_7_0= ruleReferenceSet )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2261:1: (lv_references_7_0= ruleReferenceSet )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2262:3: lv_references_7_0= ruleReferenceSet
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2631:1: (lv_references_7_0= ruleReferenceSet )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2632:3: lv_references_7_0= ruleReferenceSet
                             {
                              
                             	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getReferencesReferenceSetParserRuleCall_3_2_1_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5183);
+                            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5872);
                             lv_references_7_0=ruleReferenceSet();
 
                             state._fsp--;
@@ -6000,90 +6964,90 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2278:4: (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )*
-                    loop42:
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2648:4: (otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) ) )*
+                    loop52:
                     do {
-                        int alt42=2;
-                        int LA42_0 = input.LA(1);
+                        int alt52=2;
+                        int LA52_0 = input.LA(1);
 
-                        if ( (LA42_0==40) ) {
-                            alt42=1;
+                        if ( (LA52_0==24) ) {
+                            alt52=1;
                         }
 
 
-                        switch (alt42) {
+                        switch (alt52) {
                     	case 1 :
-                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2278:6: otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2648:6: otherlv_8= ',' ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
                     	    {
-                    	    otherlv_8=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleModifyInformationMutator5198); 
+                    	    otherlv_8=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleModifyInformationMutator5887); 
 
                     	        	newLeafNode(otherlv_8, grammarAccess.getModifyInformationMutatorAccess().getCommaKeyword_3_3_0());
                     	        
-                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2282:1: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
-                    	    int alt41=2;
+                    	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2652:1: ( ( (lv_attributes_9_0= ruleAttributeSet ) ) | ( (lv_references_10_0= ruleReferenceSet ) ) )
+                    	    int alt51=2;
                     	    switch ( input.LA(1) ) {
                     	    case RULE_ID:
                     	        {
-                    	        int LA41_1 = input.LA(2);
+                    	        int LA51_1 = input.LA(2);
 
-                    	        if ( (LA41_1==38) ) {
-                    	            int LA41_4 = input.LA(3);
+                    	        if ( (LA51_1==26) ) {
+                    	            int LA51_4 = input.LA(3);
 
-                    	            if ( (LA41_4==RULE_STRING||LA41_4==RULE_INT||(LA41_4>=24 && LA41_4<=25)||(LA41_4>=28 && LA41_4<=29)||(LA41_4>=55 && LA41_4<=64)) ) {
-                    	                alt41=1;
+                    	            if ( ((LA51_4>=RULE_STRING && LA51_4<=RULE_INT)||(LA51_4>=33 && LA51_4<=34)||(LA51_4>=37 && LA51_4<=38)||(LA51_4>=60 && LA51_4<=69)) ) {
+                    	                alt51=1;
                     	            }
-                    	            else if ( (LA41_4==RULE_ID||LA41_4==22||LA41_4==36||LA41_4==54) ) {
-                    	                alt41=2;
+                    	            else if ( (LA51_4==RULE_ID||LA51_4==42||LA51_4==44||LA51_4==59) ) {
+                    	                alt51=2;
                     	            }
                     	            else {
                     	                NoViableAltException nvae =
-                    	                    new NoViableAltException("", 41, 4, input);
+                    	                    new NoViableAltException("", 51, 4, input);
 
                     	                throw nvae;
                     	            }
                     	        }
                     	        else {
                     	            NoViableAltException nvae =
-                    	                new NoViableAltException("", 41, 1, input);
+                    	                new NoViableAltException("", 51, 1, input);
 
                     	            throw nvae;
                     	        }
                     	        }
                     	        break;
-                    	    case 46:
-                    	    case 49:
-                    	    case 50:
                     	    case 51:
+                    	    case 54:
+                    	    case 55:
+                    	    case 56:
                     	        {
-                    	        alt41=1;
+                    	        alt51=1;
                     	        }
                     	        break;
-                    	    case 52:
+                    	    case 57:
                     	        {
-                    	        alt41=2;
+                    	        alt51=2;
                     	        }
                     	        break;
                     	    default:
                     	        NoViableAltException nvae =
-                    	            new NoViableAltException("", 41, 0, input);
+                    	            new NoViableAltException("", 51, 0, input);
 
                     	        throw nvae;
                     	    }
 
-                    	    switch (alt41) {
+                    	    switch (alt51) {
                     	        case 1 :
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2282:2: ( (lv_attributes_9_0= ruleAttributeSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2652:2: ( (lv_attributes_9_0= ruleAttributeSet ) )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2282:2: ( (lv_attributes_9_0= ruleAttributeSet ) )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2283:1: (lv_attributes_9_0= ruleAttributeSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2652:2: ( (lv_attributes_9_0= ruleAttributeSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2653:1: (lv_attributes_9_0= ruleAttributeSet )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2283:1: (lv_attributes_9_0= ruleAttributeSet )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2284:3: lv_attributes_9_0= ruleAttributeSet
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2653:1: (lv_attributes_9_0= ruleAttributeSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2654:3: lv_attributes_9_0= ruleAttributeSet
                     	            {
                     	             
                     	            	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getAttributesAttributeSetParserRuleCall_3_3_1_0_0()); 
                     	            	    
-                    	            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5220);
+                    	            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5909);
                     	            lv_attributes_9_0=ruleAttributeSet();
 
                     	            state._fsp--;
@@ -6109,18 +7073,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     	            }
                     	            break;
                     	        case 2 :
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2301:6: ( (lv_references_10_0= ruleReferenceSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2671:6: ( (lv_references_10_0= ruleReferenceSet ) )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2301:6: ( (lv_references_10_0= ruleReferenceSet ) )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2302:1: (lv_references_10_0= ruleReferenceSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2671:6: ( (lv_references_10_0= ruleReferenceSet ) )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2672:1: (lv_references_10_0= ruleReferenceSet )
                     	            {
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2302:1: (lv_references_10_0= ruleReferenceSet )
-                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2303:3: lv_references_10_0= ruleReferenceSet
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2672:1: (lv_references_10_0= ruleReferenceSet )
+                    	            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2673:3: lv_references_10_0= ruleReferenceSet
                     	            {
                     	             
                     	            	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getReferencesReferenceSetParserRuleCall_3_3_1_1_0()); 
                     	            	    
-                    	            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5247);
+                    	            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5936);
                     	            lv_references_10_0=ruleReferenceSet();
 
                     	            state._fsp--;
@@ -6153,11 +7117,11 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     	    break;
 
                     	default :
-                    	    break loop42;
+                    	    break loop52;
                         }
                     } while (true);
 
-                    otherlv_11=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleModifyInformationMutator5262); 
+                    otherlv_11=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleModifyInformationMutator5951); 
 
                         	newLeafNode(otherlv_11, grammarAccess.getModifyInformationMutatorAccess().getRightCurlyBracketKeyword_3_4());
                         
@@ -6167,61 +7131,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2323:3: (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
-            int alt45=2;
-            int LA45_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2693:3: (otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']' )?
+            int alt55=2;
+            int LA55_0 = input.LA(1);
 
-            if ( (LA45_0==33) ) {
-                int LA45_1 = input.LA(2);
+            if ( (LA55_0==27) ) {
+                int LA55_1 = input.LA(2);
 
-                if ( (LA45_1==RULE_INT||LA45_1==24||LA45_1==65) ) {
-                    alt45=1;
+                if ( (LA55_1==RULE_INT||LA55_1==33||LA55_1==70) ) {
+                    alt55=1;
                 }
             }
-            switch (alt45) {
+            switch (alt55) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2323:5: otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2693:5: otherlv_12= '[' ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )? ( (lv_max_15_0= ruleMaxCardinality ) ) otherlv_16= ']'
                     {
-                    otherlv_12=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleModifyInformationMutator5277); 
+                    otherlv_12=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleModifyInformationMutator5966); 
 
                         	newLeafNode(otherlv_12, grammarAccess.getModifyInformationMutatorAccess().getLeftSquareBracketKeyword_4_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2327:1: ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )?
-                    int alt44=2;
-                    int LA44_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2697:1: ( ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..' )?
+                    int alt54=2;
+                    int LA54_0 = input.LA(1);
 
-                    if ( (LA44_0==24) ) {
-                        int LA44_1 = input.LA(2);
+                    if ( (LA54_0==33) ) {
+                        int LA54_1 = input.LA(2);
 
-                        if ( (LA44_1==RULE_INT) ) {
-                            int LA44_2 = input.LA(3);
+                        if ( (LA54_1==RULE_INT) ) {
+                            int LA54_2 = input.LA(3);
 
-                            if ( (LA44_2==34) ) {
-                                alt44=1;
+                            if ( (LA54_2==28) ) {
+                                alt54=1;
                             }
                         }
                     }
-                    else if ( (LA44_0==RULE_INT) ) {
-                        int LA44_2 = input.LA(2);
+                    else if ( (LA54_0==RULE_INT) ) {
+                        int LA54_2 = input.LA(2);
 
-                        if ( (LA44_2==34) ) {
-                            alt44=1;
+                        if ( (LA54_2==28) ) {
+                            alt54=1;
                         }
                     }
-                    switch (alt44) {
+                    switch (alt54) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2327:2: ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2697:2: ( (lv_min_13_0= ruleEInt ) ) otherlv_14= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2327:2: ( (lv_min_13_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2328:1: (lv_min_13_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2697:2: ( (lv_min_13_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2698:1: (lv_min_13_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2328:1: (lv_min_13_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2329:3: lv_min_13_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2698:1: (lv_min_13_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2699:3: lv_min_13_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getMinEIntParserRuleCall_4_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleModifyInformationMutator5299);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleModifyInformationMutator5988);
                             lv_min_13_0=ruleEInt();
 
                             state._fsp--;
@@ -6243,7 +7207,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_14=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleModifyInformationMutator5311); 
+                            otherlv_14=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleModifyInformationMutator6000); 
 
                                 	newLeafNode(otherlv_14, grammarAccess.getModifyInformationMutatorAccess().getFullStopFullStopKeyword_4_1_1());
                                 
@@ -6253,16 +7217,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2349:3: ( (lv_max_15_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2350:1: (lv_max_15_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2719:3: ( (lv_max_15_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2720:1: (lv_max_15_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2350:1: (lv_max_15_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2351:3: lv_max_15_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2720:1: (lv_max_15_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2721:3: lv_max_15_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifyInformationMutatorAccess().getMaxMaxCardinalityParserRuleCall_4_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleModifyInformationMutator5334);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleModifyInformationMutator6023);
                     lv_max_15_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -6284,7 +7248,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_16=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleModifyInformationMutator5346); 
+                    otherlv_16=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleModifyInformationMutator6035); 
 
                         	newLeafNode(otherlv_16, grammarAccess.getModifyInformationMutatorAccess().getRightSquareBracketKeyword_4_3());
                         
@@ -6315,7 +7279,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCreateReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2379:1: entryRuleCreateReferenceMutator returns [EObject current=null] : iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2749:1: entryRuleCreateReferenceMutator returns [EObject current=null] : iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF ;
     public final EObject entryRuleCreateReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -6323,17 +7287,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2380:2: (iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2381:2: iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2750:2: (iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2751:2: iv_ruleCreateReferenceMutator= ruleCreateReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getCreateReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCreateReferenceMutator_in_entryRuleCreateReferenceMutator5384);
+            pushFollow(FollowSets000.FOLLOW_ruleCreateReferenceMutator_in_entryRuleCreateReferenceMutator6073);
             iv_ruleCreateReferenceMutator=ruleCreateReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleCreateReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCreateReferenceMutator5394); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCreateReferenceMutator6083); 
 
             }
 
@@ -6351,7 +7315,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCreateReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2388:1: ruleCreateReferenceMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2758:1: ruleCreateReferenceMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) ;
     public final EObject ruleCreateReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -6377,30 +7341,30 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2391:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2761:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2762:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2762:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2762:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= 'create' otherlv_3= 'reference' ( (otherlv_4= RULE_ID ) ) (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )? (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
-            int alt46=2;
-            int LA46_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2762:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            int alt56=2;
+            int LA56_0 = input.LA(1);
 
-            if ( (LA46_0==RULE_ID) ) {
-                alt46=1;
+            if ( (LA56_0==RULE_ID) ) {
+                alt56=1;
             }
-            switch (alt46) {
+            switch (alt56) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2762:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2392:3: ( (lv_name_0_0= RULE_ID ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2393:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2762:3: ( (lv_name_0_0= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2763:1: (lv_name_0_0= RULE_ID )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2393:1: (lv_name_0_0= RULE_ID )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2394:3: lv_name_0_0= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2763:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2764:3: lv_name_0_0= RULE_ID
                     {
-                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateReferenceMutator5437); 
+                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateReferenceMutator6126); 
 
                     			newLeafNode(lv_name_0_0, grammarAccess.getCreateReferenceMutatorAccess().getNameIDTerminalRuleCall_0_0_0()); 
                     		
@@ -6420,7 +7384,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleCreateReferenceMutator5454); 
+                    otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleCreateReferenceMutator6143); 
 
                         	newLeafNode(otherlv_1, grammarAccess.getCreateReferenceMutatorAccess().getEqualsSignKeyword_0_1());
                         
@@ -6430,26 +7394,26 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleCreateReferenceMutator5468); 
+            otherlv_2=(Token)match(input,45,FollowSets000.FOLLOW_45_in_ruleCreateReferenceMutator6157); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getCreateReferenceMutatorAccess().getCreateKeyword_1());
                 
-            otherlv_3=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleCreateReferenceMutator5480); 
+            otherlv_3=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleCreateReferenceMutator6169); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getCreateReferenceMutatorAccess().getReferenceKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2422:1: ( (otherlv_4= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2423:1: (otherlv_4= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2792:1: ( (otherlv_4= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2793:1: (otherlv_4= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2423:1: (otherlv_4= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2424:3: otherlv_4= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2793:1: (otherlv_4= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2794:3: otherlv_4= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getCreateReferenceMutatorRule());
             	        }
                     
-            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateReferenceMutator5500); 
+            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCreateReferenceMutator6189); 
 
             		newLeafNode(otherlv_4, grammarAccess.getCreateReferenceMutatorAccess().getRefTypeEReferenceCrossReference_3_0()); 
             	
@@ -6459,31 +7423,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2435:2: (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )?
-            int alt47=2;
-            int LA47_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2805:2: (otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) ) )?
+            int alt57=2;
+            int LA57_0 = input.LA(1);
 
-            if ( (LA47_0==43) ) {
-                alt47=1;
+            if ( (LA57_0==48) ) {
+                alt57=1;
             }
-            switch (alt47) {
+            switch (alt57) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2435:4: otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2805:4: otherlv_5= 'to' ( (lv_target_6_0= ruleObSelectionStrategy ) )
                     {
-                    otherlv_5=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleCreateReferenceMutator5513); 
+                    otherlv_5=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleCreateReferenceMutator6202); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getCreateReferenceMutatorAccess().getToKeyword_4_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2439:1: ( (lv_target_6_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2440:1: (lv_target_6_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2809:1: ( (lv_target_6_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2810:1: (lv_target_6_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2440:1: (lv_target_6_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2441:3: lv_target_6_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2810:1: (lv_target_6_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2811:3: lv_target_6_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getCreateReferenceMutatorAccess().getTargetObSelectionStrategyParserRuleCall_4_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator5534);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator6223);
                     lv_target_6_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -6511,31 +7475,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2457:4: (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )?
-            int alt48=2;
-            int LA48_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2827:4: (otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) ) )?
+            int alt58=2;
+            int LA58_0 = input.LA(1);
 
-            if ( (LA48_0==20) ) {
-                alt48=1;
+            if ( (LA58_0==22) ) {
+                alt58=1;
             }
-            switch (alt48) {
+            switch (alt58) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2457:6: otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2827:6: otherlv_7= 'in' ( (lv_source_8_0= ruleObSelectionStrategy ) )
                     {
-                    otherlv_7=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleCreateReferenceMutator5549); 
+                    otherlv_7=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleCreateReferenceMutator6238); 
 
                         	newLeafNode(otherlv_7, grammarAccess.getCreateReferenceMutatorAccess().getInKeyword_5_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2461:1: ( (lv_source_8_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2462:1: (lv_source_8_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2831:1: ( (lv_source_8_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2832:1: (lv_source_8_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2462:1: (lv_source_8_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2463:3: lv_source_8_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2832:1: (lv_source_8_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2833:3: lv_source_8_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getCreateReferenceMutatorAccess().getSourceObSelectionStrategyParserRuleCall_5_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator5570);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator6259);
                     lv_source_8_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -6563,61 +7527,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2479:4: (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
-            int alt50=2;
-            int LA50_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2849:4: (otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']' )?
+            int alt60=2;
+            int LA60_0 = input.LA(1);
 
-            if ( (LA50_0==33) ) {
-                int LA50_1 = input.LA(2);
+            if ( (LA60_0==27) ) {
+                int LA60_1 = input.LA(2);
 
-                if ( (LA50_1==RULE_INT||LA50_1==24||LA50_1==65) ) {
-                    alt50=1;
+                if ( (LA60_1==RULE_INT||LA60_1==33||LA60_1==70) ) {
+                    alt60=1;
                 }
             }
-            switch (alt50) {
+            switch (alt60) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2479:6: otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2849:6: otherlv_9= '[' ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )? ( (lv_max_12_0= ruleMaxCardinality ) ) otherlv_13= ']'
                     {
-                    otherlv_9=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleCreateReferenceMutator5585); 
+                    otherlv_9=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleCreateReferenceMutator6274); 
 
                         	newLeafNode(otherlv_9, grammarAccess.getCreateReferenceMutatorAccess().getLeftSquareBracketKeyword_6_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2483:1: ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )?
-                    int alt49=2;
-                    int LA49_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2853:1: ( ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..' )?
+                    int alt59=2;
+                    int LA59_0 = input.LA(1);
 
-                    if ( (LA49_0==24) ) {
-                        int LA49_1 = input.LA(2);
+                    if ( (LA59_0==33) ) {
+                        int LA59_1 = input.LA(2);
 
-                        if ( (LA49_1==RULE_INT) ) {
-                            int LA49_2 = input.LA(3);
+                        if ( (LA59_1==RULE_INT) ) {
+                            int LA59_2 = input.LA(3);
 
-                            if ( (LA49_2==34) ) {
-                                alt49=1;
+                            if ( (LA59_2==28) ) {
+                                alt59=1;
                             }
                         }
                     }
-                    else if ( (LA49_0==RULE_INT) ) {
-                        int LA49_2 = input.LA(2);
+                    else if ( (LA59_0==RULE_INT) ) {
+                        int LA59_2 = input.LA(2);
 
-                        if ( (LA49_2==34) ) {
-                            alt49=1;
+                        if ( (LA59_2==28) ) {
+                            alt59=1;
                         }
                     }
-                    switch (alt49) {
+                    switch (alt59) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2483:2: ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2853:2: ( (lv_min_10_0= ruleEInt ) ) otherlv_11= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2483:2: ( (lv_min_10_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2484:1: (lv_min_10_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2853:2: ( (lv_min_10_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2854:1: (lv_min_10_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2484:1: (lv_min_10_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2485:3: lv_min_10_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2854:1: (lv_min_10_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2855:3: lv_min_10_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getCreateReferenceMutatorAccess().getMinEIntParserRuleCall_6_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCreateReferenceMutator5607);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCreateReferenceMutator6296);
                             lv_min_10_0=ruleEInt();
 
                             state._fsp--;
@@ -6639,7 +7603,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_11=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleCreateReferenceMutator5619); 
+                            otherlv_11=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleCreateReferenceMutator6308); 
 
                                 	newLeafNode(otherlv_11, grammarAccess.getCreateReferenceMutatorAccess().getFullStopFullStopKeyword_6_1_1());
                                 
@@ -6649,16 +7613,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2505:3: ( (lv_max_12_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2506:1: (lv_max_12_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2875:3: ( (lv_max_12_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2876:1: (lv_max_12_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2506:1: (lv_max_12_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2507:3: lv_max_12_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2876:1: (lv_max_12_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2877:3: lv_max_12_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getCreateReferenceMutatorAccess().getMaxMaxCardinalityParserRuleCall_6_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleCreateReferenceMutator5642);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleCreateReferenceMutator6331);
                     lv_max_12_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -6680,7 +7644,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_13=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleCreateReferenceMutator5654); 
+                    otherlv_13=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleCreateReferenceMutator6343); 
 
                         	newLeafNode(otherlv_13, grammarAccess.getCreateReferenceMutatorAccess().getRightSquareBracketKeyword_6_3());
                         
@@ -6711,7 +7675,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModifySourceReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2535:1: entryRuleModifySourceReferenceMutator returns [EObject current=null] : iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2905:1: entryRuleModifySourceReferenceMutator returns [EObject current=null] : iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF ;
     public final EObject entryRuleModifySourceReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -6719,17 +7683,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2536:2: (iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2537:2: iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2906:2: (iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2907:2: iv_ruleModifySourceReferenceMutator= ruleModifySourceReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getModifySourceReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleModifySourceReferenceMutator_in_entryRuleModifySourceReferenceMutator5692);
+            pushFollow(FollowSets000.FOLLOW_ruleModifySourceReferenceMutator_in_entryRuleModifySourceReferenceMutator6381);
             iv_ruleModifySourceReferenceMutator=ruleModifySourceReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleModifySourceReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleModifySourceReferenceMutator5702); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleModifySourceReferenceMutator6391); 
 
             }
 
@@ -6747,7 +7711,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModifySourceReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2544:1: ruleModifySourceReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2914:1: ruleModifySourceReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleModifySourceReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -6771,32 +7735,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2547:28: ( (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2548:1: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2917:28: ( (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2918:1: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2548:1: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2548:3: otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2918:1: (otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2918:3: otherlv_0= 'modify' otherlv_1= 'source' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             {
-            otherlv_0=(Token)match(input,42,FollowSets000.FOLLOW_42_in_ruleModifySourceReferenceMutator5739); 
+            otherlv_0=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleModifySourceReferenceMutator6428); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getModifySourceReferenceMutatorAccess().getModifyKeyword_0());
                 
-            otherlv_1=(Token)match(input,44,FollowSets000.FOLLOW_44_in_ruleModifySourceReferenceMutator5751); 
+            otherlv_1=(Token)match(input,49,FollowSets000.FOLLOW_49_in_ruleModifySourceReferenceMutator6440); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getModifySourceReferenceMutatorAccess().getSourceKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2556:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2557:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2926:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2927:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2557:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2558:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2927:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2928:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getModifySourceReferenceMutatorRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleModifySourceReferenceMutator5771); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleModifySourceReferenceMutator6460); 
 
             		newLeafNode(otherlv_2, grammarAccess.getModifySourceReferenceMutatorAccess().getRefTypeEReferenceCrossReference_2_0()); 
             	
@@ -6806,31 +7770,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2569:2: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
-            int alt51=2;
-            int LA51_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2939:2: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
+            int alt61=2;
+            int LA61_0 = input.LA(1);
 
-            if ( (LA51_0==21) ) {
-                alt51=1;
+            if ( (LA61_0==23) ) {
+                alt61=1;
             }
-            switch (alt51) {
+            switch (alt61) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2569:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2939:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
                     {
-                    otherlv_3=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleModifySourceReferenceMutator5784); 
+                    otherlv_3=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleModifySourceReferenceMutator6473); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getModifySourceReferenceMutatorAccess().getFromKeyword_3_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2573:1: ( (lv_source_4_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2574:1: (lv_source_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2943:1: ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2944:1: (lv_source_4_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2574:1: (lv_source_4_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2575:3: lv_source_4_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2944:1: (lv_source_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2945:3: lv_source_4_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifySourceReferenceMutatorAccess().getSourceObSelectionStrategyParserRuleCall_3_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator5805);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator6494);
                     lv_source_4_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -6858,31 +7822,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2591:4: (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )?
-            int alt52=2;
-            int LA52_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2961:4: (otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) ) )?
+            int alt62=2;
+            int LA62_0 = input.LA(1);
 
-            if ( (LA52_0==43) ) {
-                alt52=1;
+            if ( (LA62_0==48) ) {
+                alt62=1;
             }
-            switch (alt52) {
+            switch (alt62) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2591:6: otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2961:6: otherlv_5= 'to' ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
                     {
-                    otherlv_5=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleModifySourceReferenceMutator5820); 
+                    otherlv_5=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleModifySourceReferenceMutator6509); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getModifySourceReferenceMutatorAccess().getToKeyword_4_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2595:1: ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2596:1: (lv_newSource_6_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2965:1: ( (lv_newSource_6_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2966:1: (lv_newSource_6_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2596:1: (lv_newSource_6_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2597:3: lv_newSource_6_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2966:1: (lv_newSource_6_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2967:3: lv_newSource_6_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifySourceReferenceMutatorAccess().getNewSourceObSelectionStrategyParserRuleCall_4_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator5841);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator6530);
                     lv_newSource_6_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -6910,61 +7874,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2613:4: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
-            int alt54=2;
-            int LA54_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2983:4: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            int alt64=2;
+            int LA64_0 = input.LA(1);
 
-            if ( (LA54_0==33) ) {
-                int LA54_1 = input.LA(2);
+            if ( (LA64_0==27) ) {
+                int LA64_1 = input.LA(2);
 
-                if ( (LA54_1==RULE_INT||LA54_1==24||LA54_1==65) ) {
-                    alt54=1;
+                if ( (LA64_1==RULE_INT||LA64_1==33||LA64_1==70) ) {
+                    alt64=1;
                 }
             }
-            switch (alt54) {
+            switch (alt64) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2613:6: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2983:6: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
                     {
-                    otherlv_7=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleModifySourceReferenceMutator5856); 
+                    otherlv_7=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleModifySourceReferenceMutator6545); 
 
                         	newLeafNode(otherlv_7, grammarAccess.getModifySourceReferenceMutatorAccess().getLeftSquareBracketKeyword_5_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2617:1: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
-                    int alt53=2;
-                    int LA53_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2987:1: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
+                    int alt63=2;
+                    int LA63_0 = input.LA(1);
 
-                    if ( (LA53_0==24) ) {
-                        int LA53_1 = input.LA(2);
+                    if ( (LA63_0==33) ) {
+                        int LA63_1 = input.LA(2);
 
-                        if ( (LA53_1==RULE_INT) ) {
-                            int LA53_2 = input.LA(3);
+                        if ( (LA63_1==RULE_INT) ) {
+                            int LA63_2 = input.LA(3);
 
-                            if ( (LA53_2==34) ) {
-                                alt53=1;
+                            if ( (LA63_2==28) ) {
+                                alt63=1;
                             }
                         }
                     }
-                    else if ( (LA53_0==RULE_INT) ) {
-                        int LA53_2 = input.LA(2);
+                    else if ( (LA63_0==RULE_INT) ) {
+                        int LA63_2 = input.LA(2);
 
-                        if ( (LA53_2==34) ) {
-                            alt53=1;
+                        if ( (LA63_2==28) ) {
+                            alt63=1;
                         }
                     }
-                    switch (alt53) {
+                    switch (alt63) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2617:2: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2987:2: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2617:2: ( (lv_min_8_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2618:1: (lv_min_8_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2987:2: ( (lv_min_8_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2988:1: (lv_min_8_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2618:1: (lv_min_8_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2619:3: lv_min_8_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2988:1: (lv_min_8_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2989:3: lv_min_8_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getModifySourceReferenceMutatorAccess().getMinEIntParserRuleCall_5_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleModifySourceReferenceMutator5878);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleModifySourceReferenceMutator6567);
                             lv_min_8_0=ruleEInt();
 
                             state._fsp--;
@@ -6986,7 +7950,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_9=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleModifySourceReferenceMutator5890); 
+                            otherlv_9=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleModifySourceReferenceMutator6579); 
 
                                 	newLeafNode(otherlv_9, grammarAccess.getModifySourceReferenceMutatorAccess().getFullStopFullStopKeyword_5_1_1());
                                 
@@ -6996,16 +7960,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2639:3: ( (lv_max_10_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2640:1: (lv_max_10_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3009:3: ( (lv_max_10_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3010:1: (lv_max_10_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2640:1: (lv_max_10_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2641:3: lv_max_10_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3010:1: (lv_max_10_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3011:3: lv_max_10_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifySourceReferenceMutatorAccess().getMaxMaxCardinalityParserRuleCall_5_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleModifySourceReferenceMutator5913);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleModifySourceReferenceMutator6602);
                     lv_max_10_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -7027,7 +7991,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_11=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleModifySourceReferenceMutator5925); 
+                    otherlv_11=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleModifySourceReferenceMutator6614); 
 
                         	newLeafNode(otherlv_11, grammarAccess.getModifySourceReferenceMutatorAccess().getRightSquareBracketKeyword_5_3());
                         
@@ -7058,7 +8022,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModifyTargetReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2669:1: entryRuleModifyTargetReferenceMutator returns [EObject current=null] : iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3039:1: entryRuleModifyTargetReferenceMutator returns [EObject current=null] : iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF ;
     public final EObject entryRuleModifyTargetReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -7066,17 +8030,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2670:2: (iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2671:2: iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3040:2: (iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3041:2: iv_ruleModifyTargetReferenceMutator= ruleModifyTargetReferenceMutator EOF
             {
              newCompositeNode(grammarAccess.getModifyTargetReferenceMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleModifyTargetReferenceMutator_in_entryRuleModifyTargetReferenceMutator5963);
+            pushFollow(FollowSets000.FOLLOW_ruleModifyTargetReferenceMutator_in_entryRuleModifyTargetReferenceMutator6652);
             iv_ruleModifyTargetReferenceMutator=ruleModifyTargetReferenceMutator();
 
             state._fsp--;
 
              current =iv_ruleModifyTargetReferenceMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleModifyTargetReferenceMutator5973); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleModifyTargetReferenceMutator6662); 
 
             }
 
@@ -7094,7 +8058,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModifyTargetReferenceMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2678:1: ruleModifyTargetReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3048:1: ruleModifyTargetReferenceMutator returns [EObject current=null] : (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleModifyTargetReferenceMutator() throws RecognitionException {
         EObject current = null;
 
@@ -7118,32 +8082,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2681:28: ( (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2682:1: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3051:28: ( (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3052:1: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2682:1: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2682:3: otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3052:1: (otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3052:3: otherlv_0= 'modify' otherlv_1= 'target' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )? (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )? (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
             {
-            otherlv_0=(Token)match(input,42,FollowSets000.FOLLOW_42_in_ruleModifyTargetReferenceMutator6010); 
+            otherlv_0=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleModifyTargetReferenceMutator6699); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getModifyTargetReferenceMutatorAccess().getModifyKeyword_0());
                 
-            otherlv_1=(Token)match(input,45,FollowSets000.FOLLOW_45_in_ruleModifyTargetReferenceMutator6022); 
+            otherlv_1=(Token)match(input,50,FollowSets000.FOLLOW_50_in_ruleModifyTargetReferenceMutator6711); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getModifyTargetReferenceMutatorAccess().getTargetKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2690:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2691:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3060:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3061:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2691:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2692:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3061:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3062:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getModifyTargetReferenceMutatorRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleModifyTargetReferenceMutator6042); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleModifyTargetReferenceMutator6731); 
 
             		newLeafNode(otherlv_2, grammarAccess.getModifyTargetReferenceMutatorAccess().getRefTypeEReferenceCrossReference_2_0()); 
             	
@@ -7153,31 +8117,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2703:2: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
-            int alt55=2;
-            int LA55_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3073:2: (otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) ) )?
+            int alt65=2;
+            int LA65_0 = input.LA(1);
 
-            if ( (LA55_0==21) ) {
-                alt55=1;
+            if ( (LA65_0==23) ) {
+                alt65=1;
             }
-            switch (alt55) {
+            switch (alt65) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2703:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3073:4: otherlv_3= 'from' ( (lv_source_4_0= ruleObSelectionStrategy ) )
                     {
-                    otherlv_3=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleModifyTargetReferenceMutator6055); 
+                    otherlv_3=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleModifyTargetReferenceMutator6744); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getModifyTargetReferenceMutatorAccess().getFromKeyword_3_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2707:1: ( (lv_source_4_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2708:1: (lv_source_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3077:1: ( (lv_source_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3078:1: (lv_source_4_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2708:1: (lv_source_4_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2709:3: lv_source_4_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3078:1: (lv_source_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3079:3: lv_source_4_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifyTargetReferenceMutatorAccess().getSourceObSelectionStrategyParserRuleCall_3_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6076);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6765);
                     lv_source_4_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -7205,31 +8169,31 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2725:4: (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )?
-            int alt56=2;
-            int LA56_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3095:4: (otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) ) )?
+            int alt66=2;
+            int LA66_0 = input.LA(1);
 
-            if ( (LA56_0==43) ) {
-                alt56=1;
+            if ( (LA66_0==48) ) {
+                alt66=1;
             }
-            switch (alt56) {
+            switch (alt66) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2725:6: otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3095:6: otherlv_5= 'to' ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
                     {
-                    otherlv_5=(Token)match(input,43,FollowSets000.FOLLOW_43_in_ruleModifyTargetReferenceMutator6091); 
+                    otherlv_5=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleModifyTargetReferenceMutator6780); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getModifyTargetReferenceMutatorAccess().getToKeyword_4_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2729:1: ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2730:1: (lv_newTarget_6_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3099:1: ( (lv_newTarget_6_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3100:1: (lv_newTarget_6_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2730:1: (lv_newTarget_6_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2731:3: lv_newTarget_6_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3100:1: (lv_newTarget_6_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3101:3: lv_newTarget_6_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifyTargetReferenceMutatorAccess().getNewTargetObSelectionStrategyParserRuleCall_4_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6112);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6801);
                     lv_newTarget_6_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -7257,61 +8221,61 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2747:4: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
-            int alt58=2;
-            int LA58_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3117:4: (otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']' )?
+            int alt68=2;
+            int LA68_0 = input.LA(1);
 
-            if ( (LA58_0==33) ) {
-                int LA58_1 = input.LA(2);
+            if ( (LA68_0==27) ) {
+                int LA68_1 = input.LA(2);
 
-                if ( (LA58_1==RULE_INT||LA58_1==24||LA58_1==65) ) {
-                    alt58=1;
+                if ( (LA68_1==RULE_INT||LA68_1==33||LA68_1==70) ) {
+                    alt68=1;
                 }
             }
-            switch (alt58) {
+            switch (alt68) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2747:6: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3117:6: otherlv_7= '[' ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )? ( (lv_max_10_0= ruleMaxCardinality ) ) otherlv_11= ']'
                     {
-                    otherlv_7=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleModifyTargetReferenceMutator6127); 
+                    otherlv_7=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleModifyTargetReferenceMutator6816); 
 
                         	newLeafNode(otherlv_7, grammarAccess.getModifyTargetReferenceMutatorAccess().getLeftSquareBracketKeyword_5_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2751:1: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
-                    int alt57=2;
-                    int LA57_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3121:1: ( ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..' )?
+                    int alt67=2;
+                    int LA67_0 = input.LA(1);
 
-                    if ( (LA57_0==24) ) {
-                        int LA57_1 = input.LA(2);
+                    if ( (LA67_0==33) ) {
+                        int LA67_1 = input.LA(2);
 
-                        if ( (LA57_1==RULE_INT) ) {
-                            int LA57_2 = input.LA(3);
+                        if ( (LA67_1==RULE_INT) ) {
+                            int LA67_2 = input.LA(3);
 
-                            if ( (LA57_2==34) ) {
-                                alt57=1;
+                            if ( (LA67_2==28) ) {
+                                alt67=1;
                             }
                         }
                     }
-                    else if ( (LA57_0==RULE_INT) ) {
-                        int LA57_2 = input.LA(2);
+                    else if ( (LA67_0==RULE_INT) ) {
+                        int LA67_2 = input.LA(2);
 
-                        if ( (LA57_2==34) ) {
-                            alt57=1;
+                        if ( (LA67_2==28) ) {
+                            alt67=1;
                         }
                     }
-                    switch (alt57) {
+                    switch (alt67) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2751:2: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3121:2: ( (lv_min_8_0= ruleEInt ) ) otherlv_9= '..'
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2751:2: ( (lv_min_8_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2752:1: (lv_min_8_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3121:2: ( (lv_min_8_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3122:1: (lv_min_8_0= ruleEInt )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2752:1: (lv_min_8_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2753:3: lv_min_8_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3122:1: (lv_min_8_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3123:3: lv_min_8_0= ruleEInt
                             {
                              
                             	        newCompositeNode(grammarAccess.getModifyTargetReferenceMutatorAccess().getMinEIntParserRuleCall_5_1_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleModifyTargetReferenceMutator6149);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleModifyTargetReferenceMutator6838);
                             lv_min_8_0=ruleEInt();
 
                             state._fsp--;
@@ -7333,7 +8297,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_9=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleModifyTargetReferenceMutator6161); 
+                            otherlv_9=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleModifyTargetReferenceMutator6850); 
 
                                 	newLeafNode(otherlv_9, grammarAccess.getModifyTargetReferenceMutatorAccess().getFullStopFullStopKeyword_5_1_1());
                                 
@@ -7343,16 +8307,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2773:3: ( (lv_max_10_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2774:1: (lv_max_10_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3143:3: ( (lv_max_10_0= ruleMaxCardinality ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3144:1: (lv_max_10_0= ruleMaxCardinality )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2774:1: (lv_max_10_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2775:3: lv_max_10_0= ruleMaxCardinality
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3144:1: (lv_max_10_0= ruleMaxCardinality )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3145:3: lv_max_10_0= ruleMaxCardinality
                     {
                      
                     	        newCompositeNode(grammarAccess.getModifyTargetReferenceMutatorAccess().getMaxMaxCardinalityParserRuleCall_5_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleModifyTargetReferenceMutator6184);
+                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleModifyTargetReferenceMutator6873);
                     lv_max_10_0=ruleMaxCardinality();
 
                     state._fsp--;
@@ -7374,7 +8338,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_11=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleModifyTargetReferenceMutator6196); 
+                    otherlv_11=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleModifyTargetReferenceMutator6885); 
 
                         	newLeafNode(otherlv_11, grammarAccess.getModifyTargetReferenceMutatorAccess().getRightSquareBracketKeyword_5_3());
                         
@@ -7405,7 +8369,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCompositeMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2803:1: entryRuleCompositeMutator returns [EObject current=null] : iv_ruleCompositeMutator= ruleCompositeMutator EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3173:1: entryRuleCompositeMutator returns [EObject current=null] : iv_ruleCompositeMutator= ruleCompositeMutator EOF ;
     public final EObject entryRuleCompositeMutator() throws RecognitionException {
         EObject current = null;
 
@@ -7413,17 +8377,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2804:2: (iv_ruleCompositeMutator= ruleCompositeMutator EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2805:2: iv_ruleCompositeMutator= ruleCompositeMutator EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3174:2: (iv_ruleCompositeMutator= ruleCompositeMutator EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3175:2: iv_ruleCompositeMutator= ruleCompositeMutator EOF
             {
              newCompositeNode(grammarAccess.getCompositeMutatorRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCompositeMutator_in_entryRuleCompositeMutator6234);
+            pushFollow(FollowSets000.FOLLOW_ruleCompositeMutator_in_entryRuleCompositeMutator6923);
             iv_ruleCompositeMutator=ruleCompositeMutator();
 
             state._fsp--;
 
              current =iv_ruleCompositeMutator; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCompositeMutator6244); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCompositeMutator6933); 
 
             }
 
@@ -7441,7 +8405,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCompositeMutator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2812:1: ruleCompositeMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3182:1: ruleCompositeMutator returns [EObject current=null] : ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? ) ;
     public final EObject ruleCompositeMutator() throws RecognitionException {
         EObject current = null;
 
@@ -7451,7 +8415,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
         Token otherlv_5=null;
         Token otherlv_6=null;
         Token otherlv_8=null;
-        Token otherlv_10=null;
+        Token otherlv_11=null;
         EObject lv_commands_3_0 = null;
 
         EObject lv_commands_4_0 = null;
@@ -7460,34 +8424,36 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
         AntlrDatatypeRuleToken lv_max_9_0 = null;
 
+        AntlrDatatypeRuleToken lv_fixed_10_0 = null;
+
 
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2815:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2816:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3185:28: ( ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3186:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2816:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2816:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3186:1: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3186:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )? otherlv_2= '[' ( (lv_commands_3_0= ruleMutator ) ) ( (lv_commands_4_0= ruleMutator ) )* otherlv_5= ']' (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2816:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
-            int alt59=2;
-            int LA59_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3186:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' )?
+            int alt69=2;
+            int LA69_0 = input.LA(1);
 
-            if ( (LA59_0==RULE_ID) ) {
-                alt59=1;
+            if ( (LA69_0==RULE_ID) ) {
+                alt69=1;
             }
-            switch (alt59) {
+            switch (alt69) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2816:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3186:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '='
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2816:3: ( (lv_name_0_0= RULE_ID ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2817:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3186:3: ( (lv_name_0_0= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3187:1: (lv_name_0_0= RULE_ID )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2817:1: (lv_name_0_0= RULE_ID )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2818:3: lv_name_0_0= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3187:1: (lv_name_0_0= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3188:3: lv_name_0_0= RULE_ID
                     {
-                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCompositeMutator6287); 
+                    lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCompositeMutator6976); 
 
                     			newLeafNode(lv_name_0_0, grammarAccess.getCompositeMutatorAccess().getNameIDTerminalRuleCall_0_0_0()); 
                     		
@@ -7507,7 +8473,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleCompositeMutator6304); 
+                    otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleCompositeMutator6993); 
 
                         	newLeafNode(otherlv_1, grammarAccess.getCompositeMutatorAccess().getEqualsSignKeyword_0_1());
                         
@@ -7517,20 +8483,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleCompositeMutator6318); 
+            otherlv_2=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleCompositeMutator7007); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getCompositeMutatorAccess().getLeftSquareBracketKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2842:1: ( (lv_commands_3_0= ruleMutator ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2843:1: (lv_commands_3_0= ruleMutator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3212:1: ( (lv_commands_3_0= ruleMutator ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3213:1: (lv_commands_3_0= ruleMutator )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2843:1: (lv_commands_3_0= ruleMutator )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2844:3: lv_commands_3_0= ruleMutator
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3213:1: (lv_commands_3_0= ruleMutator )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3214:3: lv_commands_3_0= ruleMutator
             {
              
             	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getCommandsMutatorParserRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleCompositeMutator6339);
+            pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleCompositeMutator7028);
             lv_commands_3_0=ruleMutator();
 
             state._fsp--;
@@ -7552,28 +8518,28 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2860:2: ( (lv_commands_4_0= ruleMutator ) )*
-            loop60:
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3230:2: ( (lv_commands_4_0= ruleMutator ) )*
+            loop70:
             do {
-                int alt60=2;
-                int LA60_0 = input.LA(1);
+                int alt70=2;
+                int LA70_0 = input.LA(1);
 
-                if ( (LA60_0==RULE_ID||(LA60_0>=32 && LA60_0<=33)||LA60_0==39||LA60_0==42) ) {
-                    alt60=1;
+                if ( (LA70_0==RULE_ID||LA70_0==27||LA70_0==41||LA70_0==45||LA70_0==47) ) {
+                    alt70=1;
                 }
 
 
-                switch (alt60) {
+                switch (alt70) {
             	case 1 :
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2861:1: (lv_commands_4_0= ruleMutator )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3231:1: (lv_commands_4_0= ruleMutator )
             	    {
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2861:1: (lv_commands_4_0= ruleMutator )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2862:3: lv_commands_4_0= ruleMutator
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3231:1: (lv_commands_4_0= ruleMutator )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3232:3: lv_commands_4_0= ruleMutator
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getCommandsMutatorParserRuleCall_3_0()); 
             	    	    
-            	    pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleCompositeMutator6360);
+            	    pushFollow(FollowSets000.FOLLOW_ruleMutator_in_ruleCompositeMutator7049);
             	    lv_commands_4_0=ruleMutator();
 
             	    state._fsp--;
@@ -7597,69 +8563,102 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop60;
+            	    break loop70;
                 }
             } while (true);
 
-            otherlv_5=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleCompositeMutator6373); 
+            otherlv_5=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleCompositeMutator7062); 
 
                 	newLeafNode(otherlv_5, grammarAccess.getCompositeMutatorAccess().getRightSquareBracketKeyword_4());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2882:1: (otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']' )?
-            int alt62=2;
-            int LA62_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3252:1: (otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']' )?
+            int alt72=2;
+            int LA72_0 = input.LA(1);
 
-            if ( (LA62_0==33) ) {
-                int LA62_1 = input.LA(2);
+            if ( (LA72_0==27) ) {
+                int LA72_1 = input.LA(2);
 
-                if ( (LA62_1==RULE_INT||LA62_1==24||LA62_1==65) ) {
-                    alt62=1;
+                if ( (LA72_1==RULE_INT||LA72_1==33) ) {
+                    alt72=1;
                 }
             }
-            switch (alt62) {
+            switch (alt72) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2882:3: otherlv_6= '[' ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )? ( (lv_max_9_0= ruleMaxCardinality ) ) otherlv_10= ']'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3252:3: otherlv_6= '[' ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) ) otherlv_11= ']'
                     {
-                    otherlv_6=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleCompositeMutator6386); 
+                    otherlv_6=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleCompositeMutator7075); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getCompositeMutatorAccess().getLeftSquareBracketKeyword_5_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2886:1: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' )?
-                    int alt61=2;
-                    int LA61_0 = input.LA(1);
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:1: ( ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) ) | ( (lv_fixed_10_0= ruleEInt ) ) )
+                    int alt71=2;
+                    int LA71_0 = input.LA(1);
 
-                    if ( (LA61_0==24) ) {
-                        int LA61_1 = input.LA(2);
+                    if ( (LA71_0==33) ) {
+                        int LA71_1 = input.LA(2);
 
-                        if ( (LA61_1==RULE_INT) ) {
-                            int LA61_2 = input.LA(3);
+                        if ( (LA71_1==RULE_INT) ) {
+                            int LA71_2 = input.LA(3);
 
-                            if ( (LA61_2==34) ) {
-                                alt61=1;
+                            if ( (LA71_2==29) ) {
+                                alt71=2;
+                            }
+                            else if ( (LA71_2==28) ) {
+                                alt71=1;
+                            }
+                            else {
+                                NoViableAltException nvae =
+                                    new NoViableAltException("", 71, 2, input);
+
+                                throw nvae;
                             }
                         }
-                    }
-                    else if ( (LA61_0==RULE_INT) ) {
-                        int LA61_2 = input.LA(2);
+                        else {
+                            NoViableAltException nvae =
+                                new NoViableAltException("", 71, 1, input);
 
-                        if ( (LA61_2==34) ) {
-                            alt61=1;
+                            throw nvae;
                         }
                     }
-                    switch (alt61) {
+                    else if ( (LA71_0==RULE_INT) ) {
+                        int LA71_2 = input.LA(2);
+
+                        if ( (LA71_2==29) ) {
+                            alt71=2;
+                        }
+                        else if ( (LA71_2==28) ) {
+                            alt71=1;
+                        }
+                        else {
+                            NoViableAltException nvae =
+                                new NoViableAltException("", 71, 2, input);
+
+                            throw nvae;
+                        }
+                    }
+                    else {
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 71, 0, input);
+
+                        throw nvae;
+                    }
+                    switch (alt71) {
                         case 1 :
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2886:2: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..'
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:2: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2886:2: ( (lv_min_7_0= ruleEInt ) )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2887:1: (lv_min_7_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:2: ( ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:3: ( (lv_min_7_0= ruleEInt ) ) otherlv_8= '..' ( (lv_max_9_0= ruleMaxCardinality ) )
                             {
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2887:1: (lv_min_7_0= ruleEInt )
-                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2888:3: lv_min_7_0= ruleEInt
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:3: ( (lv_min_7_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3257:1: (lv_min_7_0= ruleEInt )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3257:1: (lv_min_7_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3258:3: lv_min_7_0= ruleEInt
                             {
                              
-                            	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getMinEIntParserRuleCall_5_1_0_0()); 
+                            	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getMinEIntParserRuleCall_5_1_0_0_0()); 
                             	    
-                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCompositeMutator6408);
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCompositeMutator7098);
                             lv_min_7_0=ruleEInt();
 
                             state._fsp--;
@@ -7681,50 +8680,90 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            otherlv_8=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleCompositeMutator6420); 
+                            otherlv_8=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleCompositeMutator7110); 
 
-                                	newLeafNode(otherlv_8, grammarAccess.getCompositeMutatorAccess().getFullStopFullStopKeyword_5_1_1());
+                                	newLeafNode(otherlv_8, grammarAccess.getCompositeMutatorAccess().getFullStopFullStopKeyword_5_1_0_1());
                                 
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3278:1: ( (lv_max_9_0= ruleMaxCardinality ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3279:1: (lv_max_9_0= ruleMaxCardinality )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3279:1: (lv_max_9_0= ruleMaxCardinality )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3280:3: lv_max_9_0= ruleMaxCardinality
+                            {
+                             
+                            	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getMaxMaxCardinalityParserRuleCall_5_1_0_2_0()); 
+                            	    
+                            pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleCompositeMutator7131);
+                            lv_max_9_0=ruleMaxCardinality();
+
+                            state._fsp--;
+
+
+                            	        if (current==null) {
+                            	            current = createModelElementForParent(grammarAccess.getCompositeMutatorRule());
+                            	        }
+                                   		set(
+                                   			current, 
+                                   			"max",
+                                    		lv_max_9_0, 
+                                    		"MaxCardinality");
+                            	        afterParserOrEnumRuleCall();
+                            	    
+
+                            }
+
+
+                            }
+
+
+                            }
+
+
+                            }
+                            break;
+                        case 2 :
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3297:6: ( (lv_fixed_10_0= ruleEInt ) )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3297:6: ( (lv_fixed_10_0= ruleEInt ) )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3298:1: (lv_fixed_10_0= ruleEInt )
+                            {
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3298:1: (lv_fixed_10_0= ruleEInt )
+                            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3299:3: lv_fixed_10_0= ruleEInt
+                            {
+                             
+                            	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getFixedEIntParserRuleCall_5_1_1_0()); 
+                            	    
+                            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleCompositeMutator7159);
+                            lv_fixed_10_0=ruleEInt();
+
+                            state._fsp--;
+
+
+                            	        if (current==null) {
+                            	            current = createModelElementForParent(grammarAccess.getCompositeMutatorRule());
+                            	        }
+                                   		set(
+                                   			current, 
+                                   			"fixed",
+                                    		lv_fixed_10_0, 
+                                    		"EInt");
+                            	        afterParserOrEnumRuleCall();
+                            	    
+
+                            }
+
+
+                            }
+
 
                             }
                             break;
 
                     }
 
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2908:3: ( (lv_max_9_0= ruleMaxCardinality ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2909:1: (lv_max_9_0= ruleMaxCardinality )
-                    {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2909:1: (lv_max_9_0= ruleMaxCardinality )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2910:3: lv_max_9_0= ruleMaxCardinality
-                    {
-                     
-                    	        newCompositeNode(grammarAccess.getCompositeMutatorAccess().getMaxMaxCardinalityParserRuleCall_5_2_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_ruleCompositeMutator6443);
-                    lv_max_9_0=ruleMaxCardinality();
+                    otherlv_11=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleCompositeMutator7172); 
 
-                    state._fsp--;
-
-
-                    	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getCompositeMutatorRule());
-                    	        }
-                           		set(
-                           			current, 
-                           			"max",
-                            		lv_max_9_0, 
-                            		"MaxCardinality");
-                    	        afterParserOrEnumRuleCall();
-                    	    
-
-                    }
-
-
-                    }
-
-                    otherlv_10=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleCompositeMutator6455); 
-
-                        	newLeafNode(otherlv_10, grammarAccess.getCompositeMutatorAccess().getRightSquareBracketKeyword_5_3());
+                        	newLeafNode(otherlv_11, grammarAccess.getCompositeMutatorAccess().getRightSquareBracketKeyword_5_2());
                         
 
                     }
@@ -7753,7 +8792,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeSet"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2938:1: entryRuleAttributeSet returns [EObject current=null] : iv_ruleAttributeSet= ruleAttributeSet EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3327:1: entryRuleAttributeSet returns [EObject current=null] : iv_ruleAttributeSet= ruleAttributeSet EOF ;
     public final EObject entryRuleAttributeSet() throws RecognitionException {
         EObject current = null;
 
@@ -7761,17 +8800,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2939:2: (iv_ruleAttributeSet= ruleAttributeSet EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2940:2: iv_ruleAttributeSet= ruleAttributeSet EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3328:2: (iv_ruleAttributeSet= ruleAttributeSet EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3329:2: iv_ruleAttributeSet= ruleAttributeSet EOF
             {
              newCompositeNode(grammarAccess.getAttributeSetRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_entryRuleAttributeSet6493);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeSet_in_entryRuleAttributeSet7210);
             iv_ruleAttributeSet=ruleAttributeSet();
 
             state._fsp--;
 
              current =iv_ruleAttributeSet; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeSet6503); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeSet7220); 
 
             }
 
@@ -7789,7 +8828,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeSet"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2947:1: ruleAttributeSet returns [EObject current=null] : (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3336:1: ruleAttributeSet returns [EObject current=null] : (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse ) ;
     public final EObject ruleAttributeSet() throws RecognitionException {
         EObject current = null;
 
@@ -7807,52 +8846,52 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2950:28: ( (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2951:1: (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3339:28: ( (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3340:1: (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2951:1: (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse )
-            int alt63=5;
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3340:1: (this_AttributeInit_0= ruleAttributeInit | this_AttributeUnset_1= ruleAttributeUnset | this_AttributeSwap_2= ruleAttributeSwap | this_AttributeCopy_3= ruleAttributeCopy | this_AttributeReverse_4= ruleAttributeReverse )
+            int alt73=5;
             switch ( input.LA(1) ) {
             case RULE_ID:
                 {
-                alt63=1;
-                }
-                break;
-            case 46:
-                {
-                alt63=2;
-                }
-                break;
-            case 49:
-                {
-                alt63=3;
-                }
-                break;
-            case 50:
-                {
-                alt63=4;
+                alt73=1;
                 }
                 break;
             case 51:
                 {
-                alt63=5;
+                alt73=2;
+                }
+                break;
+            case 54:
+                {
+                alt73=3;
+                }
+                break;
+            case 55:
+                {
+                alt73=4;
+                }
+                break;
+            case 56:
+                {
+                alt73=5;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 63, 0, input);
+                    new NoViableAltException("", 73, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt63) {
+            switch (alt73) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2952:5: this_AttributeInit_0= ruleAttributeInit
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3341:5: this_AttributeInit_0= ruleAttributeInit
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeSetAccess().getAttributeInitParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleAttributeInit_in_ruleAttributeSet6550);
+                    pushFollow(FollowSets000.FOLLOW_ruleAttributeInit_in_ruleAttributeSet7267);
                     this_AttributeInit_0=ruleAttributeInit();
 
                     state._fsp--;
@@ -7865,12 +8904,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2962:5: this_AttributeUnset_1= ruleAttributeUnset
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3351:5: this_AttributeUnset_1= ruleAttributeUnset
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeSetAccess().getAttributeUnsetParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleAttributeUnset_in_ruleAttributeSet6577);
+                    pushFollow(FollowSets000.FOLLOW_ruleAttributeUnset_in_ruleAttributeSet7294);
                     this_AttributeUnset_1=ruleAttributeUnset();
 
                     state._fsp--;
@@ -7883,12 +8922,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2972:5: this_AttributeSwap_2= ruleAttributeSwap
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3361:5: this_AttributeSwap_2= ruleAttributeSwap
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeSetAccess().getAttributeSwapParserRuleCall_2()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleAttributeSwap_in_ruleAttributeSet6604);
+                    pushFollow(FollowSets000.FOLLOW_ruleAttributeSwap_in_ruleAttributeSet7321);
                     this_AttributeSwap_2=ruleAttributeSwap();
 
                     state._fsp--;
@@ -7901,12 +8940,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2982:5: this_AttributeCopy_3= ruleAttributeCopy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3371:5: this_AttributeCopy_3= ruleAttributeCopy
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeSetAccess().getAttributeCopyParserRuleCall_3()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleAttributeCopy_in_ruleAttributeSet6631);
+                    pushFollow(FollowSets000.FOLLOW_ruleAttributeCopy_in_ruleAttributeSet7348);
                     this_AttributeCopy_3=ruleAttributeCopy();
 
                     state._fsp--;
@@ -7919,12 +8958,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:2992:5: this_AttributeReverse_4= ruleAttributeReverse
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3381:5: this_AttributeReverse_4= ruleAttributeReverse
                     {
                      
                             newCompositeNode(grammarAccess.getAttributeSetAccess().getAttributeReverseParserRuleCall_4()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleAttributeReverse_in_ruleAttributeSet6658);
+                    pushFollow(FollowSets000.FOLLOW_ruleAttributeReverse_in_ruleAttributeSet7375);
                     this_AttributeReverse_4=ruleAttributeReverse();
 
                     state._fsp--;
@@ -7957,7 +8996,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeInit"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3008:1: entryRuleAttributeInit returns [EObject current=null] : iv_ruleAttributeInit= ruleAttributeInit EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3397:1: entryRuleAttributeInit returns [EObject current=null] : iv_ruleAttributeInit= ruleAttributeInit EOF ;
     public final EObject entryRuleAttributeInit() throws RecognitionException {
         EObject current = null;
 
@@ -7965,17 +9004,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3009:2: (iv_ruleAttributeInit= ruleAttributeInit EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3010:2: iv_ruleAttributeInit= ruleAttributeInit EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3398:2: (iv_ruleAttributeInit= ruleAttributeInit EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3399:2: iv_ruleAttributeInit= ruleAttributeInit EOF
             {
              newCompositeNode(grammarAccess.getAttributeInitRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeInit_in_entryRuleAttributeInit6693);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeInit_in_entryRuleAttributeInit7410);
             iv_ruleAttributeInit=ruleAttributeInit();
 
             state._fsp--;
 
              current =iv_ruleAttributeInit; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeInit6703); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeInit7420); 
 
             }
 
@@ -7993,7 +9032,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeInit"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3017:1: ruleAttributeInit returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3406:1: ruleAttributeInit returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) ) ;
     public final EObject ruleAttributeInit() throws RecognitionException {
         EObject current = null;
 
@@ -8005,24 +9044,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3020:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3021:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3409:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3410:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3021:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3021:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3410:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3410:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= ruleAttributeType ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3021:2: ( (otherlv_0= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3022:1: (otherlv_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3410:2: ( (otherlv_0= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3411:1: (otherlv_0= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3022:1: (otherlv_0= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3023:3: otherlv_0= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3411:1: (otherlv_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3412:3: otherlv_0= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeInitRule());
             	        }
                     
-            otherlv_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeInit6748); 
+            otherlv_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeInit7465); 
 
             		newLeafNode(otherlv_0, grammarAccess.getAttributeInitAccess().getAttributeEAttributeCrossReference_0_0()); 
             	
@@ -8032,20 +9071,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleAttributeInit6760); 
+            otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleAttributeInit7477); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getAttributeInitAccess().getEqualsSignKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3038:1: ( (lv_value_2_0= ruleAttributeType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3039:1: (lv_value_2_0= ruleAttributeType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3427:1: ( (lv_value_2_0= ruleAttributeType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3428:1: (lv_value_2_0= ruleAttributeType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3039:1: (lv_value_2_0= ruleAttributeType )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3040:3: lv_value_2_0= ruleAttributeType
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3428:1: (lv_value_2_0= ruleAttributeType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3429:3: lv_value_2_0= ruleAttributeType
             {
              
             	        newCompositeNode(grammarAccess.getAttributeInitAccess().getValueAttributeTypeParserRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeType_in_ruleAttributeInit6781);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeType_in_ruleAttributeInit7498);
             lv_value_2_0=ruleAttributeType();
 
             state._fsp--;
@@ -8088,7 +9127,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeUnset"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3064:1: entryRuleAttributeUnset returns [EObject current=null] : iv_ruleAttributeUnset= ruleAttributeUnset EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3453:1: entryRuleAttributeUnset returns [EObject current=null] : iv_ruleAttributeUnset= ruleAttributeUnset EOF ;
     public final EObject entryRuleAttributeUnset() throws RecognitionException {
         EObject current = null;
 
@@ -8096,17 +9135,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3065:2: (iv_ruleAttributeUnset= ruleAttributeUnset EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3066:2: iv_ruleAttributeUnset= ruleAttributeUnset EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3454:2: (iv_ruleAttributeUnset= ruleAttributeUnset EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3455:2: iv_ruleAttributeUnset= ruleAttributeUnset EOF
             {
              newCompositeNode(grammarAccess.getAttributeUnsetRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeUnset_in_entryRuleAttributeUnset6817);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeUnset_in_entryRuleAttributeUnset7534);
             iv_ruleAttributeUnset=ruleAttributeUnset();
 
             state._fsp--;
 
              current =iv_ruleAttributeUnset; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeUnset6827); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeUnset7544); 
 
             }
 
@@ -8124,7 +9163,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeUnset"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3073:1: ruleAttributeUnset returns [EObject current=null] : (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3462:1: ruleAttributeUnset returns [EObject current=null] : (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
     public final EObject ruleAttributeUnset() throws RecognitionException {
         EObject current = null;
 
@@ -8136,32 +9175,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3076:28: ( (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3077:1: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3465:28: ( (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3466:1: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3077:1: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3077:3: otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3466:1: (otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3466:3: otherlv_0= 'unset' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
             {
-            otherlv_0=(Token)match(input,46,FollowSets000.FOLLOW_46_in_ruleAttributeUnset6864); 
+            otherlv_0=(Token)match(input,51,FollowSets000.FOLLOW_51_in_ruleAttributeUnset7581); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getAttributeUnsetAccess().getUnsetKeyword_0());
                 
-            otherlv_1=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleAttributeUnset6876); 
+            otherlv_1=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleAttributeUnset7593); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getAttributeUnsetAccess().getLeftParenthesisKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3085:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3086:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3474:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3475:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3086:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3087:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3475:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3476:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeUnsetRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeUnset6896); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeUnset7613); 
 
             		newLeafNode(otherlv_2, grammarAccess.getAttributeUnsetAccess().getAttributeEAttributeCrossReference_2_0()); 
             	
@@ -8171,7 +9210,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleAttributeUnset6908); 
+            otherlv_3=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleAttributeUnset7625); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getAttributeUnsetAccess().getRightParenthesisKeyword_3());
                 
@@ -8196,7 +9235,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeSwap"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3110:1: entryRuleAttributeSwap returns [EObject current=null] : iv_ruleAttributeSwap= ruleAttributeSwap EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3499:1: entryRuleAttributeSwap returns [EObject current=null] : iv_ruleAttributeSwap= ruleAttributeSwap EOF ;
     public final EObject entryRuleAttributeSwap() throws RecognitionException {
         EObject current = null;
 
@@ -8204,17 +9243,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3111:2: (iv_ruleAttributeSwap= ruleAttributeSwap EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3112:2: iv_ruleAttributeSwap= ruleAttributeSwap EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3500:2: (iv_ruleAttributeSwap= ruleAttributeSwap EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3501:2: iv_ruleAttributeSwap= ruleAttributeSwap EOF
             {
              newCompositeNode(grammarAccess.getAttributeSwapRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeSwap_in_entryRuleAttributeSwap6944);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeSwap_in_entryRuleAttributeSwap7661);
             iv_ruleAttributeSwap=ruleAttributeSwap();
 
             state._fsp--;
 
              current =iv_ruleAttributeSwap; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeSwap6954); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeSwap7671); 
 
             }
 
@@ -8232,7 +9271,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeSwap"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3119:1: ruleAttributeSwap returns [EObject current=null] : (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3508:1: ruleAttributeSwap returns [EObject current=null] : (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
     public final EObject ruleAttributeSwap() throws RecognitionException {
         EObject current = null;
 
@@ -8249,32 +9288,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3122:28: ( (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3123:1: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3511:28: ( (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3512:1: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3123:1: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3123:3: otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3512:1: (otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3512:3: otherlv_0= 'swap' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
             {
-            otherlv_0=(Token)match(input,49,FollowSets000.FOLLOW_49_in_ruleAttributeSwap6991); 
+            otherlv_0=(Token)match(input,54,FollowSets000.FOLLOW_54_in_ruleAttributeSwap7708); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getAttributeSwapAccess().getSwapKeyword_0());
                 
-            otherlv_1=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleAttributeSwap7003); 
+            otherlv_1=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleAttributeSwap7720); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getAttributeSwapAccess().getLeftParenthesisKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3131:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3132:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3520:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3521:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3132:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3133:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3521:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3522:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeSwapRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeSwap7023); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeSwap7740); 
 
             		newLeafNode(otherlv_2, grammarAccess.getAttributeSwapAccess().getAttributeEAttributeCrossReference_2_0()); 
             	
@@ -8284,38 +9323,38 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleAttributeSwap7035); 
+            otherlv_3=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleAttributeSwap7752); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getAttributeSwapAccess().getCommaKeyword_3());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3148:1: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
-            int alt64=2;
-            int LA64_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:1: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
+            int alt74=2;
+            int LA74_0 = input.LA(1);
 
-            if ( (LA64_0==22||LA64_0==36||LA64_0==54) ) {
-                alt64=1;
+            if ( (LA74_0==42||LA74_0==44||LA74_0==59) ) {
+                alt74=1;
             }
-            else if ( (LA64_0==RULE_ID) ) {
-                int LA64_2 = input.LA(2);
+            else if ( (LA74_0==RULE_ID) ) {
+                int LA74_2 = input.LA(2);
 
-                if ( (LA64_2==25||LA64_2==53) ) {
-                    alt64=1;
+                if ( (LA74_2==34||LA74_2==58) ) {
+                    alt74=1;
                 }
             }
-            switch (alt64) {
+            switch (alt74) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3148:2: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:2: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3148:2: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3149:1: (lv_object_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:2: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3538:1: (lv_object_4_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3149:1: (lv_object_4_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3150:3: lv_object_4_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3538:1: (lv_object_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3539:3: lv_object_4_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getAttributeSwapAccess().getObjectObSelectionStrategyParserRuleCall_4_0_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleAttributeSwap7057);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleAttributeSwap7774);
                     lv_object_4_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -8337,7 +9376,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_5=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleAttributeSwap7069); 
+                    otherlv_5=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleAttributeSwap7786); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getAttributeSwapAccess().getFullStopKeyword_4_1());
                         
@@ -8347,18 +9386,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3170:3: ( (otherlv_6= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3171:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3559:3: ( (otherlv_6= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3560:1: (otherlv_6= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3171:1: (otherlv_6= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3172:3: otherlv_6= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3560:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3561:3: otherlv_6= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeSwapRule());
             	        }
                     
-            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeSwap7091); 
+            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeSwap7808); 
 
             		newLeafNode(otherlv_6, grammarAccess.getAttributeSwapAccess().getAttributeEAttributeCrossReference_5_0()); 
             	
@@ -8368,7 +9407,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_7=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleAttributeSwap7103); 
+            otherlv_7=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleAttributeSwap7820); 
 
                 	newLeafNode(otherlv_7, grammarAccess.getAttributeSwapAccess().getRightParenthesisKeyword_6());
                 
@@ -8393,7 +9432,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeCopy"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3195:1: entryRuleAttributeCopy returns [EObject current=null] : iv_ruleAttributeCopy= ruleAttributeCopy EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3584:1: entryRuleAttributeCopy returns [EObject current=null] : iv_ruleAttributeCopy= ruleAttributeCopy EOF ;
     public final EObject entryRuleAttributeCopy() throws RecognitionException {
         EObject current = null;
 
@@ -8401,17 +9440,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3196:2: (iv_ruleAttributeCopy= ruleAttributeCopy EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3197:2: iv_ruleAttributeCopy= ruleAttributeCopy EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3585:2: (iv_ruleAttributeCopy= ruleAttributeCopy EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3586:2: iv_ruleAttributeCopy= ruleAttributeCopy EOF
             {
              newCompositeNode(grammarAccess.getAttributeCopyRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeCopy_in_entryRuleAttributeCopy7139);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeCopy_in_entryRuleAttributeCopy7856);
             iv_ruleAttributeCopy=ruleAttributeCopy();
 
             state._fsp--;
 
              current =iv_ruleAttributeCopy; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeCopy7149); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeCopy7866); 
 
             }
 
@@ -8429,7 +9468,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeCopy"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3204:1: ruleAttributeCopy returns [EObject current=null] : (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3593:1: ruleAttributeCopy returns [EObject current=null] : (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
     public final EObject ruleAttributeCopy() throws RecognitionException {
         EObject current = null;
 
@@ -8446,32 +9485,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3207:28: ( (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3208:1: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3596:28: ( (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3597:1: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3208:1: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3208:3: otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3597:1: (otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3597:3: otherlv_0= 'copy' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
             {
-            otherlv_0=(Token)match(input,50,FollowSets000.FOLLOW_50_in_ruleAttributeCopy7186); 
+            otherlv_0=(Token)match(input,55,FollowSets000.FOLLOW_55_in_ruleAttributeCopy7903); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getAttributeCopyAccess().getCopyKeyword_0());
                 
-            otherlv_1=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleAttributeCopy7198); 
+            otherlv_1=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleAttributeCopy7915); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getAttributeCopyAccess().getLeftParenthesisKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3216:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3217:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3605:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3606:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3217:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3218:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3606:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3607:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeCopyRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeCopy7218); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeCopy7935); 
 
             		newLeafNode(otherlv_2, grammarAccess.getAttributeCopyAccess().getAttributeEAttributeCrossReference_2_0()); 
             	
@@ -8481,38 +9520,38 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleAttributeCopy7230); 
+            otherlv_3=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleAttributeCopy7947); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getAttributeCopyAccess().getCommaKeyword_3());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3233:1: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
-            int alt65=2;
-            int LA65_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3622:1: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
+            int alt75=2;
+            int LA75_0 = input.LA(1);
 
-            if ( (LA65_0==22||LA65_0==36||LA65_0==54) ) {
-                alt65=1;
+            if ( (LA75_0==42||LA75_0==44||LA75_0==59) ) {
+                alt75=1;
             }
-            else if ( (LA65_0==RULE_ID) ) {
-                int LA65_2 = input.LA(2);
+            else if ( (LA75_0==RULE_ID) ) {
+                int LA75_2 = input.LA(2);
 
-                if ( (LA65_2==25||LA65_2==53) ) {
-                    alt65=1;
+                if ( (LA75_2==34||LA75_2==58) ) {
+                    alt75=1;
                 }
             }
-            switch (alt65) {
+            switch (alt75) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3233:2: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3622:2: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3233:2: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3234:1: (lv_object_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3622:2: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3623:1: (lv_object_4_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3234:1: (lv_object_4_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3235:3: lv_object_4_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3623:1: (lv_object_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3624:3: lv_object_4_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getAttributeCopyAccess().getObjectObSelectionStrategyParserRuleCall_4_0_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleAttributeCopy7252);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleAttributeCopy7969);
                     lv_object_4_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -8534,7 +9573,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_5=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleAttributeCopy7264); 
+                    otherlv_5=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleAttributeCopy7981); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getAttributeCopyAccess().getFullStopKeyword_4_1());
                         
@@ -8544,18 +9583,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3255:3: ( (otherlv_6= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3644:3: ( (otherlv_6= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3645:1: (otherlv_6= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3256:1: (otherlv_6= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3257:3: otherlv_6= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3645:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3646:3: otherlv_6= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeCopyRule());
             	        }
                     
-            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeCopy7286); 
+            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeCopy8003); 
 
             		newLeafNode(otherlv_6, grammarAccess.getAttributeCopyAccess().getAttributeEAttributeCrossReference_5_0()); 
             	
@@ -8565,7 +9604,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_7=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleAttributeCopy7298); 
+            otherlv_7=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleAttributeCopy8015); 
 
                 	newLeafNode(otherlv_7, grammarAccess.getAttributeCopyAccess().getRightParenthesisKeyword_6());
                 
@@ -8590,7 +9629,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttributeReverse"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3280:1: entryRuleAttributeReverse returns [EObject current=null] : iv_ruleAttributeReverse= ruleAttributeReverse EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3669:1: entryRuleAttributeReverse returns [EObject current=null] : iv_ruleAttributeReverse= ruleAttributeReverse EOF ;
     public final EObject entryRuleAttributeReverse() throws RecognitionException {
         EObject current = null;
 
@@ -8598,17 +9637,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3281:2: (iv_ruleAttributeReverse= ruleAttributeReverse EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3282:2: iv_ruleAttributeReverse= ruleAttributeReverse EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3670:2: (iv_ruleAttributeReverse= ruleAttributeReverse EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3671:2: iv_ruleAttributeReverse= ruleAttributeReverse EOF
             {
              newCompositeNode(grammarAccess.getAttributeReverseRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttributeReverse_in_entryRuleAttributeReverse7334);
+            pushFollow(FollowSets000.FOLLOW_ruleAttributeReverse_in_entryRuleAttributeReverse8051);
             iv_ruleAttributeReverse=ruleAttributeReverse();
 
             state._fsp--;
 
              current =iv_ruleAttributeReverse; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeReverse7344); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttributeReverse8061); 
 
             }
 
@@ -8626,7 +9665,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttributeReverse"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3289:1: ruleAttributeReverse returns [EObject current=null] : (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3678:1: ruleAttributeReverse returns [EObject current=null] : (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) ;
     public final EObject ruleAttributeReverse() throws RecognitionException {
         EObject current = null;
 
@@ -8638,32 +9677,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3292:28: ( (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3293:1: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3681:28: ( (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3682:1: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3293:1: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3293:3: otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3682:1: (otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3682:3: otherlv_0= 'reverse' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ')'
             {
-            otherlv_0=(Token)match(input,51,FollowSets000.FOLLOW_51_in_ruleAttributeReverse7381); 
+            otherlv_0=(Token)match(input,56,FollowSets000.FOLLOW_56_in_ruleAttributeReverse8098); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getAttributeReverseAccess().getReverseKeyword_0());
                 
-            otherlv_1=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleAttributeReverse7393); 
+            otherlv_1=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleAttributeReverse8110); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getAttributeReverseAccess().getLeftParenthesisKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3301:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3302:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3690:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3691:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3302:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3303:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3691:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3692:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAttributeReverseRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeReverse7413); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttributeReverse8130); 
 
             		newLeafNode(otherlv_2, grammarAccess.getAttributeReverseAccess().getAttributeEAttributeCrossReference_2_0()); 
             	
@@ -8673,7 +9712,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleAttributeReverse7425); 
+            otherlv_3=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleAttributeReverse8142); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getAttributeReverseAccess().getRightParenthesisKeyword_3());
                 
@@ -8698,7 +9737,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceSet"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3326:1: entryRuleReferenceSet returns [EObject current=null] : iv_ruleReferenceSet= ruleReferenceSet EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3715:1: entryRuleReferenceSet returns [EObject current=null] : iv_ruleReferenceSet= ruleReferenceSet EOF ;
     public final EObject entryRuleReferenceSet() throws RecognitionException {
         EObject current = null;
 
@@ -8706,17 +9745,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3327:2: (iv_ruleReferenceSet= ruleReferenceSet EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3328:2: iv_ruleReferenceSet= ruleReferenceSet EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3716:2: (iv_ruleReferenceSet= ruleReferenceSet EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3717:2: iv_ruleReferenceSet= ruleReferenceSet EOF
             {
              newCompositeNode(grammarAccess.getReferenceSetRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_entryRuleReferenceSet7461);
+            pushFollow(FollowSets000.FOLLOW_ruleReferenceSet_in_entryRuleReferenceSet8178);
             iv_ruleReferenceSet=ruleReferenceSet();
 
             state._fsp--;
 
              current =iv_ruleReferenceSet; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceSet7471); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceSet8188); 
 
             }
 
@@ -8734,7 +9773,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceSet"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3335:1: ruleReferenceSet returns [EObject current=null] : (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3724:1: ruleReferenceSet returns [EObject current=null] : (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap ) ;
     public final EObject ruleReferenceSet() throws RecognitionException {
         EObject current = null;
 
@@ -8746,33 +9785,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3338:28: ( (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3339:1: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3727:28: ( (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3728:1: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3339:1: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap )
-            int alt66=2;
-            int LA66_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3728:1: (this_ReferenceInit_0= ruleReferenceInit | this_ReferenceSwap_1= ruleReferenceSwap )
+            int alt76=2;
+            int LA76_0 = input.LA(1);
 
-            if ( (LA66_0==RULE_ID) ) {
-                alt66=1;
+            if ( (LA76_0==RULE_ID) ) {
+                alt76=1;
             }
-            else if ( (LA66_0==52) ) {
-                alt66=2;
+            else if ( (LA76_0==57) ) {
+                alt76=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 66, 0, input);
+                    new NoViableAltException("", 76, 0, input);
 
                 throw nvae;
             }
-            switch (alt66) {
+            switch (alt76) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3340:5: this_ReferenceInit_0= ruleReferenceInit
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3729:5: this_ReferenceInit_0= ruleReferenceInit
                     {
                      
                             newCompositeNode(grammarAccess.getReferenceSetAccess().getReferenceInitParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleReferenceInit_in_ruleReferenceSet7518);
+                    pushFollow(FollowSets000.FOLLOW_ruleReferenceInit_in_ruleReferenceSet8235);
                     this_ReferenceInit_0=ruleReferenceInit();
 
                     state._fsp--;
@@ -8785,12 +9824,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3350:5: this_ReferenceSwap_1= ruleReferenceSwap
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3739:5: this_ReferenceSwap_1= ruleReferenceSwap
                     {
                      
                             newCompositeNode(grammarAccess.getReferenceSetAccess().getReferenceSwapParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleReferenceSwap_in_ruleReferenceSet7545);
+                    pushFollow(FollowSets000.FOLLOW_ruleReferenceSwap_in_ruleReferenceSet8262);
                     this_ReferenceSwap_1=ruleReferenceSwap();
 
                     state._fsp--;
@@ -8823,7 +9862,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceInit"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3366:1: entryRuleReferenceInit returns [EObject current=null] : iv_ruleReferenceInit= ruleReferenceInit EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3755:1: entryRuleReferenceInit returns [EObject current=null] : iv_ruleReferenceInit= ruleReferenceInit EOF ;
     public final EObject entryRuleReferenceInit() throws RecognitionException {
         EObject current = null;
 
@@ -8831,17 +9870,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3367:2: (iv_ruleReferenceInit= ruleReferenceInit EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3368:2: iv_ruleReferenceInit= ruleReferenceInit EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3756:2: (iv_ruleReferenceInit= ruleReferenceInit EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3757:2: iv_ruleReferenceInit= ruleReferenceInit EOF
             {
              newCompositeNode(grammarAccess.getReferenceInitRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleReferenceInit_in_entryRuleReferenceInit7580);
+            pushFollow(FollowSets000.FOLLOW_ruleReferenceInit_in_entryRuleReferenceInit8297);
             iv_ruleReferenceInit=ruleReferenceInit();
 
             state._fsp--;
 
              current =iv_ruleReferenceInit; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceInit7590); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceInit8307); 
 
             }
 
@@ -8859,7 +9898,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceInit"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3375:1: ruleReferenceInit returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3764:1: ruleReferenceInit returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? ) ;
     public final EObject ruleReferenceInit() throws RecognitionException {
         EObject current = null;
 
@@ -8873,24 +9912,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3378:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3379:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3767:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3768:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3379:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3379:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3768:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3768:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_object_2_0= ruleObSelectionStrategy ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3379:2: ( (otherlv_0= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3380:1: (otherlv_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3768:2: ( (otherlv_0= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3769:1: (otherlv_0= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3380:1: (otherlv_0= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3381:3: otherlv_0= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3769:1: (otherlv_0= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3770:3: otherlv_0= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getReferenceInitRule());
             	        }
                     
-            otherlv_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceInit7635); 
+            otherlv_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceInit8352); 
 
             		newLeafNode(otherlv_0, grammarAccess.getReferenceInitAccess().getReferenceEReferenceCrossReference_0_0()); 
             	
@@ -8900,20 +9939,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleReferenceInit7647); 
+            otherlv_1=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleReferenceInit8364); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getReferenceInitAccess().getEqualsSignKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3396:1: ( (lv_object_2_0= ruleObSelectionStrategy ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3397:1: (lv_object_2_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3785:1: ( (lv_object_2_0= ruleObSelectionStrategy ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3786:1: (lv_object_2_0= ruleObSelectionStrategy )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3397:1: (lv_object_2_0= ruleObSelectionStrategy )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3398:3: lv_object_2_0= ruleObSelectionStrategy
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3786:1: (lv_object_2_0= ruleObSelectionStrategy )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3787:3: lv_object_2_0= ruleObSelectionStrategy
             {
              
             	        newCompositeNode(grammarAccess.getReferenceInitAccess().getObjectObSelectionStrategyParserRuleCall_2_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleReferenceInit7668);
+            pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleReferenceInit8385);
             lv_object_2_0=ruleObSelectionStrategy();
 
             state._fsp--;
@@ -8935,33 +9974,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3414:2: (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )?
-            int alt67=2;
-            int LA67_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3803:2: (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )?
+            int alt77=2;
+            int LA77_0 = input.LA(1);
 
-            if ( (LA67_0==25) ) {
-                alt67=1;
+            if ( (LA77_0==34) ) {
+                alt77=1;
             }
-            switch (alt67) {
+            switch (alt77) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3414:4: otherlv_3= '.' ( (otherlv_4= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3803:4: otherlv_3= '.' ( (otherlv_4= RULE_ID ) )
                     {
-                    otherlv_3=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleReferenceInit7681); 
+                    otherlv_3=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleReferenceInit8398); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getReferenceInitAccess().getFullStopKeyword_3_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3418:1: ( (otherlv_4= RULE_ID ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3419:1: (otherlv_4= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3807:1: ( (otherlv_4= RULE_ID ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3808:1: (otherlv_4= RULE_ID )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3419:1: (otherlv_4= RULE_ID )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3420:3: otherlv_4= RULE_ID
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3808:1: (otherlv_4= RULE_ID )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3809:3: otherlv_4= RULE_ID
                     {
 
                     			if (current==null) {
                     	            current = createModelElement(grammarAccess.getReferenceInitRule());
                     	        }
                             
-                    otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceInit7701); 
+                    otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceInit8418); 
 
                     		newLeafNode(otherlv_4, grammarAccess.getReferenceInitAccess().getRefTypeEReferenceCrossReference_3_1_0()); 
                     	
@@ -8998,7 +10037,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceSwap"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3439:1: entryRuleReferenceSwap returns [EObject current=null] : iv_ruleReferenceSwap= ruleReferenceSwap EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3828:1: entryRuleReferenceSwap returns [EObject current=null] : iv_ruleReferenceSwap= ruleReferenceSwap EOF ;
     public final EObject entryRuleReferenceSwap() throws RecognitionException {
         EObject current = null;
 
@@ -9006,17 +10045,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3440:2: (iv_ruleReferenceSwap= ruleReferenceSwap EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3441:2: iv_ruleReferenceSwap= ruleReferenceSwap EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3829:2: (iv_ruleReferenceSwap= ruleReferenceSwap EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3830:2: iv_ruleReferenceSwap= ruleReferenceSwap EOF
             {
              newCompositeNode(grammarAccess.getReferenceSwapRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleReferenceSwap_in_entryRuleReferenceSwap7739);
+            pushFollow(FollowSets000.FOLLOW_ruleReferenceSwap_in_entryRuleReferenceSwap8456);
             iv_ruleReferenceSwap=ruleReferenceSwap();
 
             state._fsp--;
 
              current =iv_ruleReferenceSwap; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceSwap7749); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReferenceSwap8466); 
 
             }
 
@@ -9034,7 +10073,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceSwap"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3448:1: ruleReferenceSwap returns [EObject current=null] : (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3837:1: ruleReferenceSwap returns [EObject current=null] : (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) ;
     public final EObject ruleReferenceSwap() throws RecognitionException {
         EObject current = null;
 
@@ -9051,32 +10090,32 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3451:28: ( (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3452:1: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3840:28: ( (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3841:1: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3452:1: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3452:3: otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3841:1: (otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3841:3: otherlv_0= 'swapref' otherlv_1= '(' ( (otherlv_2= RULE_ID ) ) otherlv_3= ',' ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )? ( (otherlv_6= RULE_ID ) ) otherlv_7= ')'
             {
-            otherlv_0=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleReferenceSwap7786); 
+            otherlv_0=(Token)match(input,57,FollowSets000.FOLLOW_57_in_ruleReferenceSwap8503); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getReferenceSwapAccess().getSwaprefKeyword_0());
                 
-            otherlv_1=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleReferenceSwap7798); 
+            otherlv_1=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleReferenceSwap8515); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getReferenceSwapAccess().getLeftParenthesisKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3460:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3461:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3849:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3850:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3461:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3462:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3850:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3851:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getReferenceSwapRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceSwap7818); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceSwap8535); 
 
             		newLeafNode(otherlv_2, grammarAccess.getReferenceSwapAccess().getReferenceEReferenceCrossReference_2_0()); 
             	
@@ -9086,38 +10125,38 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleReferenceSwap7830); 
+            otherlv_3=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleReferenceSwap8547); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getReferenceSwapAccess().getCommaKeyword_3());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3477:1: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
-            int alt68=2;
-            int LA68_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3866:1: ( ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.' )?
+            int alt78=2;
+            int LA78_0 = input.LA(1);
 
-            if ( (LA68_0==22||LA68_0==36||LA68_0==54) ) {
-                alt68=1;
+            if ( (LA78_0==42||LA78_0==44||LA78_0==59) ) {
+                alt78=1;
             }
-            else if ( (LA68_0==RULE_ID) ) {
-                int LA68_2 = input.LA(2);
+            else if ( (LA78_0==RULE_ID) ) {
+                int LA78_2 = input.LA(2);
 
-                if ( (LA68_2==25||LA68_2==53) ) {
-                    alt68=1;
+                if ( (LA78_2==34||LA78_2==58) ) {
+                    alt78=1;
                 }
             }
-            switch (alt68) {
+            switch (alt78) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3477:2: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3866:2: ( (lv_object_4_0= ruleObSelectionStrategy ) ) otherlv_5= '.'
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3477:2: ( (lv_object_4_0= ruleObSelectionStrategy ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3478:1: (lv_object_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3866:2: ( (lv_object_4_0= ruleObSelectionStrategy ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3867:1: (lv_object_4_0= ruleObSelectionStrategy )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3478:1: (lv_object_4_0= ruleObSelectionStrategy )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3479:3: lv_object_4_0= ruleObSelectionStrategy
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3867:1: (lv_object_4_0= ruleObSelectionStrategy )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3868:3: lv_object_4_0= ruleObSelectionStrategy
                     {
                      
                     	        newCompositeNode(grammarAccess.getReferenceSwapAccess().getObjectObSelectionStrategyParserRuleCall_4_0_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleReferenceSwap7852);
+                    pushFollow(FollowSets000.FOLLOW_ruleObSelectionStrategy_in_ruleReferenceSwap8569);
                     lv_object_4_0=ruleObSelectionStrategy();
 
                     state._fsp--;
@@ -9139,7 +10178,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_5=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleReferenceSwap7864); 
+                    otherlv_5=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleReferenceSwap8581); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getReferenceSwapAccess().getFullStopKeyword_4_1());
                         
@@ -9149,18 +10188,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3499:3: ( (otherlv_6= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3500:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3888:3: ( (otherlv_6= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3889:1: (otherlv_6= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3500:1: (otherlv_6= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3501:3: otherlv_6= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3889:1: (otherlv_6= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3890:3: otherlv_6= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getReferenceSwapRule());
             	        }
                     
-            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceSwap7886); 
+            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleReferenceSwap8603); 
 
             		newLeafNode(otherlv_6, grammarAccess.getReferenceSwapAccess().getReferenceEReferenceCrossReference_5_0()); 
             	
@@ -9170,7 +10209,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_7=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleReferenceSwap7898); 
+            otherlv_7=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleReferenceSwap8615); 
 
                 	newLeafNode(otherlv_7, grammarAccess.getReferenceSwapAccess().getRightParenthesisKeyword_6());
                 
@@ -9195,7 +10234,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomTypeSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3524:1: entryRuleRandomTypeSelection returns [EObject current=null] : iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3913:1: entryRuleRandomTypeSelection returns [EObject current=null] : iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF ;
     public final EObject entryRuleRandomTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9203,17 +10242,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3525:2: (iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3526:2: iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3914:2: (iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3915:2: iv_ruleRandomTypeSelection= ruleRandomTypeSelection EOF
             {
              newCompositeNode(grammarAccess.getRandomTypeSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomTypeSelection_in_entryRuleRandomTypeSelection7934);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomTypeSelection_in_entryRuleRandomTypeSelection8651);
             iv_ruleRandomTypeSelection=ruleRandomTypeSelection();
 
             state._fsp--;
 
              current =iv_ruleRandomTypeSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomTypeSelection7944); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomTypeSelection8661); 
 
             }
 
@@ -9231,7 +10270,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomTypeSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3533:1: ruleRandomTypeSelection returns [EObject current=null] : ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3922:1: ruleRandomTypeSelection returns [EObject current=null] : ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) ;
     public final EObject ruleRandomTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9246,14 +10285,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3536:28: ( ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:1: ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3925:28: ( ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3926:1: ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:1: ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:2: () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3926:1: ( () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3926:2: () otherlv_1= 'one' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3537:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3538:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3926:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3927:5: 
             {
 
                     current = forceCreateModelElement(
@@ -9263,22 +10302,22 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,36,FollowSets000.FOLLOW_36_in_ruleRandomTypeSelection7990); 
+            otherlv_1=(Token)match(input,42,FollowSets000.FOLLOW_42_in_ruleRandomTypeSelection8707); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRandomTypeSelectionAccess().getOneKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3547:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3548:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3936:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3937:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3548:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3549:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3937:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3938:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRandomTypeSelectionRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRandomTypeSelection8010); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleRandomTypeSelection8727); 
 
             		newLeafNode(otherlv_2, grammarAccess.getRandomTypeSelectionAccess().getTypeEClassCrossReference_2_0()); 
             	
@@ -9288,35 +10327,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3560:2: (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
-            int alt69=2;
-            int LA69_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3949:2: (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
+            int alt79=2;
+            int LA79_0 = input.LA(1);
 
-            if ( (LA69_0==53) ) {
-                alt69=1;
+            if ( (LA79_0==58) ) {
+                alt79=1;
             }
-            switch (alt69) {
+            switch (alt79) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3560:4: otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3949:4: otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}'
                     {
-                    otherlv_3=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleRandomTypeSelection8023); 
+                    otherlv_3=(Token)match(input,58,FollowSets000.FOLLOW_58_in_ruleRandomTypeSelection8740); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getRandomTypeSelectionAccess().getWhereKeyword_3_0());
                         
-                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleRandomTypeSelection8035); 
+                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleRandomTypeSelection8752); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getRandomTypeSelectionAccess().getLeftCurlyBracketKeyword_3_1());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3568:1: ( (lv_expression_5_0= ruleExpression ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3569:1: (lv_expression_5_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3957:1: ( (lv_expression_5_0= ruleExpression ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3958:1: (lv_expression_5_0= ruleExpression )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3569:1: (lv_expression_5_0= ruleExpression )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3570:3: lv_expression_5_0= ruleExpression
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3958:1: (lv_expression_5_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3959:3: lv_expression_5_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getRandomTypeSelectionAccess().getExpressionExpressionParserRuleCall_3_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleRandomTypeSelection8056);
+                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleRandomTypeSelection8773);
                     lv_expression_5_0=ruleExpression();
 
                     state._fsp--;
@@ -9338,7 +10377,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleRandomTypeSelection8068); 
+                    otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleRandomTypeSelection8785); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getRandomTypeSelectionAccess().getRightCurlyBracketKeyword_3_3());
                         
@@ -9369,7 +10408,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificObjectSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3598:1: entryRuleSpecificObjectSelection returns [EObject current=null] : iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3987:1: entryRuleSpecificObjectSelection returns [EObject current=null] : iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF ;
     public final EObject entryRuleSpecificObjectSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9377,17 +10416,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3599:2: (iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3600:2: iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3988:2: (iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3989:2: iv_ruleSpecificObjectSelection= ruleSpecificObjectSelection EOF
             {
              newCompositeNode(grammarAccess.getSpecificObjectSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificObjectSelection_in_entryRuleSpecificObjectSelection8106);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificObjectSelection_in_entryRuleSpecificObjectSelection8823);
             iv_ruleSpecificObjectSelection=ruleSpecificObjectSelection();
 
             state._fsp--;
 
              current =iv_ruleSpecificObjectSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificObjectSelection8116); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificObjectSelection8833); 
 
             }
 
@@ -9405,7 +10444,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificObjectSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3607:1: ruleSpecificObjectSelection returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3996:1: ruleSpecificObjectSelection returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? ) ;
     public final EObject ruleSpecificObjectSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9419,14 +10458,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3610:28: ( ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3611:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3999:28: ( ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4000:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3611:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3611:2: () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4000:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4000:2: () ( (otherlv_1= RULE_ID ) ) (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3611:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3612:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4000:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4001:5: 
             {
 
                     current = forceCreateModelElement(
@@ -9436,18 +10475,18 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3617:2: ( (otherlv_1= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3618:1: (otherlv_1= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4006:2: ( (otherlv_1= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4007:1: (otherlv_1= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3618:1: (otherlv_1= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3619:3: otherlv_1= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4007:1: (otherlv_1= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4008:3: otherlv_1= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getSpecificObjectSelectionRule());
             	        }
                     
-            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSpecificObjectSelection8170); 
+            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSpecificObjectSelection8887); 
 
             		newLeafNode(otherlv_1, grammarAccess.getSpecificObjectSelectionAccess().getObjSelObjectEmitterCrossReference_1_0()); 
             	
@@ -9457,35 +10496,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3630:2: (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )?
-            int alt70=2;
-            int LA70_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4019:2: (otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}' )?
+            int alt80=2;
+            int LA80_0 = input.LA(1);
 
-            if ( (LA70_0==53) ) {
-                alt70=1;
+            if ( (LA80_0==58) ) {
+                alt80=1;
             }
-            switch (alt70) {
+            switch (alt80) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3630:4: otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4019:4: otherlv_2= 'where' otherlv_3= '{' ( (lv_expression_4_0= ruleExpression ) ) otherlv_5= '}'
                     {
-                    otherlv_2=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleSpecificObjectSelection8183); 
+                    otherlv_2=(Token)match(input,58,FollowSets000.FOLLOW_58_in_ruleSpecificObjectSelection8900); 
 
                         	newLeafNode(otherlv_2, grammarAccess.getSpecificObjectSelectionAccess().getWhereKeyword_2_0());
                         
-                    otherlv_3=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleSpecificObjectSelection8195); 
+                    otherlv_3=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleSpecificObjectSelection8912); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getSpecificObjectSelectionAccess().getLeftCurlyBracketKeyword_2_1());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3638:1: ( (lv_expression_4_0= ruleExpression ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3639:1: (lv_expression_4_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4027:1: ( (lv_expression_4_0= ruleExpression ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4028:1: (lv_expression_4_0= ruleExpression )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3639:1: (lv_expression_4_0= ruleExpression )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3640:3: lv_expression_4_0= ruleExpression
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4028:1: (lv_expression_4_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4029:3: lv_expression_4_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getSpecificObjectSelectionAccess().getExpressionExpressionParserRuleCall_2_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleSpecificObjectSelection8216);
+                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleSpecificObjectSelection8933);
                     lv_expression_4_0=ruleExpression();
 
                     state._fsp--;
@@ -9507,7 +10546,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_5=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleSpecificObjectSelection8228); 
+                    otherlv_5=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleSpecificObjectSelection8945); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getSpecificObjectSelectionAccess().getRightCurlyBracketKeyword_2_3());
                         
@@ -9538,7 +10577,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCompleteTypeSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3668:1: entryRuleCompleteTypeSelection returns [EObject current=null] : iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4057:1: entryRuleCompleteTypeSelection returns [EObject current=null] : iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF ;
     public final EObject entryRuleCompleteTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9546,17 +10585,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3669:2: (iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3670:2: iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4058:2: (iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4059:2: iv_ruleCompleteTypeSelection= ruleCompleteTypeSelection EOF
             {
              newCompositeNode(grammarAccess.getCompleteTypeSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCompleteTypeSelection_in_entryRuleCompleteTypeSelection8266);
+            pushFollow(FollowSets000.FOLLOW_ruleCompleteTypeSelection_in_entryRuleCompleteTypeSelection8983);
             iv_ruleCompleteTypeSelection=ruleCompleteTypeSelection();
 
             state._fsp--;
 
              current =iv_ruleCompleteTypeSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCompleteTypeSelection8276); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCompleteTypeSelection8993); 
 
             }
 
@@ -9574,7 +10613,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCompleteTypeSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3677:1: ruleCompleteTypeSelection returns [EObject current=null] : ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4066:1: ruleCompleteTypeSelection returns [EObject current=null] : ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) ;
     public final EObject ruleCompleteTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9589,14 +10628,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3680:28: ( ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3681:1: ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4069:28: ( ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4070:1: ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3681:1: ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3681:2: () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4070:1: ( () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4070:2: () otherlv_1= 'all' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3681:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3682:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4070:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4071:5: 
             {
 
                     current = forceCreateModelElement(
@@ -9606,22 +10645,22 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleCompleteTypeSelection8322); 
+            otherlv_1=(Token)match(input,44,FollowSets000.FOLLOW_44_in_ruleCompleteTypeSelection9039); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getCompleteTypeSelectionAccess().getAllKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3691:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3692:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4080:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4081:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3692:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3693:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4081:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4082:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getCompleteTypeSelectionRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCompleteTypeSelection8342); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleCompleteTypeSelection9059); 
 
             		newLeafNode(otherlv_2, grammarAccess.getCompleteTypeSelectionAccess().getTypeEClassCrossReference_2_0()); 
             	
@@ -9631,35 +10670,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3704:2: (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
-            int alt71=2;
-            int LA71_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4093:2: (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
+            int alt81=2;
+            int LA81_0 = input.LA(1);
 
-            if ( (LA71_0==53) ) {
-                alt71=1;
+            if ( (LA81_0==58) ) {
+                alt81=1;
             }
-            switch (alt71) {
+            switch (alt81) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3704:4: otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4093:4: otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}'
                     {
-                    otherlv_3=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleCompleteTypeSelection8355); 
+                    otherlv_3=(Token)match(input,58,FollowSets000.FOLLOW_58_in_ruleCompleteTypeSelection9072); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getCompleteTypeSelectionAccess().getWhereKeyword_3_0());
                         
-                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleCompleteTypeSelection8367); 
+                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleCompleteTypeSelection9084); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getCompleteTypeSelectionAccess().getLeftCurlyBracketKeyword_3_1());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3712:1: ( (lv_expression_5_0= ruleExpression ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3713:1: (lv_expression_5_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4101:1: ( (lv_expression_5_0= ruleExpression ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4102:1: (lv_expression_5_0= ruleExpression )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3713:1: (lv_expression_5_0= ruleExpression )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3714:3: lv_expression_5_0= ruleExpression
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4102:1: (lv_expression_5_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4103:3: lv_expression_5_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getCompleteTypeSelectionAccess().getExpressionExpressionParserRuleCall_3_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleCompleteTypeSelection8388);
+                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleCompleteTypeSelection9105);
                     lv_expression_5_0=ruleExpression();
 
                     state._fsp--;
@@ -9681,7 +10720,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleCompleteTypeSelection8400); 
+                    otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleCompleteTypeSelection9117); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getCompleteTypeSelectionAccess().getRightCurlyBracketKeyword_3_3());
                         
@@ -9712,7 +10751,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOtherTypeSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3742:1: entryRuleOtherTypeSelection returns [EObject current=null] : iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4131:1: entryRuleOtherTypeSelection returns [EObject current=null] : iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF ;
     public final EObject entryRuleOtherTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9720,17 +10759,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3743:2: (iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3744:2: iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4132:2: (iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4133:2: iv_ruleOtherTypeSelection= ruleOtherTypeSelection EOF
             {
              newCompositeNode(grammarAccess.getOtherTypeSelectionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleOtherTypeSelection_in_entryRuleOtherTypeSelection8438);
+            pushFollow(FollowSets000.FOLLOW_ruleOtherTypeSelection_in_entryRuleOtherTypeSelection9155);
             iv_ruleOtherTypeSelection=ruleOtherTypeSelection();
 
             state._fsp--;
 
              current =iv_ruleOtherTypeSelection; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOtherTypeSelection8448); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOtherTypeSelection9165); 
 
             }
 
@@ -9748,7 +10787,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOtherTypeSelection"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3751:1: ruleOtherTypeSelection returns [EObject current=null] : ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4140:1: ruleOtherTypeSelection returns [EObject current=null] : ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) ;
     public final EObject ruleOtherTypeSelection() throws RecognitionException {
         EObject current = null;
 
@@ -9763,14 +10802,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3754:28: ( ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3755:1: ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4143:28: ( ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4144:1: ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3755:1: ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3755:2: () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4144:1: ( () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4144:2: () otherlv_1= 'other' ( (otherlv_2= RULE_ID ) ) (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3755:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3756:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4144:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4145:5: 
             {
 
                     current = forceCreateModelElement(
@@ -9780,22 +10819,22 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,54,FollowSets000.FOLLOW_54_in_ruleOtherTypeSelection8494); 
+            otherlv_1=(Token)match(input,59,FollowSets000.FOLLOW_59_in_ruleOtherTypeSelection9211); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getOtherTypeSelectionAccess().getOtherKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3765:1: ( (otherlv_2= RULE_ID ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3766:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4154:1: ( (otherlv_2= RULE_ID ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4155:1: (otherlv_2= RULE_ID )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3766:1: (otherlv_2= RULE_ID )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3767:3: otherlv_2= RULE_ID
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4155:1: (otherlv_2= RULE_ID )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4156:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getOtherTypeSelectionRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOtherTypeSelection8514); 
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOtherTypeSelection9231); 
 
             		newLeafNode(otherlv_2, grammarAccess.getOtherTypeSelectionAccess().getTypeEClassCrossReference_2_0()); 
             	
@@ -9805,35 +10844,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3778:2: (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
-            int alt72=2;
-            int LA72_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4167:2: (otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}' )?
+            int alt82=2;
+            int LA82_0 = input.LA(1);
 
-            if ( (LA72_0==53) ) {
-                alt72=1;
+            if ( (LA82_0==58) ) {
+                alt82=1;
             }
-            switch (alt72) {
+            switch (alt82) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3778:4: otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4167:4: otherlv_3= 'where' otherlv_4= '{' ( (lv_expression_5_0= ruleExpression ) ) otherlv_6= '}'
                     {
-                    otherlv_3=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleOtherTypeSelection8527); 
+                    otherlv_3=(Token)match(input,58,FollowSets000.FOLLOW_58_in_ruleOtherTypeSelection9244); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getOtherTypeSelectionAccess().getWhereKeyword_3_0());
                         
-                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleOtherTypeSelection8539); 
+                    otherlv_4=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleOtherTypeSelection9256); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getOtherTypeSelectionAccess().getLeftCurlyBracketKeyword_3_1());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3786:1: ( (lv_expression_5_0= ruleExpression ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3787:1: (lv_expression_5_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4175:1: ( (lv_expression_5_0= ruleExpression ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4176:1: (lv_expression_5_0= ruleExpression )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3787:1: (lv_expression_5_0= ruleExpression )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3788:3: lv_expression_5_0= ruleExpression
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4176:1: (lv_expression_5_0= ruleExpression )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4177:3: lv_expression_5_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getOtherTypeSelectionAccess().getExpressionExpressionParserRuleCall_3_2_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleOtherTypeSelection8560);
+                    pushFollow(FollowSets000.FOLLOW_ruleExpression_in_ruleOtherTypeSelection9277);
                     lv_expression_5_0=ruleExpression();
 
                     state._fsp--;
@@ -9855,7 +10894,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleOtherTypeSelection8572); 
+                    otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleOtherTypeSelection9289); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getOtherTypeSelectionAccess().getRightCurlyBracketKeyword_3_3());
                         
@@ -9886,7 +10925,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBooleanType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3816:1: entryRuleBooleanType returns [EObject current=null] : iv_ruleBooleanType= ruleBooleanType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4205:1: entryRuleBooleanType returns [EObject current=null] : iv_ruleBooleanType= ruleBooleanType EOF ;
     public final EObject entryRuleBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -9894,17 +10933,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3817:2: (iv_ruleBooleanType= ruleBooleanType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3818:2: iv_ruleBooleanType= ruleBooleanType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4206:2: (iv_ruleBooleanType= ruleBooleanType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4207:2: iv_ruleBooleanType= ruleBooleanType EOF
             {
              newCompositeNode(grammarAccess.getBooleanTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleBooleanType_in_entryRuleBooleanType8610);
+            pushFollow(FollowSets000.FOLLOW_ruleBooleanType_in_entryRuleBooleanType9327);
             iv_ruleBooleanType=ruleBooleanType();
 
             state._fsp--;
 
              current =iv_ruleBooleanType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleBooleanType8620); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleBooleanType9337); 
 
             }
 
@@ -9922,7 +10961,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBooleanType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3825:1: ruleBooleanType returns [EObject current=null] : (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4214:1: ruleBooleanType returns [EObject current=null] : (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) ;
     public final EObject ruleBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -9934,33 +10973,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3828:28: ( (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3829:1: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4217:28: ( (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4218:1: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3829:1: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
-            int alt73=2;
-            int LA73_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4218:1: (this_SpecificBooleanType_0= ruleSpecificBooleanType | this_RandomBooleanType_1= ruleRandomBooleanType )
+            int alt83=2;
+            int LA83_0 = input.LA(1);
 
-            if ( ((LA73_0>=28 && LA73_0<=29)) ) {
-                alt73=1;
+            if ( ((LA83_0>=37 && LA83_0<=38)) ) {
+                alt83=1;
             }
-            else if ( (LA73_0==55) ) {
-                alt73=2;
+            else if ( (LA83_0==60) ) {
+                alt83=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 73, 0, input);
+                    new NoViableAltException("", 83, 0, input);
 
                 throw nvae;
             }
-            switch (alt73) {
+            switch (alt83) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3830:5: this_SpecificBooleanType_0= ruleSpecificBooleanType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4219:5: this_SpecificBooleanType_0= ruleSpecificBooleanType
                     {
                      
                             newCompositeNode(grammarAccess.getBooleanTypeAccess().getSpecificBooleanTypeParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleSpecificBooleanType_in_ruleBooleanType8667);
+                    pushFollow(FollowSets000.FOLLOW_ruleSpecificBooleanType_in_ruleBooleanType9384);
                     this_SpecificBooleanType_0=ruleSpecificBooleanType();
 
                     state._fsp--;
@@ -9973,12 +11012,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3840:5: this_RandomBooleanType_1= ruleRandomBooleanType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4229:5: this_RandomBooleanType_1= ruleRandomBooleanType
                     {
                      
                             newCompositeNode(grammarAccess.getBooleanTypeAccess().getRandomBooleanTypeParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRandomBooleanType_in_ruleBooleanType8694);
+                    pushFollow(FollowSets000.FOLLOW_ruleRandomBooleanType_in_ruleBooleanType9411);
                     this_RandomBooleanType_1=ruleRandomBooleanType();
 
                     state._fsp--;
@@ -10011,7 +11050,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomBooleanType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3856:1: entryRuleRandomBooleanType returns [EObject current=null] : iv_ruleRandomBooleanType= ruleRandomBooleanType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4245:1: entryRuleRandomBooleanType returns [EObject current=null] : iv_ruleRandomBooleanType= ruleRandomBooleanType EOF ;
     public final EObject entryRuleRandomBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -10019,17 +11058,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3857:2: (iv_ruleRandomBooleanType= ruleRandomBooleanType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3858:2: iv_ruleRandomBooleanType= ruleRandomBooleanType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4246:2: (iv_ruleRandomBooleanType= ruleRandomBooleanType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4247:2: iv_ruleRandomBooleanType= ruleRandomBooleanType EOF
             {
              newCompositeNode(grammarAccess.getRandomBooleanTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomBooleanType_in_entryRuleRandomBooleanType8729);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomBooleanType_in_entryRuleRandomBooleanType9446);
             iv_ruleRandomBooleanType=ruleRandomBooleanType();
 
             state._fsp--;
 
              current =iv_ruleRandomBooleanType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomBooleanType8739); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomBooleanType9456); 
 
             }
 
@@ -10047,7 +11086,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomBooleanType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3865:1: ruleRandomBooleanType returns [EObject current=null] : ( () otherlv_1= 'random-boolean' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4254:1: ruleRandomBooleanType returns [EObject current=null] : ( () otherlv_1= 'random-boolean' ) ;
     public final EObject ruleRandomBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -10056,14 +11095,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3868:28: ( ( () otherlv_1= 'random-boolean' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3869:1: ( () otherlv_1= 'random-boolean' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4257:28: ( ( () otherlv_1= 'random-boolean' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4258:1: ( () otherlv_1= 'random-boolean' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3869:1: ( () otherlv_1= 'random-boolean' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3869:2: () otherlv_1= 'random-boolean'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4258:1: ( () otherlv_1= 'random-boolean' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4258:2: () otherlv_1= 'random-boolean'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3869:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3870:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4258:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4259:5: 
             {
 
                     current = forceCreateModelElement(
@@ -10073,7 +11112,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,55,FollowSets000.FOLLOW_55_in_ruleRandomBooleanType8785); 
+            otherlv_1=(Token)match(input,60,FollowSets000.FOLLOW_60_in_ruleRandomBooleanType9502); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRandomBooleanTypeAccess().getRandomBooleanKeyword_1());
                 
@@ -10098,7 +11137,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificBooleanType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3887:1: entryRuleSpecificBooleanType returns [EObject current=null] : iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4276:1: entryRuleSpecificBooleanType returns [EObject current=null] : iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF ;
     public final EObject entryRuleSpecificBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -10106,17 +11145,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3888:2: (iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3889:2: iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4277:2: (iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4278:2: iv_ruleSpecificBooleanType= ruleSpecificBooleanType EOF
             {
              newCompositeNode(grammarAccess.getSpecificBooleanTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificBooleanType_in_entryRuleSpecificBooleanType8821);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificBooleanType_in_entryRuleSpecificBooleanType9538);
             iv_ruleSpecificBooleanType=ruleSpecificBooleanType();
 
             state._fsp--;
 
              current =iv_ruleSpecificBooleanType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificBooleanType8831); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificBooleanType9548); 
 
             }
 
@@ -10134,7 +11173,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificBooleanType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3896:1: ruleSpecificBooleanType returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEBoolean ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4285:1: ruleSpecificBooleanType returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEBoolean ) ) ) ;
     public final EObject ruleSpecificBooleanType() throws RecognitionException {
         EObject current = null;
 
@@ -10144,14 +11183,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3899:28: ( ( () ( (lv_value_1_0= ruleEBoolean ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3900:1: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4288:28: ( ( () ( (lv_value_1_0= ruleEBoolean ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4289:1: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3900:1: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3900:2: () ( (lv_value_1_0= ruleEBoolean ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4289:1: ( () ( (lv_value_1_0= ruleEBoolean ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4289:2: () ( (lv_value_1_0= ruleEBoolean ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3900:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3901:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4289:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4290:5: 
             {
 
                     current = forceCreateModelElement(
@@ -10161,16 +11200,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3906:2: ( (lv_value_1_0= ruleEBoolean ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3907:1: (lv_value_1_0= ruleEBoolean )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4295:2: ( (lv_value_1_0= ruleEBoolean ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4296:1: (lv_value_1_0= ruleEBoolean )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3907:1: (lv_value_1_0= ruleEBoolean )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3908:3: lv_value_1_0= ruleEBoolean
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4296:1: (lv_value_1_0= ruleEBoolean )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4297:3: lv_value_1_0= ruleEBoolean
             {
              
             	        newCompositeNode(grammarAccess.getSpecificBooleanTypeAccess().getValueEBooleanParserRuleCall_1_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEBoolean_in_ruleSpecificBooleanType8886);
+            pushFollow(FollowSets000.FOLLOW_ruleEBoolean_in_ruleSpecificBooleanType9603);
             lv_value_1_0=ruleEBoolean();
 
             state._fsp--;
@@ -10213,7 +11252,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3932:1: entryRuleStringType returns [EObject current=null] : iv_ruleStringType= ruleStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4321:1: entryRuleStringType returns [EObject current=null] : iv_ruleStringType= ruleStringType EOF ;
     public final EObject entryRuleStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10221,17 +11260,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3933:2: (iv_ruleStringType= ruleStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3934:2: iv_ruleStringType= ruleStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4322:2: (iv_ruleStringType= ruleStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4323:2: iv_ruleStringType= ruleStringType EOF
             {
              newCompositeNode(grammarAccess.getStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleStringType_in_entryRuleStringType8922);
+            pushFollow(FollowSets000.FOLLOW_ruleStringType_in_entryRuleStringType9639);
             iv_ruleStringType=ruleStringType();
 
             state._fsp--;
 
              current =iv_ruleStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleStringType8932); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleStringType9649); 
 
             }
 
@@ -10249,7 +11288,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3941:1: ruleStringType returns [EObject current=null] : (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4330:1: ruleStringType returns [EObject current=null] : (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType ) ;
     public final EObject ruleStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10271,62 +11310,62 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3944:28: ( (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3945:1: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4333:28: ( (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4334:1: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3945:1: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType )
-            int alt74=7;
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4334:1: (this_SpecificStringType_0= ruleSpecificStringType | this_RandomStringType_1= ruleRandomStringType | this_UpperStringType_2= ruleUpperStringType | this_LowerStringType_3= ruleLowerStringType | this_CatStartStringType_4= ruleCatStartStringType | this_CatEndStringType_5= ruleCatEndStringType | this_ReplaceStringType_6= ruleReplaceStringType )
+            int alt84=7;
             switch ( input.LA(1) ) {
             case RULE_STRING:
                 {
-                alt74=1;
-                }
-                break;
-            case 56:
-                {
-                alt74=2;
-                }
-                break;
-            case 57:
-                {
-                alt74=3;
+                alt84=1;
                 }
                 break;
             case 61:
                 {
-                alt74=4;
-                }
-                break;
-            case 58:
-                {
-                alt74=5;
-                }
-                break;
-            case 59:
-                {
-                alt74=6;
+                alt84=2;
                 }
                 break;
             case 62:
                 {
-                alt74=7;
+                alt84=3;
+                }
+                break;
+            case 66:
+                {
+                alt84=4;
+                }
+                break;
+            case 63:
+                {
+                alt84=5;
+                }
+                break;
+            case 64:
+                {
+                alt84=6;
+                }
+                break;
+            case 67:
+                {
+                alt84=7;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 74, 0, input);
+                    new NoViableAltException("", 84, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt74) {
+            switch (alt84) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3946:5: this_SpecificStringType_0= ruleSpecificStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4335:5: this_SpecificStringType_0= ruleSpecificStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getSpecificStringTypeParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleSpecificStringType_in_ruleStringType8979);
+                    pushFollow(FollowSets000.FOLLOW_ruleSpecificStringType_in_ruleStringType9696);
                     this_SpecificStringType_0=ruleSpecificStringType();
 
                     state._fsp--;
@@ -10339,12 +11378,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3956:5: this_RandomStringType_1= ruleRandomStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4345:5: this_RandomStringType_1= ruleRandomStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getRandomStringTypeParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRandomStringType_in_ruleStringType9006);
+                    pushFollow(FollowSets000.FOLLOW_ruleRandomStringType_in_ruleStringType9723);
                     this_RandomStringType_1=ruleRandomStringType();
 
                     state._fsp--;
@@ -10357,12 +11396,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3966:5: this_UpperStringType_2= ruleUpperStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4355:5: this_UpperStringType_2= ruleUpperStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getUpperStringTypeParserRuleCall_2()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleUpperStringType_in_ruleStringType9033);
+                    pushFollow(FollowSets000.FOLLOW_ruleUpperStringType_in_ruleStringType9750);
                     this_UpperStringType_2=ruleUpperStringType();
 
                     state._fsp--;
@@ -10375,12 +11414,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3976:5: this_LowerStringType_3= ruleLowerStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4365:5: this_LowerStringType_3= ruleLowerStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getLowerStringTypeParserRuleCall_3()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleLowerStringType_in_ruleStringType9060);
+                    pushFollow(FollowSets000.FOLLOW_ruleLowerStringType_in_ruleStringType9777);
                     this_LowerStringType_3=ruleLowerStringType();
 
                     state._fsp--;
@@ -10393,12 +11432,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3986:5: this_CatStartStringType_4= ruleCatStartStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4375:5: this_CatStartStringType_4= ruleCatStartStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getCatStartStringTypeParserRuleCall_4()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleCatStartStringType_in_ruleStringType9087);
+                    pushFollow(FollowSets000.FOLLOW_ruleCatStartStringType_in_ruleStringType9804);
                     this_CatStartStringType_4=ruleCatStartStringType();
 
                     state._fsp--;
@@ -10411,12 +11450,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:3996:5: this_CatEndStringType_5= ruleCatEndStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4385:5: this_CatEndStringType_5= ruleCatEndStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getCatEndStringTypeParserRuleCall_5()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleCatEndStringType_in_ruleStringType9114);
+                    pushFollow(FollowSets000.FOLLOW_ruleCatEndStringType_in_ruleStringType9831);
                     this_CatEndStringType_5=ruleCatEndStringType();
 
                     state._fsp--;
@@ -10429,12 +11468,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4006:5: this_ReplaceStringType_6= ruleReplaceStringType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4395:5: this_ReplaceStringType_6= ruleReplaceStringType
                     {
                      
                             newCompositeNode(grammarAccess.getStringTypeAccess().getReplaceStringTypeParserRuleCall_6()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleReplaceStringType_in_ruleStringType9141);
+                    pushFollow(FollowSets000.FOLLOW_ruleReplaceStringType_in_ruleStringType9858);
                     this_ReplaceStringType_6=ruleReplaceStringType();
 
                     state._fsp--;
@@ -10467,7 +11506,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4022:1: entryRuleRandomStringType returns [EObject current=null] : iv_ruleRandomStringType= ruleRandomStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4411:1: entryRuleRandomStringType returns [EObject current=null] : iv_ruleRandomStringType= ruleRandomStringType EOF ;
     public final EObject entryRuleRandomStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10475,17 +11514,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4023:2: (iv_ruleRandomStringType= ruleRandomStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4024:2: iv_ruleRandomStringType= ruleRandomStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4412:2: (iv_ruleRandomStringType= ruleRandomStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4413:2: iv_ruleRandomStringType= ruleRandomStringType EOF
             {
              newCompositeNode(grammarAccess.getRandomStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomStringType_in_entryRuleRandomStringType9176);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomStringType_in_entryRuleRandomStringType9893);
             iv_ruleRandomStringType=ruleRandomStringType();
 
             state._fsp--;
 
              current =iv_ruleRandomStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomStringType9186); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomStringType9903); 
 
             }
 
@@ -10503,7 +11542,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4031:1: ruleRandomStringType returns [EObject current=null] : ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4420:1: ruleRandomStringType returns [EObject current=null] : ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' ) ;
     public final EObject ruleRandomStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10519,14 +11558,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4034:28: ( ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4035:1: ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4423:28: ( ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4424:1: ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4035:1: ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4035:2: () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4424:1: ( () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4424:2: () otherlv_1= 'random-string' otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4035:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4036:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4424:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4425:5: 
             {
 
                     current = forceCreateModelElement(
@@ -10536,24 +11575,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,56,FollowSets000.FOLLOW_56_in_ruleRandomStringType9232); 
+            otherlv_1=(Token)match(input,61,FollowSets000.FOLLOW_61_in_ruleRandomStringType9949); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRandomStringTypeAccess().getRandomStringKeyword_1());
                 
-            otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleRandomStringType9244); 
+            otherlv_2=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleRandomStringType9961); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getRandomStringTypeAccess().getLeftParenthesisKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4049:1: ( (lv_min_3_0= ruleEInt ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4050:1: (lv_min_3_0= ruleEInt )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4438:1: ( (lv_min_3_0= ruleEInt ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4439:1: (lv_min_3_0= ruleEInt )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4050:1: (lv_min_3_0= ruleEInt )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4051:3: lv_min_3_0= ruleEInt
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4439:1: (lv_min_3_0= ruleEInt )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4440:3: lv_min_3_0= ruleEInt
             {
              
             	        newCompositeNode(grammarAccess.getRandomStringTypeAccess().getMinEIntParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomStringType9265);
+            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomStringType9982);
             lv_min_3_0=ruleEInt();
 
             state._fsp--;
@@ -10575,20 +11614,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleRandomStringType9277); 
+            otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleRandomStringType9994); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getRandomStringTypeAccess().getCommaKeyword_4());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4071:1: ( (lv_max_5_0= ruleEInt ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4072:1: (lv_max_5_0= ruleEInt )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4460:1: ( (lv_max_5_0= ruleEInt ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4461:1: (lv_max_5_0= ruleEInt )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4072:1: (lv_max_5_0= ruleEInt )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4073:3: lv_max_5_0= ruleEInt
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4461:1: (lv_max_5_0= ruleEInt )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4462:3: lv_max_5_0= ruleEInt
             {
              
             	        newCompositeNode(grammarAccess.getRandomStringTypeAccess().getMaxEIntParserRuleCall_5_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomStringType9298);
+            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomStringType10015);
             lv_max_5_0=ruleEInt();
 
             state._fsp--;
@@ -10610,7 +11649,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_6=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleRandomStringType9310); 
+            otherlv_6=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleRandomStringType10027); 
 
                 	newLeafNode(otherlv_6, grammarAccess.getRandomStringTypeAccess().getRightParenthesisKeyword_6());
                 
@@ -10635,7 +11674,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4101:1: entryRuleSpecificStringType returns [EObject current=null] : iv_ruleSpecificStringType= ruleSpecificStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4490:1: entryRuleSpecificStringType returns [EObject current=null] : iv_ruleSpecificStringType= ruleSpecificStringType EOF ;
     public final EObject entryRuleSpecificStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10643,17 +11682,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4102:2: (iv_ruleSpecificStringType= ruleSpecificStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4103:2: iv_ruleSpecificStringType= ruleSpecificStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4491:2: (iv_ruleSpecificStringType= ruleSpecificStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4492:2: iv_ruleSpecificStringType= ruleSpecificStringType EOF
             {
              newCompositeNode(grammarAccess.getSpecificStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificStringType_in_entryRuleSpecificStringType9346);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificStringType_in_entryRuleSpecificStringType10063);
             iv_ruleSpecificStringType=ruleSpecificStringType();
 
             state._fsp--;
 
              current =iv_ruleSpecificStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificStringType9356); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificStringType10073); 
 
             }
 
@@ -10671,7 +11710,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4110:1: ruleSpecificStringType returns [EObject current=null] : ( () ( (lv_value_1_0= RULE_STRING ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4499:1: ruleSpecificStringType returns [EObject current=null] : ( () ( (lv_value_1_0= RULE_STRING ) ) ) ;
     public final EObject ruleSpecificStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10680,14 +11719,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4113:28: ( ( () ( (lv_value_1_0= RULE_STRING ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4114:1: ( () ( (lv_value_1_0= RULE_STRING ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4502:28: ( ( () ( (lv_value_1_0= RULE_STRING ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4503:1: ( () ( (lv_value_1_0= RULE_STRING ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4114:1: ( () ( (lv_value_1_0= RULE_STRING ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4114:2: () ( (lv_value_1_0= RULE_STRING ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4503:1: ( () ( (lv_value_1_0= RULE_STRING ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4503:2: () ( (lv_value_1_0= RULE_STRING ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4114:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4115:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4503:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4504:5: 
             {
 
                     current = forceCreateModelElement(
@@ -10697,13 +11736,13 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4120:2: ( (lv_value_1_0= RULE_STRING ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4121:1: (lv_value_1_0= RULE_STRING )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4509:2: ( (lv_value_1_0= RULE_STRING ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4510:1: (lv_value_1_0= RULE_STRING )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4121:1: (lv_value_1_0= RULE_STRING )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4122:3: lv_value_1_0= RULE_STRING
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4510:1: (lv_value_1_0= RULE_STRING )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4511:3: lv_value_1_0= RULE_STRING
             {
-            lv_value_1_0=(Token)match(input,RULE_STRING,FollowSets000.FOLLOW_RULE_STRING_in_ruleSpecificStringType9407); 
+            lv_value_1_0=(Token)match(input,RULE_STRING,FollowSets000.FOLLOW_RULE_STRING_in_ruleSpecificStringType10124); 
 
             			newLeafNode(lv_value_1_0, grammarAccess.getSpecificStringTypeAccess().getValueSTRINGTerminalRuleCall_1_0()); 
             		
@@ -10744,7 +11783,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUpperStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4146:1: entryRuleUpperStringType returns [EObject current=null] : iv_ruleUpperStringType= ruleUpperStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4535:1: entryRuleUpperStringType returns [EObject current=null] : iv_ruleUpperStringType= ruleUpperStringType EOF ;
     public final EObject entryRuleUpperStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10752,17 +11791,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4147:2: (iv_ruleUpperStringType= ruleUpperStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4148:2: iv_ruleUpperStringType= ruleUpperStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4536:2: (iv_ruleUpperStringType= ruleUpperStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4537:2: iv_ruleUpperStringType= ruleUpperStringType EOF
             {
              newCompositeNode(grammarAccess.getUpperStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleUpperStringType_in_entryRuleUpperStringType9448);
+            pushFollow(FollowSets000.FOLLOW_ruleUpperStringType_in_entryRuleUpperStringType10165);
             iv_ruleUpperStringType=ruleUpperStringType();
 
             state._fsp--;
 
              current =iv_ruleUpperStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleUpperStringType9458); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleUpperStringType10175); 
 
             }
 
@@ -10780,7 +11819,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUpperStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4155:1: ruleUpperStringType returns [EObject current=null] : ( () otherlv_1= 'upper' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4544:1: ruleUpperStringType returns [EObject current=null] : ( () otherlv_1= 'upper' ) ;
     public final EObject ruleUpperStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10789,14 +11828,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4158:28: ( ( () otherlv_1= 'upper' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4159:1: ( () otherlv_1= 'upper' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4547:28: ( ( () otherlv_1= 'upper' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4548:1: ( () otherlv_1= 'upper' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4159:1: ( () otherlv_1= 'upper' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4159:2: () otherlv_1= 'upper'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4548:1: ( () otherlv_1= 'upper' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4548:2: () otherlv_1= 'upper'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4159:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4160:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4548:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4549:5: 
             {
 
                     current = forceCreateModelElement(
@@ -10806,7 +11845,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,57,FollowSets000.FOLLOW_57_in_ruleUpperStringType9504); 
+            otherlv_1=(Token)match(input,62,FollowSets000.FOLLOW_62_in_ruleUpperStringType10221); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getUpperStringTypeAccess().getUpperKeyword_1());
                 
@@ -10831,7 +11870,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCatStartStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4177:1: entryRuleCatStartStringType returns [EObject current=null] : iv_ruleCatStartStringType= ruleCatStartStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4566:1: entryRuleCatStartStringType returns [EObject current=null] : iv_ruleCatStartStringType= ruleCatStartStringType EOF ;
     public final EObject entryRuleCatStartStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10839,17 +11878,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4178:2: (iv_ruleCatStartStringType= ruleCatStartStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4179:2: iv_ruleCatStartStringType= ruleCatStartStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4567:2: (iv_ruleCatStartStringType= ruleCatStartStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4568:2: iv_ruleCatStartStringType= ruleCatStartStringType EOF
             {
              newCompositeNode(grammarAccess.getCatStartStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCatStartStringType_in_entryRuleCatStartStringType9540);
+            pushFollow(FollowSets000.FOLLOW_ruleCatStartStringType_in_entryRuleCatStartStringType10257);
             iv_ruleCatStartStringType=ruleCatStartStringType();
 
             state._fsp--;
 
              current =iv_ruleCatStartStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCatStartStringType9550); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCatStartStringType10267); 
 
             }
 
@@ -10867,7 +11906,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCatStartStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4186:1: ruleCatStartStringType returns [EObject current=null] : ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4575:1: ruleCatStartStringType returns [EObject current=null] : ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) ;
     public final EObject ruleCatStartStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10880,14 +11919,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4189:28: ( ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4190:1: ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4578:28: ( ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4579:1: ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4190:1: ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4190:2: () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4579:1: ( () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4579:2: () otherlv_1= 'catstart' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4190:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4191:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4579:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4580:5: 
             {
 
                     current = forceCreateModelElement(
@@ -10897,24 +11936,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,58,FollowSets000.FOLLOW_58_in_ruleCatStartStringType9596); 
+            otherlv_1=(Token)match(input,63,FollowSets000.FOLLOW_63_in_ruleCatStartStringType10313); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getCatStartStringTypeAccess().getCatstartKeyword_1());
                 
-            otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleCatStartStringType9608); 
+            otherlv_2=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleCatStartStringType10325); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getCatStartStringTypeAccess().getLeftParenthesisKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4204:1: ( (lv_value_3_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4205:1: (lv_value_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4593:1: ( (lv_value_3_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4594:1: (lv_value_3_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4205:1: (lv_value_3_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4206:3: lv_value_3_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4594:1: (lv_value_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4595:3: lv_value_3_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getCatStartStringTypeAccess().getValueEStringParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleCatStartStringType9629);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleCatStartStringType10346);
             lv_value_3_0=ruleEString();
 
             state._fsp--;
@@ -10936,7 +11975,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleCatStartStringType9641); 
+            otherlv_4=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleCatStartStringType10358); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getCatStartStringTypeAccess().getRightParenthesisKeyword_4());
                 
@@ -10961,7 +12000,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCatEndStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4234:1: entryRuleCatEndStringType returns [EObject current=null] : iv_ruleCatEndStringType= ruleCatEndStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4623:1: entryRuleCatEndStringType returns [EObject current=null] : iv_ruleCatEndStringType= ruleCatEndStringType EOF ;
     public final EObject entryRuleCatEndStringType() throws RecognitionException {
         EObject current = null;
 
@@ -10969,17 +12008,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4235:2: (iv_ruleCatEndStringType= ruleCatEndStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4236:2: iv_ruleCatEndStringType= ruleCatEndStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4624:2: (iv_ruleCatEndStringType= ruleCatEndStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4625:2: iv_ruleCatEndStringType= ruleCatEndStringType EOF
             {
              newCompositeNode(grammarAccess.getCatEndStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleCatEndStringType_in_entryRuleCatEndStringType9677);
+            pushFollow(FollowSets000.FOLLOW_ruleCatEndStringType_in_entryRuleCatEndStringType10394);
             iv_ruleCatEndStringType=ruleCatEndStringType();
 
             state._fsp--;
 
              current =iv_ruleCatEndStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCatEndStringType9687); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleCatEndStringType10404); 
 
             }
 
@@ -10997,7 +12036,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCatEndStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4243:1: ruleCatEndStringType returns [EObject current=null] : ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4632:1: ruleCatEndStringType returns [EObject current=null] : ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) ;
     public final EObject ruleCatEndStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11010,14 +12049,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4246:28: ( ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4247:1: ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4635:28: ( ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4636:1: ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4247:1: ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4247:2: () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4636:1: ( () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4636:2: () otherlv_1= 'catend' otherlv_2= '(' ( (lv_value_3_0= ruleEString ) ) otherlv_4= ')'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4247:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4248:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4636:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4637:5: 
             {
 
                     current = forceCreateModelElement(
@@ -11027,24 +12066,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,59,FollowSets000.FOLLOW_59_in_ruleCatEndStringType9733); 
+            otherlv_1=(Token)match(input,64,FollowSets000.FOLLOW_64_in_ruleCatEndStringType10450); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getCatEndStringTypeAccess().getCatendKeyword_1());
                 
-            otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleCatEndStringType9745); 
+            otherlv_2=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleCatEndStringType10462); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getCatEndStringTypeAccess().getLeftParenthesisKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4261:1: ( (lv_value_3_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4262:1: (lv_value_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4650:1: ( (lv_value_3_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4651:1: (lv_value_3_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4262:1: (lv_value_3_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4263:3: lv_value_3_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4651:1: (lv_value_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4652:3: lv_value_3_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getCatEndStringTypeAccess().getValueEStringParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleCatEndStringType9766);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleCatEndStringType10483);
             lv_value_3_0=ruleEString();
 
             state._fsp--;
@@ -11066,7 +12105,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleCatEndStringType9778); 
+            otherlv_4=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleCatEndStringType10495); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getCatEndStringTypeAccess().getRightParenthesisKeyword_4());
                 
@@ -11091,7 +12130,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleListStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4291:1: entryRuleListStringType returns [EObject current=null] : iv_ruleListStringType= ruleListStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4680:1: entryRuleListStringType returns [EObject current=null] : iv_ruleListStringType= ruleListStringType EOF ;
     public final EObject entryRuleListStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11099,17 +12138,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4292:2: (iv_ruleListStringType= ruleListStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4293:2: iv_ruleListStringType= ruleListStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4681:2: (iv_ruleListStringType= ruleListStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4682:2: iv_ruleListStringType= ruleListStringType EOF
             {
              newCompositeNode(grammarAccess.getListStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleListStringType_in_entryRuleListStringType9814);
+            pushFollow(FollowSets000.FOLLOW_ruleListStringType_in_entryRuleListStringType10531);
             iv_ruleListStringType=ruleListStringType();
 
             state._fsp--;
 
              current =iv_ruleListStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleListStringType9824); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleListStringType10541); 
 
             }
 
@@ -11127,7 +12166,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleListStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4300:1: ruleListStringType returns [EObject current=null] : ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4689:1: ruleListStringType returns [EObject current=null] : ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) ;
     public final EObject ruleListStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11143,14 +12182,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4303:28: ( ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4304:1: ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4692:28: ( ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4693:1: ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4304:1: ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4304:2: () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4693:1: ( () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4693:2: () otherlv_1= 'inside' otherlv_2= '[' ( (lv_value_3_0= ruleEString ) ) (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )* otherlv_6= ']'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4304:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4305:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4693:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4694:5: 
             {
 
                     current = forceCreateModelElement(
@@ -11160,24 +12199,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,60,FollowSets000.FOLLOW_60_in_ruleListStringType9870); 
+            otherlv_1=(Token)match(input,65,FollowSets000.FOLLOW_65_in_ruleListStringType10587); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getListStringTypeAccess().getInsideKeyword_1());
                 
-            otherlv_2=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleListStringType9882); 
+            otherlv_2=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleListStringType10599); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getListStringTypeAccess().getLeftSquareBracketKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4318:1: ( (lv_value_3_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4319:1: (lv_value_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4707:1: ( (lv_value_3_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4708:1: (lv_value_3_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4319:1: (lv_value_3_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4320:3: lv_value_3_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4708:1: (lv_value_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4709:3: lv_value_3_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getListStringTypeAccess().getValueEStringParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleListStringType9903);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleListStringType10620);
             lv_value_3_0=ruleEString();
 
             state._fsp--;
@@ -11199,35 +12238,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4336:2: (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )*
-            loop75:
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4725:2: (otherlv_4= ',' ( (lv_value_5_0= ruleEString ) ) )*
+            loop85:
             do {
-                int alt75=2;
-                int LA75_0 = input.LA(1);
+                int alt85=2;
+                int LA85_0 = input.LA(1);
 
-                if ( (LA75_0==40) ) {
-                    alt75=1;
+                if ( (LA85_0==24) ) {
+                    alt85=1;
                 }
 
 
-                switch (alt75) {
+                switch (alt85) {
             	case 1 :
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4336:4: otherlv_4= ',' ( (lv_value_5_0= ruleEString ) )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4725:4: otherlv_4= ',' ( (lv_value_5_0= ruleEString ) )
             	    {
-            	    otherlv_4=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleListStringType9916); 
+            	    otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleListStringType10633); 
 
             	        	newLeafNode(otherlv_4, grammarAccess.getListStringTypeAccess().getCommaKeyword_4_0());
             	        
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4340:1: ( (lv_value_5_0= ruleEString ) )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4341:1: (lv_value_5_0= ruleEString )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4729:1: ( (lv_value_5_0= ruleEString ) )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4730:1: (lv_value_5_0= ruleEString )
             	    {
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4341:1: (lv_value_5_0= ruleEString )
-            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4342:3: lv_value_5_0= ruleEString
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4730:1: (lv_value_5_0= ruleEString )
+            	    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4731:3: lv_value_5_0= ruleEString
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getListStringTypeAccess().getValueEStringParserRuleCall_4_1_0()); 
             	    	    
-            	    pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleListStringType9937);
+            	    pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleListStringType10654);
             	    lv_value_5_0=ruleEString();
 
             	    state._fsp--;
@@ -11254,11 +12293,11 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop75;
+            	    break loop85;
                 }
             } while (true);
 
-            otherlv_6=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleListStringType9951); 
+            otherlv_6=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleListStringType10668); 
 
                 	newLeafNode(otherlv_6, grammarAccess.getListStringTypeAccess().getRightSquareBracketKeyword_5());
                 
@@ -11283,7 +12322,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLowerStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4370:1: entryRuleLowerStringType returns [EObject current=null] : iv_ruleLowerStringType= ruleLowerStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4759:1: entryRuleLowerStringType returns [EObject current=null] : iv_ruleLowerStringType= ruleLowerStringType EOF ;
     public final EObject entryRuleLowerStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11291,17 +12330,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4371:2: (iv_ruleLowerStringType= ruleLowerStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4372:2: iv_ruleLowerStringType= ruleLowerStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4760:2: (iv_ruleLowerStringType= ruleLowerStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4761:2: iv_ruleLowerStringType= ruleLowerStringType EOF
             {
              newCompositeNode(grammarAccess.getLowerStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleLowerStringType_in_entryRuleLowerStringType9987);
+            pushFollow(FollowSets000.FOLLOW_ruleLowerStringType_in_entryRuleLowerStringType10704);
             iv_ruleLowerStringType=ruleLowerStringType();
 
             state._fsp--;
 
              current =iv_ruleLowerStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleLowerStringType9997); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleLowerStringType10714); 
 
             }
 
@@ -11319,7 +12358,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLowerStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4379:1: ruleLowerStringType returns [EObject current=null] : ( () otherlv_1= 'lower' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4768:1: ruleLowerStringType returns [EObject current=null] : ( () otherlv_1= 'lower' ) ;
     public final EObject ruleLowerStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11328,14 +12367,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4382:28: ( ( () otherlv_1= 'lower' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4383:1: ( () otherlv_1= 'lower' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4771:28: ( ( () otherlv_1= 'lower' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4772:1: ( () otherlv_1= 'lower' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4383:1: ( () otherlv_1= 'lower' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4383:2: () otherlv_1= 'lower'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4772:1: ( () otherlv_1= 'lower' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4772:2: () otherlv_1= 'lower'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4383:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4384:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4772:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4773:5: 
             {
 
                     current = forceCreateModelElement(
@@ -11345,7 +12384,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,61,FollowSets000.FOLLOW_61_in_ruleLowerStringType10043); 
+            otherlv_1=(Token)match(input,66,FollowSets000.FOLLOW_66_in_ruleLowerStringType10760); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getLowerStringTypeAccess().getLowerKeyword_1());
                 
@@ -11370,7 +12409,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReplaceStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4401:1: entryRuleReplaceStringType returns [EObject current=null] : iv_ruleReplaceStringType= ruleReplaceStringType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4790:1: entryRuleReplaceStringType returns [EObject current=null] : iv_ruleReplaceStringType= ruleReplaceStringType EOF ;
     public final EObject entryRuleReplaceStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11378,17 +12417,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4402:2: (iv_ruleReplaceStringType= ruleReplaceStringType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4403:2: iv_ruleReplaceStringType= ruleReplaceStringType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4791:2: (iv_ruleReplaceStringType= ruleReplaceStringType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4792:2: iv_ruleReplaceStringType= ruleReplaceStringType EOF
             {
              newCompositeNode(grammarAccess.getReplaceStringTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleReplaceStringType_in_entryRuleReplaceStringType10079);
+            pushFollow(FollowSets000.FOLLOW_ruleReplaceStringType_in_entryRuleReplaceStringType10796);
             iv_ruleReplaceStringType=ruleReplaceStringType();
 
             state._fsp--;
 
              current =iv_ruleReplaceStringType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReplaceStringType10089); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleReplaceStringType10806); 
 
             }
 
@@ -11406,7 +12445,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReplaceStringType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4410:1: ruleReplaceStringType returns [EObject current=null] : ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4799:1: ruleReplaceStringType returns [EObject current=null] : ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' ) ;
     public final EObject ruleReplaceStringType() throws RecognitionException {
         EObject current = null;
 
@@ -11422,14 +12461,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4413:28: ( ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4414:1: ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4802:28: ( ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4803:1: ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4414:1: ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4414:2: () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')'
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4803:1: ( () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4803:2: () otherlv_1= 'replace' otherlv_2= '(' ( (lv_oldstring_3_0= ruleEString ) ) otherlv_4= ',' ( (lv_newstring_5_0= ruleEString ) ) otherlv_6= ')'
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4414:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4415:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4803:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4804:5: 
             {
 
                     current = forceCreateModelElement(
@@ -11439,24 +12478,24 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,62,FollowSets000.FOLLOW_62_in_ruleReplaceStringType10135); 
+            otherlv_1=(Token)match(input,67,FollowSets000.FOLLOW_67_in_ruleReplaceStringType10852); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getReplaceStringTypeAccess().getReplaceKeyword_1());
                 
-            otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleReplaceStringType10147); 
+            otherlv_2=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleReplaceStringType10864); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getReplaceStringTypeAccess().getLeftParenthesisKeyword_2());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4428:1: ( (lv_oldstring_3_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4429:1: (lv_oldstring_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4817:1: ( (lv_oldstring_3_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4818:1: (lv_oldstring_3_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4429:1: (lv_oldstring_3_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4430:3: lv_oldstring_3_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4818:1: (lv_oldstring_3_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4819:3: lv_oldstring_3_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getReplaceStringTypeAccess().getOldstringEStringParserRuleCall_3_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleReplaceStringType10168);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleReplaceStringType10885);
             lv_oldstring_3_0=ruleEString();
 
             state._fsp--;
@@ -11478,20 +12517,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleReplaceStringType10180); 
+            otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleReplaceStringType10897); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getReplaceStringTypeAccess().getCommaKeyword_4());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4450:1: ( (lv_newstring_5_0= ruleEString ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4451:1: (lv_newstring_5_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4839:1: ( (lv_newstring_5_0= ruleEString ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4840:1: (lv_newstring_5_0= ruleEString )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4451:1: (lv_newstring_5_0= ruleEString )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4452:3: lv_newstring_5_0= ruleEString
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4840:1: (lv_newstring_5_0= ruleEString )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4841:3: lv_newstring_5_0= ruleEString
             {
              
             	        newCompositeNode(grammarAccess.getReplaceStringTypeAccess().getNewstringEStringParserRuleCall_5_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleReplaceStringType10201);
+            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleReplaceStringType10918);
             lv_newstring_5_0=ruleEString();
 
             state._fsp--;
@@ -11513,7 +12552,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_6=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleReplaceStringType10213); 
+            otherlv_6=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleReplaceStringType10930); 
 
                 	newLeafNode(otherlv_6, grammarAccess.getReplaceStringTypeAccess().getRightParenthesisKeyword_6());
                 
@@ -11538,7 +12577,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleDoubleType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4480:1: entryRuleDoubleType returns [EObject current=null] : iv_ruleDoubleType= ruleDoubleType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4869:1: entryRuleDoubleType returns [EObject current=null] : iv_ruleDoubleType= ruleDoubleType EOF ;
     public final EObject entryRuleDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -11546,17 +12585,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4481:2: (iv_ruleDoubleType= ruleDoubleType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4482:2: iv_ruleDoubleType= ruleDoubleType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4870:2: (iv_ruleDoubleType= ruleDoubleType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4871:2: iv_ruleDoubleType= ruleDoubleType EOF
             {
              newCompositeNode(grammarAccess.getDoubleTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleDoubleType_in_entryRuleDoubleType10249);
+            pushFollow(FollowSets000.FOLLOW_ruleDoubleType_in_entryRuleDoubleType10966);
             iv_ruleDoubleType=ruleDoubleType();
 
             state._fsp--;
 
              current =iv_ruleDoubleType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleDoubleType10259); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleDoubleType10976); 
 
             }
 
@@ -11574,7 +12613,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleDoubleType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4489:1: ruleDoubleType returns [EObject current=null] : (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4878:1: ruleDoubleType returns [EObject current=null] : (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) ;
     public final EObject ruleDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -11586,33 +12625,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4492:28: ( (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4493:1: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4881:28: ( (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4882:1: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4493:1: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
-            int alt76=2;
-            int LA76_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4882:1: (this_SpecificDoubleType_0= ruleSpecificDoubleType | this_RandomDoubleType_1= ruleRandomDoubleType )
+            int alt86=2;
+            int LA86_0 = input.LA(1);
 
-            if ( (LA76_0==RULE_INT||(LA76_0>=24 && LA76_0<=25)) ) {
-                alt76=1;
+            if ( (LA86_0==RULE_INT||(LA86_0>=33 && LA86_0<=34)) ) {
+                alt86=1;
             }
-            else if ( (LA76_0==63) ) {
-                alt76=2;
+            else if ( (LA86_0==68) ) {
+                alt86=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 76, 0, input);
+                    new NoViableAltException("", 86, 0, input);
 
                 throw nvae;
             }
-            switch (alt76) {
+            switch (alt86) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4494:5: this_SpecificDoubleType_0= ruleSpecificDoubleType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4883:5: this_SpecificDoubleType_0= ruleSpecificDoubleType
                     {
                      
                             newCompositeNode(grammarAccess.getDoubleTypeAccess().getSpecificDoubleTypeParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleSpecificDoubleType_in_ruleDoubleType10306);
+                    pushFollow(FollowSets000.FOLLOW_ruleSpecificDoubleType_in_ruleDoubleType11023);
                     this_SpecificDoubleType_0=ruleSpecificDoubleType();
 
                     state._fsp--;
@@ -11625,12 +12664,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4504:5: this_RandomDoubleType_1= ruleRandomDoubleType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4893:5: this_RandomDoubleType_1= ruleRandomDoubleType
                     {
                      
                             newCompositeNode(grammarAccess.getDoubleTypeAccess().getRandomDoubleTypeParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRandomDoubleType_in_ruleDoubleType10333);
+                    pushFollow(FollowSets000.FOLLOW_ruleRandomDoubleType_in_ruleDoubleType11050);
                     this_RandomDoubleType_1=ruleRandomDoubleType();
 
                     state._fsp--;
@@ -11663,7 +12702,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomDoubleType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4520:1: entryRuleRandomDoubleType returns [EObject current=null] : iv_ruleRandomDoubleType= ruleRandomDoubleType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4909:1: entryRuleRandomDoubleType returns [EObject current=null] : iv_ruleRandomDoubleType= ruleRandomDoubleType EOF ;
     public final EObject entryRuleRandomDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -11671,17 +12710,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4521:2: (iv_ruleRandomDoubleType= ruleRandomDoubleType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4522:2: iv_ruleRandomDoubleType= ruleRandomDoubleType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4910:2: (iv_ruleRandomDoubleType= ruleRandomDoubleType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4911:2: iv_ruleRandomDoubleType= ruleRandomDoubleType EOF
             {
              newCompositeNode(grammarAccess.getRandomDoubleTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomDoubleType_in_entryRuleRandomDoubleType10368);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomDoubleType_in_entryRuleRandomDoubleType11085);
             iv_ruleRandomDoubleType=ruleRandomDoubleType();
 
             state._fsp--;
 
              current =iv_ruleRandomDoubleType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomDoubleType10378); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomDoubleType11095); 
 
             }
 
@@ -11699,7 +12738,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomDoubleType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4529:1: ruleRandomDoubleType returns [EObject current=null] : ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4918:1: ruleRandomDoubleType returns [EObject current=null] : ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? ) ;
     public final EObject ruleRandomDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -11715,14 +12754,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4532:28: ( ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4533:1: ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4921:28: ( ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4922:1: ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4533:1: ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4533:2: () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4922:1: ( () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4922:2: () otherlv_1= 'random-double' (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4533:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4534:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4922:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4923:5: 
             {
 
                     current = forceCreateModelElement(
@@ -11732,35 +12771,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,63,FollowSets000.FOLLOW_63_in_ruleRandomDoubleType10424); 
+            otherlv_1=(Token)match(input,68,FollowSets000.FOLLOW_68_in_ruleRandomDoubleType11141); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRandomDoubleTypeAccess().getRandomDoubleKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4543:1: (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )?
-            int alt77=2;
-            int LA77_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4932:1: (otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')' )?
+            int alt87=2;
+            int LA87_0 = input.LA(1);
 
-            if ( (LA77_0==47) ) {
-                alt77=1;
+            if ( (LA87_0==52) ) {
+                alt87=1;
             }
-            switch (alt77) {
+            switch (alt87) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4543:3: otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4932:3: otherlv_2= '(' ( (lv_min_3_0= ruleEDouble ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEDouble ) ) otherlv_6= ')'
                     {
-                    otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleRandomDoubleType10437); 
+                    otherlv_2=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleRandomDoubleType11154); 
 
                         	newLeafNode(otherlv_2, grammarAccess.getRandomDoubleTypeAccess().getLeftParenthesisKeyword_2_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4547:1: ( (lv_min_3_0= ruleEDouble ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4548:1: (lv_min_3_0= ruleEDouble )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4936:1: ( (lv_min_3_0= ruleEDouble ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4937:1: (lv_min_3_0= ruleEDouble )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4548:1: (lv_min_3_0= ruleEDouble )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4549:3: lv_min_3_0= ruleEDouble
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4937:1: (lv_min_3_0= ruleEDouble )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4938:3: lv_min_3_0= ruleEDouble
                     {
                      
                     	        newCompositeNode(grammarAccess.getRandomDoubleTypeAccess().getMinEDoubleParserRuleCall_2_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_ruleRandomDoubleType10458);
+                    pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_ruleRandomDoubleType11175);
                     lv_min_3_0=ruleEDouble();
 
                     state._fsp--;
@@ -11782,20 +12821,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_4=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleRandomDoubleType10470); 
+                    otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleRandomDoubleType11187); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getRandomDoubleTypeAccess().getCommaKeyword_2_2());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4569:1: ( (lv_max_5_0= ruleEDouble ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4570:1: (lv_max_5_0= ruleEDouble )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4958:1: ( (lv_max_5_0= ruleEDouble ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4959:1: (lv_max_5_0= ruleEDouble )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4570:1: (lv_max_5_0= ruleEDouble )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4571:3: lv_max_5_0= ruleEDouble
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4959:1: (lv_max_5_0= ruleEDouble )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4960:3: lv_max_5_0= ruleEDouble
                     {
                      
                     	        newCompositeNode(grammarAccess.getRandomDoubleTypeAccess().getMaxEDoubleParserRuleCall_2_3_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_ruleRandomDoubleType10491);
+                    pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_ruleRandomDoubleType11208);
                     lv_max_5_0=ruleEDouble();
 
                     state._fsp--;
@@ -11817,7 +12856,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleRandomDoubleType10503); 
+                    otherlv_6=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleRandomDoubleType11220); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getRandomDoubleTypeAccess().getRightParenthesisKeyword_2_4());
                         
@@ -11848,7 +12887,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificDoubleType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4599:1: entryRuleSpecificDoubleType returns [EObject current=null] : iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4988:1: entryRuleSpecificDoubleType returns [EObject current=null] : iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF ;
     public final EObject entryRuleSpecificDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -11856,17 +12895,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4600:2: (iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4601:2: iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4989:2: (iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4990:2: iv_ruleSpecificDoubleType= ruleSpecificDoubleType EOF
             {
              newCompositeNode(grammarAccess.getSpecificDoubleTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificDoubleType_in_entryRuleSpecificDoubleType10541);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificDoubleType_in_entryRuleSpecificDoubleType11258);
             iv_ruleSpecificDoubleType=ruleSpecificDoubleType();
 
             state._fsp--;
 
              current =iv_ruleSpecificDoubleType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificDoubleType10551); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificDoubleType11268); 
 
             }
 
@@ -11884,7 +12923,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificDoubleType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4608:1: ruleSpecificDoubleType returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEDouble ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4997:1: ruleSpecificDoubleType returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEDouble ) ) ) ;
     public final EObject ruleSpecificDoubleType() throws RecognitionException {
         EObject current = null;
 
@@ -11894,14 +12933,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4611:28: ( ( () ( (lv_value_1_0= ruleEDouble ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4612:1: ( () ( (lv_value_1_0= ruleEDouble ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5000:28: ( ( () ( (lv_value_1_0= ruleEDouble ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5001:1: ( () ( (lv_value_1_0= ruleEDouble ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4612:1: ( () ( (lv_value_1_0= ruleEDouble ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4612:2: () ( (lv_value_1_0= ruleEDouble ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5001:1: ( () ( (lv_value_1_0= ruleEDouble ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5001:2: () ( (lv_value_1_0= ruleEDouble ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4612:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4613:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5001:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5002:5: 
             {
 
                     current = forceCreateModelElement(
@@ -11911,16 +12950,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4618:2: ( (lv_value_1_0= ruleEDouble ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4619:1: (lv_value_1_0= ruleEDouble )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5007:2: ( (lv_value_1_0= ruleEDouble ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5008:1: (lv_value_1_0= ruleEDouble )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4619:1: (lv_value_1_0= ruleEDouble )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4620:3: lv_value_1_0= ruleEDouble
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5008:1: (lv_value_1_0= ruleEDouble )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5009:3: lv_value_1_0= ruleEDouble
             {
              
             	        newCompositeNode(grammarAccess.getSpecificDoubleTypeAccess().getValueEDoubleParserRuleCall_1_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_ruleSpecificDoubleType10606);
+            pushFollow(FollowSets000.FOLLOW_ruleEDouble_in_ruleSpecificDoubleType11323);
             lv_value_1_0=ruleEDouble();
 
             state._fsp--;
@@ -11963,7 +13002,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIntegerType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4644:1: entryRuleIntegerType returns [EObject current=null] : iv_ruleIntegerType= ruleIntegerType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5033:1: entryRuleIntegerType returns [EObject current=null] : iv_ruleIntegerType= ruleIntegerType EOF ;
     public final EObject entryRuleIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -11971,17 +13010,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4645:2: (iv_ruleIntegerType= ruleIntegerType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4646:2: iv_ruleIntegerType= ruleIntegerType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5034:2: (iv_ruleIntegerType= ruleIntegerType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5035:2: iv_ruleIntegerType= ruleIntegerType EOF
             {
              newCompositeNode(grammarAccess.getIntegerTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleIntegerType_in_entryRuleIntegerType10642);
+            pushFollow(FollowSets000.FOLLOW_ruleIntegerType_in_entryRuleIntegerType11359);
             iv_ruleIntegerType=ruleIntegerType();
 
             state._fsp--;
 
              current =iv_ruleIntegerType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIntegerType10652); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIntegerType11369); 
 
             }
 
@@ -11999,7 +13038,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIntegerType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4653:1: ruleIntegerType returns [EObject current=null] : (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5042:1: ruleIntegerType returns [EObject current=null] : (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) ;
     public final EObject ruleIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -12011,33 +13050,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4656:28: ( (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4657:1: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5045:28: ( (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5046:1: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4657:1: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
-            int alt78=2;
-            int LA78_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5046:1: (this_SpecificIntegerType_0= ruleSpecificIntegerType | this_RandomIntegerType_1= ruleRandomIntegerType )
+            int alt88=2;
+            int LA88_0 = input.LA(1);
 
-            if ( (LA78_0==RULE_INT||LA78_0==24) ) {
-                alt78=1;
+            if ( (LA88_0==RULE_INT||LA88_0==33) ) {
+                alt88=1;
             }
-            else if ( (LA78_0==64) ) {
-                alt78=2;
+            else if ( (LA88_0==69) ) {
+                alt88=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 78, 0, input);
+                    new NoViableAltException("", 88, 0, input);
 
                 throw nvae;
             }
-            switch (alt78) {
+            switch (alt88) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4658:5: this_SpecificIntegerType_0= ruleSpecificIntegerType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5047:5: this_SpecificIntegerType_0= ruleSpecificIntegerType
                     {
                      
                             newCompositeNode(grammarAccess.getIntegerTypeAccess().getSpecificIntegerTypeParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleSpecificIntegerType_in_ruleIntegerType10699);
+                    pushFollow(FollowSets000.FOLLOW_ruleSpecificIntegerType_in_ruleIntegerType11416);
                     this_SpecificIntegerType_0=ruleSpecificIntegerType();
 
                     state._fsp--;
@@ -12050,12 +13089,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4668:5: this_RandomIntegerType_1= ruleRandomIntegerType
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5057:5: this_RandomIntegerType_1= ruleRandomIntegerType
                     {
                      
                             newCompositeNode(grammarAccess.getIntegerTypeAccess().getRandomIntegerTypeParserRuleCall_1()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleRandomIntegerType_in_ruleIntegerType10726);
+                    pushFollow(FollowSets000.FOLLOW_ruleRandomIntegerType_in_ruleIntegerType11443);
                     this_RandomIntegerType_1=ruleRandomIntegerType();
 
                     state._fsp--;
@@ -12088,7 +13127,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleSpecificIntegerType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4684:1: entryRuleSpecificIntegerType returns [EObject current=null] : iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5073:1: entryRuleSpecificIntegerType returns [EObject current=null] : iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF ;
     public final EObject entryRuleSpecificIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -12096,17 +13135,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4685:2: (iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4686:2: iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5074:2: (iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5075:2: iv_ruleSpecificIntegerType= ruleSpecificIntegerType EOF
             {
              newCompositeNode(grammarAccess.getSpecificIntegerTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleSpecificIntegerType_in_entryRuleSpecificIntegerType10761);
+            pushFollow(FollowSets000.FOLLOW_ruleSpecificIntegerType_in_entryRuleSpecificIntegerType11478);
             iv_ruleSpecificIntegerType=ruleSpecificIntegerType();
 
             state._fsp--;
 
              current =iv_ruleSpecificIntegerType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificIntegerType10771); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSpecificIntegerType11488); 
 
             }
 
@@ -12124,7 +13163,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSpecificIntegerType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4693:1: ruleSpecificIntegerType returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEInt ) ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5082:1: ruleSpecificIntegerType returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEInt ) ) ) ;
     public final EObject ruleSpecificIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -12134,14 +13173,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4696:28: ( ( () ( (lv_value_1_0= ruleEInt ) ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4697:1: ( () ( (lv_value_1_0= ruleEInt ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5085:28: ( ( () ( (lv_value_1_0= ruleEInt ) ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5086:1: ( () ( (lv_value_1_0= ruleEInt ) ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4697:1: ( () ( (lv_value_1_0= ruleEInt ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4697:2: () ( (lv_value_1_0= ruleEInt ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5086:1: ( () ( (lv_value_1_0= ruleEInt ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5086:2: () ( (lv_value_1_0= ruleEInt ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4697:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4698:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5086:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5087:5: 
             {
 
                     current = forceCreateModelElement(
@@ -12151,16 +13190,16 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4703:2: ( (lv_value_1_0= ruleEInt ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4704:1: (lv_value_1_0= ruleEInt )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5092:2: ( (lv_value_1_0= ruleEInt ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5093:1: (lv_value_1_0= ruleEInt )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4704:1: (lv_value_1_0= ruleEInt )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4705:3: lv_value_1_0= ruleEInt
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5093:1: (lv_value_1_0= ruleEInt )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5094:3: lv_value_1_0= ruleEInt
             {
              
             	        newCompositeNode(grammarAccess.getSpecificIntegerTypeAccess().getValueEIntParserRuleCall_1_0()); 
             	    
-            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleSpecificIntegerType10826);
+            pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleSpecificIntegerType11543);
             lv_value_1_0=ruleEInt();
 
             state._fsp--;
@@ -12203,7 +13242,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRandomIntegerType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4729:1: entryRuleRandomIntegerType returns [EObject current=null] : iv_ruleRandomIntegerType= ruleRandomIntegerType EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5118:1: entryRuleRandomIntegerType returns [EObject current=null] : iv_ruleRandomIntegerType= ruleRandomIntegerType EOF ;
     public final EObject entryRuleRandomIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -12211,17 +13250,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4730:2: (iv_ruleRandomIntegerType= ruleRandomIntegerType EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4731:2: iv_ruleRandomIntegerType= ruleRandomIntegerType EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5119:2: (iv_ruleRandomIntegerType= ruleRandomIntegerType EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5120:2: iv_ruleRandomIntegerType= ruleRandomIntegerType EOF
             {
              newCompositeNode(grammarAccess.getRandomIntegerTypeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleRandomIntegerType_in_entryRuleRandomIntegerType10862);
+            pushFollow(FollowSets000.FOLLOW_ruleRandomIntegerType_in_entryRuleRandomIntegerType11579);
             iv_ruleRandomIntegerType=ruleRandomIntegerType();
 
             state._fsp--;
 
              current =iv_ruleRandomIntegerType; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomIntegerType10872); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRandomIntegerType11589); 
 
             }
 
@@ -12239,7 +13278,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRandomIntegerType"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4738:1: ruleRandomIntegerType returns [EObject current=null] : ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5127:1: ruleRandomIntegerType returns [EObject current=null] : ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? ) ;
     public final EObject ruleRandomIntegerType() throws RecognitionException {
         EObject current = null;
 
@@ -12255,14 +13294,14 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4741:28: ( ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4742:1: ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5130:28: ( ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5131:1: ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4742:1: ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4742:2: () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )?
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5131:1: ( () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )? )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5131:2: () otherlv_1= 'random-int' (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )?
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4742:2: ()
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4743:5: 
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5131:2: ()
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5132:5: 
             {
 
                     current = forceCreateModelElement(
@@ -12272,35 +13311,35 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,64,FollowSets000.FOLLOW_64_in_ruleRandomIntegerType10918); 
+            otherlv_1=(Token)match(input,69,FollowSets000.FOLLOW_69_in_ruleRandomIntegerType11635); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getRandomIntegerTypeAccess().getRandomIntKeyword_1());
                 
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4752:1: (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )?
-            int alt79=2;
-            int LA79_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5141:1: (otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')' )?
+            int alt89=2;
+            int LA89_0 = input.LA(1);
 
-            if ( (LA79_0==47) ) {
-                alt79=1;
+            if ( (LA89_0==52) ) {
+                alt89=1;
             }
-            switch (alt79) {
+            switch (alt89) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4752:3: otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5141:3: otherlv_2= '(' ( (lv_min_3_0= ruleEInt ) ) otherlv_4= ',' ( (lv_max_5_0= ruleEInt ) ) otherlv_6= ')'
                     {
-                    otherlv_2=(Token)match(input,47,FollowSets000.FOLLOW_47_in_ruleRandomIntegerType10931); 
+                    otherlv_2=(Token)match(input,52,FollowSets000.FOLLOW_52_in_ruleRandomIntegerType11648); 
 
                         	newLeafNode(otherlv_2, grammarAccess.getRandomIntegerTypeAccess().getLeftParenthesisKeyword_2_0());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4756:1: ( (lv_min_3_0= ruleEInt ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4757:1: (lv_min_3_0= ruleEInt )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5145:1: ( (lv_min_3_0= ruleEInt ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5146:1: (lv_min_3_0= ruleEInt )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4757:1: (lv_min_3_0= ruleEInt )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4758:3: lv_min_3_0= ruleEInt
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5146:1: (lv_min_3_0= ruleEInt )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5147:3: lv_min_3_0= ruleEInt
                     {
                      
                     	        newCompositeNode(grammarAccess.getRandomIntegerTypeAccess().getMinEIntParserRuleCall_2_1_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomIntegerType10952);
+                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomIntegerType11669);
                     lv_min_3_0=ruleEInt();
 
                     state._fsp--;
@@ -12322,20 +13361,20 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_4=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleRandomIntegerType10964); 
+                    otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleRandomIntegerType11681); 
 
                         	newLeafNode(otherlv_4, grammarAccess.getRandomIntegerTypeAccess().getCommaKeyword_2_2());
                         
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4778:1: ( (lv_max_5_0= ruleEInt ) )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4779:1: (lv_max_5_0= ruleEInt )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5167:1: ( (lv_max_5_0= ruleEInt ) )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5168:1: (lv_max_5_0= ruleEInt )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4779:1: (lv_max_5_0= ruleEInt )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4780:3: lv_max_5_0= ruleEInt
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5168:1: (lv_max_5_0= ruleEInt )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5169:3: lv_max_5_0= ruleEInt
                     {
                      
                     	        newCompositeNode(grammarAccess.getRandomIntegerTypeAccess().getMaxEIntParserRuleCall_2_3_0()); 
                     	    
-                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomIntegerType10985);
+                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleRandomIntegerType11702);
                     lv_max_5_0=ruleEInt();
 
                     state._fsp--;
@@ -12357,7 +13396,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,48,FollowSets000.FOLLOW_48_in_ruleRandomIntegerType10997); 
+                    otherlv_6=(Token)match(input,53,FollowSets000.FOLLOW_53_in_ruleRandomIntegerType11714); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getRandomIntegerTypeAccess().getRightParenthesisKeyword_2_4());
                         
@@ -12388,7 +13427,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMaxCardinality"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4808:1: entryRuleMaxCardinality returns [String current=null] : iv_ruleMaxCardinality= ruleMaxCardinality EOF ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5197:1: entryRuleMaxCardinality returns [String current=null] : iv_ruleMaxCardinality= ruleMaxCardinality EOF ;
     public final String entryRuleMaxCardinality() throws RecognitionException {
         String current = null;
 
@@ -12396,17 +13435,17 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4809:2: (iv_ruleMaxCardinality= ruleMaxCardinality EOF )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4810:2: iv_ruleMaxCardinality= ruleMaxCardinality EOF
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5198:2: (iv_ruleMaxCardinality= ruleMaxCardinality EOF )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5199:2: iv_ruleMaxCardinality= ruleMaxCardinality EOF
             {
              newCompositeNode(grammarAccess.getMaxCardinalityRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_entryRuleMaxCardinality11036);
+            pushFollow(FollowSets000.FOLLOW_ruleMaxCardinality_in_entryRuleMaxCardinality11753);
             iv_ruleMaxCardinality=ruleMaxCardinality();
 
             state._fsp--;
 
              current =iv_ruleMaxCardinality.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleMaxCardinality11047); 
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleMaxCardinality11764); 
 
             }
 
@@ -12424,7 +13463,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMaxCardinality"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4817:1: ruleMaxCardinality returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_EInt_0= ruleEInt | kw= '*' ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5206:1: ruleMaxCardinality returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_EInt_0= ruleEInt | kw= '*' ) ;
     public final AntlrDatatypeRuleToken ruleMaxCardinality() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -12435,33 +13474,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4820:28: ( (this_EInt_0= ruleEInt | kw= '*' ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4821:1: (this_EInt_0= ruleEInt | kw= '*' )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5209:28: ( (this_EInt_0= ruleEInt | kw= '*' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5210:1: (this_EInt_0= ruleEInt | kw= '*' )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4821:1: (this_EInt_0= ruleEInt | kw= '*' )
-            int alt80=2;
-            int LA80_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5210:1: (this_EInt_0= ruleEInt | kw= '*' )
+            int alt90=2;
+            int LA90_0 = input.LA(1);
 
-            if ( (LA80_0==RULE_INT||LA80_0==24) ) {
-                alt80=1;
+            if ( (LA90_0==RULE_INT||LA90_0==33) ) {
+                alt90=1;
             }
-            else if ( (LA80_0==65) ) {
-                alt80=2;
+            else if ( (LA90_0==70) ) {
+                alt90=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 80, 0, input);
+                    new NoViableAltException("", 90, 0, input);
 
                 throw nvae;
             }
-            switch (alt80) {
+            switch (alt90) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4822:5: this_EInt_0= ruleEInt
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5211:5: this_EInt_0= ruleEInt
                     {
                      
                             newCompositeNode(grammarAccess.getMaxCardinalityAccess().getEIntParserRuleCall_0()); 
                         
-                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleMaxCardinality11094);
+                    pushFollow(FollowSets000.FOLLOW_ruleEInt_in_ruleMaxCardinality11811);
                     this_EInt_0=ruleEInt();
 
                     state._fsp--;
@@ -12476,9 +13515,9 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4834:2: kw= '*'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5223:2: kw= '*'
                     {
-                    kw=(Token)match(input,65,FollowSets000.FOLLOW_65_in_ruleMaxCardinality11118); 
+                    kw=(Token)match(input,70,FollowSets000.FOLLOW_70_in_ruleMaxCardinality11835); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getMaxCardinalityAccess().getAsteriskKeyword_1()); 
@@ -12507,7 +13546,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLogicOperator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4847:1: ruleLogicOperator returns [Enumerator current=null] : ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5236:1: ruleLogicOperator returns [Enumerator current=null] : ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) ;
     public final Enumerator ruleLogicOperator() throws RecognitionException {
         Enumerator current = null;
 
@@ -12516,33 +13555,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4849:28: ( ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4850:1: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5238:28: ( ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5239:1: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4850:1: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
-            int alt81=2;
-            int LA81_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5239:1: ( (enumLiteral_0= 'and' ) | (enumLiteral_1= 'or' ) )
+            int alt91=2;
+            int LA91_0 = input.LA(1);
 
-            if ( (LA81_0==66) ) {
-                alt81=1;
+            if ( (LA91_0==71) ) {
+                alt91=1;
             }
-            else if ( (LA81_0==67) ) {
-                alt81=2;
+            else if ( (LA91_0==72) ) {
+                alt91=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 81, 0, input);
+                    new NoViableAltException("", 91, 0, input);
 
                 throw nvae;
             }
-            switch (alt81) {
+            switch (alt91) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4850:2: (enumLiteral_0= 'and' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5239:2: (enumLiteral_0= 'and' )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4850:2: (enumLiteral_0= 'and' )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4850:4: enumLiteral_0= 'and'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5239:2: (enumLiteral_0= 'and' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5239:4: enumLiteral_0= 'and'
                     {
-                    enumLiteral_0=(Token)match(input,66,FollowSets000.FOLLOW_66_in_ruleLogicOperator11172); 
+                    enumLiteral_0=(Token)match(input,71,FollowSets000.FOLLOW_71_in_ruleLogicOperator11889); 
 
                             current = grammarAccess.getLogicOperatorAccess().getAndEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getLogicOperatorAccess().getAndEnumLiteralDeclaration_0()); 
@@ -12554,12 +13593,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4856:6: (enumLiteral_1= 'or' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5245:6: (enumLiteral_1= 'or' )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4856:6: (enumLiteral_1= 'or' )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4856:8: enumLiteral_1= 'or'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5245:6: (enumLiteral_1= 'or' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5245:8: enumLiteral_1= 'or'
                     {
-                    enumLiteral_1=(Token)match(input,67,FollowSets000.FOLLOW_67_in_ruleLogicOperator11189); 
+                    enumLiteral_1=(Token)match(input,72,FollowSets000.FOLLOW_72_in_ruleLogicOperator11906); 
 
                             current = grammarAccess.getLogicOperatorAccess().getOrEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getLogicOperatorAccess().getOrEnumLiteralDeclaration_1()); 
@@ -12591,7 +13630,7 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOperator"
-    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4866:1: ruleOperator returns [Enumerator current=null] : ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) ) ;
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5255:1: ruleOperator returns [Enumerator current=null] : ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) ) ;
     public final Enumerator ruleOperator() throws RecognitionException {
         Enumerator current = null;
 
@@ -12600,33 +13639,33 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4868:28: ( ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) ) )
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4869:1: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5257:28: ( ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5258:1: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) )
             {
-            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4869:1: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) )
-            int alt82=2;
-            int LA82_0 = input.LA(1);
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5258:1: ( (enumLiteral_0= '=' ) | (enumLiteral_1= '<>' ) )
+            int alt92=2;
+            int LA92_0 = input.LA(1);
 
-            if ( (LA82_0==38) ) {
-                alt82=1;
+            if ( (LA92_0==26) ) {
+                alt92=1;
             }
-            else if ( (LA82_0==68) ) {
-                alt82=2;
+            else if ( (LA92_0==73) ) {
+                alt92=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 82, 0, input);
+                    new NoViableAltException("", 92, 0, input);
 
                 throw nvae;
             }
-            switch (alt82) {
+            switch (alt92) {
                 case 1 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4869:2: (enumLiteral_0= '=' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5258:2: (enumLiteral_0= '=' )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4869:2: (enumLiteral_0= '=' )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4869:4: enumLiteral_0= '='
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5258:2: (enumLiteral_0= '=' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5258:4: enumLiteral_0= '='
                     {
-                    enumLiteral_0=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleOperator11234); 
+                    enumLiteral_0=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleOperator11951); 
 
                             current = grammarAccess.getOperatorAccess().getEqualsEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getOperatorAccess().getEqualsEnumLiteralDeclaration_0()); 
@@ -12638,12 +13677,12 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4875:6: (enumLiteral_1= '<>' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5264:6: (enumLiteral_1= '<>' )
                     {
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4875:6: (enumLiteral_1= '<>' )
-                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:4875:8: enumLiteral_1= '<>'
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5264:6: (enumLiteral_1= '<>' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5264:8: enumLiteral_1= '<>'
                     {
-                    enumLiteral_1=(Token)match(input,68,FollowSets000.FOLLOW_68_in_ruleOperator11251); 
+                    enumLiteral_1=(Token)match(input,73,FollowSets000.FOLLOW_73_in_ruleOperator11968); 
 
                             current = grammarAccess.getOperatorAccess().getDifferentEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getOperatorAccess().getDifferentEnumLiteralDeclaration_1()); 
@@ -12673,74 +13712,158 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
     }
     // $ANTLR end "ruleOperator"
 
+
+    // $ANTLR start "ruleRepeat"
+    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5274:1: ruleRepeat returns [Enumerator current=null] : ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) ) ;
+    public final Enumerator ruleRepeat() throws RecognitionException {
+        Enumerator current = null;
+
+        Token enumLiteral_0=null;
+        Token enumLiteral_1=null;
+
+         enterRule(); 
+        try {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5276:28: ( ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) ) )
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5277:1: ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) )
+            {
+            // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5277:1: ( (enumLiteral_0= 'yes' ) | (enumLiteral_1= 'no' ) )
+            int alt93=2;
+            int LA93_0 = input.LA(1);
+
+            if ( (LA93_0==74) ) {
+                alt93=1;
+            }
+            else if ( (LA93_0==75) ) {
+                alt93=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 93, 0, input);
+
+                throw nvae;
+            }
+            switch (alt93) {
+                case 1 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5277:2: (enumLiteral_0= 'yes' )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5277:2: (enumLiteral_0= 'yes' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5277:4: enumLiteral_0= 'yes'
+                    {
+                    enumLiteral_0=(Token)match(input,74,FollowSets000.FOLLOW_74_in_ruleRepeat12013); 
+
+                            current = grammarAccess.getRepeatAccess().getYesEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_0, grammarAccess.getRepeatAccess().getYesEnumLiteralDeclaration_0()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+                case 2 :
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5283:6: (enumLiteral_1= 'no' )
+                    {
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5283:6: (enumLiteral_1= 'no' )
+                    // ../org.mutator/src-gen/org/mutator/parser/antlr/internal/InternalMutator.g:5283:8: enumLiteral_1= 'no'
+                    {
+                    enumLiteral_1=(Token)match(input,75,FollowSets000.FOLLOW_75_in_ruleRepeat12030); 
+
+                            current = grammarAccess.getRepeatAccess().getNoEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_1, grammarAccess.getRepeatAccess().getNoEnumLiteralDeclaration_1()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleRepeat"
+
     // Delegated rules
 
 
-    protected DFA5 dfa5 = new DFA5(this);
-    static final String DFA5_eotS =
+    protected DFA15 dfa15 = new DFA15(this);
+    static final String DFA15_eotS =
         "\21\uffff";
-    static final String DFA5_eofS =
+    static final String DFA15_eofS =
         "\21\uffff";
-    static final String DFA5_minS =
-        "\1\5\1\46\1\5\1\uffff\2\5\1\41\5\uffff\2\5\3\uffff";
-    static final String DFA5_maxS =
-        "\1\52\1\46\1\45\1\uffff\2\66\1\52\5\uffff\2\45\3\uffff";
-    static final String DFA5_acceptS =
-        "\3\uffff\1\3\3\uffff\1\6\1\1\1\4\1\11\1\5\2\uffff\1\10\1\7\1\2";
-    static final String DFA5_specialS =
+    static final String DFA15_minS =
+        "\1\4\1\32\1\4\1\uffff\2\4\1\33\6\uffff\2\4\2\uffff";
+    static final String DFA15_maxS =
+        "\1\57\1\32\1\53\1\uffff\2\73\1\57\6\uffff\2\53\2\uffff";
+    static final String DFA15_acceptS =
+        "\3\uffff\1\3\3\uffff\1\1\1\6\1\4\1\11\1\5\1\10\2\uffff\1\7\1\2";
+    static final String DFA15_specialS =
         "\21\uffff}>";
-    static final String[] DFA5_transitionS = {
-            "\1\1\32\uffff\1\5\1\3\5\uffff\1\2\2\uffff\1\4",
+    static final String[] DFA15_transitionS = {
+            "\1\1\26\uffff\1\3\15\uffff\1\5\3\uffff\1\2\1\uffff\1\4",
             "\1\6",
-            "\1\10\37\uffff\1\7",
+            "\1\7\46\uffff\1\10",
             "",
-            "\1\12\20\uffff\1\12\15\uffff\1\12\7\uffff\1\11\1\13\10\uffff"+
+            "\1\12\45\uffff\1\12\1\uffff\1\12\4\uffff\1\11\1\13\10\uffff"+
             "\1\12",
-            "\1\17\20\uffff\1\14\15\uffff\1\15\1\16\20\uffff\1\17",
-            "\1\3\5\uffff\1\2\1\uffff\1\20\1\12",
+            "\1\17\45\uffff\1\16\1\14\1\15\16\uffff\1\17",
+            "\1\3\21\uffff\1\2\1\20\1\12",
             "",
             "",
             "",
             "",
             "",
-            "\1\17\37\uffff\1\16",
-            "\1\17\37\uffff\1\16",
             "",
+            "\1\17\46\uffff\1\14",
+            "\1\17\46\uffff\1\14",
             "",
             ""
     };
 
-    static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
-    static final short[] DFA5_eof = DFA.unpackEncodedString(DFA5_eofS);
-    static final char[] DFA5_min = DFA.unpackEncodedStringToUnsignedChars(DFA5_minS);
-    static final char[] DFA5_max = DFA.unpackEncodedStringToUnsignedChars(DFA5_maxS);
-    static final short[] DFA5_accept = DFA.unpackEncodedString(DFA5_acceptS);
-    static final short[] DFA5_special = DFA.unpackEncodedString(DFA5_specialS);
-    static final short[][] DFA5_transition;
+    static final short[] DFA15_eot = DFA.unpackEncodedString(DFA15_eotS);
+    static final short[] DFA15_eof = DFA.unpackEncodedString(DFA15_eofS);
+    static final char[] DFA15_min = DFA.unpackEncodedStringToUnsignedChars(DFA15_minS);
+    static final char[] DFA15_max = DFA.unpackEncodedStringToUnsignedChars(DFA15_maxS);
+    static final short[] DFA15_accept = DFA.unpackEncodedString(DFA15_acceptS);
+    static final short[] DFA15_special = DFA.unpackEncodedString(DFA15_specialS);
+    static final short[][] DFA15_transition;
 
     static {
-        int numStates = DFA5_transitionS.length;
-        DFA5_transition = new short[numStates][];
+        int numStates = DFA15_transitionS.length;
+        DFA15_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA5_transition[i] = DFA.unpackEncodedString(DFA5_transitionS[i]);
+            DFA15_transition[i] = DFA.unpackEncodedString(DFA15_transitionS[i]);
         }
     }
 
-    class DFA5 extends DFA {
+    class DFA15 extends DFA {
 
-        public DFA5(BaseRecognizer recognizer) {
+        public DFA15(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 5;
-            this.eot = DFA5_eot;
-            this.eof = DFA5_eof;
-            this.min = DFA5_min;
-            this.max = DFA5_max;
-            this.accept = DFA5_accept;
-            this.special = DFA5_special;
-            this.transition = DFA5_transition;
+            this.decisionNumber = 15;
+            this.eot = DFA15_eot;
+            this.eof = DFA15_eof;
+            this.min = DFA15_min;
+            this.max = DFA15_max;
+            this.accept = DFA15_accept;
+            this.special = DFA15_special;
+            this.transition = DFA15_transition;
         }
         public String getDescription() {
-            return "466:1: (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator )";
+            return "836:1: (this_CreateObjectMutator_0= ruleCreateObjectMutator | this_SelectObjectMutator_1= ruleSelectObjectMutator | this_CompositeMutator_2= ruleCompositeMutator | this_ModifySourceReferenceMutator_3= ruleModifySourceReferenceMutator | this_ModifyTargetReferenceMutator_4= ruleModifyTargetReferenceMutator | this_CreateReferenceMutator_5= ruleCreateReferenceMutator | this_RemoveObjectMutator_6= ruleRemoveObjectMutator | this_RemoveReferenceMutator_7= ruleRemoveReferenceMutator | this_ModifyInformationMutator_8= ruleModifyInformationMutator )";
         }
     }
  
@@ -12749,481 +13872,520 @@ public class InternalMutatorParser extends AbstractInternalAntlrParser {
     private static class FollowSets000 {
         public static final BitSet FOLLOW_ruleMutatorEnvironment_in_entryRuleMutatorEnvironment75 = new BitSet(new long[]{0x0000000000000000L});
         public static final BitSet FOLLOW_EOF_in_entryRuleMutatorEnvironment85 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLoad_in_ruleMutatorEnvironment131 = new BitSet(new long[]{0x0000000000848000L});
+        public static final BitSet FOLLOW_ruleLoad_in_ruleMutatorEnvironment131 = new BitSet(new long[]{0x0000000100120000L});
         public static final BitSet FOLLOW_ruleDefinition_in_ruleMutatorEnvironment153 = new BitSet(new long[]{0x0000000000000800L});
-        public static final BitSet FOLLOW_11_in_ruleMutatorEnvironment165 = new BitSet(new long[]{0x0000000000001000L});
-        public static final BitSet FOLLOW_12_in_ruleMutatorEnvironment177 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleMutatorEnvironment189 = new BitSet(new long[]{0x0000048300000020L});
-        public static final BitSet FOLLOW_ruleMutator_in_ruleMutatorEnvironment210 = new BitSet(new long[]{0x0000048300004020L});
-        public static final BitSet FOLLOW_ruleMutator_in_ruleMutatorEnvironment231 = new BitSet(new long[]{0x0000048300004020L});
-        public static final BitSet FOLLOW_14_in_ruleMutatorEnvironment244 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleDefinition_in_entryRuleDefinition280 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleDefinition290 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLibrary_in_ruleDefinition337 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleProgram_in_ruleDefinition364 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLibrary_in_entryRuleLibrary399 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleLibrary409 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_15_in_ruleLibrary455 = new BitSet(new long[]{0x0000000000010000L});
-        public static final BitSet FOLLOW_16_in_ruleLibrary467 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleLibrary479 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleLibrary500 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleProgram_in_entryRuleProgram536 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleProgram546 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_18_in_ruleProgram592 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleProgram613 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleProgram625 = new BitSet(new long[]{0x0000000000100000L});
-        public static final BitSet FOLLOW_20_in_ruleProgram637 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleProgram658 = new BitSet(new long[]{0x0000000000200000L});
-        public static final BitSet FOLLOW_21_in_ruleProgram670 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleSource_in_ruleProgram691 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleProgram703 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleProgram724 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSource_in_entryRuleSource760 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSource770 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleSource825 = new BitSet(new long[]{0x0000000000400002L});
-        public static final BitSet FOLLOW_22_in_ruleSource843 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMutator_in_entryRuleMutator893 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleMutator903 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCreateObjectMutator_in_ruleMutator950 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSelectObjectMutator_in_ruleMutator977 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCompositeMutator_in_ruleMutator1004 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleModifySourceReferenceMutator_in_ruleMutator1031 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleModifyTargetReferenceMutator_in_ruleMutator1058 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCreateReferenceMutator_in_ruleMutator1085 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveObjectMutator_in_ruleMutator1112 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveReferenceMutator_in_ruleMutator1139 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleModifyInformationMutator_in_ruleMutator1166 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_entryRuleObSelectionStrategy1201 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleObSelectionStrategy1211 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomSelection_in_ruleObSelectionStrategy1258 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificSelection_in_ruleObSelectionStrategy1285 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCompleteSelection_in_ruleObSelectionStrategy1312 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOtherSelection_in_ruleObSelectionStrategy1339 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomSelection_in_entryRuleRandomSelection1374 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRandomSelection1384 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomTypeSelection_in_ruleRandomSelection1430 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificSelection_in_entryRuleSpecificSelection1464 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificSelection1474 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificObjectSelection_in_ruleSpecificSelection1520 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCompleteSelection_in_entryRuleCompleteSelection1554 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCompleteSelection1564 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCompleteTypeSelection_in_ruleCompleteSelection1610 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOtherSelection_in_entryRuleOtherSelection1644 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleOtherSelection1654 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOtherTypeSelection_in_ruleOtherSelection1700 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeType_in_entryRuleAttributeType1734 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeType1744 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleIntegerType_in_ruleAttributeType1791 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleBooleanType_in_ruleAttributeType1818 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleStringType_in_ruleAttributeType1845 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleDoubleType_in_ruleAttributeType1872 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleListStringType_in_ruleAttributeType1899 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLoad_in_entryRuleLoad1934 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleLoad1944 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_23_in_ruleLoad1990 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleLoad2011 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEString_in_entryRuleEString2048 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEString2059 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_STRING_in_ruleEString2099 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleEString2125 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_entryRuleEInt2171 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEInt2182 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_24_in_ruleEInt2221 = new BitSet(new long[]{0x0000000000000040L});
-        public static final BitSet FOLLOW_RULE_INT_in_ruleEInt2238 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEDouble_in_entryRuleEDouble2284 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEDouble2295 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_24_in_ruleEDouble2334 = new BitSet(new long[]{0x0000000002000040L});
-        public static final BitSet FOLLOW_RULE_INT_in_ruleEDouble2352 = new BitSet(new long[]{0x0000000002000000L});
-        public static final BitSet FOLLOW_25_in_ruleEDouble2372 = new BitSet(new long[]{0x0000000000000040L});
-        public static final BitSet FOLLOW_RULE_INT_in_ruleEDouble2387 = new BitSet(new long[]{0x000000000C000002L});
-        public static final BitSet FOLLOW_26_in_ruleEDouble2407 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_27_in_ruleEDouble2426 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_24_in_ruleEDouble2441 = new BitSet(new long[]{0x0000000000000040L});
-        public static final BitSet FOLLOW_RULE_INT_in_ruleEDouble2458 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEBoolean_in_entryRuleEBoolean2506 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEBoolean2517 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_28_in_ruleEBoolean2555 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_29_in_ruleEBoolean2574 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleBinaryOperator_in_entryRuleBinaryOperator2614 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleBinaryOperator2624 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLogicOperator_in_ruleBinaryOperator2679 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeEvaluation_in_entryRuleAttributeEvaluation2715 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeEvaluation2725 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeEvaluation2779 = new BitSet(new long[]{0x0000004000000000L,0x0000000000000010L});
-        public static final BitSet FOLLOW_ruleOperator_in_ruleAttributeEvaluation2800 = new BitSet(new long[]{0xFF80000033000050L,0x0000000000000001L});
-        public static final BitSet FOLLOW_ruleAttributeType_in_ruleAttributeEvaluation2821 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceEvaluation_in_entryRuleReferenceEvaluation2857 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceEvaluation2867 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceEvaluation2922 = new BitSet(new long[]{0x0000004000000000L,0x0000000000000010L});
-        public static final BitSet FOLLOW_30_in_ruleReferenceEvaluation2940 = new BitSet(new long[]{0x0000004000000000L,0x0000000000000010L});
-        public static final BitSet FOLLOW_ruleOperator_in_ruleReferenceEvaluation2962 = new BitSet(new long[]{0x0040001080400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleReferenceEvaluation2985 = new BitSet(new long[]{0x0000000002000002L});
-        public static final BitSet FOLLOW_25_in_ruleReferenceEvaluation2998 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceEvaluation3018 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_31_in_ruleReferenceEvaluation3039 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEvaluation_in_entryRuleEvaluation3076 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEvaluation3086 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeEvaluation_in_ruleEvaluation3133 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceEvaluation_in_ruleEvaluation3160 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleExpression_in_entryRuleExpression3195 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleExpression3205 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEvaluation_in_ruleExpression3260 = new BitSet(new long[]{0x0000000000000002L,0x000000000000000CL});
-        public static final BitSet FOLLOW_ruleBinaryOperator_in_ruleExpression3282 = new BitSet(new long[]{0x0000000040000020L});
-        public static final BitSet FOLLOW_ruleEvaluation_in_ruleExpression3303 = new BitSet(new long[]{0x0000000000000002L,0x000000000000000CL});
-        public static final BitSet FOLLOW_ruleRemoveObjectMutator_in_entryRuleRemoveObjectMutator3341 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveObjectMutator3351 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_32_in_ruleRemoveObjectMutator3397 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleRemoveObjectMutator3418 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleRemoveObjectMutator3431 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRemoveObjectMutator3453 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleRemoveObjectMutator3465 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleRemoveObjectMutator3488 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleRemoveObjectMutator3500 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveReferenceMutator_in_entryRuleRemoveReferenceMutator3538 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveReferenceMutator3548 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveRandomReferenceMutator_in_ruleRemoveReferenceMutator3595 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveSpecificReferenceMutator_in_ruleRemoveReferenceMutator3622 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveCompleteReferenceMutator_in_ruleRemoveReferenceMutator3649 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveRandomReferenceMutator_in_entryRuleRemoveRandomReferenceMutator3684 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveRandomReferenceMutator3694 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_32_in_ruleRemoveRandomReferenceMutator3740 = new BitSet(new long[]{0x0000001000000000L});
-        public static final BitSet FOLLOW_36_in_ruleRemoveRandomReferenceMutator3752 = new BitSet(new long[]{0x0000002000000000L});
-        public static final BitSet FOLLOW_37_in_ruleRemoveRandomReferenceMutator3764 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator3784 = new BitSet(new long[]{0x0000000000100000L});
-        public static final BitSet FOLLOW_20_in_ruleRemoveRandomReferenceMutator3796 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator3816 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleRemoveRandomReferenceMutator3829 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRemoveRandomReferenceMutator3851 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleRemoveRandomReferenceMutator3863 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleRemoveRandomReferenceMutator3886 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleRemoveRandomReferenceMutator3898 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveSpecificReferenceMutator_in_entryRuleRemoveSpecificReferenceMutator3936 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveSpecificReferenceMutator3946 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_32_in_ruleRemoveSpecificReferenceMutator3992 = new BitSet(new long[]{0x0000002000000000L});
-        public static final BitSet FOLLOW_37_in_ruleRemoveSpecificReferenceMutator4004 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveSpecificReferenceMutator4024 = new BitSet(new long[]{0x0000000000100000L});
-        public static final BitSet FOLLOW_20_in_ruleRemoveSpecificReferenceMutator4036 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleRemoveSpecificReferenceMutator4057 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleRemoveSpecificReferenceMutator4070 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRemoveSpecificReferenceMutator4092 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleRemoveSpecificReferenceMutator4104 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleRemoveSpecificReferenceMutator4127 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleRemoveSpecificReferenceMutator4139 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRemoveCompleteReferenceMutator_in_entryRuleRemoveCompleteReferenceMutator4177 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveCompleteReferenceMutator4187 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_32_in_ruleRemoveCompleteReferenceMutator4233 = new BitSet(new long[]{0x0000000000400000L});
-        public static final BitSet FOLLOW_22_in_ruleRemoveCompleteReferenceMutator4245 = new BitSet(new long[]{0x0000002000000000L});
-        public static final BitSet FOLLOW_37_in_ruleRemoveCompleteReferenceMutator4257 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4277 = new BitSet(new long[]{0x0000000000100000L});
-        public static final BitSet FOLLOW_20_in_ruleRemoveCompleteReferenceMutator4289 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4309 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCreateObjectMutator_in_entryRuleCreateObjectMutator4345 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCreateObjectMutator4355 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateObjectMutator4398 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleCreateObjectMutator4415 = new BitSet(new long[]{0x0000008000000000L});
-        public static final BitSet FOLLOW_39_in_ruleCreateObjectMutator4429 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateObjectMutator4449 = new BitSet(new long[]{0x0000000200100802L});
-        public static final BitSet FOLLOW_20_in_ruleCreateObjectMutator4462 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleCreateObjectMutator4483 = new BitSet(new long[]{0x0000000202000802L});
-        public static final BitSet FOLLOW_25_in_ruleCreateObjectMutator4496 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateObjectMutator4516 = new BitSet(new long[]{0x0000000200000802L});
-        public static final BitSet FOLLOW_11_in_ruleCreateObjectMutator4533 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleCreateObjectMutator4545 = new BitSet(new long[]{0x001E410000004020L});
-        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator4567 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator4594 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_40_in_ruleCreateObjectMutator4609 = new BitSet(new long[]{0x001E400000000020L});
-        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator4631 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator4658 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_14_in_ruleCreateObjectMutator4673 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleCreateObjectMutator4688 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleCreateObjectMutator4710 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleCreateObjectMutator4722 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleCreateObjectMutator4745 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleCreateObjectMutator4757 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSelectObjectMutator_in_entryRuleSelectObjectMutator4795 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSelectObjectMutator4805 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleSelectObjectMutator4847 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleSelectObjectMutator4864 = new BitSet(new long[]{0x0000020000000000L});
-        public static final BitSet FOLLOW_41_in_ruleSelectObjectMutator4876 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator4897 = new BitSet(new long[]{0x0000000000100002L});
-        public static final BitSet FOLLOW_20_in_ruleSelectObjectMutator4910 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator4931 = new BitSet(new long[]{0x0000000002000002L});
-        public static final BitSet FOLLOW_25_in_ruleSelectObjectMutator4944 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleSelectObjectMutator4964 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleModifyInformationMutator_in_entryRuleModifyInformationMutator5004 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleModifyInformationMutator5014 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleModifyInformationMutator5057 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleModifyInformationMutator5074 = new BitSet(new long[]{0x0000040000000000L});
-        public static final BitSet FOLLOW_42_in_ruleModifyInformationMutator5088 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifyInformationMutator5109 = new BitSet(new long[]{0x0000000200000802L});
-        public static final BitSet FOLLOW_11_in_ruleModifyInformationMutator5122 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleModifyInformationMutator5134 = new BitSet(new long[]{0x001E410000004020L});
-        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5156 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5183 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_40_in_ruleModifyInformationMutator5198 = new BitSet(new long[]{0x001E400000000020L});
-        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5220 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5247 = new BitSet(new long[]{0x0000010000004000L});
-        public static final BitSet FOLLOW_14_in_ruleModifyInformationMutator5262 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleModifyInformationMutator5277 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleModifyInformationMutator5299 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleModifyInformationMutator5311 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleModifyInformationMutator5334 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleModifyInformationMutator5346 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCreateReferenceMutator_in_entryRuleCreateReferenceMutator5384 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCreateReferenceMutator5394 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateReferenceMutator5437 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleCreateReferenceMutator5454 = new BitSet(new long[]{0x0000008000000000L});
-        public static final BitSet FOLLOW_39_in_ruleCreateReferenceMutator5468 = new BitSet(new long[]{0x0000002000000000L});
-        public static final BitSet FOLLOW_37_in_ruleCreateReferenceMutator5480 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateReferenceMutator5500 = new BitSet(new long[]{0x0000080200100002L});
-        public static final BitSet FOLLOW_43_in_ruleCreateReferenceMutator5513 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator5534 = new BitSet(new long[]{0x0000000200100002L});
-        public static final BitSet FOLLOW_20_in_ruleCreateReferenceMutator5549 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator5570 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleCreateReferenceMutator5585 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleCreateReferenceMutator5607 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleCreateReferenceMutator5619 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleCreateReferenceMutator5642 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleCreateReferenceMutator5654 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleModifySourceReferenceMutator_in_entryRuleModifySourceReferenceMutator5692 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleModifySourceReferenceMutator5702 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_42_in_ruleModifySourceReferenceMutator5739 = new BitSet(new long[]{0x0000100000000000L});
-        public static final BitSet FOLLOW_44_in_ruleModifySourceReferenceMutator5751 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleModifySourceReferenceMutator5771 = new BitSet(new long[]{0x0000080200200002L});
-        public static final BitSet FOLLOW_21_in_ruleModifySourceReferenceMutator5784 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator5805 = new BitSet(new long[]{0x0000080200000002L});
-        public static final BitSet FOLLOW_43_in_ruleModifySourceReferenceMutator5820 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator5841 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleModifySourceReferenceMutator5856 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleModifySourceReferenceMutator5878 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleModifySourceReferenceMutator5890 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleModifySourceReferenceMutator5913 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleModifySourceReferenceMutator5925 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleModifyTargetReferenceMutator_in_entryRuleModifyTargetReferenceMutator5963 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleModifyTargetReferenceMutator5973 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_42_in_ruleModifyTargetReferenceMutator6010 = new BitSet(new long[]{0x0000200000000000L});
-        public static final BitSet FOLLOW_45_in_ruleModifyTargetReferenceMutator6022 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleModifyTargetReferenceMutator6042 = new BitSet(new long[]{0x0000080200200002L});
-        public static final BitSet FOLLOW_21_in_ruleModifyTargetReferenceMutator6055 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6076 = new BitSet(new long[]{0x0000080200000002L});
-        public static final BitSet FOLLOW_43_in_ruleModifyTargetReferenceMutator6091 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6112 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleModifyTargetReferenceMutator6127 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleModifyTargetReferenceMutator6149 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleModifyTargetReferenceMutator6161 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleModifyTargetReferenceMutator6184 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleModifyTargetReferenceMutator6196 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCompositeMutator_in_entryRuleCompositeMutator6234 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCompositeMutator6244 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCompositeMutator6287 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleCompositeMutator6304 = new BitSet(new long[]{0x0000000200000000L});
-        public static final BitSet FOLLOW_33_in_ruleCompositeMutator6318 = new BitSet(new long[]{0x0000048300000020L});
-        public static final BitSet FOLLOW_ruleMutator_in_ruleCompositeMutator6339 = new BitSet(new long[]{0x0000048B00000020L});
-        public static final BitSet FOLLOW_ruleMutator_in_ruleCompositeMutator6360 = new BitSet(new long[]{0x0000048B00000020L});
-        public static final BitSet FOLLOW_35_in_ruleCompositeMutator6373 = new BitSet(new long[]{0x0000000200000002L});
-        public static final BitSet FOLLOW_33_in_ruleCompositeMutator6386 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleCompositeMutator6408 = new BitSet(new long[]{0x0000000400000000L});
-        public static final BitSet FOLLOW_34_in_ruleCompositeMutator6420 = new BitSet(new long[]{0x0000000001000040L,0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleCompositeMutator6443 = new BitSet(new long[]{0x0000000800000000L});
-        public static final BitSet FOLLOW_35_in_ruleCompositeMutator6455 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeSet_in_entryRuleAttributeSet6493 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeSet6503 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeInit_in_ruleAttributeSet6550 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeUnset_in_ruleAttributeSet6577 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeSwap_in_ruleAttributeSet6604 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeCopy_in_ruleAttributeSet6631 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeReverse_in_ruleAttributeSet6658 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeInit_in_entryRuleAttributeInit6693 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeInit6703 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeInit6748 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleAttributeInit6760 = new BitSet(new long[]{0xFF80000033000050L,0x0000000000000001L});
-        public static final BitSet FOLLOW_ruleAttributeType_in_ruleAttributeInit6781 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeUnset_in_entryRuleAttributeUnset6817 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeUnset6827 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_46_in_ruleAttributeUnset6864 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleAttributeUnset6876 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeUnset6896 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleAttributeUnset6908 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeSwap_in_entryRuleAttributeSwap6944 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeSwap6954 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_49_in_ruleAttributeSwap6991 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleAttributeSwap7003 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeSwap7023 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleAttributeSwap7035 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleAttributeSwap7057 = new BitSet(new long[]{0x0000000002000000L});
-        public static final BitSet FOLLOW_25_in_ruleAttributeSwap7069 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeSwap7091 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleAttributeSwap7103 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeCopy_in_entryRuleAttributeCopy7139 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeCopy7149 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_50_in_ruleAttributeCopy7186 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleAttributeCopy7198 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeCopy7218 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleAttributeCopy7230 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleAttributeCopy7252 = new BitSet(new long[]{0x0000000002000000L});
-        public static final BitSet FOLLOW_25_in_ruleAttributeCopy7264 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeCopy7286 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleAttributeCopy7298 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAttributeReverse_in_entryRuleAttributeReverse7334 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeReverse7344 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_51_in_ruleAttributeReverse7381 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleAttributeReverse7393 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeReverse7413 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleAttributeReverse7425 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceSet_in_entryRuleReferenceSet7461 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceSet7471 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceInit_in_ruleReferenceSet7518 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceSwap_in_ruleReferenceSet7545 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceInit_in_entryRuleReferenceInit7580 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceInit7590 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceInit7635 = new BitSet(new long[]{0x0000004000000000L});
-        public static final BitSet FOLLOW_38_in_ruleReferenceInit7647 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleReferenceInit7668 = new BitSet(new long[]{0x0000000002000002L});
-        public static final BitSet FOLLOW_25_in_ruleReferenceInit7681 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceInit7701 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReferenceSwap_in_entryRuleReferenceSwap7739 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceSwap7749 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_52_in_ruleReferenceSwap7786 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleReferenceSwap7798 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceSwap7818 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleReferenceSwap7830 = new BitSet(new long[]{0x0040001000400020L});
-        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleReferenceSwap7852 = new BitSet(new long[]{0x0000000002000000L});
-        public static final BitSet FOLLOW_25_in_ruleReferenceSwap7864 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceSwap7886 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleReferenceSwap7898 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomTypeSelection_in_entryRuleRandomTypeSelection7934 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRandomTypeSelection7944 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_36_in_ruleRandomTypeSelection7990 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleRandomTypeSelection8010 = new BitSet(new long[]{0x0020000000000002L});
-        public static final BitSet FOLLOW_53_in_ruleRandomTypeSelection8023 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleRandomTypeSelection8035 = new BitSet(new long[]{0x0000000040000020L});
-        public static final BitSet FOLLOW_ruleExpression_in_ruleRandomTypeSelection8056 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleRandomTypeSelection8068 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificObjectSelection_in_entryRuleSpecificObjectSelection8106 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificObjectSelection8116 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleSpecificObjectSelection8170 = new BitSet(new long[]{0x0020000000000002L});
-        public static final BitSet FOLLOW_53_in_ruleSpecificObjectSelection8183 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleSpecificObjectSelection8195 = new BitSet(new long[]{0x0000000040000020L});
-        public static final BitSet FOLLOW_ruleExpression_in_ruleSpecificObjectSelection8216 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleSpecificObjectSelection8228 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCompleteTypeSelection_in_entryRuleCompleteTypeSelection8266 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCompleteTypeSelection8276 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_22_in_ruleCompleteTypeSelection8322 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleCompleteTypeSelection8342 = new BitSet(new long[]{0x0020000000000002L});
-        public static final BitSet FOLLOW_53_in_ruleCompleteTypeSelection8355 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleCompleteTypeSelection8367 = new BitSet(new long[]{0x0000000040000020L});
-        public static final BitSet FOLLOW_ruleExpression_in_ruleCompleteTypeSelection8388 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleCompleteTypeSelection8400 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOtherTypeSelection_in_entryRuleOtherTypeSelection8438 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleOtherTypeSelection8448 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_54_in_ruleOtherTypeSelection8494 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleOtherTypeSelection8514 = new BitSet(new long[]{0x0020000000000002L});
-        public static final BitSet FOLLOW_53_in_ruleOtherTypeSelection8527 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleOtherTypeSelection8539 = new BitSet(new long[]{0x0000000040000020L});
-        public static final BitSet FOLLOW_ruleExpression_in_ruleOtherTypeSelection8560 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleOtherTypeSelection8572 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleBooleanType_in_entryRuleBooleanType8610 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleBooleanType8620 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificBooleanType_in_ruleBooleanType8667 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomBooleanType_in_ruleBooleanType8694 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomBooleanType_in_entryRuleRandomBooleanType8729 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRandomBooleanType8739 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_55_in_ruleRandomBooleanType8785 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificBooleanType_in_entryRuleSpecificBooleanType8821 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificBooleanType8831 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEBoolean_in_ruleSpecificBooleanType8886 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleStringType_in_entryRuleStringType8922 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleStringType8932 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificStringType_in_ruleStringType8979 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomStringType_in_ruleStringType9006 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleUpperStringType_in_ruleStringType9033 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLowerStringType_in_ruleStringType9060 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCatStartStringType_in_ruleStringType9087 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCatEndStringType_in_ruleStringType9114 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReplaceStringType_in_ruleStringType9141 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomStringType_in_entryRuleRandomStringType9176 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRandomStringType9186 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_56_in_ruleRandomStringType9232 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleRandomStringType9244 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomStringType9265 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleRandomStringType9277 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomStringType9298 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleRandomStringType9310 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificStringType_in_entryRuleSpecificStringType9346 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificStringType9356 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_STRING_in_ruleSpecificStringType9407 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleUpperStringType_in_entryRuleUpperStringType9448 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleUpperStringType9458 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_57_in_ruleUpperStringType9504 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCatStartStringType_in_entryRuleCatStartStringType9540 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCatStartStringType9550 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_58_in_ruleCatStartStringType9596 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleCatStartStringType9608 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleCatStartStringType9629 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleCatStartStringType9641 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleCatEndStringType_in_entryRuleCatEndStringType9677 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleCatEndStringType9687 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_59_in_ruleCatEndStringType9733 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleCatEndStringType9745 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleCatEndStringType9766 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleCatEndStringType9778 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleListStringType_in_entryRuleListStringType9814 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleListStringType9824 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_60_in_ruleListStringType9870 = new BitSet(new long[]{0x0000000200000000L});
-        public static final BitSet FOLLOW_33_in_ruleListStringType9882 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleListStringType9903 = new BitSet(new long[]{0x0000010800000000L});
-        public static final BitSet FOLLOW_40_in_ruleListStringType9916 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleListStringType9937 = new BitSet(new long[]{0x0000010800000000L});
-        public static final BitSet FOLLOW_35_in_ruleListStringType9951 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleLowerStringType_in_entryRuleLowerStringType9987 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleLowerStringType9997 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_61_in_ruleLowerStringType10043 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleReplaceStringType_in_entryRuleReplaceStringType10079 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleReplaceStringType10089 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_62_in_ruleReplaceStringType10135 = new BitSet(new long[]{0x0000800000000000L});
-        public static final BitSet FOLLOW_47_in_ruleReplaceStringType10147 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleReplaceStringType10168 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleReplaceStringType10180 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleReplaceStringType10201 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleReplaceStringType10213 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleDoubleType_in_entryRuleDoubleType10249 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleDoubleType10259 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificDoubleType_in_ruleDoubleType10306 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomDoubleType_in_ruleDoubleType10333 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomDoubleType_in_entryRuleRandomDoubleType10368 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRandomDoubleType10378 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_63_in_ruleRandomDoubleType10424 = new BitSet(new long[]{0x0000800000000002L});
-        public static final BitSet FOLLOW_47_in_ruleRandomDoubleType10437 = new BitSet(new long[]{0x0000000003000040L});
-        public static final BitSet FOLLOW_ruleEDouble_in_ruleRandomDoubleType10458 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleRandomDoubleType10470 = new BitSet(new long[]{0x0000000003000040L});
-        public static final BitSet FOLLOW_ruleEDouble_in_ruleRandomDoubleType10491 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleRandomDoubleType10503 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificDoubleType_in_entryRuleSpecificDoubleType10541 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificDoubleType10551 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEDouble_in_ruleSpecificDoubleType10606 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleIntegerType_in_entryRuleIntegerType10642 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleIntegerType10652 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificIntegerType_in_ruleIntegerType10699 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomIntegerType_in_ruleIntegerType10726 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSpecificIntegerType_in_entryRuleSpecificIntegerType10761 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificIntegerType10771 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleSpecificIntegerType10826 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRandomIntegerType_in_entryRuleRandomIntegerType10862 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRandomIntegerType10872 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_64_in_ruleRandomIntegerType10918 = new BitSet(new long[]{0x0000800000000002L});
-        public static final BitSet FOLLOW_47_in_ruleRandomIntegerType10931 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomIntegerType10952 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleRandomIntegerType10964 = new BitSet(new long[]{0x0000000001000040L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomIntegerType10985 = new BitSet(new long[]{0x0001000000000000L});
-        public static final BitSet FOLLOW_48_in_ruleRandomIntegerType10997 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleMaxCardinality_in_entryRuleMaxCardinality11036 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleMaxCardinality11047 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEInt_in_ruleMaxCardinality11094 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_65_in_ruleMaxCardinality11118 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_66_in_ruleLogicOperator11172 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_67_in_ruleLogicOperator11189 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_38_in_ruleOperator11234 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_68_in_ruleOperator11251 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_11_in_ruleMutatorEnvironment165 = new BitSet(new long[]{0x0000000000009000L});
+        public static final BitSet FOLLOW_12_in_ruleMutatorEnvironment179 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleMutatorEnvironment191 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleBlock_in_ruleMutatorEnvironment212 = new BitSet(new long[]{0x0000000000004010L});
+        public static final BitSet FOLLOW_ruleBlock_in_ruleMutatorEnvironment233 = new BitSet(new long[]{0x0000000000004010L});
+        public static final BitSet FOLLOW_14_in_ruleMutatorEnvironment246 = new BitSet(new long[]{0x0000000000010002L});
+        public static final BitSet FOLLOW_15_in_ruleMutatorEnvironment266 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleMutatorEnvironment278 = new BitSet(new long[]{0x0000A20008000010L});
+        public static final BitSet FOLLOW_ruleMutator_in_ruleMutatorEnvironment299 = new BitSet(new long[]{0x0000A20008004010L});
+        public static final BitSet FOLLOW_ruleMutator_in_ruleMutatorEnvironment320 = new BitSet(new long[]{0x0000A20008004010L});
+        public static final BitSet FOLLOW_14_in_ruleMutatorEnvironment333 = new BitSet(new long[]{0x0000000000010002L});
+        public static final BitSet FOLLOW_16_in_ruleMutatorEnvironment348 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleMutatorEnvironment360 = new BitSet(new long[]{0x0000000040000000L});
+        public static final BitSet FOLLOW_ruleConstraint_in_ruleMutatorEnvironment381 = new BitSet(new long[]{0x0000000040004000L});
+        public static final BitSet FOLLOW_ruleConstraint_in_ruleMutatorEnvironment402 = new BitSet(new long[]{0x0000000040004000L});
+        public static final BitSet FOLLOW_14_in_ruleMutatorEnvironment415 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleDefinition_in_entryRuleDefinition453 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleDefinition463 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleLibrary_in_ruleDefinition510 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleProgram_in_ruleDefinition537 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleLibrary_in_entryRuleLibrary572 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleLibrary582 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_17_in_ruleLibrary628 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleLibrary640 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleLibrary652 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleLibrary673 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleProgram_in_entryRuleProgram709 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleProgram719 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_20_in_ruleProgram765 = new BitSet(new long[]{0x0000000200200040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleProgram786 = new BitSet(new long[]{0x0000000000200000L});
+        public static final BitSet FOLLOW_21_in_ruleProgram799 = new BitSet(new long[]{0x0000000000400000L});
+        public static final BitSet FOLLOW_22_in_ruleProgram811 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleProgram832 = new BitSet(new long[]{0x0000000000800000L});
+        public static final BitSet FOLLOW_23_in_ruleProgram844 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleSource_in_ruleProgram865 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleProgram877 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleProgram898 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSource_in_entryRuleSource934 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSource944 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleSource999 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleBlock_in_entryRuleBlock1035 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleBlock1045 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleBlock1087 = new BitSet(new long[]{0x0000000002802000L});
+        public static final BitSet FOLLOW_23_in_ruleBlock1105 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleBlock1125 = new BitSet(new long[]{0x0000000003002000L});
+        public static final BitSet FOLLOW_24_in_ruleBlock1138 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleBlock1158 = new BitSet(new long[]{0x0000000003002000L});
+        public static final BitSet FOLLOW_25_in_ruleBlock1175 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleBlock1187 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000C00L});
+        public static final BitSet FOLLOW_ruleRepeat_in_ruleBlock1208 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleBlock1222 = new BitSet(new long[]{0x0000A20008000010L});
+        public static final BitSet FOLLOW_ruleMutator_in_ruleBlock1243 = new BitSet(new long[]{0x0000A20008004010L});
+        public static final BitSet FOLLOW_ruleMutator_in_ruleBlock1264 = new BitSet(new long[]{0x0000A20008004010L});
+        public static final BitSet FOLLOW_14_in_ruleBlock1277 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleBlock1290 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleBlock1313 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleBlock1325 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleBlock1346 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleBlock1374 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleBlock1387 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleConstraint_in_entryRuleConstraint1425 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleConstraint1435 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_30_in_ruleConstraint1472 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleConstraint1492 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleConstraint1513 = new BitSet(new long[]{0x0000000080000000L});
+        public static final BitSet FOLLOW_31_in_ruleConstraint1525 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleConstraint1546 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleMutator_in_entryRuleMutator1582 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleMutator1592 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCreateObjectMutator_in_ruleMutator1639 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSelectObjectMutator_in_ruleMutator1666 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCompositeMutator_in_ruleMutator1693 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleModifySourceReferenceMutator_in_ruleMutator1720 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleModifyTargetReferenceMutator_in_ruleMutator1747 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCreateReferenceMutator_in_ruleMutator1774 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveObjectMutator_in_ruleMutator1801 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveReferenceMutator_in_ruleMutator1828 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleModifyInformationMutator_in_ruleMutator1855 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_entryRuleObSelectionStrategy1890 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleObSelectionStrategy1900 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomSelection_in_ruleObSelectionStrategy1947 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificSelection_in_ruleObSelectionStrategy1974 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCompleteSelection_in_ruleObSelectionStrategy2001 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOtherSelection_in_ruleObSelectionStrategy2028 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomSelection_in_entryRuleRandomSelection2063 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRandomSelection2073 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomTypeSelection_in_ruleRandomSelection2119 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificSelection_in_entryRuleSpecificSelection2153 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificSelection2163 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificObjectSelection_in_ruleSpecificSelection2209 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCompleteSelection_in_entryRuleCompleteSelection2243 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCompleteSelection2253 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCompleteTypeSelection_in_ruleCompleteSelection2299 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOtherSelection_in_entryRuleOtherSelection2333 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleOtherSelection2343 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOtherTypeSelection_in_ruleOtherSelection2389 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeType_in_entryRuleAttributeType2423 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeType2433 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleIntegerType_in_ruleAttributeType2480 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleBooleanType_in_ruleAttributeType2507 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleStringType_in_ruleAttributeType2534 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleDoubleType_in_ruleAttributeType2561 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleListStringType_in_ruleAttributeType2588 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleLoad_in_entryRuleLoad2623 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleLoad2633 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_32_in_ruleLoad2679 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleLoad2700 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEString_in_entryRuleEString2737 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleEString2748 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_STRING_in_ruleEString2788 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleEString2814 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEInt_in_entryRuleEInt2860 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleEInt2871 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_33_in_ruleEInt2910 = new BitSet(new long[]{0x0000000000000040L});
+        public static final BitSet FOLLOW_RULE_INT_in_ruleEInt2927 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEDouble_in_entryRuleEDouble2973 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleEDouble2984 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_33_in_ruleEDouble3023 = new BitSet(new long[]{0x0000000400000040L});
+        public static final BitSet FOLLOW_RULE_INT_in_ruleEDouble3041 = new BitSet(new long[]{0x0000000400000000L});
+        public static final BitSet FOLLOW_34_in_ruleEDouble3061 = new BitSet(new long[]{0x0000000000000040L});
+        public static final BitSet FOLLOW_RULE_INT_in_ruleEDouble3076 = new BitSet(new long[]{0x0000001800000002L});
+        public static final BitSet FOLLOW_35_in_ruleEDouble3096 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_36_in_ruleEDouble3115 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_33_in_ruleEDouble3130 = new BitSet(new long[]{0x0000000000000040L});
+        public static final BitSet FOLLOW_RULE_INT_in_ruleEDouble3147 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEBoolean_in_entryRuleEBoolean3195 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleEBoolean3206 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_37_in_ruleEBoolean3244 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_38_in_ruleEBoolean3263 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleBinaryOperator_in_entryRuleBinaryOperator3303 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleBinaryOperator3313 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleLogicOperator_in_ruleBinaryOperator3368 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeEvaluation_in_entryRuleAttributeEvaluation3404 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeEvaluation3414 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeEvaluation3468 = new BitSet(new long[]{0x0000000004000000L,0x0000000000000200L});
+        public static final BitSet FOLLOW_ruleOperator_in_ruleAttributeEvaluation3489 = new BitSet(new long[]{0xF000006600000060L,0x000000000000003FL});
+        public static final BitSet FOLLOW_ruleAttributeType_in_ruleAttributeEvaluation3510 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceEvaluation_in_entryRuleReferenceEvaluation3546 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceEvaluation3556 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceEvaluation3611 = new BitSet(new long[]{0x0000000004000000L,0x0000000000000200L});
+        public static final BitSet FOLLOW_39_in_ruleReferenceEvaluation3629 = new BitSet(new long[]{0x0000000004000000L,0x0000000000000200L});
+        public static final BitSet FOLLOW_ruleOperator_in_ruleReferenceEvaluation3651 = new BitSet(new long[]{0x0800150000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleReferenceEvaluation3674 = new BitSet(new long[]{0x0000000400000002L});
+        public static final BitSet FOLLOW_34_in_ruleReferenceEvaluation3687 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceEvaluation3707 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_40_in_ruleReferenceEvaluation3728 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEvaluation_in_entryRuleEvaluation3765 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleEvaluation3775 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeEvaluation_in_ruleEvaluation3822 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceEvaluation_in_ruleEvaluation3849 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleExpression_in_entryRuleExpression3884 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleExpression3894 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEvaluation_in_ruleExpression3949 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000180L});
+        public static final BitSet FOLLOW_ruleBinaryOperator_in_ruleExpression3971 = new BitSet(new long[]{0x0000008000000010L});
+        public static final BitSet FOLLOW_ruleEvaluation_in_ruleExpression3992 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000180L});
+        public static final BitSet FOLLOW_ruleRemoveObjectMutator_in_entryRuleRemoveObjectMutator4030 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveObjectMutator4040 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_41_in_ruleRemoveObjectMutator4086 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleRemoveObjectMutator4107 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleRemoveObjectMutator4120 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRemoveObjectMutator4142 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleRemoveObjectMutator4154 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleRemoveObjectMutator4177 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleRemoveObjectMutator4189 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveReferenceMutator_in_entryRuleRemoveReferenceMutator4227 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveReferenceMutator4237 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveRandomReferenceMutator_in_ruleRemoveReferenceMutator4284 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveSpecificReferenceMutator_in_ruleRemoveReferenceMutator4311 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveCompleteReferenceMutator_in_ruleRemoveReferenceMutator4338 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveRandomReferenceMutator_in_entryRuleRemoveRandomReferenceMutator4373 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveRandomReferenceMutator4383 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_41_in_ruleRemoveRandomReferenceMutator4429 = new BitSet(new long[]{0x0000040000000000L});
+        public static final BitSet FOLLOW_42_in_ruleRemoveRandomReferenceMutator4441 = new BitSet(new long[]{0x0000080000000000L});
+        public static final BitSet FOLLOW_43_in_ruleRemoveRandomReferenceMutator4453 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator4473 = new BitSet(new long[]{0x0000000000400000L});
+        public static final BitSet FOLLOW_22_in_ruleRemoveRandomReferenceMutator4485 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveRandomReferenceMutator4505 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleRemoveRandomReferenceMutator4518 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRemoveRandomReferenceMutator4540 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleRemoveRandomReferenceMutator4552 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleRemoveRandomReferenceMutator4575 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleRemoveRandomReferenceMutator4587 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveSpecificReferenceMutator_in_entryRuleRemoveSpecificReferenceMutator4625 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveSpecificReferenceMutator4635 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_41_in_ruleRemoveSpecificReferenceMutator4681 = new BitSet(new long[]{0x0000080000000000L});
+        public static final BitSet FOLLOW_43_in_ruleRemoveSpecificReferenceMutator4693 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveSpecificReferenceMutator4713 = new BitSet(new long[]{0x0000000000400000L});
+        public static final BitSet FOLLOW_22_in_ruleRemoveSpecificReferenceMutator4725 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleRemoveSpecificReferenceMutator4746 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleRemoveSpecificReferenceMutator4759 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRemoveSpecificReferenceMutator4781 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleRemoveSpecificReferenceMutator4793 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleRemoveSpecificReferenceMutator4816 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleRemoveSpecificReferenceMutator4828 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRemoveCompleteReferenceMutator_in_entryRuleRemoveCompleteReferenceMutator4866 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRemoveCompleteReferenceMutator4876 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_41_in_ruleRemoveCompleteReferenceMutator4922 = new BitSet(new long[]{0x0000100000000000L});
+        public static final BitSet FOLLOW_44_in_ruleRemoveCompleteReferenceMutator4934 = new BitSet(new long[]{0x0000080000000000L});
+        public static final BitSet FOLLOW_43_in_ruleRemoveCompleteReferenceMutator4946 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4966 = new BitSet(new long[]{0x0000000000400000L});
+        public static final BitSet FOLLOW_22_in_ruleRemoveCompleteReferenceMutator4978 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleRemoveCompleteReferenceMutator4998 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCreateObjectMutator_in_entryRuleCreateObjectMutator5034 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCreateObjectMutator5044 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateObjectMutator5087 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleCreateObjectMutator5104 = new BitSet(new long[]{0x0000200000000000L});
+        public static final BitSet FOLLOW_45_in_ruleCreateObjectMutator5118 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateObjectMutator5138 = new BitSet(new long[]{0x0000000008400802L});
+        public static final BitSet FOLLOW_22_in_ruleCreateObjectMutator5151 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleCreateObjectMutator5172 = new BitSet(new long[]{0x0000000408000802L});
+        public static final BitSet FOLLOW_34_in_ruleCreateObjectMutator5185 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateObjectMutator5205 = new BitSet(new long[]{0x0000000008000802L});
+        public static final BitSet FOLLOW_11_in_ruleCreateObjectMutator5222 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleCreateObjectMutator5234 = new BitSet(new long[]{0x03C8000001004010L});
+        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator5256 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator5283 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_24_in_ruleCreateObjectMutator5298 = new BitSet(new long[]{0x03C8000000000010L});
+        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleCreateObjectMutator5320 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleCreateObjectMutator5347 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_14_in_ruleCreateObjectMutator5362 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleCreateObjectMutator5377 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleCreateObjectMutator5399 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleCreateObjectMutator5411 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleCreateObjectMutator5434 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleCreateObjectMutator5446 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSelectObjectMutator_in_entryRuleSelectObjectMutator5484 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSelectObjectMutator5494 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleSelectObjectMutator5536 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleSelectObjectMutator5553 = new BitSet(new long[]{0x0000400000000000L});
+        public static final BitSet FOLLOW_46_in_ruleSelectObjectMutator5565 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator5586 = new BitSet(new long[]{0x0000000000400002L});
+        public static final BitSet FOLLOW_22_in_ruleSelectObjectMutator5599 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleSelectObjectMutator5620 = new BitSet(new long[]{0x0000000400000002L});
+        public static final BitSet FOLLOW_34_in_ruleSelectObjectMutator5633 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleSelectObjectMutator5653 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleModifyInformationMutator_in_entryRuleModifyInformationMutator5693 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleModifyInformationMutator5703 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleModifyInformationMutator5746 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleModifyInformationMutator5763 = new BitSet(new long[]{0x0000800000000000L});
+        public static final BitSet FOLLOW_47_in_ruleModifyInformationMutator5777 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifyInformationMutator5798 = new BitSet(new long[]{0x0000000008000802L});
+        public static final BitSet FOLLOW_11_in_ruleModifyInformationMutator5811 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleModifyInformationMutator5823 = new BitSet(new long[]{0x03C8000001004010L});
+        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5845 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5872 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_24_in_ruleModifyInformationMutator5887 = new BitSet(new long[]{0x03C8000000000010L});
+        public static final BitSet FOLLOW_ruleAttributeSet_in_ruleModifyInformationMutator5909 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_ruleReferenceSet_in_ruleModifyInformationMutator5936 = new BitSet(new long[]{0x0000000001004000L});
+        public static final BitSet FOLLOW_14_in_ruleModifyInformationMutator5951 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleModifyInformationMutator5966 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleModifyInformationMutator5988 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleModifyInformationMutator6000 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleModifyInformationMutator6023 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleModifyInformationMutator6035 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCreateReferenceMutator_in_entryRuleCreateReferenceMutator6073 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCreateReferenceMutator6083 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateReferenceMutator6126 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleCreateReferenceMutator6143 = new BitSet(new long[]{0x0000200000000000L});
+        public static final BitSet FOLLOW_45_in_ruleCreateReferenceMutator6157 = new BitSet(new long[]{0x0000080000000000L});
+        public static final BitSet FOLLOW_43_in_ruleCreateReferenceMutator6169 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCreateReferenceMutator6189 = new BitSet(new long[]{0x0001000008400002L});
+        public static final BitSet FOLLOW_48_in_ruleCreateReferenceMutator6202 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator6223 = new BitSet(new long[]{0x0000000008400002L});
+        public static final BitSet FOLLOW_22_in_ruleCreateReferenceMutator6238 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleCreateReferenceMutator6259 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleCreateReferenceMutator6274 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleCreateReferenceMutator6296 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleCreateReferenceMutator6308 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleCreateReferenceMutator6331 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleCreateReferenceMutator6343 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleModifySourceReferenceMutator_in_entryRuleModifySourceReferenceMutator6381 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleModifySourceReferenceMutator6391 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_47_in_ruleModifySourceReferenceMutator6428 = new BitSet(new long[]{0x0002000000000000L});
+        public static final BitSet FOLLOW_49_in_ruleModifySourceReferenceMutator6440 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleModifySourceReferenceMutator6460 = new BitSet(new long[]{0x0001000008800002L});
+        public static final BitSet FOLLOW_23_in_ruleModifySourceReferenceMutator6473 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator6494 = new BitSet(new long[]{0x0001000008000002L});
+        public static final BitSet FOLLOW_48_in_ruleModifySourceReferenceMutator6509 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifySourceReferenceMutator6530 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleModifySourceReferenceMutator6545 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleModifySourceReferenceMutator6567 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleModifySourceReferenceMutator6579 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleModifySourceReferenceMutator6602 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleModifySourceReferenceMutator6614 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleModifyTargetReferenceMutator_in_entryRuleModifyTargetReferenceMutator6652 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleModifyTargetReferenceMutator6662 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_47_in_ruleModifyTargetReferenceMutator6699 = new BitSet(new long[]{0x0004000000000000L});
+        public static final BitSet FOLLOW_50_in_ruleModifyTargetReferenceMutator6711 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleModifyTargetReferenceMutator6731 = new BitSet(new long[]{0x0001000008800002L});
+        public static final BitSet FOLLOW_23_in_ruleModifyTargetReferenceMutator6744 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6765 = new BitSet(new long[]{0x0001000008000002L});
+        public static final BitSet FOLLOW_48_in_ruleModifyTargetReferenceMutator6780 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleModifyTargetReferenceMutator6801 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleModifyTargetReferenceMutator6816 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleModifyTargetReferenceMutator6838 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleModifyTargetReferenceMutator6850 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleModifyTargetReferenceMutator6873 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleModifyTargetReferenceMutator6885 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCompositeMutator_in_entryRuleCompositeMutator6923 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCompositeMutator6933 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCompositeMutator6976 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleCompositeMutator6993 = new BitSet(new long[]{0x0000000008000000L});
+        public static final BitSet FOLLOW_27_in_ruleCompositeMutator7007 = new BitSet(new long[]{0x0000A20008000010L});
+        public static final BitSet FOLLOW_ruleMutator_in_ruleCompositeMutator7028 = new BitSet(new long[]{0x0000A20028000010L});
+        public static final BitSet FOLLOW_ruleMutator_in_ruleCompositeMutator7049 = new BitSet(new long[]{0x0000A20028000010L});
+        public static final BitSet FOLLOW_29_in_ruleCompositeMutator7062 = new BitSet(new long[]{0x0000000008000002L});
+        public static final BitSet FOLLOW_27_in_ruleCompositeMutator7075 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleCompositeMutator7098 = new BitSet(new long[]{0x0000000010000000L});
+        public static final BitSet FOLLOW_28_in_ruleCompositeMutator7110 = new BitSet(new long[]{0x0000000200000040L,0x0000000000000040L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_ruleCompositeMutator7131 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleCompositeMutator7159 = new BitSet(new long[]{0x0000000020000000L});
+        public static final BitSet FOLLOW_29_in_ruleCompositeMutator7172 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeSet_in_entryRuleAttributeSet7210 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeSet7220 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeInit_in_ruleAttributeSet7267 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeUnset_in_ruleAttributeSet7294 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeSwap_in_ruleAttributeSet7321 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeCopy_in_ruleAttributeSet7348 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeReverse_in_ruleAttributeSet7375 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeInit_in_entryRuleAttributeInit7410 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeInit7420 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeInit7465 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleAttributeInit7477 = new BitSet(new long[]{0xF000006600000060L,0x000000000000003FL});
+        public static final BitSet FOLLOW_ruleAttributeType_in_ruleAttributeInit7498 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeUnset_in_entryRuleAttributeUnset7534 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeUnset7544 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_51_in_ruleAttributeUnset7581 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleAttributeUnset7593 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeUnset7613 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleAttributeUnset7625 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeSwap_in_entryRuleAttributeSwap7661 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeSwap7671 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_54_in_ruleAttributeSwap7708 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleAttributeSwap7720 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeSwap7740 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleAttributeSwap7752 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleAttributeSwap7774 = new BitSet(new long[]{0x0000000400000000L});
+        public static final BitSet FOLLOW_34_in_ruleAttributeSwap7786 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeSwap7808 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleAttributeSwap7820 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeCopy_in_entryRuleAttributeCopy7856 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeCopy7866 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_55_in_ruleAttributeCopy7903 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleAttributeCopy7915 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeCopy7935 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleAttributeCopy7947 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleAttributeCopy7969 = new BitSet(new long[]{0x0000000400000000L});
+        public static final BitSet FOLLOW_34_in_ruleAttributeCopy7981 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeCopy8003 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleAttributeCopy8015 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAttributeReverse_in_entryRuleAttributeReverse8051 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAttributeReverse8061 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_56_in_ruleAttributeReverse8098 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleAttributeReverse8110 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAttributeReverse8130 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleAttributeReverse8142 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceSet_in_entryRuleReferenceSet8178 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceSet8188 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceInit_in_ruleReferenceSet8235 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceSwap_in_ruleReferenceSet8262 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceInit_in_entryRuleReferenceInit8297 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceInit8307 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceInit8352 = new BitSet(new long[]{0x0000000004000000L});
+        public static final BitSet FOLLOW_26_in_ruleReferenceInit8364 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleReferenceInit8385 = new BitSet(new long[]{0x0000000400000002L});
+        public static final BitSet FOLLOW_34_in_ruleReferenceInit8398 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceInit8418 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReferenceSwap_in_entryRuleReferenceSwap8456 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleReferenceSwap8466 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_57_in_ruleReferenceSwap8503 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleReferenceSwap8515 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceSwap8535 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleReferenceSwap8547 = new BitSet(new long[]{0x0800140000000010L});
+        public static final BitSet FOLLOW_ruleObSelectionStrategy_in_ruleReferenceSwap8569 = new BitSet(new long[]{0x0000000400000000L});
+        public static final BitSet FOLLOW_34_in_ruleReferenceSwap8581 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleReferenceSwap8603 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleReferenceSwap8615 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomTypeSelection_in_entryRuleRandomTypeSelection8651 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRandomTypeSelection8661 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_42_in_ruleRandomTypeSelection8707 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleRandomTypeSelection8727 = new BitSet(new long[]{0x0400000000000002L});
+        public static final BitSet FOLLOW_58_in_ruleRandomTypeSelection8740 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleRandomTypeSelection8752 = new BitSet(new long[]{0x0000008000000010L});
+        public static final BitSet FOLLOW_ruleExpression_in_ruleRandomTypeSelection8773 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleRandomTypeSelection8785 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificObjectSelection_in_entryRuleSpecificObjectSelection8823 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificObjectSelection8833 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleSpecificObjectSelection8887 = new BitSet(new long[]{0x0400000000000002L});
+        public static final BitSet FOLLOW_58_in_ruleSpecificObjectSelection8900 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleSpecificObjectSelection8912 = new BitSet(new long[]{0x0000008000000010L});
+        public static final BitSet FOLLOW_ruleExpression_in_ruleSpecificObjectSelection8933 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleSpecificObjectSelection8945 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCompleteTypeSelection_in_entryRuleCompleteTypeSelection8983 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCompleteTypeSelection8993 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_44_in_ruleCompleteTypeSelection9039 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleCompleteTypeSelection9059 = new BitSet(new long[]{0x0400000000000002L});
+        public static final BitSet FOLLOW_58_in_ruleCompleteTypeSelection9072 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleCompleteTypeSelection9084 = new BitSet(new long[]{0x0000008000000010L});
+        public static final BitSet FOLLOW_ruleExpression_in_ruleCompleteTypeSelection9105 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleCompleteTypeSelection9117 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOtherTypeSelection_in_entryRuleOtherTypeSelection9155 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleOtherTypeSelection9165 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_59_in_ruleOtherTypeSelection9211 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleOtherTypeSelection9231 = new BitSet(new long[]{0x0400000000000002L});
+        public static final BitSet FOLLOW_58_in_ruleOtherTypeSelection9244 = new BitSet(new long[]{0x0000000000002000L});
+        public static final BitSet FOLLOW_13_in_ruleOtherTypeSelection9256 = new BitSet(new long[]{0x0000008000000010L});
+        public static final BitSet FOLLOW_ruleExpression_in_ruleOtherTypeSelection9277 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleOtherTypeSelection9289 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleBooleanType_in_entryRuleBooleanType9327 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleBooleanType9337 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificBooleanType_in_ruleBooleanType9384 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomBooleanType_in_ruleBooleanType9411 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomBooleanType_in_entryRuleRandomBooleanType9446 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRandomBooleanType9456 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_60_in_ruleRandomBooleanType9502 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificBooleanType_in_entryRuleSpecificBooleanType9538 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificBooleanType9548 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEBoolean_in_ruleSpecificBooleanType9603 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleStringType_in_entryRuleStringType9639 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleStringType9649 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificStringType_in_ruleStringType9696 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomStringType_in_ruleStringType9723 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleUpperStringType_in_ruleStringType9750 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleLowerStringType_in_ruleStringType9777 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCatStartStringType_in_ruleStringType9804 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCatEndStringType_in_ruleStringType9831 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReplaceStringType_in_ruleStringType9858 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomStringType_in_entryRuleRandomStringType9893 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRandomStringType9903 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_61_in_ruleRandomStringType9949 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleRandomStringType9961 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomStringType9982 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleRandomStringType9994 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomStringType10015 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleRandomStringType10027 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificStringType_in_entryRuleSpecificStringType10063 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificStringType10073 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_STRING_in_ruleSpecificStringType10124 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleUpperStringType_in_entryRuleUpperStringType10165 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleUpperStringType10175 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_62_in_ruleUpperStringType10221 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCatStartStringType_in_entryRuleCatStartStringType10257 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCatStartStringType10267 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_63_in_ruleCatStartStringType10313 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleCatStartStringType10325 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleCatStartStringType10346 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleCatStartStringType10358 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleCatEndStringType_in_entryRuleCatEndStringType10394 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleCatEndStringType10404 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_64_in_ruleCatEndStringType10450 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleCatEndStringType10462 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleCatEndStringType10483 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleCatEndStringType10495 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleListStringType_in_entryRuleListStringType10531 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleListStringType10541 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_65_in_ruleListStringType10587 = new BitSet(new long[]{0x0000000008000000L});
+        public static final BitSet FOLLOW_27_in_ruleListStringType10599 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleListStringType10620 = new BitSet(new long[]{0x0000000021000000L});
+        public static final BitSet FOLLOW_24_in_ruleListStringType10633 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleListStringType10654 = new BitSet(new long[]{0x0000000021000000L});
+        public static final BitSet FOLLOW_29_in_ruleListStringType10668 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleLowerStringType_in_entryRuleLowerStringType10704 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleLowerStringType10714 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_66_in_ruleLowerStringType10760 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleReplaceStringType_in_entryRuleReplaceStringType10796 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleReplaceStringType10806 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_67_in_ruleReplaceStringType10852 = new BitSet(new long[]{0x0010000000000000L});
+        public static final BitSet FOLLOW_52_in_ruleReplaceStringType10864 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleReplaceStringType10885 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleReplaceStringType10897 = new BitSet(new long[]{0x0000000000000030L});
+        public static final BitSet FOLLOW_ruleEString_in_ruleReplaceStringType10918 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleReplaceStringType10930 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleDoubleType_in_entryRuleDoubleType10966 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleDoubleType10976 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificDoubleType_in_ruleDoubleType11023 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomDoubleType_in_ruleDoubleType11050 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomDoubleType_in_entryRuleRandomDoubleType11085 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRandomDoubleType11095 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_68_in_ruleRandomDoubleType11141 = new BitSet(new long[]{0x0010000000000002L});
+        public static final BitSet FOLLOW_52_in_ruleRandomDoubleType11154 = new BitSet(new long[]{0x0000000600000040L});
+        public static final BitSet FOLLOW_ruleEDouble_in_ruleRandomDoubleType11175 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleRandomDoubleType11187 = new BitSet(new long[]{0x0000000600000040L});
+        public static final BitSet FOLLOW_ruleEDouble_in_ruleRandomDoubleType11208 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleRandomDoubleType11220 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificDoubleType_in_entryRuleSpecificDoubleType11258 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificDoubleType11268 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEDouble_in_ruleSpecificDoubleType11323 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleIntegerType_in_entryRuleIntegerType11359 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleIntegerType11369 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificIntegerType_in_ruleIntegerType11416 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomIntegerType_in_ruleIntegerType11443 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSpecificIntegerType_in_entryRuleSpecificIntegerType11478 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSpecificIntegerType11488 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleSpecificIntegerType11543 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRandomIntegerType_in_entryRuleRandomIntegerType11579 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRandomIntegerType11589 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_69_in_ruleRandomIntegerType11635 = new BitSet(new long[]{0x0010000000000002L});
+        public static final BitSet FOLLOW_52_in_ruleRandomIntegerType11648 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomIntegerType11669 = new BitSet(new long[]{0x0000000001000000L});
+        public static final BitSet FOLLOW_24_in_ruleRandomIntegerType11681 = new BitSet(new long[]{0x0000000200000040L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleRandomIntegerType11702 = new BitSet(new long[]{0x0020000000000000L});
+        public static final BitSet FOLLOW_53_in_ruleRandomIntegerType11714 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleMaxCardinality_in_entryRuleMaxCardinality11753 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleMaxCardinality11764 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEInt_in_ruleMaxCardinality11811 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_70_in_ruleMaxCardinality11835 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_71_in_ruleLogicOperator11889 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_72_in_ruleLogicOperator11906 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_26_in_ruleOperator11951 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_73_in_ruleOperator11968 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_74_in_ruleRepeat12013 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_75_in_ruleRepeat12030 = new BitSet(new long[]{0x0000000000000002L});
     }
 
 

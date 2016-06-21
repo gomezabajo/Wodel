@@ -13,5 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface CompleteTypeSelection extends CompleteSelection {
+public interface CompleteTypeSelection extends CompleteSelection
+{
 } // CompleteTypeSelection

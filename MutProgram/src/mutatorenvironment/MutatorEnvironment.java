@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getDefinition <em>Definition</em>}</li>
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getCommands <em>Commands</em>}</li>
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getLoad <em>Load</em>}</li>
+ *   <li>{@link mutatorenvironment.MutatorEnvironment#getBlocks <em>Blocks</em>}</li>
+ *   <li>{@link mutatorenvironment.MutatorEnvironment#getConstraints <em>Constraints</em>}</li>
  * </ul>
  * </p>
  *
@@ -24,7 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface MutatorEnvironment extends EObject {
+public interface MutatorEnvironment extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>Definition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -82,5 +85,37 @@ public interface MutatorEnvironment extends EObject {
 	 * @generated
 	 */
 	EList<Load> getLoad();
+
+	/**
+	 * Returns the value of the '<em><b>Blocks</b></em>' containment reference list.
+	 * The list contents are of type {@link mutatorenvironment.Block}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Blocks</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Blocks</em>' containment reference list.
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Blocks()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Block> getBlocks();
+
+	/**
+	 * Returns the value of the '<em><b>Constraints</b></em>' containment reference list.
+	 * The list contents are of type {@link mutatorenvironment.Constraint}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Constraints</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Constraints</em>' containment reference list.
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment_Constraints()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Constraint> getConstraints();
 
 } // MutatorEnvironment

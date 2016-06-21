@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.IntegerType;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class IntegerTypeImpl extends AttributeTypeImpl implements IntegerType {
+public abstract class IntegerTypeImpl extends AttributeTypeImpl implements IntegerType
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IntegerTypeImpl() {
+	protected IntegerTypeImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public abstract class IntegerTypeImpl extends AttributeTypeImpl implements Integ
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.INTEGER_TYPE;
 	}
 

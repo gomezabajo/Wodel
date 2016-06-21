@@ -14,6 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Evaluation extends EObject {
-
+public interface Evaluation extends EObject
+{
 } // Evaluation

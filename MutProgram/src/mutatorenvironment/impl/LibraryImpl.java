@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class LibraryImpl extends DefinitionImpl implements Library {
+public class LibraryImpl extends DefinitionImpl implements Library
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LibraryImpl() {
+	protected LibraryImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public class LibraryImpl extends DefinitionImpl implements Library {
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.LIBRARY;
 	}
 

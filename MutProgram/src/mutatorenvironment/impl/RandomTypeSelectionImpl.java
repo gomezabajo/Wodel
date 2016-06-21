@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.RandomTypeSelection;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class RandomTypeSelectionImpl extends RandomSelectionImpl implements RandomTypeSelection {
+public class RandomTypeSelectionImpl extends RandomSelectionImpl implements RandomTypeSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RandomTypeSelectionImpl() {
+	protected RandomTypeSelectionImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public class RandomTypeSelectionImpl extends RandomSelectionImpl implements Rand
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.RANDOM_TYPE_SELECTION;
 	}
 

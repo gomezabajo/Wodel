@@ -147,6 +147,8 @@ public class CreateReferenceMutator extends Mutator {
 			if(o!=null){
 				result = null;
 				return null;
+				//this.result = reference;
+				//return this.result;
 			}						
 			source.eSet(reference, target); 
 			this.result = reference;

@@ -14,41 +14,41 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link mutatortests.MutatorTests#getConfig <em>Config</em>}</li>
+ *   <li>{@link mutatortests.MutatorTests#getBlock <em>Block</em>}</li>
  *   <li>{@link mutatortests.MutatorTests#getTests <em>Tests</em>}</li>
  * </ul>
  * </p>
  *
  * @see mutatortests.MutatortestsPackage#getMutatorTests()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface MutatorTests extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Config</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Block</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Config</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Block</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Config</em>' containment reference.
-	 * @see #setConfig(Configuration)
-	 * @see mutatortests.MutatortestsPackage#getMutatorTests_Config()
-	 * @model containment="true" required="true"
+	 * @return the value of the '<em>Block</em>' reference.
+	 * @see #setBlock(EObject)
+	 * @see mutatortests.MutatortestsPackage#getMutatorTests_Block()
+	 * @model
 	 * @generated
 	 */
-	Configuration getConfig();
+	EObject getBlock();
 
 	/**
-	 * Sets the value of the '{@link mutatortests.MutatorTests#getConfig <em>Config</em>}' containment reference.
+	 * Sets the value of the '{@link mutatortests.MutatorTests#getBlock <em>Block</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Config</em>' containment reference.
-	 * @see #getConfig()
+	 * @param value the new value of the '<em>Block</em>' reference.
+	 * @see #getBlock()
 	 * @generated
 	 */
-	void setConfig(Configuration value);
+	void setBlock(EObject value);
 
 	/**
 	 * Returns the value of the '<em><b>Tests</b></em>' containment reference list.

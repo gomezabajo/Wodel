@@ -66,6 +66,12 @@ public class MutatortestsSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case MutatortestsPackage.PROGRAM: {
+				Program program = (Program)theEObject;
+				T result = caseProgram(program);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case MutatortestsPackage.MUTATOR_TESTS: {
 				MutatorTests mutatorTests = (MutatorTests)theEObject;
 				T result = caseMutatorTests(mutatorTests);
@@ -78,6 +84,49 @@ public class MutatortestsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MutatortestsPackage.PROGRAM_CONFIGURATION: {
+				ProgramConfiguration programConfiguration = (ProgramConfiguration)theEObject;
+				T result = caseProgramConfiguration(programConfiguration);
+				if (result == null) result = caseConfiguration(programConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatortestsPackage.TEST_CONFIGURATION: {
+				TestConfiguration testConfiguration = (TestConfiguration)theEObject;
+				T result = caseTestConfiguration(testConfiguration);
+				if (result == null) result = caseConfiguration(testConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatortestsPackage.MULTI_CHOICE_EM_CONFIG: {
+				MultiChoiceEmConfig multiChoiceEmConfig = (MultiChoiceEmConfig)theEObject;
+				T result = caseMultiChoiceEmConfig(multiChoiceEmConfig);
+				if (result == null) result = caseTestConfiguration(multiChoiceEmConfig);
+				if (result == null) result = caseConfiguration(multiChoiceEmConfig);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatortestsPackage.ALTERNATIVE_RESPONSE: {
+				AlternativeResponse alternativeResponse = (AlternativeResponse)theEObject;
+				T result = caseAlternativeResponse(alternativeResponse);
+				if (result == null) result = caseMutatorTests(alternativeResponse);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatortestsPackage.MULTI_CHOICE_DIAGRAM: {
+				MultiChoiceDiagram multiChoiceDiagram = (MultiChoiceDiagram)theEObject;
+				T result = caseMultiChoiceDiagram(multiChoiceDiagram);
+				if (result == null) result = caseMutatorTests(multiChoiceDiagram);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatortestsPackage.MULTI_CHOICE_EMENDATION: {
+				MultiChoiceEmendation multiChoiceEmendation = (MultiChoiceEmendation)theEObject;
+				T result = caseMultiChoiceEmendation(multiChoiceEmendation);
+				if (result == null) result = caseMutatorTests(multiChoiceEmendation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case MutatortestsPackage.TEST: {
 				Test test = (Test)theEObject;
 				T result = caseTest(test);
@@ -86,6 +135,21 @@ public class MutatortestsSwitch<T> extends Switch<T> {
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Program</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Program</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProgram(Program object) {
+		return null;
 	}
 
 	/**
@@ -115,6 +179,96 @@ public class MutatortestsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConfiguration(Configuration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Program Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Program Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProgramConfiguration(ProgramConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Test Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Test Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTestConfiguration(TestConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Choice Em Config</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Choice Em Config</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiChoiceEmConfig(MultiChoiceEmConfig object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Alternative Response</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Alternative Response</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAlternativeResponse(AlternativeResponse object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Choice Diagram</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Choice Diagram</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiChoiceDiagram(MultiChoiceDiagram object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Choice Emendation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Choice Emendation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiChoiceEmendation(MultiChoiceEmendation object) {
 		return null;
 	}
 

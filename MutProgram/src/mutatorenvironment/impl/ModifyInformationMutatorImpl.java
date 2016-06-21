@@ -3,17 +3,23 @@
 package mutatorenvironment.impl;
 
 import java.util.Collection;
+
 import mutatorenvironment.AttributeSet;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ReferenceSet;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -32,7 +38,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyInformationMutator {
+public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyInformationMutator
+{
 	/**
 	 * The cached value of the '{@link #getObject() <em>Object</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -68,7 +75,8 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ModifyInformationMutatorImpl() {
+	protected ModifyInformationMutatorImpl()
+	{
 		super();
 	}
 
@@ -78,7 +86,8 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.MODIFY_INFORMATION_MUTATOR;
 	}
 
@@ -87,7 +96,8 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObSelectionStrategy getObject() {
+	public ObSelectionStrategy getObject()
+	{
 		return object;
 	}
 
@@ -96,10 +106,12 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetObject(ObSelectionStrategy newObject, NotificationChain msgs) {
+	public NotificationChain basicSetObject(ObSelectionStrategy newObject, NotificationChain msgs)
+	{
 		ObSelectionStrategy oldObject = object;
 		object = newObject;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT, oldObject, newObject);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -111,8 +123,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setObject(ObSelectionStrategy newObject) {
-		if (newObject != object) {
+	public void setObject(ObSelectionStrategy newObject)
+	{
+		if (newObject != object)
+		{
 			NotificationChain msgs = null;
 			if (object != null)
 				msgs = ((InternalEObject)object).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT, null, msgs);
@@ -130,8 +144,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AttributeSet> getAttributes() {
-		if (attributes == null) {
+	public EList<AttributeSet> getAttributes()
+	{
+		if (attributes == null)
+		{
 			attributes = new EObjectContainmentEList<AttributeSet>(AttributeSet.class, this, MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__ATTRIBUTES);
 		}
 		return attributes;
@@ -142,8 +158,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ReferenceSet> getReferences() {
-		if (references == null) {
+	public EList<ReferenceSet> getReferences()
+	{
+		if (references == null)
+		{
 			references = new EObjectContainmentEList<ReferenceSet>(ReferenceSet.class, this, MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__REFERENCES);
 		}
 		return references;
@@ -155,8 +173,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT:
 				return basicSetObject(null, msgs);
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__ATTRIBUTES:
@@ -173,8 +193,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT:
 				return getObject();
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__ATTRIBUTES:
@@ -192,8 +214,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT:
 				setObject((ObSelectionStrategy)newValue);
 				return;
@@ -215,8 +239,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT:
 				setObject((ObSelectionStrategy)null);
 				return;
@@ -236,8 +262,10 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__OBJECT:
 				return object != null;
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__ATTRIBUTES:

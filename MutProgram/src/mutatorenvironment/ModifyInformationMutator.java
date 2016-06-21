@@ -22,7 +22,8 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface ModifyInformationMutator extends Mutator {
+public interface ModifyInformationMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

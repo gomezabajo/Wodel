@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Definition extends EObject {
+public interface Definition extends EObject
+{
 	/**
 	 * Returns the value of the '<em><b>Metamodel</b></em>' attribute.
 	 * <!-- begin-user-doc -->

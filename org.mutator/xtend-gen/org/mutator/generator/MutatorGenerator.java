@@ -17,11 +17,13 @@ import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeType;
 import mutatorenvironment.AttributeUnset;
 import mutatorenvironment.BinaryOperator;
+import mutatorenvironment.Block;
 import mutatorenvironment.BooleanType;
 import mutatorenvironment.CatEndStringType;
 import mutatorenvironment.CatStartStringType;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
+import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Definition;
@@ -55,6 +57,7 @@ import mutatorenvironment.RemoveCompleteReferenceMutator;
 import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RemoveRandomReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
+import mutatorenvironment.Repeat;
 import mutatorenvironment.ReplaceStringType;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.Source;
@@ -76,6 +79,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.mutator.WodelUtils;
 
@@ -138,7 +142,7 @@ public class MutatorGenerator implements IGenerator {
   
   private String xmiFileName;
   
-  private ArrayList<String> listNMuts;
+  private int nMut;
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
@@ -183,6 +187,19 @@ public class MutatorGenerator implements IGenerator {
         fsa.generateFile(this.fileName, _compile);
       }
     }
+  }
+  
+  public int getRandom(final int range) {
+    if ((range == 1)) {
+      return 0;
+    }
+    long _nanoTime = System.nanoTime();
+    int _intValue = Long.valueOf(_nanoTime).intValue();
+    int value = (_intValue % range);
+    if ((value < 0)) {
+      value = (value * (-1));
+    }
+    return value;
   }
   
   public CharSequence method(final Mutator mut) {
@@ -2191,57 +2208,72 @@ public class MutatorGenerator implements IGenerator {
             _builder.append(this.nCompositeCommands = (this.nCompositeCommands + 1), "\t");
             _builder.newLineIfNotEmpty();
             {
-              int _max = ((CompositeMutator)c).getMax();
-              int _min = ((CompositeMutator)c).getMin();
-              int _minus = (_max - _min);
-              boolean _greaterThan = (_minus > 0);
-              if (_greaterThan) {
+              int _fixed = ((CompositeMutator)c).getFixed();
+              boolean _equals = (_fixed == 0);
+              if (_equals) {
+                {
+                  int _max = ((CompositeMutator)c).getMax();
+                  int _min = ((CompositeMutator)c).getMin();
+                  int _minus = (_max - _min);
+                  boolean _greaterThan = (_minus > 0);
+                  if (_greaterThan) {
+                    _builder.append("\t");
+                    _builder.append("int cmax");
+                    _builder.append(this.nCompositeCommands, "\t");
+                    _builder.append(" = getRandom(");
+                    int _max_1 = ((CompositeMutator)c).getMax();
+                    int _min_1 = ((CompositeMutator)c).getMin();
+                    int _minus_1 = (_max_1 - _min_1);
+                    _builder.append(_minus_1, "\t");
+                    _builder.append(") + ");
+                    int _min_2 = ((CompositeMutator)c).getMin();
+                    _builder.append(_min_2, "\t");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+                {
+                  boolean _and = false;
+                  int _min_3 = ((CompositeMutator)c).getMin();
+                  boolean _equals_1 = (_min_3 == 0);
+                  if (!_equals_1) {
+                    _and = false;
+                  } else {
+                    int _max_2 = ((CompositeMutator)c).getMax();
+                    boolean _equals_2 = (_max_2 == 0);
+                    _and = _equals_2;
+                  }
+                  if (_and) {
+                    _builder.append("\t");
+                    _builder.append("int cmax");
+                    _builder.append(this.nCompositeCommands, "\t");
+                    _builder.append(" = 1;");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    int _min_4 = ((CompositeMutator)c).getMin();
+                    int _max_3 = ((CompositeMutator)c).getMax();
+                    boolean _equals_3 = (_min_4 == _max_3);
+                    if (_equals_3) {
+                      _builder.append("\t");
+                      _builder.append("int cmax");
+                      _builder.append(this.nCompositeCommands, "\t");
+                      _builder.append(" = ");
+                      int _min_5 = ((CompositeMutator)c).getMin();
+                      _builder.append(_min_5, "\t");
+                      _builder.append(";");
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              } else {
                 _builder.append("\t");
                 _builder.append("int cmax");
                 _builder.append(this.nCompositeCommands, "\t");
-                _builder.append(" = getRandom(");
-                int _max_1 = ((CompositeMutator)c).getMax();
-                int _min_1 = ((CompositeMutator)c).getMin();
-                int _minus_1 = (_max_1 - _min_1);
-                _builder.append(_minus_1, "\t");
-                _builder.append(") + ");
-                int _min_2 = ((CompositeMutator)c).getMin();
-                _builder.append(_min_2, "\t");
+                _builder.append(" = ");
+                int _fixed_1 = ((CompositeMutator)c).getFixed();
+                _builder.append(_fixed_1, "\t");
                 _builder.append(";");
                 _builder.newLineIfNotEmpty();
-              }
-            }
-            {
-              boolean _and = false;
-              int _min_3 = ((CompositeMutator)c).getMin();
-              boolean _equals = (_min_3 == 0);
-              if (!_equals) {
-                _and = false;
-              } else {
-                int _max_2 = ((CompositeMutator)c).getMax();
-                boolean _equals_1 = (_max_2 == 0);
-                _and = _equals_1;
-              }
-              if (_and) {
-                _builder.append("\t");
-                _builder.append("int cmax");
-                _builder.append(this.nCompositeCommands, "\t");
-                _builder.append(" = 1;");
-                _builder.newLineIfNotEmpty();
-              } else {
-                int _min_4 = ((CompositeMutator)c).getMin();
-                int _max_3 = ((CompositeMutator)c).getMax();
-                boolean _equals_2 = (_min_4 == _max_3);
-                if (_equals_2) {
-                  _builder.append("\t");
-                  _builder.append("int cmax");
-                  _builder.append(this.nCompositeCommands, "\t");
-                  _builder.append(" = ");
-                  int _min_5 = ((CompositeMutator)c).getMin();
-                  _builder.append(_min_5, "\t");
-                  _builder.append(";");
-                  _builder.newLineIfNotEmpty();
-                }
               }
             }
             _builder.append("\t");
@@ -2319,57 +2351,72 @@ public class MutatorGenerator implements IGenerator {
             _builder.append(this.nCommands = (this.nCommands + 1), "\t");
             _builder.newLineIfNotEmpty();
             {
-              int _max_4 = c.getMax();
-              int _min_6 = c.getMin();
-              int _minus_3 = (_max_4 - _min_6);
-              boolean _greaterThan_1 = (_minus_3 > 0);
-              if (_greaterThan_1) {
+              int _fixed_2 = c.getFixed();
+              boolean _equals_4 = (_fixed_2 == 0);
+              if (_equals_4) {
+                {
+                  int _max_4 = c.getMax();
+                  int _min_6 = c.getMin();
+                  int _minus_3 = (_max_4 - _min_6);
+                  boolean _greaterThan_1 = (_minus_3 > 0);
+                  if (_greaterThan_1) {
+                    _builder.append("\t");
+                    _builder.append("int max");
+                    _builder.append(this.nCommands, "\t");
+                    _builder.append(" = getRandom(");
+                    int _max_5 = c.getMax();
+                    int _min_7 = c.getMin();
+                    int _minus_4 = (_max_5 - _min_7);
+                    _builder.append(_minus_4, "\t");
+                    _builder.append(") + ");
+                    int _min_8 = c.getMin();
+                    _builder.append(_min_8, "\t");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+                {
+                  boolean _and_1 = false;
+                  int _max_6 = c.getMax();
+                  boolean _equals_5 = (_max_6 == 0);
+                  if (!_equals_5) {
+                    _and_1 = false;
+                  } else {
+                    int _min_9 = c.getMin();
+                    boolean _equals_6 = (_min_9 == 0);
+                    _and_1 = _equals_6;
+                  }
+                  if (_and_1) {
+                    _builder.append("\t");
+                    _builder.append("int max");
+                    _builder.append(this.nCommands, "\t");
+                    _builder.append(" = 1;");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    int _min_10 = c.getMin();
+                    int _max_7 = c.getMax();
+                    boolean _equals_7 = (_min_10 == _max_7);
+                    if (_equals_7) {
+                      _builder.append("\t");
+                      _builder.append("int max");
+                      _builder.append(this.nCommands, "\t");
+                      _builder.append(" = ");
+                      int _min_11 = c.getMin();
+                      _builder.append(_min_11, "\t");
+                      _builder.append(";");
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
+                }
+              } else {
                 _builder.append("\t");
                 _builder.append("int max");
                 _builder.append(this.nCommands, "\t");
-                _builder.append(" = getRandom(");
-                int _max_5 = c.getMax();
-                int _min_7 = c.getMin();
-                int _minus_4 = (_max_5 - _min_7);
-                _builder.append(_minus_4, "\t");
-                _builder.append(") + ");
-                int _min_8 = c.getMin();
-                _builder.append(_min_8, "\t");
+                _builder.append(" = ");
+                int _fixed_3 = c.getFixed();
+                _builder.append(_fixed_3, "\t");
                 _builder.append(";");
                 _builder.newLineIfNotEmpty();
-              }
-            }
-            {
-              boolean _and_1 = false;
-              int _max_6 = c.getMax();
-              boolean _equals_3 = (_max_6 == 0);
-              if (!_equals_3) {
-                _and_1 = false;
-              } else {
-                int _min_9 = c.getMin();
-                boolean _equals_4 = (_min_9 == 0);
-                _and_1 = _equals_4;
-              }
-              if (_and_1) {
-                _builder.append("\t");
-                _builder.append("int max");
-                _builder.append(this.nCommands, "\t");
-                _builder.append(" = 1;");
-                _builder.newLineIfNotEmpty();
-              } else {
-                int _min_10 = c.getMin();
-                int _max_7 = c.getMax();
-                boolean _equals_5 = (_min_10 == _max_7);
-                if (_equals_5) {
-                  _builder.append("\t");
-                  _builder.append("int max");
-                  _builder.append(this.nCommands, "\t");
-                  _builder.append(" = ");
-                  int _min_11 = c.getMin();
-                  _builder.append(_min_11, "\t");
-                  _builder.append(";");
-                  _builder.newLineIfNotEmpty();
-                }
               }
             }
             _builder.append("\t");
@@ -2533,7 +2580,12 @@ public class MutatorGenerator implements IGenerator {
       if ((mut instanceof CreateObjectMutator)) {
         _builder.append("ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();");
         _builder.newLine();
+        _builder.append("if (mut.getObject() != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("cMut.getObject().add(mut.getObject());");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
         _builder.append("cMut.setDef(hmMutator.get(\"m");
         _builder.append(this.nRegistryMutation, "");
@@ -2547,7 +2599,20 @@ public class MutatorGenerator implements IGenerator {
       if ((mut instanceof RemoveObjectMutator)) {
         _builder.append("ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();");
         _builder.newLine();
+        _builder.append("System.out.println(\"ModelManager.getObject(seed, mut.getObject()): \" + ModelManager.getObject(seed, mut.getObject()));");
+        _builder.newLine();
+        _builder.append("if (ModelManager.getObject(seed, mut.getObject()) != null) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("if (ModelManager.getObject(seed, mut.getObject()) != null) {");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
         _builder.append("rMut.setDef(hmMutator.get(\"m");
         _builder.append(this.nRegistryMutation, "");
@@ -2561,9 +2626,19 @@ public class MutatorGenerator implements IGenerator {
       if ((mut instanceof CreateReferenceMutator)) {
         _builder.append("ReferenceCreated rMut = AppliedMutationsFactory.eINSTANCE.createReferenceCreated();");
         _builder.newLine();
+        _builder.append("if (mut.getObject() != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("rMut.getObject().add(mut.getObject());");
         _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("if (((CreateReferenceMutator) mut).getReference() != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("rMut.getRef().add(((CreateReferenceMutator) mut).getReference());");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
         _builder.append("rMut.setDef(hmMutator.get(\"m");
         _builder.append(this.nRegistryMutation, "");
@@ -2582,13 +2657,24 @@ public class MutatorGenerator implements IGenerator {
         _builder.append("for (EObject obj : ((RemoveReferenceMutator) mut).getObjects()) {");
         _builder.newLine();
         _builder.append("\t");
+        _builder.append("if (ModelManager.getObject(seed, obj) != null) {");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("objects.add(ModelManager.getObject(seed, obj));");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
         _builder.append("rMut.getObject().addAll(objects);");
         _builder.newLine();
+        _builder.append("if (((RemoveReferenceMutator) mut).getReference() != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
         _builder.append("rMut.setDef(hmMutator.get(\"m");
         _builder.append(this.nRegistryMutation, "");
@@ -2607,13 +2693,24 @@ public class MutatorGenerator implements IGenerator {
         _builder.append("for (EObject obj : ((RemoveReferenceMutator) mut).getObjects()) {");
         _builder.newLine();
         _builder.append("\t");
+        _builder.append("if (ModelManager.getObject(seed, obj) != null) {");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("objects.add(ModelManager.getObject(seed, obj));");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
         _builder.append("rMut.getObject().addAll(objects);");
         _builder.newLine();
+        _builder.append("if (((RemoveReferenceMutator) mut).getReference() != null) {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
         _builder.append("rMut.setDef(hmMutator.get(\"m");
         _builder.append(this.nRegistryMutation, "");
@@ -2632,7 +2729,13 @@ public class MutatorGenerator implements IGenerator {
         _builder.append("for (EObject obj : ((RemoveReferenceMutator) mut).getObjects()) {");
         _builder.newLine();
         _builder.append("\t");
+        _builder.append("if (ModelManager.getObject(seed, obj) != null) {");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("objects.add(ModelManager.getObject(seed, obj));");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
@@ -2725,10 +2828,15 @@ public class MutatorGenerator implements IGenerator {
                     _builder.append(_name_1, "");
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
+                    _builder.append("if (ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getOtherObject()) != null) {");
+                    _builder.newLine();
+                    _builder.append("\t");
                     _builder.append("attMut");
-                    _builder.append(attCounter, "");
-                    _builder.append(".setAttObject(((ModifyInformationMutator) mut).getAttObject());");
+                    _builder.append(attCounter, "\t");
+                    _builder.append(".setAttObject(ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getOtherObject()));");
                     _builder.newLineIfNotEmpty();
+                    _builder.append("}");
+                    _builder.newLine();
                     _builder.append("attMut");
                     _builder.append(attCounter, "");
                     _builder.append(".setAttName(\"");
@@ -2762,14 +2870,52 @@ public class MutatorGenerator implements IGenerator {
                     _builder.newLineIfNotEmpty();
                   }
                 }
+                {
+                  if ((att instanceof AttributeUnset)) {
+                    _builder.append("AttributeChanged attMut");
+                    _builder.append(attCounter, "");
+                    _builder.append(" = null;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("attMut");
+                    _builder.append(attCounter, "");
+                    _builder.append(" = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("attMut");
+                    _builder.append(attCounter, "");
+                    _builder.append(".setAttName(\"");
+                    String _name_4 = eattsec.getName();
+                    _builder.append(_name_4, "");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+                {
+                  if ((att instanceof AttributeReverse)) {
+                    _builder.append("AttributeChanged attMut");
+                    _builder.append(attCounter, "");
+                    _builder.append(" = null;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("attMut");
+                    _builder.append(attCounter, "");
+                    _builder.append(" = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("attMut");
+                    _builder.append(attCounter, "");
+                    _builder.append(".setAttName(\"");
+                    String _name_5 = eattsec.getName();
+                    _builder.append(_name_5, "");
+                    _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
                 _builder.append("oldAttVal = ((ModifyInformationMutator) mut).getOldAttValue(\"");
-                String _name_4 = eattfirst.getName();
-                _builder.append(_name_4, "");
+                String _name_6 = eattfirst.getName();
+                _builder.append(_name_6, "");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("newAttVal = ((ModifyInformationMutator) mut).getNewAttValue(\"");
-                String _name_5 = eattsec.getName();
-                _builder.append(_name_5, "");
+                String _name_7 = eattsec.getName();
+                _builder.append(_name_7, "");
                 _builder.append("\");");
                 _builder.newLineIfNotEmpty();
                 _builder.append("if (oldAttVal != null) {");
@@ -2850,9 +2996,13 @@ public class MutatorGenerator implements IGenerator {
                     _builder.append("refMut");
                     _builder.append(refCounter, "");
                     _builder.append(".setRefName(\"");
-                    String _name_6 = eref.getName();
-                    _builder.append(_name_6, "");
+                    String _name_8 = eref.getName();
+                    _builder.append(_name_8, "");
                     _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter, "");
+                    _builder.append(".getObject().add(((ModifyInformationMutator) mut).getObject());");
                     _builder.newLineIfNotEmpty();
                   }
                 }
@@ -2877,20 +3027,41 @@ public class MutatorGenerator implements IGenerator {
                     _builder.append("refMut");
                     _builder.append(refCounter, "");
                     _builder.append(".setFirstName(\"");
-                    String _name_7 = ereffirst.getName();
-                    _builder.append(_name_7, "");
+                    String _name_9 = ereffirst.getName();
+                    _builder.append(_name_9, "");
                     _builder.append("\");");
                     _builder.newLineIfNotEmpty();
+                    _builder.append("if (ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefObject()) != null) {");
+                    _builder.newLine();
+                    _builder.append("\t");
                     _builder.append("refMut");
-                    _builder.append(refCounter, "");
+                    _builder.append(refCounter, "\t");
                     _builder.append(".setRefObject(ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefObject()));");
                     _builder.newLineIfNotEmpty();
+                    _builder.append("}");
+                    _builder.newLine();
                     _builder.append("refMut");
                     _builder.append(refCounter, "");
                     _builder.append(".setRefName(\"");
-                    String _name_8 = erefsec.getName();
-                    _builder.append(_name_8, "");
+                    String _name_10 = erefsec.getName();
+                    _builder.append(_name_10, "");
                     _builder.append("\");");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter, "");
+                    _builder.append(".setOtherFrom(((ModifyInformationMutator) mut).getOtherSource());");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter, "");
+                    _builder.append(".setOtherFromName(((ModifyInformationMutator) mut).getOtherSourceName());");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter, "");
+                    _builder.append(".setOtherTo(((ModifyInformationMutator) mut).getOtherTarget());");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("refMut");
+                    _builder.append(refCounter, "");
+                    _builder.append(".setOtherToName(((ModifyInformationMutator) mut).getOtherTargetName());");
                     _builder.newLineIfNotEmpty();
                   }
                 }
@@ -2965,9 +3136,20 @@ public class MutatorGenerator implements IGenerator {
       if ((mut instanceof ModifyTargetReferenceMutator)) {
         _builder.append("TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();");
         _builder.newLine();
+        _builder.append("if (((ModifyTargetReferenceMutator) mut).getObject() != null) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
         _builder.append("trcMut.setFrom(((ModifyTargetReferenceMutator) mut).getSource());");
         _builder.newLine();
+        _builder.append("trcMut.setSrcRefName(((ModifyTargetReferenceMutator) mut).getSrcRefType());");
+        _builder.newLine();
         _builder.append("trcMut.setTo(((ModifyTargetReferenceMutator) mut).getNewTarget());");
+        _builder.newLine();
+        _builder.append("trcMut.setOldTo(((ModifyTargetReferenceMutator) mut).getOldTarget());");
         _builder.newLine();
         _builder.append("trcMut.setRefName(((ModifyTargetReferenceMutator) mut).getRefType());");
         _builder.newLine();
@@ -3154,6 +3336,65 @@ public class MutatorGenerator implements IGenerator {
     return _builder;
   }
   
+  public CharSequence generateBlock(final Block b, final int numMethod, final int numCompositeMethod, final int numMutation, final int numRegistryMutation, final int numRegistryMethod, final int numCompositeRegistryMethod, final int numCompositeCommands) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EList<Mutator> _commands = b.getCommands();
+      for(final Mutator c : _commands) {
+        _builder.append("\t");
+        CharSequence _generateMethods = this.generateMethods(c);
+        _builder.append(_generateMethods, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        CharSequence _generateRegistryMethods = this.generateRegistryMethods(c);
+        _builder.append(_generateRegistryMethods, "\t");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t");
+    _builder.append("public void block_");
+    String _name = b.getName();
+    _builder.append(_name, "\t");
+    _builder.append("(int maxAttempts, int numMutants, boolean registry, ArrayList<String> fromNames, HashMap<String, HashSet<String>> hashmapMutants) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t\t\t\t\t\t\t\t\t  ");
+    _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
+    _builder.newLine();
+    _builder.append(" \t\t\t\t\t\t\t\t\t\t\t\t  ");
+    _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (maxAttempts <= 0) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("maxAttempts = 1;");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("//");
+    EObject _eContainer = b.eContainer();
+    MutatorEnvironment e = ((MutatorEnvironment) _eContainer);
+    _builder.newLineIfNotEmpty();
+    {
+      Definition _definition = e.getDefinition();
+      if ((_definition instanceof Program)) {
+        _builder.append("\t");
+        Definition _definition_1 = e.getDefinition();
+        final Program program = ((Program) _definition_1);
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        CharSequence _multipleBlock = this.multipleBlock(e, b, numMethod, numCompositeMethod, numMutation, numRegistryMutation, numRegistryMethod, numCompositeRegistryMethod, numCompositeCommands);
+        _builder.append(_multipleBlock, "\t");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
   public CharSequence compile(final MutatorEnvironment e) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
@@ -3226,11 +3467,11 @@ public class MutatorGenerator implements IGenerator {
       if ((_definition instanceof Program)) {
         _builder.append("   \t");
         _builder.append("//RESET COUNTER: ");
-        _builder.append(this.nCompositeMethod = 0, "   \t");
+        _builder.append(this.nMethod = 0, "   \t");
         _builder.newLineIfNotEmpty();
         _builder.append("   \t");
         _builder.append("//RESET COUNTER: ");
-        _builder.append(this.nMethod = 0, "   \t");
+        _builder.append(this.nCompositeMethod = 0, "   \t");
         _builder.newLineIfNotEmpty();
         _builder.append("   \t");
         _builder.append("//RESET COUNTER: ");
@@ -3248,142 +3489,164 @@ public class MutatorGenerator implements IGenerator {
         _builder.append("//RESET COUNTER: ");
         _builder.append(this.nRegistryMutation = 0, "   \t");
         _builder.newLineIfNotEmpty();
-        {
-          EList<Mutator> _commands = e.getCommands();
-          for(final Mutator c : _commands) {
-            _builder.append("\t");
-            CharSequence _generateMethods = this.generateMethods(c);
-            _builder.append(_generateMethods, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            CharSequence _generateRegistryMethods = this.generateRegistryMethods(c);
-            _builder.append(_generateRegistryMethods, "\t");
-            _builder.newLineIfNotEmpty();
-          }
-        }
-      }
-    }
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("public void execute(int maxAttempts, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
-    _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
-    _builder.newLine();
-    _builder.append(" \t\t\t\t\t\t\t\t\t\t\t\t  ");
-    _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
-    _builder.newLine();
-    _builder.append(" \t\t");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("if (maxAttempts <= 0) {");
-    _builder.newLine();
-    _builder.append("\t\t\t");
-    _builder.append("maxAttempts = 1;");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("}");
-    _builder.newLine();
-    {
-      Definition _definition_1 = e.getDefinition();
-      if ((_definition_1 instanceof Program)) {
-        _builder.append("\t\t");
-        Definition _definition_2 = e.getDefinition();
-        final Program program = ((Program) _definition_2);
+        _builder.append("\t");
+        _builder.append("//RESET COUNTER: ");
+        _builder.append(this.nCompositeCommands = 0, "\t");
         _builder.newLineIfNotEmpty();
         {
-          Source _source = program.getSource();
-          boolean _isMultiple = _source.isMultiple();
-          boolean _equals = (_isMultiple == false);
-          if (_equals) {
+          EList<Mutator> _commands = e.getCommands();
+          int _length = ((Object[])Conversions.unwrapArray(_commands, Object.class)).length;
+          boolean _greaterThan = (_length > 0);
+          if (_greaterThan) {
+            {
+              EList<Mutator> _commands_1 = e.getCommands();
+              for(final Mutator c : _commands_1) {
+                _builder.append("\t");
+                CharSequence _generateMethods = this.generateMethods(c);
+                _builder.append(_generateMethods, "\t");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                CharSequence _generateRegistryMethods = this.generateRegistryMethods(c);
+                _builder.append(_generateRegistryMethods, "\t");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("\t");
+            _builder.append("public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+            _builder.newLine();
+            _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
+            _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
+            _builder.newLine();
+            _builder.append(" \t\t\t\t\t\t\t\t\t\t\t\t  ");
+            _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
+            _builder.newLine();
+            _builder.append(" \t\t");
+            _builder.newLine();
             _builder.append("\t\t");
-            CharSequence _once = this.once(e);
-            _builder.append(_once, "\t\t");
-            _builder.newLineIfNotEmpty();
+            _builder.append("if (maxAttempts <= 0) {");
+            _builder.newLine();
+            _builder.append("\t\t\t");
+            _builder.append("maxAttempts = 1;");
+            _builder.newLine();
+            _builder.append("\t\t");
+            _builder.append("}");
+            _builder.newLine();
+            {
+              Definition _definition_1 = e.getDefinition();
+              if ((_definition_1 instanceof Program)) {
+                _builder.append("\t\t");
+                Definition _definition_2 = e.getDefinition();
+                final Program program = ((Program) _definition_2);
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                CharSequence _multiple = this.multiple(e);
+                _builder.append(_multiple, "\t\t");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.newLine();
+            _builder.append("}");
+            _builder.newLine();
           }
         }
+      }
+    }
+    {
+      EList<Block> _blocks = e.getBlocks();
+      int _length_1 = ((Object[])Conversions.unwrapArray(_blocks, Object.class)).length;
+      boolean _greaterThan_1 = (_length_1 > 0);
+      if (_greaterThan_1) {
         {
-          Source _source_1 = program.getSource();
-          boolean _isMultiple_1 = _source_1.isMultiple();
-          boolean _equals_1 = (_isMultiple_1 == true);
-          if (_equals_1) {
-            _builder.append("\t\t");
-            CharSequence _multiple = this.multiple(e);
-            _builder.append(_multiple, "\t\t");
+          EList<Block> _blocks_1 = e.getBlocks();
+          for(final Block b : _blocks_1) {
+            _builder.append("\t");
+            CharSequence _generateBlock = this.generateBlock(b, this.nMethod, this.nCompositeMethod, this.nMutation, this.nRegistryMutation, this.nRegistryMethod, this.nCompositeRegistryMethod, this.nCompositeCommands);
+            _builder.append(_generateBlock, "\t");
             _builder.newLineIfNotEmpty();
           }
         }
+        _builder.append("\t");
+        _builder.append("public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, ");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t  ");
+        _builder.append("MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, ");
+        _builder.newLine();
+        _builder.append(" \t\t\t\t\t\t\t\t\t\t\t\t  ");
+        _builder.append("ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {");
+        _builder.newLine();
+        _builder.append(" \t\t");
+        _builder.newLine();
+        _builder.append(" \t\t");
+        _builder.append("HashMap<String, HashSet<String>> hashmapMutants = new HashMap<String, HashSet<String>>();");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("ArrayList<String> fromNames = null;");
+        _builder.newLine();
+        {
+          EList<Block> _blocks_2 = e.getBlocks();
+          for(final Block b_1 : _blocks_2) {
+            _builder.append("\t\t");
+            _builder.append("fromNames = new ArrayList<String>();");
+            _builder.newLine();
+            {
+              EList<Block> _from = b_1.getFrom();
+              for(final Block from : _from) {
+                _builder.append("\t\t");
+                _builder.append("fromNames.add(\"");
+                String _name = from.getName();
+                _builder.append(_name, "\t\t");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("\t\t");
+            _builder.append("block_");
+            String _name_1 = b_1.getName();
+            _builder.append(_name_1, "\t\t");
+            _builder.append("(maxAttempts, numMutants, registry, fromNames, hashmapMutants);");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
       }
     }
-    _builder.append("\t");
-    _builder.append("}");
     _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    return _builder;
-  }
-  
-  public CharSequence once(final MutatorEnvironment e) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.newLine();
-    Definition _definition = e.getDefinition();
-    CharSequence _onceCompile = this.onceCompile(_definition);
-    _builder.append(_onceCompile, "");
-    _builder.newLineIfNotEmpty();
-    int nMut = 0;
-    _builder.newLineIfNotEmpty();
-    _builder.append("//MUTANTS: ");
-    ArrayList<String> _arrayList = new ArrayList<String>();
-    _builder.append(this.listNMuts = _arrayList, "");
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append(" ");
-    while ((nMut < ((Program) e.getDefinition()).getNum())) {
-      {
-        this.listNMuts.add("");
-        nMut = (nMut + 1);
-      }
-    }
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
-    CharSequence _execute = this.execute(e);
-    _builder.append(_execute, "\t");
-    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   public CharSequence multiple(final MutatorEnvironment e) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
-    _builder.append("   ");
+    _builder.append("    ");
     Definition _definition = e.getDefinition();
     CharSequence _multipleCompile = this.multipleCompile(_definition);
-    _builder.append(_multipleCompile, "   ");
+    _builder.append(_multipleCompile, "    ");
     _builder.newLineIfNotEmpty();
-    _builder.append("   ");
-    int nMut = 0;
-    _builder.newLineIfNotEmpty();
-    _builder.append("   ");
-    _builder.append("//MUTANTS: ");
-    ArrayList<String> _arrayList = new ArrayList<String>();
-    _builder.append(this.listNMuts = _arrayList, "   ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("   ");
-    _builder.newLine();
     _builder.append("    ");
-    while ((nMut < ((Program) e.getDefinition()).getNum())) {
-      {
-        this.listNMuts.add("");
-        nMut = (nMut + 1);
+    _builder.append("//");
+    Definition _definition_1 = e.getDefinition();
+    int _num = ((Program) _definition_1).getNum();
+    _builder.append(this.nMut = _num, "    ");
+    _builder.newLineIfNotEmpty();
+    {
+      if ((this.nMut != 0)) {
+        _builder.append("   \t");
+        _builder.append("numMutants = ");
+        _builder.append(this.nMut, "   \t");
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
       }
     }
-    _builder.newLineIfNotEmpty();
     _builder.append("   \t");
     _builder.newLine();
     _builder.append("   \t");
@@ -3396,74 +3659,94 @@ public class MutatorGenerator implements IGenerator {
     return _builder;
   }
   
-  public CharSequence onceCompile(final Definition e) {
+  public CharSequence multipleBlock(final MutatorEnvironment e, final Block b, final int numMethod, final int numCompositeMethod, final int numMutation, final int numRegistryMutation, final int numRegistryMethod, final int numCompositeRegistryMethod, final int numCompositeCommands) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("String ecoreURI = \"");
-    String _metamodel = e.getMetamodel();
-    _builder.append(_metamodel, "");
-    _builder.append("\";");
+    _builder.newLine();
+    _builder.append("   ");
+    Definition _definition = e.getDefinition();
+    CharSequence _multipleBlockCompile = this.multipleBlockCompile(_definition, b);
+    _builder.append(_multipleBlockCompile, "   ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   ");
+    int nMut = 0;
     _builder.newLineIfNotEmpty();
     {
-      if ((e instanceof Program)) {
+      int _fixed = b.getFixed();
+      boolean _equals = (_fixed == 0);
+      if (_equals) {
         {
-          Source _source = ((Program)e).getSource();
-          boolean _isMultiple = _source.isMultiple();
-          boolean _equals = (_isMultiple == false);
-          if (_equals) {
-            Source _source_1 = ((Program)e).getSource();
-            String _path = _source_1.getPath();
-            String modelPath = ((this.path + "/") + _path);
+          int _max = b.getMax();
+          int _min = b.getMin();
+          int _minus = (_max - _min);
+          boolean _greaterThan = (_minus > 0);
+          if (_greaterThan) {
+            _builder.append("//");
+            int _min_1 = b.getMin();
+            int _max_1 = b.getMax();
+            int _min_2 = b.getMin();
+            int _minus_1 = (_max_1 - _min_2);
+            int _random = this.getRandom(_minus_1);
+            int _plus = (_min_1 + _random);
+            _builder.append(nMut = _plus, "");
             _builder.newLineIfNotEmpty();
-            String _output = ((Program)e).getOutput();
-            String outputPath = ((this.path + "/") + _output);
-            _builder.append(" ");
-            _builder.newLineIfNotEmpty();
-            _builder.append("String modelPath = \"");
-            _builder.append(modelPath, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
-            _builder.append("String modelsURI = \"");
-            _builder.append(outputPath, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
-            _builder.newLine();
-            _builder.append("HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();");
-            _builder.newLine();
-            _builder.append("File modelFile = new File(modelPath);");
-            _builder.newLine();
-            _builder.append("String modelFilename = modelFile.getPath();");
-            _builder.newLine();
-            _builder.append("hashmapModelFilenames.put(modelFilename, modelsURI + modelFile.getName().substring(0, modelFile.getName().length() - \".model\".length()));");
-            _builder.newLine();
           }
         }
+        {
+          boolean _and = false;
+          int _min_3 = b.getMin();
+          boolean _equals_1 = (_min_3 == 0);
+          if (!_equals_1) {
+            _and = false;
+          } else {
+            int _max_2 = b.getMax();
+            boolean _equals_2 = (_max_2 == 0);
+            _and = _equals_2;
+          }
+          if (_and) {
+            _builder.append("//");
+            Definition _definition_1 = e.getDefinition();
+            int _num = ((Program) _definition_1).getNum();
+            _builder.append(nMut = _num, "");
+            _builder.newLineIfNotEmpty();
+          } else {
+            int _min_4 = b.getMin();
+            int _max_3 = b.getMax();
+            boolean _equals_3 = (_min_4 == _max_3);
+            if (_equals_3) {
+              _builder.append("//");
+              int _min_5 = b.getMin();
+              _builder.append(nMut = _min_5, "");
+              _builder.newLineIfNotEmpty();
+            }
+          }
+        }
+      } else {
+        _builder.append("//");
+        int _fixed_1 = b.getFixed();
+        _builder.append(nMut = _fixed_1, "");
+        _builder.newLineIfNotEmpty();
       }
     }
-    _builder.newLine();
-    _builder.append("//Load MetaModel");
-    _builder.newLine();
-    _builder.append("ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();");
-    _builder.newLine();
-    _builder.append("HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();");
-    _builder.newLine();
-    _builder.newLine();
     {
-      if ((e instanceof Program)) {
-        _builder.append("//Load Model");
-        _builder.newLine();
-        _builder.append("HashSet<String> hashsetMutants = new HashSet<String>();");
-        _builder.newLine();
-        _builder.append("hashsetMutants.add(modelFilename);");
-        _builder.newLine();
-        _builder.append("Resource model = ModelManager.loadModel(packages, modelFilename);");
-        _builder.newLine();
-        _builder.append("Resource seed = ModelManager.loadModel(packages, modelFilename);");
-        _builder.newLine();
+      if ((nMut != 0)) {
+        _builder.append("   \t");
+        _builder.append("numMutants = ");
+        _builder.append(nMut, "   \t");
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
       }
     }
+    _builder.append("   \t");
+    _builder.newLine();
+    _builder.append("   \t");
+    _builder.newLine();
+    _builder.append("   \t");
+    CharSequence _executeBlock = this.executeBlock(e, b, numMethod, numCompositeMethod, numMutation, numRegistryMutation, numRegistryMethod, numCompositeRegistryMethod, numCompositeCommands);
+    _builder.append(_executeBlock, "   \t");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
     return _builder;
   }
   
@@ -3476,72 +3759,71 @@ public class MutatorGenerator implements IGenerator {
     _builder.newLineIfNotEmpty();
     {
       if ((e instanceof Program)) {
+        _builder.newLine();
+        Source _source = ((Program)e).getSource();
+        String _path = _source.getPath();
+        String modelPath = ((this.path + "/") + _path);
+        _builder.newLineIfNotEmpty();
+        String _output = ((Program)e).getOutput();
+        String outputPath = ((this.path + "/") + _output);
+        _builder.append(" ");
+        _builder.newLineIfNotEmpty();
+        _builder.append("String modelURI = \"");
+        _builder.append(modelPath, "");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.append("String modelsURI = \"");
+        _builder.append(outputPath, "");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.append("HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();");
+        _builder.newLine();
         {
-          Source _source = ((Program)e).getSource();
-          boolean _isMultiple = _source.isMultiple();
-          boolean _equals = (_isMultiple == true);
-          if (_equals) {
-            Source _source_1 = ((Program)e).getSource();
-            String _path = _source_1.getPath();
-            String modelPath = ((this.path + "/") + _path);
-            _builder.newLineIfNotEmpty();
-            String _output = ((Program)e).getOutput();
-            String outputPath = ((this.path + "/") + _output);
-            _builder.append(" ");
-            _builder.newLineIfNotEmpty();
-            _builder.append("String modelURI = \"");
-            _builder.append(modelPath, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
-            _builder.append("String modelsURI = \"");
-            _builder.append(outputPath, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
-            _builder.append("HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();");
-            _builder.newLine();
+          Source _source_1 = ((Program)e).getSource();
+          String _path_1 = _source_1.getPath();
+          boolean _endsWith = _path_1.endsWith("/");
+          if (_endsWith) {
             _builder.append("File[] files = new File(modelURI).listFiles();");
             _builder.newLine();
-            _builder.append("\t");
-            _builder.append("for (int i = 0; i < files.length; i++) {");
+          } else {
+            _builder.append("File[] files = new File[1];");
             _builder.newLine();
-            _builder.append("\t\t");
-            _builder.append("if (files[i].isFile() == true) {");
-            _builder.newLine();
-            _builder.append("\t\t\t");
-            _builder.append("String pathfile = files[i].getPath();");
-            _builder.newLine();
-            _builder.append("\t\t\t");
-            _builder.append("if (pathfile.endsWith(\".model\") == true) {");
-            _builder.newLine();
-            _builder.append("\t\t\t\t");
-            _builder.append("hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - \".model\".length()));");
-            _builder.newLine();
-            _builder.append("\t\t\t");
-            _builder.append("}");
-            _builder.newLine();
-            _builder.append("\t\t");
-            _builder.append("}");
-            _builder.newLine();
-            _builder.append("\t");
-            _builder.append("}");
+            _builder.append("files[0] = new File(modelURI);");
             _builder.newLine();
           }
         }
+        _builder.append("for (int i = 0; i < files.length; i++) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("if (files[i].isFile() == true) {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("String pathfile = files[i].getPath();");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("if (pathfile.endsWith(\".model\") == true) {");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - \".model\".length()));");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
       }
     }
     _builder.newLine();
-    _builder.append("//Load MetaModel");
-    _builder.newLine();
-    _builder.append("ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();");
-    _builder.newLine();
-    _builder.append("HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();");
-    _builder.newLine();
-    _builder.newLine();
     {
       if ((e instanceof Program)) {
+        _builder.append("//Load MetaModel");
+        _builder.newLine();
+        _builder.append("ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);");
+        _builder.newLine();
+        _builder.newLine();
         _builder.append("//Load Model");
         _builder.newLine();
         _builder.append("Set<String> modelFilenames = hashmapModelFilenames.keySet();");
@@ -3559,6 +3841,254 @@ public class MutatorGenerator implements IGenerator {
         _builder.newLine();
         _builder.append("\t");
         _builder.append("Resource seed = ModelManager.loadModel(packages, modelFilename);");
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();");
+        _builder.newLine();
+      }
+    }
+    return _builder;
+  }
+  
+  public CharSequence multipleBlockCompile(final Definition e, final Block b) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("String ecoreURI = \"");
+    String _metamodel = e.getMetamodel();
+    _builder.append(_metamodel, "");
+    _builder.append("\";");
+    _builder.newLineIfNotEmpty();
+    {
+      if ((e instanceof Program)) {
+        Source _source = ((Program)e).getSource();
+        String _path = _source.getPath();
+        String modelPath = ((this.path + "/") + _path);
+        _builder.newLineIfNotEmpty();
+        String _output = ((Program)e).getOutput();
+        String outputPath = ((this.path + "/") + _output);
+        _builder.append(" ");
+        _builder.newLineIfNotEmpty();
+        _builder.append("String modelURI = \"");
+        _builder.append(modelPath, "");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.append("String modelsURI = \"");
+        _builder.append(outputPath, "");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.newLine();
+        _builder.append("HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();");
+        _builder.newLine();
+        _builder.append("HashMap<String, String> hashmapModelFolders = new HashMap<String, String>();");
+        _builder.newLine();
+        _builder.append("HashMap<String, String> seedModelFilenames = new HashMap<String, String>();");
+        _builder.newLine();
+        {
+          Source _source_1 = ((Program)e).getSource();
+          String _path_1 = _source_1.getPath();
+          boolean _endsWith = _path_1.endsWith("/");
+          if (_endsWith) {
+            _builder.append("File[] files = new File(modelURI).listFiles();");
+            _builder.newLine();
+          } else {
+            _builder.append("File[] files = new File[1];");
+            _builder.newLine();
+            _builder.append("files[0] = new File(modelURI);");
+            _builder.newLine();
+          }
+        }
+        _builder.append("for (int i = 0; i < files.length; i++) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("if (files[i].isFile() == true) {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("if (files[i].getName().endsWith(\".model\") == true) {");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("if (fromNames.size() == 0) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("String pathfile = files[i].getPath();");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("if (pathfile.endsWith(\".model\") == true) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - \".model\".length()));");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("seedModelFilenames.put(pathfile, files[i].getPath());");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("for (String fromName : fromNames) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("String modelFolder = modelsURI + files[i].getName().substring(0, files[i].getName().length() - \".model\".length()) + \"/\" + fromName + \"/\";");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("System.out.println(\"modelFolder: \" + modelFolder);");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("File[] mutFiles = new File(modelFolder).listFiles();");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("if (mutFiles != null) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t");
+        _builder.append("for (int j = 0; j < mutFiles.length; j++) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t");
+        _builder.append("if (mutFiles[j].isFile() == true) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t");
+        _builder.append("String pathfile = mutFiles[j].getPath();");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t");
+        _builder.append("if (pathfile.endsWith(\".model\") == true) {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t\t");
+        _builder.append("hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - \".model\".length()));");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t\t");
+        _builder.append("hashmapModelFolders.put(pathfile, fromName + \"/\" + mutFiles[j].getName().substring(0, mutFiles[j].getName().length() - \".model\".length()));");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t\t");
+        _builder.append("seedModelFilenames.put(pathfile, files[i].getPath());");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t\t");
+        _builder.append("generateModelPaths(fromName, mutFiles[j], mutFiles[j].getName(), hashmapModelFilenames, hashmapModelFolders, seedModelFilenames, modelsURI, files[i]);");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
+      }
+    }
+    _builder.newLine();
+    {
+      if ((e instanceof Program)) {
+        _builder.append("//Load MetaModel");
+        _builder.newLine();
+        _builder.append("ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);");
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("//Load Model");
+        _builder.newLine();
+        _builder.append("Set<String> modelFilenames = hashmapModelFilenames.keySet();");
+        _builder.newLine();
+        _builder.append("for (String modelFilename : modelFilenames) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("String seedModelFilename = seedModelFilenames.get(modelFilename);");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("HashSet<String> hashsetMutantsBlock = null;");
+        _builder.newLine();
+        {
+          Repeat _repeat = b.getRepeat();
+          boolean _equals = Objects.equal(_repeat, Repeat.YES);
+          if (_equals) {
+            _builder.append("\t");
+            _builder.append("hashsetMutantsBlock = new HashSet<String>();");
+            _builder.newLine();
+          } else {
+            Repeat _repeat_1 = b.getRepeat();
+            boolean _equals_1 = Objects.equal(_repeat_1, Repeat.NO);
+            if (_equals_1) {
+              _builder.append("\t");
+              _builder.append("if (seedModelFilename != null) {");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("\t");
+              _builder.append("if (hashmapMutants.get(seedModelFilename) != null) {");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("\t\t");
+              _builder.append("hashsetMutantsBlock = hashmapMutants.get(seedModelFilename);");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("\t");
+              _builder.append("}");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("}");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("if (hashsetMutantsBlock == null) {");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("\t");
+              _builder.append("hashsetMutantsBlock = new HashSet<String>();");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("}");
+              _builder.newLine();
+            }
+          }
+        }
+        _builder.append("\t");
+        _builder.append("if (hashsetMutantsBlock.contains(seedModelFilename) == false) {");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("hashsetMutantsBlock.add(seedModelFilename);");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("Resource model = ModelManager.loadModel(packages, modelFilename);");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("Resource seed = ModelManager.loadModel(packages, modelFilename);");
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();");
+        _builder.newLine();
         _builder.newLine();
       }
     }
@@ -4879,11 +5409,8 @@ public class MutatorGenerator implements IGenerator {
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("   \t   \t");
-    _builder.append("for (int i = 0; i < ");
-    int _size = this.listNMuts.size();
-    _builder.append(_size, "   \t   \t");
-    _builder.append("; i++) {");
-    _builder.newLineIfNotEmpty();
+    _builder.append("for (int i = 0; i < numMutants; i++) {");
+    _builder.newLine();
     _builder.append("   \t   \t\t");
     _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/\" + \"Output\" + i + \".model\";");
     _builder.newLine();
@@ -4915,10 +5442,6 @@ public class MutatorGenerator implements IGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("   \t\t\t\t");
     _builder.append("//RESET COUNTER: ");
-    _builder.append(this.nCompositeCommands = 0, "   \t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("   \t\t\t\t");
-    _builder.append("//RESET COUNTER: ");
     _builder.append(this.nMutation = 0, "   \t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("   \t\t\t\t");
@@ -4931,13 +5454,12 @@ public class MutatorGenerator implements IGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("   \t\t\t\t");
     _builder.append("//RESET COUNTER: ");
-    _builder.append(this.nCompositeMethod = 0, "   \t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("   \t\t\t\t");
-    _builder.append("//RESET COUNTER: ");
     _builder.append(this.nCompositeRegistryMethod = 0, "   \t\t\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nCompositeCommands = 0, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
     _builder.newLine();
     {
       EList<Mutator> _commands = e.getCommands();
@@ -4967,8 +5489,54 @@ public class MutatorGenerator implements IGenerator {
     _builder.append("\t       \t\t\t");
     _builder.append("// VERIFY THE OCL CONSTRAINTS");
     _builder.newLine();
+    _builder.append("\t       \t\t\t");
+    _builder.append("HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();");
+    _builder.newLine();
+    {
+      EList<Constraint> _constraints = e.getConstraints();
+      for(final Constraint constraint : _constraints) {
+        _builder.append("\t       \t\t\t");
+        _builder.append("if (rules.get(\"");
+        EClass _type = constraint.getType();
+        String _name = _type.getName();
+        _builder.append(_name, "\t       \t\t\t");
+        _builder.append("\") == null) {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t       \t\t\t");
+        _builder.append("\t");
+        _builder.append("rules.put(\"");
+        EClass _type_1 = constraint.getType();
+        String _name_1 = _type_1.getName();
+        _builder.append(_name_1, "\t       \t\t\t\t");
+        _builder.append("\", new ArrayList<String>());");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t       \t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t       \t\t\t");
+        _builder.append("ArrayList<String> newrules = rules.get(\"");
+        EClass _type_2 = constraint.getType();
+        String _name_2 = _type_2.getName();
+        _builder.append(_name_2, "\t       \t\t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t       \t\t\t");
+        _builder.append("newrules.add(\"");
+        String _rule = constraint.getRule();
+        _builder.append(_rule, "\t       \t\t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("       \t\t\t\t");
+        _builder.append("rules.put(\"");
+        EClass _type_3 = constraint.getType();
+        String _name_3 = _type_3.getName();
+        _builder.append(_name_3, "       \t\t\t\t");
+        _builder.append("\", newrules);");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.append("       \t\t");
-    _builder.append("if (matchesOCL(model) == true) {");
+    _builder.append("if (matchesOCL(model, rules) == true) {");
     _builder.newLine();
     _builder.append("\t   \t\t\t\t\t");
     _builder.append("// VERIFY IF MUTANT IS DIFFERENT");
@@ -5020,14 +5588,26 @@ public class MutatorGenerator implements IGenerator {
     _builder.append("       \t\t\t      \t\t\t\t\t");
     _builder.append("List<EObject> emuts = ((ObjectCreated) mut).getObject();");
     _builder.newLine();
-    _builder.append("   \t       \t\t\t      \t\t");
+    _builder.append("       \t\t\t      \t\t\t\t\t");
+    _builder.append("if (emuts.size() > 0) {");
+    _builder.newLine();
+    _builder.append("   \t       \t\t\t      \t\t\t");
     _builder.append("EObject emutated = emuts.get(0);");
     _builder.newLine();
-    _builder.append("   \t       \t\t\t      \t\t");
+    _builder.append("   \t       \t\t\t      \t\t\t");
     _builder.append("emuts.remove(0);");
     _builder.newLine();
-    _builder.append("   \t       \t\t\t      \t\t");
+    _builder.append("   \t       \t\t\t      \t\t\t");
+    _builder.append("if (ModelManager.getObject(mutant, emutated) != null) {");
+    _builder.newLine();
+    _builder.append("   \t       \t\t\t      \t\t\t\t");
     _builder.append("emuts.add(ModelManager.getObject(mutant, emutated));");
+    _builder.newLine();
+    _builder.append("   \t       \t\t\t      \t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("   \t       \t\t\t      \t\t");
+    _builder.append("}");
     _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("}");
@@ -5039,13 +5619,25 @@ public class MutatorGenerator implements IGenerator {
     _builder.append("List<EReference> emuts = ((ReferenceCreated) mut).getRef();");
     _builder.newLine();
     _builder.append("   \t\t\t\t\t\t\t\t");
+    _builder.append("if (emuts.size() > 0) {");
+    _builder.newLine();
+    _builder.append("   \t\t\t\t\t\t\t\t\t");
     _builder.append("EReference emutated = emuts.get(0);");
     _builder.newLine();
-    _builder.append("   \t\t\t\t\t\t\t\t");
+    _builder.append("   \t\t\t\t\t\t\t\t\t");
     _builder.append("emuts.remove(0);");
     _builder.newLine();
-    _builder.append("   \t\t\t\t\t\t\t\t");
+    _builder.append("   \t\t\t\t\t\t\t\t\t");
+    _builder.append("if (ModelManager.getReference(mutant, emutated) != null) {");
+    _builder.newLine();
+    _builder.append("   \t\t\t\t\t\t\t\t\t\t");
     _builder.append("emuts.add(ModelManager.getReference(mutant, emutated));");
+    _builder.newLine();
+    _builder.append("   \t\t\t\t\t\t\t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("   \t\t\t\t\t\t\t\t");
+    _builder.append("}");
     _builder.newLine();
     _builder.append("   \t\t\t\t\t\t\t");
     _builder.append("}");
@@ -5107,6 +5699,208 @@ public class MutatorGenerator implements IGenerator {
     return _builder;
   }
   
+  public CharSequence executeBlock(final MutatorEnvironment e, final Block b, final int numMethod, final int numCompositeMethod, final int numMutation, final int numRegistryMutation, final int numRegistryMethod, final int numCompositeRegistryMethod, final int numCompositeCommands) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("   \t\t");
+    _builder.append("Bundle bundle = Platform.getBundle(\"MutProgram\");");
+    _builder.newLine();
+    _builder.append("   \t\t");
+    _builder.append("URL fileURL = bundle.getEntry(\"/models/MutatorEnvironment.ecore\");");
+    _builder.newLine();
+    _builder.append("String mutatorecore = FileLocator.resolve(fileURL).getFile();");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("//Load MetaModel");
+    _builder.newLine();
+    _builder.append("ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);");
+    _builder.newLine();
+    _builder.append("Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(\"");
+    _builder.append(this.xmiFileName, "");
+    _builder.append("\").toFileString());");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("   \t   \t");
+    _builder.append("for (int i = 0; i < numMutants; i++) {");
+    _builder.newLine();
+    {
+      EList<Block> _from = b.getFrom();
+      int _size = _from.size();
+      boolean _equals = (_size == 0);
+      if (_equals) {
+        _builder.append("   \t   \t\t");
+        _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
+        String _name = b.getName();
+        _builder.append(_name, "   \t   \t\t");
+        _builder.append("/Output\" + i + \".model\";");
+        _builder.newLineIfNotEmpty();
+      } else {
+        _builder.append("   \t   \t\t");
+        _builder.append("String mutFilename = hashmapModelFilenames.get(modelFilename) + \"/");
+        String _name_1 = b.getName();
+        _builder.append(_name_1, "   \t   \t\t");
+        _builder.append("/\" + hashmapModelFolders.get(modelFilename) + \"/Output\" + i + \".model\";");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("   \t   \t\t");
+    _builder.append("boolean isRepeated = true;");
+    _builder.newLine();
+    _builder.append("   \t\t\t");
+    _builder.append("int attempts = 0;");
+    _builder.newLine();
+    _builder.append("   \t\t\t");
+    _builder.append("int max = 0;");
+    _builder.newLine();
+    _builder.append("   \t\t\t");
+    _builder.append("while ((isRepeated == true) && (attempts < maxAttempts)) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();");
+    _builder.newLine();
+    _builder.append("   \t\t\t\t");
+    _builder.append("attempts++;");
+    _builder.newLine();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nMethod = numMethod, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nCompositeMethod = numCompositeMethod, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nMutation = numMutation, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nRegistryMutation = numRegistryMutation, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nRegistryMethod = numRegistryMethod, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nCompositeRegistryMethod = numCompositeRegistryMethod, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("   \t\t\t\t");
+    _builder.append("//RESET COUNTER: ");
+    _builder.append(this.nCompositeCommands = numCompositeCommands, "   \t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    {
+      EList<Mutator> _commands = b.getCommands();
+      for(final Mutator c : _commands) {
+        {
+          if ((c instanceof Mutator)) {
+            _builder.append("   \t   \t\t\t");
+            CharSequence _compile = this.compile(c);
+            _builder.append(_compile, "   \t   \t\t\t");
+            _builder.append("\t\t");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      }
+    }
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("// MUTANT COMPLETION AND REGISTRY");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();");
+    _builder.newLine();
+    {
+      EList<Constraint> _constraints = e.getConstraints();
+      for(final Constraint constraint : _constraints) {
+        _builder.append("\t       \t\t");
+        _builder.append("if (rules.get(\"");
+        EClass _type = constraint.getType();
+        String _name_2 = _type.getName();
+        _builder.append(_name_2, "\t       \t\t");
+        _builder.append("\") == null) {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t       \t\t");
+        _builder.append("\t");
+        _builder.append("rules.put(\"");
+        EClass _type_1 = constraint.getType();
+        String _name_3 = _type_1.getName();
+        _builder.append(_name_3, "\t       \t\t\t");
+        _builder.append("\", new ArrayList<String>());");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t       \t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t       \t\t");
+        _builder.append("ArrayList<String> newrules = rules.get(\"");
+        EClass _type_2 = constraint.getType();
+        String _name_4 = _type_2.getName();
+        _builder.append(_name_4, "\t       \t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t       \t\t");
+        _builder.append("newrules.add(\"");
+        String _rule = constraint.getRule();
+        _builder.append(_rule, "\t       \t\t");
+        _builder.append("\");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("       \t\t\t");
+        _builder.append("rules.put(\"");
+        EClass _type_3 = constraint.getType();
+        String _name_5 = _type_3.getName();
+        _builder.append(_name_5, "       \t\t\t");
+        _builder.append("\", newrules);");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("       \t\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("isRepeated = registryMutantWithBlocks(packages, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+    String _name_6 = b.getName();
+    _builder.append(_name_6, "\t\t");
+    _builder.append("\", fromNames, i);");
+    _builder.newLineIfNotEmpty();
+    _builder.append("      ");
+    _builder.newLine();
+    _builder.append("\t    \t\t");
+    _builder.append("//Reload input");
+    _builder.newLine();
+    _builder.append("\t    \t\t");
+    _builder.append("try {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("model.unload();");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("model.load(null); ");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("} catch (Exception e) {}");
+    _builder.newLine();
+    _builder.append("   \t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("   \t\t");
+    _builder.append("}");
+    _builder.newLine();
+    {
+      Repeat _repeat = b.getRepeat();
+      boolean _equals_1 = Objects.equal(_repeat, Repeat.YES);
+      if (_equals_1) {
+        _builder.append("   \t\t");
+        _builder.append("hashmapMutants.put(modelFilename, hashsetMutantsBlock);");
+        _builder.newLine();
+      }
+    }
+    return _builder;
+  }
+  
   public CharSequence compile(final Mutator e) {
     StringConcatenation _builder = new StringConcatenation();
     {
@@ -5120,54 +5914,68 @@ public class MutatorGenerator implements IGenerator {
         _builder.append(this.nCompositeRegistryMethod = (this.nCompositeRegistryMethod + 1), "");
         _builder.newLineIfNotEmpty();
         {
-          int _max = ((CompositeMutator)e).getMax();
-          int _min = ((CompositeMutator)e).getMin();
-          int _minus = (_max - _min);
-          boolean _greaterThan = (_minus > 0);
-          if (_greaterThan) {
+          int _fixed = ((CompositeMutator)e).getFixed();
+          boolean _equals = (_fixed == 0);
+          if (_equals) {
+            {
+              int _max = ((CompositeMutator)e).getMax();
+              int _min = ((CompositeMutator)e).getMin();
+              int _minus = (_max - _min);
+              boolean _greaterThan = (_minus > 0);
+              if (_greaterThan) {
+                _builder.append("int max");
+                _builder.append(this.nCompositeCommands, "");
+                _builder.append(" = getRandom(");
+                int _max_1 = ((CompositeMutator)e).getMax();
+                int _min_1 = ((CompositeMutator)e).getMin();
+                int _minus_1 = (_max_1 - _min_1);
+                _builder.append(_minus_1, "");
+                _builder.append(") + ");
+                int _min_2 = ((CompositeMutator)e).getMin();
+                _builder.append(_min_2, "");
+                _builder.append(";");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              boolean _and = false;
+              int _min_3 = ((CompositeMutator)e).getMin();
+              boolean _equals_1 = (_min_3 == 0);
+              if (!_equals_1) {
+                _and = false;
+              } else {
+                int _max_2 = ((CompositeMutator)e).getMax();
+                boolean _equals_2 = (_max_2 == 0);
+                _and = _equals_2;
+              }
+              if (_and) {
+                _builder.append("int max");
+                _builder.append(this.nCompositeCommands, "");
+                _builder.append(" = 1;");
+                _builder.newLineIfNotEmpty();
+              } else {
+                int _min_4 = ((CompositeMutator)e).getMin();
+                int _max_3 = ((CompositeMutator)e).getMax();
+                boolean _equals_3 = (_min_4 == _max_3);
+                if (_equals_3) {
+                  _builder.append("int max");
+                  _builder.append(this.nCompositeCommands, "");
+                  _builder.append(" = ");
+                  int _min_5 = ((CompositeMutator)e).getMin();
+                  _builder.append(_min_5, "");
+                  _builder.append(";");
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+            }
+          } else {
             _builder.append("int max");
             _builder.append(this.nCompositeCommands, "");
-            _builder.append(" = getRandom(");
-            int _max_1 = ((CompositeMutator)e).getMax();
-            int _min_1 = ((CompositeMutator)e).getMin();
-            int _minus_1 = (_max_1 - _min_1);
-            _builder.append(_minus_1, "");
-            _builder.append(") + ");
-            int _min_2 = ((CompositeMutator)e).getMin();
-            _builder.append(_min_2, "");
+            _builder.append(" = ");
+            int _fixed_1 = ((CompositeMutator)e).getFixed();
+            _builder.append(_fixed_1, "");
             _builder.append(";");
             _builder.newLineIfNotEmpty();
-          }
-        }
-        {
-          boolean _and = false;
-          int _min_3 = ((CompositeMutator)e).getMin();
-          boolean _equals = (_min_3 == 0);
-          if (!_equals) {
-            _and = false;
-          } else {
-            int _max_2 = ((CompositeMutator)e).getMax();
-            boolean _equals_1 = (_max_2 == 0);
-            _and = _equals_1;
-          }
-          if (_and) {
-            _builder.append("int max");
-            _builder.append(this.nCompositeCommands, "");
-            _builder.append(" = 1;");
-            _builder.newLineIfNotEmpty();
-          } else {
-            int _min_4 = ((CompositeMutator)e).getMin();
-            int _max_3 = ((CompositeMutator)e).getMax();
-            boolean _equals_2 = (_min_4 == _max_3);
-            if (_equals_2) {
-              _builder.append("int max");
-              _builder.append(this.nCompositeCommands, "");
-              _builder.append(" = ");
-              int _min_5 = ((CompositeMutator)e).getMin();
-              _builder.append(_min_5, "");
-              _builder.append(";");
-              _builder.newLineIfNotEmpty();
-            }
           }
         }
         _builder.append("for (int j");
@@ -5286,48 +6094,60 @@ public class MutatorGenerator implements IGenerator {
         _builder.append(this.nRegistryMethod = (this.nRegistryMethod + 1), "");
         _builder.newLineIfNotEmpty();
         {
-          int _max_4 = e.getMax();
-          int _min_6 = e.getMin();
-          int _minus_2 = (_max_4 - _min_6);
-          boolean _greaterThan_1 = (_minus_2 > 0);
-          if (_greaterThan_1) {
-            _builder.append("max = getRandom(");
-            int _max_5 = e.getMax();
-            int _min_7 = e.getMin();
-            int _minus_3 = (_max_5 - _min_7);
-            _builder.append(_minus_3, "");
-            _builder.append(") + ");
-            int _min_8 = e.getMin();
-            _builder.append(_min_8, "");
+          int _fixed_2 = e.getFixed();
+          boolean _equals_4 = (_fixed_2 == 0);
+          if (_equals_4) {
+            {
+              int _max_4 = e.getMax();
+              int _min_6 = e.getMin();
+              int _minus_2 = (_max_4 - _min_6);
+              boolean _greaterThan_1 = (_minus_2 > 0);
+              if (_greaterThan_1) {
+                _builder.append("max = getRandom(");
+                int _max_5 = e.getMax();
+                int _min_7 = e.getMin();
+                int _minus_3 = (_max_5 - _min_7);
+                _builder.append(_minus_3, "");
+                _builder.append(") + ");
+                int _min_8 = e.getMin();
+                _builder.append(_min_8, "");
+                _builder.append(";");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              boolean _and_1 = false;
+              int _min_9 = e.getMin();
+              boolean _equals_5 = (_min_9 == 0);
+              if (!_equals_5) {
+                _and_1 = false;
+              } else {
+                int _max_6 = e.getMax();
+                boolean _equals_6 = (_max_6 == 0);
+                _and_1 = _equals_6;
+              }
+              if (_and_1) {
+                _builder.append("max = 1;");
+                _builder.newLine();
+              } else {
+                int _min_10 = e.getMin();
+                int _max_7 = e.getMax();
+                boolean _equals_7 = (_min_10 == _max_7);
+                if (_equals_7) {
+                  _builder.append("max = ");
+                  int _min_11 = e.getMin();
+                  _builder.append(_min_11, "");
+                  _builder.append(";");
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+            }
+          } else {
+            _builder.append("max = ");
+            int _fixed_3 = e.getFixed();
+            _builder.append(_fixed_3, "");
             _builder.append(";");
             _builder.newLineIfNotEmpty();
-          }
-        }
-        {
-          boolean _and_1 = false;
-          int _min_9 = e.getMin();
-          boolean _equals_3 = (_min_9 == 0);
-          if (!_equals_3) {
-            _and_1 = false;
-          } else {
-            int _max_6 = e.getMax();
-            boolean _equals_4 = (_max_6 == 0);
-            _and_1 = _equals_4;
-          }
-          if (_and_1) {
-            _builder.append("max = 1;");
-            _builder.newLine();
-          } else {
-            int _min_10 = e.getMin();
-            int _max_7 = e.getMax();
-            boolean _equals_5 = (_min_10 == _max_7);
-            if (_equals_5) {
-              _builder.append("max = ");
-              int _min_11 = e.getMin();
-              _builder.append(_min_11, "");
-              _builder.append(";");
-              _builder.newLineIfNotEmpty();
-            }
           }
         }
         _builder.append("for (int j = 0; j < max; j++) {");

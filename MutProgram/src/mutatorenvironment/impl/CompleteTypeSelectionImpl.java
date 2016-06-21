@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class CompleteTypeSelectionImpl extends CompleteSelectionImpl implements CompleteTypeSelection {
+public class CompleteTypeSelectionImpl extends CompleteSelectionImpl implements CompleteTypeSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CompleteTypeSelectionImpl() {
+	protected CompleteTypeSelectionImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public class CompleteTypeSelectionImpl extends CompleteSelectionImpl implements 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.COMPLETE_TYPE_SELECTION;
 	}
 

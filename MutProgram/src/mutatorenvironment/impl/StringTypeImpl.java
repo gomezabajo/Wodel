@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.StringType;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class StringTypeImpl extends AttributeTypeImpl implements StringType {
+public abstract class StringTypeImpl extends AttributeTypeImpl implements StringType
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected StringTypeImpl() {
+	protected StringTypeImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public abstract class StringTypeImpl extends AttributeTypeImpl implements String
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.STRING_TYPE;
 	}
 

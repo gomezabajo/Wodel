@@ -4,8 +4,11 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.RandomStringType;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -23,7 +26,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class RandomStringTypeImpl extends StringTypeImpl implements RandomStringType {
+public class RandomStringTypeImpl extends StringTypeImpl implements RandomStringType
+{
 	/**
 	 * The default value of the '{@link #getMin() <em>Min</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -89,7 +93,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RandomStringTypeImpl() {
+	protected RandomStringTypeImpl()
+	{
 		super();
 	}
 
@@ -99,7 +104,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.RANDOM_STRING_TYPE;
 	}
 
@@ -108,7 +114,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getMin() {
+	public int getMin()
+	{
 		return min;
 	}
 
@@ -117,7 +124,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMin(int newMin) {
+	public void setMin(int newMin)
+	{
 		int oldMin = min;
 		min = newMin;
 		if (eNotificationRequired())
@@ -129,7 +137,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getMax() {
+	public int getMax()
+	{
 		return max;
 	}
 
@@ -138,7 +147,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMax(int newMax) {
+	public void setMax(int newMax)
+	{
 		int oldMax = max;
 		max = newMax;
 		if (eNotificationRequired())
@@ -150,7 +160,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isAllowsNull() {
+	public boolean isAllowsNull()
+	{
 		return allowsNull;
 	}
 
@@ -159,7 +170,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAllowsNull(boolean newAllowsNull) {
+	public void setAllowsNull(boolean newAllowsNull)
+	{
 		boolean oldAllowsNull = allowsNull;
 		allowsNull = newAllowsNull;
 		if (eNotificationRequired())
@@ -172,8 +184,10 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE__MIN:
 				return getMin();
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE__MAX:
@@ -190,8 +204,10 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE__MIN:
 				setMin((Integer)newValue);
 				return;
@@ -211,8 +227,10 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE__MIN:
 				setMin(MIN_EDEFAULT);
 				return;
@@ -232,8 +250,10 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE__MIN:
 				return min != MIN_EDEFAULT;
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE__MAX:
@@ -250,7 +270,8 @@ public class RandomStringTypeImpl extends StringTypeImpl implements RandomString
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

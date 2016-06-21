@@ -4,8 +4,11 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.SpecificIntegerType;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -21,7 +24,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements SpecificIntegerType {
+public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements SpecificIntegerType
+{
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -47,7 +51,8 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SpecificIntegerTypeImpl() {
+	protected SpecificIntegerTypeImpl()
+	{
 		super();
 	}
 
@@ -57,7 +62,8 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.SPECIFIC_INTEGER_TYPE;
 	}
 
@@ -66,7 +72,8 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 		return value;
 	}
 
@@ -75,7 +82,8 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(int newValue) {
+	public void setValue(int newValue)
+	{
 		int oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
@@ -88,8 +96,10 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_INTEGER_TYPE__VALUE:
 				return getValue();
 		}
@@ -102,8 +112,10 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_INTEGER_TYPE__VALUE:
 				setValue((Integer)newValue);
 				return;
@@ -117,8 +129,10 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_INTEGER_TYPE__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
@@ -132,8 +146,10 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.SPECIFIC_INTEGER_TYPE__VALUE:
 				return value != VALUE_EDEFAULT;
 		}
@@ -146,7 +162,8 @@ public class SpecificIntegerTypeImpl extends IntegerTypeImpl implements Specific
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

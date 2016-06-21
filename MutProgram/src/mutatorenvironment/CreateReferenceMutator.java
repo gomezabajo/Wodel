@@ -22,7 +22,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface CreateReferenceMutator extends Mutator {
+public interface CreateReferenceMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

@@ -3,6 +3,7 @@
 package mutatorenvironment;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EReference;
 
 /**
@@ -24,7 +25,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface CreateObjectMutator extends Mutator {
+public interface CreateObjectMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Container</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

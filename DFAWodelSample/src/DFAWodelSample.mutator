@@ -1,8 +1,20 @@
-generate 2 mutants
+generate mutants
 in "out/"
-from "model/" all
+from "model/exercise1.model"
 metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample/model/DFAAutomaton.ecore"
 
-with commands {
-	modify target tar from one Transition to other State
+with blocks {
+	first {
+		modify target tar from one Transition to other State [3]
+	} [2]
+	second from first repeat=no{
+		modify one State with {reverse(isFinal)}
+	} [1]
+	third from first repeat=no {
+		modify one State with { name = random-string(4,6)}
+	} [3]
+}
+
+constraints {
+	context State connected: "isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
 }

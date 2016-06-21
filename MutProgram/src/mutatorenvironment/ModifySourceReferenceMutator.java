@@ -4,7 +4,6 @@ package mutatorenvironment;
 
 import org.eclipse.emf.ecore.EReference;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Modify Source Reference Mutator</b></em>'.
@@ -23,12 +22,13 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface ModifySourceReferenceMutator extends Mutator {
+public interface ModifySourceReferenceMutator extends Mutator
+{
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

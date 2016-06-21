@@ -37,15 +37,43 @@ public class TestsParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
+					put(grammarAccess.getMutatorTestsAccess().getAlternatives(), "rule__MutatorTests__Alternatives");
+					put(grammarAccess.getTestConfigurationAccess().getRetryAlternatives_3_0(), "rule__TestConfiguration__RetryAlternatives_3_0");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAlternatives_3_0(), "rule__MultiChoiceEmConfig__RetryAlternatives_3_0");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedAlternatives_7_0(), "rule__MultiChoiceEmConfig__WeightedAlternatives_7_0");
 					put(grammarAccess.getEStringAccess().getAlternatives(), "rule__EString__Alternatives");
-					put(grammarAccess.getParameterAccess().getAlternatives(), "rule__Parameter__Alternatives");
-					put(grammarAccess.getMutatorTestsAccess().getGroup(), "rule__MutatorTests__Group__0");
-					put(grammarAccess.getConfigurationAccess().getGroup(), "rule__Configuration__Group__0");
+					put(grammarAccess.getEDoubleAccess().getAlternatives_4_0(), "rule__EDouble__Alternatives_4_0");
+					put(grammarAccess.getOrderAccess().getAlternatives(), "rule__Order__Alternatives");
+					put(grammarAccess.getModeAccess().getAlternatives(), "rule__Mode__Alternatives");
+					put(grammarAccess.getNavigationAccess().getAlternatives(), "rule__Navigation__Alternatives");
+					put(grammarAccess.getProgramAccess().getGroup(), "rule__Program__Group__0");
+					put(grammarAccess.getAlternativeResponseAccess().getGroup(), "rule__AlternativeResponse__Group__0");
+					put(grammarAccess.getMultiChoiceDiagramAccess().getGroup(), "rule__MultiChoiceDiagram__Group__0");
+					put(grammarAccess.getMultiChoiceEmendationAccess().getGroup(), "rule__MultiChoiceEmendation__Group__0");
+					put(grammarAccess.getProgramConfigurationAccess().getGroup(), "rule__ProgramConfiguration__Group__0");
+					put(grammarAccess.getTestConfigurationAccess().getGroup(), "rule__TestConfiguration__Group__0");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getGroup(), "rule__MultiChoiceEmConfig__Group__0");
 					put(grammarAccess.getTestAccess().getGroup(), "rule__Test__Group__0");
-					put(grammarAccess.getMutatorTestsAccess().getConfigAssignment_0(), "rule__MutatorTests__ConfigAssignment_0");
-					put(grammarAccess.getMutatorTestsAccess().getTestsAssignment_1(), "rule__MutatorTests__TestsAssignment_1");
-					put(grammarAccess.getConfigurationAccess().getRetryAssignment_2(), "rule__Configuration__RetryAssignment_2");
-					put(grammarAccess.getConfigurationAccess().getShowallAssignment_6(), "rule__Configuration__ShowallAssignment_6");
+					put(grammarAccess.getEDoubleAccess().getGroup(), "rule__EDouble__Group__0");
+					put(grammarAccess.getEDoubleAccess().getGroup_4(), "rule__EDouble__Group_4__0");
+					put(grammarAccess.getProgramAccess().getConfigAssignment_1(), "rule__Program__ConfigAssignment_1");
+					put(grammarAccess.getProgramAccess().getExercisesAssignment_2(), "rule__Program__ExercisesAssignment_2");
+					put(grammarAccess.getAlternativeResponseAccess().getBlockAssignment_1(), "rule__AlternativeResponse__BlockAssignment_1");
+					put(grammarAccess.getAlternativeResponseAccess().getConfigAssignment_3(), "rule__AlternativeResponse__ConfigAssignment_3");
+					put(grammarAccess.getAlternativeResponseAccess().getTestsAssignment_4(), "rule__AlternativeResponse__TestsAssignment_4");
+					put(grammarAccess.getMultiChoiceDiagramAccess().getBlockAssignment_1(), "rule__MultiChoiceDiagram__BlockAssignment_1");
+					put(grammarAccess.getMultiChoiceDiagramAccess().getConfigAssignment_3(), "rule__MultiChoiceDiagram__ConfigAssignment_3");
+					put(grammarAccess.getMultiChoiceDiagramAccess().getTestsAssignment_4(), "rule__MultiChoiceDiagram__TestsAssignment_4");
+					put(grammarAccess.getMultiChoiceEmendationAccess().getBlockAssignment_1(), "rule__MultiChoiceEmendation__BlockAssignment_1");
+					put(grammarAccess.getMultiChoiceEmendationAccess().getConfigAssignment_3(), "rule__MultiChoiceEmendation__ConfigAssignment_3");
+					put(grammarAccess.getMultiChoiceEmendationAccess().getTestsAssignment_4(), "rule__MultiChoiceEmendation__TestsAssignment_4");
+					put(grammarAccess.getProgramConfigurationAccess().getNavigationAssignment_2(), "rule__ProgramConfiguration__NavigationAssignment_2");
+					put(grammarAccess.getTestConfigurationAccess().getRetryAssignment_3(), "rule__TestConfiguration__RetryAssignment_3");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAssignment_3(), "rule__MultiChoiceEmConfig__RetryAssignment_3");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getWeightedAssignment_7(), "rule__MultiChoiceEmConfig__WeightedAssignment_7");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getPenaltyAssignment_11(), "rule__MultiChoiceEmConfig__PenaltyAssignment_11");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getOrderAssignment_15(), "rule__MultiChoiceEmConfig__OrderAssignment_15");
+					put(grammarAccess.getMultiChoiceEmConfigAccess().getModeAssignment_19(), "rule__MultiChoiceEmConfig__ModeAssignment_19");
 					put(grammarAccess.getTestAccess().getSourceAssignment_2(), "rule__Test__SourceAssignment_2");
 					put(grammarAccess.getTestAccess().getQuestionAssignment_4(), "rule__Test__QuestionAssignment_4");
 				}
@@ -58,7 +86,7 @@ public class TestsParser extends AbstractContentAssistParser {
 	protected Collection<FollowElement> getFollowElements(AbstractInternalContentAssistParser parser) {
 		try {
 			org.mutatortests.ui.contentassist.antlr.internal.InternalTestsParser typedParser = (org.mutatortests.ui.contentassist.antlr.internal.InternalTestsParser) parser;
-			typedParser.entryRuleMutatorTests();
+			typedParser.entryRuleProgram();
 			return typedParser.getFollowElements();
 		} catch(RecognitionException ex) {
 			throw new RuntimeException(ex);

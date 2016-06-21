@@ -3,9 +3,12 @@
 package mutatorenvironment.util;
 
 import mutatorenvironment.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -16,7 +19,8 @@ import org.eclipse.emf.ecore.EObject;
  * @see mutatorenvironment.MutatorenvironmentPackage
  * @generated
  */
-public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
+public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl
+{
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
@@ -31,8 +35,10 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MutatorenvironmentAdapterFactory() {
-		if (modelPackage == null) {
+	public MutatorenvironmentAdapterFactory()
+	{
+		if (modelPackage == null)
+		{
 			modelPackage = MutatorenvironmentPackage.eINSTANCE;
 		}
 	}
@@ -46,11 +52,14 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	@Override
-	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
+	public boolean isFactoryForType(Object object)
+	{
+		if (object == modelPackage)
+		{
 			return true;
 		}
-		if (object instanceof EObject) {
+		if (object instanceof EObject)
+		{
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -63,261 +72,336 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected MutatorenvironmentSwitch<Adapter> modelSwitch =
-		new MutatorenvironmentSwitch<Adapter>() {
+		new MutatorenvironmentSwitch<Adapter>()
+		{
 			@Override
-			public Adapter caseMutatorEnvironment(MutatorEnvironment object) {
+			public Adapter caseMutatorEnvironment(MutatorEnvironment object)
+			{
 				return createMutatorEnvironmentAdapter();
 			}
 			@Override
-			public Adapter caseDefinition(Definition object) {
+			public Adapter caseDefinition(Definition object)
+			{
 				return createDefinitionAdapter();
 			}
 			@Override
-			public Adapter caseLibrary(Library object) {
+			public Adapter caseLibrary(Library object)
+			{
 				return createLibraryAdapter();
 			}
 			@Override
-			public Adapter caseProgram(Program object) {
+			public Adapter caseProgram(Program object)
+			{
 				return createProgramAdapter();
 			}
 			@Override
-			public Adapter caseObjectEmitter(ObjectEmitter object) {
+			public Adapter caseObjectEmitter(ObjectEmitter object)
+			{
 				return createObjectEmitterAdapter();
 			}
 			@Override
-			public Adapter caseMutator(Mutator object) {
+			public Adapter caseMutator(Mutator object)
+			{
 				return createMutatorAdapter();
 			}
 			@Override
-			public Adapter caseCompositeMutator(CompositeMutator object) {
+			public Adapter caseCompositeMutator(CompositeMutator object)
+			{
 				return createCompositeMutatorAdapter();
 			}
 			@Override
-			public Adapter caseLoad(Load object) {
+			public Adapter caseLoad(Load object)
+			{
 				return createLoadAdapter();
 			}
 			@Override
-			public Adapter caseCreateObjectMutator(CreateObjectMutator object) {
+			public Adapter caseCreateObjectMutator(CreateObjectMutator object)
+			{
 				return createCreateObjectMutatorAdapter();
 			}
 			@Override
-			public Adapter caseObSelectionStrategy(ObSelectionStrategy object) {
+			public Adapter caseObSelectionStrategy(ObSelectionStrategy object)
+			{
 				return createObSelectionStrategyAdapter();
 			}
 			@Override
-			public Adapter caseRandomSelection(RandomSelection object) {
+			public Adapter caseRandomSelection(RandomSelection object)
+			{
 				return createRandomSelectionAdapter();
 			}
 			@Override
-			public Adapter caseRandomTypeSelection(RandomTypeSelection object) {
+			public Adapter caseRandomTypeSelection(RandomTypeSelection object)
+			{
 				return createRandomTypeSelectionAdapter();
 			}
 			@Override
-			public Adapter caseSpecificObjectSelection(SpecificObjectSelection object) {
+			public Adapter caseSpecificObjectSelection(SpecificObjectSelection object)
+			{
 				return createSpecificObjectSelectionAdapter();
 			}
 			@Override
-			public Adapter caseAttributeInit(AttributeInit object) {
+			public Adapter caseAttributeInit(AttributeInit object)
+			{
 				return createAttributeInitAdapter();
 			}
 			@Override
-			public Adapter caseAttributeType(AttributeType object) {
+			public Adapter caseAttributeType(AttributeType object)
+			{
 				return createAttributeTypeAdapter();
 			}
 			@Override
-			public Adapter caseBooleanType(BooleanType object) {
+			public Adapter caseBooleanType(BooleanType object)
+			{
 				return createBooleanTypeAdapter();
 			}
 			@Override
-			public Adapter caseSpecificBooleanType(SpecificBooleanType object) {
+			public Adapter caseSpecificBooleanType(SpecificBooleanType object)
+			{
 				return createSpecificBooleanTypeAdapter();
 			}
 			@Override
-			public Adapter caseRandomBooleanType(RandomBooleanType object) {
+			public Adapter caseRandomBooleanType(RandomBooleanType object)
+			{
 				return createRandomBooleanTypeAdapter();
 			}
 			@Override
-			public Adapter caseStringType(StringType object) {
+			public Adapter caseStringType(StringType object)
+			{
 				return createStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseSpecificStringType(SpecificStringType object) {
+			public Adapter caseSpecificStringType(SpecificStringType object)
+			{
 				return createSpecificStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseRandomStringType(RandomStringType object) {
+			public Adapter caseRandomStringType(RandomStringType object)
+			{
 				return createRandomStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseIntegerType(IntegerType object) {
+			public Adapter caseIntegerType(IntegerType object)
+			{
 				return createIntegerTypeAdapter();
 			}
 			@Override
-			public Adapter caseSpecificIntegerType(SpecificIntegerType object) {
+			public Adapter caseSpecificIntegerType(SpecificIntegerType object)
+			{
 				return createSpecificIntegerTypeAdapter();
 			}
 			@Override
-			public Adapter caseRandomIntegerType(RandomIntegerType object) {
+			public Adapter caseRandomIntegerType(RandomIntegerType object)
+			{
 				return createRandomIntegerTypeAdapter();
 			}
 			@Override
-			public Adapter caseDoubleType(DoubleType object) {
+			public Adapter caseDoubleType(DoubleType object)
+			{
 				return createDoubleTypeAdapter();
 			}
 			@Override
-			public Adapter caseSpecificDoubleType(SpecificDoubleType object) {
+			public Adapter caseSpecificDoubleType(SpecificDoubleType object)
+			{
 				return createSpecificDoubleTypeAdapter();
 			}
 			@Override
-			public Adapter caseRandomDoubleType(RandomDoubleType object) {
+			public Adapter caseRandomDoubleType(RandomDoubleType object)
+			{
 				return createRandomDoubleTypeAdapter();
 			}
 			@Override
-			public Adapter caseModifySourceReferenceMutator(ModifySourceReferenceMutator object) {
+			public Adapter caseModifySourceReferenceMutator(ModifySourceReferenceMutator object)
+			{
 				return createModifySourceReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseSpecificSelection(SpecificSelection object) {
+			public Adapter caseSpecificSelection(SpecificSelection object)
+			{
 				return createSpecificSelectionAdapter();
 			}
 			@Override
-			public Adapter caseSpecificReferenceSelection(SpecificReferenceSelection object) {
+			public Adapter caseSpecificReferenceSelection(SpecificReferenceSelection object)
+			{
 				return createSpecificReferenceSelectionAdapter();
 			}
 			@Override
-			public Adapter caseModifyTargetReferenceMutator(ModifyTargetReferenceMutator object) {
+			public Adapter caseModifyTargetReferenceMutator(ModifyTargetReferenceMutator object)
+			{
 				return createModifyTargetReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseCreateReferenceMutator(CreateReferenceMutator object) {
+			public Adapter caseCreateReferenceMutator(CreateReferenceMutator object)
+			{
 				return createCreateReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseRemoveObjectMutator(RemoveObjectMutator object) {
+			public Adapter caseRemoveObjectMutator(RemoveObjectMutator object)
+			{
 				return createRemoveObjectMutatorAdapter();
 			}
 			@Override
-			public Adapter caseRemoveReferenceMutator(RemoveReferenceMutator object) {
+			public Adapter caseRemoveReferenceMutator(RemoveReferenceMutator object)
+			{
 				return createRemoveReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseModifyInformationMutator(ModifyInformationMutator object) {
+			public Adapter caseModifyInformationMutator(ModifyInformationMutator object)
+			{
 				return createModifyInformationMutatorAdapter();
 			}
 			@Override
-			public Adapter caseUpperStringType(UpperStringType object) {
+			public Adapter caseUpperStringType(UpperStringType object)
+			{
 				return createUpperStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseLowerStringType(LowerStringType object) {
+			public Adapter caseLowerStringType(LowerStringType object)
+			{
 				return createLowerStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseListStringType(ListStringType object) {
+			public Adapter caseListStringType(ListStringType object)
+			{
 				return createListStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseCatStartStringType(CatStartStringType object) {
+			public Adapter caseCatStartStringType(CatStartStringType object)
+			{
 				return createCatStartStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseCatEndStringType(CatEndStringType object) {
+			public Adapter caseCatEndStringType(CatEndStringType object)
+			{
 				return createCatEndStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseAttributeUnset(AttributeUnset object) {
+			public Adapter caseAttributeUnset(AttributeUnset object)
+			{
 				return createAttributeUnsetAdapter();
 			}
 			@Override
-			public Adapter caseAttributeSet(AttributeSet object) {
+			public Adapter caseAttributeSet(AttributeSet object)
+			{
 				return createAttributeSetAdapter();
 			}
 			@Override
-			public Adapter caseAttributeSwap(AttributeSwap object) {
+			public Adapter caseAttributeSwap(AttributeSwap object)
+			{
 				return createAttributeSwapAdapter();
 			}
 			@Override
-			public Adapter caseReplaceStringType(ReplaceStringType object) {
+			public Adapter caseReplaceStringType(ReplaceStringType object)
+			{
 				return createReplaceStringTypeAdapter();
 			}
 			@Override
-			public Adapter caseAttributeCopy(AttributeCopy object) {
+			public Adapter caseAttributeCopy(AttributeCopy object)
+			{
 				return createAttributeCopyAdapter();
 			}
 			@Override
-			public Adapter caseRemoveRandomReferenceMutator(RemoveRandomReferenceMutator object) {
+			public Adapter caseRemoveRandomReferenceMutator(RemoveRandomReferenceMutator object)
+			{
 				return createRemoveRandomReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseRemoveSpecificReferenceMutator(RemoveSpecificReferenceMutator object) {
+			public Adapter caseRemoveSpecificReferenceMutator(RemoveSpecificReferenceMutator object)
+			{
 				return createRemoveSpecificReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseCompleteSelection(CompleteSelection object) {
+			public Adapter caseCompleteSelection(CompleteSelection object)
+			{
 				return createCompleteSelectionAdapter();
 			}
 			@Override
-			public Adapter caseCompleteTypeSelection(CompleteTypeSelection object) {
+			public Adapter caseCompleteTypeSelection(CompleteTypeSelection object)
+			{
 				return createCompleteTypeSelectionAdapter();
 			}
 			@Override
-			public Adapter caseRemoveCompleteReferenceMutator(RemoveCompleteReferenceMutator object) {
+			public Adapter caseRemoveCompleteReferenceMutator(RemoveCompleteReferenceMutator object)
+			{
 				return createRemoveCompleteReferenceMutatorAdapter();
 			}
 			@Override
-			public Adapter caseSource(Source object) {
+			public Adapter caseSource(Source object)
+			{
 				return createSourceAdapter();
 			}
 			@Override
-			public Adapter caseOtherSelection(OtherSelection object) {
+			public Adapter caseOtherSelection(OtherSelection object)
+			{
 				return createOtherSelectionAdapter();
 			}
 			@Override
-			public Adapter caseOtherTypeSelection(OtherTypeSelection object) {
+			public Adapter caseOtherTypeSelection(OtherTypeSelection object)
+			{
 				return createOtherTypeSelectionAdapter();
 			}
 			@Override
-			public Adapter caseSelectObjectMutator(SelectObjectMutator object) {
+			public Adapter caseSelectObjectMutator(SelectObjectMutator object)
+			{
 				return createSelectObjectMutatorAdapter();
 			}
 			@Override
-			public Adapter caseAttributeEvaluation(AttributeEvaluation object) {
+			public Adapter caseAttributeEvaluation(AttributeEvaluation object)
+			{
 				return createAttributeEvaluationAdapter();
 			}
 			@Override
-			public Adapter caseAttributeReverse(AttributeReverse object) {
+			public Adapter caseAttributeReverse(AttributeReverse object)
+			{
 				return createAttributeReverseAdapter();
 			}
 			@Override
-			public Adapter caseReferenceSet(ReferenceSet object) {
+			public Adapter caseReferenceSet(ReferenceSet object)
+			{
 				return createReferenceSetAdapter();
 			}
 			@Override
-			public Adapter caseReferenceInit(ReferenceInit object) {
+			public Adapter caseReferenceInit(ReferenceInit object)
+			{
 				return createReferenceInitAdapter();
 			}
 			@Override
-			public Adapter caseReferenceEvaluation(ReferenceEvaluation object) {
+			public Adapter caseReferenceEvaluation(ReferenceEvaluation object)
+			{
 				return createReferenceEvaluationAdapter();
 			}
 			@Override
-			public Adapter caseExpression(Expression object) {
+			public Adapter caseExpression(Expression object)
+			{
 				return createExpressionAdapter();
 			}
 			@Override
-			public Adapter caseReferenceSwap(ReferenceSwap object) {
+			public Adapter caseReferenceSwap(ReferenceSwap object)
+			{
 				return createReferenceSwapAdapter();
 			}
 			@Override
-			public Adapter caseEvaluation(Evaluation object) {
+			public Adapter caseEvaluation(Evaluation object)
+			{
 				return createEvaluationAdapter();
 			}
 			@Override
-			public Adapter caseBinaryOperator(BinaryOperator object) {
+			public Adapter caseBinaryOperator(BinaryOperator object)
+			{
 				return createBinaryOperatorAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object) {
+			public Adapter caseBlock(Block object)
+			{
+				return createBlockAdapter();
+			}
+			@Override
+			public Adapter caseConstraint(Constraint object)
+			{
+				return createConstraintAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object)
+			{
 				return createEObjectAdapter();
 			}
 		};
@@ -331,7 +415,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	@Override
-	public Adapter createAdapter(Notifier target) {
+	public Adapter createAdapter(Notifier target)
+	{
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
@@ -346,7 +431,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.MutatorEnvironment
 	 * @generated
 	 */
-	public Adapter createMutatorEnvironmentAdapter() {
+	public Adapter createMutatorEnvironmentAdapter()
+	{
 		return null;
 	}
 
@@ -360,7 +446,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.Definition
 	 * @generated
 	 */
-	public Adapter createDefinitionAdapter() {
+	public Adapter createDefinitionAdapter()
+	{
 		return null;
 	}
 
@@ -374,7 +461,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.Library
 	 * @generated
 	 */
-	public Adapter createLibraryAdapter() {
+	public Adapter createLibraryAdapter()
+	{
 		return null;
 	}
 
@@ -388,7 +476,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.Program
 	 * @generated
 	 */
-	public Adapter createProgramAdapter() {
+	public Adapter createProgramAdapter()
+	{
 		return null;
 	}
 
@@ -402,7 +491,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ObjectEmitter
 	 * @generated
 	 */
-	public Adapter createObjectEmitterAdapter() {
+	public Adapter createObjectEmitterAdapter()
+	{
 		return null;
 	}
 
@@ -416,7 +506,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.Mutator
 	 * @generated
 	 */
-	public Adapter createMutatorAdapter() {
+	public Adapter createMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -430,7 +521,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CompositeMutator
 	 * @generated
 	 */
-	public Adapter createCompositeMutatorAdapter() {
+	public Adapter createCompositeMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -444,7 +536,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.Load
 	 * @generated
 	 */
-	public Adapter createLoadAdapter() {
+	public Adapter createLoadAdapter()
+	{
 		return null;
 	}
 
@@ -458,7 +551,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CreateObjectMutator
 	 * @generated
 	 */
-	public Adapter createCreateObjectMutatorAdapter() {
+	public Adapter createCreateObjectMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -472,7 +566,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ObSelectionStrategy
 	 * @generated
 	 */
-	public Adapter createObSelectionStrategyAdapter() {
+	public Adapter createObSelectionStrategyAdapter()
+	{
 		return null;
 	}
 
@@ -486,7 +581,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RandomSelection
 	 * @generated
 	 */
-	public Adapter createRandomSelectionAdapter() {
+	public Adapter createRandomSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -500,7 +596,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RandomTypeSelection
 	 * @generated
 	 */
-	public Adapter createRandomTypeSelectionAdapter() {
+	public Adapter createRandomTypeSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -514,7 +611,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificObjectSelection
 	 * @generated
 	 */
-	public Adapter createSpecificObjectSelectionAdapter() {
+	public Adapter createSpecificObjectSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -528,7 +626,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeInit
 	 * @generated
 	 */
-	public Adapter createAttributeInitAdapter() {
+	public Adapter createAttributeInitAdapter()
+	{
 		return null;
 	}
 
@@ -542,7 +641,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeType
 	 * @generated
 	 */
-	public Adapter createAttributeTypeAdapter() {
+	public Adapter createAttributeTypeAdapter()
+	{
 		return null;
 	}
 
@@ -556,7 +656,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.BooleanType
 	 * @generated
 	 */
-	public Adapter createBooleanTypeAdapter() {
+	public Adapter createBooleanTypeAdapter()
+	{
 		return null;
 	}
 
@@ -570,7 +671,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificBooleanType
 	 * @generated
 	 */
-	public Adapter createSpecificBooleanTypeAdapter() {
+	public Adapter createSpecificBooleanTypeAdapter()
+	{
 		return null;
 	}
 
@@ -584,7 +686,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RandomBooleanType
 	 * @generated
 	 */
-	public Adapter createRandomBooleanTypeAdapter() {
+	public Adapter createRandomBooleanTypeAdapter()
+	{
 		return null;
 	}
 
@@ -598,7 +701,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.StringType
 	 * @generated
 	 */
-	public Adapter createStringTypeAdapter() {
+	public Adapter createStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -612,7 +716,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificStringType
 	 * @generated
 	 */
-	public Adapter createSpecificStringTypeAdapter() {
+	public Adapter createSpecificStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -626,7 +731,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RandomStringType
 	 * @generated
 	 */
-	public Adapter createRandomStringTypeAdapter() {
+	public Adapter createRandomStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -640,7 +746,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.IntegerType
 	 * @generated
 	 */
-	public Adapter createIntegerTypeAdapter() {
+	public Adapter createIntegerTypeAdapter()
+	{
 		return null;
 	}
 
@@ -654,7 +761,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificIntegerType
 	 * @generated
 	 */
-	public Adapter createSpecificIntegerTypeAdapter() {
+	public Adapter createSpecificIntegerTypeAdapter()
+	{
 		return null;
 	}
 
@@ -668,7 +776,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RandomIntegerType
 	 * @generated
 	 */
-	public Adapter createRandomIntegerTypeAdapter() {
+	public Adapter createRandomIntegerTypeAdapter()
+	{
 		return null;
 	}
 
@@ -682,7 +791,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.DoubleType
 	 * @generated
 	 */
-	public Adapter createDoubleTypeAdapter() {
+	public Adapter createDoubleTypeAdapter()
+	{
 		return null;
 	}
 
@@ -696,7 +806,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificDoubleType
 	 * @generated
 	 */
-	public Adapter createSpecificDoubleTypeAdapter() {
+	public Adapter createSpecificDoubleTypeAdapter()
+	{
 		return null;
 	}
 
@@ -710,7 +821,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RandomDoubleType
 	 * @generated
 	 */
-	public Adapter createRandomDoubleTypeAdapter() {
+	public Adapter createRandomDoubleTypeAdapter()
+	{
 		return null;
 	}
 
@@ -724,7 +836,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ModifySourceReferenceMutator
 	 * @generated
 	 */
-	public Adapter createModifySourceReferenceMutatorAdapter() {
+	public Adapter createModifySourceReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -738,7 +851,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificSelection
 	 * @generated
 	 */
-	public Adapter createSpecificSelectionAdapter() {
+	public Adapter createSpecificSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -752,7 +866,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SpecificReferenceSelection
 	 * @generated
 	 */
-	public Adapter createSpecificReferenceSelectionAdapter() {
+	public Adapter createSpecificReferenceSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -766,7 +881,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ModifyTargetReferenceMutator
 	 * @generated
 	 */
-	public Adapter createModifyTargetReferenceMutatorAdapter() {
+	public Adapter createModifyTargetReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -780,7 +896,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CreateReferenceMutator
 	 * @generated
 	 */
-	public Adapter createCreateReferenceMutatorAdapter() {
+	public Adapter createCreateReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -794,7 +911,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RemoveObjectMutator
 	 * @generated
 	 */
-	public Adapter createRemoveObjectMutatorAdapter() {
+	public Adapter createRemoveObjectMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -808,7 +926,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RemoveReferenceMutator
 	 * @generated
 	 */
-	public Adapter createRemoveReferenceMutatorAdapter() {
+	public Adapter createRemoveReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -822,7 +941,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ModifyInformationMutator
 	 * @generated
 	 */
-	public Adapter createModifyInformationMutatorAdapter() {
+	public Adapter createModifyInformationMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -836,7 +956,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.UpperStringType
 	 * @generated
 	 */
-	public Adapter createUpperStringTypeAdapter() {
+	public Adapter createUpperStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -850,7 +971,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.LowerStringType
 	 * @generated
 	 */
-	public Adapter createLowerStringTypeAdapter() {
+	public Adapter createLowerStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -864,7 +986,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ListStringType
 	 * @generated
 	 */
-	public Adapter createListStringTypeAdapter() {
+	public Adapter createListStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -878,7 +1001,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CatStartStringType
 	 * @generated
 	 */
-	public Adapter createCatStartStringTypeAdapter() {
+	public Adapter createCatStartStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -892,7 +1016,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CatEndStringType
 	 * @generated
 	 */
-	public Adapter createCatEndStringTypeAdapter() {
+	public Adapter createCatEndStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -906,7 +1031,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeUnset
 	 * @generated
 	 */
-	public Adapter createAttributeUnsetAdapter() {
+	public Adapter createAttributeUnsetAdapter()
+	{
 		return null;
 	}
 
@@ -920,7 +1046,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeSet
 	 * @generated
 	 */
-	public Adapter createAttributeSetAdapter() {
+	public Adapter createAttributeSetAdapter()
+	{
 		return null;
 	}
 
@@ -934,7 +1061,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeSwap
 	 * @generated
 	 */
-	public Adapter createAttributeSwapAdapter() {
+	public Adapter createAttributeSwapAdapter()
+	{
 		return null;
 	}
 
@@ -948,7 +1076,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ReplaceStringType
 	 * @generated
 	 */
-	public Adapter createReplaceStringTypeAdapter() {
+	public Adapter createReplaceStringTypeAdapter()
+	{
 		return null;
 	}
 
@@ -962,7 +1091,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeCopy
 	 * @generated
 	 */
-	public Adapter createAttributeCopyAdapter() {
+	public Adapter createAttributeCopyAdapter()
+	{
 		return null;
 	}
 
@@ -976,7 +1106,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RemoveRandomReferenceMutator
 	 * @generated
 	 */
-	public Adapter createRemoveRandomReferenceMutatorAdapter() {
+	public Adapter createRemoveRandomReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -990,7 +1121,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RemoveSpecificReferenceMutator
 	 * @generated
 	 */
-	public Adapter createRemoveSpecificReferenceMutatorAdapter() {
+	public Adapter createRemoveSpecificReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -1004,7 +1136,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CompleteSelection
 	 * @generated
 	 */
-	public Adapter createCompleteSelectionAdapter() {
+	public Adapter createCompleteSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -1018,7 +1151,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.CompleteTypeSelection
 	 * @generated
 	 */
-	public Adapter createCompleteTypeSelectionAdapter() {
+	public Adapter createCompleteTypeSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -1032,7 +1166,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.RemoveCompleteReferenceMutator
 	 * @generated
 	 */
-	public Adapter createRemoveCompleteReferenceMutatorAdapter() {
+	public Adapter createRemoveCompleteReferenceMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -1046,7 +1181,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.Source
 	 * @generated
 	 */
-	public Adapter createSourceAdapter() {
+	public Adapter createSourceAdapter()
+	{
 		return null;
 	}
 
@@ -1060,7 +1196,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.OtherSelection
 	 * @generated
 	 */
-	public Adapter createOtherSelectionAdapter() {
+	public Adapter createOtherSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -1074,7 +1211,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.OtherTypeSelection
 	 * @generated
 	 */
-	public Adapter createOtherTypeSelectionAdapter() {
+	public Adapter createOtherTypeSelectionAdapter()
+	{
 		return null;
 	}
 
@@ -1088,21 +1226,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.SelectObjectMutator
 	 * @generated
 	 */
-	public Adapter createSelectObjectMutatorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.BinaryOperator <em>Binary Operator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see mutatorenvironment.BinaryOperator
-	 * @generated
-	 */
-	public Adapter createBinaryOperatorAdapter() {
+	public Adapter createSelectObjectMutatorAdapter()
+	{
 		return null;
 	}
 
@@ -1116,49 +1241,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeEvaluation
 	 * @generated
 	 */
-	public Adapter createAttributeEvaluationAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Expression <em>Expression</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see mutatorenvironment.Expression
-	 * @generated
-	 */
-	public Adapter createExpressionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ReferenceSwap <em>Reference Swap</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see mutatorenvironment.ReferenceSwap
-	 * @generated
-	 */
-	public Adapter createReferenceSwapAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Evaluation <em>Evaluation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see mutatorenvironment.Evaluation
-	 * @generated
-	 */
-	public Adapter createEvaluationAdapter() {
+	public Adapter createAttributeEvaluationAdapter()
+	{
 		return null;
 	}
 
@@ -1172,7 +1256,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.AttributeReverse
 	 * @generated
 	 */
-	public Adapter createAttributeReverseAdapter() {
+	public Adapter createAttributeReverseAdapter()
+	{
 		return null;
 	}
 
@@ -1186,7 +1271,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ReferenceSet
 	 * @generated
 	 */
-	public Adapter createReferenceSetAdapter() {
+	public Adapter createReferenceSetAdapter()
+	{
 		return null;
 	}
 
@@ -1200,7 +1286,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ReferenceInit
 	 * @generated
 	 */
-	public Adapter createReferenceInitAdapter() {
+	public Adapter createReferenceInitAdapter()
+	{
 		return null;
 	}
 
@@ -1214,7 +1301,98 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @see mutatorenvironment.ReferenceEvaluation
 	 * @generated
 	 */
-	public Adapter createReferenceEvaluationAdapter() {
+	public Adapter createReferenceEvaluationAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Expression <em>Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.Expression
+	 * @generated
+	 */
+	public Adapter createExpressionAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ReferenceSwap <em>Reference Swap</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.ReferenceSwap
+	 * @generated
+	 */
+	public Adapter createReferenceSwapAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Evaluation <em>Evaluation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.Evaluation
+	 * @generated
+	 */
+	public Adapter createEvaluationAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.BinaryOperator <em>Binary Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.BinaryOperator
+	 * @generated
+	 */
+	public Adapter createBinaryOperatorAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Block <em>Block</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.Block
+	 * @generated
+	 */
+	public Adapter createBlockAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Constraint <em>Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.Constraint
+	 * @generated
+	 */
+	public Adapter createConstraintAdapter()
+	{
 		return null;
 	}
 
@@ -1226,7 +1404,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @return the new adapter.
 	 * @generated
 	 */
-	public Adapter createEObjectAdapter() {
+	public Adapter createEObjectAdapter()
+	{
 		return null;
 	}
 

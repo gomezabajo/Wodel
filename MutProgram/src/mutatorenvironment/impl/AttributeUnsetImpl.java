@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.AttributeUnset;
 import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class AttributeUnsetImpl extends AttributeSetImpl implements AttributeUnset {
+public class AttributeUnsetImpl extends AttributeSetImpl implements AttributeUnset
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeUnsetImpl() {
+	protected AttributeUnsetImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public class AttributeUnsetImpl extends AttributeSetImpl implements AttributeUns
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.ATTRIBUTE_UNSET;
 	}
 

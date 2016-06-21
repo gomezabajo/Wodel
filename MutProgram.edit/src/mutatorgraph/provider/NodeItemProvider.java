@@ -5,14 +5,10 @@ package mutatorgraph.provider;
 
 import java.util.Collection;
 import java.util.List;
-
 import mutatorgraph.MutatorgraphPackage;
-import mutatorgraph.Negation;
 import mutatorgraph.Node;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
@@ -71,7 +67,7 @@ public class NodeItemProvider extends ItemItemProvider {
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -161,11 +157,8 @@ public class NodeItemProvider extends ItemItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		Negation labelValue = ((Node)object).getNegation();
-		String label = labelValue == null ? null : labelValue.toString();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Node_type") :
-			getString("_UI_Node_type") + " " + label;
+		Node node = (Node)object;
+		return getString("_UI_Node_type") + " " + node.isNegation();
 	}
 	
 

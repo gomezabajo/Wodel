@@ -25,7 +25,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
+public class LoadImpl extends MinimalEObjectImpl.Container implements Load
+{
 	/**
 	 * The default value of the '{@link #getFile() <em>File</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,7 +52,8 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LoadImpl() {
+	protected LoadImpl()
+	{
 		super();
 	}
 
@@ -61,7 +63,8 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.LOAD;
 	}
 
@@ -70,7 +73,8 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getFile() {
+	public String getFile()
+	{
 		return file;
 	}
 
@@ -79,7 +83,8 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFile(String newFile) {
+	public void setFile(String newFile)
+	{
 		String oldFile = file;
 		file = newFile;
 		if (eNotificationRequired())
@@ -92,8 +97,10 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LOAD__FILE:
 				return getFile();
 		}
@@ -106,8 +113,10 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LOAD__FILE:
 				setFile((String)newValue);
 				return;
@@ -121,8 +130,10 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LOAD__FILE:
 				setFile(FILE_EDEFAULT);
 				return;
@@ -136,8 +147,10 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.LOAD__FILE:
 				return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
 		}
@@ -150,7 +163,8 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

@@ -3,9 +3,6 @@
 package mutatorenvironment;
 
 
-
-
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Attribute Unset</b></em>'.
@@ -16,5 +13,6 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface AttributeUnset extends AttributeSet {
+public interface AttributeUnset extends AttributeSet
+{
 } // AttributeUnset

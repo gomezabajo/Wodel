@@ -19,7 +19,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface AttributeInit extends AttributeSet {
+public interface AttributeInit extends AttributeSet
+{
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

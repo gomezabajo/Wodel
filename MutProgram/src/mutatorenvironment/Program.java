@@ -21,7 +21,8 @@ package mutatorenvironment;
  * @model
  * @generated
  */
-public interface Program extends Definition {
+public interface Program extends Definition
+{
 	/**
 	 * Returns the value of the '<em><b>Output</b></em>' attribute.
 	 * <!-- begin-user-doc -->

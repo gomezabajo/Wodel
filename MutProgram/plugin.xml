@@ -46,4 +46,20 @@
             genModel="models/MutatorGraph.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated IdentifyElements -->
+      <package
+            uri="http://identifyelements/1.0"
+            class="identifyelements.IdentifyelementsPackage"
+            genModel="models/IdentifyElements.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ConfigureOptions -->
+      <package
+            uri="http://configureoptions/1.0"
+            class="configureoptions.ConfigureoptionsPackage"
+            genModel="models/ConfigureOptions.genmodel"/>
+   </extension>
+
 </plugin>

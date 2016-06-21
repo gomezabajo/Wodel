@@ -13,6 +13,6 @@ package mutatorenvironment;
  * @model abstract="true"
  * @generated
  */
-public interface StringType extends AttributeType {
-
+public interface StringType extends AttributeType
+{
 } // StringType

@@ -4,6 +4,7 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ReferenceSwap;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class ReferenceSwapImpl extends ReferenceSetImpl implements ReferenceSwap {
+public class ReferenceSwapImpl extends ReferenceSetImpl implements ReferenceSwap
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReferenceSwapImpl() {
+	protected ReferenceSwapImpl()
+	{
 		super();
 	}
 
@@ -31,7 +34,8 @@ public class ReferenceSwapImpl extends ReferenceSetImpl implements ReferenceSwap
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.REFERENCE_SWAP;
 	}
 

@@ -22,7 +22,8 @@ import org.eclipse.emf.ecore.EAttribute;
  * @model
  * @generated
  */
-public interface AttributeEvaluation extends Evaluation {
+public interface AttributeEvaluation extends Evaluation
+{
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' reference.
 	 * <!-- begin-user-doc -->

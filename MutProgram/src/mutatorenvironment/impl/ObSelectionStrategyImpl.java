@@ -5,10 +5,13 @@ package mutatorenvironment.impl;
 import mutatorenvironment.Expression;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ObSelectionStrategy;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -24,7 +27,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implements ObSelectionStrategy {
+public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implements ObSelectionStrategy
+{
 	/**
 	 * The cached value of the '{@link #getExpression() <em>Expression</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -40,7 +44,8 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ObSelectionStrategyImpl() {
+	protected ObSelectionStrategyImpl()
+	{
 		super();
 	}
 
@@ -50,7 +55,8 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.OB_SELECTION_STRATEGY;
 	}
 
@@ -59,7 +65,8 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Expression getExpression() {
+	public Expression getExpression()
+	{
 		return expression;
 	}
 
@@ -68,10 +75,12 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExpression(Expression newExpression, NotificationChain msgs) {
+	public NotificationChain basicSetExpression(Expression newExpression, NotificationChain msgs)
+	{
 		Expression oldExpression = expression;
 		expression = newExpression;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION, oldExpression, newExpression);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -83,8 +92,10 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setExpression(Expression newExpression) {
-		if (newExpression != expression) {
+	public void setExpression(Expression newExpression)
+	{
+		if (newExpression != expression)
+		{
 			NotificationChain msgs = null;
 			if (expression != null)
 				msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION, null, msgs);
@@ -103,8 +114,10 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return basicSetExpression(null, msgs);
 		}
@@ -117,8 +130,10 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return getExpression();
 		}
@@ -131,8 +146,10 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+	public void eSet(int featureID, Object newValue)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				setExpression((Expression)newValue);
 				return;
@@ -146,8 +163,10 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
+	public void eUnset(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				setExpression((Expression)null);
 				return;
@@ -161,8 +180,10 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+	public boolean eIsSet(int featureID)
+	{
+		switch (featureID)
+		{
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return expression != null;
 		}

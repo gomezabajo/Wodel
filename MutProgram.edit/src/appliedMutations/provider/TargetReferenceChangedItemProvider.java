@@ -3,6 +3,7 @@
 package appliedMutations.provider;
 
 
+import appliedMutations.AppliedMutationsPackage;
 import appliedMutations.TargetReferenceChanged;
 
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 /**
@@ -41,8 +43,31 @@ public class TargetReferenceChangedItemProvider extends ReferenceChangedItemProv
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addOldToPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Old To feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOldToPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_TargetReferenceChanged_oldTo_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_TargetReferenceChanged_oldTo_feature", "_UI_TargetReferenceChanged_type"),
+				 AppliedMutationsPackage.Literals.TARGET_REFERENCE_CHANGED__OLD_TO,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -64,7 +89,7 @@ public class TargetReferenceChangedItemProvider extends ReferenceChangedItemProv
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((TargetReferenceChanged)object).getRefName();
+		String label = ((TargetReferenceChanged)object).getSrcRefName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_TargetReferenceChanged_type") :
 			getString("_UI_TargetReferenceChanged_type") + " " + label;

@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface RemoveCompleteReferenceMutator extends RemoveReferenceMutator {
+public interface RemoveCompleteReferenceMutator extends RemoveReferenceMutator
+{
 	/**
 	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

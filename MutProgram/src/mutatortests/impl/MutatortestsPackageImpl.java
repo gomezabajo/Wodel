@@ -2,19 +2,26 @@
  */
 package mutatortests.impl;
 
+import mutatortests.AlternativeResponse;
 import mutatortests.Configuration;
+import mutatortests.Mode;
+import mutatortests.MultiChoiceDiagram;
+import mutatortests.MultiChoiceEmConfig;
+import mutatortests.MultiChoiceEmendation;
 import mutatortests.MutatorTests;
 import mutatortests.MutatortestsFactory;
 import mutatortests.MutatortestsPackage;
-import mutatortests.Parameter;
-
+import mutatortests.Navigation;
+import mutatortests.Order;
+import mutatortests.Program;
+import mutatortests.ProgramConfiguration;
 import mutatortests.Test;
+import mutatortests.TestConfiguration;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -24,6 +31,13 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * @generated
  */
 public class MutatortestsPackageImpl extends EPackageImpl implements MutatortestsPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass programEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -43,6 +57,48 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass programConfigurationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass testConfigurationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiChoiceEmConfigEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass alternativeResponseEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiChoiceDiagramEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiChoiceEmendationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass testEClass = null;
 
 	/**
@@ -50,7 +106,21 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum parameterEEnum = null;
+	private EEnum orderEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum navigationEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum modeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -118,6 +188,33 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getProgram() {
+		return programEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProgram_Exercises() {
+		return (EReference)programEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProgram_Config() {
+		return (EReference)programEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMutatorTests() {
 		return mutatorTestsEClass;
 	}
@@ -127,7 +224,7 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorTests_Config() {
+	public EReference getMutatorTests_Block() {
 		return (EReference)mutatorTestsEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -154,8 +251,8 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConfiguration_Retry() {
-		return (EAttribute)configurationEClass.getEStructuralFeatures().get(0);
+	public EClass getProgramConfiguration() {
+		return programConfigurationEClass;
 	}
 
 	/**
@@ -163,8 +260,125 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConfiguration_Showall() {
-		return (EAttribute)configurationEClass.getEStructuralFeatures().get(1);
+	public EAttribute getProgramConfiguration_Navigation() {
+		return (EAttribute)programConfigurationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTestConfiguration() {
+		return testConfigurationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestConfiguration_Retry() {
+		return (EAttribute)testConfigurationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultiChoiceEmConfig() {
+		return multiChoiceEmConfigEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMultiChoiceEmConfig_Weighted() {
+		return (EAttribute)multiChoiceEmConfigEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMultiChoiceEmConfig_Penalty() {
+		return (EAttribute)multiChoiceEmConfigEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMultiChoiceEmConfig_Order() {
+		return (EAttribute)multiChoiceEmConfigEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMultiChoiceEmConfig_Mode() {
+		return (EAttribute)multiChoiceEmConfigEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAlternativeResponse() {
+		return alternativeResponseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAlternativeResponse_Config() {
+		return (EReference)alternativeResponseEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultiChoiceDiagram() {
+		return multiChoiceDiagramEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultiChoiceDiagram_Config() {
+		return (EReference)multiChoiceDiagramEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultiChoiceEmendation() {
+		return multiChoiceEmendationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultiChoiceEmendation_Config() {
+		return (EReference)multiChoiceEmendationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -199,8 +413,26 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getParameter() {
-		return parameterEEnum;
+	public EEnum getOrder() {
+		return orderEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getNavigation() {
+		return navigationEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getMode() {
+		return modeEEnum;
 	}
 
 	/**
@@ -231,20 +463,45 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 		isCreated = true;
 
 		// Create classes and their features
+		programEClass = createEClass(PROGRAM);
+		createEReference(programEClass, PROGRAM__CONFIG);
+		createEReference(programEClass, PROGRAM__EXERCISES);
+
 		mutatorTestsEClass = createEClass(MUTATOR_TESTS);
-		createEReference(mutatorTestsEClass, MUTATOR_TESTS__CONFIG);
+		createEReference(mutatorTestsEClass, MUTATOR_TESTS__BLOCK);
 		createEReference(mutatorTestsEClass, MUTATOR_TESTS__TESTS);
 
 		configurationEClass = createEClass(CONFIGURATION);
-		createEAttribute(configurationEClass, CONFIGURATION__RETRY);
-		createEAttribute(configurationEClass, CONFIGURATION__SHOWALL);
+
+		programConfigurationEClass = createEClass(PROGRAM_CONFIGURATION);
+		createEAttribute(programConfigurationEClass, PROGRAM_CONFIGURATION__NAVIGATION);
+
+		testConfigurationEClass = createEClass(TEST_CONFIGURATION);
+		createEAttribute(testConfigurationEClass, TEST_CONFIGURATION__RETRY);
+
+		multiChoiceEmConfigEClass = createEClass(MULTI_CHOICE_EM_CONFIG);
+		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__WEIGHTED);
+		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__PENALTY);
+		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__ORDER);
+		createEAttribute(multiChoiceEmConfigEClass, MULTI_CHOICE_EM_CONFIG__MODE);
+
+		alternativeResponseEClass = createEClass(ALTERNATIVE_RESPONSE);
+		createEReference(alternativeResponseEClass, ALTERNATIVE_RESPONSE__CONFIG);
+
+		multiChoiceDiagramEClass = createEClass(MULTI_CHOICE_DIAGRAM);
+		createEReference(multiChoiceDiagramEClass, MULTI_CHOICE_DIAGRAM__CONFIG);
+
+		multiChoiceEmendationEClass = createEClass(MULTI_CHOICE_EMENDATION);
+		createEReference(multiChoiceEmendationEClass, MULTI_CHOICE_EMENDATION__CONFIG);
 
 		testEClass = createEClass(TEST);
 		createEAttribute(testEClass, TEST__SOURCE);
 		createEAttribute(testEClass, TEST__QUESTION);
 
 		// Create enums
-		parameterEEnum = createEEnum(PARAMETER);
+		orderEEnum = createEEnum(ORDER);
+		navigationEEnum = createEEnum(NAVIGATION);
+		modeEEnum = createEEnum(MODE);
 	}
 
 	/**
@@ -275,24 +532,63 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		programConfigurationEClass.getESuperTypes().add(this.getConfiguration());
+		testConfigurationEClass.getESuperTypes().add(this.getConfiguration());
+		multiChoiceEmConfigEClass.getESuperTypes().add(this.getTestConfiguration());
+		alternativeResponseEClass.getESuperTypes().add(this.getMutatorTests());
+		multiChoiceDiagramEClass.getESuperTypes().add(this.getMutatorTests());
+		multiChoiceEmendationEClass.getESuperTypes().add(this.getMutatorTests());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(mutatorTestsEClass, MutatorTests.class, "MutatorTests", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMutatorTests_Config(), this.getConfiguration(), null, "config", null, 1, 1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(programEClass, Program.class, "Program", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getProgram_Config(), this.getProgramConfiguration(), null, "config", null, 0, 1, Program.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProgram_Exercises(), this.getMutatorTests(), null, "exercises", null, 0, -1, Program.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mutatorTestsEClass, MutatorTests.class, "MutatorTests", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMutatorTests_Block(), ecorePackage.getEObject(), null, "block", null, 0, 1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorTests_Tests(), this.getTest(), null, "tests", null, 0, -1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(configurationEClass, Configuration.class, "Configuration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getConfiguration_Retry(), this.getParameter(), "retry", null, 1, 1, Configuration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getConfiguration_Showall(), this.getParameter(), "showall", null, 1, 1, Configuration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(configurationEClass, Configuration.class, "Configuration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(programConfigurationEClass, ProgramConfiguration.class, "ProgramConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProgramConfiguration_Navigation(), this.getNavigation(), "navigation", null, 1, 1, ProgramConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(testConfigurationEClass, TestConfiguration.class, "TestConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTestConfiguration_Retry(), ecorePackage.getEBoolean(), "retry", "false", 1, 1, TestConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiChoiceEmConfigEClass, MultiChoiceEmConfig.class, "MultiChoiceEmConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMultiChoiceEmConfig_Weighted(), ecorePackage.getEBoolean(), "weighted", "false", 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMultiChoiceEmConfig_Penalty(), ecorePackage.getEDouble(), "penalty", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMultiChoiceEmConfig_Order(), this.getOrder(), "order", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMultiChoiceEmConfig_Mode(), this.getMode(), "mode", null, 1, 1, MultiChoiceEmConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(alternativeResponseEClass, AlternativeResponse.class, "AlternativeResponse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAlternativeResponse_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, AlternativeResponse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiChoiceDiagramEClass, MultiChoiceDiagram.class, "MultiChoiceDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMultiChoiceDiagram_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, MultiChoiceDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiChoiceEmendationEClass, MultiChoiceEmendation.class, "MultiChoiceEmendation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMultiChoiceEmendation_Config(), this.getMultiChoiceEmConfig(), null, "config", null, 1, 1, MultiChoiceEmendation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testEClass, Test.class, "Test", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTest_Source(), ecorePackage.getEString(), "source", null, 1, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTest_Question(), ecorePackage.getEString(), "question", null, 1, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(parameterEEnum, Parameter.class, "Parameter");
-		addEEnumLiteral(parameterEEnum, Parameter.NO);
-		addEEnumLiteral(parameterEEnum, Parameter.YES);
+		initEEnum(orderEEnum, Order.class, "Order");
+		addEEnumLiteral(orderEEnum, Order.FIXED);
+		addEEnumLiteral(orderEEnum, Order.RANDOM);
+		addEEnumLiteral(orderEEnum, Order.ASCENDING);
+		addEEnumLiteral(orderEEnum, Order.DESCENDING);
+
+		initEEnum(navigationEEnum, Navigation.class, "Navigation");
+		addEEnumLiteral(navigationEEnum, Navigation.FREE);
+		addEEnumLiteral(navigationEEnum, Navigation.LOCKED);
+
+		initEEnum(modeEEnum, Mode.class, "Mode");
+		addEEnumLiteral(modeEEnum, Mode.RADIOBUTTON);
+		addEEnumLiteral(modeEEnum, Mode.CHECKBOX);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -314,7 +610,7 @@ public class MutatortestsPackageImpl extends EPackageImpl implements Mutatortest
 		  (this, 
 		   source, 
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 

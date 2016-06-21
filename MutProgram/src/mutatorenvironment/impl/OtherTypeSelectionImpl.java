@@ -16,13 +16,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class OtherTypeSelectionImpl extends OtherSelectionImpl implements OtherTypeSelection {
+public class OtherTypeSelectionImpl extends OtherSelectionImpl implements OtherTypeSelection
+{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OtherTypeSelectionImpl() {
+	protected OtherTypeSelectionImpl()
+	{
 		super();
 	}
 
@@ -32,7 +34,8 @@ public class OtherTypeSelectionImpl extends OtherSelectionImpl implements OtherT
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass()
+	{
 		return MutatorenvironmentPackage.Literals.OTHER_TYPE_SELECTION;
 	}
 

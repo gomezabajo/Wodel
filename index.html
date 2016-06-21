@@ -66,6 +66,70 @@ constraints {
 }
 </code></pre>
 
+<p>Wodel-Edu is an extension to Wodel for the automated generation of exercises. It generates three kinds of exercises:</p>
+
+<ul>
+<li>Alternative response: the student has to tell if the diagram is correct or not.</li>
+<li>Multiple choice diagram: the student has to tell which of the shown diagrams is correct.</li>
+<li>Multiple choice emendation: the student has to tell which text options will fix the shown diagram.</li>
+</ul>
+
+<p>With this purpose, Wodel-Edu provides 4 DSLs:</p>
+
+<p><strong>eduTest</strong>: DSL for the configuration of the web test application, and the definition of the exercises:</p>
+
+<pre><code>navigation=free
+MultiChoiceEmendation complex {
+    retry=no, weighted=no, penalty=0.0,
+    order=options-descending, mode=checkbox
+    description for 'exercise4.model' = 'Select the required changes so that
+                                         the automaton accepts "a+b+"'
+    description for 'exercise6.model' = 'Select the required changes so that
+                                         the automaton accepts "a*b+"?'
+}
+MultiChoiceDiagram simple {
+    retry=no
+    description for 'exercise8.model' = 'Select which of these automata
+                                         accepts "a*bab*"'
+}
+</code></pre>
+
+<p><strong>modelGraph</strong>: DSL for the graphical visualization of the models. It uses GraphViz for model renderization:</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+Automaton: diagram {
+    State(isInitial): markednode
+    State(not isFinal): node, shape=circle
+    State(isFinal): node, shape=doublecircle
+    Transition(src, tar): edge, label=symbol
+}
+</code></pre>
+
+<p><strong>modelText</strong>: DSL for the configuration of the text that identifies the models' elements (optional):</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+&gt;State: State %name
+&gt;Transition: Transition %symbol.symbol
+&gt;Transition.tar: target
+&gt;Transition.src: source
+</code></pre>
+
+<p><strong>mutaText</strong>: DSL for the configuration of the text options shown in the multiple choice emendation test exercise format (optional):</p>
+
+<pre><code>metamodel "http://dfaAutomaton/1.0"
+
+&gt;TargetReferenceChanged: Change %object from %fromObject
+                         to %toObject with new %refName %oldToObject /
+    Change %object from %fromObject to %oldToObject
+                         with new %refName %toObject
+&gt;AttributeChanged: Change attribute %attName from %object
+                         with value %newValue to %oldValue /
+    Change attribute %attName from %object
+                         with value %oldValue to %newValue
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>.</span>
 

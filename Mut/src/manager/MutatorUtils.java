@@ -899,7 +899,7 @@ public class MutatorUtils {
 							folderName + "/" + blockFolders[i].getName()
 								+ "/" + blockMutFiles[j].getName(),
 								hashmapModelFilenames, hashmapModelFolders,
-								hashmapSeedModelFilenames, modelsURI, mutFile);
+								hashmapSeedModelFilenames, modelsURI, modelFile);
 					}
 				}
 			}

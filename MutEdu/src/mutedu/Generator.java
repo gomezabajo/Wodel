@@ -156,18 +156,21 @@ public class Generator implements IGenerator {
 		final IFile testsFile = srcPath.getFile(new Path(testsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "Tests {\n"
-					+ "\tnavigation=free\n"
-					+ "\tSimpleSelection {\n"
-					+ "\t\tretry=yes, showall=yes\n"
-					+ "\t\t//description for 'model1-name.model' = 'Description for model1'\n"
-					+ "\t\t//other descriptions...\n"
-					+ "\t}\n"
-					+ "\tSelectCorrection {\n"
-					+ "\t\tretry=yes, weighted=no, penalty=0.0, order=mutations descending, mode=checkbox\n"
-					+ "\t\t//description for 'model2-name.model' = 'Description for model2'\n"
-					+ "\t\t//other descriptions...\n"
-					+ "\t}\n"
+			String def = "navigation=free\n"
+					+ "AlternativeResponse {\n"
+					+ "\tretry=yes"
+					+ "\t//description for 'model1-name.model' = 'Description for model1'\n"
+					+ "\t//other descriptions...\n"
+					+ "}\n"
+					+ "\tMultiChoiceDiagram {\n"
+					+ "\tretry=no"
+					+ "\t//description for 'model1-name.model' = 'Description for model1'\n"
+					+ "\t//other descriptions...\n"
+					+ "}\n"
+					+ "MultiChoiceEmendation {\n"
+					+ "\tretry=yes, weighted=no, penalty=0.0, order=options-descending, mode=checkbox\n"
+					+ "\t//description for 'model2-name.model' = 'Description for model2'\n"
+					+ "\t//other descriptions...\n"
 					+ "}";
 			if (testsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="edutest" nsURI="http://edutest/1.0" nsPrefix="edutest">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Program">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" eType="#//ProgramConfiguration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exercises" upperBound="-1"
+        eType="#//MutatorTests" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MutatorTests" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="block" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
+        eType="#//Test" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Configuration" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgramConfiguration" eSuperTypes="#//Configuration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="navigation" lowerBound="1"
+        eType="#//Navigation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestConfiguration" eSuperTypes="#//Configuration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="retry" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceEmConfig" eSuperTypes="#//TestConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weighted" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="penalty" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" lowerBound="1" eType="#//Order"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="#//Mode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlternativeResponse" eSuperTypes="#//MutatorTests">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
+        eType="#//TestConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceDiagram" eSuperTypes="#//MutatorTests">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
+        eType="#//TestConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiChoiceEmendation" eSuperTypes="#//MutatorTests">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
+        eType="#//MultiChoiceEmConfig" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Test">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="question" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Order">
+    <eLiterals name="fixed"/>
+    <eLiterals name="random" value="1"/>
+    <eLiterals name="ascending" value="2"/>
+    <eLiterals name="descending" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Navigation">
+    <eLiterals name="free"/>
+    <eLiterals name="locked" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Mode">
+    <eLiterals name="radiobutton"/>
+    <eLiterals name="checkbox" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,6 +1,0 @@
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelEduSample/model/DFAAutomaton.ecore"
-
->State: State %name
->Transition: Transition %symbol.symbol
->Transition.tar: target
->Transition.src: source

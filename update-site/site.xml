@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/wodel_1.0.0.201607211948.jar" id="wodel" version="1.0.0.201607211948"/>
+</site>

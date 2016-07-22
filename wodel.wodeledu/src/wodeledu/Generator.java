@@ -11,8 +11,13 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.logging.Logger;
 
 import manager.ModelManager;
 
@@ -40,6 +45,7 @@ import wodeledu.dsls.MutaTextUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
+import com.google.inject.Inject;
 
 import exceptions.MetaModelNotFoundException;
 import generator.IGenerator;
@@ -339,14 +345,45 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		}
 		try {
-		Bundle bundle = Platform.getBundle("wodel.wodeledu");
-		URL fileURL = bundle.getEntry("/content");
-		//String srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getFile() + "content/";
-		String srcName = FileLocator.resolve(fileURL).getFile();
-		final File src = new Path(srcName).toFile();
-		final File dest = htmlFolder.getRawLocation().makeAbsolute().toFile();
-		if ((src != null) && (dest != null)) {
-			copyFolder(src, dest);
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+		    	if (! entry.isDirectory()) {
+		    		if (entry.getName().startsWith("content")) {
+		    			final String name = entry.getName();
+		    			final File f = htmlFolder.getRawLocation().makeAbsolute().toFile();
+		    			File path = new File(f.getPath() + '/' + entry.getName().replace("content/", "").split("/")[0]);
+		    			if (!path.exists()) {
+		    				path.mkdir();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("content/", ""));
+		    			InputStream input = jar.getInputStream(entry);
+		    			FileOutputStream output = new FileOutputStream(dest);
+		    			while (input.available() > 0) {
+		    				output.write(input.read());
+		    			}
+		    			output.close();
+		    			input.close();
+		    		}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "content";
+			//String srcName = FileLocator.resolve(fileURL).getFile();
+			//System.out.println("srcNameOtro" + srcNameOtro);
+			final File src = new Path(srcName).toFile();
+			final File dest = htmlFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				copyFolder(src, dest);
+			}
 		}
 		} catch (IOException e) {
 		}

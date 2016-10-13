@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.utils,
  com.google.guava,
  wodeledu.dsls.mutatext,
- wodeledu.dsls.modeltext
+ wodeledu.dsls.modeltext,
+ wodel.models
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

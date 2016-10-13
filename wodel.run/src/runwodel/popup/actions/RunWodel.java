@@ -107,9 +107,9 @@ public class RunWodel implements IObjectActionDelegate {
 		try {
 			ob = cls.newInstance();
 			Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class});
-			maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("org.mutator.Mutator", "Number of attempts", "0", null));
-			numMutants = Integer.parseInt(Platform.getPreferencesService().getString("org.mutator.Mutator", "Number of mutants", "3", null));
-			registry = Platform.getPreferencesService().getBoolean("org.mutator.Mutator", "Generate registry", false, null);
+			maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
+			numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
+			registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
 			m.invoke(ob, maxAttempts, numMutants, registry);
 			// ime = (IMutatorExecutor)ob;
 		} catch (Exception e) {
@@ -171,7 +171,7 @@ public class RunWodel implements IObjectActionDelegate {
 			if (Platform.getExtensionRegistry() != null) {
 				IConfigurationElement[] extensions = Platform
 						.getExtensionRegistry().getConfigurationElementsFor(
-								"wodel.registry.MutRegistryPostprocessor.registrypostprocessor");
+								"wodel.registry.MutRegistryPostprocessor");
 				for (int j = 0; j < extensions.length; j++) {
 					IRegistryPostprocessor src = null;
 					try {
@@ -182,7 +182,7 @@ public class RunWodel implements IObjectActionDelegate {
 						e1.printStackTrace();
 					}
 					if (Platform.getPreferencesService().getBoolean(
-							"org.mutator.Mutator", src.getName(), false, null) == true) {
+							"wodel.dsls.Wodel", src.getName(), false, null) == true) {
 						for (String filename : hashmap_regpostseed.keySet()) {
 							src.doProcess(hashmap_regpostseed.get(filename), hashmap_regpostmutant.get(filename), filename);
 						}
@@ -258,7 +258,7 @@ public class RunWodel implements IObjectActionDelegate {
 						e1.printStackTrace();
 					}
 					if (Platform.getPreferencesService().getBoolean(
-							"org.mutator.Mutator", src.getName(), false, null) == true) {
+							"wodel.dsls.Wodel", src.getName(), false, null) == true) {
 						Set<Resource> resources = hashmap_postproc.keySet();
 						for (Resource r : resources) {
 							File f = new File(hashmap_postproc.get(r));

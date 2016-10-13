@@ -2,15 +2,21 @@ package wizards;
 
 import manager.ModelManager;
 import manager.WodelContext;
+import mutatorenvironment.MutatorEnvironment;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -20,12 +26,18 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import org.eclipse.jface.dialogs.IDialogPage;
+import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
@@ -34,6 +46,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import java.awt.Composite;
 import java.io.*;
 
 import org.eclipse.ui.*;
@@ -61,8 +74,8 @@ import generator.IGenerator;
 public class WodelWizard extends Wizard implements INewWizard {
 	private ISelection selection;
 
-	private WodelWizardPage _pageOne;
-	private WodelWizardMetamodelPage _pageTwo;
+	public WodelWizardPage _pageOne;
+	public WodelWizardMetamodelPage _pageTwo;
 
 	private static final String WIZARD_NAME = "Wodel Project";
 
@@ -130,7 +143,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		}
 		return true;
 	}
-
+	
 	/**
 	 * The worker method. It will find the container, create the file if missing
 	 * or just replace its contents, and open the editor on the newly created
@@ -167,7 +180,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
 
-		monitor.beginTask("Creating config folder", 6);
+		monitor.beginTask("Creating config folder", 7);
 		final IFolder configFolder = project.getFolder(new Path("config"));
 		configFolder.create(true, true, monitor);
 
@@ -182,8 +195,48 @@ public class WodelWizard extends Wizard implements INewWizard {
 			stream.close();
 		} catch (IOException e) {
 		}
-
-		monitor.beginTask("Creating model folder", 6);
+		
+		monitor.beginTask("Creating resources folder", 7);
+		final IFolder resourcesFolder = project.getFolder(new Path("resources"));
+		resourcesFolder.create(true, true, monitor);
+		
+		try {
+			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+				while(entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutatorEnvironment.ecore")) {
+							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+							InputStream input = jar.getInputStream(entry);
+							FileOutputStream output = new FileOutputStream(dest);
+							while (input.available() > 0) {
+								output.write(input.read());
+							}
+							output.close();
+							input.close();
+						}
+					}
+				}
+				jar.close();
+		    }
+			else {
+				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutatorEnvironment.ecore";
+				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutatorEnvironment.ecore";
+				final File src = new Path(srcName).toFile();
+				final File dest = new Path(tarName).toFile();
+				if ((src != null) && (dest != null)) {
+					ModelManager.copyFile(src, dest);
+				}
+			}
+		} catch (IOException e) {
+		}
+		
+		monitor.beginTask("Creating model folder", 7);
 		final IFolder modelFolder = project.getFolder(new Path(modelName));
 		modelFolder.create(true, true, monitor);
 		String metamodel = null;
@@ -211,11 +264,11 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 		}
 
-		monitor.beginTask("Creating mutant folder", 6);
+		monitor.beginTask("Creating mutant folder", 7);
 		final IFolder mutantFolder = project.getFolder(new Path(mutantName));
 		mutantFolder.create(true, true, monitor);
 		// create a sample file
-		monitor.beginTask("Creating " + fileName, 6);
+		monitor.beginTask("Creating " + fileName, 7);
 
 		final IFolder srcFolder = project.getFolder(new Path("src"));
 
@@ -287,7 +340,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 		}
 
-		monitor.beginTask("Creating tests folder", 6);
+		monitor.beginTask("Creating tests folder", 7);
 		final IFile test = configFolder.getFile(new Path("test.txt"));
 		try {
 			InputStream stream = openTestStream();
@@ -372,4 +425,5 @@ public class WodelWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
+
 }

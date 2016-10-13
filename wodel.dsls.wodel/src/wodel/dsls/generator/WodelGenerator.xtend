@@ -3,7 +3,7 @@
  */
 package wodel.dsls.generator
 
-import mutatorenvironment.AttributeInit
+import mutatorenvironment.AttributeScalar
 import mutatorenvironment.AttributeType
 import mutatorenvironment.BooleanType
 import mutatorenvironment.CompositeMutator
@@ -84,6 +84,7 @@ import org.eclipse.emf.ecore.EPackage
 import java.util.HashSet
 import manager.ModelManager
 import wodel.dsls.WodelUtils
+import mutatorenvironment.RandomType
 
 /**
  * Generates code from your model files on save.
@@ -122,6 +123,8 @@ class WodelGenerator implements IGenerator {
 	//private ArrayList<EPackage> packages;
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+		manager.WodelContext.setProject(null)
+		manager.WodelContext.getProject
 		path = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject		
 
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
@@ -234,7 +237,9 @@ class WodelGenerator implements IGenerator {
 			   				}
 			   			«ENDIF»
 		   			«ELSE»
+		   				if (objectSelection != null) {
 		   				«c.method»
+		   				}
 		   			«ENDIF»
    				«ENDFOR»
 			   				
@@ -302,7 +307,9 @@ class WodelGenerator implements IGenerator {
 						ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
 					«ENDIF»
 					«IF mut.container instanceof SpecificObjectSelection»
+						«IF mut.refType != null»
 						ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+						«ENDIF»
 					«ENDIF»
 				«ENDIF»
 				«IF mut.refType != null»
@@ -808,7 +815,7 @@ class WodelGenerator implements IGenerator {
 		«FOR AttributeSet att : (mut as ModifyInformationMutator).attributes»
 			//«var EAttribute eattfirst = att.attribute.get(0)»
 			//«var EAttribute eattsec = eattfirst»
-			«IF att instanceof AttributeInit»
+			«IF att instanceof AttributeScalar»
 			AttributeChanged attMut«attCounter» = null;
 			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 			attMut«attCounter».setAttName("«eattfirst.name»");
@@ -908,7 +915,9 @@ class WodelGenerator implements IGenerator {
 	«IF mut instanceof ModifyTargetReferenceMutator»
 			TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
 			if (((ModifyTargetReferenceMutator) mut).getObject() != null) {
-				trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));
+				if (ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()) != null) {
+					trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));
+				}
 			}
 			trcMut.setFrom(((ModifyTargetReferenceMutator) mut).getSource());
 			trcMut.setSrcRefName(((ModifyTargetReferenceMutator) mut).getSrcRefType());
@@ -1029,9 +1038,6 @@ import mutatorenvironment.MutatorEnvironment;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 
 public class «className» extends manager.MutatorUtils implements manager.IMutatorExecutor {
 	
@@ -1151,6 +1157,8 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«var String outputPath = path+'/'+e.output» 
 		String modelURI = "«modelPath»";
 		String modelsURI = "«outputPath»";
+		String resourcesURI = "«path + '/resources/'»";
+
 		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
 		«IF (e.source.path.endsWith("/"))»
 		File[] files = new File(modelURI).listFiles();
@@ -1192,6 +1200,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«var String outputPath = path+'/'+e.output» 
 		String modelURI = "«modelPath»";
 		String modelsURI = "«outputPath»";
+		String resourcesURI = "«path + '/resources/'»";
 		
 		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
 		HashMap<String, String> hashmapModelFolders = new HashMap<String, String>();
@@ -1279,7 +1288,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«ELSE»
 		//NAME:«attributeName = ""»
 		«ENDIF»
-		«IF e instanceof AttributeInit»
+		«IF e instanceof AttributeScalar»
    		atts.put("«attributeName»", «e.value.method»);
    		«ENDIF»
    		«IF e instanceof AttributeUnset»
@@ -1312,6 +1321,8 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«(e as IntegerType).method»
 	«ELSEIF e instanceof ListStringType»
 		«(e as ListStringType).method»
+	«ELSEIF e instanceof RandomType»
+		«(e as RandomType).method»
 	«ENDIF»
 	'''
 	
@@ -1382,7 +1393,16 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	def method(ListStringType e) '''
 		«IF e instanceof ListStringType»
 			«IF !attributeName.equals("")»
-				new ListStringConfigurationStrategy("«(e as ListStringType).value»", "«attributeName»")
+				new ListStringConfigurationStrategy((String) ModelManager.getAttribute("«attributeName»", objectSelection.getObject()), "«(e as ListStringType).value»", "«attributeName»")
+			«ELSE»
+				null
+			«ENDIF»
+		«ENDIF»
+		'''
+	def method(RandomType e) '''
+		«IF e instanceof RandomType»
+			«IF !attributeName.equals("")»
+				new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", objectSelection.getObject()), "«attributeName»")
 			«ELSE»
 				null
 			«ENDIF»
@@ -1419,7 +1439,11 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			EObject refObject«nReference» = refRts«nReference».getObject();
 			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model,	refObject«nReference»);
 		«ELSEIF e instanceof SpecificObjectSelection»
+			«IF (e.eContainer as ReferenceInit).refType != null»
+			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model, hmObjects.get("«(e as SpecificObjectSelection).objSel.name»"), "«(e.eContainer as ReferenceInit).refType.name»");
+			«ELSE»
 			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model, hmObjects.get("«(e as SpecificObjectSelection).objSel.name»"));
+			«ENDIF»
 		«ENDIF»
 	'''
 	//END REFERENCES COMPILES
@@ -1433,22 +1457,30 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
   		exp«expressionList.get(indexExpression)».first = new AttributeEvaluation();
   		//ATTRIBUTE: «val attev = exp.first as AttributeEvaluation»
    		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).name = "«attev.name.name»";
-   		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).operator = "«attev.operator»";
+   		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).operator = "«(attev.value as AttributeType).operator»";
+		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values = new ArrayList<String>();
    		«IF attev.value instanceof StringType»
-   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).value = "«(attev.value as SpecificStringType).value»";
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add("«(attev.value as SpecificStringType).value»");
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "String";
 		«ENDIF»
 		«IF attev.value instanceof DoubleType»
-   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).value = "«(attev.value as SpecificDoubleType).value»";
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add("«(attev.value as SpecificDoubleType).value»");
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "double";
 		«ENDIF»
 		«IF attev.value instanceof BooleanType»
-   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).value = "«(attev.value as SpecificBooleanType).value»";
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add("«(attev.value as SpecificBooleanType).value»");
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "Boolean";
 		«ENDIF»
 		«IF attev.value instanceof IntegerType»
-   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).value = "«(attev.value as SpecificIntegerType).value»";
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add("«(attev.value as SpecificIntegerType).value»");
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "int";
+		«ENDIF»
+		«IF attev.value instanceof ListStringType»
+			//«val list = attev.value as ListStringType»
+			«FOR item : list.value»
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add("«item»");
+   			«ENDFOR»
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "String";
 		«ENDIF»
    		«ENDIF»
    		«IF exp.first instanceof ReferenceEvaluation»
@@ -1509,7 +1541,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    			«IF ev instanceof AttributeEvaluation»
    			AttributeEvaluation ev«evName»_«expressionList.get(indexExpression)» = new AttributeEvaluation();
    			ev«evName»_«expressionList.get(indexExpression)».name = "«ev.name.name»";
-   			ev«evName»_«expressionList.get(indexExpression)».operator = "«ev.operator»";
+   			ev«evName»_«expressionList.get(indexExpression)».operator = "«(ev.value as SpecificStringType).operator»";
    			«IF ev.value instanceof StringType»
    				ev«evName»_«expressionList.get(indexExpression)».value = "«(ev.value as SpecificStringType).value»";
    				ev«evName»_«expressionList.get(indexExpression)».type = "String";
@@ -1578,9 +1610,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    //COMMANDS
    
    def execute(MutatorEnvironment e)'''
-   		Bundle bundle = Platform.getBundle("wodel.models");
-   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
-		String mutatorecore = FileLocator.resolve(fileURL).getFile();
+		String mutatorecore = resourcesURI + "MutatorEnvironment.ecore";
 		
 		//Load MetaModel
 		ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
@@ -1689,9 +1719,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		int numCompositeRegistryMethod,
 		int numCompositeCommands
 	)'''
-   		Bundle bundle = Platform.getBundle("wodel.models");
-   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
-		String mutatorecore = FileLocator.resolve(fileURL).getFile();
+		String mutatorecore = resourcesURI + "MutatorEnvironment.ecore";
 		
 		//Load MetaModel
 		ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);

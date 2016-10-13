@@ -63,8 +63,8 @@ OtherSelection returns OtherSelection:
 
 	
 AttributeType returns AttributeType:
-	IntegerType | BooleanType | StringType | DoubleType | ListStringType;
-
+	IntegerType | BooleanType | StringType | DoubleType | ListStringType | RandomType;
+	
 Load returns Load:
 	{Load}
 	'import' file=EString
@@ -87,7 +87,7 @@ enum LogicOperator returns LogicOperator:
 ;
 
 enum Operator returns Operator:
-	equals = '=' | different = '<>'	
+	equals = '=' | different = '<>' | in = 'in'
 ;
 
 enum Repeat returns Repeat:
@@ -102,7 +102,6 @@ BinaryOperator returns BinaryOperator:
 AttributeEvaluation returns AttributeEvaluation:
 	{AttributeEvaluation}
 	name=[ecore::EAttribute|ID]
-	operator=Operator
 	value=AttributeType
 ;
 
@@ -208,12 +207,12 @@ CompositeMutator returns CompositeMutator:
 	;
 
 AttributeSet returns AttributeSet:
-	AttributeInit | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse
+	AttributeScalar | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse
 ;
 
-AttributeInit returns AttributeInit:
+AttributeScalar returns AttributeScalar:
 	attribute+=[ecore::EAttribute|ID]
-	'=' value=AttributeType
+	value=AttributeType
 	;
 	
 AttributeUnset returns AttributeUnset:
@@ -275,54 +274,63 @@ BooleanType returns BooleanType:
 
 RandomBooleanType returns RandomBooleanType:
 	{RandomBooleanType}
-	'random-boolean'
+	operator=Operator
+ 	'random-boolean'
 ;
 
 SpecificBooleanType returns SpecificBooleanType:
 	{SpecificBooleanType}
+	operator=Operator
 	value=EBoolean
 	;
-	
 StringType returns StringType:
 	SpecificStringType | RandomStringType | UpperStringType | LowerStringType | CatStartStringType | CatEndStringType | ReplaceStringType
 	;
 
 RandomStringType returns RandomStringType :
 	{RandomStringType}
+	operator=Operator
 	'random-string' '(' min=EInt ',' max=EInt ')'
 ;
 
 SpecificStringType returns SpecificStringType:
 	{SpecificStringType}
+	operator=Operator
 	value=STRING
 	;
 
 UpperStringType returns UpperStringType:
 	{UpperStringType}
+	operator=Operator
 	'upper'
 ;
 
 CatStartStringType returns CatStartStringType:
 	{CatStartStringType}
+	operator=Operator
 	'catstart' '('value=EString')'
 ;
 
 CatEndStringType returns CatEndStringType:
 	{CatEndStringType}
+	operator=Operator
 	'catend' '('value=EString')'
 ;
 
 ListStringType returns ListStringType:
 	{ListStringType}
-	'inside' '['value+=EString ( "," value+=EString)*']'
+	operator=Operator
+	'['value+=EString ( "," value+=EString)*']'
 ;
 LowerStringType returns LowerStringType:
 	{LowerStringType}
+	operator=Operator
 	'lower'
 ;
 
 ReplaceStringType returns ReplaceStringType:
 	{ReplaceStringType}
+	operator=Operator
 	'replace' '(' oldstring=EString ',' newstring=EString ')'
 ;
 
@@ -332,11 +340,13 @@ DoubleType returns DoubleType:
 
 RandomDoubleType returns RandomDoubleType :
 	{RandomDoubleType}
+	operator=Operator
 	'random-double' ('(' min=EDouble ',' max=EDouble ')')?
 ;
 
 SpecificDoubleType returns SpecificDoubleType:
 	{SpecificDoubleType}
+	operator=Operator
 	value=EDouble
 	;
 
@@ -346,12 +356,21 @@ IntegerType returns IntegerType:
 
 SpecificIntegerType returns SpecificIntegerType:
 	{SpecificIntegerType}
+	operator=Operator
 	value=EInt
 	;
 
 RandomIntegerType returns RandomIntegerType:
 	{RandomIntegerType}
+	operator=Operator
 	'random-int' ('(' min=EInt ',' max=EInt ')')?
 ;
+
+RandomType returns RandomType:
+	{RandomType}
+	operator=Operator
+	'random'
+;
+
 
 MaxCardinality returns ecore::EIntegerObject: EInt | '*';

@@ -423,16 +423,4 @@
             type="text">
     </fileTypes>
   </extension>
-  <extension
-        point="org.eclipse.ui.menus">
-     <menuContribution
-           allPopups="false"
-           class="org.mutator.ui.compile.ExecuteMutator"
-           locationURI="org.mutator.ui.menuContribution1">
-        <menu
-              label="label">
-        </menu>
-     </menuContribution>
-  </extension>
-  
 </plugin>

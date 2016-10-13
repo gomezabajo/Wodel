@@ -18,8 +18,10 @@ public class WodelContext implements Runnable {
 
 	private WodelContext(){}
 	
-	public static String getProject() {		
-		Display.getDefault().syncExec(new WodelContext());					
+	public static String getProject() {
+		if (project == null) {
+			Display.getDefault().syncExec(new WodelContext());
+		}
 		return project;
 	}
 	public static void setProject(String project) {

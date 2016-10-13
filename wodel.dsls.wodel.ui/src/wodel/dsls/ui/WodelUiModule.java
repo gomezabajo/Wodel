@@ -12,4 +12,7 @@ public class WodelUiModule extends wodel.dsls.ui.AbstractWodelUiModule {
 	public WodelUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
+	public Class<? extends org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage> bindLanguageRootPreferencePage() {
+	    return wodel.dsls.ui.customize.CustomizeWodelPreferencePage.class;
+	}
 }

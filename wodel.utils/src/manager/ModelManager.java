@@ -5,10 +5,13 @@ import modeltext.Element;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -635,6 +638,16 @@ public class ModelManager {
 					parents.add(o);
 					break;
 				}
+//				else {
+//					for (EClass eclass : o.eClass().getESuperTypes()) {
+//						for (EObject obj : ModelManager.getObjectsOfType(eclass.getName(), model)) {
+//							if (cont.eClass().getName().equals(obj.eClass().getName())) {
+//								parents.add(o);
+//								break;
+//							}
+//						}
+//					}
+//				}
 			}
 		}
 
@@ -704,7 +717,7 @@ public class ModelManager {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -715,6 +728,21 @@ public class ModelManager {
 
 		for (EReference ref : refs) {
 			if (EcoreUtil.equals(eref, ref)) {
+				return ref;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static EReference getReferenceOfType(List<EReference> refs, EObject obj, EObject container) {
+		
+		for (EReference ref : refs) {
+			if (obj.eClass().isInstance(container.eGet(ref))) {
 				return ref;
 			}
 		}
@@ -825,6 +853,62 @@ public class ModelManager {
 			}
 		}
 		return null;
+	}
+	
+	public static void setReference(String ref, EObject object,
+			EObject newObject) throws WrongAttributeTypeException,
+			ReferenceNonExistingException {
+
+		EClass tipo = object.eClass();
+		EObject tarObj = newObject;
+		// EClass tipo = tarObj.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllReferences()) {
+			System.out.println("sf: " + sf.toString());
+			if (sf != null) {
+				if (sf.getName().equals(ref)) {
+					System.out.println("aqui se produce la excepción!");
+					System.out.println("sf.getEType(): " + sf.getEType());
+					System.out.println("tarObj: " + tarObj);
+					System.out.println("object: " + object);
+					// EObject objSf = (EObject) tarObj.eGet(sf);
+					// System.out.println("objSf: " + objSf);
+					// EObject objSf = (EObject) tarObj.eGet(sf);
+					// System.out.println("objSf: " + objSf);
+					if (tarObj != null) {
+						boolean b = false;
+						for (EStructuralFeature sfTar : tarObj.eClass()
+								.getEAllReferences()) {
+							if (sfTar != null) {
+								if (sfTar.getName().equals(ref)) {
+									object.eSet(sf, tarObj.eGet(sfTar));
+									b = true;
+									break;
+								}
+							}
+						}
+						if (b == false) {
+							try {
+								object.eSet(sf, tarObj);
+							} catch (ClassCastException ex) {
+								throw new WrongAttributeTypeException(
+										"The reference '"
+												+ ref
+												+ "' is not of the type '"
+												+ tarObj.getClass()
+														.getSimpleName() + "'");
+							}
+						}
+					} else {
+						throw new ReferenceNonExistingException(
+								"There is no object for the reference '" + ref
+										+ "'");
+
+					}
+					// object.eSet(sf, tarObj);
+				}
+			}
+		}
 	}
 
 	
@@ -1064,7 +1148,34 @@ public class ModelManager {
 	 * @return References that contains the containing object
 	 * @throws ReferenceNonExistingException
 	 */
+/*
 	public static ArrayList<EReference> getContainingReferences(
+			ArrayList<EPackage> metaModel, EObject container, EObject obj, String containing)
+			throws ReferenceNonExistingException {
+		ArrayList<EReference> contRefs = new ArrayList<EReference>();
+		List<EReference> refs = getReferences(container);
+		EClass eclass = obj.eClass();
+		//EClass obj = (EClass) getObjectOfType(containing, metaModel);
+
+		for (EReference r : refs) {
+			if (r.isChangeable()) {
+				System.out.println("\nref:" + r.getName() + " type:"
+						+ r.getEType().getName());
+				System.out.println("obj.allSupers: ");
+				for (EClass c : eclass.getEAllSuperTypes())
+					System.out.print(c.getName() + ", ");
+				if (r.getEType().getName().equals(containing)
+						|| eclass.getEAllSuperTypes().contains(r.getEType())) {
+					contRefs.add(r);
+				}
+			}
+		}
+
+		return contRefs;
+	}
+*/
+
+ 	public static ArrayList<EReference> getContainingReferences(
 			ArrayList<EPackage> metaModel, EObject container, String containing)
 			throws ReferenceNonExistingException {
 		ArrayList<EReference> contRefs = new ArrayList<EReference>();
@@ -1488,5 +1599,63 @@ public class ModelManager {
 			}
 		}
 		return null;
+	}
+	
+	public static void copyFile(File src, File dest) throws IOException {
+		
+		// if file, then copy it
+		// Use bytes stream to support all file types
+		InputStream in = new FileInputStream(src);
+		OutputStream out = new FileOutputStream(dest);
+
+		byte[] buffer = new byte[1024];
+
+		int length;
+		// copy the file content in bytes
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+
+		in.close();
+		out.close();
+	}
+	
+	public static void copyFolder(File src, File dest) throws IOException {
+		
+		if (src.isDirectory()) {
+
+			// if directory not exists, create it
+			if (!dest.exists()) {
+				dest.mkdir();
+			}
+
+			// list all the directory contents
+			String files[] = src.list();
+
+			for (String file : files) {
+				// construct the src and dest file structure
+				File srcFile = new File(src, file);
+				File destFile = new File(dest, file);
+				// recursive copy
+				copyFolder(srcFile, destFile);
+			}
+
+		} else {
+			// if file, then copy it
+			// Use bytes stream to support all file types
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dest);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			// copy the file content in bytes
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.close();
+		}
 	}
 }

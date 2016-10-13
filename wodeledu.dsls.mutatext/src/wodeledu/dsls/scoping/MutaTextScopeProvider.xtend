@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Platform
 import java.net.URL
 import org.eclipse.core.runtime.FileLocator
 import mutatext.Configuration
+import java.io.File
 
 /**
  * This class contains custom scoping description.
@@ -36,7 +37,7 @@ class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * Option.type can refer to any EClass in the .ecore file.
 	 */
 	def IScope scope_Option_type(Option opt, EReference ref) {
-       	Scopes.scopeFor(getEClasses(getMetamodelFilename))   
+       	Scopes.scopeFor(getEClasses(ModelManager.getWorkspaceAbsolutePath + "/" + manager.WodelContext.getProject() + "/resources/AppliedMutations.ecore"))   
 	}
 	
 	/**
@@ -125,13 +126,4 @@ class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
         return refs
 	 }
 	 
-	 /**
-	  * It returns the metamodel filename for the Applied Mutations
-	  * 
-	  */
-	  def private getMetamodelFilename() {
-	  	val Bundle bundle = Platform.getBundle("wodel.models")
-   		val URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore")
-		return FileLocator.resolve(fileURL).getFile
-	  }
 }

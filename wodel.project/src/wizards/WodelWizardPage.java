@@ -12,6 +12,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -46,6 +48,8 @@ public class WodelWizardPage extends WizardPage {
 	private HashMap<String, Boolean> wodelExtensions = new HashMap<String, Boolean>();
 
 	private ISelection selection;
+	
+	private WodelWizard main;
 
 	/**
 	 * Constructor for WodelWizardPage.
@@ -254,4 +258,5 @@ public class WodelWizardPage extends WizardPage {
 	public HashMap<String, Boolean> getWodelExtensions() {
 		return wodelExtensions;
 	}
+
 }

@@ -54,6 +54,8 @@ public class CreateObjectMutator extends Mutator {
 	 */
 	private String objName = null;
 	
+	private String refType = null;
+	
 
 	/**
 	 * @param model
@@ -107,16 +109,30 @@ public class CreateObjectMutator extends Mutator {
 		this.referenceConfig = referenceConfig;
 		this.objName = objName;
 	}
+	
+	/**
+	 * @param model
+	 * @param metaModel
+	 * @param referenceSelection
+	 * @param containerSelection
+	 * @param attributeConfig
+	 * @param inheritedName
+	 * Constructor that specifies the class name
+	 */
+	public CreateObjectMutator(Resource model, ArrayList<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
+			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig, String objName, String refType){
+		super(model, metaModel, "ObjectCreated");
+		this.referenceSelection = referenceSelection;
+		this.containerSelection = containerSelection;
+		this.attributeConfig = attributeConfig;
+		this.referenceConfig = referenceConfig;
+		this.objName = objName;
+		this.refType = refType;
+	}
 
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
-		if (containerSelection == null) {
-			return null;
-		}
-		if (referenceSelection == null) {
-			return null;
-		}
 		//We select the container of the new Object
 		EObject container = containerSelection.getObject();
 		//We select the container of the new Object
@@ -153,7 +169,7 @@ public class CreateObjectMutator extends Mutator {
 			ArrayList<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
 			reference = refs.get(ModelManager.getRandomIndex(refs));
 		}
-		
+
 		
 		//We create the object
 		EObject newObj = EcoreUtil.create((EClass) obj);
@@ -183,7 +199,12 @@ public class CreateObjectMutator extends Mutator {
 		it = this.referenceConfig.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)it.next();
-			ModelManager.setReference(e.getKey(), newObj, e.getValue());
+			if (!obj.eClass().isInstance(container.eGet(reference))) {
+				ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
+			}
+			else {
+				ModelManager.setReference(e.getKey(), newObj, e.getValue());
+			}
 		}
 		
 		//Multivalued
@@ -207,11 +228,16 @@ public class CreateObjectMutator extends Mutator {
 				result=null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
-			container.eSet(reference, obj); 
+			if (!obj.eClass().isInstance(container.eGet(reference))) {
+				container.eSet(reference, newObj);
+			}
+			else {
+				container.eSet(reference, obj);
+			}
 			this.result = newObj;
 		}
 		
-		return this.result;
+		return newObj;
 	}
 	
 	//GETTERS AND SETTERS
@@ -222,3 +248,4 @@ public class CreateObjectMutator extends Mutator {
 	
 	
 }
+

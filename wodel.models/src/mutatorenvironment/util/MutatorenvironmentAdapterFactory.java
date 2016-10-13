@@ -120,8 +120,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 				return createSpecificObjectSelectionAdapter();
 			}
 			@Override
-			public Adapter caseAttributeInit(AttributeInit object) {
-				return createAttributeInitAdapter();
+			public Adapter caseAttributeScalar(AttributeScalar object) {
+				return createAttributeScalarAdapter();
 			}
 			@Override
 			public Adapter caseAttributeType(AttributeType object) {
@@ -328,6 +328,10 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 				return createConstraintAdapter();
 			}
 			@Override
+			public Adapter caseRandomType(RandomType object) {
+				return createRandomTypeAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -530,16 +534,16 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.AttributeInit <em>Attribute Init</em>}'.
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.AttributeScalar <em>Attribute Scalar</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see mutatorenvironment.AttributeInit
+	 * @see mutatorenvironment.AttributeScalar
 	 * @generated
 	 */
-	public Adapter createAttributeInitAdapter() {
+	public Adapter createAttributeScalarAdapter() {
 		return null;
 	}
 
@@ -1254,6 +1258,20 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConstraintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.RandomType <em>Random Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.RandomType
+	 * @generated
+	 */
+	public Adapter createRandomTypeAdapter() {
 		return null;
 	}
 

@@ -27,7 +27,10 @@ Export-Package: appliedMutations,
  modelgraph.util,
  edutest,
  edutest.impl,
- edutest.util
+ edutest.util,
+ asple,
+ asple.impl,
+ asple.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy

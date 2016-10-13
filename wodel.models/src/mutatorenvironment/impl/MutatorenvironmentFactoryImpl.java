@@ -65,7 +65,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR: return createCreateObjectMutator();
 			case MutatorenvironmentPackage.RANDOM_TYPE_SELECTION: return createRandomTypeSelection();
 			case MutatorenvironmentPackage.SPECIFIC_OBJECT_SELECTION: return createSpecificObjectSelection();
-			case MutatorenvironmentPackage.ATTRIBUTE_INIT: return createAttributeInit();
+			case MutatorenvironmentPackage.ATTRIBUTE_SCALAR: return createAttributeScalar();
 			case MutatorenvironmentPackage.SPECIFIC_BOOLEAN_TYPE: return createSpecificBooleanType();
 			case MutatorenvironmentPackage.RANDOM_BOOLEAN_TYPE: return createRandomBooleanType();
 			case MutatorenvironmentPackage.SPECIFIC_STRING_TYPE: return createSpecificStringType();
@@ -109,6 +109,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.BINARY_OPERATOR: return createBinaryOperator();
 			case MutatorenvironmentPackage.BLOCK: return createBlock();
 			case MutatorenvironmentPackage.CONSTRAINT: return createConstraint();
+			case MutatorenvironmentPackage.RANDOM_TYPE: return createRandomType();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -237,9 +238,9 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeInit createAttributeInit() {
-		AttributeInitImpl attributeInit = new AttributeInitImpl();
-		return attributeInit;
+	public AttributeScalar createAttributeScalar() {
+		AttributeScalarImpl attributeScalar = new AttributeScalarImpl();
+		return attributeScalar;
 	}
 
 	/**
@@ -670,6 +671,16 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	public Constraint createConstraint() {
 		ConstraintImpl constraint = new ConstraintImpl();
 		return constraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RandomType createRandomType() {
+		RandomTypeImpl randomType = new RandomTypeImpl();
+		return randomType;
 	}
 
 	/**

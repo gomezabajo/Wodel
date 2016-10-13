@@ -4,8 +4,8 @@ package mutatorenvironment.impl;
 
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
-import mutatorenvironment.AttributeInit;
 import mutatorenvironment.AttributeReverse;
+import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeSet;
 import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeType;
@@ -49,6 +49,7 @@ import mutatorenvironment.RandomDoubleType;
 import mutatorenvironment.RandomIntegerType;
 import mutatorenvironment.RandomSelection;
 import mutatorenvironment.RandomStringType;
+import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
@@ -184,7 +185,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass attributeInitEClass = null;
+	private EClass attributeScalarEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -542,6 +543,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	private EClass constraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass randomTypeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -945,8 +953,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeInit() {
-		return attributeInitEClass;
+	public EClass getAttributeScalar() {
+		return attributeScalarEClass;
 	}
 
 	/**
@@ -954,8 +962,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeInit_Value() {
-		return (EReference)attributeInitEClass.getEStructuralFeatures().get(0);
+	public EReference getAttributeScalar_Value() {
+		return (EReference)attributeScalarEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -965,6 +973,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 */
 	public EClass getAttributeType() {
 		return attributeTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAttributeType_Operator() {
+		return (EAttribute)attributeTypeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1764,17 +1781,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAttributeEvaluation_Operator() {
-		return (EAttribute)attributeEvaluationEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getAttributeEvaluation_Value() {
-		return (EReference)attributeEvaluationEClass.getEStructuralFeatures().get(2);
+		return (EReference)attributeEvaluationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2061,6 +2069,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRandomType() {
+		return randomTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getLogicOperator() {
 		return logicOperatorEEnum;
 	}
@@ -2159,10 +2176,11 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		specificObjectSelectionEClass = createEClass(SPECIFIC_OBJECT_SELECTION);
 		createEReference(specificObjectSelectionEClass, SPECIFIC_OBJECT_SELECTION__OBJ_SEL);
 
-		attributeInitEClass = createEClass(ATTRIBUTE_INIT);
-		createEReference(attributeInitEClass, ATTRIBUTE_INIT__VALUE);
+		attributeScalarEClass = createEClass(ATTRIBUTE_SCALAR);
+		createEReference(attributeScalarEClass, ATTRIBUTE_SCALAR__VALUE);
 
 		attributeTypeEClass = createEClass(ATTRIBUTE_TYPE);
+		createEAttribute(attributeTypeEClass, ATTRIBUTE_TYPE__OPERATOR);
 
 		booleanTypeEClass = createEClass(BOOLEAN_TYPE);
 
@@ -2291,7 +2309,6 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		attributeEvaluationEClass = createEClass(ATTRIBUTE_EVALUATION);
 		createEReference(attributeEvaluationEClass, ATTRIBUTE_EVALUATION__NAME);
-		createEAttribute(attributeEvaluationEClass, ATTRIBUTE_EVALUATION__OPERATOR);
 		createEReference(attributeEvaluationEClass, ATTRIBUTE_EVALUATION__VALUE);
 
 		attributeReverseEClass = createEClass(ATTRIBUTE_REVERSE);
@@ -2334,6 +2351,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEAttribute(constraintEClass, CONSTRAINT__ID);
 		createEReference(constraintEClass, CONSTRAINT__TYPE);
 		createEAttribute(constraintEClass, CONSTRAINT__RULE);
+
+		randomTypeEClass = createEClass(RANDOM_TYPE);
 
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
@@ -2378,7 +2397,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		randomSelectionEClass.getESuperTypes().add(this.getObSelectionStrategy());
 		randomTypeSelectionEClass.getESuperTypes().add(this.getRandomSelection());
 		specificObjectSelectionEClass.getESuperTypes().add(this.getSpecificSelection());
-		attributeInitEClass.getESuperTypes().add(this.getAttributeSet());
+		attributeScalarEClass.getESuperTypes().add(this.getAttributeSet());
 		booleanTypeEClass.getESuperTypes().add(this.getAttributeType());
 		specificBooleanTypeEClass.getESuperTypes().add(this.getBooleanType());
 		randomBooleanTypeEClass.getESuperTypes().add(this.getBooleanType());
@@ -2421,6 +2440,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		referenceInitEClass.getESuperTypes().add(this.getReferenceSet());
 		referenceEvaluationEClass.getESuperTypes().add(this.getEvaluation());
 		referenceSwapEClass.getESuperTypes().add(this.getReferenceSet());
+		randomTypeEClass.getESuperTypes().add(this.getAttributeType());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2471,10 +2491,11 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(specificObjectSelectionEClass, SpecificObjectSelection.class, "SpecificObjectSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSpecificObjectSelection_ObjSel(), this.getObjectEmitter(), null, "objSel", null, 1, 1, SpecificObjectSelection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(attributeInitEClass, AttributeInit.class, "AttributeInit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAttributeInit_Value(), this.getAttributeType(), null, "value", null, 1, 1, AttributeInit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(attributeScalarEClass, AttributeScalar.class, "AttributeScalar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAttributeScalar_Value(), this.getAttributeType(), null, "value", null, 1, 1, AttributeScalar.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeTypeEClass, AttributeType.class, "AttributeType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAttributeType_Operator(), this.getOperator(), "operator", null, 1, 1, AttributeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(booleanTypeEClass, BooleanType.class, "BooleanType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2603,7 +2624,6 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		initEClass(attributeEvaluationEClass, AttributeEvaluation.class, "AttributeEvaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttributeEvaluation_Name(), ecorePackage.getEAttribute(), null, "name", null, 1, 1, AttributeEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAttributeEvaluation_Operator(), this.getOperator(), "operator", null, 1, 1, AttributeEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttributeEvaluation_Value(), this.getAttributeType(), null, "value", null, 1, 1, AttributeEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeReverseEClass, AttributeReverse.class, "AttributeReverse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2647,6 +2667,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEReference(getConstraint_Type(), ecorePackage.getEClass(), null, "type", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConstraint_Rule(), ecorePackage.getEString(), "rule", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(randomTypeEClass, RandomType.class, "RandomType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");
 		addEEnumLiteral(logicOperatorEEnum, LogicOperator.AND);
@@ -2655,6 +2677,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEEnum(operatorEEnum, Operator.class, "Operator");
 		addEEnumLiteral(operatorEEnum, Operator.EQUALS);
 		addEEnumLiteral(operatorEEnum, Operator.DIFFERENT);
+		addEEnumLiteral(operatorEEnum, Operator.IN);
 
 		initEEnum(repeatEEnum, Repeat.class, "Repeat");
 		addEEnumLiteral(repeatEEnum, Repeat.YES);

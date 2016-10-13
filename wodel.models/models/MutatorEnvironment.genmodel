@@ -13,6 +13,7 @@
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//Operator">
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/equals"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/different"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/in"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//Repeat">
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Repeat/yes"/>
@@ -63,10 +64,12 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//SpecificObjectSelection">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SpecificObjectSelection/objSel"/>
     </genClasses>
-    <genClasses ecoreClass="MutatorEnvironment.ecore#//AttributeInit">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//AttributeInit/value"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//AttributeScalar">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//AttributeScalar/value"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//AttributeType"/>
+    <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//AttributeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//AttributeType/operator"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//BooleanType"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//SpecificBooleanType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//SpecificBooleanType/value"/>
@@ -183,7 +186,6 @@
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//AttributeEvaluation">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//AttributeEvaluation/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//AttributeEvaluation/operator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//AttributeEvaluation/value"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//AttributeReverse"/>
@@ -223,5 +225,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Constraint/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/rule"/>
     </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomType"/>
   </genPackages>
 </genmodel:GenModel>

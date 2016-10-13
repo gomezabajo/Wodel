@@ -638,12 +638,13 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cStringTypeParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cDoubleTypeParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cListStringTypeParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cRandomTypeParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//AttributeType:
-		//	IntegerType | BooleanType | StringType | DoubleType | ListStringType;
+		//	IntegerType | BooleanType | StringType | DoubleType | ListStringType | RandomType;
 		@Override public ParserRule getRule() { return rule; }
 
-		//IntegerType | BooleanType | StringType | DoubleType | ListStringType
+		//IntegerType | BooleanType | StringType | DoubleType | ListStringType | RandomType
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//IntegerType
@@ -660,6 +661,9 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ListStringType
 		public RuleCall getListStringTypeParserRuleCall_4() { return cListStringTypeParserRuleCall_4; }
+
+		//RandomType
+		public RuleCall getRandomTypeParserRuleCall_5() { return cRandomTypeParserRuleCall_5; }
 	}
 
 	public class LoadElements extends AbstractParserRuleElementFinder {
@@ -833,16 +837,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final CrossReference cNameEAttributeCrossReference_1_0 = (CrossReference)cNameAssignment_1.eContents().get(0);
 		private final RuleCall cNameEAttributeIDTerminalRuleCall_1_0_1 = (RuleCall)cNameEAttributeCrossReference_1_0.eContents().get(1);
-		private final Assignment cOperatorAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cOperatorOperatorEnumRuleCall_2_0 = (RuleCall)cOperatorAssignment_2.eContents().get(0);
-		private final Assignment cValueAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cValueAttributeTypeParserRuleCall_3_0 = (RuleCall)cValueAssignment_3.eContents().get(0);
+		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValueAttributeTypeParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		//AttributeEvaluation:
-		//	{AttributeEvaluation} name=[ecore::EAttribute] operator=Operator value=AttributeType;
+		//	{AttributeEvaluation} name=[ecore::EAttribute] value=AttributeType;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{AttributeEvaluation} name=[ecore::EAttribute] operator=Operator value=AttributeType
+		//{AttributeEvaluation} name=[ecore::EAttribute] value=AttributeType
 		public Group getGroup() { return cGroup; }
 
 		//{AttributeEvaluation}
@@ -857,17 +859,11 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameEAttributeIDTerminalRuleCall_1_0_1() { return cNameEAttributeIDTerminalRuleCall_1_0_1; }
 
-		//operator=Operator
-		public Assignment getOperatorAssignment_2() { return cOperatorAssignment_2; }
-
-		//Operator
-		public RuleCall getOperatorOperatorEnumRuleCall_2_0() { return cOperatorOperatorEnumRuleCall_2_0; }
-
 		//value=AttributeType
-		public Assignment getValueAssignment_3() { return cValueAssignment_3; }
+		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
 
 		//AttributeType
-		public RuleCall getValueAttributeTypeParserRuleCall_3_0() { return cValueAttributeTypeParserRuleCall_3_0; }
+		public RuleCall getValueAttributeTypeParserRuleCall_2_0() { return cValueAttributeTypeParserRuleCall_2_0; }
 	}
 
 	public class ReferenceEvaluationElements extends AbstractParserRuleElementFinder {
@@ -2182,21 +2178,21 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	public class AttributeSetElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AttributeSet");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cAttributeInitParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cAttributeScalarParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cAttributeUnsetParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cAttributeSwapParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cAttributeCopyParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cAttributeReverseParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		
 		//AttributeSet:
-		//	AttributeInit | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse;
+		//	AttributeScalar | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse;
 		@Override public ParserRule getRule() { return rule; }
 
-		//AttributeInit | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse
+		//AttributeScalar | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//AttributeInit
-		public RuleCall getAttributeInitParserRuleCall_0() { return cAttributeInitParserRuleCall_0; }
+		//AttributeScalar
+		public RuleCall getAttributeScalarParserRuleCall_0() { return cAttributeScalarParserRuleCall_0; }
 
 		//AttributeUnset
 		public RuleCall getAttributeUnsetParserRuleCall_1() { return cAttributeUnsetParserRuleCall_1; }
@@ -2211,21 +2207,20 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getAttributeReverseParserRuleCall_4() { return cAttributeReverseParserRuleCall_4; }
 	}
 
-	public class AttributeInitElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AttributeInit");
+	public class AttributeScalarElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AttributeScalar");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cAttributeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cAttributeEAttributeCrossReference_0_0 = (CrossReference)cAttributeAssignment_0.eContents().get(0);
 		private final RuleCall cAttributeEAttributeIDTerminalRuleCall_0_0_1 = (RuleCall)cAttributeEAttributeCrossReference_0_0.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cValueAttributeTypeParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
+		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cValueAttributeTypeParserRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
 		
-		//AttributeInit:
-		//	attribute+=[ecore::EAttribute] "=" value=AttributeType;
+		//AttributeScalar:
+		//	attribute+=[ecore::EAttribute] value=AttributeType;
 		@Override public ParserRule getRule() { return rule; }
 
-		//attribute+=[ecore::EAttribute] "=" value=AttributeType
+		//attribute+=[ecore::EAttribute] value=AttributeType
 		public Group getGroup() { return cGroup; }
 
 		//attribute+=[ecore::EAttribute]
@@ -2237,14 +2232,11 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getAttributeEAttributeIDTerminalRuleCall_0_0_1() { return cAttributeEAttributeIDTerminalRuleCall_0_0_1; }
 
-		//"="
-		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
-
 		//value=AttributeType
-		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
+		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
 
 		//AttributeType
-		public RuleCall getValueAttributeTypeParserRuleCall_2_0() { return cValueAttributeTypeParserRuleCall_2_0; }
+		public RuleCall getValueAttributeTypeParserRuleCall_1_0() { return cValueAttributeTypeParserRuleCall_1_0; }
 	}
 
 	public class AttributeUnsetElements extends AbstractParserRuleElementFinder {
@@ -2844,44 +2836,60 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RandomBooleanType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cRandomBooleanTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cRandomBooleanKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cRandomBooleanKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//RandomBooleanType:
-		//	{RandomBooleanType} "random-boolean";
+		//	{RandomBooleanType} operator=Operator "random-boolean";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{RandomBooleanType} "random-boolean"
+		//{RandomBooleanType} operator=Operator "random-boolean"
 		public Group getGroup() { return cGroup; }
 
 		//{RandomBooleanType}
 		public Action getRandomBooleanTypeAction_0() { return cRandomBooleanTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"random-boolean"
-		public Keyword getRandomBooleanKeyword_1() { return cRandomBooleanKeyword_1; }
+		public Keyword getRandomBooleanKeyword_2() { return cRandomBooleanKeyword_2; }
 	}
 
 	public class SpecificBooleanTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SpecificBooleanType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cSpecificBooleanTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueEBooleanParserRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValueEBooleanParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		//SpecificBooleanType:
-		//	{SpecificBooleanType} value=EBoolean;
+		//	{SpecificBooleanType} operator=Operator value=EBoolean;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{SpecificBooleanType} value=EBoolean
+		//{SpecificBooleanType} operator=Operator value=EBoolean
 		public Group getGroup() { return cGroup; }
 
 		//{SpecificBooleanType}
 		public Action getSpecificBooleanTypeAction_0() { return cSpecificBooleanTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//value=EBoolean
-		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
+		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
 
 		//EBoolean
-		public RuleCall getValueEBooleanParserRuleCall_1_0() { return cValueEBooleanParserRuleCall_1_0; }
+		public RuleCall getValueEBooleanParserRuleCall_2_0() { return cValueEBooleanParserRuleCall_2_0; }
 	}
 
 	public class StringTypeElements extends AbstractParserRuleElementFinder {
@@ -2930,171 +2938,212 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RandomStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cRandomStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cRandomStringKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cMinAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cMinEIntParserRuleCall_3_0 = (RuleCall)cMinAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cMaxAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cMaxEIntParserRuleCall_5_0 = (RuleCall)cMaxAssignment_5.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cRandomStringKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cMinAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cMinEIntParserRuleCall_4_0 = (RuleCall)cMinAssignment_4.eContents().get(0);
+		private final Keyword cCommaKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cMaxAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cMaxEIntParserRuleCall_6_0 = (RuleCall)cMaxAssignment_6.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//RandomStringType:
-		//	{RandomStringType} "random-string" "(" min=EInt "," max=EInt ")";
+		//	{RandomStringType} operator=Operator "random-string" "(" min=EInt "," max=EInt ")";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{RandomStringType} "random-string" "(" min=EInt "," max=EInt ")"
+		//{RandomStringType} operator=Operator "random-string" "(" min=EInt "," max=EInt ")"
 		public Group getGroup() { return cGroup; }
 
 		//{RandomStringType}
 		public Action getRandomStringTypeAction_0() { return cRandomStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"random-string"
-		public Keyword getRandomStringKeyword_1() { return cRandomStringKeyword_1; }
+		public Keyword getRandomStringKeyword_2() { return cRandomStringKeyword_2; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		public Keyword getLeftParenthesisKeyword_3() { return cLeftParenthesisKeyword_3; }
 
 		//min=EInt
-		public Assignment getMinAssignment_3() { return cMinAssignment_3; }
+		public Assignment getMinAssignment_4() { return cMinAssignment_4; }
 
 		//EInt
-		public RuleCall getMinEIntParserRuleCall_3_0() { return cMinEIntParserRuleCall_3_0; }
+		public RuleCall getMinEIntParserRuleCall_4_0() { return cMinEIntParserRuleCall_4_0; }
 
 		//","
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_5() { return cCommaKeyword_5; }
 
 		//max=EInt
-		public Assignment getMaxAssignment_5() { return cMaxAssignment_5; }
+		public Assignment getMaxAssignment_6() { return cMaxAssignment_6; }
 
 		//EInt
-		public RuleCall getMaxEIntParserRuleCall_5_0() { return cMaxEIntParserRuleCall_5_0; }
+		public RuleCall getMaxEIntParserRuleCall_6_0() { return cMaxEIntParserRuleCall_6_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
+		public Keyword getRightParenthesisKeyword_7() { return cRightParenthesisKeyword_7; }
 	}
 
 	public class SpecificStringTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SpecificStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cSpecificStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueSTRINGTerminalRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValueSTRINGTerminalRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		//SpecificStringType:
-		//	{SpecificStringType} value=STRING;
+		//	{SpecificStringType} operator=Operator value=STRING;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{SpecificStringType} value=STRING
+		//{SpecificStringType} operator=Operator value=STRING
 		public Group getGroup() { return cGroup; }
 
 		//{SpecificStringType}
 		public Action getSpecificStringTypeAction_0() { return cSpecificStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//value=STRING
-		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
+		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
 
 		//STRING
-		public RuleCall getValueSTRINGTerminalRuleCall_1_0() { return cValueSTRINGTerminalRuleCall_1_0; }
+		public RuleCall getValueSTRINGTerminalRuleCall_2_0() { return cValueSTRINGTerminalRuleCall_2_0; }
 	}
 
 	public class UpperStringTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "UpperStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cUpperStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cUpperKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cUpperKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//UpperStringType:
-		//	{UpperStringType} "upper";
+		//	{UpperStringType} operator=Operator "upper";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{UpperStringType} "upper"
+		//{UpperStringType} operator=Operator "upper"
 		public Group getGroup() { return cGroup; }
 
 		//{UpperStringType}
 		public Action getUpperStringTypeAction_0() { return cUpperStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"upper"
-		public Keyword getUpperKeyword_1() { return cUpperKeyword_1; }
+		public Keyword getUpperKeyword_2() { return cUpperKeyword_2; }
 	}
 
 	public class CatStartStringTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "CatStartStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cCatStartStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cCatstartKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cValueAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cValueEStringParserRuleCall_3_0 = (RuleCall)cValueAssignment_3.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cCatstartKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cValueAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cValueEStringParserRuleCall_4_0 = (RuleCall)cValueAssignment_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//CatStartStringType:
-		//	{CatStartStringType} "catstart" "(" value=EString ")";
+		//	{CatStartStringType} operator=Operator "catstart" "(" value=EString ")";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{CatStartStringType} "catstart" "(" value=EString ")"
+		//{CatStartStringType} operator=Operator "catstart" "(" value=EString ")"
 		public Group getGroup() { return cGroup; }
 
 		//{CatStartStringType}
 		public Action getCatStartStringTypeAction_0() { return cCatStartStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"catstart"
-		public Keyword getCatstartKeyword_1() { return cCatstartKeyword_1; }
+		public Keyword getCatstartKeyword_2() { return cCatstartKeyword_2; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		public Keyword getLeftParenthesisKeyword_3() { return cLeftParenthesisKeyword_3; }
 
 		//value=EString
-		public Assignment getValueAssignment_3() { return cValueAssignment_3; }
+		public Assignment getValueAssignment_4() { return cValueAssignment_4; }
 
 		//EString
-		public RuleCall getValueEStringParserRuleCall_3_0() { return cValueEStringParserRuleCall_3_0; }
+		public RuleCall getValueEStringParserRuleCall_4_0() { return cValueEStringParserRuleCall_4_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
+		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
 	}
 
 	public class CatEndStringTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "CatEndStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cCatEndStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cCatendKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cValueAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cValueEStringParserRuleCall_3_0 = (RuleCall)cValueAssignment_3.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cCatendKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cValueAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cValueEStringParserRuleCall_4_0 = (RuleCall)cValueAssignment_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//CatEndStringType:
-		//	{CatEndStringType} "catend" "(" value=EString ")";
+		//	{CatEndStringType} operator=Operator "catend" "(" value=EString ")";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{CatEndStringType} "catend" "(" value=EString ")"
+		//{CatEndStringType} operator=Operator "catend" "(" value=EString ")"
 		public Group getGroup() { return cGroup; }
 
 		//{CatEndStringType}
 		public Action getCatEndStringTypeAction_0() { return cCatEndStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"catend"
-		public Keyword getCatendKeyword_1() { return cCatendKeyword_1; }
+		public Keyword getCatendKeyword_2() { return cCatendKeyword_2; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		public Keyword getLeftParenthesisKeyword_3() { return cLeftParenthesisKeyword_3; }
 
 		//value=EString
-		public Assignment getValueAssignment_3() { return cValueAssignment_3; }
+		public Assignment getValueAssignment_4() { return cValueAssignment_4; }
 
 		//EString
-		public RuleCall getValueEStringParserRuleCall_3_0() { return cValueEStringParserRuleCall_3_0; }
+		public RuleCall getValueEStringParserRuleCall_4_0() { return cValueEStringParserRuleCall_4_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
+		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
 	}
 
 	public class ListStringTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ListStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cListStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cInsideKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
 		private final Keyword cLeftSquareBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cValueAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cValueEStringParserRuleCall_3_0 = (RuleCall)cValueAssignment_3.eContents().get(0);
@@ -3105,17 +3154,20 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//ListStringType:
-		//	{ListStringType} "inside" "[" value+=EString ("," value+=EString)* "]";
+		//	{ListStringType} operator=Operator "[" value+=EString ("," value+=EString)* "]";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{ListStringType} "inside" "[" value+=EString ("," value+=EString)* "]"
+		//{ListStringType} operator=Operator "[" value+=EString ("," value+=EString)* "]"
 		public Group getGroup() { return cGroup; }
 
 		//{ListStringType}
 		public Action getListStringTypeAction_0() { return cListStringTypeAction_0; }
 
-		//"inside"
-		public Keyword getInsideKeyword_1() { return cInsideKeyword_1; }
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
 
 		//"["
 		public Keyword getLeftSquareBracketKeyword_2() { return cLeftSquareBracketKeyword_2; }
@@ -3146,68 +3198,84 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "LowerStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cLowerStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cLowerKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cLowerKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//LowerStringType:
-		//	{LowerStringType} "lower";
+		//	{LowerStringType} operator=Operator "lower";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{LowerStringType} "lower"
+		//{LowerStringType} operator=Operator "lower"
 		public Group getGroup() { return cGroup; }
 
 		//{LowerStringType}
 		public Action getLowerStringTypeAction_0() { return cLowerStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"lower"
-		public Keyword getLowerKeyword_1() { return cLowerKeyword_1; }
+		public Keyword getLowerKeyword_2() { return cLowerKeyword_2; }
 	}
 
 	public class ReplaceStringTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ReplaceStringType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cReplaceStringTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cReplaceKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cOldstringAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cOldstringEStringParserRuleCall_3_0 = (RuleCall)cOldstringAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cNewstringAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cNewstringEStringParserRuleCall_5_0 = (RuleCall)cNewstringAssignment_5.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cReplaceKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cOldstringAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cOldstringEStringParserRuleCall_4_0 = (RuleCall)cOldstringAssignment_4.eContents().get(0);
+		private final Keyword cCommaKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cNewstringAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cNewstringEStringParserRuleCall_6_0 = (RuleCall)cNewstringAssignment_6.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//ReplaceStringType:
-		//	{ReplaceStringType} "replace" "(" oldstring=EString "," newstring=EString ")";
+		//	{ReplaceStringType} operator=Operator "replace" "(" oldstring=EString "," newstring=EString ")";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{ReplaceStringType} "replace" "(" oldstring=EString "," newstring=EString ")"
+		//{ReplaceStringType} operator=Operator "replace" "(" oldstring=EString "," newstring=EString ")"
 		public Group getGroup() { return cGroup; }
 
 		//{ReplaceStringType}
 		public Action getReplaceStringTypeAction_0() { return cReplaceStringTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"replace"
-		public Keyword getReplaceKeyword_1() { return cReplaceKeyword_1; }
+		public Keyword getReplaceKeyword_2() { return cReplaceKeyword_2; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		public Keyword getLeftParenthesisKeyword_3() { return cLeftParenthesisKeyword_3; }
 
 		//oldstring=EString
-		public Assignment getOldstringAssignment_3() { return cOldstringAssignment_3; }
+		public Assignment getOldstringAssignment_4() { return cOldstringAssignment_4; }
 
 		//EString
-		public RuleCall getOldstringEStringParserRuleCall_3_0() { return cOldstringEStringParserRuleCall_3_0; }
+		public RuleCall getOldstringEStringParserRuleCall_4_0() { return cOldstringEStringParserRuleCall_4_0; }
 
 		//","
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_5() { return cCommaKeyword_5; }
 
 		//newstring=EString
-		public Assignment getNewstringAssignment_5() { return cNewstringAssignment_5; }
+		public Assignment getNewstringAssignment_6() { return cNewstringAssignment_6; }
 
 		//EString
-		public RuleCall getNewstringEStringParserRuleCall_5_0() { return cNewstringEStringParserRuleCall_5_0; }
+		public RuleCall getNewstringEStringParserRuleCall_6_0() { return cNewstringEStringParserRuleCall_6_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
+		public Keyword getRightParenthesisKeyword_7() { return cRightParenthesisKeyword_7; }
 	}
 
 	public class DoubleTypeElements extends AbstractParserRuleElementFinder {
@@ -3234,76 +3302,92 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RandomDoubleType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cRandomDoubleTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cRandomDoubleKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cLeftParenthesisKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cMinAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cMinEDoubleParserRuleCall_2_1_0 = (RuleCall)cMinAssignment_2_1.eContents().get(0);
-		private final Keyword cCommaKeyword_2_2 = (Keyword)cGroup_2.eContents().get(2);
-		private final Assignment cMaxAssignment_2_3 = (Assignment)cGroup_2.eContents().get(3);
-		private final RuleCall cMaxEDoubleParserRuleCall_2_3_0 = (RuleCall)cMaxAssignment_2_3.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_2_4 = (Keyword)cGroup_2.eContents().get(4);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cRandomDoubleKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cLeftParenthesisKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cMinAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cMinEDoubleParserRuleCall_3_1_0 = (RuleCall)cMinAssignment_3_1.eContents().get(0);
+		private final Keyword cCommaKeyword_3_2 = (Keyword)cGroup_3.eContents().get(2);
+		private final Assignment cMaxAssignment_3_3 = (Assignment)cGroup_3.eContents().get(3);
+		private final RuleCall cMaxEDoubleParserRuleCall_3_3_0 = (RuleCall)cMaxAssignment_3_3.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3_4 = (Keyword)cGroup_3.eContents().get(4);
 		
 		//RandomDoubleType:
-		//	{RandomDoubleType} "random-double" ("(" min=EDouble "," max=EDouble ")")?;
+		//	{RandomDoubleType} operator=Operator "random-double" ("(" min=EDouble "," max=EDouble ")")?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{RandomDoubleType} "random-double" ("(" min=EDouble "," max=EDouble ")")?
+		//{RandomDoubleType} operator=Operator "random-double" ("(" min=EDouble "," max=EDouble ")")?
 		public Group getGroup() { return cGroup; }
 
 		//{RandomDoubleType}
 		public Action getRandomDoubleTypeAction_0() { return cRandomDoubleTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"random-double"
-		public Keyword getRandomDoubleKeyword_1() { return cRandomDoubleKeyword_1; }
+		public Keyword getRandomDoubleKeyword_2() { return cRandomDoubleKeyword_2; }
 
 		//("(" min=EDouble "," max=EDouble ")")?
-		public Group getGroup_2() { return cGroup_2; }
+		public Group getGroup_3() { return cGroup_3; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_2_0() { return cLeftParenthesisKeyword_2_0; }
+		public Keyword getLeftParenthesisKeyword_3_0() { return cLeftParenthesisKeyword_3_0; }
 
 		//min=EDouble
-		public Assignment getMinAssignment_2_1() { return cMinAssignment_2_1; }
+		public Assignment getMinAssignment_3_1() { return cMinAssignment_3_1; }
 
 		//EDouble
-		public RuleCall getMinEDoubleParserRuleCall_2_1_0() { return cMinEDoubleParserRuleCall_2_1_0; }
+		public RuleCall getMinEDoubleParserRuleCall_3_1_0() { return cMinEDoubleParserRuleCall_3_1_0; }
 
 		//","
-		public Keyword getCommaKeyword_2_2() { return cCommaKeyword_2_2; }
+		public Keyword getCommaKeyword_3_2() { return cCommaKeyword_3_2; }
 
 		//max=EDouble
-		public Assignment getMaxAssignment_2_3() { return cMaxAssignment_2_3; }
+		public Assignment getMaxAssignment_3_3() { return cMaxAssignment_3_3; }
 
 		//EDouble
-		public RuleCall getMaxEDoubleParserRuleCall_2_3_0() { return cMaxEDoubleParserRuleCall_2_3_0; }
+		public RuleCall getMaxEDoubleParserRuleCall_3_3_0() { return cMaxEDoubleParserRuleCall_3_3_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_2_4() { return cRightParenthesisKeyword_2_4; }
+		public Keyword getRightParenthesisKeyword_3_4() { return cRightParenthesisKeyword_3_4; }
 	}
 
 	public class SpecificDoubleTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SpecificDoubleType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cSpecificDoubleTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueEDoubleParserRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValueEDoubleParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		//SpecificDoubleType:
-		//	{SpecificDoubleType} value=EDouble;
+		//	{SpecificDoubleType} operator=Operator value=EDouble;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{SpecificDoubleType} value=EDouble
+		//{SpecificDoubleType} operator=Operator value=EDouble
 		public Group getGroup() { return cGroup; }
 
 		//{SpecificDoubleType}
 		public Action getSpecificDoubleTypeAction_0() { return cSpecificDoubleTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//value=EDouble
-		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
+		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
 
 		//EDouble
-		public RuleCall getValueEDoubleParserRuleCall_1_0() { return cValueEDoubleParserRuleCall_1_0; }
+		public RuleCall getValueEDoubleParserRuleCall_2_0() { return cValueEDoubleParserRuleCall_2_0; }
 	}
 
 	public class IntegerTypeElements extends AbstractParserRuleElementFinder {
@@ -3330,76 +3414,120 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SpecificIntegerType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cSpecificIntegerTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueEIntParserRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Assignment cValueAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cValueEIntParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		//SpecificIntegerType:
-		//	{SpecificIntegerType} value=EInt;
+		//	{SpecificIntegerType} operator=Operator value=EInt;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{SpecificIntegerType} value=EInt
+		//{SpecificIntegerType} operator=Operator value=EInt
 		public Group getGroup() { return cGroup; }
 
 		//{SpecificIntegerType}
 		public Action getSpecificIntegerTypeAction_0() { return cSpecificIntegerTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//value=EInt
-		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
+		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
 
 		//EInt
-		public RuleCall getValueEIntParserRuleCall_1_0() { return cValueEIntParserRuleCall_1_0; }
+		public RuleCall getValueEIntParserRuleCall_2_0() { return cValueEIntParserRuleCall_2_0; }
 	}
 
 	public class RandomIntegerTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RandomIntegerType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cRandomIntegerTypeAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cRandomIntKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cLeftParenthesisKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cMinAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cMinEIntParserRuleCall_2_1_0 = (RuleCall)cMinAssignment_2_1.eContents().get(0);
-		private final Keyword cCommaKeyword_2_2 = (Keyword)cGroup_2.eContents().get(2);
-		private final Assignment cMaxAssignment_2_3 = (Assignment)cGroup_2.eContents().get(3);
-		private final RuleCall cMaxEIntParserRuleCall_2_3_0 = (RuleCall)cMaxAssignment_2_3.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_2_4 = (Keyword)cGroup_2.eContents().get(4);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cRandomIntKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cLeftParenthesisKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cMinAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cMinEIntParserRuleCall_3_1_0 = (RuleCall)cMinAssignment_3_1.eContents().get(0);
+		private final Keyword cCommaKeyword_3_2 = (Keyword)cGroup_3.eContents().get(2);
+		private final Assignment cMaxAssignment_3_3 = (Assignment)cGroup_3.eContents().get(3);
+		private final RuleCall cMaxEIntParserRuleCall_3_3_0 = (RuleCall)cMaxAssignment_3_3.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3_4 = (Keyword)cGroup_3.eContents().get(4);
 		
 		//RandomIntegerType:
-		//	{RandomIntegerType} "random-int" ("(" min=EInt "," max=EInt ")")?;
+		//	{RandomIntegerType} operator=Operator "random-int" ("(" min=EInt "," max=EInt ")")?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{RandomIntegerType} "random-int" ("(" min=EInt "," max=EInt ")")?
+		//{RandomIntegerType} operator=Operator "random-int" ("(" min=EInt "," max=EInt ")")?
 		public Group getGroup() { return cGroup; }
 
 		//{RandomIntegerType}
 		public Action getRandomIntegerTypeAction_0() { return cRandomIntegerTypeAction_0; }
 
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
 		//"random-int"
-		public Keyword getRandomIntKeyword_1() { return cRandomIntKeyword_1; }
+		public Keyword getRandomIntKeyword_2() { return cRandomIntKeyword_2; }
 
 		//("(" min=EInt "," max=EInt ")")?
-		public Group getGroup_2() { return cGroup_2; }
+		public Group getGroup_3() { return cGroup_3; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_2_0() { return cLeftParenthesisKeyword_2_0; }
+		public Keyword getLeftParenthesisKeyword_3_0() { return cLeftParenthesisKeyword_3_0; }
 
 		//min=EInt
-		public Assignment getMinAssignment_2_1() { return cMinAssignment_2_1; }
+		public Assignment getMinAssignment_3_1() { return cMinAssignment_3_1; }
 
 		//EInt
-		public RuleCall getMinEIntParserRuleCall_2_1_0() { return cMinEIntParserRuleCall_2_1_0; }
+		public RuleCall getMinEIntParserRuleCall_3_1_0() { return cMinEIntParserRuleCall_3_1_0; }
 
 		//","
-		public Keyword getCommaKeyword_2_2() { return cCommaKeyword_2_2; }
+		public Keyword getCommaKeyword_3_2() { return cCommaKeyword_3_2; }
 
 		//max=EInt
-		public Assignment getMaxAssignment_2_3() { return cMaxAssignment_2_3; }
+		public Assignment getMaxAssignment_3_3() { return cMaxAssignment_3_3; }
 
 		//EInt
-		public RuleCall getMaxEIntParserRuleCall_2_3_0() { return cMaxEIntParserRuleCall_2_3_0; }
+		public RuleCall getMaxEIntParserRuleCall_3_3_0() { return cMaxEIntParserRuleCall_3_3_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_2_4() { return cRightParenthesisKeyword_2_4; }
+		public Keyword getRightParenthesisKeyword_3_4() { return cRightParenthesisKeyword_3_4; }
+	}
+
+	public class RandomTypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RandomType");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cRandomTypeAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOperatorOperatorEnumRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
+		private final Keyword cRandomKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		
+		//RandomType:
+		//	{RandomType} operator=Operator "random";
+		@Override public ParserRule getRule() { return rule; }
+
+		//{RandomType} operator=Operator "random"
+		public Group getGroup() { return cGroup; }
+
+		//{RandomType}
+		public Action getRandomTypeAction_0() { return cRandomTypeAction_0; }
+
+		//operator=Operator
+		public Assignment getOperatorAssignment_1() { return cOperatorAssignment_1; }
+
+		//Operator
+		public RuleCall getOperatorOperatorEnumRuleCall_1_0() { return cOperatorOperatorEnumRuleCall_1_0; }
+
+		//"random"
+		public Keyword getRandomKeyword_2() { return cRandomKeyword_2; }
 	}
 
 	public class MaxCardinalityElements extends AbstractParserRuleElementFinder {
@@ -3458,12 +3586,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cEqualsEqualsSignKeyword_0_0 = (Keyword)cEqualsEnumLiteralDeclaration_0.eContents().get(0);
 		private final EnumLiteralDeclaration cDifferentEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
 		private final Keyword cDifferentLessThanSignGreaterThanSignKeyword_1_0 = (Keyword)cDifferentEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cInEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cInInKeyword_2_0 = (Keyword)cInEnumLiteralDeclaration_2.eContents().get(0);
 		
 		//enum Operator:
-		//	equals="=" | different="<>";
+		//	equals="=" | different="<>" | in;
 		public EnumRule getRule() { return rule; }
 
-		//equals="=" | different="<>"
+		//equals="=" | different="<>" | in
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//equals="="
@@ -3477,6 +3607,12 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"<>"
 		public Keyword getDifferentLessThanSignGreaterThanSignKeyword_1_0() { return cDifferentLessThanSignGreaterThanSignKeyword_1_0; }
+
+		//in
+		public EnumLiteralDeclaration getInEnumLiteralDeclaration_2() { return cInEnumLiteralDeclaration_2; }
+
+		//"in"
+		public Keyword getInInKeyword_2_0() { return cInInKeyword_2_0; }
 	}
 
 	public class RepeatElements extends AbstractEnumRuleElementFinder {
@@ -3547,7 +3683,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final ModifyTargetReferenceMutatorElements pModifyTargetReferenceMutator;
 	private final CompositeMutatorElements pCompositeMutator;
 	private final AttributeSetElements pAttributeSet;
-	private final AttributeInitElements pAttributeInit;
+	private final AttributeScalarElements pAttributeScalar;
 	private final AttributeUnsetElements pAttributeUnset;
 	private final AttributeSwapElements pAttributeSwap;
 	private final AttributeCopyElements pAttributeCopy;
@@ -3577,6 +3713,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final IntegerTypeElements pIntegerType;
 	private final SpecificIntegerTypeElements pSpecificIntegerType;
 	private final RandomIntegerTypeElements pRandomIntegerType;
+	private final RandomTypeElements pRandomType;
 	private final MaxCardinalityElements pMaxCardinality;
 	
 	private final Grammar grammar;
@@ -3628,7 +3765,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.pModifyTargetReferenceMutator = new ModifyTargetReferenceMutatorElements();
 		this.pCompositeMutator = new CompositeMutatorElements();
 		this.pAttributeSet = new AttributeSetElements();
-		this.pAttributeInit = new AttributeInitElements();
+		this.pAttributeScalar = new AttributeScalarElements();
 		this.pAttributeUnset = new AttributeUnsetElements();
 		this.pAttributeSwap = new AttributeSwapElements();
 		this.pAttributeCopy = new AttributeCopyElements();
@@ -3658,6 +3795,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.pIntegerType = new IntegerTypeElements();
 		this.pSpecificIntegerType = new SpecificIntegerTypeElements();
 		this.pRandomIntegerType = new RandomIntegerTypeElements();
+		this.pRandomType = new RandomTypeElements();
 		this.pMaxCardinality = new MaxCardinalityElements();
 	}
 	
@@ -3823,7 +3961,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AttributeType:
-	//	IntegerType | BooleanType | StringType | DoubleType | ListStringType;
+	//	IntegerType | BooleanType | StringType | DoubleType | ListStringType | RandomType;
 	public AttributeTypeElements getAttributeTypeAccess() {
 		return pAttributeType;
 	}
@@ -3893,7 +4031,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//enum Operator:
-	//	equals="=" | different="<>";
+	//	equals="=" | different="<>" | in;
 	public OperatorElements getOperatorAccess() {
 		return unknownRuleOperator;
 	}
@@ -3923,7 +4061,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AttributeEvaluation:
-	//	{AttributeEvaluation} name=[ecore::EAttribute] operator=Operator value=AttributeType;
+	//	{AttributeEvaluation} name=[ecore::EAttribute] value=AttributeType;
 	public AttributeEvaluationElements getAttributeEvaluationAccess() {
 		return pAttributeEvaluation;
 	}
@@ -4105,7 +4243,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AttributeSet:
-	//	AttributeInit | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse;
+	//	AttributeScalar | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse;
 	public AttributeSetElements getAttributeSetAccess() {
 		return pAttributeSet;
 	}
@@ -4114,14 +4252,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		return getAttributeSetAccess().getRule();
 	}
 
-	//AttributeInit:
-	//	attribute+=[ecore::EAttribute] "=" value=AttributeType;
-	public AttributeInitElements getAttributeInitAccess() {
-		return pAttributeInit;
+	//AttributeScalar:
+	//	attribute+=[ecore::EAttribute] value=AttributeType;
+	public AttributeScalarElements getAttributeScalarAccess() {
+		return pAttributeScalar;
 	}
 	
-	public ParserRule getAttributeInitRule() {
-		return getAttributeInitAccess().getRule();
+	public ParserRule getAttributeScalarRule() {
+		return getAttributeScalarAccess().getRule();
 	}
 
 	//AttributeUnset:
@@ -4246,7 +4384,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//RandomBooleanType:
-	//	{RandomBooleanType} "random-boolean";
+	//	{RandomBooleanType} operator=Operator "random-boolean";
 	public RandomBooleanTypeElements getRandomBooleanTypeAccess() {
 		return pRandomBooleanType;
 	}
@@ -4256,7 +4394,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//SpecificBooleanType:
-	//	{SpecificBooleanType} value=EBoolean;
+	//	{SpecificBooleanType} operator=Operator value=EBoolean;
 	public SpecificBooleanTypeElements getSpecificBooleanTypeAccess() {
 		return pSpecificBooleanType;
 	}
@@ -4277,7 +4415,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//RandomStringType:
-	//	{RandomStringType} "random-string" "(" min=EInt "," max=EInt ")";
+	//	{RandomStringType} operator=Operator "random-string" "(" min=EInt "," max=EInt ")";
 	public RandomStringTypeElements getRandomStringTypeAccess() {
 		return pRandomStringType;
 	}
@@ -4287,7 +4425,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//SpecificStringType:
-	//	{SpecificStringType} value=STRING;
+	//	{SpecificStringType} operator=Operator value=STRING;
 	public SpecificStringTypeElements getSpecificStringTypeAccess() {
 		return pSpecificStringType;
 	}
@@ -4297,7 +4435,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//UpperStringType:
-	//	{UpperStringType} "upper";
+	//	{UpperStringType} operator=Operator "upper";
 	public UpperStringTypeElements getUpperStringTypeAccess() {
 		return pUpperStringType;
 	}
@@ -4307,7 +4445,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CatStartStringType:
-	//	{CatStartStringType} "catstart" "(" value=EString ")";
+	//	{CatStartStringType} operator=Operator "catstart" "(" value=EString ")";
 	public CatStartStringTypeElements getCatStartStringTypeAccess() {
 		return pCatStartStringType;
 	}
@@ -4317,7 +4455,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CatEndStringType:
-	//	{CatEndStringType} "catend" "(" value=EString ")";
+	//	{CatEndStringType} operator=Operator "catend" "(" value=EString ")";
 	public CatEndStringTypeElements getCatEndStringTypeAccess() {
 		return pCatEndStringType;
 	}
@@ -4327,7 +4465,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ListStringType:
-	//	{ListStringType} "inside" "[" value+=EString ("," value+=EString)* "]";
+	//	{ListStringType} operator=Operator "[" value+=EString ("," value+=EString)* "]";
 	public ListStringTypeElements getListStringTypeAccess() {
 		return pListStringType;
 	}
@@ -4337,7 +4475,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//LowerStringType:
-	//	{LowerStringType} "lower";
+	//	{LowerStringType} operator=Operator "lower";
 	public LowerStringTypeElements getLowerStringTypeAccess() {
 		return pLowerStringType;
 	}
@@ -4347,7 +4485,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ReplaceStringType:
-	//	{ReplaceStringType} "replace" "(" oldstring=EString "," newstring=EString ")";
+	//	{ReplaceStringType} operator=Operator "replace" "(" oldstring=EString "," newstring=EString ")";
 	public ReplaceStringTypeElements getReplaceStringTypeAccess() {
 		return pReplaceStringType;
 	}
@@ -4367,7 +4505,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//RandomDoubleType:
-	//	{RandomDoubleType} "random-double" ("(" min=EDouble "," max=EDouble ")")?;
+	//	{RandomDoubleType} operator=Operator "random-double" ("(" min=EDouble "," max=EDouble ")")?;
 	public RandomDoubleTypeElements getRandomDoubleTypeAccess() {
 		return pRandomDoubleType;
 	}
@@ -4377,7 +4515,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//SpecificDoubleType:
-	//	{SpecificDoubleType} value=EDouble;
+	//	{SpecificDoubleType} operator=Operator value=EDouble;
 	public SpecificDoubleTypeElements getSpecificDoubleTypeAccess() {
 		return pSpecificDoubleType;
 	}
@@ -4397,7 +4535,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//SpecificIntegerType:
-	//	{SpecificIntegerType} value=EInt;
+	//	{SpecificIntegerType} operator=Operator value=EInt;
 	public SpecificIntegerTypeElements getSpecificIntegerTypeAccess() {
 		return pSpecificIntegerType;
 	}
@@ -4407,13 +4545,23 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//RandomIntegerType:
-	//	{RandomIntegerType} "random-int" ("(" min=EInt "," max=EInt ")")?;
+	//	{RandomIntegerType} operator=Operator "random-int" ("(" min=EInt "," max=EInt ")")?;
 	public RandomIntegerTypeElements getRandomIntegerTypeAccess() {
 		return pRandomIntegerType;
 	}
 	
 	public ParserRule getRandomIntegerTypeRule() {
 		return getRandomIntegerTypeAccess().getRule();
+	}
+
+	//RandomType:
+	//	{RandomType} operator=Operator "random";
+	public RandomTypeElements getRandomTypeAccess() {
+		return pRandomType;
+	}
+	
+	public ParserRule getRandomTypeRule() {
+		return getRandomTypeAccess().getRule();
 	}
 
 	//MaxCardinality returns ecore::EIntegerObject:

@@ -14,6 +14,7 @@ import modelgraph.NodeShape;
 import modelgraph.NodeType;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -44,12 +45,16 @@ public class ModelGraphGenerator implements IGenerator {
     for (final MutatorGraph e : _filter) {
       {
         if ((i == 0)) {
-          String _project = WodelContext.getProject();
-          String _plus = (_project + "_Graph.java");
+          URI _uRI = resource.getURI();
+          String _lastSegment = _uRI.lastSegment();
+          String _replace = _lastSegment.replace(".graph", "");
+          String _plus = (_replace + "_Graph.java");
           this.fileName = _plus;
         } else {
-          String _project_1 = WodelContext.getProject();
-          String _plus_1 = (_project_1 + Integer.valueOf(i));
+          URI _uRI_1 = resource.getURI();
+          String _lastSegment_1 = _uRI_1.lastSegment();
+          String _replace_1 = _lastSegment_1.replace(".graph", "");
+          String _plus_1 = (_replace_1 + Integer.valueOf(i));
           String _plus_2 = (_plus_1 + "_Graph.java");
           this.fileName = _plus_2;
         }

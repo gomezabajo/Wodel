@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
+import manager.WodelContext;
 import mutatorenvironment.Block;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
@@ -613,23 +614,50 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       System.out.println("7.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      IScope _xifexpression = null;
+      final List<EReference> scope = new ArrayList<EReference>();
       ObSelectionStrategy _container = com.getContainer();
       if ((_container instanceof RandomTypeSelection)) {
-        IScope _xblockexpression_1 = null;
-        {
-          ObSelectionStrategy _container_1 = com.getContainer();
-          final EClass container = ((RandomTypeSelection) _container_1).getType();
-          String _metamodel = definition.getMetamodel();
-          String _name = container.getName();
-          EClass _type = com.getType();
-          String _name_1 = _type.getName();
-          List<EReference> _eContainmentReferences = this.getEContainmentReferences(_metamodel, _name, _name_1);
-          _xblockexpression_1 = Scopes.scopeFor(_eContainmentReferences);
-        }
-        _xifexpression = _xblockexpression_1;
+        ObSelectionStrategy _container_1 = com.getContainer();
+        final EClass container = ((RandomTypeSelection) _container_1).getType();
+        String _metamodel = definition.getMetamodel();
+        String _name = container.getName();
+        EClass _type = com.getType();
+        String _name_1 = _type.getName();
+        List<EReference> _eContainmentReferences = this.getEContainmentReferences(_metamodel, _name, _name_1);
+        scope.addAll(_eContainmentReferences);
       }
-      _xblockexpression = _xifexpression;
+      ObSelectionStrategy _container_2 = com.getContainer();
+      if ((_container_2 instanceof SpecificObjectSelection)) {
+        ObSelectionStrategy _container_3 = com.getContainer();
+        ObjectEmitter _objSel = ((SpecificObjectSelection) _container_3).getObjSel();
+        if ((_objSel instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _container_4 = com.getContainer();
+          ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _container_4).getObjSel();
+          ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_1).getObject();
+          if ((_object instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _container_5 = com.getContainer();
+            ObjectEmitter _objSel_2 = ((SpecificObjectSelection) _container_5).getObjSel();
+            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_2).getObject();
+            final EClass container_1 = ((RandomTypeSelection) _object_1).getType();
+            String _metamodel_1 = definition.getMetamodel();
+            String _name_2 = container_1.getName();
+            List<EReference> _eReferences = this.getEReferences(_metamodel_1, _name_2);
+            scope.addAll(_eReferences);
+          }
+        }
+        ObSelectionStrategy _container_6 = com.getContainer();
+        ObjectEmitter _objSel_3 = ((SpecificObjectSelection) _container_6).getObjSel();
+        if ((_objSel_3 instanceof CreateObjectMutator)) {
+          ObSelectionStrategy _container_7 = com.getContainer();
+          ObjectEmitter _objSel_4 = ((SpecificObjectSelection) _container_7).getObjSel();
+          final EClass container_2 = ((CreateObjectMutator) _objSel_4).getType();
+          String _metamodel_2 = definition.getMetamodel();
+          String _name_3 = container_2.getName();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_2, _name_3);
+          scope.addAll(_eReferences_1);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
   }
@@ -809,9 +837,15 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     String _path_2 = _source_2.getPath();
     boolean _endsWith_1 = _path_2.endsWith("/");
     if (_endsWith_1) {
+      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+      String _plus = (_workspaceAbsolutePath + "/");
+      String _project = WodelContext.getProject();
+      String _plus_1 = (_plus + _project);
+      String _plus_2 = (_plus_1 + "/");
       Source _source_3 = program.getSource();
       String _path_3 = _source_3.getPath();
-      File _file = new File(_path_3);
+      String _plus_3 = (_plus_2 + _path_3);
+      File _file = new File(_plus_3);
       final File[] files = _file.listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
@@ -942,8 +976,14 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           boolean _endsWith = _path.endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
+            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+            String _plus = (_workspaceAbsolutePath + "/");
+            String _project = WodelContext.getProject();
+            String _plus_1 = (_plus + _project);
+            String _plus_2 = (_plus_1 + "/");
             Source _source_1 = ((Program)definition).getSource();
-            final String model = _source_1.getPath();
+            String _path_1 = _source_1.getPath();
+            final String model = (_plus_2 + _path_1);
             String _metamodel = ((Program)definition).getMetamodel();
             final List<EClass> classes = this.getModelEClasses(_metamodel, model);
             final List<String> sclasses = new ArrayList<String>();
@@ -988,24 +1028,30 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
           }
           Source _source_2 = ((Program)definition).getSource();
-          String _path_1 = _source_2.getPath();
-          boolean _endsWith_1 = _path_1.endsWith("/");
+          String _path_2 = _source_2.getPath();
+          boolean _endsWith_1 = _path_2.endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
+            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
+            String _project_1 = WodelContext.getProject();
+            String _plus_4 = (_plus_3 + _project_1);
+            String _plus_5 = (_plus_4 + "/");
             Source _source_3 = ((Program)definition).getSource();
-            String _path_2 = _source_3.getPath();
-            File _file = new File(_path_2);
+            String _path_3 = _source_3.getPath();
+            String _plus_6 = (_plus_5 + _path_3);
+            File _file = new File(_plus_6);
             final File[] files = _file.listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
               boolean _equals = (_isFile == true);
               if (_equals) {
-                String _path_3 = file.getPath();
-                boolean _endsWith_2 = _path_3.endsWith(".model");
+                String _path_4 = file.getPath();
+                boolean _endsWith_2 = _path_4.endsWith(".model");
                 boolean _equals_1 = (_endsWith_2 == true);
                 if (_equals_1) {
-                  String _path_4 = file.getPath();
-                  models.add(_path_4);
+                  String _path_5 = file.getPath();
+                  models.add(_path_5);
                 }
               }
             }
@@ -1142,9 +1188,15 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     String _path_2 = _source_2.getPath();
     boolean _endsWith_1 = _path_2.endsWith("/");
     if (_endsWith_1) {
+      String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+      String _plus = (_workspaceAbsolutePath + "/");
+      String _project = WodelContext.getProject();
+      String _plus_1 = (_plus + _project);
+      String _plus_2 = (_plus_1 + "/");
       Source _source_3 = program.getSource();
       String _path_3 = _source_3.getPath();
-      File _file = new File(_path_3);
+      String _plus_3 = (_plus_2 + _path_3);
+      File _file = new File(_plus_3);
       final File[] files = _file.listFiles();
       for (final File file : files) {
         boolean _isFile = file.isFile();
@@ -1327,8 +1379,14 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           boolean _endsWith = _path.endsWith("/");
           boolean _not = (!_endsWith);
           if (_not) {
+            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+            String _plus = (_workspaceAbsolutePath + "/");
+            String _project = WodelContext.getProject();
+            String _plus_1 = (_plus + _project);
+            String _plus_2 = (_plus_1 + "/");
             Source _source_1 = ((Program)definition).getSource();
-            final String model = _source_1.getPath();
+            String _path_1 = _source_1.getPath();
+            final String model = (_plus_2 + _path_1);
             String _metamodel = ((Program)definition).getMetamodel();
             EReference _refType = com.getRefType();
             String _name = _refType.getName();
@@ -1373,24 +1431,30 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             scope.addAll(objects);
           }
           Source _source_2 = ((Program)definition).getSource();
-          String _path_1 = _source_2.getPath();
-          boolean _endsWith_1 = _path_1.endsWith("/");
+          String _path_2 = _source_2.getPath();
+          boolean _endsWith_1 = _path_2.endsWith("/");
           if (_endsWith_1) {
             final ArrayList<String> models = new ArrayList<String>();
+            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
+            String _project_1 = WodelContext.getProject();
+            String _plus_4 = (_plus_3 + _project_1);
+            String _plus_5 = (_plus_4 + "/");
             Source _source_3 = ((Program)definition).getSource();
-            String _path_2 = _source_3.getPath();
-            File _file = new File(_path_2);
+            String _path_3 = _source_3.getPath();
+            String _plus_6 = (_plus_5 + _path_3);
+            File _file = new File(_plus_6);
             final File[] files = _file.listFiles();
             for (final File file : files) {
               boolean _isFile = file.isFile();
               boolean _equals = (_isFile == true);
               if (_equals) {
-                String _path_3 = file.getPath();
-                boolean _endsWith_2 = _path_3.endsWith(".model");
+                String _path_4 = file.getPath();
+                boolean _endsWith_2 = _path_4.endsWith(".model");
                 boolean _equals_1 = (_endsWith_2 == true);
                 if (_equals_1) {
-                  String _path_4 = file.getPath();
-                  models.add(_path_4);
+                  String _path_5 = file.getPath();
+                  models.add(_path_5);
                 }
               }
             }

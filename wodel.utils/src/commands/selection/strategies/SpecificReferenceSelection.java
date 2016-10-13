@@ -5,10 +5,15 @@ import java.util.List;
 
 import manager.ModelManager;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import com.sun.org.apache.xerces.internal.util.URI;
 
 import commands.ObjectEmitter;
 import exceptions.ReferenceNonExistingException;
@@ -19,10 +24,10 @@ import exceptions.ReferenceNonExistingException;
  */
 public class SpecificReferenceSelection extends SpecificSelection{
 	
-	private ObjectEmitter oe;
+	private EObject oe;
 	private String refType;
 	
-	public SpecificReferenceSelection(ArrayList<EPackage> metaModel, Resource model, String refType, ObjectEmitter oe){
+	public SpecificReferenceSelection(ArrayList<EPackage> metaModel, Resource model, String refType, EObject oe){
 		super(metaModel, model);
 		this.oe = oe;
 		this.refType = refType;
@@ -31,6 +36,6 @@ public class SpecificReferenceSelection extends SpecificSelection{
 	@Override
 	public EObject getObject() throws ReferenceNonExistingException {
 		if(oe == null) return null;
-		return ModelManager.getReferenceByName(refType, oe.getObject());
+		return ModelManager.getReferenceByName(refType, oe);
 	}
 }

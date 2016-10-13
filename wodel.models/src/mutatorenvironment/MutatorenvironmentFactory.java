@@ -94,13 +94,13 @@ public interface MutatorenvironmentFactory extends EFactory {
 	SpecificObjectSelection createSpecificObjectSelection();
 
 	/**
-	 * Returns a new object of class '<em>Attribute Init</em>'.
+	 * Returns a new object of class '<em>Attribute Scalar</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute Init</em>'.
+	 * @return a new object of class '<em>Attribute Scalar</em>'.
 	 * @generated
 	 */
-	AttributeInit createAttributeInit();
+	AttributeScalar createAttributeScalar();
 
 	/**
 	 * Returns a new object of class '<em>Specific Boolean Type</em>'.
@@ -488,6 +488,15 @@ public interface MutatorenvironmentFactory extends EFactory {
 	 * @generated
 	 */
 	Constraint createConstraint();
+
+	/**
+	 * Returns a new object of class '<em>Random Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Random Type</em>'.
+	 * @generated
+	 */
+	RandomType createRandomType();
 
 	/**
 	 * Returns the package supported by this factory.

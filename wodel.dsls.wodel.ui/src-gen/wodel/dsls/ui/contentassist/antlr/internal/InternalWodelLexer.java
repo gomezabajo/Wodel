@@ -331,10 +331,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:22:7: ( 'yes' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:22:9: 'yes'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:22:7: ( 'in' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:22:9: 'in'
             {
-            match("yes"); 
+            match("in"); 
 
 
             }
@@ -352,10 +352,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23:7: ( 'no' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23:9: 'no'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23:7: ( 'yes' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23:9: 'yes'
             {
-            match("no"); 
+            match("yes"); 
 
 
             }
@@ -373,10 +373,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:24:7: ( 'with' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:24:9: 'with'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:24:7: ( 'no' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:24:9: 'no'
             {
-            match("with"); 
+            match("no"); 
 
 
             }
@@ -394,10 +394,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:25:7: ( 'blocks' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:25:9: 'blocks'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:25:7: ( 'with' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:25:9: 'with'
             {
-            match("blocks"); 
+            match("with"); 
 
 
             }
@@ -415,10 +415,11 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:26:7: ( '{' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:26:9: '{'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:26:7: ( 'blocks' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:26:9: 'blocks'
             {
-            match('{'); 
+            match("blocks"); 
+
 
             }
 
@@ -435,10 +436,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:27:7: ( '}' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:27:9: '}'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:27:7: ( '{' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:27:9: '{'
             {
-            match('}'); 
+            match('{'); 
 
             }
 
@@ -455,11 +456,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:28:7: ( 'commands' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:28:9: 'commands'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:28:7: ( '}' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:28:9: '}'
             {
-            match("commands"); 
-
+            match('}'); 
 
             }
 
@@ -476,10 +476,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:29:7: ( 'constraints' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:29:9: 'constraints'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:29:7: ( 'commands' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:29:9: 'commands'
             {
-            match("constraints"); 
+            match("commands"); 
 
 
             }
@@ -497,10 +497,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__30;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:30:7: ( 'library' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:30:9: 'library'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:30:7: ( 'constraints' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:30:9: 'constraints'
             {
-            match("library"); 
+            match("constraints"); 
 
 
             }
@@ -518,10 +518,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:31:7: ( 'for' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:31:9: 'for'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:31:7: ( 'library' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:31:9: 'library'
             {
-            match("for"); 
+            match("library"); 
 
 
             }
@@ -539,10 +539,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:32:7: ( 'metamodel' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:32:9: 'metamodel'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:32:7: ( 'for' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:32:9: 'for'
             {
-            match("metamodel"); 
+            match("for"); 
 
 
             }
@@ -560,10 +560,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:33:7: ( 'generate' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:33:9: 'generate'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:33:7: ( 'metamodel' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:33:9: 'metamodel'
             {
-            match("generate"); 
+            match("metamodel"); 
 
 
             }
@@ -581,10 +581,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:34:7: ( 'mutants' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:34:9: 'mutants'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:34:7: ( 'generate' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:34:9: 'generate'
             {
-            match("mutants"); 
+            match("generate"); 
 
 
             }
@@ -602,10 +602,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:35:7: ( 'in' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:35:9: 'in'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:35:7: ( 'mutants' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:35:9: 'mutants'
             {
-            match("in"); 
+            match("mutants"); 
 
 
             }
@@ -1350,10 +1350,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__71;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:71:7: ( 'inside' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:71:9: 'inside'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:71:7: ( 'lower' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:71:9: 'lower'
             {
-            match("inside"); 
+            match("lower"); 
 
 
             }
@@ -1371,10 +1371,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__72;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:72:7: ( 'lower' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:72:9: 'lower'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:72:7: ( 'replace' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:72:9: 'replace'
             {
-            match("lower"); 
+            match("replace"); 
 
 
             }
@@ -1392,10 +1392,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__73;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:73:7: ( 'replace' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:73:9: 'replace'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:73:7: ( 'random-double' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:73:9: 'random-double'
             {
-            match("replace"); 
+            match("random-double"); 
 
 
             }
@@ -1413,10 +1413,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__74;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:74:7: ( 'random-double' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:74:9: 'random-double'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:74:7: ( 'random-int' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:74:9: 'random-int'
             {
-            match("random-double"); 
+            match("random-int"); 
 
 
             }
@@ -1434,10 +1434,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = T__75;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:75:7: ( 'random-int' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:75:9: 'random-int'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:75:7: ( 'random' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:75:9: 'random'
             {
-            match("random-int"); 
+            match("random"); 
 
 
             }
@@ -1455,10 +1455,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17582:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17582:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18266:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18266:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17582:11: ( '^' )?
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18266:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -1467,7 +1467,7 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17582:11: '^'
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18266:11: '^'
                     {
                     match('^'); 
 
@@ -1485,7 +1485,7 @@ public class InternalWodelLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17582:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18266:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -1534,10 +1534,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17584:10: ( ( '0' .. '9' )+ )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17584:12: ( '0' .. '9' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18268:10: ( ( '0' .. '9' )+ )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18268:12: ( '0' .. '9' )+
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17584:12: ( '0' .. '9' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18268:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -1551,7 +1551,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17584:13: '0' .. '9'
+            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18268:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1583,10 +1583,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1604,10 +1604,10 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -1623,7 +1623,7 @@ public class InternalWodelLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:21: '\\\\' .
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1631,7 +1631,7 @@ public class InternalWodelLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1656,10 +1656,10 @@ public class InternalWodelLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -1675,7 +1675,7 @@ public class InternalWodelLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:54: '\\\\' .
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1683,7 +1683,7 @@ public class InternalWodelLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17586:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18270:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1726,12 +1726,12 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17588:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17588:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18272:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18272:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17588:24: ( options {greedy=false; } : . )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18272:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -1756,7 +1756,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17588:52: .
+            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18272:52: .
             	    {
             	    matchAny(); 
 
@@ -1786,12 +1786,12 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -1804,7 +1804,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1824,7 +1824,7 @@ public class InternalWodelLexer extends Lexer {
                 }
             } while (true);
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:40: ( ( '\\r' )? '\\n' )?
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1833,9 +1833,9 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:41: ( '\\r' )? '\\n'
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:41: ( '\\r' )? '\\n'
                     {
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:41: ( '\\r' )?
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -1844,7 +1844,7 @@ public class InternalWodelLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17590:41: '\\r'
+                            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18274:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1876,10 +1876,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17592:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17592:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18276:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18276:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17592:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18276:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -1933,8 +1933,8 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17594:16: ( . )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:17594:18: .
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18278:16: ( . )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:18278:18: .
             {
             matchAny(); 
 
@@ -2465,95 +2465,95 @@ public class InternalWodelLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\1\50\1\52\4\51\1\uffff\2\51\1\uffff\1\47\3\51\2\uffff"+
-        "\5\51\1\uffff\1\51\2\uffff\1\125\2\uffff\1\51\2\uffff\1\47\2\uffff"+
+        "\1\uffff\1\50\1\52\4\51\1\uffff\2\51\1\uffff\1\47\4\51\2\uffff"+
+        "\4\51\1\uffff\1\51\2\uffff\1\125\2\uffff\1\51\2\uffff\1\47\2\uffff"+
         "\3\47\5\uffff\1\51\1\142\10\51\1\153\1\uffff\2\51\1\156\2\51\2\uffff"+
-        "\4\51\2\uffff\11\51\1\u0081\1\51\1\uffff\2\51\6\uffff\2\51\7\uffff"+
-        "\1\51\1\uffff\2\51\1\u008d\5\51\1\uffff\1\u0094\1\u0095\1\uffff"+
-        "\1\u0096\1\51\1\u0098\17\51\1\uffff\10\51\1\u00b3\2\51\1\uffff\1"+
-        "\u00b6\1\u00b7\2\51\1\u00bb\1\u00bc\3\uffff\1\51\1\uffff\1\u00be"+
-        "\5\51\1\u00c4\23\51\1\uffff\1\51\1\u00d9\2\uffff\3\51\2\uffff\1"+
-        "\u00dd\1\uffff\1\u00de\4\51\1\uffff\4\51\1\u00e7\14\51\1\u00f4\1"+
-        "\u00f5\1\u00f6\1\uffff\1\u00f7\1\u00f8\1\51\2\uffff\1\u00fa\3\51"+
-        "\1\u00fe\1\51\1\u0100\1\51\1\uffff\2\51\1\u0104\1\51\1\u0106\1\u0107"+
-        "\1\u0108\1\51\1\u010a\3\51\5\uffff\1\u010e\1\uffff\2\51\1\u0111"+
-        "\1\uffff\1\51\1\uffff\1\u0113\1\51\1\u0115\1\uffff\1\51\3\uffff"+
-        "\1\u0117\1\uffff\1\51\1\u0119\2\uffff\1\u011e\1\51\1\uffff\1\u0120"+
-        "\1\uffff\1\51\1\uffff\1\u0122\1\uffff\1\51\6\uffff\1\51\1\uffff"+
-        "\1\u0125\1\uffff\1\u0126\1\51\2\uffff\1\u0128\1\uffff";
+        "\1\161\5\51\2\uffff\11\51\1\uffff\2\51\6\uffff\2\51\7\uffff\1\51"+
+        "\1\uffff\2\51\1\u008c\5\51\1\uffff\1\u0093\1\u0094\1\uffff\1\u0095"+
+        "\1\51\1\uffff\1\51\1\u0098\25\51\1\u00b1\2\51\1\uffff\1\u00b4\1"+
+        "\u00b5\2\51\1\u00b9\1\u00ba\3\uffff\2\51\1\uffff\1\u00bd\5\51\1"+
+        "\u00c3\21\51\1\uffff\1\51\1\u00d6\2\uffff\3\51\2\uffff\1\u00da\1"+
+        "\51\1\uffff\1\u00dc\4\51\1\uffff\4\51\1\u00e5\12\51\1\u00f0\1\u00f1"+
+        "\1\u00f2\1\uffff\1\u00f3\1\u00f4\1\51\1\uffff\1\u00f6\1\uffff\1"+
+        "\u00f7\3\51\1\u00fb\1\51\1\u00fd\1\51\1\uffff\2\51\1\u0101\1\51"+
+        "\1\u0103\1\51\1\u0105\2\51\1\u0109\5\uffff\1\u010a\2\uffff\2\51"+
+        "\1\u010d\1\uffff\1\51\1\uffff\1\u010f\1\51\1\u0111\1\uffff\1\51"+
+        "\1\uffff\1\u0113\1\uffff\1\51\1\u0115\3\uffff\1\u011a\1\51\1\uffff"+
+        "\1\u011c\1\uffff\1\51\1\uffff\1\u011e\1\uffff\1\51\6\uffff\1\51"+
+        "\1\uffff\1\u0121\1\uffff\1\u0122\1\51\2\uffff\1\u0124\1\uffff";
     static final String DFA12_eofS =
-        "\u0129\uffff";
+        "\u0125\uffff";
     static final String DFA12_minS =
         "\1\0\2\60\2\141\1\145\1\157\1\uffff\1\154\1\156\1\uffff\1\76\1"+
-        "\145\1\150\1\154\2\uffff\1\141\1\151\2\145\1\155\1\uffff\1\141\2"+
+        "\155\1\145\1\150\1\154\2\uffff\1\141\1\151\2\145\1\uffff\1\141\2"+
         "\uffff\1\56\2\uffff\1\156\2\uffff\1\101\2\uffff\2\0\1\52\5\uffff"+
         "\1\165\1\60\1\162\1\154\1\162\1\157\1\154\1\165\1\141\1\154\1\60"+
-        "\1\uffff\1\144\1\154\1\60\1\145\1\150\2\uffff\1\163\1\164\1\145"+
-        "\1\157\2\uffff\1\155\1\145\1\164\1\142\1\167\2\164\1\144\1\156\1"+
-        "\60\1\160\1\uffff\1\146\1\156\6\uffff\1\163\1\160\7\uffff\1\145"+
-        "\1\uffff\1\147\1\163\1\60\1\155\1\145\1\162\1\160\1\154\1\uffff"+
-        "\2\60\1\uffff\1\60\1\145\1\60\1\150\1\162\1\143\1\155\1\163\1\171"+
-        "\1\141\1\145\1\162\1\145\2\141\1\151\1\145\1\151\1\uffff\1\157\1"+
-        "\145\1\157\2\145\1\144\2\145\1\60\2\145\1\uffff\2\60\2\143\2\60"+
-        "\3\uffff\1\162\1\uffff\1\60\1\145\1\153\1\141\1\164\1\145\1\60\2"+
-        "\164\1\156\1\141\1\162\1\155\1\156\1\146\1\162\1\144\1\162\2\141"+
-        "\1\166\2\162\1\157\1\164\1\162\1\uffff\1\164\1\60\2\uffff\1\164"+
-        "\2\145\2\uffff\1\60\1\uffff\1\60\1\163\1\156\1\162\1\170\1\uffff"+
-        "\1\145\1\141\1\144\1\162\1\60\1\157\1\164\1\171\1\141\1\145\2\164"+
-        "\1\143\2\145\1\163\1\155\3\60\1\uffff\2\60\1\146\2\uffff\1\60\1"+
-        "\144\1\141\1\164\1\60\1\162\1\60\1\171\1\uffff\1\144\1\163\1\60"+
-        "\1\164\3\60\1\145\1\60\1\156\1\145\1\55\5\uffff\1\60\1\uffff\1\163"+
-        "\1\151\1\60\1\uffff\1\164\1\uffff\1\60\1\145\1\60\1\uffff\1\145"+
-        "\3\uffff\1\60\1\uffff\1\143\1\60\1\142\1\uffff\1\60\1\156\1\uffff"+
-        "\1\60\1\uffff\1\154\1\uffff\1\60\1\uffff\1\145\6\uffff\1\164\1\uffff"+
-        "\1\60\1\uffff\1\60\1\163\2\uffff\1\60\1\uffff";
+        "\1\uffff\1\144\1\154\1\60\1\145\1\150\2\uffff\1\60\1\160\1\163\1"+
+        "\164\1\145\1\157\2\uffff\1\155\1\145\1\164\1\142\1\167\2\164\1\144"+
+        "\1\156\1\uffff\1\146\1\156\6\uffff\1\163\1\160\7\uffff\1\145\1\uffff"+
+        "\1\147\1\163\1\60\1\155\1\145\1\162\1\160\1\154\1\uffff\2\60\1\uffff"+
+        "\1\60\1\145\1\uffff\1\157\1\60\1\150\1\162\1\143\1\155\1\163\1\171"+
+        "\1\141\1\145\1\162\1\145\2\141\1\151\2\145\1\157\2\145\1\144\2\145"+
+        "\1\60\2\145\1\uffff\2\60\2\143\2\60\3\uffff\2\162\1\uffff\1\60\1"+
+        "\145\1\153\1\141\1\164\1\145\1\60\2\164\1\156\1\141\1\162\1\155"+
+        "\1\156\1\146\1\162\2\141\1\166\2\162\1\157\1\164\1\162\1\uffff\1"+
+        "\164\1\60\2\uffff\1\164\2\145\2\uffff\1\60\1\164\1\uffff\1\60\1"+
+        "\163\1\156\1\162\1\170\1\uffff\1\145\1\141\1\144\1\162\1\60\1\157"+
+        "\1\164\1\171\1\141\1\164\1\143\2\145\1\163\1\155\3\60\1\uffff\2"+
+        "\60\1\146\1\uffff\1\60\1\uffff\1\60\1\144\1\141\1\164\1\60\1\162"+
+        "\1\60\1\171\1\uffff\1\144\1\163\1\60\1\164\1\60\1\145\1\60\1\156"+
+        "\1\145\1\55\5\uffff\1\60\2\uffff\1\163\1\151\1\60\1\uffff\1\164"+
+        "\1\uffff\1\60\1\145\1\60\1\uffff\1\145\1\uffff\1\60\1\uffff\1\143"+
+        "\1\60\1\142\2\uffff\1\60\1\156\1\uffff\1\60\1\uffff\1\154\1\uffff"+
+        "\1\60\1\uffff\1\145\6\uffff\1\164\1\uffff\1\60\1\uffff\1\60\1\163"+
+        "\2\uffff\1\60\1\uffff";
     static final String DFA12_maxS =
         "\1\uffff\2\172\2\162\1\167\1\165\1\uffff\1\156\1\164\1\uffff\1"+
-        "\76\1\145\1\151\1\154\2\uffff\1\162\1\157\1\165\1\145\1\156\1\uffff"+
+        "\76\1\156\1\145\1\151\1\154\2\uffff\1\162\1\157\1\165\1\145\1\uffff"+
         "\1\145\2\uffff\1\56\2\uffff\1\160\2\uffff\1\172\2\uffff\2\uffff"+
         "\1\57\5\uffff\1\165\1\172\1\162\1\154\1\162\1\157\1\154\1\165\1"+
         "\141\1\154\1\172\1\uffff\1\144\1\154\1\172\1\145\1\150\2\uffff\1"+
-        "\163\1\164\1\145\1\157\2\uffff\1\160\1\145\1\164\1\142\1\167\2\164"+
-        "\1\144\1\156\1\172\1\160\1\uffff\1\166\1\156\6\uffff\1\163\1\160"+
+        "\172\1\160\1\163\1\164\1\145\1\157\2\uffff\1\160\1\145\1\164\1\142"+
+        "\1\167\2\164\1\144\1\156\1\uffff\1\166\1\156\6\uffff\1\163\1\160"+
         "\7\uffff\1\145\1\uffff\1\147\1\163\1\172\1\155\1\146\1\162\1\160"+
-        "\1\154\1\uffff\2\172\1\uffff\1\172\1\145\1\172\1\150\1\162\1\143"+
-        "\1\155\1\164\1\171\1\141\1\163\1\162\1\145\2\141\1\151\1\145\1\151"+
-        "\1\uffff\1\157\1\154\1\157\2\145\1\144\2\145\1\172\2\145\1\uffff"+
-        "\2\172\2\143\2\172\3\uffff\1\162\1\uffff\1\172\1\145\1\153\1\141"+
-        "\1\164\1\145\1\172\2\164\1\156\1\141\1\162\1\155\1\156\1\146\1\162"+
-        "\1\144\1\162\2\141\1\166\2\162\1\157\1\164\1\162\1\uffff\1\164\1"+
-        "\172\2\uffff\1\164\2\145\2\uffff\1\172\1\uffff\1\172\1\163\1\156"+
-        "\1\162\1\170\1\uffff\1\145\1\141\1\144\1\162\1\172\1\157\1\164\1"+
-        "\171\1\141\1\145\2\164\1\143\2\145\1\163\1\155\3\172\1\uffff\2\172"+
-        "\1\146\2\uffff\1\172\1\144\1\141\1\164\1\172\1\162\1\172\1\171\1"+
-        "\uffff\1\144\1\163\1\172\1\164\3\172\1\145\1\172\1\156\1\145\1\55"+
-        "\5\uffff\1\172\1\uffff\1\163\1\151\1\172\1\uffff\1\164\1\uffff\1"+
-        "\172\1\145\1\172\1\uffff\1\145\3\uffff\1\172\1\uffff\1\143\1\172"+
-        "\1\163\1\uffff\1\172\1\156\1\uffff\1\172\1\uffff\1\154\1\uffff\1"+
-        "\172\1\uffff\1\145\6\uffff\1\164\1\uffff\1\172\1\uffff\1\172\1\163"+
-        "\2\uffff\1\172\1\uffff";
+        "\1\154\1\uffff\2\172\1\uffff\1\172\1\145\1\uffff\1\157\1\172\1\150"+
+        "\1\162\1\143\1\155\1\164\1\171\1\141\1\163\1\162\1\145\2\141\1\151"+
+        "\1\145\1\154\1\157\2\145\1\144\2\145\1\172\2\145\1\uffff\2\172\2"+
+        "\143\2\172\3\uffff\2\162\1\uffff\1\172\1\145\1\153\1\141\1\164\1"+
+        "\145\1\172\2\164\1\156\1\141\1\162\1\155\1\156\1\146\1\162\2\141"+
+        "\1\166\2\162\1\157\1\164\1\162\1\uffff\1\164\1\172\2\uffff\1\164"+
+        "\2\145\2\uffff\1\172\1\164\1\uffff\1\172\1\163\1\156\1\162\1\170"+
+        "\1\uffff\1\145\1\141\1\144\1\162\1\172\1\157\1\164\1\171\1\141\1"+
+        "\164\1\143\2\145\1\163\1\155\3\172\1\uffff\2\172\1\146\1\uffff\1"+
+        "\172\1\uffff\1\172\1\144\1\141\1\164\1\172\1\162\1\172\1\171\1\uffff"+
+        "\1\144\1\163\1\172\1\164\1\172\1\145\1\172\1\156\1\145\1\172\5\uffff"+
+        "\1\172\2\uffff\1\163\1\151\1\172\1\uffff\1\164\1\uffff\1\172\1\145"+
+        "\1\172\1\uffff\1\145\1\uffff\1\172\1\uffff\1\143\1\172\1\163\2\uffff"+
+        "\1\172\1\156\1\uffff\1\172\1\uffff\1\154\1\uffff\1\172\1\uffff\1"+
+        "\145\6\uffff\1\164\1\uffff\1\172\1\uffff\1\172\1\163\2\uffff\1\172"+
+        "\1\uffff";
     static final String DFA12_acceptS =
-        "\7\uffff\1\7\2\uffff\1\12\4\uffff\1\20\1\21\5\uffff\1\33\1\uffff"+
+        "\7\uffff\1\7\2\uffff\1\12\5\uffff\1\21\1\22\4\uffff\1\33\1\uffff"+
         "\1\35\1\36\1\uffff\1\41\1\43\1\uffff\1\60\1\61\1\uffff\1\102\1\103"+
         "\3\uffff\1\107\1\110\1\1\1\102\1\2\13\uffff\1\7\5\uffff\1\12\1\13"+
-        "\4\uffff\1\20\1\21\13\uffff\1\33\2\uffff\1\35\1\36\1\37\1\44\1\41"+
+        "\6\uffff\1\21\1\22\11\uffff\1\33\2\uffff\1\35\1\36\1\37\1\44\1\41"+
         "\1\43\2\uffff\1\60\1\61\1\103\1\104\1\105\1\106\1\107\1\uffff\1"+
-        "\54\10\uffff\1\15\2\uffff\1\11\22\uffff\1\31\13\uffff\1\25\6\uffff"+
-        "\1\10\1\50\1\46\1\uffff\1\14\32\uffff\1\3\2\uffff\1\32\1\5\3\uffff"+
-        "\1\62\1\6\1\uffff\1\16\5\uffff\1\63\24\uffff\1\4\3\uffff\1\67\1"+
-        "\66\10\uffff\1\76\14\uffff\1\57\1\72\1\56\1\52\1\55\1\uffff\1\17"+
-        "\3\uffff\1\51\1\uffff\1\74\3\uffff\1\53\1\uffff\1\75\1\42\1\34\1"+
-        "\uffff\1\45\3\uffff\1\65\2\uffff\1\40\1\uffff\1\24\1\uffff\1\30"+
-        "\1\uffff\1\77\1\uffff\1\64\1\70\1\71\1\100\1\101\1\22\1\uffff\1"+
-        "\73\1\uffff\1\27\2\uffff\1\26\1\47\1\uffff\1\23";
+        "\54\10\uffff\1\16\2\uffff\1\11\2\uffff\1\14\32\uffff\1\26\6\uffff"+
+        "\1\10\1\50\1\46\2\uffff\1\15\30\uffff\1\3\2\uffff\1\32\1\5\3\uffff"+
+        "\1\62\1\6\2\uffff\1\17\5\uffff\1\63\22\uffff\1\4\3\uffff\1\67\1"+
+        "\uffff\1\66\10\uffff\1\75\12\uffff\1\57\1\72\1\56\1\52\1\55\1\uffff"+
+        "\1\42\1\20\3\uffff\1\51\1\uffff\1\74\3\uffff\1\53\1\uffff\1\34\1"+
+        "\uffff\1\45\3\uffff\1\101\1\65\2\uffff\1\40\1\uffff\1\25\1\uffff"+
+        "\1\31\1\uffff\1\76\1\uffff\1\64\1\70\1\71\1\77\1\100\1\23\1\uffff"+
+        "\1\73\1\uffff\1\30\2\uffff\1\27\1\47\1\uffff\1\24";
     static final String DFA12_specialS =
-        "\1\1\42\uffff\1\0\1\2\u0104\uffff}>";
+        "\1\0\42\uffff\1\1\1\2\u0100\uffff}>";
     static final String[] DFA12_transitionS = {
             "\11\47\2\46\2\47\1\46\22\47\1\46\1\47\1\43\4\47\1\44\1\36\1"+
             "\37\1\7\1\47\1\26\1\34\1\32\1\45\12\42\1\33\1\47\1\13\1\12\3"+
-            "\47\4\41\1\1\25\41\1\30\1\47\1\31\1\40\1\41\1\47\1\10\1\16\1"+
-            "\21\1\41\1\2\1\4\1\24\1\41\1\25\2\41\1\22\1\23\1\6\1\11\2\41"+
-            "\1\27\1\5\1\3\1\35\1\41\1\15\1\41\1\14\1\41\1\17\1\47\1\20\uff82"+
+            "\47\4\41\1\1\25\41\1\30\1\47\1\31\1\40\1\41\1\47\1\10\1\17\1"+
+            "\22\1\41\1\2\1\4\1\25\1\41\1\14\2\41\1\23\1\24\1\6\1\11\2\41"+
+            "\1\27\1\5\1\3\1\35\1\41\1\16\1\41\1\15\1\41\1\20\1\47\1\21\uff82"+
             "\47",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
@@ -2566,16 +2566,16 @@ public class InternalWodelLexer extends Lexer {
             "\1\72\3\uffff\1\71\1\uffff\1\73",
             "",
             "\1\75",
-            "\1\76",
-            "\1\100\1\77",
-            "\1\101",
+            "\1\77\1\76",
+            "\1\100",
+            "\1\102\1\101",
+            "\1\103",
             "",
             "",
-            "\1\106\15\uffff\1\104\2\uffff\1\105",
-            "\1\107\5\uffff\1\110",
-            "\1\111\11\uffff\1\113\5\uffff\1\112",
-            "\1\114",
-            "\1\116\1\115",
+            "\1\110\15\uffff\1\106\2\uffff\1\107",
+            "\1\111\5\uffff\1\112",
+            "\1\113\11\uffff\1\115\5\uffff\1\114",
+            "\1\116",
             "",
             "\1\121\3\uffff\1\120",
             "",
@@ -2616,57 +2616,58 @@ public class InternalWodelLexer extends Lexer {
             "\1\160",
             "",
             "",
-            "\1\161",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\1\162",
             "\1\163",
             "\1\164",
+            "\1\165",
+            "\1\166",
             "",
             "",
-            "\1\165\1\166\1\uffff\1\167",
-            "\1\170",
-            "\1\171",
+            "\1\167\1\170\1\uffff\1\171",
             "\1\172",
             "\1\173",
             "\1\174",
             "\1\175",
             "\1\176",
             "\1\177",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\22\51\1\u0080\7"+
-            "\51",
-            "\1\u0082",
+            "\1\u0080",
+            "\1\u0081",
             "",
-            "\1\u0085\6\uffff\1\u0084\2\uffff\1\u0083\5\uffff\1\u0086",
+            "\1\u0084\6\uffff\1\u0083\2\uffff\1\u0082\5\uffff\1\u0085",
+            "\1\u0086",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\u0087",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\u0088",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\u0089",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\u008a",
-            "",
             "\1\u008b",
-            "\1\u008c",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u008e",
-            "\1\u0090\1\u008f",
+            "\1\u008d",
+            "\1\u008f\1\u008e",
+            "\1\u0090",
             "\1\u0091",
             "\1\u0092",
-            "\1\u0093",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u0096",
+            "",
             "\1\u0097",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\1\u0099",
@@ -2683,39 +2684,38 @@ public class InternalWodelLexer extends Lexer {
             "\1\u00a6",
             "\1\u00a7",
             "\1\u00a8",
-            "\1\u00a9",
-            "",
-            "\1\u00aa",
-            "\1\u00ab\6\uffff\1\u00ac",
+            "\1\u00a9\6\uffff\1\u00aa",
+            "\1\u00ab",
+            "\1\u00ac",
             "\1\u00ad",
             "\1\u00ae",
             "\1\u00af",
             "\1\u00b0",
-            "\1\u00b1",
-            "\1\u00b2",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u00b4",
-            "\1\u00b5",
+            "\1\u00b2",
+            "\1\u00b3",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u00b8",
-            "\1\u00b9",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\21\51\1\u00ba\10"+
+            "\1\u00b6",
+            "\1\u00b7",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\21\51\1\u00b8\10"+
             "\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
             "",
             "",
-            "\1\u00bd",
+            "\1\u00bb",
+            "\1\u00bc",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u00be",
             "\1\u00bf",
             "\1\u00c0",
             "\1\u00c1",
             "\1\u00c2",
-            "\1\u00c3",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u00c4",
             "\1\u00c5",
             "\1\u00c6",
             "\1\u00c7",
@@ -2732,32 +2732,32 @@ public class InternalWodelLexer extends Lexer {
             "\1\u00d2",
             "\1\u00d3",
             "\1\u00d4",
+            "",
             "\1\u00d5",
-            "\1\u00d6",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
+            "",
             "\1\u00d7",
-            "",
             "\1\u00d8",
+            "\1\u00d9",
+            "",
+            "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "",
-            "",
-            "\1\u00da",
             "\1\u00db",
-            "\1\u00dc",
-            "",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u00dd",
+            "\1\u00de",
             "\1\u00df",
             "\1\u00e0",
+            "",
             "\1\u00e1",
             "\1\u00e2",
-            "",
             "\1\u00e3",
             "\1\u00e4",
-            "\1\u00e5",
-            "\1\u00e6",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u00e6",
+            "\1\u00e7",
             "\1\u00e8",
             "\1\u00e9",
             "\1\u00ea",
@@ -2766,89 +2766,85 @@ public class InternalWodelLexer extends Lexer {
             "\1\u00ed",
             "\1\u00ee",
             "\1\u00ef",
-            "\1\u00f0",
-            "\1\u00f1",
-            "\1\u00f2",
-            "\1\u00f3",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u00f5",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u00f8",
             "\1\u00f9",
-            "",
-            "",
+            "\1\u00fa",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u00fb",
             "\1\u00fc",
-            "\1\u00fd",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u00ff",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u0101",
+            "\1\u00fe",
             "",
+            "\1\u00ff",
+            "\1\u0100",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\1\u0102",
-            "\1\u0103",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u0105",
+            "\1\u0104",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u0106",
+            "\1\u0107",
+            "\1\u0108\2\uffff\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff"+
+            "\32\51",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u0109",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
+            "",
             "\1\u010b",
             "\1\u010c",
-            "\1\u010d",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
-            "\1\u010f",
+            "\1\u010e",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\1\u0110",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
             "\1\u0112",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
             "\1\u0114",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "",
-            "\1\u0116",
-            "",
+            "\1\u0116\1\uffff\1\u0118\4\uffff\1\u0119\11\uffff\1\u0117",
             "",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "",
-            "\1\u0118",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u011a\1\uffff\1\u011c\4\uffff\1\u011d\11\uffff\1\u011b",
+            "\1\u011b",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
+            "\1\u011d",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
             "\1\u011f",
             "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\u0120",
+            "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
-            "\1\u0121",
-            "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "",
             "\1\u0123",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\u0124",
-            "",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "",
-            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
-            "\1\u0127",
             "",
             "",
             "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
@@ -2892,16 +2888,6 @@ public class InternalWodelLexer extends Lexer {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA12_35 = input.LA(1);
-
-                        s = -1;
-                        if ( ((LA12_35>='\u0000' && LA12_35<='\uFFFF')) ) {s = 93;}
-
-                        else s = 39;
-
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
                         int LA12_0 = input.LA(1);
 
                         s = -1;
@@ -2927,25 +2913,25 @@ public class InternalWodelLexer extends Lexer {
 
                         else if ( (LA12_0=='<') ) {s = 11;}
 
-                        else if ( (LA12_0=='y') ) {s = 12;}
+                        else if ( (LA12_0=='i') ) {s = 12;}
 
-                        else if ( (LA12_0=='w') ) {s = 13;}
+                        else if ( (LA12_0=='y') ) {s = 13;}
 
-                        else if ( (LA12_0=='b') ) {s = 14;}
+                        else if ( (LA12_0=='w') ) {s = 14;}
 
-                        else if ( (LA12_0=='{') ) {s = 15;}
+                        else if ( (LA12_0=='b') ) {s = 15;}
 
-                        else if ( (LA12_0=='}') ) {s = 16;}
+                        else if ( (LA12_0=='{') ) {s = 16;}
 
-                        else if ( (LA12_0=='c') ) {s = 17;}
+                        else if ( (LA12_0=='}') ) {s = 17;}
 
-                        else if ( (LA12_0=='l') ) {s = 18;}
+                        else if ( (LA12_0=='c') ) {s = 18;}
 
-                        else if ( (LA12_0=='m') ) {s = 19;}
+                        else if ( (LA12_0=='l') ) {s = 19;}
 
-                        else if ( (LA12_0=='g') ) {s = 20;}
+                        else if ( (LA12_0=='m') ) {s = 20;}
 
-                        else if ( (LA12_0=='i') ) {s = 21;}
+                        else if ( (LA12_0=='g') ) {s = 21;}
 
                         else if ( (LA12_0==',') ) {s = 22;}
 
@@ -2982,6 +2968,16 @@ public class InternalWodelLexer extends Lexer {
                         else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 38;}
 
                         else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||LA12_0=='!'||(LA12_0>='#' && LA12_0<='&')||LA12_0=='+'||LA12_0==';'||(LA12_0>='>' && LA12_0<='@')||LA12_0=='\\'||LA12_0=='`'||LA12_0=='|'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 39;}
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 1 : 
+                        int LA12_35 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA12_35>='\u0000' && LA12_35<='\uFFFF')) ) {s = 93;}
+
+                        else s = 39;
 
                         if ( s>=0 ) return s;
                         break;

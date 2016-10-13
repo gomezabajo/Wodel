@@ -36,7 +36,17 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DIFFERENT(1, "different", "<>");
+	DIFFERENT(1, "different", "<>"),
+
+	/**
+	 * The '<em><b>In</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #IN_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	IN(2, "in", "in");
 
 	/**
 	 * The '<em><b>Equals</b></em>' literal value.
@@ -69,6 +79,21 @@ public enum Operator implements Enumerator {
 	public static final int DIFFERENT_VALUE = 1;
 
 	/**
+	 * The '<em><b>In</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>In</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #IN
+	 * @model name="in"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int IN_VALUE = 2;
+
+	/**
 	 * An array of all the '<em><b>Operator</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -78,6 +103,7 @@ public enum Operator implements Enumerator {
 		new Operator[] {
 			EQUALS,
 			DIFFERENT,
+			IN,
 		};
 
 	/**
@@ -130,6 +156,7 @@ public enum Operator implements Enumerator {
 		switch (value) {
 			case EQUALS_VALUE: return EQUALS;
 			case DIFFERENT_VALUE: return DIFFERENT;
+			case IN_VALUE: return IN;
 		}
 		return null;
 	}

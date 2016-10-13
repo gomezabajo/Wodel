@@ -10,8 +10,8 @@ import manager.ModelManager;
 import manager.WodelContext;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
-import mutatorenvironment.AttributeInit;
 import mutatorenvironment.AttributeReverse;
+import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeSet;
 import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeType;
@@ -48,6 +48,7 @@ import mutatorenvironment.RandomBooleanType;
 import mutatorenvironment.RandomDoubleType;
 import mutatorenvironment.RandomIntegerType;
 import mutatorenvironment.RandomStringType;
+import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
@@ -146,6 +147,8 @@ public class WodelGenerator implements IGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
+    WodelContext.setProject(null);
+    WodelContext.getProject();
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
     String _project = WodelContext.getProject();
@@ -566,9 +569,13 @@ public class WodelGenerator implements IGenerator {
                     }
                   }
                 } else {
+                  _builder.append("if (objectSelection != null) {");
+                  _builder.newLine();
                   CharSequence _method_1 = this.method(c);
                   _builder.append(_method_1, "");
                   _builder.newLineIfNotEmpty();
+                  _builder.append("}");
+                  _builder.newLine();
                 }
               }
             }
@@ -823,26 +830,32 @@ public class WodelGenerator implements IGenerator {
             {
               ObSelectionStrategy _container_5 = ((CreateObjectMutator)mut).getContainer();
               if ((_container_5 instanceof SpecificObjectSelection)) {
-                _builder.append("\t");
-                _builder.append("ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
-                ObSelectionStrategy _container_6 = ((CreateObjectMutator)mut).getContainer();
-                ObjectEmitter _objSel_4 = ((SpecificObjectSelection) _container_6).getObjSel();
-                String _name_38 = _objSel_4.getName();
-                _builder.append(_name_38, "\t");
-                _builder.append("\"));");
-                _builder.newLineIfNotEmpty();
+                {
+                  EReference _refType = ((CreateObjectMutator)mut).getRefType();
+                  boolean _notEquals_7 = (!Objects.equal(_refType, null));
+                  if (_notEquals_7) {
+                    _builder.append("\t");
+                    _builder.append("ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
+                    ObSelectionStrategy _container_6 = ((CreateObjectMutator)mut).getContainer();
+                    ObjectEmitter _objSel_4 = ((SpecificObjectSelection) _container_6).getObjSel();
+                    String _name_38 = _objSel_4.getName();
+                    _builder.append(_name_38, "\t");
+                    _builder.append("\"));");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
               }
             }
           }
         }
         {
-          EReference _refType = ((CreateObjectMutator)mut).getRefType();
-          boolean _notEquals_7 = (!Objects.equal(_refType, null));
-          if (_notEquals_7) {
+          EReference _refType_1 = ((CreateObjectMutator)mut).getRefType();
+          boolean _notEquals_8 = (!Objects.equal(_refType_1, null));
+          if (_notEquals_8) {
             _builder.append("\t");
             _builder.append("SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, \"");
-            EReference _refType_1 = ((CreateObjectMutator)mut).getRefType();
-            String _name_39 = _refType_1.getName();
+            EReference _refType_2 = ((CreateObjectMutator)mut).getRefType();
+            String _name_39 = _refType_2.getName();
             _builder.append(_name_39, "\t");
             _builder.append("\",");
             _builder.newLineIfNotEmpty();
@@ -1124,13 +1137,13 @@ public class WodelGenerator implements IGenerator {
         }
         _builder.newLine();
         {
-          EReference _refType_2 = ((SelectObjectMutator)mut).getRefType();
-          boolean _notEquals_8 = (!Objects.equal(_refType_2, null));
-          if (_notEquals_8) {
+          EReference _refType_3 = ((SelectObjectMutator)mut).getRefType();
+          boolean _notEquals_9 = (!Objects.equal(_refType_3, null));
+          if (_notEquals_9) {
             _builder.append("\t\t");
             _builder.append("SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, \"");
-            EReference _refType_3 = ((SelectObjectMutator)mut).getRefType();
-            String _name_50 = _refType_3.getName();
+            EReference _refType_4 = ((SelectObjectMutator)mut).getRefType();
+            String _name_50 = _refType_4.getName();
             _builder.append(_name_50, "\t\t");
             _builder.append("\",");
             _builder.newLineIfNotEmpty();
@@ -1292,8 +1305,8 @@ public class WodelGenerator implements IGenerator {
               _builder.append("\t\t");
               _builder.append("\t\t");
               _builder.append("if (ref.getName().equals(\"");
-              EReference _refType_4 = ((ModifySourceReferenceMutator)mut).getRefType();
-              String _name_56 = _refType_4.getName();
+              EReference _refType_5 = ((ModifySourceReferenceMutator)mut).getRefType();
+              String _name_56 = _refType_5.getName();
               _builder.append(_name_56, "\t\t\t\t");
               _builder.append("\")) {");
               _builder.newLineIfNotEmpty();
@@ -1365,8 +1378,8 @@ public class WodelGenerator implements IGenerator {
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, \"");
-            EReference _refType_5 = ((ModifySourceReferenceMutator)mut).getRefType();
-            String _name_60 = _refType_5.getName();
+            EReference _refType_6 = ((ModifySourceReferenceMutator)mut).getRefType();
+            String _name_60 = _refType_6.getName();
             _builder.append(_name_60, "\t\t");
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
@@ -1389,8 +1402,8 @@ public class WodelGenerator implements IGenerator {
           } else {
             _builder.append("\t\t");
             _builder.append("ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, \"");
-            EReference _refType_6 = ((ModifySourceReferenceMutator)mut).getRefType();
-            String _name_61 = _refType_6.getName();
+            EReference _refType_7 = ((ModifySourceReferenceMutator)mut).getRefType();
+            String _name_61 = _refType_7.getName();
             _builder.append(_name_61, "\t\t");
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
@@ -1522,8 +1535,8 @@ public class WodelGenerator implements IGenerator {
               _builder.append("\t\t");
               _builder.append("\t\t");
               _builder.append("if (ref.getName().equals(\"");
-              EReference _refType_7 = ((ModifyTargetReferenceMutator)mut).getRefType();
-              String _name_66 = _refType_7.getName();
+              EReference _refType_8 = ((ModifyTargetReferenceMutator)mut).getRefType();
+              String _name_66 = _refType_8.getName();
               _builder.append(_name_66, "\t\t\t\t");
               _builder.append("\")) {");
               _builder.newLineIfNotEmpty();
@@ -1593,8 +1606,8 @@ public class WodelGenerator implements IGenerator {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("mutations.add(ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, \"");
-            EReference _refType_8 = ((ModifyTargetReferenceMutator)mut).getRefType();
-            String _name_70 = _refType_8.getName();
+            EReference _refType_9 = ((ModifyTargetReferenceMutator)mut).getRefType();
+            String _name_70 = _refType_9.getName();
             _builder.append(_name_70, "\t");
             _builder.append("\"));");
             _builder.newLineIfNotEmpty();
@@ -1604,8 +1617,8 @@ public class WodelGenerator implements IGenerator {
           } else {
             _builder.append("\t\t");
             _builder.append("ModifyTargetReferenceMutator mut = new ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, \"");
-            EReference _refType_9 = ((ModifyTargetReferenceMutator)mut).getRefType();
-            String _name_71 = _refType_9.getName();
+            EReference _refType_10 = ((ModifyTargetReferenceMutator)mut).getRefType();
+            String _name_71 = _refType_10.getName();
             _builder.append(_name_71, "\t\t");
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
@@ -1722,8 +1735,8 @@ public class WodelGenerator implements IGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("CreateReferenceMutator mut = new CreateReferenceMutator(model, packages, sourceSelection, targetSelection, \"");
-        EReference _refType_10 = ((CreateReferenceMutator)mut).getRefType();
-        String _name_78 = _refType_10.getName();
+        EReference _refType_11 = ((CreateReferenceMutator)mut).getRefType();
+        String _name_78 = _refType_11.getName();
         _builder.append(_name_78, "\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
@@ -1871,8 +1884,8 @@ public class WodelGenerator implements IGenerator {
                 {
                   ObSelectionStrategy _object_45 = ((RemoveObjectMutator)mut).getObject();
                   Expression _expression_7 = _object_45.getExpression();
-                  boolean _notEquals_9 = (!Objects.equal(_expression_7, null));
-                  if (_notEquals_9) {
+                  boolean _notEquals_10 = (!Objects.equal(_expression_7, null));
+                  if (_notEquals_10) {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("ObSelectionStrategy rts = new CompleteTypeSelection(packages, model, \"");
@@ -2005,8 +2018,8 @@ public class WodelGenerator implements IGenerator {
         _builder.append("\t");
         _builder.append("\t");
         _builder.append("RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, \"");
-        EReference _refType_11 = ((RemoveRandomReferenceMutator)mut).getRefType();
-        String _name_85 = _refType_11.getName();
+        EReference _refType_12 = ((RemoveRandomReferenceMutator)mut).getRefType();
+        String _name_85 = _refType_12.getName();
         _builder.append(_name_85, "\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
@@ -2084,8 +2097,8 @@ public class WodelGenerator implements IGenerator {
         _builder.append("\t");
         _builder.append("\t");
         _builder.append("RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, \"");
-        EReference _refType_12 = ((RemoveSpecificReferenceMutator)mut).getRefType();
-        String _name_89 = _refType_12.getName();
+        EReference _refType_13 = ((RemoveSpecificReferenceMutator)mut).getRefType();
+        String _name_89 = _refType_13.getName();
         _builder.append(_name_89, "\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
@@ -2136,8 +2149,8 @@ public class WodelGenerator implements IGenerator {
         _builder.append("\t");
         _builder.append("\t\t");
         _builder.append("RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, obj, \"");
-        EReference _refType_13 = ((RemoveCompleteReferenceMutator)mut).getRefType();
-        String _name_91 = _refType_13.getName();
+        EReference _refType_14 = ((RemoveCompleteReferenceMutator)mut).getRefType();
+        String _name_91 = _refType_14.getName();
         _builder.append(_name_91, "\t\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
@@ -2788,7 +2801,7 @@ public class WodelGenerator implements IGenerator {
                 EAttribute eattsec = eattfirst;
                 _builder.newLineIfNotEmpty();
                 {
-                  if ((att instanceof AttributeInit)) {
+                  if ((att instanceof AttributeScalar)) {
                     _builder.append("AttributeChanged attMut");
                     _builder.append(attCounter, "");
                     _builder.append(" = null;");
@@ -3139,7 +3152,13 @@ public class WodelGenerator implements IGenerator {
         _builder.append("if (((ModifyTargetReferenceMutator) mut).getObject() != null) {");
         _builder.newLine();
         _builder.append("\t");
+        _builder.append("if (ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()) != null) {");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.append("trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("}");
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
@@ -3448,12 +3467,6 @@ public class WodelGenerator implements IGenerator {
     _builder.append("import org.eclipse.emf.common.util.URI;");
     _builder.newLine();
     _builder.append("import org.eclipse.emf.common.util.EList;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.core.runtime.FileLocator;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.core.runtime.Platform;");
-    _builder.newLine();
-    _builder.append("import org.osgi.framework.Bundle;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
@@ -3776,6 +3789,11 @@ public class WodelGenerator implements IGenerator {
         _builder.append(outputPath, "");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
+        _builder.append("String resourcesURI = \"");
+        _builder.append((this.path + "/resources/"), "");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.newLine();
         _builder.append("HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();");
         _builder.newLine();
         {
@@ -3877,6 +3895,10 @@ public class WodelGenerator implements IGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("String modelsURI = \"");
         _builder.append(outputPath, "");
+        _builder.append("\";");
+        _builder.newLineIfNotEmpty();
+        _builder.append("String resourcesURI = \"");
+        _builder.append((this.path + "/resources/"), "");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
@@ -4116,11 +4138,11 @@ public class WodelGenerator implements IGenerator {
       }
     }
     {
-      if ((e instanceof AttributeInit)) {
+      if ((e instanceof AttributeScalar)) {
         _builder.append("atts.put(\"");
         _builder.append(this.attributeName, "");
         _builder.append("\", ");
-        AttributeType _value = ((AttributeInit)e).getValue();
+        AttributeType _value = ((AttributeScalar)e).getValue();
         CharSequence _method = this.method(_value);
         _builder.append(_method, "");
         _builder.append(");");
@@ -4215,6 +4237,12 @@ public class WodelGenerator implements IGenerator {
                 CharSequence _method_4 = this.method(((ListStringType) e));
                 _builder.append(_method_4, "");
                 _builder.newLineIfNotEmpty();
+              } else {
+                if ((e instanceof RandomType)) {
+                  CharSequence _method_5 = this.method(((RandomType) e));
+                  _builder.append(_method_5, "");
+                  _builder.newLineIfNotEmpty();
+                }
               }
             }
           }
@@ -4425,10 +4453,36 @@ public class WodelGenerator implements IGenerator {
           boolean _equals = this.attributeName.equals("");
           boolean _not = (!_equals);
           if (_not) {
-            _builder.append("new ListStringConfigurationStrategy(\"");
+            _builder.append("new ListStringConfigurationStrategy((String) ModelManager.getAttribute(\"");
+            _builder.append(this.attributeName, "");
+            _builder.append("\", objectSelection.getObject()), \"");
             EList<String> _value = ((ListStringType) e).getValue();
             _builder.append(_value, "");
             _builder.append("\", \"");
+            _builder.append(this.attributeName, "");
+            _builder.append("\")");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("null");
+            _builder.newLine();
+          }
+        }
+      }
+    }
+    return _builder;
+  }
+  
+  public CharSequence method(final RandomType e) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      if ((e instanceof RandomType)) {
+        {
+          boolean _equals = this.attributeName.equals("");
+          boolean _not = (!_equals);
+          if (_not) {
+            _builder.append("new RandomConfigurationStrategy(ModelManager.getAttribute(\"");
+            _builder.append(this.attributeName, "");
+            _builder.append("\", objectSelection.getObject()), \"");
             _builder.append(this.attributeName, "");
             _builder.append("\")");
             _builder.newLineIfNotEmpty();
@@ -4570,14 +4624,35 @@ public class WodelGenerator implements IGenerator {
           _builder.newLineIfNotEmpty();
         } else {
           if ((e instanceof SpecificObjectSelection)) {
-            _builder.append("ObSelectionStrategy refSelection");
-            _builder.append(this.nReference, "");
-            _builder.append(" = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
-            ObjectEmitter _objSel = ((SpecificObjectSelection) e).getObjSel();
-            String _name_2 = _objSel.getName();
-            _builder.append(_name_2, "");
-            _builder.append("\"));");
-            _builder.newLineIfNotEmpty();
+            {
+              EObject _eContainer = e.eContainer();
+              EReference _refType = ((ReferenceInit) _eContainer).getRefType();
+              boolean _notEquals_2 = (!Objects.equal(_refType, null));
+              if (_notEquals_2) {
+                _builder.append("ObSelectionStrategy refSelection");
+                _builder.append(this.nReference, "");
+                _builder.append(" = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
+                ObjectEmitter _objSel = ((SpecificObjectSelection) e).getObjSel();
+                String _name_2 = _objSel.getName();
+                _builder.append(_name_2, "");
+                _builder.append("\"), \"");
+                EObject _eContainer_1 = e.eContainer();
+                EReference _refType_1 = ((ReferenceInit) _eContainer_1).getRefType();
+                String _name_3 = _refType_1.getName();
+                _builder.append(_name_3, "");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+              } else {
+                _builder.append("ObSelectionStrategy refSelection");
+                _builder.append(this.nReference, "");
+                _builder.append(" = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
+                ObjectEmitter _objSel_1 = ((SpecificObjectSelection) e).getObjSel();
+                String _name_4 = _objSel_1.getName();
+                _builder.append(_name_4, "");
+                _builder.append("\"));");
+                _builder.newLineIfNotEmpty();
+              }
+            }
           }
         }
       }
@@ -4620,85 +4695,118 @@ public class WodelGenerator implements IGenerator {
         Integer _get_2 = this.expressionList.get(indexExpression);
         _builder.append(_get_2, "   \t\t");
         _builder.append(".first).operator = \"");
-        Operator _operator = attev.getOperator();
+        AttributeType _value = attev.getValue();
+        Operator _operator = ((AttributeType) _value).getOperator();
         _builder.append(_operator, "   \t\t");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
+        _builder.append("((AttributeEvaluation) exp");
+        Integer _get_3 = this.expressionList.get(indexExpression);
+        _builder.append(_get_3, "");
+        _builder.append(".first).values = new ArrayList<String>();");
+        _builder.newLineIfNotEmpty();
         {
-          AttributeType _value = attev.getValue();
-          if ((_value instanceof StringType)) {
-            _builder.append("   \t\t");
-            _builder.append("((AttributeEvaluation) exp");
-            Integer _get_3 = this.expressionList.get(indexExpression);
-            _builder.append(_get_3, "   \t\t");
-            _builder.append(".first).value = \"");
-            AttributeType _value_1 = attev.getValue();
-            String _value_2 = ((SpecificStringType) _value_1).getValue();
-            _builder.append(_value_2, "   \t\t");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
+          AttributeType _value_1 = attev.getValue();
+          if ((_value_1 instanceof StringType)) {
             _builder.append("   \t\t");
             _builder.append("((AttributeEvaluation) exp");
             Integer _get_4 = this.expressionList.get(indexExpression);
             _builder.append(_get_4, "   \t\t");
+            _builder.append(".first).values.add(\"");
+            AttributeType _value_2 = attev.getValue();
+            String _value_3 = ((SpecificStringType) _value_2).getValue();
+            _builder.append(_value_3, "   \t\t");
+            _builder.append("\");");
+            _builder.newLineIfNotEmpty();
+            _builder.append("   \t\t");
+            _builder.append("((AttributeEvaluation) exp");
+            Integer _get_5 = this.expressionList.get(indexExpression);
+            _builder.append(_get_5, "   \t\t");
             _builder.append(".first).type = \"String\";");
             _builder.newLineIfNotEmpty();
           }
         }
         {
-          AttributeType _value_3 = attev.getValue();
-          if ((_value_3 instanceof DoubleType)) {
-            _builder.append("((AttributeEvaluation) exp");
-            Integer _get_5 = this.expressionList.get(indexExpression);
-            _builder.append(_get_5, "");
-            _builder.append(".first).value = \"");
-            AttributeType _value_4 = attev.getValue();
-            double _value_5 = ((SpecificDoubleType) _value_4).getValue();
-            _builder.append(_value_5, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
+          AttributeType _value_4 = attev.getValue();
+          if ((_value_4 instanceof DoubleType)) {
             _builder.append("((AttributeEvaluation) exp");
             Integer _get_6 = this.expressionList.get(indexExpression);
             _builder.append(_get_6, "");
+            _builder.append(".first).values.add(\"");
+            AttributeType _value_5 = attev.getValue();
+            double _value_6 = ((SpecificDoubleType) _value_5).getValue();
+            _builder.append(_value_6, "");
+            _builder.append("\");");
+            _builder.newLineIfNotEmpty();
+            _builder.append("((AttributeEvaluation) exp");
+            Integer _get_7 = this.expressionList.get(indexExpression);
+            _builder.append(_get_7, "");
             _builder.append(".first).type = \"double\";");
             _builder.newLineIfNotEmpty();
           }
         }
         {
-          AttributeType _value_6 = attev.getValue();
-          if ((_value_6 instanceof BooleanType)) {
-            _builder.append("((AttributeEvaluation) exp");
-            Integer _get_7 = this.expressionList.get(indexExpression);
-            _builder.append(_get_7, "");
-            _builder.append(".first).value = \"");
-            AttributeType _value_7 = attev.getValue();
-            boolean _isValue = ((SpecificBooleanType) _value_7).isValue();
-            _builder.append(_isValue, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
+          AttributeType _value_7 = attev.getValue();
+          if ((_value_7 instanceof BooleanType)) {
             _builder.append("((AttributeEvaluation) exp");
             Integer _get_8 = this.expressionList.get(indexExpression);
             _builder.append(_get_8, "");
+            _builder.append(".first).values.add(\"");
+            AttributeType _value_8 = attev.getValue();
+            boolean _isValue = ((SpecificBooleanType) _value_8).isValue();
+            _builder.append(_isValue, "");
+            _builder.append("\");");
+            _builder.newLineIfNotEmpty();
+            _builder.append("((AttributeEvaluation) exp");
+            Integer _get_9 = this.expressionList.get(indexExpression);
+            _builder.append(_get_9, "");
             _builder.append(".first).type = \"Boolean\";");
             _builder.newLineIfNotEmpty();
           }
         }
         {
-          AttributeType _value_8 = attev.getValue();
-          if ((_value_8 instanceof IntegerType)) {
-            _builder.append("((AttributeEvaluation) exp");
-            Integer _get_9 = this.expressionList.get(indexExpression);
-            _builder.append(_get_9, "");
-            _builder.append(".first).value = \"");
-            AttributeType _value_9 = attev.getValue();
-            int _value_10 = ((SpecificIntegerType) _value_9).getValue();
-            _builder.append(_value_10, "");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
+          AttributeType _value_9 = attev.getValue();
+          if ((_value_9 instanceof IntegerType)) {
             _builder.append("((AttributeEvaluation) exp");
             Integer _get_10 = this.expressionList.get(indexExpression);
             _builder.append(_get_10, "");
+            _builder.append(".first).values.add(\"");
+            AttributeType _value_10 = attev.getValue();
+            int _value_11 = ((SpecificIntegerType) _value_10).getValue();
+            _builder.append(_value_11, "");
+            _builder.append("\");");
+            _builder.newLineIfNotEmpty();
+            _builder.append("((AttributeEvaluation) exp");
+            Integer _get_11 = this.expressionList.get(indexExpression);
+            _builder.append(_get_11, "");
             _builder.append(".first).type = \"int\";");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        {
+          AttributeType _value_12 = attev.getValue();
+          if ((_value_12 instanceof ListStringType)) {
+            _builder.append("//");
+            AttributeType _value_13 = attev.getValue();
+            final ListStringType list = ((ListStringType) _value_13);
+            _builder.newLineIfNotEmpty();
+            {
+              EList<String> _value_14 = list.getValue();
+              for(final String item : _value_14) {
+                _builder.append("((AttributeEvaluation) exp");
+                Integer _get_12 = this.expressionList.get(indexExpression);
+                _builder.append(_get_12, "");
+                _builder.append(".first).values.add(\"");
+                _builder.append(item, "");
+                _builder.append("\");");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("   \t\t\t");
+            _builder.append("((AttributeEvaluation) exp");
+            Integer _get_13 = this.expressionList.get(indexExpression);
+            _builder.append(_get_13, "   \t\t\t");
+            _builder.append(".first).type = \"String\";");
             _builder.newLineIfNotEmpty();
           }
         }
@@ -4708,8 +4816,8 @@ public class WodelGenerator implements IGenerator {
       Evaluation _first_2 = exp.getFirst();
       if ((_first_2 instanceof ReferenceEvaluation)) {
         _builder.append("exp");
-        Integer _get_11 = this.expressionList.get(indexExpression);
-        _builder.append(_get_11, "");
+        Integer _get_14 = this.expressionList.get(indexExpression);
+        _builder.append(_get_14, "");
         _builder.append(".first = new ReferenceEvaluation();");
         _builder.newLineIfNotEmpty();
         _builder.append("//REFERENCE: ");
@@ -4721,8 +4829,8 @@ public class WodelGenerator implements IGenerator {
           boolean _notEquals = (!Objects.equal(_name_2, null));
           if (_notEquals) {
             _builder.append("((ReferenceEvaluation) exp");
-            Integer _get_12 = this.expressionList.get(indexExpression);
-            _builder.append(_get_12, "");
+            Integer _get_15 = this.expressionList.get(indexExpression);
+            _builder.append(_get_15, "");
             _builder.append(".first).name = \"");
             EReference _name_3 = refev.getName();
             String _name_4 = _name_3.getName();
@@ -4731,50 +4839,50 @@ public class WodelGenerator implements IGenerator {
             _builder.newLineIfNotEmpty();
           } else {
             _builder.append("((ReferenceEvaluation) exp");
-            Integer _get_13 = this.expressionList.get(indexExpression);
-            _builder.append(_get_13, "");
+            Integer _get_16 = this.expressionList.get(indexExpression);
+            _builder.append(_get_16, "");
             _builder.append(".first).name = null;");
             _builder.newLineIfNotEmpty();
           }
         }
         _builder.append("((ReferenceEvaluation) exp");
-        Integer _get_14 = this.expressionList.get(indexExpression);
-        _builder.append(_get_14, "");
+        Integer _get_17 = this.expressionList.get(indexExpression);
+        _builder.append(_get_17, "");
         _builder.append(".first).operator = \"");
         Operator _operator_1 = refev.getOperator();
         _builder.append(_operator_1, "");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         {
-          ObSelectionStrategy _value_11 = refev.getValue();
-          boolean _equals = Objects.equal(_value_11, null);
+          ObSelectionStrategy _value_15 = refev.getValue();
+          boolean _equals = Objects.equal(_value_15, null);
           if (_equals) {
             _builder.append("((ReferenceEvaluation) exp");
-            Integer _get_15 = this.expressionList.get(indexExpression);
-            _builder.append(_get_15, "");
+            Integer _get_18 = this.expressionList.get(indexExpression);
+            _builder.append(_get_18, "");
             _builder.append(".first).value = null;");
             _builder.newLineIfNotEmpty();
           } else {
-            ObSelectionStrategy _value_12 = refev.getValue();
-            if ((_value_12 instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _value_16 = refev.getValue();
+            if ((_value_16 instanceof SpecificObjectSelection)) {
               {
                 EReference _refType = refev.getRefType();
                 boolean _equals_1 = Objects.equal(_refType, null);
                 if (_equals_1) {
                   _builder.append("((ReferenceEvaluation) exp");
-                  Integer _get_16 = this.expressionList.get(indexExpression);
-                  _builder.append(_get_16, "");
+                  Integer _get_19 = this.expressionList.get(indexExpression);
+                  _builder.append(_get_19, "");
                   _builder.append(".first).value = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
-                  ObSelectionStrategy _value_13 = refev.getValue();
-                  ObjectEmitter _objSel = ((SpecificObjectSelection) _value_13).getObjSel();
+                  ObSelectionStrategy _value_17 = refev.getValue();
+                  ObjectEmitter _objSel = ((SpecificObjectSelection) _value_17).getObjSel();
                   String _name_5 = _objSel.getName();
                   _builder.append(_name_5, "");
                   _builder.append("\")).getObject();");
                   _builder.newLineIfNotEmpty();
                 } else {
                   _builder.append("EObject srcObjExp = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
-                  ObSelectionStrategy _value_14 = refev.getValue();
-                  ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _value_14).getObjSel();
+                  ObSelectionStrategy _value_18 = refev.getValue();
+                  ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _value_18).getObjSel();
                   String _name_6 = _objSel_1.getName();
                   _builder.append(_name_6, "");
                   _builder.append("\")).getObject();");
@@ -4790,8 +4898,8 @@ public class WodelGenerator implements IGenerator {
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t\t\t\t");
                   _builder.append("((ReferenceEvaluation) exp");
-                  Integer _get_17 = this.expressionList.get(indexExpression);
-                  _builder.append(_get_17, "\t\t\t\t\t");
+                  Integer _get_20 = this.expressionList.get(indexExpression);
+                  _builder.append(_get_20, "\t\t\t\t\t");
                   _builder.append(".first).value = srcObjExp.eGet(ref);\t\t");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t\t\t");
@@ -4804,11 +4912,11 @@ public class WodelGenerator implements IGenerator {
               }
             } else {
               {
-                ObSelectionStrategy _value_15 = refev.getValue();
-                if ((_value_15 instanceof RandomTypeSelection)) {
+                ObSelectionStrategy _value_19 = refev.getValue();
+                if ((_value_19 instanceof RandomTypeSelection)) {
                   {
-                    ObSelectionStrategy _value_16 = refev.getValue();
-                    Expression _expression = _value_16.getExpression();
+                    ObSelectionStrategy _value_20 = refev.getValue();
+                    Expression _expression = _value_20.getExpression();
                     if ((_expression instanceof Expression)) {
                       _builder.append("//EXPRESSION LEVEL: ");
                       _builder.append(this.nExpression = (this.nExpression + 1), "");
@@ -4824,88 +4932,88 @@ public class WodelGenerator implements IGenerator {
                       final int nestedIndexExpression = (_size_1 - 1);
                       _builder.newLineIfNotEmpty();
                       _builder.append("RandomTypeSelection expRts");
-                      Integer _get_18 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_18, "");
+                      Integer _get_21 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_21, "");
                       _builder.append(" = new RandomTypeSelection(packages, model, \"");
-                      ObSelectionStrategy _value_17 = refev.getValue();
-                      EClass _type = ((RandomTypeSelection) _value_17).getType();
+                      ObSelectionStrategy _value_21 = refev.getValue();
+                      EClass _type = ((RandomTypeSelection) _value_21).getType();
                       String _name_8 = _type.getName();
                       _builder.append(_name_8, "");
                       _builder.append("\");");
                       _builder.newLineIfNotEmpty();
                       _builder.append("   \t\t\t");
                       _builder.append("List<EObject> expObjects");
-                      Integer _get_19 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_19, "   \t\t\t");
+                      Integer _get_22 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_22, "   \t\t\t");
                       _builder.append(" = expRts");
-                      Integer _get_20 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_20, "   \t\t\t");
+                      Integer _get_23 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_23, "   \t\t\t");
                       _builder.append(".getObjects();");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t   \t\t");
                       _builder.append("Expression exp");
-                      Integer _get_21 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_21, "\t   \t\t");
+                      Integer _get_24 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_24, "\t   \t\t");
                       _builder.append(" = new Expression();");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t   \t\t");
-                      ObSelectionStrategy _value_18 = refev.getValue();
-                      Expression _expression_1 = _value_18.getExpression();
+                      ObSelectionStrategy _value_22 = refev.getValue();
+                      Expression _expression_1 = _value_22.getExpression();
                       Object _method = this.method(_expression_1);
                       _builder.append(_method, "\t   \t\t");
                       _builder.newLineIfNotEmpty();
                       _builder.append("   \t\t\t");
                       _builder.append("List<EObject> selectedObjects");
-                      Integer _get_22 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_22, "   \t\t\t");
+                      Integer _get_25 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_25, "   \t\t\t");
                       _builder.append(" = evaluate(expObjects");
-                      Integer _get_23 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_23, "   \t\t\t");
+                      Integer _get_26 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_26, "   \t\t\t");
                       _builder.append(", exp");
-                      Integer _get_24 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_24, "   \t\t\t");
+                      Integer _get_27 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_27, "   \t\t\t");
                       _builder.append(");");
                       _builder.newLineIfNotEmpty();
                       _builder.append("EObject object");
-                      Integer _get_25 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_25, "");
+                      Integer _get_28 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_28, "");
                       _builder.append(" = null;");
                       _builder.newLineIfNotEmpty();
                       _builder.append("if (selectedObjects");
-                      Integer _get_26 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_26, "");
+                      Integer _get_29 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_29, "");
                       _builder.append(".size() > 0) {");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
                       _builder.append("object");
-                      Integer _get_27 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_27, "\t");
+                      Integer _get_30 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_30, "\t");
                       _builder.append(" = selectedObjects");
-                      Integer _get_28 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_28, "\t");
+                      Integer _get_31 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_31, "\t");
                       _builder.append(".get(ModelManager.getRandomIndex(selectedObjects");
-                      Integer _get_29 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_29, "\t");
+                      Integer _get_32 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_32, "\t");
                       _builder.append("));");
                       _builder.newLineIfNotEmpty();
                       _builder.append("}");
                       _builder.newLine();
                       _builder.append("\t   \t\t");
                       _builder.append("((ReferenceEvaluation) exp");
-                      Integer _get_30 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_30, "\t   \t\t");
+                      Integer _get_33 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_33, "\t   \t\t");
                       _builder.append(".first).value = new SpecificObjectSelection(packages, model, object");
-                      Integer _get_31 = this.expressionList.get(nestedIndexExpression);
-                      _builder.append(_get_31, "\t   \t\t");
+                      Integer _get_34 = this.expressionList.get(nestedIndexExpression);
+                      _builder.append(_get_34, "\t   \t\t");
                       _builder.append(").getObject();");
                       _builder.newLineIfNotEmpty();
                     } else {
                       _builder.append("((ReferenceEvaluation) exp");
-                      Integer _get_32 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_32, "");
+                      Integer _get_35 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_35, "");
                       _builder.append(".first).value = new RandomTypeSelection(packages, model, \"");
-                      ObSelectionStrategy _value_19 = refev.getValue();
-                      EClass _type_1 = ((RandomTypeSelection) _value_19).getType();
+                      ObSelectionStrategy _value_23 = refev.getValue();
+                      EClass _type_1 = ((RandomTypeSelection) _value_23).getType();
                       String _name_9 = _type_1.getName();
                       _builder.append(_name_9, "");
                       _builder.append("\").getObject();");
@@ -4921,8 +5029,8 @@ public class WodelGenerator implements IGenerator {
     }
     _builder.append("   \t\t");
     _builder.append("exp");
-    Integer _get_33 = this.expressionList.get(indexExpression);
-    _builder.append(_get_33, "   \t\t");
+    Integer _get_36 = this.expressionList.get(indexExpression);
+    _builder.append(_get_36, "   \t\t");
     _builder.append(".operator = new ArrayList<Operator>();");
     _builder.newLineIfNotEmpty();
     _builder.append("   \t\t");
@@ -4935,28 +5043,28 @@ public class WodelGenerator implements IGenerator {
         _builder.append("Operator op");
         _builder.append(opName, "");
         _builder.append("_");
-        Integer _get_34 = this.expressionList.get(indexExpression);
-        _builder.append(_get_34, "");
+        Integer _get_37 = this.expressionList.get(indexExpression);
+        _builder.append(_get_37, "");
         _builder.append(" = new Operator();");
         _builder.newLineIfNotEmpty();
         _builder.append("op");
         _builder.append(opName, "");
         _builder.append("_");
-        Integer _get_35 = this.expressionList.get(indexExpression);
-        _builder.append(_get_35, "");
+        Integer _get_38 = this.expressionList.get(indexExpression);
+        _builder.append(_get_38, "");
         _builder.append(".type = \"");
         LogicOperator _type_2 = op.getType();
         _builder.append(_type_2, "");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.append("exp");
-        Integer _get_36 = this.expressionList.get(indexExpression);
-        _builder.append(_get_36, "");
+        Integer _get_39 = this.expressionList.get(indexExpression);
+        _builder.append(_get_39, "");
         _builder.append(".operator.add(op");
         _builder.append(opName, "");
         _builder.append("_");
-        Integer _get_37 = this.expressionList.get(indexExpression);
-        _builder.append(_get_37, "");
+        Integer _get_40 = this.expressionList.get(indexExpression);
+        _builder.append(_get_40, "");
         _builder.append(");");
         _builder.newLineIfNotEmpty();
         _builder.append("//OPNAME + 1: ");
@@ -4966,8 +5074,8 @@ public class WodelGenerator implements IGenerator {
     }
     _builder.append("   \t\t");
     _builder.append("exp");
-    Integer _get_38 = this.expressionList.get(indexExpression);
-    _builder.append(_get_38, "   \t\t");
+    Integer _get_41 = this.expressionList.get(indexExpression);
+    _builder.append(_get_41, "   \t\t");
     _builder.append(".second = new ArrayList<Evaluation>();");
     _builder.newLineIfNotEmpty();
     _builder.append("   \t\t");
@@ -4983,16 +5091,16 @@ public class WodelGenerator implements IGenerator {
             _builder.append("AttributeEvaluation ev");
             _builder.append(evName, "   \t\t\t");
             _builder.append("_");
-            Integer _get_39 = this.expressionList.get(indexExpression);
-            _builder.append(_get_39, "   \t\t\t");
+            Integer _get_42 = this.expressionList.get(indexExpression);
+            _builder.append(_get_42, "   \t\t\t");
             _builder.append(" = new AttributeEvaluation();");
             _builder.newLineIfNotEmpty();
             _builder.append("   \t\t\t");
             _builder.append("ev");
             _builder.append(evName, "   \t\t\t");
             _builder.append("_");
-            Integer _get_40 = this.expressionList.get(indexExpression);
-            _builder.append(_get_40, "   \t\t\t");
+            Integer _get_43 = this.expressionList.get(indexExpression);
+            _builder.append(_get_43, "   \t\t\t");
             _builder.append(".name = \"");
             EAttribute _name_10 = ((AttributeEvaluation)ev).getName();
             String _name_11 = _name_10.getName();
@@ -5003,103 +5111,104 @@ public class WodelGenerator implements IGenerator {
             _builder.append("ev");
             _builder.append(evName, "   \t\t\t");
             _builder.append("_");
-            Integer _get_41 = this.expressionList.get(indexExpression);
-            _builder.append(_get_41, "   \t\t\t");
+            Integer _get_44 = this.expressionList.get(indexExpression);
+            _builder.append(_get_44, "   \t\t\t");
             _builder.append(".operator = \"");
-            Operator _operator_3 = ((AttributeEvaluation)ev).getOperator();
+            AttributeType _value_24 = ((AttributeEvaluation)ev).getValue();
+            Operator _operator_3 = ((SpecificStringType) _value_24).getOperator();
             _builder.append(_operator_3, "   \t\t\t");
             _builder.append("\";");
             _builder.newLineIfNotEmpty();
             {
-              AttributeType _value_20 = ((AttributeEvaluation)ev).getValue();
-              if ((_value_20 instanceof StringType)) {
+              AttributeType _value_25 = ((AttributeEvaluation)ev).getValue();
+              if ((_value_25 instanceof StringType)) {
                 _builder.append("   \t\t\t");
                 _builder.append("ev");
                 _builder.append(evName, "   \t\t\t");
                 _builder.append("_");
-                Integer _get_42 = this.expressionList.get(indexExpression);
-                _builder.append(_get_42, "   \t\t\t");
+                Integer _get_45 = this.expressionList.get(indexExpression);
+                _builder.append(_get_45, "   \t\t\t");
                 _builder.append(".value = \"");
-                AttributeType _value_21 = ((AttributeEvaluation)ev).getValue();
-                String _value_22 = ((SpecificStringType) _value_21).getValue();
-                _builder.append(_value_22, "   \t\t\t");
+                AttributeType _value_26 = ((AttributeEvaluation)ev).getValue();
+                String _value_27 = ((SpecificStringType) _value_26).getValue();
+                _builder.append(_value_27, "   \t\t\t");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("   \t\t\t");
                 _builder.append("ev");
                 _builder.append(evName, "   \t\t\t");
                 _builder.append("_");
-                Integer _get_43 = this.expressionList.get(indexExpression);
-                _builder.append(_get_43, "   \t\t\t");
+                Integer _get_46 = this.expressionList.get(indexExpression);
+                _builder.append(_get_46, "   \t\t\t");
                 _builder.append(".type = \"String\";");
                 _builder.newLineIfNotEmpty();
               }
             }
             {
-              AttributeType _value_23 = ((AttributeEvaluation)ev).getValue();
-              if ((_value_23 instanceof DoubleType)) {
-                _builder.append("ev");
-                _builder.append(evName, "");
-                _builder.append("_");
-                Integer _get_44 = this.expressionList.get(indexExpression);
-                _builder.append(_get_44, "");
-                _builder.append(".value = \"");
-                AttributeType _value_24 = ((AttributeEvaluation)ev).getValue();
-                double _value_25 = ((SpecificDoubleType) _value_24).getValue();
-                _builder.append(_value_25, "");
-                _builder.append("\";");
-                _builder.newLineIfNotEmpty();
-                _builder.append("ev");
-                _builder.append(evName, "");
-                _builder.append("_");
-                Integer _get_45 = this.expressionList.get(indexExpression);
-                _builder.append(_get_45, "");
-                _builder.append(".type = \"double\";");
-                _builder.newLineIfNotEmpty();
-              }
-            }
-            {
-              AttributeType _value_26 = ((AttributeEvaluation)ev).getValue();
-              if ((_value_26 instanceof BooleanType)) {
-                _builder.append("ev");
-                _builder.append(evName, "");
-                _builder.append("_");
-                Integer _get_46 = this.expressionList.get(indexExpression);
-                _builder.append(_get_46, "");
-                _builder.append(".value = \"");
-                AttributeType _value_27 = ((AttributeEvaluation)ev).getValue();
-                boolean _isValue_1 = ((SpecificBooleanType) _value_27).isValue();
-                _builder.append(_isValue_1, "");
-                _builder.append("\";");
-                _builder.newLineIfNotEmpty();
+              AttributeType _value_28 = ((AttributeEvaluation)ev).getValue();
+              if ((_value_28 instanceof DoubleType)) {
                 _builder.append("ev");
                 _builder.append(evName, "");
                 _builder.append("_");
                 Integer _get_47 = this.expressionList.get(indexExpression);
                 _builder.append(_get_47, "");
-                _builder.append(".type = \"Boolean\";");
-                _builder.newLineIfNotEmpty();
-              }
-            }
-            {
-              AttributeType _value_28 = ((AttributeEvaluation)ev).getValue();
-              if ((_value_28 instanceof IntegerType)) {
-                _builder.append("ev");
-                _builder.append(evName, "");
-                _builder.append("_");
-                Integer _get_48 = this.expressionList.get(indexExpression);
-                _builder.append(_get_48, "");
                 _builder.append(".value = \"");
                 AttributeType _value_29 = ((AttributeEvaluation)ev).getValue();
-                int _value_30 = ((SpecificIntegerType) _value_29).getValue();
+                double _value_30 = ((SpecificDoubleType) _value_29).getValue();
                 _builder.append(_value_30, "");
                 _builder.append("\";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("ev");
                 _builder.append(evName, "");
                 _builder.append("_");
+                Integer _get_48 = this.expressionList.get(indexExpression);
+                _builder.append(_get_48, "");
+                _builder.append(".type = \"double\";");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              AttributeType _value_31 = ((AttributeEvaluation)ev).getValue();
+              if ((_value_31 instanceof BooleanType)) {
+                _builder.append("ev");
+                _builder.append(evName, "");
+                _builder.append("_");
                 Integer _get_49 = this.expressionList.get(indexExpression);
                 _builder.append(_get_49, "");
+                _builder.append(".value = \"");
+                AttributeType _value_32 = ((AttributeEvaluation)ev).getValue();
+                boolean _isValue_1 = ((SpecificBooleanType) _value_32).isValue();
+                _builder.append(_isValue_1, "");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("ev");
+                _builder.append(evName, "");
+                _builder.append("_");
+                Integer _get_50 = this.expressionList.get(indexExpression);
+                _builder.append(_get_50, "");
+                _builder.append(".type = \"Boolean\";");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              AttributeType _value_33 = ((AttributeEvaluation)ev).getValue();
+              if ((_value_33 instanceof IntegerType)) {
+                _builder.append("ev");
+                _builder.append(evName, "");
+                _builder.append("_");
+                Integer _get_51 = this.expressionList.get(indexExpression);
+                _builder.append(_get_51, "");
+                _builder.append(".value = \"");
+                AttributeType _value_34 = ((AttributeEvaluation)ev).getValue();
+                int _value_35 = ((SpecificIntegerType) _value_34).getValue();
+                _builder.append(_value_35, "");
+                _builder.append("\";");
+                _builder.newLineIfNotEmpty();
+                _builder.append("ev");
+                _builder.append(evName, "");
+                _builder.append("_");
+                Integer _get_52 = this.expressionList.get(indexExpression);
+                _builder.append(_get_52, "");
                 _builder.append(".type = \"int\";");
                 _builder.newLineIfNotEmpty();
               }
@@ -5111,8 +5220,8 @@ public class WodelGenerator implements IGenerator {
             _builder.append("ReferenceEvaluation ev");
             _builder.append(evName, "");
             _builder.append("_");
-            Integer _get_50 = this.expressionList.get(indexExpression);
-            _builder.append(_get_50, "");
+            Integer _get_53 = this.expressionList.get(indexExpression);
+            _builder.append(_get_53, "");
             _builder.append(" = new ReferenceEvaluation();");
             _builder.newLineIfNotEmpty();
             {
@@ -5122,8 +5231,8 @@ public class WodelGenerator implements IGenerator {
                 _builder.append("ev");
                 _builder.append(evName, "");
                 _builder.append("_");
-                Integer _get_51 = this.expressionList.get(indexExpression);
-                _builder.append(_get_51, "");
+                Integer _get_54 = this.expressionList.get(indexExpression);
+                _builder.append(_get_54, "");
                 _builder.append(".name = \"");
                 EReference _name_13 = ((ReferenceEvaluation)ev).getName();
                 String _name_14 = _name_13.getName();
@@ -5134,8 +5243,8 @@ public class WodelGenerator implements IGenerator {
                 _builder.append("ev");
                 _builder.append(evName, "");
                 _builder.append("_");
-                Integer _get_52 = this.expressionList.get(indexExpression);
-                _builder.append(_get_52, "");
+                Integer _get_55 = this.expressionList.get(indexExpression);
+                _builder.append(_get_55, "");
                 _builder.append(".name = null;");
                 _builder.newLineIfNotEmpty();
               }
@@ -5144,27 +5253,27 @@ public class WodelGenerator implements IGenerator {
             _builder.append("ev");
             _builder.append(evName, "   \t\t\t");
             _builder.append("_");
-            Integer _get_53 = this.expressionList.get(indexExpression);
-            _builder.append(_get_53, "   \t\t\t");
+            Integer _get_56 = this.expressionList.get(indexExpression);
+            _builder.append(_get_56, "   \t\t\t");
             _builder.append(".operator = \"");
             Operator _operator_4 = ((ReferenceEvaluation)ev).getOperator();
             _builder.append(_operator_4, "   \t\t\t");
             _builder.append("\";");
             _builder.newLineIfNotEmpty();
             {
-              ObSelectionStrategy _value_31 = ((ReferenceEvaluation)ev).getValue();
-              boolean _equals_2 = Objects.equal(_value_31, null);
+              ObSelectionStrategy _value_36 = ((ReferenceEvaluation)ev).getValue();
+              boolean _equals_2 = Objects.equal(_value_36, null);
               if (_equals_2) {
                 _builder.append("ev");
                 _builder.append(evName, "");
                 _builder.append("_");
-                Integer _get_54 = this.expressionList.get(indexExpression);
-                _builder.append(_get_54, "");
+                Integer _get_57 = this.expressionList.get(indexExpression);
+                _builder.append(_get_57, "");
                 _builder.append(".value = null;");
                 _builder.newLineIfNotEmpty();
               } else {
-                ObSelectionStrategy _value_32 = ((ReferenceEvaluation)ev).getValue();
-                if ((_value_32 instanceof SpecificObjectSelection)) {
+                ObSelectionStrategy _value_37 = ((ReferenceEvaluation)ev).getValue();
+                if ((_value_37 instanceof SpecificObjectSelection)) {
                   {
                     EReference _refType_2 = ((ReferenceEvaluation)ev).getRefType();
                     boolean _equals_3 = Objects.equal(_refType_2, null);
@@ -5173,11 +5282,11 @@ public class WodelGenerator implements IGenerator {
                       _builder.append("ev");
                       _builder.append(evName, "   \t\t\t");
                       _builder.append("_");
-                      Integer _get_55 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_55, "   \t\t\t");
+                      Integer _get_58 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_58, "   \t\t\t");
                       _builder.append(".value = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
-                      ObSelectionStrategy _value_33 = ((ReferenceEvaluation)ev).getValue();
-                      ObjectEmitter _objSel_2 = ((SpecificObjectSelection) _value_33).getObjSel();
+                      ObSelectionStrategy _value_38 = ((ReferenceEvaluation)ev).getValue();
+                      ObjectEmitter _objSel_2 = ((SpecificObjectSelection) _value_38).getObjSel();
                       String _name_15 = _objSel_2.getName();
                       _builder.append(_name_15, "   \t\t\t");
                       _builder.append("\")).getObject();");
@@ -5186,11 +5295,11 @@ public class WodelGenerator implements IGenerator {
                       _builder.append("EObject srcObjExp");
                       _builder.append(evName, "");
                       _builder.append("_");
-                      Integer _get_56 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_56, "");
+                      Integer _get_59 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_59, "");
                       _builder.append(" = new SpecificObjectSelection(packages, model, hmObjects.get(\"");
-                      ObSelectionStrategy _value_34 = ((ReferenceEvaluation)ev).getValue();
-                      ObjectEmitter _objSel_3 = ((SpecificObjectSelection) _value_34).getObjSel();
+                      ObSelectionStrategy _value_39 = ((ReferenceEvaluation)ev).getValue();
+                      ObjectEmitter _objSel_3 = ((SpecificObjectSelection) _value_39).getObjSel();
                       String _name_16 = _objSel_3.getName();
                       _builder.append(_name_16, "");
                       _builder.append("\")).getObject();");
@@ -5198,8 +5307,8 @@ public class WodelGenerator implements IGenerator {
                       _builder.append("for (EReference ref : srcObjExp");
                       _builder.append(evName, "");
                       _builder.append("_");
-                      Integer _get_57 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_57, "");
+                      Integer _get_60 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_60, "");
                       _builder.append(".eClass().getEAllReferences()) {");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t\t\t\t\t");
@@ -5213,13 +5322,13 @@ public class WodelGenerator implements IGenerator {
                       _builder.append("ev");
                       _builder.append(evName, "\t\t\t\t\t\t\t");
                       _builder.append("_");
-                      Integer _get_58 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_58, "\t\t\t\t\t\t\t");
+                      Integer _get_61 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_61, "\t\t\t\t\t\t\t");
                       _builder.append(".value = srcObjExp");
                       _builder.append(evName, "\t\t\t\t\t\t\t");
                       _builder.append("_");
-                      Integer _get_59 = this.expressionList.get(indexExpression);
-                      _builder.append(_get_59, "\t\t\t\t\t\t\t");
+                      Integer _get_62 = this.expressionList.get(indexExpression);
+                      _builder.append(_get_62, "\t\t\t\t\t\t\t");
                       _builder.append(".eGet(ref);\t\t");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t\t\t\t\t");
@@ -5232,11 +5341,11 @@ public class WodelGenerator implements IGenerator {
                   }
                 } else {
                   {
-                    ObSelectionStrategy _value_35 = ((ReferenceEvaluation)ev).getValue();
-                    if ((_value_35 instanceof RandomTypeSelection)) {
+                    ObSelectionStrategy _value_40 = ((ReferenceEvaluation)ev).getValue();
+                    if ((_value_40 instanceof RandomTypeSelection)) {
                       {
-                        ObSelectionStrategy _value_36 = ((ReferenceEvaluation)ev).getValue();
-                        Expression _expression_2 = _value_36.getExpression();
+                        ObSelectionStrategy _value_41 = ((ReferenceEvaluation)ev).getValue();
+                        Expression _expression_2 = _value_41.getExpression();
                         if ((_expression_2 instanceof Expression)) {
                           _builder.append("//EXPRESSION LEVEL: ");
                           _builder.append(this.nExpression = (this.nExpression + 1), "");
@@ -5252,33 +5361,33 @@ public class WodelGenerator implements IGenerator {
                           final int nestedIndexExpression_1 = (_size_2 - 1);
                           _builder.newLineIfNotEmpty();
                           _builder.append("RandomTypeSelection expRts");
-                          Integer _get_60 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_60, "");
+                          Integer _get_63 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_63, "");
                           _builder.append(" = new RandomTypeSelection(packages, model, \"");
-                          ObSelectionStrategy _value_37 = ((ReferenceEvaluation)ev).getValue();
-                          EClass _type_3 = ((RandomTypeSelection) _value_37).getType();
+                          ObSelectionStrategy _value_42 = ((ReferenceEvaluation)ev).getValue();
+                          EClass _type_3 = ((RandomTypeSelection) _value_42).getType();
                           String _name_18 = _type_3.getName();
                           _builder.append(_name_18, "");
                           _builder.append("\");");
                           _builder.newLineIfNotEmpty();
                           _builder.append("   \t\t\t\t");
                           _builder.append("List<EObject> expObjects");
-                          Integer _get_61 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_61, "   \t\t\t\t");
+                          Integer _get_64 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_64, "   \t\t\t\t");
                           _builder.append(" = expRts");
-                          Integer _get_62 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_62, "   \t\t\t\t");
+                          Integer _get_65 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_65, "   \t\t\t\t");
                           _builder.append(".getObjects();");
                           _builder.newLineIfNotEmpty();
                           _builder.append("\t   \t\t\t");
                           _builder.append("Expression exp");
-                          Integer _get_63 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_63, "\t   \t\t\t");
+                          Integer _get_66 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_66, "\t   \t\t\t");
                           _builder.append(" = new Expression();");
                           _builder.newLineIfNotEmpty();
                           _builder.append("\t   \t\t\t");
-                          ObSelectionStrategy _value_38 = ((ReferenceEvaluation)ev).getValue();
-                          Expression _expression_3 = _value_38.getExpression();
+                          ObSelectionStrategy _value_43 = ((ReferenceEvaluation)ev).getValue();
+                          Expression _expression_3 = _value_43.getExpression();
                           Object _method_1 = this.method(_expression_3);
                           _builder.append(_method_1, "\t   \t\t\t");
                           _builder.newLineIfNotEmpty();
@@ -5286,46 +5395,46 @@ public class WodelGenerator implements IGenerator {
                           _builder.append("List<EObject> selectedObjects");
                           _builder.append(evName, "   \t\t\t\t");
                           _builder.append("_");
-                          Integer _get_64 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_64, "   \t\t\t\t");
+                          Integer _get_67 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_67, "   \t\t\t\t");
                           _builder.append(" = evaluate(expObjects");
-                          Integer _get_65 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_65, "   \t\t\t\t");
+                          Integer _get_68 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_68, "   \t\t\t\t");
                           _builder.append(", exp");
-                          Integer _get_66 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_66, "   \t\t\t\t");
+                          Integer _get_69 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_69, "   \t\t\t\t");
                           _builder.append(");");
                           _builder.newLineIfNotEmpty();
                           _builder.append("EObject object");
                           _builder.append(evName, "");
                           _builder.append("_");
-                          Integer _get_67 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_67, "");
+                          Integer _get_70 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_70, "");
                           _builder.append(" = null;");
                           _builder.newLineIfNotEmpty();
                           _builder.append("if (selectedObjects");
                           _builder.append(evName, "");
                           _builder.append("_");
-                          Integer _get_68 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_68, "");
+                          Integer _get_71 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_71, "");
                           _builder.append(".size() > 0) {");
                           _builder.newLineIfNotEmpty();
                           _builder.append("\t");
                           _builder.append("object");
                           _builder.append(evName, "\t");
                           _builder.append("_");
-                          Integer _get_69 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_69, "\t");
+                          Integer _get_72 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_72, "\t");
                           _builder.append(" = selectedObjects");
                           _builder.append(evName, "\t");
                           _builder.append("_");
-                          Integer _get_70 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_70, "\t");
+                          Integer _get_73 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_73, "\t");
                           _builder.append(".get(ModelManager.getRandomIndex(selectedObjects");
                           _builder.append(evName, "\t");
                           _builder.append("_");
-                          Integer _get_71 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_71, "\t");
+                          Integer _get_74 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_74, "\t");
                           _builder.append("));");
                           _builder.newLineIfNotEmpty();
                           _builder.append("}");
@@ -5333,24 +5442,24 @@ public class WodelGenerator implements IGenerator {
                           _builder.append("ev");
                           _builder.append(evName, "");
                           _builder.append("_");
-                          Integer _get_72 = this.expressionList.get(indexExpression);
-                          _builder.append(_get_72, "");
+                          Integer _get_75 = this.expressionList.get(indexExpression);
+                          _builder.append(_get_75, "");
                           _builder.append(".value = new SpecificObjectSelection(packages, model, object");
                           _builder.append(evName, "");
                           _builder.append("_");
-                          Integer _get_73 = this.expressionList.get(nestedIndexExpression_1);
-                          _builder.append(_get_73, "");
+                          Integer _get_76 = this.expressionList.get(nestedIndexExpression_1);
+                          _builder.append(_get_76, "");
                           _builder.append(").getObject();");
                           _builder.newLineIfNotEmpty();
                         } else {
                           _builder.append("ev");
                           _builder.append(evName, "");
                           _builder.append("_");
-                          Integer _get_74 = this.expressionList.get(indexExpression);
-                          _builder.append(_get_74, "");
+                          Integer _get_77 = this.expressionList.get(indexExpression);
+                          _builder.append(_get_77, "");
                           _builder.append(".value = new RandomTypeSelection(packages, model, \"");
-                          ObSelectionStrategy _value_39 = ((ReferenceEvaluation)ev).getValue();
-                          EClass _type_4 = ((RandomTypeSelection) _value_39).getType();
+                          ObSelectionStrategy _value_44 = ((ReferenceEvaluation)ev).getValue();
+                          EClass _type_4 = ((RandomTypeSelection) _value_44).getType();
                           String _name_19 = _type_4.getName();
                           _builder.append(_name_19, "");
                           _builder.append("\").getObject();");
@@ -5366,13 +5475,13 @@ public class WodelGenerator implements IGenerator {
         }
         _builder.append("   \t\t");
         _builder.append("exp");
-        Integer _get_75 = this.expressionList.get(indexExpression);
-        _builder.append(_get_75, "   \t\t");
+        Integer _get_78 = this.expressionList.get(indexExpression);
+        _builder.append(_get_78, "   \t\t");
         _builder.append(".second.add(ev");
         _builder.append(evName, "   \t\t");
         _builder.append("_");
-        Integer _get_76 = this.expressionList.get(indexExpression);
-        _builder.append(_get_76, "   \t\t");
+        Integer _get_79 = this.expressionList.get(indexExpression);
+        _builder.append(_get_79, "   \t\t");
         _builder.append(");");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t");
@@ -5386,13 +5495,7 @@ public class WodelGenerator implements IGenerator {
   
   public CharSequence execute(final MutatorEnvironment e) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("   \t\t");
-    _builder.append("Bundle bundle = Platform.getBundle(\"wodel.models\");");
-    _builder.newLine();
-    _builder.append("   \t\t");
-    _builder.append("URL fileURL = bundle.getEntry(\"/models/MutatorEnvironment.ecore\");");
-    _builder.newLine();
-    _builder.append("String mutatorecore = FileLocator.resolve(fileURL).getFile();");
+    _builder.append("String mutatorecore = resourcesURI + \"MutatorEnvironment.ecore\";");
     _builder.newLine();
     _builder.newLine();
     _builder.append("//Load MetaModel");
@@ -5701,13 +5804,7 @@ public class WodelGenerator implements IGenerator {
   
   public CharSequence executeBlock(final MutatorEnvironment e, final Block b, final int numMethod, final int numCompositeMethod, final int numMutation, final int numRegistryMutation, final int numRegistryMethod, final int numCompositeRegistryMethod, final int numCompositeCommands) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("   \t\t");
-    _builder.append("Bundle bundle = Platform.getBundle(\"wodel.models\");");
-    _builder.newLine();
-    _builder.append("   \t\t");
-    _builder.append("URL fileURL = bundle.getEntry(\"/models/MutatorEnvironment.ecore\");");
-    _builder.newLine();
-    _builder.append("String mutatorecore = FileLocator.resolve(fileURL).getFile();");
+    _builder.append("String mutatorecore = resourcesURI + \"MutatorEnvironment.ecore\";");
     _builder.newLine();
     _builder.newLine();
     _builder.append("//Load MetaModel");

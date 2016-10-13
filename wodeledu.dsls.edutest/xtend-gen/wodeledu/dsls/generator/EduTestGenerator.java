@@ -31,7 +31,6 @@ import edutest.Test;
 import edutest.TestConfiguration;
 import exceptions.ModelNotFoundException;
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,8 +47,6 @@ import mutatext.Variable;
 import mutatext.VariableType;
 import mutatext.Word;
 import mutatorenvironment.Block;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -66,7 +63,6 @@ import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import org.osgi.framework.Bundle;
 
 /**
  * Generates code from your model files on save.
@@ -122,10 +118,11 @@ public class EduTestGenerator implements IGenerator {
         String _lastSegment = _uRI.lastSegment();
         String _replaceAll = _lastSegment.replaceAll(".test", ".model");
         String xmiFileName = (_plus_5 + _replaceAll);
-        Bundle bundle = Platform.getBundle("wodel.models");
-        URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
-        URL _resolve = FileLocator.resolve(fileURL);
-        final String mutatorecore = _resolve.getFile();
+        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+        String _plus_6 = (_workspaceAbsolutePath_1 + "/");
+        String _project_1 = WodelContext.getProject();
+        String _plus_7 = (_plus_6 + _project_1);
+        final String mutatorecore = (_plus_7 + "/resources/MutatorEnvironment.ecore");
         final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
         URI _createURI = URI.createURI(xmiFileName);
         String _fileString = _createURI.toFileString();
@@ -143,23 +140,23 @@ public class EduTestGenerator implements IGenerator {
         for (final Program p : _filter) {
           {
             if ((i == 0)) {
-              String _project_1 = WodelContext.getProject();
-              String _plus_6 = ("html/" + _project_1);
-              String _plus_7 = (_plus_6 + ".html");
-              this.fileName = _plus_7;
               String _project_2 = WodelContext.getProject();
-              String _plus_8 = (_project_2 + ".html");
-              this.pageName = _plus_8;
-            } else {
+              String _plus_8 = ("html/" + _project_2);
+              String _plus_9 = (_plus_8 + ".html");
+              this.fileName = _plus_9;
               String _project_3 = WodelContext.getProject();
-              String _plus_9 = ("html/" + _project_3);
-              String _plus_10 = (_plus_9 + Integer.valueOf(i));
-              String _plus_11 = (_plus_10 + ".html");
-              this.fileName = _plus_11;
+              String _plus_10 = (_project_3 + ".html");
+              this.pageName = _plus_10;
+            } else {
               String _project_4 = WodelContext.getProject();
-              String _plus_12 = (_project_4 + Integer.valueOf(i));
+              String _plus_11 = ("html/" + _project_4);
+              String _plus_12 = (_plus_11 + Integer.valueOf(i));
               String _plus_13 = (_plus_12 + ".html");
-              this.pageName = _plus_13;
+              this.fileName = _plus_13;
+              String _project_5 = WodelContext.getProject();
+              String _plus_14 = (_project_5 + Integer.valueOf(i));
+              String _plus_15 = (_plus_14 + ".html");
+              this.pageName = _plus_15;
             }
             CharSequence _compile = this.compile(p, resource);
             fsa.generateFile(this.fileName, _compile);
@@ -701,43 +698,43 @@ public class EduTestGenerator implements IGenerator {
               _builder.append("<!-- REGISTRY: ");
               HashMap<Test, TestUtils.Registry> dataReg = new HashMap<Test, TestUtils.Registry>();
               _builder.newLineIfNotEmpty();
-              final Bundle bundle = Platform.getBundle("wodel.models");
-              _builder.newLineIfNotEmpty();
-              URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
-              _builder.newLineIfNotEmpty();
-              String _metaModel = ModelManager.getMetaModel();
-              final String ecore = _metaModel.replace("\\", "/");
+              String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_52 = (_workspaceAbsolutePath_6 + "/");
+              String _project_6 = WodelContext.getProject();
+              String _plus_53 = (_plus_52 + _project_6);
+              final String ecore = (_plus_53 + "/resources/MutatorEnvironment.ecore");
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore);
               _builder.newLineIfNotEmpty();
-              URL _resolve = FileLocator.resolve(fileURL);
-              final String registryecore = _resolve.getFile();
+              String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_54 = (_workspaceAbsolutePath_7 + "/");
+              String _project_7 = WodelContext.getProject();
+              String _plus_55 = (_plus_54 + _project_7);
+              final String registryecore = (_plus_55 + "/resources/AppliedMutations.ecore");
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
               _builder.newLineIfNotEmpty();
               _builder.newLine();
-              String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_52 = ("file:/" + _workspaceAbsolutePath_6);
-              String _plus_53 = (_plus_52 + "/");
-              String _project_6 = WodelContext.getProject();
-              String _plus_54 = (_plus_53 + _project_6);
-              String _plus_55 = (_plus_54 + 
+              String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_56 = ("file:/" + _workspaceAbsolutePath_8);
+              String _plus_57 = (_plus_56 + "/");
+              String _project_8 = WodelContext.getProject();
+              String _plus_58 = (_plus_57 + _project_8);
+              String _plus_59 = (_plus_58 + 
                 "/");
               String _outputFolder = ModelManager.getOutputFolder();
-              String _plus_56 = (_plus_55 + _outputFolder);
-              String _plus_57 = (_plus_56 + "/");
+              String _plus_60 = (_plus_59 + _outputFolder);
+              String _plus_61 = (_plus_60 + "/");
               URI _uRI = resource.getURI();
               String _lastSegment = _uRI.lastSegment();
               String _replaceAll = _lastSegment.replaceAll(".test", "_modeltext.model");
-              String xmiFileName = (_plus_57 + _replaceAll);
+              String xmiFileName = (_plus_61 + _replaceAll);
               _builder.newLineIfNotEmpty();
-              System.out.println(("xmiFileName: " + xmiFileName));
-              _builder.newLineIfNotEmpty();
-              URL _entry = bundle.getEntry("/models/ModelText.ecore");
-              _builder.append(fileURL = _entry, "");
-              _builder.newLineIfNotEmpty();
-              URL _resolve_1 = FileLocator.resolve(fileURL);
-              final String idelemsecore = _resolve_1.getFile();
+              String _workspaceAbsolutePath_9 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_62 = (_workspaceAbsolutePath_9 + "/");
+              String _project_9 = WodelContext.getProject();
+              String _plus_63 = (_plus_62 + _project_9);
+              final String idelemsecore = (_plus_63 + "/resources/ModelText.ecore");
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
               _builder.newLineIfNotEmpty();
@@ -746,29 +743,27 @@ public class EduTestGenerator implements IGenerator {
               final Resource idelemsresource = ModelManager.loadModel(idelemspackages, _fileString);
               _builder.newLineIfNotEmpty();
               _builder.newLine();
-              String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_58 = ("file:/" + _workspaceAbsolutePath_7);
-              String _plus_59 = (_plus_58 + "/");
-              String _project_7 = WodelContext.getProject();
-              String _plus_60 = (_plus_59 + _project_7);
-              String _plus_61 = (_plus_60 + 
+              String _workspaceAbsolutePath_10 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_64 = ("file:/" + _workspaceAbsolutePath_10);
+              String _plus_65 = (_plus_64 + "/");
+              String _project_10 = WodelContext.getProject();
+              String _plus_66 = (_plus_65 + _project_10);
+              String _plus_67 = (_plus_66 + 
                 "/");
               String _outputFolder_1 = ModelManager.getOutputFolder();
-              String _plus_62 = (_plus_61 + _outputFolder_1);
-              String _plus_63 = (_plus_62 + "/");
+              String _plus_68 = (_plus_67 + _outputFolder_1);
+              String _plus_69 = (_plus_68 + "/");
               URI _uRI_1 = resource.getURI();
               String _lastSegment_1 = _uRI_1.lastSegment();
               String _replaceAll_1 = _lastSegment_1.replaceAll(".test", "_mutatext.model");
-              String _plus_64 = (_plus_63 + _replaceAll_1);
-              _builder.append(xmiFileName = _plus_64, "");
+              String _plus_70 = (_plus_69 + _replaceAll_1);
+              _builder.append(xmiFileName = _plus_70, "");
               _builder.newLineIfNotEmpty();
-              System.out.println(("xmiFileName: " + xmiFileName));
-              _builder.newLineIfNotEmpty();
-              URL _entry_1 = bundle.getEntry("/models/MutaText.ecore");
-              _builder.append(fileURL = _entry_1, "");
-              _builder.newLineIfNotEmpty();
-              URL _resolve_2 = FileLocator.resolve(fileURL);
-              final String cfgoptsecore = _resolve_2.getFile();
+              String _workspaceAbsolutePath_11 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_71 = (_workspaceAbsolutePath_11 + "/");
+              String _project_11 = WodelContext.getProject();
+              String _plus_72 = (_plus_71 + _project_11);
+              final String cfgoptsecore = (_plus_72 + "/resources/MutaText.ecore");
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
               _builder.newLineIfNotEmpty();
@@ -824,8 +819,8 @@ public class EduTestGenerator implements IGenerator {
                       String _substring = _outputPath.substring(2, _length_2);
                       String _replace_6 = _path.replace(_substring, "");
                       String _replace_7 = _replace_6.replace(".model", ".png");
-                      String _plus_65 = ("diagrams" + _replace_7);
-                      _builder.append(opt.path = _plus_65, "");
+                      String _plus_73 = ("diagrams" + _replace_7);
+                      _builder.append(opt.path = _plus_73, "");
                       _builder.newLineIfNotEmpty();
                       Resource _get_8 = reg.history.get(rnd);
                       _builder.append(opt.resource = _get_8, "");
@@ -864,8 +859,8 @@ public class EduTestGenerator implements IGenerator {
                               String _substring_1 = _outputPath_2.substring(2, _length_3);
                               String _replace_8 = _path_1.replace(_substring_1, "");
                               String _replace_9 = _replace_8.replace(".model", ".png");
-                              String _plus_66 = ("diagrams" + _replace_9);
-                              _builder.append(opt.path = _plus_66, "");
+                              String _plus_74 = ("diagrams" + _replace_9);
+                              _builder.append(opt.path = _plus_74, "");
                               _builder.newLineIfNotEmpty();
                               Resource _get_14 = wrongRegistry.history.get(rnd);
                               _builder.append(opt.resource = _get_14, "");
@@ -955,9 +950,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_2 instanceof Constant)) {
                                                   String _text = text;
                                                   String _value = ((Constant)w_2).getValue();
-                                                  String _plus_67 = (_value + " ");
-                                                  String _plus_68 = text = (_text + _plus_67);
-                                                  _builder.append(_plus_68, "");
+                                                  String _plus_75 = (_value + " ");
+                                                  String _plus_76 = text = (_text + _plus_75);
+                                                  _builder.append(_plus_76, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -976,9 +971,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v instanceof modeltext.Constant)) {
                                                               String _text_1 = text;
                                                               String _value_1 = ((modeltext.Constant)v).getValue();
-                                                              String _plus_69 = (_value_1 + " ");
-                                                              String _plus_70 = text = (_text_1 + _plus_69);
-                                                              _builder.append(_plus_70, "");
+                                                              String _plus_77 = (_value_1 + " ");
+                                                              String _plus_78 = text = (_text_1 + _plus_77);
+                                                              _builder.append(_plus_78, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1015,9 +1010,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_27 = _id.getName();
                                                                   EStructuralFeature _attributeByName = ModelManager.getAttributeByName(_name_27, o);
                                                                   Object _eGet_1 = o.eGet(_attributeByName);
-                                                                  String _plus_71 = (_eGet_1 + " ");
-                                                                  String _plus_72 = text = (_text_2 + _plus_71);
-                                                                  _builder.append(_plus_72, "");
+                                                                  String _plus_79 = (_eGet_1 + " ");
+                                                                  String _plus_80 = text = (_text_2 + _plus_79);
+                                                                  _builder.append(_plus_80, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1073,9 +1068,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_3 instanceof Constant)) {
                                                   String _text_3 = text;
                                                   String _value_2 = ((Constant)w_3).getValue();
-                                                  String _plus_73 = (_value_2 + " ");
-                                                  String _plus_74 = text = (_text_3 + _plus_73);
-                                                  _builder.append(_plus_74, "");
+                                                  String _plus_81 = (_value_2 + " ");
+                                                  String _plus_82 = text = (_text_3 + _plus_81);
+                                                  _builder.append(_plus_82, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1094,9 +1089,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_1 instanceof modeltext.Constant)) {
                                                               String _text_4 = text;
                                                               String _value_3 = ((modeltext.Constant)v_1).getValue();
-                                                              String _plus_75 = (_value_3 + " ");
-                                                              String _plus_76 = text = (_text_4 + _plus_75);
-                                                              _builder.append(_plus_76, "");
+                                                              String _plus_83 = (_value_3 + " ");
+                                                              String _plus_84 = text = (_text_4 + _plus_83);
+                                                              _builder.append(_plus_84, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1133,9 +1128,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_29 = _id_1.getName();
                                                                   EStructuralFeature _attributeByName_1 = ModelManager.getAttributeByName(_name_29, o_1);
                                                                   Object _eGet_3 = o_1.eGet(_attributeByName_1);
-                                                                  String _plus_77 = (_eGet_3 + " ");
-                                                                  String _plus_78 = text = (_text_5 + _plus_77);
-                                                                  _builder.append(_plus_78, "");
+                                                                  String _plus_85 = (_eGet_3 + " ");
+                                                                  String _plus_86 = text = (_text_5 + _plus_85);
+                                                                  _builder.append(_plus_86, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1214,9 +1209,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_4 instanceof Constant)) {
                                                   String _text_6 = text;
                                                   String _value_4 = ((Constant)w_4).getValue();
-                                                  String _plus_79 = (_value_4 + " ");
-                                                  String _plus_80 = text = (_text_6 + _plus_79);
-                                                  _builder.append(_plus_80, "");
+                                                  String _plus_87 = (_value_4 + " ");
+                                                  String _plus_88 = text = (_text_6 + _plus_87);
+                                                  _builder.append(_plus_88, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1235,9 +1230,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_2 instanceof modeltext.Constant)) {
                                                               String _text_7 = text;
                                                               String _value_5 = ((modeltext.Constant)v_2).getValue();
-                                                              String _plus_81 = (_value_5 + " ");
-                                                              String _plus_82 = text = (_text_7 + _plus_81);
-                                                              _builder.append(_plus_82, "");
+                                                              String _plus_89 = (_value_5 + " ");
+                                                              String _plus_90 = text = (_text_7 + _plus_89);
+                                                              _builder.append(_plus_90, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1274,9 +1269,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_31 = _id_2.getName();
                                                                   EStructuralFeature _attributeByName_2 = ModelManager.getAttributeByName(_name_31, o_2);
                                                                   Object _eGet_11 = o_2.eGet(_attributeByName_2);
-                                                                  String _plus_83 = (_eGet_11 + " ");
-                                                                  String _plus_84 = text = (_text_8 + _plus_83);
-                                                                  _builder.append(_plus_84, "");
+                                                                  String _plus_91 = (_eGet_11 + " ");
+                                                                  String _plus_92 = text = (_text_8 + _plus_91);
+                                                                  _builder.append(_plus_92, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1297,9 +1292,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_3 instanceof modeltext.Constant)) {
                                                               String _text_9 = text;
                                                               String _value_6 = ((modeltext.Constant)v_3).getValue();
-                                                              String _plus_85 = (_value_6 + " ");
-                                                              String _plus_86 = text = (_text_9 + _plus_85);
-                                                              _builder.append(_plus_86, "");
+                                                              String _plus_93 = (_value_6 + " ");
+                                                              String _plus_94 = text = (_text_9 + _plus_93);
+                                                              _builder.append(_plus_94, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1336,9 +1331,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_33 = _id_3.getName();
                                                                   EStructuralFeature _attributeByName_3 = ModelManager.getAttributeByName(_name_33, o_3);
                                                                   Object _eGet_16 = o_3.eGet(_attributeByName_3);
-                                                                  String _plus_87 = (_eGet_16 + " ");
-                                                                  String _plus_88 = text = (_text_10 + _plus_87);
-                                                                  _builder.append(_plus_88, "");
+                                                                  String _plus_95 = (_eGet_16 + " ");
+                                                                  String _plus_96 = text = (_text_10 + _plus_95);
+                                                                  _builder.append(_plus_96, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1359,9 +1354,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_4 instanceof modeltext.Constant)) {
                                                               String _text_11 = text;
                                                               String _value_7 = ((modeltext.Constant)v_4).getValue();
-                                                              String _plus_89 = (_value_7 + " ");
-                                                              String _plus_90 = text = (_text_11 + _plus_89);
-                                                              _builder.append(_plus_90, "");
+                                                              String _plus_97 = (_value_7 + " ");
+                                                              String _plus_98 = text = (_text_11 + _plus_97);
+                                                              _builder.append(_plus_98, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1444,9 +1439,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_5 instanceof Constant)) {
                                                   String _text_12 = text;
                                                   String _value_8 = ((Constant)w_5).getValue();
-                                                  String _plus_91 = (_value_8 + " ");
-                                                  String _plus_92 = text = (_text_12 + _plus_91);
-                                                  _builder.append(_plus_92, "");
+                                                  String _plus_99 = (_value_8 + " ");
+                                                  String _plus_100 = text = (_text_12 + _plus_99);
+                                                  _builder.append(_plus_100, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1465,9 +1460,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_5 instanceof modeltext.Constant)) {
                                                               String _text_13 = text;
                                                               String _value_9 = ((modeltext.Constant)v_5).getValue();
-                                                              String _plus_93 = (_value_9 + " ");
-                                                              String _plus_94 = text = (_text_13 + _plus_93);
-                                                              _builder.append(_plus_94, "");
+                                                              String _plus_101 = (_value_9 + " ");
+                                                              String _plus_102 = text = (_text_13 + _plus_101);
+                                                              _builder.append(_plus_102, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1504,9 +1499,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_35 = _id_4.getName();
                                                                   EStructuralFeature _attributeByName_4 = ModelManager.getAttributeByName(_name_35, o_4);
                                                                   Object _eGet_18 = o_4.eGet(_attributeByName_4);
-                                                                  String _plus_95 = (_eGet_18 + " ");
-                                                                  String _plus_96 = text = (_text_14 + _plus_95);
-                                                                  _builder.append(_plus_96, "");
+                                                                  String _plus_103 = (_eGet_18 + " ");
+                                                                  String _plus_104 = text = (_text_14 + _plus_103);
+                                                                  _builder.append(_plus_104, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1527,9 +1522,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_6 instanceof modeltext.Constant)) {
                                                               String _text_15 = text;
                                                               String _value_10 = ((modeltext.Constant)v_6).getValue();
-                                                              String _plus_97 = (_value_10 + " ");
-                                                              String _plus_98 = text = (_text_15 + _plus_97);
-                                                              _builder.append(_plus_98, "");
+                                                              String _plus_105 = (_value_10 + " ");
+                                                              String _plus_106 = text = (_text_15 + _plus_105);
+                                                              _builder.append(_plus_106, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1563,9 +1558,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_37 = _id_5.getName();
                                                                   EStructuralFeature _attributeByName_5 = ModelManager.getAttributeByName(_name_37, o_5);
                                                                   Object _eGet_20 = o_5.eGet(_attributeByName_5);
-                                                                  String _plus_99 = (_eGet_20 + " ");
-                                                                  String _plus_100 = text = (_text_16 + _plus_99);
-                                                                  _builder.append(_plus_100, "");
+                                                                  String _plus_107 = (_eGet_20 + " ");
+                                                                  String _plus_108 = text = (_text_16 + _plus_107);
+                                                                  _builder.append(_plus_108, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1586,9 +1581,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_7 instanceof modeltext.Constant)) {
                                                               String _text_17 = text;
                                                               String _value_11 = ((modeltext.Constant)v_7).getValue();
-                                                              String _plus_101 = (_value_11 + " ");
-                                                              String _plus_102 = text = (_text_17 + _plus_101);
-                                                              _builder.append(_plus_102, "");
+                                                              String _plus_109 = (_value_11 + " ");
+                                                              String _plus_110 = text = (_text_17 + _plus_109);
+                                                              _builder.append(_plus_110, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1619,9 +1614,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_38 = _id_6.getName();
                                                                   EStructuralFeature _attributeByName_6 = ModelManager.getAttributeByName(_name_38, o_6);
                                                                   Object _eGet_22 = o_6.eGet(_attributeByName_6);
-                                                                  String _plus_103 = (_eGet_22 + " ");
-                                                                  String _plus_104 = text = (_text_18 + _plus_103);
-                                                                  _builder.append(_plus_104, "");
+                                                                  String _plus_111 = (_eGet_22 + " ");
+                                                                  String _plus_112 = text = (_text_18 + _plus_111);
+                                                                  _builder.append(_plus_112, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1642,9 +1637,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_8 instanceof modeltext.Constant)) {
                                                               String _text_19 = text;
                                                               String _value_12 = ((modeltext.Constant)v_8).getValue();
-                                                              String _plus_105 = (_value_12 + " ");
-                                                              String _plus_106 = text = (_text_19 + _plus_105);
-                                                              _builder.append(_plus_106, "");
+                                                              String _plus_113 = (_value_12 + " ");
+                                                              String _plus_114 = text = (_text_19 + _plus_113);
+                                                              _builder.append(_plus_114, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1675,9 +1670,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_39 = _id_7.getName();
                                                                   EStructuralFeature _attributeByName_7 = ModelManager.getAttributeByName(_name_39, o_7);
                                                                   Object _eGet_24 = o_7.eGet(_attributeByName_7);
-                                                                  String _plus_107 = (_eGet_24 + " ");
-                                                                  String _plus_108 = text = (_text_20 + _plus_107);
-                                                                  _builder.append(_plus_108, "");
+                                                                  String _plus_115 = (_eGet_24 + " ");
+                                                                  String _plus_116 = text = (_text_20 + _plus_115);
+                                                                  _builder.append(_plus_116, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1698,9 +1693,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_9 instanceof modeltext.Constant)) {
                                                               String _text_21 = text;
                                                               String _value_13 = ((modeltext.Constant)v_9).getValue();
-                                                              String _plus_109 = (_value_13 + " ");
-                                                              String _plus_110 = text = (_text_21 + _plus_109);
-                                                              _builder.append(_plus_110, "");
+                                                              String _plus_117 = (_value_13 + " ");
+                                                              String _plus_118 = text = (_text_21 + _plus_117);
+                                                              _builder.append(_plus_118, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1719,9 +1714,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_10 instanceof modeltext.Constant)) {
                                                               String _text_22 = text;
                                                               String _value_14 = ((modeltext.Constant)v_10).getValue();
-                                                              String _plus_111 = (_value_14 + " ");
-                                                              String _plus_112 = text = (_text_22 + _plus_111);
-                                                              _builder.append(_plus_112, "");
+                                                              String _plus_119 = (_value_14 + " ");
+                                                              String _plus_120 = text = (_text_22 + _plus_119);
+                                                              _builder.append(_plus_120, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1784,9 +1779,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_6 instanceof Constant)) {
                                                   String _text_23 = text;
                                                   String _value_15 = ((Constant)w_6).getValue();
-                                                  String _plus_113 = (_value_15 + " ");
-                                                  String _plus_114 = text = (_text_23 + _plus_113);
-                                                  _builder.append(_plus_114, "");
+                                                  String _plus_121 = (_value_15 + " ");
+                                                  String _plus_122 = text = (_text_23 + _plus_121);
+                                                  _builder.append(_plus_122, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1805,9 +1800,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_11 instanceof modeltext.Constant)) {
                                                               String _text_24 = text;
                                                               String _value_16 = ((modeltext.Constant)v_11).getValue();
-                                                              String _plus_115 = (_value_16 + " ");
-                                                              String _plus_116 = text = (_text_24 + _plus_115);
-                                                              _builder.append(_plus_116, "");
+                                                              String _plus_123 = (_value_16 + " ");
+                                                              String _plus_124 = text = (_text_24 + _plus_123);
+                                                              _builder.append(_plus_124, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1844,9 +1839,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_41 = _id_8.getName();
                                                                   EStructuralFeature _attributeByName_8 = ModelManager.getAttributeByName(_name_41, o_8);
                                                                   Object _eGet_26 = o_8.eGet(_attributeByName_8);
-                                                                  String _plus_117 = (_eGet_26 + " ");
-                                                                  String _plus_118 = text = (_text_25 + _plus_117);
-                                                                  _builder.append(_plus_118, "");
+                                                                  String _plus_125 = (_eGet_26 + " ");
+                                                                  String _plus_126 = text = (_text_25 + _plus_125);
+                                                                  _builder.append(_plus_126, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1864,9 +1859,9 @@ public class EduTestGenerator implements IGenerator {
                                                       EList<EReference> _ref_18 = ((ReferenceCreated)appMut).getRef();
                                                       EReference _get_39 = _ref_18.get(0);
                                                       String _name_42 = _get_39.getName();
-                                                      String _plus_119 = (_name_42 + " ");
-                                                      String _plus_120 = text = (_text_26 + _plus_119);
-                                                      _builder.append(_plus_120, "");
+                                                      String _plus_127 = (_name_42 + " ");
+                                                      String _plus_128 = text = (_text_26 + _plus_127);
+                                                      _builder.append(_plus_128, "");
                                                       _builder.newLineIfNotEmpty();
                                                     }
                                                   }
@@ -1915,9 +1910,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_7 instanceof Constant)) {
                                                   String _text_27 = text;
                                                   String _value_17 = ((Constant)w_7).getValue();
-                                                  String _plus_121 = (_value_17 + " ");
-                                                  String _plus_122 = text = (_text_27 + _plus_121);
-                                                  _builder.append(_plus_122, "");
+                                                  String _plus_129 = (_value_17 + " ");
+                                                  String _plus_130 = text = (_text_27 + _plus_129);
+                                                  _builder.append(_plus_130, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1936,9 +1931,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_12 instanceof modeltext.Constant)) {
                                                               String _text_28 = text;
                                                               String _value_18 = ((modeltext.Constant)v_12).getValue();
-                                                              String _plus_123 = (_value_18 + " ");
-                                                              String _plus_124 = text = (_text_28 + _plus_123);
-                                                              _builder.append(_plus_124, "");
+                                                              String _plus_131 = (_value_18 + " ");
+                                                              String _plus_132 = text = (_text_28 + _plus_131);
+                                                              _builder.append(_plus_132, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1975,9 +1970,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   String _name_44 = _id_9.getName();
                                                                   EStructuralFeature _attributeByName_9 = ModelManager.getAttributeByName(_name_44, o_9);
                                                                   Object _eGet_28 = o_9.eGet(_attributeByName_9);
-                                                                  String _plus_125 = (_eGet_28 + " ");
-                                                                  String _plus_126 = text = (_text_29 + _plus_125);
-                                                                  _builder.append(_plus_126, "");
+                                                                  String _plus_133 = (_eGet_28 + " ");
+                                                                  String _plus_134 = text = (_text_29 + _plus_133);
+                                                                  _builder.append(_plus_134, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1995,9 +1990,9 @@ public class EduTestGenerator implements IGenerator {
                                                       EList<EReference> _ref_21 = ((ReferenceRemoved)appMut).getRef();
                                                       EReference _get_44 = _ref_21.get(0);
                                                       String _name_45 = _get_44.getName();
-                                                      String _plus_127 = (_name_45 + " ");
-                                                      String _plus_128 = text = (_text_30 + _plus_127);
-                                                      _builder.append(_plus_128, "");
+                                                      String _plus_135 = (_name_45 + " ");
+                                                      String _plus_136 = text = (_text_30 + _plus_135);
+                                                      _builder.append(_plus_136, "");
                                                       _builder.newLineIfNotEmpty();
                                                     }
                                                   }
@@ -2065,9 +2060,9 @@ public class EduTestGenerator implements IGenerator {
                                                         if ((w_8 instanceof Constant)) {
                                                           String _text_31 = text;
                                                           String _value_19 = ((Constant)w_8).getValue();
-                                                          String _plus_129 = (_value_19 + " ");
-                                                          String _plus_130 = text = (_text_31 + _plus_129);
-                                                          _builder.append(_plus_130, "");
+                                                          String _plus_137 = (_value_19 + " ");
+                                                          String _plus_138 = text = (_text_31 + _plus_137);
+                                                          _builder.append(_plus_138, "");
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -2086,9 +2081,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_13 instanceof modeltext.Constant)) {
                                                                       String _text_32 = text;
                                                                       String _value_20 = ((modeltext.Constant)v_13).getValue();
-                                                                      String _plus_131 = (_value_20 + " ");
-                                                                      String _plus_132 = text = (_text_32 + _plus_131);
-                                                                      _builder.append(_plus_132, "");
+                                                                      String _plus_139 = (_value_20 + " ");
+                                                                      String _plus_140 = text = (_text_32 + _plus_139);
+                                                                      _builder.append(_plus_140, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2122,9 +2117,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_47 = _id_10.getName();
                                                                           EStructuralFeature _attributeByName_10 = ModelManager.getAttributeByName(_name_47, o_10);
                                                                           Object _eGet_30 = o_10.eGet(_attributeByName_10);
-                                                                          String _plus_133 = (_eGet_30 + " ");
-                                                                          String _plus_134 = text = (_text_33 + _plus_133);
-                                                                          _builder.append(_plus_134, "");
+                                                                          String _plus_141 = (_eGet_30 + " ");
+                                                                          String _plus_142 = text = (_text_33 + _plus_141);
+                                                                          _builder.append(_plus_142, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2145,9 +2140,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_14 instanceof modeltext.Constant)) {
                                                                       String _text_34 = text;
                                                                       String _value_21 = ((modeltext.Constant)v_14).getValue();
-                                                                      String _plus_135 = (_value_21 + " ");
-                                                                      String _plus_136 = text = (_text_34 + _plus_135);
-                                                                      _builder.append(_plus_136, "");
+                                                                      String _plus_143 = (_value_21 + " ");
+                                                                      String _plus_144 = text = (_text_34 + _plus_143);
+                                                                      _builder.append(_plus_144, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2178,9 +2173,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_48 = _id_11.getName();
                                                                           EStructuralFeature _attributeByName_11 = ModelManager.getAttributeByName(_name_48, o_11);
                                                                           Object _eGet_32 = o_11.eGet(_attributeByName_11);
-                                                                          String _plus_137 = (_eGet_32 + " ");
-                                                                          String _plus_138 = text = (_text_35 + _plus_137);
-                                                                          _builder.append(_plus_138, "");
+                                                                          String _plus_145 = (_eGet_32 + " ");
+                                                                          String _plus_146 = text = (_text_35 + _plus_145);
+                                                                          _builder.append(_plus_146, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2196,9 +2191,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_38) {
                                                               String _text_36 = text;
                                                               String _attName_1 = ((AttributeSwap)att).getAttName();
-                                                              String _plus_139 = (_attName_1 + " ");
-                                                              String _plus_140 = text = (_text_36 + _plus_139);
-                                                              _builder.append(_plus_140, "");
+                                                              String _plus_147 = (_attName_1 + " ");
+                                                              String _plus_148 = text = (_text_36 + _plus_147);
+                                                              _builder.append(_plus_148, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2208,9 +2203,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_39) {
                                                               String _text_37 = text;
                                                               String _firstName = ((AttributeSwap)att).getFirstName();
-                                                              String _plus_141 = (_firstName + " ");
-                                                              String _plus_142 = text = (_text_37 + _plus_141);
-                                                              _builder.append(_plus_142, "");
+                                                              String _plus_149 = (_firstName + " ");
+                                                              String _plus_150 = text = (_text_37 + _plus_149);
+                                                              _builder.append(_plus_150, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2221,9 +2216,9 @@ public class EduTestGenerator implements IGenerator {
                                                               String _text_38 = text;
                                                               EObject _object_29 = ((InformationChanged)appMut).getObject();
                                                               Object _eGet_33 = _object_29.eGet(attName);
-                                                              String _plus_143 = (_eGet_33 + " ");
-                                                              String _plus_144 = text = (_text_38 + _plus_143);
-                                                              _builder.append(_plus_144, "");
+                                                              String _plus_151 = (_eGet_33 + " ");
+                                                              String _plus_152 = text = (_text_38 + _plus_151);
+                                                              _builder.append(_plus_152, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2233,9 +2228,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_41) {
                                                               String _text_39 = text;
                                                               String _newVal = ((AttributeSwap)att).getNewVal();
-                                                              String _plus_145 = (_newVal + " ");
-                                                              String _plus_146 = text = (_text_39 + _plus_145);
-                                                              _builder.append(_plus_146, "");
+                                                              String _plus_153 = (_newVal + " ");
+                                                              String _plus_154 = text = (_text_39 + _plus_153);
+                                                              _builder.append(_plus_154, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2280,9 +2275,9 @@ public class EduTestGenerator implements IGenerator {
                                                         if ((w_9 instanceof Constant)) {
                                                           String _text_40 = text;
                                                           String _value_22 = ((Constant)w_9).getValue();
-                                                          String _plus_147 = (_value_22 + " ");
-                                                          String _plus_148 = text = (_text_40 + _plus_147);
-                                                          _builder.append(_plus_148, "");
+                                                          String _plus_155 = (_value_22 + " ");
+                                                          String _plus_156 = text = (_text_40 + _plus_155);
+                                                          _builder.append(_plus_156, "");
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -2301,9 +2296,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_15 instanceof modeltext.Constant)) {
                                                                       String _text_41 = text;
                                                                       String _value_23 = ((modeltext.Constant)v_15).getValue();
-                                                                      String _plus_149 = (_value_23 + " ");
-                                                                      String _plus_150 = text = (_text_41 + _plus_149);
-                                                                      _builder.append(_plus_150, "");
+                                                                      String _plus_157 = (_value_23 + " ");
+                                                                      String _plus_158 = text = (_text_41 + _plus_157);
+                                                                      _builder.append(_plus_158, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2337,9 +2332,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_50 = _id_12.getName();
                                                                           EStructuralFeature _attributeByName_12 = ModelManager.getAttributeByName(_name_50, o_12);
                                                                           Object _eGet_35 = o_12.eGet(_attributeByName_12);
-                                                                          String _plus_151 = (_eGet_35 + " ");
-                                                                          String _plus_152 = text = (_text_42 + _plus_151);
-                                                                          _builder.append(_plus_152, "");
+                                                                          String _plus_159 = (_eGet_35 + " ");
+                                                                          String _plus_160 = text = (_text_42 + _plus_159);
+                                                                          _builder.append(_plus_160, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2355,9 +2350,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_44) {
                                                               String _text_43 = text;
                                                               String _attName_2 = att.getAttName();
-                                                              String _plus_153 = (_attName_2 + " ");
-                                                              String _plus_154 = text = (_text_43 + _plus_153);
-                                                              _builder.append(_plus_154, "");
+                                                              String _plus_161 = (_attName_2 + " ");
+                                                              String _plus_162 = text = (_text_43 + _plus_161);
+                                                              _builder.append(_plus_162, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2367,9 +2362,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_45) {
                                                               String _text_44 = text;
                                                               String _oldVal = att.getOldVal();
-                                                              String _plus_155 = (_oldVal + " ");
-                                                              String _plus_156 = text = (_text_44 + _plus_155);
-                                                              _builder.append(_plus_156, "");
+                                                              String _plus_163 = (_oldVal + " ");
+                                                              String _plus_164 = text = (_text_44 + _plus_163);
+                                                              _builder.append(_plus_164, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2379,9 +2374,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_46) {
                                                               String _text_45 = text;
                                                               String _newVal_1 = att.getNewVal();
-                                                              String _plus_157 = (_newVal_1 + " ");
-                                                              String _plus_158 = text = (_text_45 + _plus_157);
-                                                              _builder.append(_plus_158, "");
+                                                              String _plus_165 = (_newVal_1 + " ");
+                                                              String _plus_166 = text = (_text_45 + _plus_165);
+                                                              _builder.append(_plus_166, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2477,9 +2472,9 @@ public class EduTestGenerator implements IGenerator {
                                                         if ((w_10 instanceof Constant)) {
                                                           String _text_46 = text;
                                                           String _value_24 = ((Constant)w_10).getValue();
-                                                          String _plus_159 = (_value_24 + " ");
-                                                          String _plus_160 = text = (_text_46 + _plus_159);
-                                                          _builder.append(_plus_160, "");
+                                                          String _plus_167 = (_value_24 + " ");
+                                                          String _plus_168 = text = (_text_46 + _plus_167);
+                                                          _builder.append(_plus_168, "");
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -2498,17 +2493,17 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_16 instanceof modeltext.Constant)) {
                                                                       String _text_47 = text;
                                                                       String _value_25 = ((modeltext.Constant)v_16).getValue();
-                                                                      String _plus_161 = (_value_25 + " ");
-                                                                      String _plus_162 = text = (_text_47 + _plus_161);
-                                                                      _builder.append(_plus_162, "");
+                                                                      String _plus_169 = (_value_25 + " ");
+                                                                      String _plus_170 = text = (_text_47 + _plus_169);
+                                                                      _builder.append(_plus_170, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
                                                                   {
                                                                     if ((v_16 instanceof modeltext.Variable)) {
                                                                       EReference _ref_28 = ((modeltext.Variable) v_16).getRef();
-                                                                      String _plus_163 = ("REF: " + _ref_28);
-                                                                      System.out.println(_plus_163);
+                                                                      String _plus_171 = ("REF: " + _ref_28);
+                                                                      System.out.println(_plus_171);
                                                                       _builder.newLineIfNotEmpty();
                                                                       EObject o_13 = null;
                                                                       _builder.newLineIfNotEmpty();
@@ -2538,9 +2533,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_52 = _id_13.getName();
                                                                           EStructuralFeature _attributeByName_13 = ModelManager.getAttributeByName(_name_52, o_13);
                                                                           Object _eGet_37 = o_13.eGet(_attributeByName_13);
-                                                                          String _plus_164 = (_eGet_37 + " ");
-                                                                          String _plus_165 = text = (_text_48 + _plus_164);
-                                                                          _builder.append(_plus_165, "");
+                                                                          String _plus_172 = (_eGet_37 + " ");
+                                                                          String _plus_173 = text = (_text_48 + _plus_172);
+                                                                          _builder.append(_plus_173, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2561,9 +2556,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_17 instanceof modeltext.Constant)) {
                                                                       String _text_49 = text;
                                                                       String _value_26 = ((modeltext.Constant)v_17).getValue();
-                                                                      String _plus_166 = (_value_26 + " ");
-                                                                      String _plus_167 = text = (_text_49 + _plus_166);
-                                                                      _builder.append(_plus_167, "");
+                                                                      String _plus_174 = (_value_26 + " ");
+                                                                      String _plus_175 = text = (_text_49 + _plus_174);
+                                                                      _builder.append(_plus_175, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2597,9 +2592,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_54 = _id_14.getName();
                                                                           EStructuralFeature _attributeByName_14 = ModelManager.getAttributeByName(_name_54, o_14);
                                                                           Object _eGet_39 = o_14.eGet(_attributeByName_14);
-                                                                          String _plus_168 = (_eGet_39 + " ");
-                                                                          String _plus_169 = text = (_text_50 + _plus_168);
-                                                                          _builder.append(_plus_169, "");
+                                                                          String _plus_176 = (_eGet_39 + " ");
+                                                                          String _plus_177 = text = (_text_50 + _plus_176);
+                                                                          _builder.append(_plus_177, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2620,9 +2615,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_18 instanceof modeltext.Constant)) {
                                                                       String _text_51 = text;
                                                                       String _value_27 = ((modeltext.Constant)v_18).getValue();
-                                                                      String _plus_170 = (_value_27 + " ");
-                                                                      String _plus_171 = text = (_text_51 + _plus_170);
-                                                                      _builder.append(_plus_171, "");
+                                                                      String _plus_178 = (_value_27 + " ");
+                                                                      String _plus_179 = text = (_text_51 + _plus_178);
+                                                                      _builder.append(_plus_179, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2656,9 +2651,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_56 = _id_15.getName();
                                                                           EStructuralFeature _attributeByName_15 = ModelManager.getAttributeByName(_name_56, o_15);
                                                                           Object _eGet_41 = o_15.eGet(_attributeByName_15);
-                                                                          String _plus_172 = (_eGet_41 + " ");
-                                                                          String _plus_173 = text = (_text_52 + _plus_172);
-                                                                          _builder.append(_plus_173, "");
+                                                                          String _plus_180 = (_eGet_41 + " ");
+                                                                          String _plus_181 = text = (_text_52 + _plus_180);
+                                                                          _builder.append(_plus_181, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2679,17 +2674,17 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_19 instanceof modeltext.Constant)) {
                                                                       String _text_53 = text;
                                                                       String _value_28 = ((modeltext.Constant)v_19).getValue();
-                                                                      String _plus_174 = (_value_28 + " ");
-                                                                      String _plus_175 = text = (_text_53 + _plus_174);
-                                                                      _builder.append(_plus_175, "");
+                                                                      String _plus_182 = (_value_28 + " ");
+                                                                      String _plus_183 = text = (_text_53 + _plus_182);
+                                                                      _builder.append(_plus_183, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
                                                                   {
                                                                     if ((v_19 instanceof modeltext.Variable)) {
                                                                       EReference _ref_35 = ((modeltext.Variable) v_19).getRef();
-                                                                      String _plus_176 = ("REF: " + _ref_35);
-                                                                      System.out.println(_plus_176);
+                                                                      String _plus_184 = ("REF: " + _ref_35);
+                                                                      System.out.println(_plus_184);
                                                                       _builder.newLineIfNotEmpty();
                                                                       EObject o_16 = null;
                                                                       _builder.newLineIfNotEmpty();
@@ -2719,9 +2714,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_58 = _id_16.getName();
                                                                           EStructuralFeature _attributeByName_16 = ModelManager.getAttributeByName(_name_58, o_16);
                                                                           Object _eGet_43 = o_16.eGet(_attributeByName_16);
-                                                                          String _plus_177 = (_eGet_43 + " ");
-                                                                          String _plus_178 = text = (_text_54 + _plus_177);
-                                                                          _builder.append(_plus_178, "");
+                                                                          String _plus_185 = (_eGet_43 + " ");
+                                                                          String _plus_186 = text = (_text_54 + _plus_185);
+                                                                          _builder.append(_plus_186, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2742,9 +2737,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_20 instanceof modeltext.Constant)) {
                                                                       String _text_55 = text;
                                                                       String _value_29 = ((modeltext.Constant)v_20).getValue();
-                                                                      String _plus_179 = (_value_29 + " ");
-                                                                      String _plus_180 = text = (_text_55 + _plus_179);
-                                                                      _builder.append(_plus_180, "");
+                                                                      String _plus_187 = (_value_29 + " ");
+                                                                      String _plus_188 = text = (_text_55 + _plus_187);
+                                                                      _builder.append(_plus_188, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2778,9 +2773,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_60 = _id_17.getName();
                                                                           EStructuralFeature _attributeByName_17 = ModelManager.getAttributeByName(_name_60, o_17);
                                                                           Object _eGet_45 = o_17.eGet(_attributeByName_17);
-                                                                          String _plus_181 = (_eGet_45 + " ");
-                                                                          String _plus_182 = text = (_text_56 + _plus_181);
-                                                                          _builder.append(_plus_182, "");
+                                                                          String _plus_189 = (_eGet_45 + " ");
+                                                                          String _plus_190 = text = (_text_56 + _plus_189);
+                                                                          _builder.append(_plus_190, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2801,9 +2796,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_21 instanceof modeltext.Constant)) {
                                                                       String _text_57 = text;
                                                                       String _value_30 = ((modeltext.Constant)v_21).getValue();
-                                                                      String _plus_183 = (_value_30 + " ");
-                                                                      String _plus_184 = text = (_text_57 + _plus_183);
-                                                                      _builder.append(_plus_184, "");
+                                                                      String _plus_191 = (_value_30 + " ");
+                                                                      String _plus_192 = text = (_text_57 + _plus_191);
+                                                                      _builder.append(_plus_192, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2837,9 +2832,9 @@ public class EduTestGenerator implements IGenerator {
                                                                           String _name_62 = _id_18.getName();
                                                                           EStructuralFeature _attributeByName_18 = ModelManager.getAttributeByName(_name_62, o_18);
                                                                           Object _eGet_47 = o_18.eGet(_attributeByName_18);
-                                                                          String _plus_185 = (_eGet_47 + " ");
-                                                                          String _plus_186 = text = (_text_58 + _plus_185);
-                                                                          _builder.append(_plus_186, "");
+                                                                          String _plus_193 = (_eGet_47 + " ");
+                                                                          String _plus_194 = text = (_text_58 + _plus_193);
+                                                                          _builder.append(_plus_194, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2855,9 +2850,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_59) {
                                                               String _text_59 = text;
                                                               String _refName_3 = ((ReferenceSwap)ref).getRefName();
-                                                              String _plus_187 = (_refName_3 + " ");
-                                                              String _plus_188 = text = (_text_59 + _plus_187);
-                                                              _builder.append(_plus_188, "");
+                                                              String _plus_195 = (_refName_3 + " ");
+                                                              String _plus_196 = text = (_text_59 + _plus_195);
+                                                              _builder.append(_plus_196, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2867,9 +2862,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if (_equals_60) {
                                                               String _text_60 = text;
                                                               String _firstName_1 = ((ReferenceSwap)ref).getFirstName();
-                                                              String _plus_189 = (_firstName_1 + " ");
-                                                              String _plus_190 = text = (_text_60 + _plus_189);
-                                                              _builder.append(_plus_190, "");
+                                                              String _plus_197 = (_firstName_1 + " ");
+                                                              String _plus_198 = text = (_text_60 + _plus_197);
+                                                              _builder.append(_plus_198, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2916,8 +2911,8 @@ public class EduTestGenerator implements IGenerator {
                                       {
                                         if ((isRepeated == false)) {
                                           Integer _get_45 = this.total.get(exercise);
-                                          int _plus_191 = ((_get_45).intValue() + 1);
-                                          Integer _put_13 = this.total.put(exercise, Integer.valueOf(_plus_191));
+                                          int _plus_199 = ((_get_45).intValue() + 1);
+                                          Integer _put_13 = this.total.put(exercise, Integer.valueOf(_plus_199));
                                           _builder.append(_put_13, "");
                                           _builder.newLineIfNotEmpty();
                                           boolean _add_19 = opts_1.add(opt_1);
@@ -3001,9 +2996,9 @@ public class EduTestGenerator implements IGenerator {
                                                   if ((w_11 instanceof Constant)) {
                                                     String _text_61 = text_1;
                                                     String _value_31 = ((Constant)w_11).getValue();
-                                                    String _plus_192 = (_value_31 + " ");
-                                                    String _plus_193 = text_1 = (_text_61 + _plus_192);
-                                                    _builder.append(_plus_193, "");
+                                                    String _plus_200 = (_value_31 + " ");
+                                                    String _plus_201 = text_1 = (_text_61 + _plus_200);
+                                                    _builder.append(_plus_201, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
@@ -3022,9 +3017,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_22 instanceof modeltext.Constant)) {
                                                                 String _text_62 = text_1;
                                                                 String _value_32 = ((modeltext.Constant)v_22).getValue();
-                                                                String _plus_194 = (_value_32 + " ");
-                                                                String _plus_195 = text_1 = (_text_62 + _plus_194);
-                                                                _builder.append(_plus_195, "");
+                                                                String _plus_202 = (_value_32 + " ");
+                                                                String _plus_203 = text_1 = (_text_62 + _plus_202);
+                                                                _builder.append(_plus_203, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3061,9 +3056,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_64 = _id_19.getName();
                                                                     EStructuralFeature _attributeByName_19 = ModelManager.getAttributeByName(_name_64, o_19);
                                                                     Object _eGet_49 = o_19.eGet(_attributeByName_19);
-                                                                    String _plus_196 = (_eGet_49 + " ");
-                                                                    String _plus_197 = text_1 = (_text_63 + _plus_196);
-                                                                    _builder.append(_plus_197, "");
+                                                                    String _plus_204 = (_eGet_49 + " ");
+                                                                    String _plus_205 = text_1 = (_text_63 + _plus_204);
+                                                                    _builder.append(_plus_205, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3091,8 +3086,8 @@ public class EduTestGenerator implements IGenerator {
                                             {
                                               if ((isRepeated_1 == false)) {
                                                 Integer _get_54 = this.total.get(exercise);
-                                                int _plus_198 = ((_get_54).intValue() + 1);
-                                                Integer _put_15 = this.total.put(exercise, Integer.valueOf(_plus_198));
+                                                int _plus_206 = ((_get_54).intValue() + 1);
+                                                Integer _put_15 = this.total.put(exercise, Integer.valueOf(_plus_206));
                                                 _builder.append(_put_15, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_21 = opts_2.add(optClone);
@@ -3133,9 +3128,9 @@ public class EduTestGenerator implements IGenerator {
                                                   if ((w_12 instanceof Constant)) {
                                                     String _text_64 = text_1;
                                                     String _value_33 = ((Constant)w_12).getValue();
-                                                    String _plus_199 = (_value_33 + " ");
-                                                    String _plus_200 = text_1 = (_text_64 + _plus_199);
-                                                    _builder.append(_plus_200, "");
+                                                    String _plus_207 = (_value_33 + " ");
+                                                    String _plus_208 = text_1 = (_text_64 + _plus_207);
+                                                    _builder.append(_plus_208, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
@@ -3154,9 +3149,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_23 instanceof modeltext.Constant)) {
                                                                 String _text_65 = text_1;
                                                                 String _value_34 = ((modeltext.Constant)v_23).getValue();
-                                                                String _plus_201 = (_value_34 + " ");
-                                                                String _plus_202 = text_1 = (_text_65 + _plus_201);
-                                                                _builder.append(_plus_202, "");
+                                                                String _plus_209 = (_value_34 + " ");
+                                                                String _plus_210 = text_1 = (_text_65 + _plus_209);
+                                                                _builder.append(_plus_210, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3193,9 +3188,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_66 = _id_20.getName();
                                                                     EStructuralFeature _attributeByName_20 = ModelManager.getAttributeByName(_name_66, o_20);
                                                                     Object _eGet_51 = o_20.eGet(_attributeByName_20);
-                                                                    String _plus_203 = (_eGet_51 + " ");
-                                                                    String _plus_204 = text_1 = (_text_66 + _plus_203);
-                                                                    _builder.append(_plus_204, "");
+                                                                    String _plus_211 = (_eGet_51 + " ");
+                                                                    String _plus_212 = text_1 = (_text_66 + _plus_211);
+                                                                    _builder.append(_plus_212, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3217,8 +3212,8 @@ public class EduTestGenerator implements IGenerator {
                                                         {
                                                           if ((isRepeated_2 == false)) {
                                                             Integer _get_59 = this.total.get(exercise);
-                                                            int _plus_205 = ((_get_59).intValue() + 1);
-                                                            Integer _put_16 = this.total.put(exercise, Integer.valueOf(_plus_205));
+                                                            int _plus_213 = ((_get_59).intValue() + 1);
+                                                            Integer _put_16 = this.total.put(exercise, Integer.valueOf(_plus_213));
                                                             _builder.append(_put_16, "");
                                                             _builder.newLineIfNotEmpty();
                                                             boolean _add_23 = opts_2.add(optClone_1);
@@ -3297,9 +3292,9 @@ public class EduTestGenerator implements IGenerator {
                                                   if ((w_13 instanceof Constant)) {
                                                     String _text_67 = text_1;
                                                     String _value_35 = ((Constant)w_13).getValue();
-                                                    String _plus_206 = (_value_35 + " ");
-                                                    String _plus_207 = text_1 = (_text_67 + _plus_206);
-                                                    _builder.append(_plus_207, "");
+                                                    String _plus_214 = (_value_35 + " ");
+                                                    String _plus_215 = text_1 = (_text_67 + _plus_214);
+                                                    _builder.append(_plus_215, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
@@ -3318,9 +3313,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_24 instanceof modeltext.Constant)) {
                                                                 String _text_68 = text_1;
                                                                 String _value_36 = ((modeltext.Constant)v_24).getValue();
-                                                                String _plus_208 = (_value_36 + " ");
-                                                                String _plus_209 = text_1 = (_text_68 + _plus_208);
-                                                                _builder.append(_plus_209, "");
+                                                                String _plus_216 = (_value_36 + " ");
+                                                                String _plus_217 = text_1 = (_text_68 + _plus_216);
+                                                                _builder.append(_plus_217, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3357,9 +3352,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_68 = _id_21.getName();
                                                                     EStructuralFeature _attributeByName_21 = ModelManager.getAttributeByName(_name_68, o_21);
                                                                     Object _eGet_59 = o_21.eGet(_attributeByName_21);
-                                                                    String _plus_210 = (_eGet_59 + " ");
-                                                                    String _plus_211 = text_1 = (_text_69 + _plus_210);
-                                                                    _builder.append(_plus_211, "");
+                                                                    String _plus_218 = (_eGet_59 + " ");
+                                                                    String _plus_219 = text_1 = (_text_69 + _plus_218);
+                                                                    _builder.append(_plus_219, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3380,9 +3375,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_25 instanceof modeltext.Constant)) {
                                                                 String _text_70 = text_1;
                                                                 String _value_37 = ((modeltext.Constant)v_25).getValue();
-                                                                String _plus_212 = (_value_37 + " ");
-                                                                String _plus_213 = text_1 = (_text_70 + _plus_212);
-                                                                _builder.append(_plus_213, "");
+                                                                String _plus_220 = (_value_37 + " ");
+                                                                String _plus_221 = text_1 = (_text_70 + _plus_220);
+                                                                _builder.append(_plus_221, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3419,9 +3414,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_70 = _id_22.getName();
                                                                     EStructuralFeature _attributeByName_22 = ModelManager.getAttributeByName(_name_70, o_22);
                                                                     Object _eGet_64 = o_22.eGet(_attributeByName_22);
-                                                                    String _plus_214 = (_eGet_64 + " ");
-                                                                    String _plus_215 = text_1 = (_text_71 + _plus_214);
-                                                                    _builder.append(_plus_215, "");
+                                                                    String _plus_222 = (_eGet_64 + " ");
+                                                                    String _plus_223 = text_1 = (_text_71 + _plus_222);
+                                                                    _builder.append(_plus_223, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3442,9 +3437,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_26 instanceof modeltext.Constant)) {
                                                                 String _text_72 = text_1;
                                                                 String _value_38 = ((modeltext.Constant)v_26).getValue();
-                                                                String _plus_216 = (_value_38 + " ");
-                                                                String _plus_217 = text_1 = (_text_72 + _plus_216);
-                                                                _builder.append(_plus_217, "");
+                                                                String _plus_224 = (_value_38 + " ");
+                                                                String _plus_225 = text_1 = (_text_72 + _plus_224);
+                                                                _builder.append(_plus_225, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3470,8 +3465,8 @@ public class EduTestGenerator implements IGenerator {
                                             {
                                               if ((isRepeated_3 == false)) {
                                                 Integer _get_60 = this.total.get(exercise);
-                                                int _plus_218 = ((_get_60).intValue() + 1);
-                                                Integer _put_17 = this.total.put(exercise, Integer.valueOf(_plus_218));
+                                                int _plus_226 = ((_get_60).intValue() + 1);
+                                                Integer _put_17 = this.total.put(exercise, Integer.valueOf(_plus_226));
                                                 _builder.append(_put_17, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_26 = opts_2.add(optClone_2);
@@ -3541,9 +3536,9 @@ public class EduTestGenerator implements IGenerator {
                                                   if ((w_14 instanceof Constant)) {
                                                     String _text_73 = text_1;
                                                     String _value_39 = ((Constant)w_14).getValue();
-                                                    String _plus_219 = (_value_39 + " ");
-                                                    String _plus_220 = text_1 = (_text_73 + _plus_219);
-                                                    _builder.append(_plus_220, "");
+                                                    String _plus_227 = (_value_39 + " ");
+                                                    String _plus_228 = text_1 = (_text_73 + _plus_227);
+                                                    _builder.append(_plus_228, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
@@ -3566,9 +3561,9 @@ public class EduTestGenerator implements IGenerator {
                                                                   if ((v_27 instanceof modeltext.Constant)) {
                                                                     String _text_74 = text_1;
                                                                     String _value_40 = ((modeltext.Constant)v_27).getValue();
-                                                                    String _plus_221 = (_value_40 + " ");
-                                                                    String _plus_222 = text_1 = (_text_74 + _plus_221);
-                                                                    _builder.append(_plus_222, "");
+                                                                    String _plus_229 = (_value_40 + " ");
+                                                                    String _plus_230 = text_1 = (_text_74 + _plus_229);
+                                                                    _builder.append(_plus_230, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3605,9 +3600,9 @@ public class EduTestGenerator implements IGenerator {
                                                                         String _name_72 = _id_23.getName();
                                                                         EStructuralFeature _attributeByName_23 = ModelManager.getAttributeByName(_name_72, o_23);
                                                                         Object _eGet_66 = o_23.eGet(_attributeByName_23);
-                                                                        String _plus_223 = (_eGet_66 + " ");
-                                                                        String _plus_224 = text_1 = (_text_75 + _plus_223);
-                                                                        _builder.append(_plus_224, "");
+                                                                        String _plus_231 = (_eGet_66 + " ");
+                                                                        String _plus_232 = text_1 = (_text_75 + _plus_231);
+                                                                        _builder.append(_plus_232, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -3630,9 +3625,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_28 instanceof modeltext.Constant)) {
                                                                 String _text_76 = text_1;
                                                                 String _value_41 = ((modeltext.Constant)v_28).getValue();
-                                                                String _plus_225 = (_value_41 + " ");
-                                                                String _plus_226 = text_1 = (_text_76 + _plus_225);
-                                                                _builder.append(_plus_226, "");
+                                                                String _plus_233 = (_value_41 + " ");
+                                                                String _plus_234 = text_1 = (_text_76 + _plus_233);
+                                                                _builder.append(_plus_234, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3666,9 +3661,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_74 = _id_24.getName();
                                                                     EStructuralFeature _attributeByName_24 = ModelManager.getAttributeByName(_name_74, o_24);
                                                                     Object _eGet_68 = o_24.eGet(_attributeByName_24);
-                                                                    String _plus_227 = (_eGet_68 + " ");
-                                                                    String _plus_228 = text_1 = (_text_77 + _plus_227);
-                                                                    _builder.append(_plus_228, "");
+                                                                    String _plus_235 = (_eGet_68 + " ");
+                                                                    String _plus_236 = text_1 = (_text_77 + _plus_235);
+                                                                    _builder.append(_plus_236, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3689,9 +3684,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_29 instanceof modeltext.Constant)) {
                                                                 String _text_78 = text_1;
                                                                 String _value_42 = ((modeltext.Constant)v_29).getValue();
-                                                                String _plus_229 = (_value_42 + " ");
-                                                                String _plus_230 = text_1 = (_text_78 + _plus_229);
-                                                                _builder.append(_plus_230, "");
+                                                                String _plus_237 = (_value_42 + " ");
+                                                                String _plus_238 = text_1 = (_text_78 + _plus_237);
+                                                                _builder.append(_plus_238, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3722,9 +3717,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_75 = _id_25.getName();
                                                                     EStructuralFeature _attributeByName_25 = ModelManager.getAttributeByName(_name_75, o_25);
                                                                     Object _eGet_70 = o_25.eGet(_attributeByName_25);
-                                                                    String _plus_231 = (_eGet_70 + " ");
-                                                                    String _plus_232 = text_1 = (_text_79 + _plus_231);
-                                                                    _builder.append(_plus_232, "");
+                                                                    String _plus_239 = (_eGet_70 + " ");
+                                                                    String _plus_240 = text_1 = (_text_79 + _plus_239);
+                                                                    _builder.append(_plus_240, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3745,9 +3740,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_30 instanceof modeltext.Constant)) {
                                                                 String _text_80 = text_1;
                                                                 String _value_43 = ((modeltext.Constant)v_30).getValue();
-                                                                String _plus_233 = (_value_43 + " ");
-                                                                String _plus_234 = text_1 = (_text_80 + _plus_233);
-                                                                _builder.append(_plus_234, "");
+                                                                String _plus_241 = (_value_43 + " ");
+                                                                String _plus_242 = text_1 = (_text_80 + _plus_241);
+                                                                _builder.append(_plus_242, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3778,9 +3773,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_76 = _id_26.getName();
                                                                     EStructuralFeature _attributeByName_26 = ModelManager.getAttributeByName(_name_76, o_26);
                                                                     Object _eGet_72 = o_26.eGet(_attributeByName_26);
-                                                                    String _plus_235 = (_eGet_72 + " ");
-                                                                    String _plus_236 = text_1 = (_text_81 + _plus_235);
-                                                                    _builder.append(_plus_236, "");
+                                                                    String _plus_243 = (_eGet_72 + " ");
+                                                                    String _plus_244 = text_1 = (_text_81 + _plus_243);
+                                                                    _builder.append(_plus_244, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3801,9 +3796,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_31 instanceof modeltext.Constant)) {
                                                                 String _text_82 = text_1;
                                                                 String _value_44 = ((modeltext.Constant)v_31).getValue();
-                                                                String _plus_237 = (_value_44 + " ");
-                                                                String _plus_238 = text_1 = (_text_82 + _plus_237);
-                                                                _builder.append(_plus_238, "");
+                                                                String _plus_245 = (_value_44 + " ");
+                                                                String _plus_246 = text_1 = (_text_82 + _plus_245);
+                                                                _builder.append(_plus_246, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3822,9 +3817,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_32 instanceof modeltext.Constant)) {
                                                                 String _text_83 = text_1;
                                                                 String _value_45 = ((modeltext.Constant)v_32).getValue();
-                                                                String _plus_239 = (_value_45 + " ");
-                                                                String _plus_240 = text_1 = (_text_83 + _plus_239);
-                                                                _builder.append(_plus_240, "");
+                                                                String _plus_247 = (_value_45 + " ");
+                                                                String _plus_248 = text_1 = (_text_83 + _plus_247);
+                                                                _builder.append(_plus_248, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3850,8 +3845,8 @@ public class EduTestGenerator implements IGenerator {
                                             {
                                               if ((isRepeated_4 == false)) {
                                                 Integer _get_69 = this.total.get(exercise);
-                                                int _plus_241 = ((_get_69).intValue() + 1);
-                                                Integer _put_18 = this.total.put(exercise, Integer.valueOf(_plus_241));
+                                                int _plus_249 = ((_get_69).intValue() + 1);
+                                                Integer _put_18 = this.total.put(exercise, Integer.valueOf(_plus_249));
                                                 _builder.append(_put_18, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_28 = opts_2.add(optClone_3);
@@ -3901,9 +3896,9 @@ public class EduTestGenerator implements IGenerator {
                                                   if ((w_15 instanceof Constant)) {
                                                     String _text_84 = text_1;
                                                     String _value_46 = ((Constant)w_15).getValue();
-                                                    String _plus_242 = (_value_46 + " ");
-                                                    String _plus_243 = text_1 = (_text_84 + _plus_242);
-                                                    _builder.append(_plus_243, "");
+                                                    String _plus_250 = (_value_46 + " ");
+                                                    String _plus_251 = text_1 = (_text_84 + _plus_250);
+                                                    _builder.append(_plus_251, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
@@ -3922,9 +3917,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_33 instanceof modeltext.Constant)) {
                                                                 String _text_85 = text_1;
                                                                 String _value_47 = ((modeltext.Constant)v_33).getValue();
-                                                                String _plus_244 = (_value_47 + " ");
-                                                                String _plus_245 = text_1 = (_text_85 + _plus_244);
-                                                                _builder.append(_plus_245, "");
+                                                                String _plus_252 = (_value_47 + " ");
+                                                                String _plus_253 = text_1 = (_text_85 + _plus_252);
+                                                                _builder.append(_plus_253, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3961,9 +3956,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_78 = _id_27.getName();
                                                                     EStructuralFeature _attributeByName_27 = ModelManager.getAttributeByName(_name_78, o_27);
                                                                     Object _eGet_74 = o_27.eGet(_attributeByName_27);
-                                                                    String _plus_246 = (_eGet_74 + " ");
-                                                                    String _plus_247 = text_1 = (_text_86 + _plus_246);
-                                                                    _builder.append(_plus_247, "");
+                                                                    String _plus_254 = (_eGet_74 + " ");
+                                                                    String _plus_255 = text_1 = (_text_86 + _plus_254);
+                                                                    _builder.append(_plus_255, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3981,9 +3976,9 @@ public class EduTestGenerator implements IGenerator {
                                                         EList<EReference> _ref_60 = ((ReferenceCreated)appMut_1).getRef();
                                                         EReference _get_74 = _ref_60.get(0);
                                                         String _name_79 = _get_74.getName();
-                                                        String _plus_248 = (_name_79 + " ");
-                                                        String _plus_249 = text_1 = (_text_87 + _plus_248);
-                                                        _builder.append(_plus_249, "");
+                                                        String _plus_256 = (_name_79 + " ");
+                                                        String _plus_257 = text_1 = (_text_87 + _plus_256);
+                                                        _builder.append(_plus_257, "");
                                                         _builder.newLineIfNotEmpty();
                                                       }
                                                     }
@@ -4005,8 +4000,8 @@ public class EduTestGenerator implements IGenerator {
                                             {
                                               if ((isRepeated_5 == false)) {
                                                 Integer _get_75 = this.total.get(exercise);
-                                                int _plus_250 = ((_get_75).intValue() + 1);
-                                                Integer _put_19 = this.total.put(exercise, Integer.valueOf(_plus_250));
+                                                int _plus_258 = ((_get_75).intValue() + 1);
+                                                Integer _put_19 = this.total.put(exercise, Integer.valueOf(_plus_258));
                                                 _builder.append(_put_19, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_30 = opts_2.add(optClone_4);
@@ -4046,9 +4041,9 @@ public class EduTestGenerator implements IGenerator {
                                                   if ((w_16 instanceof Constant)) {
                                                     String _text_88 = text_1;
                                                     String _value_48 = ((Constant)w_16).getValue();
-                                                    String _plus_251 = (_value_48 + " ");
-                                                    String _plus_252 = text_1 = (_text_88 + _plus_251);
-                                                    _builder.append(_plus_252, "");
+                                                    String _plus_259 = (_value_48 + " ");
+                                                    String _plus_260 = text_1 = (_text_88 + _plus_259);
+                                                    _builder.append(_plus_260, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
@@ -4067,9 +4062,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if ((v_34 instanceof modeltext.Constant)) {
                                                                 String _text_89 = text_1;
                                                                 String _value_49 = ((modeltext.Constant)v_34).getValue();
-                                                                String _plus_253 = (_value_49 + " ");
-                                                                String _plus_254 = text_1 = (_text_89 + _plus_253);
-                                                                _builder.append(_plus_254, "");
+                                                                String _plus_261 = (_value_49 + " ");
+                                                                String _plus_262 = text_1 = (_text_89 + _plus_261);
+                                                                _builder.append(_plus_262, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4106,9 +4101,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     String _name_81 = _id_28.getName();
                                                                     EStructuralFeature _attributeByName_28 = ModelManager.getAttributeByName(_name_81, o_28);
                                                                     Object _eGet_76 = o_28.eGet(_attributeByName_28);
-                                                                    String _plus_255 = (_eGet_76 + " ");
-                                                                    String _plus_256 = text_1 = (_text_90 + _plus_255);
-                                                                    _builder.append(_plus_256, "");
+                                                                    String _plus_263 = (_eGet_76 + " ");
+                                                                    String _plus_264 = text_1 = (_text_90 + _plus_263);
+                                                                    _builder.append(_plus_264, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -4126,9 +4121,9 @@ public class EduTestGenerator implements IGenerator {
                                                         EList<EReference> _ref_63 = ((ReferenceRemoved)appMut_1).getRef();
                                                         EReference _get_80 = _ref_63.get(0);
                                                         String _name_82 = _get_80.getName();
-                                                        String _plus_257 = (_name_82 + " ");
-                                                        String _plus_258 = text_1 = (_text_91 + _plus_257);
-                                                        _builder.append(_plus_258, "");
+                                                        String _plus_265 = (_name_82 + " ");
+                                                        String _plus_266 = text_1 = (_text_91 + _plus_265);
+                                                        _builder.append(_plus_266, "");
                                                         _builder.newLineIfNotEmpty();
                                                       }
                                                     }
@@ -4194,9 +4189,9 @@ public class EduTestGenerator implements IGenerator {
                                                           if ((w_17 instanceof Constant)) {
                                                             String _text_92 = text_1;
                                                             String _value_50 = ((Constant)w_17).getValue();
-                                                            String _plus_259 = (_value_50 + " ");
-                                                            String _plus_260 = text_1 = (_text_92 + _plus_259);
-                                                            _builder.append(_plus_260, "");
+                                                            String _plus_267 = (_value_50 + " ");
+                                                            String _plus_268 = text_1 = (_text_92 + _plus_267);
+                                                            _builder.append(_plus_268, "");
                                                             _builder.newLineIfNotEmpty();
                                                           }
                                                         }
@@ -4215,9 +4210,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_35 instanceof modeltext.Constant)) {
                                                                         String _text_93 = text_1;
                                                                         String _value_51 = ((modeltext.Constant)v_35).getValue();
-                                                                        String _plus_261 = (_value_51 + " ");
-                                                                        String _plus_262 = text_1 = (_text_93 + _plus_261);
-                                                                        _builder.append(_plus_262, "");
+                                                                        String _plus_269 = (_value_51 + " ");
+                                                                        String _plus_270 = text_1 = (_text_93 + _plus_269);
+                                                                        _builder.append(_plus_270, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4251,9 +4246,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_84 = _id_29.getName();
                                                                             EStructuralFeature _attributeByName_29 = ModelManager.getAttributeByName(_name_84, o_29);
                                                                             Object _eGet_78 = o_29.eGet(_attributeByName_29);
-                                                                            String _plus_263 = (_eGet_78 + " ");
-                                                                            String _plus_264 = text_1 = (_text_94 + _plus_263);
-                                                                            _builder.append(_plus_264, "");
+                                                                            String _plus_271 = (_eGet_78 + " ");
+                                                                            String _plus_272 = text_1 = (_text_94 + _plus_271);
+                                                                            _builder.append(_plus_272, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4274,9 +4269,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_36 instanceof modeltext.Constant)) {
                                                                         String _text_95 = text_1;
                                                                         String _value_52 = ((modeltext.Constant)v_36).getValue();
-                                                                        String _plus_265 = (_value_52 + " ");
-                                                                        String _plus_266 = text_1 = (_text_95 + _plus_265);
-                                                                        _builder.append(_plus_266, "");
+                                                                        String _plus_273 = (_value_52 + " ");
+                                                                        String _plus_274 = text_1 = (_text_95 + _plus_273);
+                                                                        _builder.append(_plus_274, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4307,9 +4302,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_85 = _id_30.getName();
                                                                             EStructuralFeature _attributeByName_30 = ModelManager.getAttributeByName(_name_85, o_30);
                                                                             Object _eGet_80 = o_30.eGet(_attributeByName_30);
-                                                                            String _plus_267 = (_eGet_80 + " ");
-                                                                            String _plus_268 = text_1 = (_text_96 + _plus_267);
-                                                                            _builder.append(_plus_268, "");
+                                                                            String _plus_275 = (_eGet_80 + " ");
+                                                                            String _plus_276 = text_1 = (_text_96 + _plus_275);
+                                                                            _builder.append(_plus_276, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4325,9 +4320,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_92) {
                                                                 String _text_97 = text_1;
                                                                 String _attName_4 = ((AttributeSwap)att_1).getAttName();
-                                                                String _plus_269 = (_attName_4 + " ");
-                                                                String _plus_270 = text_1 = (_text_97 + _plus_269);
-                                                                _builder.append(_plus_270, "");
+                                                                String _plus_277 = (_attName_4 + " ");
+                                                                String _plus_278 = text_1 = (_text_97 + _plus_277);
+                                                                _builder.append(_plus_278, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4337,9 +4332,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_93) {
                                                                 String _text_98 = text_1;
                                                                 String _firstName_2 = ((AttributeSwap)att_1).getFirstName();
-                                                                String _plus_271 = (_firstName_2 + " ");
-                                                                String _plus_272 = text_1 = (_text_98 + _plus_271);
-                                                                _builder.append(_plus_272, "");
+                                                                String _plus_279 = (_firstName_2 + " ");
+                                                                String _plus_280 = text_1 = (_text_98 + _plus_279);
+                                                                _builder.append(_plus_280, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4350,9 +4345,9 @@ public class EduTestGenerator implements IGenerator {
                                                                 String _text_99 = text_1;
                                                                 EObject _object_64 = ((InformationChanged)appMut_1).getObject();
                                                                 Object _eGet_81 = _object_64.eGet(attName_1);
-                                                                String _plus_273 = (_eGet_81 + " ");
-                                                                String _plus_274 = text_1 = (_text_99 + _plus_273);
-                                                                _builder.append(_plus_274, "");
+                                                                String _plus_281 = (_eGet_81 + " ");
+                                                                String _plus_282 = text_1 = (_text_99 + _plus_281);
+                                                                _builder.append(_plus_282, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4362,9 +4357,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_95) {
                                                                 String _text_100 = text_1;
                                                                 String _newVal_2 = ((AttributeSwap)att_1).getNewVal();
-                                                                String _plus_275 = (_newVal_2 + " ");
-                                                                String _plus_276 = text_1 = (_text_100 + _plus_275);
-                                                                _builder.append(_plus_276, "");
+                                                                String _plus_283 = (_newVal_2 + " ");
+                                                                String _plus_284 = text_1 = (_text_100 + _plus_283);
+                                                                _builder.append(_plus_284, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4386,8 +4381,8 @@ public class EduTestGenerator implements IGenerator {
                                                     {
                                                       if ((isRepeated_6 == false)) {
                                                         Integer _get_81 = this.total.get(exercise);
-                                                        int _plus_277 = ((_get_81).intValue() + 1);
-                                                        Integer _put_20 = this.total.put(exercise, Integer.valueOf(_plus_277));
+                                                        int _plus_285 = ((_get_81).intValue() + 1);
+                                                        Integer _put_20 = this.total.put(exercise, Integer.valueOf(_plus_285));
                                                         _builder.append(_put_20, "");
                                                         _builder.newLineIfNotEmpty();
                                                         boolean _add_33 = opts_2.add(optClone_5);
@@ -4423,9 +4418,9 @@ public class EduTestGenerator implements IGenerator {
                                                           if ((w_18 instanceof Constant)) {
                                                             String _text_101 = text_1;
                                                             String _value_53 = ((Constant)w_18).getValue();
-                                                            String _plus_278 = (_value_53 + " ");
-                                                            String _plus_279 = text_1 = (_text_101 + _plus_278);
-                                                            _builder.append(_plus_279, "");
+                                                            String _plus_286 = (_value_53 + " ");
+                                                            String _plus_287 = text_1 = (_text_101 + _plus_286);
+                                                            _builder.append(_plus_287, "");
                                                             _builder.newLineIfNotEmpty();
                                                           }
                                                         }
@@ -4444,9 +4439,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_37 instanceof modeltext.Constant)) {
                                                                         String _text_102 = text_1;
                                                                         String _value_54 = ((modeltext.Constant)v_37).getValue();
-                                                                        String _plus_280 = (_value_54 + " ");
-                                                                        String _plus_281 = text_1 = (_text_102 + _plus_280);
-                                                                        _builder.append(_plus_281, "");
+                                                                        String _plus_288 = (_value_54 + " ");
+                                                                        String _plus_289 = text_1 = (_text_102 + _plus_288);
+                                                                        _builder.append(_plus_289, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4480,9 +4475,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_87 = _id_31.getName();
                                                                             EStructuralFeature _attributeByName_31 = ModelManager.getAttributeByName(_name_87, o_31);
                                                                             Object _eGet_83 = o_31.eGet(_attributeByName_31);
-                                                                            String _plus_282 = (_eGet_83 + " ");
-                                                                            String _plus_283 = text_1 = (_text_103 + _plus_282);
-                                                                            _builder.append(_plus_283, "");
+                                                                            String _plus_290 = (_eGet_83 + " ");
+                                                                            String _plus_291 = text_1 = (_text_103 + _plus_290);
+                                                                            _builder.append(_plus_291, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4498,9 +4493,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_98) {
                                                                 String _text_104 = text_1;
                                                                 String _attName_5 = att_1.getAttName();
-                                                                String _plus_284 = (_attName_5 + " ");
-                                                                String _plus_285 = text_1 = (_text_104 + _plus_284);
-                                                                _builder.append(_plus_285, "");
+                                                                String _plus_292 = (_attName_5 + " ");
+                                                                String _plus_293 = text_1 = (_text_104 + _plus_292);
+                                                                _builder.append(_plus_293, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4510,9 +4505,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_99) {
                                                                 String _text_105 = text_1;
                                                                 String _oldVal_1 = att_1.getOldVal();
-                                                                String _plus_286 = (_oldVal_1 + " ");
-                                                                String _plus_287 = text_1 = (_text_105 + _plus_286);
-                                                                _builder.append(_plus_287, "");
+                                                                String _plus_294 = (_oldVal_1 + " ");
+                                                                String _plus_295 = text_1 = (_text_105 + _plus_294);
+                                                                _builder.append(_plus_295, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4522,9 +4517,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_100) {
                                                                 String _text_106 = text_1;
                                                                 String _newVal_3 = att_1.getNewVal();
-                                                                String _plus_288 = (_newVal_3 + " ");
-                                                                String _plus_289 = text_1 = (_text_106 + _plus_288);
-                                                                _builder.append(_plus_289, "");
+                                                                String _plus_296 = (_newVal_3 + " ");
+                                                                String _plus_297 = text_1 = (_text_106 + _plus_296);
+                                                                _builder.append(_plus_297, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4546,8 +4541,8 @@ public class EduTestGenerator implements IGenerator {
                                                     {
                                                       if ((isRepeated_7 == false)) {
                                                         Integer _get_82 = this.total.get(exercise);
-                                                        int _plus_290 = ((_get_82).intValue() + 1);
-                                                        Integer _put_21 = this.total.put(exercise, Integer.valueOf(_plus_290));
+                                                        int _plus_298 = ((_get_82).intValue() + 1);
+                                                        Integer _put_21 = this.total.put(exercise, Integer.valueOf(_plus_298));
                                                         _builder.append(_put_21, "");
                                                         _builder.newLineIfNotEmpty();
                                                         boolean _add_35 = opts_2.add(optClone_6);
@@ -4619,9 +4614,9 @@ public class EduTestGenerator implements IGenerator {
                                                           if ((w_19 instanceof Constant)) {
                                                             String _text_107 = text_1;
                                                             String _value_55 = ((Constant)w_19).getValue();
-                                                            String _plus_291 = (_value_55 + " ");
-                                                            String _plus_292 = text_1 = (_text_107 + _plus_291);
-                                                            _builder.append(_plus_292, "");
+                                                            String _plus_299 = (_value_55 + " ");
+                                                            String _plus_300 = text_1 = (_text_107 + _plus_299);
+                                                            _builder.append(_plus_300, "");
                                                             _builder.newLineIfNotEmpty();
                                                           }
                                                         }
@@ -4640,17 +4635,17 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_38 instanceof modeltext.Constant)) {
                                                                         String _text_108 = text_1;
                                                                         String _value_56 = ((modeltext.Constant)v_38).getValue();
-                                                                        String _plus_293 = (_value_56 + " ");
-                                                                        String _plus_294 = text_1 = (_text_108 + _plus_293);
-                                                                        _builder.append(_plus_294, "");
+                                                                        String _plus_301 = (_value_56 + " ");
+                                                                        String _plus_302 = text_1 = (_text_108 + _plus_301);
+                                                                        _builder.append(_plus_302, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
                                                                     {
                                                                       if ((v_38 instanceof modeltext.Variable)) {
                                                                         EReference _ref_70 = ((modeltext.Variable) v_38).getRef();
-                                                                        String _plus_295 = ("REF: " + _ref_70);
-                                                                        System.out.println(_plus_295);
+                                                                        String _plus_303 = ("REF: " + _ref_70);
+                                                                        System.out.println(_plus_303);
                                                                         _builder.newLineIfNotEmpty();
                                                                         EObject o_32 = null;
                                                                         _builder.newLineIfNotEmpty();
@@ -4680,9 +4675,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_89 = _id_32.getName();
                                                                             EStructuralFeature _attributeByName_32 = ModelManager.getAttributeByName(_name_89, o_32);
                                                                             Object _eGet_85 = o_32.eGet(_attributeByName_32);
-                                                                            String _plus_296 = (_eGet_85 + " ");
-                                                                            String _plus_297 = text_1 = (_text_109 + _plus_296);
-                                                                            _builder.append(_plus_297, "");
+                                                                            String _plus_304 = (_eGet_85 + " ");
+                                                                            String _plus_305 = text_1 = (_text_109 + _plus_304);
+                                                                            _builder.append(_plus_305, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4703,9 +4698,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_39 instanceof modeltext.Constant)) {
                                                                         String _text_110 = text_1;
                                                                         String _value_57 = ((modeltext.Constant)v_39).getValue();
-                                                                        String _plus_298 = (_value_57 + " ");
-                                                                        String _plus_299 = text_1 = (_text_110 + _plus_298);
-                                                                        _builder.append(_plus_299, "");
+                                                                        String _plus_306 = (_value_57 + " ");
+                                                                        String _plus_307 = text_1 = (_text_110 + _plus_306);
+                                                                        _builder.append(_plus_307, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4739,9 +4734,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_91 = _id_33.getName();
                                                                             EStructuralFeature _attributeByName_33 = ModelManager.getAttributeByName(_name_91, o_33);
                                                                             Object _eGet_87 = o_33.eGet(_attributeByName_33);
-                                                                            String _plus_300 = (_eGet_87 + " ");
-                                                                            String _plus_301 = text_1 = (_text_111 + _plus_300);
-                                                                            _builder.append(_plus_301, "");
+                                                                            String _plus_308 = (_eGet_87 + " ");
+                                                                            String _plus_309 = text_1 = (_text_111 + _plus_308);
+                                                                            _builder.append(_plus_309, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4762,9 +4757,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_40 instanceof modeltext.Constant)) {
                                                                         String _text_112 = text_1;
                                                                         String _value_58 = ((modeltext.Constant)v_40).getValue();
-                                                                        String _plus_302 = (_value_58 + " ");
-                                                                        String _plus_303 = text_1 = (_text_112 + _plus_302);
-                                                                        _builder.append(_plus_303, "");
+                                                                        String _plus_310 = (_value_58 + " ");
+                                                                        String _plus_311 = text_1 = (_text_112 + _plus_310);
+                                                                        _builder.append(_plus_311, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4798,9 +4793,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_93 = _id_34.getName();
                                                                             EStructuralFeature _attributeByName_34 = ModelManager.getAttributeByName(_name_93, o_34);
                                                                             Object _eGet_89 = o_34.eGet(_attributeByName_34);
-                                                                            String _plus_304 = (_eGet_89 + " ");
-                                                                            String _plus_305 = text_1 = (_text_113 + _plus_304);
-                                                                            _builder.append(_plus_305, "");
+                                                                            String _plus_312 = (_eGet_89 + " ");
+                                                                            String _plus_313 = text_1 = (_text_113 + _plus_312);
+                                                                            _builder.append(_plus_313, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4821,17 +4816,17 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_41 instanceof modeltext.Constant)) {
                                                                         String _text_114 = text_1;
                                                                         String _value_59 = ((modeltext.Constant)v_41).getValue();
-                                                                        String _plus_306 = (_value_59 + " ");
-                                                                        String _plus_307 = text_1 = (_text_114 + _plus_306);
-                                                                        _builder.append(_plus_307, "");
+                                                                        String _plus_314 = (_value_59 + " ");
+                                                                        String _plus_315 = text_1 = (_text_114 + _plus_314);
+                                                                        _builder.append(_plus_315, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
                                                                     {
                                                                       if ((v_41 instanceof modeltext.Variable)) {
                                                                         EReference _ref_77 = ((modeltext.Variable) v_41).getRef();
-                                                                        String _plus_308 = ("REF: " + _ref_77);
-                                                                        System.out.println(_plus_308);
+                                                                        String _plus_316 = ("REF: " + _ref_77);
+                                                                        System.out.println(_plus_316);
                                                                         _builder.newLineIfNotEmpty();
                                                                         EObject o_35 = null;
                                                                         _builder.newLineIfNotEmpty();
@@ -4861,9 +4856,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_95 = _id_35.getName();
                                                                             EStructuralFeature _attributeByName_35 = ModelManager.getAttributeByName(_name_95, o_35);
                                                                             Object _eGet_91 = o_35.eGet(_attributeByName_35);
-                                                                            String _plus_309 = (_eGet_91 + " ");
-                                                                            String _plus_310 = text_1 = (_text_115 + _plus_309);
-                                                                            _builder.append(_plus_310, "");
+                                                                            String _plus_317 = (_eGet_91 + " ");
+                                                                            String _plus_318 = text_1 = (_text_115 + _plus_317);
+                                                                            _builder.append(_plus_318, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4884,9 +4879,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_42 instanceof modeltext.Constant)) {
                                                                         String _text_116 = text_1;
                                                                         String _value_60 = ((modeltext.Constant)v_42).getValue();
-                                                                        String _plus_311 = (_value_60 + " ");
-                                                                        String _plus_312 = text_1 = (_text_116 + _plus_311);
-                                                                        _builder.append(_plus_312, "");
+                                                                        String _plus_319 = (_value_60 + " ");
+                                                                        String _plus_320 = text_1 = (_text_116 + _plus_319);
+                                                                        _builder.append(_plus_320, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4920,9 +4915,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_97 = _id_36.getName();
                                                                             EStructuralFeature _attributeByName_36 = ModelManager.getAttributeByName(_name_97, o_36);
                                                                             Object _eGet_93 = o_36.eGet(_attributeByName_36);
-                                                                            String _plus_313 = (_eGet_93 + " ");
-                                                                            String _plus_314 = text_1 = (_text_117 + _plus_313);
-                                                                            _builder.append(_plus_314, "");
+                                                                            String _plus_321 = (_eGet_93 + " ");
+                                                                            String _plus_322 = text_1 = (_text_117 + _plus_321);
+                                                                            _builder.append(_plus_322, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4943,9 +4938,9 @@ public class EduTestGenerator implements IGenerator {
                                                                       if ((v_43 instanceof modeltext.Constant)) {
                                                                         String _text_118 = text_1;
                                                                         String _value_61 = ((modeltext.Constant)v_43).getValue();
-                                                                        String _plus_315 = (_value_61 + " ");
-                                                                        String _plus_316 = text_1 = (_text_118 + _plus_315);
-                                                                        _builder.append(_plus_316, "");
+                                                                        String _plus_323 = (_value_61 + " ");
+                                                                        String _plus_324 = text_1 = (_text_118 + _plus_323);
+                                                                        _builder.append(_plus_324, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
@@ -4979,9 +4974,9 @@ public class EduTestGenerator implements IGenerator {
                                                                             String _name_99 = _id_37.getName();
                                                                             EStructuralFeature _attributeByName_37 = ModelManager.getAttributeByName(_name_99, o_37);
                                                                             Object _eGet_95 = o_37.eGet(_attributeByName_37);
-                                                                            String _plus_317 = (_eGet_95 + " ");
-                                                                            String _plus_318 = text_1 = (_text_119 + _plus_317);
-                                                                            _builder.append(_plus_318, "");
+                                                                            String _plus_325 = (_eGet_95 + " ");
+                                                                            String _plus_326 = text_1 = (_text_119 + _plus_325);
+                                                                            _builder.append(_plus_326, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4997,9 +4992,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_113) {
                                                                 String _text_120 = text_1;
                                                                 String _refName_7 = ((ReferenceSwap)ref_1).getRefName();
-                                                                String _plus_319 = (_refName_7 + " ");
-                                                                String _plus_320 = text_1 = (_text_120 + _plus_319);
-                                                                _builder.append(_plus_320, "");
+                                                                String _plus_327 = (_refName_7 + " ");
+                                                                String _plus_328 = text_1 = (_text_120 + _plus_327);
+                                                                _builder.append(_plus_328, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -5009,9 +5004,9 @@ public class EduTestGenerator implements IGenerator {
                                                               if (_equals_114) {
                                                                 String _text_121 = text_1;
                                                                 String _firstName_3 = ((ReferenceSwap)ref_1).getFirstName();
-                                                                String _plus_321 = (_firstName_3 + " ");
-                                                                String _plus_322 = text_1 = (_text_121 + _plus_321);
-                                                                _builder.append(_plus_322, "");
+                                                                String _plus_329 = (_firstName_3 + " ");
+                                                                String _plus_330 = text_1 = (_text_121 + _plus_329);
+                                                                _builder.append(_plus_330, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -5033,8 +5028,8 @@ public class EduTestGenerator implements IGenerator {
                                                     {
                                                       if ((isRepeated_8 == false)) {
                                                         Integer _get_83 = this.total.get(exercise);
-                                                        int _plus_323 = ((_get_83).intValue() + 1);
-                                                        Integer _put_22 = this.total.put(exercise, Integer.valueOf(_plus_323));
+                                                        int _plus_331 = ((_get_83).intValue() + 1);
+                                                        Integer _put_22 = this.total.put(exercise, Integer.valueOf(_plus_331));
                                                         _builder.append(_put_22, "");
                                                         _builder.newLineIfNotEmpty();
                                                         boolean _add_37 = opts_2.add(optClone_7);
@@ -5596,15 +5591,15 @@ public class EduTestGenerator implements IGenerator {
                   _builder.append("    \t");
                   _builder.append("\t");
                   HashMap<Test, ArrayList<String>> _get_101 = this.rand.get(exercise_2);
-                  String _plus_324 = ("rand.get(exercise): " + _get_101);
-                  System.out.println(_plus_324);
+                  String _plus_332 = ("rand.get(exercise): " + _get_101);
+                  System.out.println(_plus_332);
                   _builder.newLineIfNotEmpty();
                   _builder.append("    \t");
                   _builder.append("\t");
                   HashMap<Test, ArrayList<String>> _get_102 = this.rand.get(exercise_2);
                   ArrayList<String> _get_103 = _get_102.get(test_13);
-                  String _plus_325 = ("rand.get(exercise).get(test): " + _get_103);
-                  System.out.println(_plus_325);
+                  String _plus_333 = ("rand.get(exercise).get(test): " + _get_103);
+                  System.out.println(_plus_333);
                   _builder.newLineIfNotEmpty();
                 }
               }
@@ -5649,8 +5644,8 @@ public class EduTestGenerator implements IGenerator {
                           _builder.append("    \t\t\t");
                           _builder.append("if (diagram == \'");
                           int _indexOf_1 = diagram.indexOf("/");
-                          int _plus_326 = (_indexOf_1 + 1);
-                          String _substring_2 = diagram.substring(_plus_326);
+                          int _plus_334 = (_indexOf_1 + 1);
+                          String _substring_2 = diagram.substring(_plus_334);
                           _builder.append(_substring_2, "    \t\t\t");
                           _builder.append("\') {");
                           _builder.newLineIfNotEmpty();
@@ -5888,8 +5883,8 @@ public class EduTestGenerator implements IGenerator {
                           _builder.append("    \t\t\t");
                           _builder.append("if (diagram == \'");
                           int _indexOf_3 = diagram_1.indexOf("/");
-                          int _plus_327 = (_indexOf_3 + 1);
-                          String _substring_3 = diagram_1.substring(_plus_327);
+                          int _plus_335 = (_indexOf_3 + 1);
+                          String _substring_3 = diagram_1.substring(_plus_335);
                           _builder.append(_substring_3, "    \t\t\t");
                           _builder.append("\') {");
                           _builder.newLineIfNotEmpty();
@@ -6123,8 +6118,8 @@ public class EduTestGenerator implements IGenerator {
                           _builder.append("\t");
                           _builder.append("if (diagram == \'");
                           int _indexOf_5 = diagram_2.indexOf("/");
-                          int _plus_328 = (_indexOf_5 + 1);
-                          String _substring_4 = diagram_2.substring(_plus_328);
+                          int _plus_336 = (_indexOf_5 + 1);
+                          String _substring_4 = diagram_2.substring(_plus_336);
                           _builder.append(_substring_4, "\t");
                           _builder.append("\') {");
                           _builder.newLineIfNotEmpty();

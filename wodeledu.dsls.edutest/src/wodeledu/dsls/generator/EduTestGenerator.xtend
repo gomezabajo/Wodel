@@ -84,9 +84,7 @@ class EduTestGenerator implements IGenerator {
 			//loads the mutator model
 			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
 			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", ".model")
-			var Bundle bundle = Platform.getBundle("wodel.models")
-			var URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
-			val String mutatorecore = FileLocator.resolve(fileURL).getFile
+			val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore";
 			val ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
 			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
 			val ArrayList<EObject> blockobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
@@ -284,26 +282,20 @@ class EduTestGenerator implements IGenerator {
    		«ENDIF»
 		«IF exercise instanceof MultiChoiceEmendation»
 		<!-- REGISTRY: «var dataReg = new HashMap<Test, Registry>()»
-		«val Bundle bundle = Platform.getBundle('wodel.models')»
-		«var URL fileURL = bundle.getEntry('/models/AppliedMutations.ecore')»
-		«val String ecore = ModelManager.getMetaModel().replace("\\", "/")»
+		«val String ecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore"»
 		«val ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore)»
-		«val String registryecore = FileLocator.resolve(fileURL).getFile()»
+		«val String registryecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/AppliedMutations.ecore"»
 		«val ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore)»
 		«/*loads the idelems model*/»
 		«var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
 			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", "_modeltext.model")»
-		«System.out.println("xmiFileName: " + xmiFileName)»
-		«fileURL = bundle.getEntry('/models/ModelText.ecore')»
-		«val String idelemsecore = FileLocator.resolve(fileURL).getFile»
+		«val String idelemsecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/ModelText.ecore"»
 		«val ArrayList<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore)»
 		«val idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString)»
 		«/*loads the cfgopts model*/»
 		«xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
 			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", "_mutatext.model")»
-		«System.out.println("xmiFileName: " + xmiFileName)»
-		«fileURL = bundle.getEntry('/models/MutaText.ecore')»
-		«val String cfgoptsecore = FileLocator.resolve(fileURL).getFile»
+		«val String cfgoptsecore = ModelManager.getWorkspaceAbsolutePath + '/' + WodelContext.getProject() + "/resources/MutaText.ecore"»
 		«val ArrayList<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore)»
 		«val cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString)»
 		<!--

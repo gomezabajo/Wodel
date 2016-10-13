@@ -9,8 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import manager.ModelManager;
 import mutatorenvironment.AttributeCopy;
-import mutatorenvironment.AttributeInit;
 import mutatorenvironment.AttributeReverse;
+import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeSet;
 import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeType;
@@ -21,7 +21,6 @@ import mutatorenvironment.DoubleType;
 import mutatorenvironment.IntegerType;
 import mutatorenvironment.ListStringType;
 import mutatorenvironment.ModifyInformationMutator;
-import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.Program;
 import mutatorenvironment.Source;
@@ -30,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import wodel.dsls.validation.AbstractWodelValidator;
@@ -216,10 +214,10 @@ public class WodelValidator extends AbstractWodelValidator {
             this.error("The attributes are not of the same type", null, WodelValidator.INVALID_COPY);
           }
         }
-        if ((attset instanceof AttributeInit)) {
-          EList<EAttribute> _attribute_5 = ((AttributeInit)attset).getAttribute();
+        if ((attset instanceof AttributeScalar)) {
+          EList<EAttribute> _attribute_5 = ((AttributeScalar)attset).getAttribute();
           EAttribute att0_2 = _attribute_5.get(0);
-          AttributeType att_type = ((AttributeInit)attset).getValue();
+          AttributeType att_type = ((AttributeScalar)attset).getValue();
           if ((att_type instanceof IntegerType)) {
             EClassifier _eType_4 = att0_2.getEType();
             String _instanceClassName = _eType_4.getInstanceClassName();
@@ -336,10 +334,10 @@ public class WodelValidator extends AbstractWodelValidator {
             this.error("The attributes are not of the same type", null, WodelValidator.INVALID_COPY);
           }
         }
-        if ((attset instanceof AttributeInit)) {
-          EList<EAttribute> _attribute_5 = ((AttributeInit)attset).getAttribute();
+        if ((attset instanceof AttributeScalar)) {
+          EList<EAttribute> _attribute_5 = ((AttributeScalar)attset).getAttribute();
           EAttribute att0_2 = _attribute_5.get(0);
-          AttributeType att_type = ((AttributeInit)attset).getValue();
+          AttributeType att_type = ((AttributeScalar)attset).getValue();
           if ((att_type instanceof IntegerType)) {
             EClassifier _eType_4 = att0_2.getEType();
             String _instanceClassName = _eType_4.getInstanceClassName();
@@ -390,19 +388,6 @@ public class WodelValidator extends AbstractWodelValidator {
             }
           }
         }
-      }
-    }
-  }
-  
-  @Check
-  public void checkModifySourceReference(final ModifySourceReferenceMutator com) {
-    EReference ref = com.getRefType();
-    boolean _notEquals = (!Objects.equal(ref, null));
-    if (_notEquals) {
-      int _lowerBound = ref.getLowerBound();
-      boolean _notEquals_1 = (_lowerBound != 0);
-      if (_notEquals_1) {
-        this.warning("The lower bound of the source reference is not 0", null, WodelValidator.WARNING_MODIFY_SOURCE);
       }
     }
   }

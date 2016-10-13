@@ -31,7 +31,7 @@ import mutatorenvironment.AttributeSwap
 import mutatorenvironment.AttributeCopy
 import mutatorenvironment.ModifySourceReferenceMutator
 import org.eclipse.emf.ecore.EReference
-import mutatorenvironment.AttributeInit
+import mutatorenvironment.AttributeScalar
 import mutatorenvironment.AttributeType
 import mutatorenvironment.StringType
 import mutatorenvironment.IntegerType
@@ -152,7 +152,7 @@ class WodelValidator extends AbstractWodelValidator {
     				error('The attributes are not of the same type', null, INVALID_COPY);
     			}
     		}
-    		if (attset instanceof AttributeInit) {
+    		if (attset instanceof AttributeScalar) {
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var AttributeType att_type = attset.getValue();
     			if (att_type instanceof IntegerType) {
@@ -220,7 +220,7 @@ class WodelValidator extends AbstractWodelValidator {
     				error('The attributes are not of the same type', null, INVALID_COPY);
     			}
     		}
-    		if (attset instanceof AttributeInit) {
+    		if (attset instanceof AttributeScalar) {
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var AttributeType att_type = attset.getValue();
     			if (att_type instanceof IntegerType) {
@@ -253,15 +253,15 @@ class WodelValidator extends AbstractWodelValidator {
     	}
     }
 
-    @Check
-    def checkModifySourceReference(ModifySourceReferenceMutator com) {
-    	var EReference ref = com.getRefType();
-    	if (ref != null) {
-    		if (ref.getLowerBound() != 0) {
-    			warning('The lower bound of the source reference is not 0', null, WARNING_MODIFY_SOURCE)
-    		}
-    	}
-    }
+//    @Check
+//    def checkModifySourceReference(ModifySourceReferenceMutator com) {
+//    	var EReference ref = com.getRefType();
+//    	if (ref != null) {
+//    		if (ref.getLowerBound() != 0) {
+//    			warning('The lower bound of the source reference is not 0', null, WARNING_MODIFY_SOURCE)
+//    		}
+//    	}
+//    }
     
 //    @Check //Init: CreateObjectMutator
 //    def checkExpression(Expression exp) {

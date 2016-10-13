@@ -160,10 +160,10 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MutatorenvironmentPackage.ATTRIBUTE_INIT: {
-				AttributeInit attributeInit = (AttributeInit)theEObject;
-				T result = caseAttributeInit(attributeInit);
-				if (result == null) result = caseAttributeSet(attributeInit);
+			case MutatorenvironmentPackage.ATTRIBUTE_SCALAR: {
+				AttributeScalar attributeScalar = (AttributeScalar)theEObject;
+				T result = caseAttributeScalar(attributeScalar);
+				if (result == null) result = caseAttributeSet(attributeScalar);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -550,6 +550,13 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MutatorenvironmentPackage.RANDOM_TYPE: {
+				RandomType randomType = (RandomType)theEObject;
+				T result = caseRandomType(randomType);
+				if (result == null) result = caseAttributeType(randomType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -750,17 +757,17 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Attribute Init</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Scalar</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Attribute Init</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Scalar</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAttributeInit(AttributeInit object) {
+	public T caseAttributeScalar(AttributeScalar object) {
 		return null;
 	}
 
@@ -1526,6 +1533,21 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConstraint(Constraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Random Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Random Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRandomType(RandomType object) {
 		return null;
 	}
 

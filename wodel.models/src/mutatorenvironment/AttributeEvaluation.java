@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EAttribute;
  * The following features are supported:
  * <ul>
  *   <li>{@link mutatorenvironment.AttributeEvaluation#getName <em>Name</em>}</li>
- *   <li>{@link mutatorenvironment.AttributeEvaluation#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.AttributeEvaluation#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
@@ -48,35 +47,6 @@ public interface AttributeEvaluation extends Evaluation {
 	 * @generated
 	 */
 	void setName(EAttribute value);
-
-	/**
-	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
-	 * The literals are from the enumeration {@link mutatorenvironment.Operator}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operator</em>' attribute.
-	 * @see mutatorenvironment.Operator
-	 * @see #setOperator(Operator)
-	 * @see mutatorenvironment.MutatorenvironmentPackage#getAttributeEvaluation_Operator()
-	 * @model required="true"
-	 * @generated
-	 */
-	Operator getOperator();
-
-	/**
-	 * Sets the value of the '{@link mutatorenvironment.AttributeEvaluation#getOperator <em>Operator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Operator</em>' attribute.
-	 * @see mutatorenvironment.Operator
-	 * @see #getOperator()
-	 * @generated
-	 */
-	void setOperator(Operator value);
 
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' containment reference.

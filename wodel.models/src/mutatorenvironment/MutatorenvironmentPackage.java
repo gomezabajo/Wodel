@@ -938,14 +938,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int ATTRIBUTE_SET_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link mutatorenvironment.impl.AttributeInitImpl <em>Attribute Init</em>}' class.
+	 * The meta object id for the '{@link mutatorenvironment.impl.AttributeScalarImpl <em>Attribute Scalar</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see mutatorenvironment.impl.AttributeInitImpl
-	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getAttributeInit()
+	 * @see mutatorenvironment.impl.AttributeScalarImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getAttributeScalar()
 	 * @generated
 	 */
-	int ATTRIBUTE_INIT = 13;
+	int ATTRIBUTE_SCALAR = 13;
 
 	/**
 	 * The feature id for the '<em><b>Attribute</b></em>' reference list.
@@ -954,7 +954,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_INIT__ATTRIBUTE = ATTRIBUTE_SET__ATTRIBUTE;
+	int ATTRIBUTE_SCALAR__ATTRIBUTE = ATTRIBUTE_SET__ATTRIBUTE;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -963,25 +963,25 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_INIT__VALUE = ATTRIBUTE_SET_FEATURE_COUNT + 0;
+	int ATTRIBUTE_SCALAR__VALUE = ATTRIBUTE_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Attribute Init</em>' class.
+	 * The number of structural features of the '<em>Attribute Scalar</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_INIT_FEATURE_COUNT = ATTRIBUTE_SET_FEATURE_COUNT + 1;
+	int ATTRIBUTE_SCALAR_FEATURE_COUNT = ATTRIBUTE_SET_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Attribute Init</em>' class.
+	 * The number of operations of the '<em>Attribute Scalar</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_INIT_OPERATION_COUNT = ATTRIBUTE_SET_OPERATION_COUNT + 0;
+	int ATTRIBUTE_SCALAR_OPERATION_COUNT = ATTRIBUTE_SET_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.impl.AttributeTypeImpl <em>Attribute Type</em>}' class.
@@ -994,13 +994,22 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int ATTRIBUTE_TYPE = 14;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_TYPE__OPERATOR = 0;
+
+	/**
 	 * The number of structural features of the '<em>Attribute Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_TYPE_FEATURE_COUNT = 0;
+	int ATTRIBUTE_TYPE_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Attribute Type</em>' class.
@@ -1020,6 +1029,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int BOOLEAN_TYPE = 15;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__OPERATOR = ATTRIBUTE_TYPE__OPERATOR;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Type</em>' class.
@@ -1048,6 +1066,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int SPECIFIC_BOOLEAN_TYPE = 16;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_BOOLEAN_TYPE__OPERATOR = BOOLEAN_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1087,6 +1114,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int RANDOM_BOOLEAN_TYPE = 17;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_BOOLEAN_TYPE__OPERATOR = BOOLEAN_TYPE__OPERATOR;
+
+	/**
 	 * The feature id for the '<em><b>Allows Null</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1124,6 +1160,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int STRING_TYPE = 18;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__OPERATOR = ATTRIBUTE_TYPE__OPERATOR;
+
+	/**
 	 * The number of structural features of the '<em>String Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1150,6 +1195,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int SPECIFIC_STRING_TYPE = 19;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1187,6 +1241,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int RANDOM_STRING_TYPE = 20;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -1244,6 +1307,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int INTEGER_TYPE = 21;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__OPERATOR = ATTRIBUTE_TYPE__OPERATOR;
+
+	/**
 	 * The number of structural features of the '<em>Integer Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1270,6 +1342,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int SPECIFIC_INTEGER_TYPE = 22;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_INTEGER_TYPE__OPERATOR = INTEGER_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1307,6 +1388,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int RANDOM_INTEGER_TYPE = 23;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_INTEGER_TYPE__OPERATOR = INTEGER_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -1364,6 +1454,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int DOUBLE_TYPE = 24;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE_TYPE__OPERATOR = ATTRIBUTE_TYPE__OPERATOR;
+
+	/**
 	 * The number of structural features of the '<em>Double Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1390,6 +1489,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int SPECIFIC_DOUBLE_TYPE = 25;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_DOUBLE_TYPE__OPERATOR = DOUBLE_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1427,6 +1535,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int RANDOM_DOUBLE_TYPE = 26;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_DOUBLE_TYPE__OPERATOR = DOUBLE_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -2112,6 +2229,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int UPPER_STRING_TYPE = 35;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UPPER_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2147,6 +2273,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int LOWER_STRING_TYPE = 36;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOWER_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -2186,6 +2321,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int LIST_STRING_TYPE = 37;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIST_STRING_TYPE__OPERATOR = ATTRIBUTE_TYPE__OPERATOR;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2223,6 +2367,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int CAT_START_STRING_TYPE = 38;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CAT_START_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2258,6 +2411,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int CAT_END_STRING_TYPE = 39;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CAT_END_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -2378,6 +2540,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	int REPLACE_STRING_TYPE = 43;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REPLACE_STRING_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
 
 	/**
 	 * The feature id for the '<em><b>Oldstring</b></em>' attribute.
@@ -3121,22 +3292,13 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int ATTRIBUTE_EVALUATION__NAME = EVALUATION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Operator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_EVALUATION__OPERATOR = EVALUATION_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_EVALUATION__VALUE = EVALUATION_FEATURE_COUNT + 2;
+	int ATTRIBUTE_EVALUATION__VALUE = EVALUATION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Attribute Evaluation</em>' class.
@@ -3145,7 +3307,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_EVALUATION_FEATURE_COUNT = EVALUATION_FEATURE_COUNT + 3;
+	int ATTRIBUTE_EVALUATION_FEATURE_COUNT = EVALUATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Attribute Evaluation</em>' class.
@@ -3661,6 +3823,43 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int CONSTRAINT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.RandomTypeImpl <em>Random Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.RandomTypeImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRandomType()
+	 * @generated
+	 */
+	int RANDOM_TYPE = 65;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE__OPERATOR = ATTRIBUTE_TYPE__OPERATOR;
+
+	/**
+	 * The number of structural features of the '<em>Random Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE_FEATURE_COUNT = ATTRIBUTE_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Random Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE_OPERATION_COUNT = ATTRIBUTE_TYPE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3668,7 +3867,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getLogicOperator()
 	 * @generated
 	 */
-	int LOGIC_OPERATOR = 65;
+	int LOGIC_OPERATOR = 66;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Operator <em>Operator</em>}' enum.
@@ -3678,7 +3877,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 66;
+	int OPERATOR = 67;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Repeat <em>Repeat</em>}' enum.
@@ -3688,7 +3887,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRepeat()
 	 * @generated
 	 */
-	int REPEAT = 67;
+	int REPEAT = 68;
 
 
 	/**
@@ -4064,25 +4263,25 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getSpecificObjectSelection_ObjSel();
 
 	/**
-	 * Returns the meta object for class '{@link mutatorenvironment.AttributeInit <em>Attribute Init</em>}'.
+	 * Returns the meta object for class '{@link mutatorenvironment.AttributeScalar <em>Attribute Scalar</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Attribute Init</em>'.
-	 * @see mutatorenvironment.AttributeInit
+	 * @return the meta object for class '<em>Attribute Scalar</em>'.
+	 * @see mutatorenvironment.AttributeScalar
 	 * @generated
 	 */
-	EClass getAttributeInit();
+	EClass getAttributeScalar();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link mutatorenvironment.AttributeInit#getValue <em>Value</em>}'.
+	 * Returns the meta object for the containment reference '{@link mutatorenvironment.AttributeScalar#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Value</em>'.
-	 * @see mutatorenvironment.AttributeInit#getValue()
-	 * @see #getAttributeInit()
+	 * @see mutatorenvironment.AttributeScalar#getValue()
+	 * @see #getAttributeScalar()
 	 * @generated
 	 */
-	EReference getAttributeInit_Value();
+	EReference getAttributeScalar_Value();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.AttributeType <em>Attribute Type</em>}'.
@@ -4093,6 +4292,17 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAttributeType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.AttributeType#getOperator <em>Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operator</em>'.
+	 * @see mutatorenvironment.AttributeType#getOperator()
+	 * @see #getAttributeType()
+	 * @generated
+	 */
+	EAttribute getAttributeType_Operator();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.BooleanType <em>Boolean Type</em>}'.
@@ -5023,17 +5233,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getAttributeEvaluation_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link mutatorenvironment.AttributeEvaluation#getOperator <em>Operator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Operator</em>'.
-	 * @see mutatorenvironment.AttributeEvaluation#getOperator()
-	 * @see #getAttributeEvaluation()
-	 * @generated
-	 */
-	EAttribute getAttributeEvaluation_Operator();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link mutatorenvironment.AttributeEvaluation#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5374,6 +5573,16 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getConstraint_Rule();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.RandomType <em>Random Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Random Type</em>'.
+	 * @see mutatorenvironment.RandomType
+	 * @generated
+	 */
+	EClass getRandomType();
 
 	/**
 	 * Returns the meta object for enum '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}'.
@@ -5735,14 +5944,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EReference SPECIFIC_OBJECT_SELECTION__OBJ_SEL = eINSTANCE.getSpecificObjectSelection_ObjSel();
 
 		/**
-		 * The meta object literal for the '{@link mutatorenvironment.impl.AttributeInitImpl <em>Attribute Init</em>}' class.
+		 * The meta object literal for the '{@link mutatorenvironment.impl.AttributeScalarImpl <em>Attribute Scalar</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see mutatorenvironment.impl.AttributeInitImpl
-		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getAttributeInit()
+		 * @see mutatorenvironment.impl.AttributeScalarImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getAttributeScalar()
 		 * @generated
 		 */
-		EClass ATTRIBUTE_INIT = eINSTANCE.getAttributeInit();
+		EClass ATTRIBUTE_SCALAR = eINSTANCE.getAttributeScalar();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
@@ -5750,7 +5959,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ATTRIBUTE_INIT__VALUE = eINSTANCE.getAttributeInit_Value();
+		EReference ATTRIBUTE_SCALAR__VALUE = eINSTANCE.getAttributeScalar_Value();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.AttributeTypeImpl <em>Attribute Type</em>}' class.
@@ -5761,6 +5970,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ATTRIBUTE_TYPE = eINSTANCE.getAttributeType();
+
+		/**
+		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ATTRIBUTE_TYPE__OPERATOR = eINSTANCE.getAttributeType_Operator();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.BooleanTypeImpl <em>Boolean Type</em>}' class.
@@ -6547,14 +6764,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EReference ATTRIBUTE_EVALUATION__NAME = eINSTANCE.getAttributeEvaluation_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ATTRIBUTE_EVALUATION__OPERATOR = eINSTANCE.getAttributeEvaluation_Operator();
-
-		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6829,6 +7038,16 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONSTRAINT__RULE = eINSTANCE.getConstraint_Rule();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.RandomTypeImpl <em>Random Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.RandomTypeImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRandomType()
+		 * @generated
+		 */
+		EClass RANDOM_TYPE = eINSTANCE.getRandomType();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.

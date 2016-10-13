@@ -82,7 +82,7 @@ public class MutatorUtils {
 	}
 
 	protected class AttributeEvaluation extends Evaluation {
-		public String value;
+		public List<String> values;
 		public String type;
 
 		public AttributeEvaluation() {
@@ -124,39 +124,9 @@ public class MutatorUtils {
 					for (EAttribute att : candidate.eClass()
 							.getEAllAttributes()) {
 						if (att.getName().equals(attev.name)) {
-							if (attev.type.toLowerCase().equals("string")) {
-								if (((String) candidate.eGet(att))
-										.equals((String) attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							// CASO DE QUE SEA DOUBLE
-							if (attev.type.toLowerCase().equals("double")) {
-								if (((double) candidate.eGet(att)) == Double
-										.parseDouble(attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							// CASO DE QUE SEA BOOLEAN
-							if (attev.type.toLowerCase().equals("boolean")) {
-								if (((Boolean) candidate.eGet(att)) == Boolean
-										.parseBoolean(attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							// CASO DE QUE SEA INT
-							if (attev.type.toLowerCase().equals("int")) {
-								if (((int) candidate.eGet(att)) == Integer
-										.parseInt(attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
+							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
 								}
 							}
 						}
@@ -167,36 +137,8 @@ public class MutatorUtils {
 							.getEAllAttributes()) {
 						if (att.getName().equals(attev.name)) {
 							// CASO DE QUE SEA STRING
-							if (attev.type.toLowerCase().equals("string")) {
-								if (!((String) candidate.eGet(att))
-										.equals((String) attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							// CASO DE QUE SEA DOUBLE
-							if (attev.type.toLowerCase().equals("double")) {
-								if (((double) candidate.eGet(att)) != Double
-										.parseDouble(attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							// CASO DE QUE SEA BOOLEAN
-							if (attev.type.toLowerCase().equals("boolean")) {
-								if (((Boolean) candidate.eGet(att)) != Boolean
-										.parseBoolean(attev.value)) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							// CASO DE QUE SEA INT
-							if (attev.type.toLowerCase().equals("int")) {
-								if (((int) candidate.eGet(att)) != Integer
-										.parseInt(attev.value)) {
+							if (candidate.eGet(att) != null) {
+								if (!candidate.eGet(att).toString().equals(attev.values.get(0))) {
 									if (!selected.contains(candidate)) {
 										selected.add(candidate);
 									}
@@ -204,6 +146,27 @@ public class MutatorUtils {
 							}
 						}
 					}
+				}
+				if (attev.operator.equals("in")) {
+					ArrayList<String> tmp_values = new ArrayList<String>();
+					tmp_values.addAll(attev.values);
+					do {
+						int n = ModelManager.getRandomIndex(tmp_values);
+						for (EAttribute att : candidate.eClass()
+								.getEAllAttributes()) {
+							if (att.getName().equals(attev.name)) {
+								if (candidate.eGet(att) != null) {
+									if (candidate.eGet(att).toString().equals(tmp_values.get(n).toString())) {
+										if (!selected.contains(candidate)) {
+											selected.add(candidate);
+										}
+									}
+								}
+							}
+						}
+						tmp_values.remove(n);
+					}
+					while (selected.size() == 0 && tmp_values.size() > 0);
 				}
 			}
 		}
@@ -284,35 +247,12 @@ public class MutatorUtils {
 								for (EAttribute att : candidate.eClass()
 										.getEAllAttributes()) {
 									if (att.getName().equals(attev.name)) {
-										// CASO DE QUE SEA STRING
-										if (attev.type.toLowerCase().equals(
-												"string")) {
-											if (!((String) candidate.eGet(att))
-													.equals((String) attev.value)) {
-												selected_tmp.remove(candidate);
-											}
-										}
-										// CASO DE QUE SEA DOUBLE
-										if (attev.type.toLowerCase().equals(
-												"double")) {
-											if (((double) candidate.eGet(att)) != Double
-													.parseDouble(attev.value)) {
-												selected_tmp.remove(candidate);
-											}
-										}
-										// CASO DE QUE SEA BOOLEAN
-										if (attev.type.toLowerCase().equals(
-												"boolean")) {
-											if (((Boolean) candidate.eGet(att)) != Boolean
-													.parseBoolean(attev.value)) {
-												selected_tmp.remove(candidate);
-											}
-										}
-										// CASO DE QUE SEA INT
-										if (attev.type.toLowerCase().equals(
-												"int")) {
-											if (((int) candidate.eGet(att)) != Integer
-													.parseInt(attev.value)) {
+										if (candidate.eGet(att) != null) {
+											if (candidate
+													.eGet(att)
+													.toString()
+													.equals(attev.values.get(0)
+															.toString())) {
 												selected_tmp.remove(candidate);
 											}
 										}
@@ -323,40 +263,40 @@ public class MutatorUtils {
 								for (EAttribute att : candidate.eClass()
 										.getEAllAttributes()) {
 									if (att.getName().equals(attev.name)) {
-										// CASO DE QUE SEA STRING
-										if (attev.type.toLowerCase().equals(
-												"string")) {
-											if (((String) candidate.eGet(att))
-													.equals((String) attev.value)) {
-												selected_tmp.remove(candidate);
-											}
-										}
-										// CASO DE QUE SEA DOUBLE
-										if (attev.type.toLowerCase().equals(
-												"double")) {
-											if (((double) candidate.eGet(att)) == Double
-													.parseDouble(attev.value)) {
-												selected_tmp.remove(candidate);
-											}
-										}
-										// CASO DE QUE SEA BOOLEAN
-										if (attev.type.toLowerCase().equals(
-												"boolean")) {
-											if (((Boolean) candidate.eGet(att)) == Boolean
-													.parseBoolean(attev.value)) {
-												selected_tmp.remove(candidate);
-											}
-										}
-										// CASO DE QUE SEA INT
-										if (attev.type.toLowerCase().equals(
-												"int")) {
-											if (((int) candidate.eGet(att)) == Integer
-													.parseInt(attev.value)) {
+										if ((String) candidate.eGet(att) != null) {
+											if (candidate
+													.eGet(att)
+													.toString()
+													.equals(attev.values.get(0)
+															.toString())) {
 												selected_tmp.remove(candidate);
 											}
 										}
 									}
 								}
+							}
+							if (attev.operator.equals("in")) {
+								ArrayList<String> tmp_values = new ArrayList<String>();
+								tmp_values.addAll(attev.values);
+								do {
+									int n = ModelManager
+											.getRandomIndex(tmp_values);
+									for (EAttribute att : candidate.eClass()
+											.getEAllAttributes()) {
+										if (att.getName().equals(attev.name)) {
+											// CASO DE QUE SEA STRING
+											if (candidate.eGet(att) != null) {
+												if (!candidate.eGet(att)
+														.equals(tmp_values.get(
+																n).toString())) {
+													selected_tmp
+															.remove(candidate);
+												}
+											}
+										}
+									}
+								} while (selected.size() == selected_tmp.size()
+										&& tmp_values.size() > 0);
 							}
 						}
 					}
@@ -366,48 +306,14 @@ public class MutatorUtils {
 								for (EAttribute att : candidate.eClass()
 										.getEAllAttributes()) {
 									if (att.getName().equals(attev.name)) {
-										// CASO DE QUE SEA STRING
-										if (attev.type.toLowerCase().equals(
-												"string")) {
-											if (((String) candidate.eGet(att))
-													.equals((String) attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
-											}
-										}
-										// CASO DE QUE SEA DOUBLE
-										if (attev.type.toLowerCase().equals(
-												"double")) {
-											if (((double) candidate.eGet(att)) == Double
-													.parseDouble(attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
-											}
-										}
-										// CASO DE QUE SEA BOOLEAN
-										if (attev.type.toLowerCase().equals(
-												"boolean")) {
-											if (((Boolean) candidate.eGet(att)) == Boolean
-													.parseBoolean(attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
-											}
-										}
-										// CASO DE QUE SEA INT
-										if (attev.type.toLowerCase().equals(
-												"int")) {
-											if (((int) candidate.eGet(att)) == Integer
-													.parseInt(attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
+										if (candidate
+												.eGet(att)
+												.toString()
+												.equals(attev.values.get(0)
+														.toString())) {
+											if (!selected_tmp
+													.contains(candidate)) {
+												selected_tmp.add(candidate);
 											}
 										}
 									}
@@ -417,52 +323,46 @@ public class MutatorUtils {
 								for (EAttribute att : candidate.eClass()
 										.getEAllAttributes()) {
 									if (att.getName().equals(attev.name)) {
-										// CASO DE QUE SEA STRING
-										if (attev.type.toLowerCase().equals(
-												"string")) {
-											if (!((String) candidate.eGet(att))
-													.equals((String) attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
-											}
-										}
-										// CASO DE QUE SEA DOUBLE
-										if (attev.type.toLowerCase().equals(
-												"double")) {
-											if (((double) candidate.eGet(att)) != Double
-													.parseDouble(attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
-											}
-										}
-										// CASO DE QUE SEA BOOLEAN
-										if (attev.type.toLowerCase().equals(
-												"boolean")) {
-											if (((Boolean) candidate.eGet(att)) != Boolean
-													.parseBoolean(attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
-											}
-										}
-										// CASO DE QUE SEA INT
-										if (attev.type.toLowerCase().equals(
-												"int")) {
-											if (((int) candidate.eGet(att)) != Integer
-													.parseInt(attev.value)) {
-												if (!selected_tmp
-														.contains(candidate)) {
-													selected_tmp.add(candidate);
-												}
+										if (candidate
+												.eGet(att)
+												.toString()
+												.equals(attev.values.get(0)
+														.toString())) {
+											if (!selected_tmp
+													.contains(candidate)) {
+												selected_tmp.add(candidate);
 											}
 										}
 									}
 								}
+							}
+							if (attev.operator.equals("in")) {
+								ArrayList<String> tmp_values = new ArrayList<String>();
+								tmp_values.addAll(attev.values);
+								do {
+									int n = ModelManager
+											.getRandomIndex(tmp_values);
+									for (EAttribute att : candidate.eClass()
+											.getEAllAttributes()) {
+										if (att.getName().equals(attev.name)) {
+											// CASO DE QUE SEA STRING
+											if (attev.type.toLowerCase()
+													.equals("string")) {
+												if (((String) candidate
+														.eGet(att))
+														.equals((String) tmp_values
+																.get(n))) {
+													if (!selected_tmp
+															.contains(candidate)) {
+														selected_tmp
+																.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								} while (selected.size() == selected_tmp.size()
+										&& tmp_values.size() > 0);
 							}
 						}
 					}

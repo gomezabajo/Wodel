@@ -47,6 +47,9 @@ import mutatorenvironment.ReferenceSet
 import mutatorenvironment.ObSelectionStrategy
 import mutatorenvironment.Block
 import mutatorenvironment.Constraint
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.Arrays
 
 /**
  * This class contains custom scoping description.
@@ -317,14 +320,28 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		System.out.println("7.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
+        val List<EReference> scope = new ArrayList<EReference>()
         
         // the only possibility is that the container is a RandomTypeSelection
         if (com.container instanceof RandomTypeSelection) {
         	val EClass container = (com.container as RandomTypeSelection).type
         	
         	// add references to scope
-        	Scopes.scopeFor( getEContainmentReferences(definition.metamodel, container.name, com.type.name) )              
+        	scope.addAll(getEContainmentReferences(definition.metamodel, container.name, com.type.name))
         }
+        if (com.container instanceof SpecificObjectSelection) {
+        	if ((com.container as SpecificObjectSelection).objSel instanceof SelectObjectMutator) {
+        		if (((com.container as SpecificObjectSelection).objSel as SelectObjectMutator).object instanceof RandomTypeSelection) {
+        			val EClass container = (((com.container as SpecificObjectSelection).objSel as SelectObjectMutator).object as RandomTypeSelection).type
+        			scope.addAll(getEReferences(definition.metamodel, container.name))
+        		}
+        	}
+        	if ((com.container as SpecificObjectSelection).objSel instanceof CreateObjectMutator) {
+       			val EClass container = ((com.container as SpecificObjectSelection).objSel as CreateObjectMutator).type
+       			scope.addAll(getEReferences(definition.metamodel, container.name))
+        	}
+        }
+   		Scopes.scopeFor( scope )  
     }
 	
 	
@@ -430,7 +447,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) {*/
-        	val File[] files = new File(program.source.path).listFiles()
+        	val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + program.source.path).listFiles()
         	for (file : files) {
 				if (file.isFile() == true) {
 					if (file.getPath().endsWith(".model") == true) {
@@ -512,7 +529,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = definition.source.path
+        		val String model = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + definition.source.path
         		val List<EClass> classes  = getModelEClasses(definition.metamodel, model)
         		val List<String> sclasses = new ArrayList<String>() 
        			for (EClassifier cl : classes) sclasses.add(cl.name) {
@@ -530,7 +547,8 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 			if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				val File[] files = new File(definition.source.path).listFiles()
+				
+				val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + definition.source.path).listFiles()
         		for (file : files) {
 					if (file.isFile() == true) {
 						if (file.getPath().endsWith(".model") == true) {
@@ -606,7 +624,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         if (program.source.path.endsWith('/')) {
 		/*if (program.source.multiple == true) { */
-        	val File[] files = new File(program.source.path).listFiles()
+        	val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + program.source.path).listFiles()
         	for (file : files) {
 				if (file.isFile() == true) {
 					if (file.getPath().endsWith(".model") == true) {
@@ -715,7 +733,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	val scope = new ArrayList()
         	if (!definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == false) {*/
-        		val String model = definition.source.path
+        		val String model = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + definition.source.path
 	        	val List<EClass> containers  = getModelESources(definition.metamodel, model, com.refType.name)
 	        	val List<String> scontainers = new ArrayList<String>() 
     	   		for (EClassifier cl : containers) scontainers.add(cl.name)
@@ -732,7 +750,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     	    if (definition.source.path.endsWith('/')) {
 			/*if (definition.source.multiple == true) {*/
 				val ArrayList<String> models = new ArrayList<String>()
-				val File[] files = new File(definition.source.path).listFiles()
+				val File[] files = new File(ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + definition.source.path).listFiles()
         		for (file : files) {
 					if (file.isFile() == true) {
 						if (file.getPath().endsWith(".model") == true) {

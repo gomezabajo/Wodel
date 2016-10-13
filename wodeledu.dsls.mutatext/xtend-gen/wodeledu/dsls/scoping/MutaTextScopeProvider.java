@@ -4,14 +4,12 @@
 package wodeledu.dsls.scoping;
 
 import com.google.common.base.Objects;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
+import manager.WodelContext;
 import mutatext.Configuration;
 import mutatext.Option;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -24,7 +22,6 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.osgi.framework.Bundle;
 
 /**
  * This class contains custom scoping description.
@@ -38,8 +35,12 @@ public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
    * Option.type can refer to any EClass in the .ecore file.
    */
   public IScope scope_Option_type(final Option opt, final EReference ref) {
-    String _metamodelFilename = this.getMetamodelFilename();
-    List<EClass> _eClasses = this.getEClasses(_metamodelFilename);
+    String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+    String _plus = (_workspaceAbsolutePath + "/");
+    String _project = WodelContext.getProject();
+    String _plus_1 = (_plus + _project);
+    String _plus_2 = (_plus_1 + "/resources/AppliedMutations.ecore");
+    List<EClass> _eClasses = this.getEClasses(_plus_2);
     return Scopes.scopeFor(_eClasses);
   }
   
@@ -136,20 +137,6 @@ public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       }
       return refs;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
-  }
-  
-  /**
-   * It returns the metamodel filename for the Applied Mutations
-   */
-  private String getMetamodelFilename() {
-    try {
-      final Bundle bundle = Platform.getBundle("wodel.models");
-      final URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
-      URL _resolve = FileLocator.resolve(fileURL);
-      return _resolve.getFile();
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

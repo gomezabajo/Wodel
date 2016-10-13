@@ -26,10 +26,10 @@ class ModelGraphGenerator implements IGenerator {
 		for(e: resource.allContents.toIterable.filter(MutatorGraph)) {
 		
 			if (i == 0) {
-				fileName = WodelContext.getProject() + '_Graph.java'
+				fileName = resource.URI.lastSegment.replace(".graph", "") + '_Graph.java'
 			}
 			else {
-				fileName = WodelContext.getProject() + i + '_Graph.java'
+				fileName = resource.URI.lastSegment.replace(".graph", "") + i + '_Graph.java'
 			}
 			className = fileName.replaceAll(".java", "")
 			fsa.generateFile(fileName, e.compile)

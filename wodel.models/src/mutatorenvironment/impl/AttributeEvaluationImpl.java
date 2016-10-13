@@ -5,7 +5,6 @@ package mutatorenvironment.impl;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeType;
 import mutatorenvironment.MutatorenvironmentPackage;
-import mutatorenvironment.Operator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -24,7 +23,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link mutatorenvironment.impl.AttributeEvaluationImpl#getName <em>Name</em>}</li>
- *   <li>{@link mutatorenvironment.impl.AttributeEvaluationImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.impl.AttributeEvaluationImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
@@ -41,26 +39,6 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @ordered
 	 */
 	protected EAttribute name;
-
-	/**
-	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOperator()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Operator OPERATOR_EDEFAULT = Operator.EQUALS;
-
-	/**
-	 * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOperator()
-	 * @generated
-	 * @ordered
-	 */
-	protected Operator operator = OPERATOR_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
@@ -134,27 +112,6 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operator getOperator() {
-		return operator;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOperator(Operator newOperator) {
-		Operator oldOperator = operator;
-		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__OPERATOR, oldOperator, operator));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public AttributeType getValue() {
 		return value;
 	}
@@ -218,8 +175,6 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				if (resolve) return getName();
 				return basicGetName();
-			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__OPERATOR:
-				return getOperator();
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
 				return getValue();
 		}
@@ -236,9 +191,6 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 		switch (featureID) {
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				setName((EAttribute)newValue);
-				return;
-			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__OPERATOR:
-				setOperator((Operator)newValue);
 				return;
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
 				setValue((AttributeType)newValue);
@@ -258,9 +210,6 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				setName((EAttribute)null);
 				return;
-			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__OPERATOR:
-				setOperator(OPERATOR_EDEFAULT);
-				return;
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
 				setValue((AttributeType)null);
 				return;
@@ -278,28 +227,10 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 		switch (featureID) {
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__NAME:
 				return name != null;
-			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__OPERATOR:
-				return operator != OPERATOR_EDEFAULT;
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
 				return value != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (operator: ");
-		result.append(operator);
-		result.append(')');
-		return result.toString();
 	}
 
 } //AttributeEvaluationImpl

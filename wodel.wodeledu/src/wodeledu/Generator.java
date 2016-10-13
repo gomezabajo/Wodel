@@ -42,6 +42,7 @@ import org.osgi.framework.Bundle;
 
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
+import appliedMutations.AppMutation;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
@@ -52,45 +53,6 @@ import generator.IGenerator;
 
 public class Generator implements IGenerator {
 
-
-	public static void copyFolder(File src, File dest) throws IOException {
-		
-		if (src.isDirectory()) {
-
-			// if directory not exists, create it
-			if (!dest.exists()) {
-				dest.mkdir();
-			}
-
-			// list all the directory contents
-			String files[] = src.list();
-
-			for (String file : files) {
-				// construct the src and dest file structure
-				File srcFile = new File(src, file);
-				File destFile = new File(dest, file);
-				// recursive copy
-				copyFolder(srcFile, destFile);
-			}
-
-		} else {
-			// if file, then copy it
-			// Use bytes stream to support all file types
-			InputStream in = new FileInputStream(src);
-			OutputStream out = new FileOutputStream(dest);
-
-			byte[] buffer = new byte[1024];
-
-			int length;
-			// copy the file content in bytes
-			while ((length = in.read(buffer)) > 0) {
-				out.write(buffer, 0, length);
-			}
-
-			in.close();
-			out.close();
-		}
-	}
 
 	@Override
 	public String getName() {
@@ -109,6 +71,79 @@ public class Generator implements IGenerator {
 		String testsFileName = fileName.replace(fileExtension, "test");
 		String idelemsFileName = fileName.replace(fileExtension, "modeltext");
 		String cfgoptsFileName = fileName.replace(fileExtension, "mutatext");
+		
+		final IFolder resourcesFolder = mutProject.getFolder(new Path("resources"));
+		try {
+			final File jarFile = new File(AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			String srcName = "";
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+				while(entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					if (! entry.isDirectory()) {
+						if (entry.getName().startsWith("models") && entry.getName().endsWith("AppliedMutations.ecore")) {
+							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+							InputStream input = jar.getInputStream(entry);
+							FileOutputStream output = new FileOutputStream(dest);
+							while (input.available() > 0) {
+								output.write(input.read());
+							}
+							output.close();
+							input.close();
+						}
+						if (entry.getName().startsWith("models") && entry.getName().endsWith("ModelText.ecore")) {
+							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+							InputStream input = jar.getInputStream(entry);
+							FileOutputStream output = new FileOutputStream(dest);
+							while (input.available() > 0) {
+								output.write(input.read());
+							}
+							output.close();
+							input.close();
+						}
+						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutaText.ecore")) {
+							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+							InputStream input = jar.getInputStream(entry);
+							FileOutputStream output = new FileOutputStream(dest);
+							while (input.available() > 0) {
+								output.write(input.read());
+							}
+							output.close();
+							input.close();
+						}
+					}
+				}
+				jar.close();
+		    }
+			else {
+				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/AppliedMutations.ecore";
+				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/AppliedMutations.ecore";
+				File src = new Path(srcName).toFile();
+				File dest = new Path(tarName).toFile();
+				if ((src != null) && (dest != null)) {
+					ModelManager.copyFile(src, dest);
+				}
+				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/ModelText.ecore";
+				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/ModelText.ecore";
+				src = new Path(srcName).toFile();
+				dest = new Path(tarName).toFile();
+				if ((src != null) && (dest != null)) {
+					ModelManager.copyFile(src, dest);
+				}
+				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutaText.ecore";
+				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutaText.ecore";
+				src = new Path(srcName).toFile();
+				dest = new Path(tarName).toFile();
+				if ((src != null) && (dest != null)) {
+					ModelManager.copyFile(src, dest);
+				}
+			}
+		} catch (IOException e) {
+		}
 		final IFile graphFile = srcPath.getFile(new Path(graphFileName));
 		try {
 			InputStream stream = openContentStream();
@@ -382,7 +417,7 @@ public class Generator implements IGenerator {
 			final File src = new Path(srcName).toFile();
 			final File dest = htmlFolder.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
-				copyFolder(src, dest);
+				ModelManager.copyFolder(src, dest);
 			}
 		}
 		} catch (IOException e) {

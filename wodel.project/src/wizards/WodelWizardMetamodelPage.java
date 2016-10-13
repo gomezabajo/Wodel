@@ -4,9 +4,13 @@ import manager.ModelManager;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -95,27 +99,23 @@ public class WodelWizardMetamodelPage extends WizardPage {
 			c.dispose();
 
 		if (file != null) {
-			validate = new Button(container, SWT.NONE);
-			validate.setText("Validate ecore metamodel");
-			validate.addSelectionListener(new MetamodelValidationAdapter());
-			validate.addMouseTrackListener((MouseTrackListener) new MyMouseTrackAdapter());
 			label = new Label(container, SWT.NONE);
 			label.setText(file.substring(file.lastIndexOf("\\") + 1));
 			label.addMouseTrackListener((MouseTrackListener) new MyMouseTrackAdapter());
 		}
+		button = new Button(container, SWT.NONE);
+		button.setText("Load file");
+		button.addSelectionListener(new FileSelectionAdapter());
+		button.addMouseTrackListener((MouseTrackListener) new MyMouseTrackAdapter());
 		if (file == null) {
-			button = new Button(container, SWT.NONE);
-			button.setText("Load file");
-			button.addSelectionListener(new FileSelectionAdapter());
-			button.addMouseTrackListener((MouseTrackListener) new MyMouseTrackAdapter());
 			descriptionLabel = new Label(container, SWT.WRAP);
 			descriptionLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
 					false, 2, 1));
 			descriptionLabel.setText("Select the ecore file.");
+			fileLabel = new Label(container, SWT.NONE);
+			fileLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+			fileLabel.setText("");
 		}
-		fileLabel = new Label(container, SWT.NONE);
-		fileLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		fileLabel.setText("");
 		separator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		container.layout();
@@ -173,33 +173,11 @@ public class WodelWizardMetamodelPage extends WizardPage {
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
+			file = null;
 			FileDialog dlg = new FileDialog(getShell(), SWT.OPEN);
 			dlg.setFilterNames(extensions);
 			dlg.setFilterExtensions(extensions);
-			String fileName = dlg.open();
-			if (fileName != null) {
-				file = fileName;
-				fileLabel.setText(fileName);
-			}
-			setControls();
-//			else {
-//				DirectoryDialog dirdlg = new DirectoryDialog(getShell());
-//				String dir = dirdlg.open();
-//				if (dir != null) {
-//					file = dir;
-//					fileLabel.setText(dir);
-//				}
-//			}
-		}
-	}
-	
-	private class MetamodelValidationAdapter extends SelectionAdapter {
-
-		MetamodelValidationAdapter() {
-		}
-
-		@Override
-		public void widgetSelected(SelectionEvent e) {
+			file = dlg.open();
 			if (file != null) {
 				try {
 					valid = ModelManager.validateMetaModel(file);
@@ -211,8 +189,23 @@ public class WodelWizardMetamodelPage extends WizardPage {
 					e1.printStackTrace();
 				}
 			}
+			if (valid != true) {
+				updateStatus("The meta-model is not valid.");
+			}
+			else {
+				updateStatus(null);
+			}
+			setControls();
 			IWizardContainer container = getContainer();
 			container.updateButtons();
+//			else {
+//				DirectoryDialog dirdlg = new DirectoryDialog(getShell());
+//				String dir = dirdlg.open();
+//				if (dir != null) {
+//					file = dir;
+//					fileLabel.setText(dir);
+//				}
+//			}
 		}
 	}
 	

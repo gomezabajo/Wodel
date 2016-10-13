@@ -7,8 +7,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
-import mutatorenvironment.AttributeInit;
 import mutatorenvironment.AttributeReverse;
+import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeSwap;
 import mutatorenvironment.AttributeUnset;
 import mutatorenvironment.BinaryOperator;
@@ -36,6 +36,7 @@ import mutatorenvironment.RandomBooleanType;
 import mutatorenvironment.RandomDoubleType;
 import mutatorenvironment.RandomIntegerType;
 import mutatorenvironment.RandomStringType;
+import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
@@ -81,11 +82,11 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION:
 				sequence_AttributeEvaluation(context, (AttributeEvaluation) semanticObject); 
 				return; 
-			case MutatorenvironmentPackage.ATTRIBUTE_INIT:
-				sequence_AttributeInit(context, (AttributeInit) semanticObject); 
-				return; 
 			case MutatorenvironmentPackage.ATTRIBUTE_REVERSE:
 				sequence_AttributeReverse(context, (AttributeReverse) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.ATTRIBUTE_SCALAR:
+				sequence_AttributeScalar(context, (AttributeScalar) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.ATTRIBUTE_SWAP:
 				sequence_AttributeSwap(context, (AttributeSwap) semanticObject); 
@@ -165,6 +166,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.RANDOM_STRING_TYPE:
 				sequence_RandomStringType(context, (RandomStringType) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.RANDOM_TYPE:
+				sequence_RandomType(context, (RandomType) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.RANDOM_TYPE_SELECTION:
 				sequence_RandomTypeSelection(context, (RandomTypeSelection) semanticObject); 
 				return; 
@@ -231,32 +235,20 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (name=[EAttribute|ID] operator=Operator value=AttributeType)
+	 *     (name=[EAttribute|ID] value=AttributeType)
 	 */
 	protected void sequence_AttributeEvaluation(EObject context, AttributeEvaluation semanticObject) {
 		if(errorAcceptor != null) {
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION__NAME) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION__NAME));
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION__OPERATOR) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_EVALUATION__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
 		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getNameEAttributeIDTerminalRuleCall_1_0_1(), semanticObject.getName());
-		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getOperatorOperatorEnumRuleCall_2_0(), semanticObject.getOperator());
-		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getValueAttributeTypeParserRuleCall_3_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getValueAttributeTypeParserRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (attribute+=[EAttribute|ID] value=AttributeType)
-	 */
-	protected void sequence_AttributeInit(EObject context, AttributeInit semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -265,6 +257,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 *     attribute+=[EAttribute|ID]
 	 */
 	protected void sequence_AttributeReverse(EObject context, AttributeReverse semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (attribute+=[EAttribute|ID] value=AttributeType)
+	 */
+	protected void sequence_AttributeScalar(EObject context, AttributeScalar semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -321,32 +322,38 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     value=EString
+	 *     (operator=Operator value=EString)
 	 */
 	protected void sequence_CatEndStringType(EObject context, CatEndStringType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CAT_END_STRING_TYPE__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CAT_END_STRING_TYPE__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getCatEndStringTypeAccess().getValueEStringParserRuleCall_3_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getCatEndStringTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getCatEndStringTypeAccess().getValueEStringParserRuleCall_4_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     value=EString
+	 *     (operator=Operator value=EString)
 	 */
 	protected void sequence_CatStartStringType(EObject context, CatStartStringType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CAT_START_STRING_TYPE__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CAT_START_STRING_TYPE__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getCatStartStringTypeAccess().getValueEStringParserRuleCall_3_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getCatStartStringTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getCatStartStringTypeAccess().getValueEStringParserRuleCall_4_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	
@@ -442,7 +449,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (value+=EString value+=EString*)
+	 *     (operator=Operator value+=EString value+=EString*)
 	 */
 	protected void sequence_ListStringType(EObject context, ListStringType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -467,7 +474,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     {LowerStringType}
+	 *     operator=Operator
 	 */
 	protected void sequence_LowerStringType(EObject context, LowerStringType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -540,7 +547,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     {RandomBooleanType}
+	 *     operator=Operator
 	 */
 	protected void sequence_RandomBooleanType(EObject context, RandomBooleanType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -549,7 +556,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     ((min=EDouble max=EDouble)?)
+	 *     (operator=Operator (min=EDouble max=EDouble)?)
 	 */
 	protected void sequence_RandomDoubleType(EObject context, RandomDoubleType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -558,7 +565,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     ((min=EInt max=EInt)?)
+	 *     (operator=Operator (min=EInt max=EInt)?)
 	 */
 	protected void sequence_RandomIntegerType(EObject context, RandomIntegerType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -567,7 +574,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (min=EInt max=EInt)
+	 *     (operator=Operator min=EInt max=EInt)
 	 */
 	protected void sequence_RandomStringType(EObject context, RandomStringType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -580,6 +587,22 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 */
 	protected void sequence_RandomTypeSelection(EObject context, RandomTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     operator=Operator
+	 */
+	protected void sequence_RandomType(EObject context, RandomType semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getRandomTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.finish();
 	}
 	
 	
@@ -648,10 +671,12 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (oldstring=EString newstring=EString)
+	 *     (operator=Operator oldstring=EString newstring=EString)
 	 */
 	protected void sequence_ReplaceStringType(EObject context, ReplaceStringType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.REPLACE_STRING_TYPE__OLDSTRING) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.REPLACE_STRING_TYPE__OLDSTRING));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.REPLACE_STRING_TYPE__NEWSTRING) == ValueTransient.YES)
@@ -659,8 +684,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getReplaceStringTypeAccess().getOldstringEStringParserRuleCall_3_0(), semanticObject.getOldstring());
-		feeder.accept(grammarAccess.getReplaceStringTypeAccess().getNewstringEStringParserRuleCall_5_0(), semanticObject.getNewstring());
+		feeder.accept(grammarAccess.getReplaceStringTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getReplaceStringTypeAccess().getOldstringEStringParserRuleCall_4_0(), semanticObject.getOldstring());
+		feeder.accept(grammarAccess.getReplaceStringTypeAccess().getNewstringEStringParserRuleCall_6_0(), semanticObject.getNewstring());
 		feeder.finish();
 	}
 	
@@ -692,48 +718,57 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     value=EBoolean
+	 *     (operator=Operator value=EBoolean)
 	 */
 	protected void sequence_SpecificBooleanType(EObject context, SpecificBooleanType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_BOOLEAN_TYPE__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_BOOLEAN_TYPE__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getSpecificBooleanTypeAccess().getValueEBooleanParserRuleCall_1_0(), semanticObject.isValue());
+		feeder.accept(grammarAccess.getSpecificBooleanTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getSpecificBooleanTypeAccess().getValueEBooleanParserRuleCall_2_0(), semanticObject.isValue());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     value=EDouble
+	 *     (operator=Operator value=EDouble)
 	 */
 	protected void sequence_SpecificDoubleType(EObject context, SpecificDoubleType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_DOUBLE_TYPE__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_DOUBLE_TYPE__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getSpecificDoubleTypeAccess().getValueEDoubleParserRuleCall_1_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getSpecificDoubleTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getSpecificDoubleTypeAccess().getValueEDoubleParserRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     value=EInt
+	 *     (operator=Operator value=EInt)
 	 */
 	protected void sequence_SpecificIntegerType(EObject context, SpecificIntegerType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_INTEGER_TYPE__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_INTEGER_TYPE__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getSpecificIntegerTypeAccess().getValueEIntParserRuleCall_1_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getSpecificIntegerTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getSpecificIntegerTypeAccess().getValueEIntParserRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	
@@ -749,23 +784,26 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     value=STRING
+	 *     (operator=Operator value=STRING)
 	 */
 	protected void sequence_SpecificStringType(EObject context, SpecificStringType semanticObject) {
 		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
 			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_STRING_TYPE__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.SPECIFIC_STRING_TYPE__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getSpecificStringTypeAccess().getValueSTRINGTerminalRuleCall_1_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getSpecificStringTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getSpecificStringTypeAccess().getValueSTRINGTerminalRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     {UpperStringType}
+	 *     operator=Operator
 	 */
 	protected void sequence_UpperStringType(EObject context, UpperStringType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

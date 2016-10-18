@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../DFAWodelSample7.model#//@commands.0"/>
+    <object href="../../../model/exercise2.model#_EddYQETQEeWBqqmJ86vvWA"/>
+    <attChanges attName="isInitial" oldVal="true" newVal="false">
+      <def href="../../DFAWodelSample7.model#//@commands.0"/>
+    </attChanges>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../DFAWodelSample7.model#//@commands.1"/>
+    <object href="../../../model/exercise2.model#_RkwlsETQEeWBqqmJ86vvWA"/>
+    <attChanges attName="isInitial" oldVal="false" newVal="true">
+      <def href="../../DFAWodelSample7.model#//@commands.1"/>
+    </attChanges>
+  </muts>
+</appliedMutations:Mutations>

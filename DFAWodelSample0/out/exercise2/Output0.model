@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample0/model/DFAAutomaton.ecore" xmi:id="_C86LgETQEeWBqqmJ86vvWA" name="Exercise 2">
+  <states xmi:id="_EddYQETQEeWBqqmJ86vvWA" name="q0" isInitial="true"/>
+  <states xmi:id="_Hx7ZsETQEeWBqqmJ86vvWA" name="q1"/>
+  <states xmi:id="_J5zsMETQEeWBqqmJ86vvWA" name="q2"/>
+  <states xmi:id="_LRdboETQEeWBqqmJ86vvWA" name="q3" isFinal="true"/>
+  <states xmi:id="_RkwlsETQEeWBqqmJ86vvWA" name="q4" isFinal="true"/>
+  <transitions xmi:id="_Z4EfsETQEeWBqqmJ86vvWA" src="_EddYQETQEeWBqqmJ86vvWA" tar="_Hx7ZsETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_c8wYsETQEeWBqqmJ86vvWA" src="_Hx7ZsETQEeWBqqmJ86vvWA" tar="_J5zsMETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_g7uvsETQEeWBqqmJ86vvWA" src="_Hx7ZsETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_kvLzMETQEeWBqqmJ86vvWA" src="_J5zsMETQEeWBqqmJ86vvWA" tar="_LRdboETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_nNfosETQEeWBqqmJ86vvWA" src="_J5zsMETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_r1IiMETQEeWBqqmJ86vvWA" src="_LRdboETQEeWBqqmJ86vvWA" tar="_LRdboETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_1wAP4ETQEeWBqqmJ86vvWA" src="_LRdboETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
+  <transitions xmi:id="_GN0RQAOvEeaVnrRLCzUZCw" src="_RkwlsETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
+  <transitions src="_EddYQETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
+  <alphabet xmi:id="_VYhLMETQEeWBqqmJ86vvWA" symbol="a"/>
+  <alphabet xmi:id="_WqskwETQEeWBqqmJ86vvWA" symbol="b"/>
+</DFAAutomaton:Automaton>

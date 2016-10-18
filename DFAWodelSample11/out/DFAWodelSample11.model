@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore" output="out/" num="2">
+    <source path="model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s0">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//State"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:AttributeEvaluation">
+          <name href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//State/isInitial"/>
+          <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+        </first>
+      </expression>
+    </object>
+    <attributes xsi:type="mutatorenvironment:AttributeReverse">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//State/isInitial"/>
+    </attributes>
+  </commands>
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s1">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//State"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="&lt;>">
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+        </first>
+      </expression>
+    </object>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//State/isInitial"/>
+      <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+    </attributes>
+  </commands>
+  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+    <type href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//Transition"/>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//Transition/src"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    </references>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+    </references>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore#//AlphabetSymbol"/>
+      </object>
+    </references>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

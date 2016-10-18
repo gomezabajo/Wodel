@@ -1,0 +1,10 @@
+generate 2 mutants
+in "out/"
+from "model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample11/model/DFAAutomaton.ecore"
+
+with commands {
+	s0 = modify one State where {isInitial = true} with {reverse(isInitial)}
+	s1 = modify one State where {self <> s0} with {isInitial = true}
+	create Transition with {src = s1, tar = s0, symbol = one AlphabetSymbol}
+}

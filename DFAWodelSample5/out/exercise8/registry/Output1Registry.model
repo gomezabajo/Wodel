@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:TargetReferenceChanged" refName="symbol">
+    <def href="../../DFAWodelSample5.model#//@commands.0"/>
+    <object href="../../../model/exercise8.model#_SYm_MGFFEeW5yMxFQxbbHw"/>
+    <to href="../../../model/exercise8.model#_ob00MGFEEeW5yMxFQxbbHw"/>
+    <oldTo href="../../../model/exercise8.model#_pdIgMGFEEeW5yMxFQxbbHw"/>
+  </muts>
+</appliedMutations:Mutations>

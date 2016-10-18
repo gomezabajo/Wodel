@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 file:/c:/eclipse/runtime-EclipseApplication/DFAWodelSample12/model/DFAAutomaton.ecore" xmi:id="_CgpW4GEXEeWhEeS4j14_lA" name="Exercise 6">
+  <states xmi:id="_IW28UGEXEeWhEeS4j14_lA" name="q0" isInitial="true"/>
+  <states xmi:id="_J7U_wGEXEeWhEeS4j14_lA" name="q1" isFinal="true"/>
+  <states xmi:id="_OiYqcGEXEeWhEeS4j14_lA" name="q2"/>
+  <transitions xmi:id="_SSVuAGEXEeWhEeS4j14_lA" src="_IW28UGEXEeWhEeS4j14_lA" tar="_IW28UGEXEeWhEeS4j14_lA" symbol="_P8kwgGEXEeWhEeS4j14_lA"/>
+  <transitions xmi:id="_UVfRgGEXEeWhEeS4j14_lA" src="_IW28UGEXEeWhEeS4j14_lA" tar="_J7U_wGEXEeWhEeS4j14_lA" symbol="_RV-zcGEXEeWhEeS4j14_lA"/>
+  <transitions xmi:id="_XP3X8GEXEeWhEeS4j14_lA" src="_J7U_wGEXEeWhEeS4j14_lA" tar="_OiYqcGEXEeWhEeS4j14_lA" symbol="_P8kwgGEXEeWhEeS4j14_lA"/>
+  <transitions xmi:id="_a59EEGEXEeWhEeS4j14_lA" src="_J7U_wGEXEeWhEeS4j14_lA" tar="_OiYqcGEXEeWhEeS4j14_lA" symbol="_RV-zcGEXEeWhEeS4j14_lA"/>
+  <transitions xmi:id="_ctAWEGEXEeWhEeS4j14_lA" src="_OiYqcGEXEeWhEeS4j14_lA" tar="_OiYqcGEXEeWhEeS4j14_lA" symbol="_P8kwgGEXEeWhEeS4j14_lA"/>
+  <transitions xmi:id="_e5QLMGEXEeWhEeS4j14_lA" src="_OiYqcGEXEeWhEeS4j14_lA" tar="_OiYqcGEXEeWhEeS4j14_lA" symbol="_RV-zcGEXEeWhEeS4j14_lA"/>
+  <transitions src="_J7U_wGEXEeWhEeS4j14_lA" tar="_OiYqcGEXEeWhEeS4j14_lA"/>
+  <alphabet xmi:id="_P8kwgGEXEeWhEeS4j14_lA" symbol="a"/>
+  <alphabet xmi:id="_RV-zcGEXEeWhEeS4j14_lA" symbol="b"/>
+</DFAAutomaton:Automaton>

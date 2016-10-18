@@ -4,12 +4,9 @@
 package wodeledu.dsls.scoping;
 
 import edutest.MutatorTests;
-import java.net.URL;
 import java.util.ArrayList;
 import manager.ModelManager;
 import manager.WodelContext;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -19,7 +16,6 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.osgi.framework.Bundle;
 
 /**
  * This class contains custom scoping description.
@@ -50,11 +46,12 @@ public class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
         String _lastSegment = _uRI.lastSegment();
         String _replaceAll = _lastSegment.replaceAll("test", "model");
         final String xmiFileName = (_plus_5 + _replaceAll);
-        final Bundle bundle = Platform.getBundle("wodel.models");
-        final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
-        URL _resolve = FileLocator.resolve(fileURL);
-        final String mutatorecore = _resolve.getFile();
-        final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+        String _plus_6 = (_workspaceAbsolutePath_1 + "/");
+        String _project_1 = WodelContext.getProject();
+        String _plus_7 = (_plus_6 + _project_1);
+        String _plus_8 = (_plus_7 + "/resources/MutatorEnvironment.ecore");
+        final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(_plus_8);
         URI _createURI = URI.createURI(xmiFileName);
         String _fileString = _createURI.toFileString();
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, _fileString);

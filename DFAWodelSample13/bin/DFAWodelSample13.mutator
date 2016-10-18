@@ -1,9 +1,0 @@
-generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample13/model/DFAAutomaton.ecore"
-
-with commands {
-	t = select one Transition where {symbol <> null}
-	create Transition with {src = t.src, symbol = t.symbol, tar = one State where {self <> t.tar}}
-}

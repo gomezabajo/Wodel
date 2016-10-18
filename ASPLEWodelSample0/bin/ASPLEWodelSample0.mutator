@@ -1,0 +1,9 @@
+generate 2 mutants
+in "out/"
+from "model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample0/model/Asple.ecore"
+
+with commands {
+	modify one BinaryOperator where {operator in [add, subtract, multiply, divide, module]}
+		with {operator in [add, subtract, multiply, divide, module]}
+}

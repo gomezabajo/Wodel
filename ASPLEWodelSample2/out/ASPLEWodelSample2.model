@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/model/Asple.ecore" output="out/" num="2">
+    <source path="model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="loop">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/model/Asple.ecore#//Loop"/>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+    <type href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/model/Asple.ecore#//Boolean"/>
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/model/Asple.ecore#//Boolean/value"/>
+      <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+    </attributes>
+    <refType href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/model/Asple.ecore#//Loop/expression"/>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

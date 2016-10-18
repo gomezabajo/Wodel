@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample4/model/Asple.ecore" output="out/" num="2">
+    <source path="model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample4/model/Asple.ecore#//Integer"/>
+    </object>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample4/model/Asple.ecore#//Integer/value"/>
+      <value xsi:type="mutatorenvironment:RandomType"/>
+    </attributes>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

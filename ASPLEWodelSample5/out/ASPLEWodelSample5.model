@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore" output="out/" num="2">
+    <source path="model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="op">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:AttributeEvaluation">
+          <name href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator/operator"/>
+          <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+            <value>add</value>
+            <value>subtract</value>
+            <value>multiply</value>
+            <value>divide</value>
+            <value>module</value>
+          </value>
+        </first>
+      </expression>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="exp">
+    <type href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator"/>
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator/operator"/>
+      <value xsi:type="mutatorenvironment:SpecificStringType" value="add"/>
+    </attributes>
+    <refType href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator/right"/>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator/left"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+      <refType href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator/right"/>
+    </references>
+  </commands>
+  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+    <type href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//Integer"/>
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//Integer/value"/>
+      <value xsi:type="mutatorenvironment:SpecificIntegerType" value="1"/>
+    </attributes>
+    <refType href="file:/c:/eclipse/runtime-EclipseApplication/ASPLEWodelSample5/model/Asple.ecore#//BinaryOperator/right"/>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

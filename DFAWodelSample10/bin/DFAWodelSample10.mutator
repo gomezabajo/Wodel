@@ -1,9 +1,0 @@
-generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample10/model/DFAAutomaton.ecore"
-
-with commands {
-	s = create State with {name = 'f', isFinal = true}
-	modify target tar from one Transition to s
-}

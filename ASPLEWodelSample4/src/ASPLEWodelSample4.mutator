@@ -1,0 +1,8 @@
+generate 2 mutants
+in "out/"
+from "model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample4/model/Asple.ecore"
+
+with commands {
+	modify one Integer with {value = random}
+}

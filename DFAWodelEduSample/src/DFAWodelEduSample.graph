@@ -1,0 +1,8 @@
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelEduSample/model/DFAAutomaton.ecore"
+
+Automaton: diagram {  
+	State(isInitial): markednode
+	State(not isFinal): node, shape=circle
+	State(isFinal): node, shape=doublecircle
+	Transition(src, tar): edge, label=symbol
+}

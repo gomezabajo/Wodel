@@ -199,7 +199,7 @@ public class CreateObjectMutator extends Mutator {
 		it = this.referenceConfig.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)it.next();
-			if (!obj.eClass().isInstance(container.eGet(reference))) {
+			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
 				ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
 			}
 			else {
@@ -228,7 +228,7 @@ public class CreateObjectMutator extends Mutator {
 				result=null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
-			if (!obj.eClass().isInstance(container.eGet(reference))) {
+			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
 				container.eSet(reference, newObj);
 			}
 			else {

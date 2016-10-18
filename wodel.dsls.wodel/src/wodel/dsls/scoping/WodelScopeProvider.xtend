@@ -566,7 +566,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		        	for (mutator : commands) {
     	    		if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator) && 
         				sclasses.contains(mutator.type.name)) 
 						objects.add(mutator)
 					}

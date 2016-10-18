@@ -1085,7 +1085,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if (!_and_2) {
                   _and_1 = false;
                 } else {
-                  _and_1 = ((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator));
+                  _and_1 = (((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator));
                 }
                 if (!_and_1) {
                   _and = false;

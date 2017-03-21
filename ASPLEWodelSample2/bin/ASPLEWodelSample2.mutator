@@ -1,9 +1,9 @@
 generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/model/Asple.ecore"
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample2/data/model/Asple.ecore"
 
 with commands {
 	loop = select one Loop
-	create Boolean in loop.expression with {value = true}
+	create Boolean in loop->expression with {value = true}
 }

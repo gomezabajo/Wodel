@@ -1,7 +1,7 @@
 generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample3/model/Asple.ecore"
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/ASPLEWodelSample3/data/model/Asple.ecore"
 
 with commands {
 	remove one Statement

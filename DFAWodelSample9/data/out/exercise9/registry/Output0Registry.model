@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../DFAWodelSample9.model#//@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <object href="../../../model/exercise9.model#_QckJQGFFEeW5yMxFQxbbHw"/>
+    <refChanges xsi:type="appliedMutations:ReferenceSwap" refName="symbol" firstName="symbol">
+      <from href="../../../model/exercise9.model#_ob00MGFEEeW5yMxFQxbbHw"/>
+      <to href="../../../model/exercise9.model#_ob00MGFEEeW5yMxFQxbbHw"/>
+      <refObject href="../../../model/exercise9.model#_QckJQGFFEeW5yMxFQxbbHw"/>
+    </refChanges>
+  </muts>
+</appliedMutations:Mutations>

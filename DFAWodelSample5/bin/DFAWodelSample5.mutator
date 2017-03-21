@@ -1,7 +1,7 @@
 generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/model/DFAAutomaton.ecore"
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/DFAAutomaton.ecore"
 
 with commands {
 	modify target symbol from one Transition to other AlphabetSymbol

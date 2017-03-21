@@ -1,7 +1,7 @@
 generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample2/model/DFAAutomaton.ecore"
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample2/data/model/DFAAutomaton.ecore"
 
 with commands {
 	s = create State with {name = random-string(1,4)}

@@ -1,7 +1,7 @@
 generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample3/model/DFAAutomaton.ecore"
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample3/data/model/DFAAutomaton.ecore"
 
 with commands {
 	remove one Transition

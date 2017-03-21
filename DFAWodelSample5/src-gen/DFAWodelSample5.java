@@ -9,6 +9,10 @@ import java.util.Set;
 import java.util.List;
 
 import manager.ModelManager;
+import manager.MutatorMetrics;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -28,6 +32,7 @@ import mutatorenvironment.MutatorEnvironment;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.EList;
+import org.osgi.framework.Bundle;
 
 public class DFAWodelSample5 extends manager.MutatorUtils implements manager.IMutatorExecutor {
 	
@@ -38,207 +43,186 @@ public class DFAWodelSample5 extends manager.MutatorUtils implements manager.IMu
    	//RESET COUNTER: 0
    	//RESET COUNTER: 0
 	//RESET COUNTER: 0
-	//COUNTER: 1
-	//METHOD NAME:mutation1
+//COUNTER: 1
+//METHOD NAME:mutation1
 	private ArrayList<Mutator> mutation1(ArrayList<EPackage> packages, Resource model, HashMap<String, EObject> hmObjects, HashMap<String, List<EObject>> hmList) throws ReferenceNonExistingException {
 		ArrayList<Mutator> mutations = new ArrayList<Mutator>();
-		//MODIFY TARGET REFERENCE mutation1
-			RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "Transition");			
-	
-			EObject otherSourceSelection = null; 
-			otherSourceSelection = sourceSelection.getObject();
-			Object otherRef = null;
-			if (otherSourceSelection != null) {
-				for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
-					if (ref.getName().equals("symbol")) {
-						otherRef = otherSourceSelection.eGet(ref);
-						break;
-					}
+	//MODIFY TARGET REFERENCE mutation1
+		RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "Transition");			
+		EObject otherSourceSelection = null; 
+		otherSourceSelection = sourceSelection.getObject();
+		Object otherRef = null;
+		if (otherSourceSelection != null) {
+			for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
+				if (ref.getName().equals("symbol")) {
+					otherRef = otherSourceSelection.eGet(ref);
+					break;
 				}
 			}
-			OtherTypeSelection newTargetSelection = new OtherTypeSelection(packages, model, "AlphabetSymbol", otherRef);
-	
-			ModifyTargetReferenceMutator mut = new ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "symbol");
-					   	//INC COUNTER: 0
-					   	mut.setId("m1");
+		}
+		OtherTypeSelection newTargetSelection = new OtherTypeSelection(packages, model, "AlphabetSymbol", otherRef);
+		ModifyTargetReferenceMutator mut = new ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "symbol");
+			   	//INC COUNTER: 0
+			   	if (mut != null) {
+			   		mut.setId("m1");
 			mutations.add(mut);
-		//END MODIFY TARGET REFERENCE mutation1
+		}
+	//END MODIFY TARGET REFERENCE mutation1
 		return mutations;	
 	}
-	//COUNTER: 1
-	//METHOD NAME:registry1
-	//REGISTRY COUNTER: 0
-	private AppMutation registry1(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed) {
-		AppMutation appMut = null;
-	TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
-	if (((ModifyTargetReferenceMutator) mut).getObject() != null) {
-		if (ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()) != null) {
-			trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));
-		}
-	}
-	trcMut.setFrom(((ModifyTargetReferenceMutator) mut).getSource());
-	trcMut.setSrcRefName(((ModifyTargetReferenceMutator) mut).getSrcRefType());
-	trcMut.setTo(((ModifyTargetReferenceMutator) mut).getNewTarget());
-	trcMut.setOldTo(((ModifyTargetReferenceMutator) mut).getOldTarget());
-	trcMut.setRefName(((ModifyTargetReferenceMutator) mut).getRefType());
-	trcMut.setDef(hmMutator.get("m1"));
-	appMut = trcMut;
-		return appMut;
-	}
-	public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, 
-												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
+//COUNTER: 1
+//METHOD NAME:registry1
+//REGISTRY COUNTER: 0
+private AppMutation registry1(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed, List<String> mutPaths, ArrayList<EPackage> packages) {
+	AppMutation appMut = null;
+TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
+trcMut.getObject().add(mut.getObject());
+trcMut.setFrom(((ModifyTargetReferenceMutator) mut).getSource());
+trcMut.setSrcRefName(((ModifyTargetReferenceMutator) mut).getSrcRefType());
+trcMut.setTo(((ModifyTargetReferenceMutator) mut).getNewTarget());
+trcMut.setOldTo(((ModifyTargetReferenceMutator) mut).getOldTarget());
+trcMut.setRefName(((ModifyTargetReferenceMutator) mut).getRefType());
+trcMut.setDef(hmMutator.get("m1"));
+appMut = trcMut;
+	return appMut;
+}
+public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+											  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
-		if (maxAttempts <= 0) {
-			maxAttempts = 1;
-		}
-		
-		    String ecoreURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/model/DFAAutomaton.ecore";
-		    
-		    String modelURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/model/";
-		    String modelsURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/out/";
-		    String resourcesURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/resources/";
-		    
-		    HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
-		    File[] files = new File(modelURI).listFiles();
-		    for (int i = 0; i < files.length; i++) {
-		    	if (files[i].isFile() == true) {
-		    		String pathfile = files[i].getPath();
-		    		if (pathfile.endsWith(".model") == true) {
-		    			hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
-		    		}
-		    	}
-		    }
-		    
-		    //Load MetaModel
-		    ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);
-		    
-		    //Load Model
-		    Set<String> modelFilenames = hashmapModelFilenames.keySet();
-		    for (String modelFilename : modelFilenames) {
-		    	HashSet<String> hashsetMutants = new HashSet<String>();
-		    	hashsetMutants.add(modelFilename);
-		    	Resource model = ModelManager.loadModel(packages, modelFilename);
-		    	Resource seed = ModelManager.loadModel(packages, modelFilename);
-		    
-		    	HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
-		    	HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
-		    //2
-		   	numMutants = 2;
-		   	
-		   	String mutatorecore = resourcesURI + "MutatorEnvironment.ecore";
-		   	
-		   	//Load MetaModel
-		   	ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
-		   	Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI("file:/C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/out/DFAWodelSample5.model").toFileString());
-		   	
-		   	HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
-		   			
-		   	   	   	for (int i = 0; i < numMutants; i++) {
-		   	   	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + ".model";
-		   	   	   		boolean isRepeated = true;
-		   	   			int attempts = 0;
-		   	   			int max = 0;
-		   	   			while ((isRepeated == true) && (attempts < maxAttempts)) {
-		   			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
-		   	   				attempts++;
-		   	   				//RESET COUNTER: 0
-		   	   				//RESET COUNTER: 0
-		   	   				//RESET COUNTER: 0
-		   	   				//RESET COUNTER: 0
-		   	   				//RESET COUNTER: 0
-		   	   				//RESET COUNTER: 0
-		   	   				//RESET COUNTER: 0
-		   	
-		   	   	   			   	   	//COUNTER: 1	
-		   	   	   			//COMMAND: 36
-		   	   	   			//REGISTRY COUNTER: 1
-		   	   	   			max = 1;
-		   	   	   			for (int j = 0; j < max; j++) {
-		   	   	   			//NAME:36
-		   	   	   			//METHOD NAME:mutation1
-		   	   	   			
-		   	   	   			ArrayList<Mutator> l36 = mutation1(packages, model, hashmapEObject, hashmapList);
-		   	   	   			//COUNTER: 1
-		   	   	   			//REGISTRY METHOD NAME:registry1
-		   	   	   			
-		   	   	   			if (l36 != null) {
-		   	   	   				for (Mutator mut : l36) {
-		   	   	   					if (mut != null) {
-		   	   	   						EObject mutated = (EObject) mut.mutate();
-		   	   	   						if (mutated != null) {
-		   	   	   						AppMutation appMut = registry1(mut, hmMutator, seed);
-		   	   	   						if (appMut != null) {
-		   	   	   							muts.getMuts().add(appMut);
-		   	   	   						}
-		   	   	   						}
-		   	   	   					}
-		   	   	   				}
-		   	   	   			}
-		   	   	   			}
-		   	      
-		   			// COMPLETES MUTANT
-		   	   		int valid = complete(packages, model);
-		   		       		if (valid != 1) {
-		   		       			// VERIFY THE OCL CONSTRAINTS
-		   		       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-		   	       		if (matchesOCL(model, rules) == true) {
-		   		   					// VERIFY IF MUTANT IS DIFFERENT
-		   	   						isRepeated = different(packages, model, hashsetMutants);
-		   	   					
-		   	   						System.out.println("isRepeated: " + isRepeated);
-		   	   						// IF MUTANT IS DIFFERENT STORES IT AND PROCEEDS
-		   	   						if (isRepeated == false) {
-		   		      			File outputFolder = new File(hashmapModelFilenames.get(modelFilename));
-		   	      						if (outputFolder.exists() != true) {
-		   	      							outputFolder.mkdir();
-		   	      						}
-		   	       						ModelManager.saveOutModel(model, mutFilename);
-		   	       			      		hashsetMutants.add(mutFilename);
-		   	       			      		if (registry == true) {
-		   	       			      			Resource mutant = ModelManager.loadModel(packages, mutFilename);
-		   							for (AppMutation mut : muts.getMuts()) {
-		   	       			      				if (mut instanceof ObjectCreated) {
-		   	       			      					List<EObject> emuts = ((ObjectCreated) mut).getObject();
-		   	       			      					if (emuts.size() > 0) {
-		   	   	       			      			EObject emutated = emuts.get(0);
-		   	   	       			      			emuts.remove(0);
-		   	   	       			      			if (ModelManager.getObject(mutant, emutated) != null) {
-		   	   	       			      				emuts.add(ModelManager.getObject(mutant, emutated));
-		   	   	       			      			}
-		   	   	       			      		}
-		   								}
-		   								if (mut instanceof ReferenceCreated) {
-		   	   								List<EReference> emuts = ((ReferenceCreated) mut).getRef();
-		   	   								if (emuts.size() > 0) {
-		   	   									EReference emutated = emuts.get(0);
-		   	   									emuts.remove(0);
-		   	   									if (ModelManager.getReference(mutant, emutated) != null) {
-		   	   										emuts.add(ModelManager.getReference(mutant, emutated));
-		   	   									}
-		   	   								}
-		   	   							}
-		   	       			      			}
-		   		       			      		File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
-		   	    	   			      		if (registryFolder.exists() != true) {
-		   	       				      			registryFolder.mkdir();
-		   	       				      		}
-		   	       				      		String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + i + "Registry.model";
-		   	       			    	  		ModelManager.createModel(muts, registryFilename);
-		   	       			      		}
-		   					}
-		   				}
-		   			}   
-		   		    		//Reload input
-		   		    		try {
-		   				model.unload();
-		   				model.load(null); 
-		   			} catch (Exception e) {}
-		   	   			}
-		   	   		}   
-		
-		}
+	if (maxAttempts <= 0) {
+		maxAttempts = 1;
 	}
 	
+	HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+	
+	
+	    String ecoreURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/DFAAutomaton.ecore";
+	    
+	    String modelURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/";
+	    String modelsURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/out/";
+	    //String resourcesURI = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/resources/";
+	    
+	    HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
+	    File[] files = new File(modelURI).listFiles();
+	    for (int i = 0; i < files.length; i++) {
+	    	if (files[i].isFile() == true) {
+	    		String pathfile = files[i].getPath();
+	    		if (pathfile.endsWith(".model") == true) {
+	    			hashmapModelFilenames.put(pathfile, modelsURI + files[i].getName().substring(0, files[i].getName().length() - ".model".length()));
+	    		}
+	    	}
+	    }
+	    
+	    //Load MetaModel
+	    ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);
+	    
+	    //Load Model
+	    Set<String> modelFilenames = hashmapModelFilenames.keySet();
+	    for (String modelFilename : modelFilenames) {
+	    	HashSet<String> hashsetMutants = new HashSet<String>();
+	    	hashsetMutants.add(modelFilename);
+	    	Resource model = ModelManager.loadModel(packages, modelFilename);
+	    	Resource seed = ModelManager.loadModel(packages, modelFilename);
+	    
+	    //2
+	   	numMutants = 2;
+	   	
+	   	   		//Generate metrics model
+	   	Bundle bundle = Platform.getBundle("wodel.models");
+	   		   	URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+	   		   	String mutatorecore = FileLocator.resolve(fileURL).getFile();
+	   	
+	   	//Load MetaModel
+	   	ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+	   	Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI("file:/C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/out/DFAWodelSample5.model").toFileString());
+	   	
+	   	HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
+	   			
+	   	   	   	for (int i = 0; i < numMutants; i++) {
+	   	   	   		HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
+	   		HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
+	   	   	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + ".model";
+	   	   	   		String mutPath = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + "vs";
+	   	   	   		boolean isRepeated = true;
+	   	   			int attempts = 0;
+	   	   			int max = 0;
+	   	   			while ((isRepeated == true) && (attempts < maxAttempts)) {
+	   			List<String> mutPaths = new ArrayList<String>();
+	   			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+	   	   				attempts++;
+	   	   				//RESET COUNTER: 0
+	   	   				//RESET COUNTER: 0
+	   	   				//RESET COUNTER: 0
+	   	   				//RESET COUNTER: 0
+	   	   				//RESET COUNTER: 0
+	   	   				//RESET COUNTER: 0
+	   	   				//RESET COUNTER: 0
+	   	
+	   	   	   			   	   	//COUNTER: 1	
+	   	   	   			//COMMAND: 24
+	   	   	   			//REGISTRY COUNTER: 1
+	   	   	   			max = 1;
+	   	   	   			for (int j = 0; j < max; j++) {
+	   	   	   			//NAME:24
+	   	   	   			//METHOD NAME:mutation1
+	   	   	   			
+	   	   	   			ArrayList<Mutator> l24 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			//COUNTER: 1
+	   	   	   			//REGISTRY METHOD NAME:registry1
+	   	   	   			
+	   	   	   			if (l24 != null) {
+	   	   	   				int k = 0;
+	   	   	   				for (Mutator mut : l24) {
+	   	   	   					if (mut != null) {
+	   	   	   						EObject mutated = (EObject) mut.mutate();
+	   	   	   						if (mutated != null) {
+	   	   	   							String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_1.model";
+	   	   	   							ModelManager.saveOutModel(model, mutatorPath);
+	   	   	   							if (mutPaths.contains(mutatorPath) == false) {
+	   	   	   								mutPaths.add(mutatorPath);
+	   	   	   							}
+	   	   	   							AppMutation appMut = registry1(mut, hmMutator, seed, mutPaths, packages);
+	   	   	   							if (appMut != null) {
+	   	   	   								muts.getMuts().add(appMut);
+	   	   	   							}
+	   	   	   						}
+	   	   	   					}
+	   	   	   					k++;
+	   	   	   				}
+	   	   	   			}
+	   	   	   			}
+	   	      
+	   	      
+	   	      			//MUTANT COMPLETION AND REGISTRY
+	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
+	   	      			
+	   			isRepeated = registryMutant(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
+	   	
+	   		    		//Reload input
+	   		    		try {
+	   				model.unload();
+	   				model.load(null); 
+	   			} catch (Exception e) {}
+	   	   			}
+	   	   		}
+	
+	}
+
+	//Generate metrics model
+	Bundle bundle = Platform.getBundle("wodel.models");
+   	URL fileURL = bundle.getEntry("/models/MutatorMetrics.ecore");
+   	String metricsecore = FileLocator.resolve(fileURL).getFile();
+   		//String metricsecore = "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/resources/MutatorMetrics.ecore";
+   		
+   		if (metrics == true) {
+   			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			MutatorMetrics.generateMetrics(metricspackages, "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/out/", "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/DFAAutomaton.ecore", "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/", "DFAWodelSample5", "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5", hashmapMutVersions);
+   		}
+   		if (debugMetrics == true) {
+		ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			MutatorMetrics.generateDebugMetrics(metricspackages, "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/out/", "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/DFAAutomaton.ecore", "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5/data/model/", "DFAWodelSample5", "C:/eclipse/runtime-EclipseApplication/DFAWodelSample5", hashmapMutVersions);   			
+   		}
+   	}
 }
 

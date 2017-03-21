@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../DFAWodelSample11.model#//@commands.0"/>
+    <object href="../../../model/exercise10.model#_QQLeAFfMEeW8KczM4ojxZQ"/>
+    <attChanges attName="isInitial" oldVal="true" newVal="false">
+      <def href="../../DFAWodelSample11.model#//@commands.0"/>
+    </attChanges>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../DFAWodelSample11.model#//@commands.1"/>
+    <object href="../../../model/exercise10.model#_Z2cNoFfMEeW8KczM4ojxZQ"/>
+    <attChanges attName="isInitial" oldVal="false" newVal="true">
+      <def href="../../DFAWodelSample11.model#//@commands.1"/>
+    </attChanges>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../DFAWodelSample11.model#//@commands.2"/>
+    <object href="../../../model/exercise10.model#//@transitions.8"/>
+  </muts>
+</appliedMutations:Mutations>

@@ -1,7 +1,7 @@
 generate 2 mutants
-in "out/"
-from "model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample8/model/DFAAutomaton.ecore"
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample8/data/model/DFAAutomaton.ecore"
 
 with commands {
 	modify one Transition with {swapref(src, tar)}

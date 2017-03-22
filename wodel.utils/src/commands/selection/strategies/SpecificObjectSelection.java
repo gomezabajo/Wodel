@@ -113,7 +113,10 @@ public class SpecificObjectSelection extends SpecificSelection{
 							}
 							else {
 								// correct this
-								return ((List<EObject>) obj.eGet(ref)).get(0);
+								if (((List<EObject>) obj.eGet(ref)).size() > 0) {
+									return ((List<EObject>) obj.eGet(ref)).get(0);
+								}
+								return null;
 							}
 						}
 					}
@@ -131,7 +134,10 @@ public class SpecificObjectSelection extends SpecificSelection{
 							}
 							else {
 								// correct this
-								return ((List<EObject>) obj.eGet(ref)).get(0);
+								if (((List<EObject>) obj.eGet(ref)).size() > 0) {
+									return ((List<EObject>) obj.eGet(ref)).get(0);
+								}
+								return null;
 							}
 						}
 					}

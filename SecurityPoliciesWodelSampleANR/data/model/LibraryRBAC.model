@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ASCII"?>
+<SecurityPolicy:SecurityPolicy xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SecurityPolicy="http://securityPolicy/1.0" xsi:schemaLocation="http://securityPolicy/1.0 file:/c:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelTestMetrics/model/SecurityPolicy.ecore" xmi:id="_VcztYNJXEeatoq8h5wJ1lA">
+  <policyTypes xmi:id="_BMag4NJYEeatoq8h5wJ1lA" name="RBAC">
+    <ruleTypes xmi:id="_C7f44NJYEeatoq8h5wJ1lA" name="UserRole" parameters="_JFsKQNJYEeatoq8h5wJ1lA _G1V4QNJYEeatoq8h5wJ1lA"/>
+    <ruleTypes xmi:id="_Ed6t4NJYEeatoq8h5wJ1lA" name="RolePermission" parameters="_KGaAYNJYEeatoq8h5wJ1lA _H4pvYNJYEeatoq8h5wJ1lA"/>
+    <elementTypes xmi:id="_G1V4QNJYEeatoq8h5wJ1lA" name="User"/>
+    <elementTypes xmi:id="_H4pvYNJYEeatoq8h5wJ1lA" name="Permission"/>
+    <elementTypes xmi:id="_JFsKQNJYEeatoq8h5wJ1lA" name="Role"/>
+    <elementTypes xmi:id="_KGaAYNJYEeatoq8h5wJ1lA" name="Constraint"/>
+  </policyTypes>
+  <policies xmi:id="_vkT9kNJeEeatoq8h5wJ1lA" name="LibraryRBAC" type="_BMag4NJYEeatoq8h5wJ1lA">
+    <rules xmi:id="_lsGs4NJfEeatoq8h5wJ1lA" name="R1" parameters="__32dgNJeEeatoq8h5wJ1lA _0FAhkNJeEeatoq8h5wJ1lA" type="_C7f44NJYEeatoq8h5wJ1lA"/>
+    <rules xmi:id="_p1Ab8NJfEeatoq8h5wJ1lA" name="R2" parameters="_O693YNJfEeatoq8h5wJ1lA _-R2wENJeEeatoq8h5wJ1lA" type="_C7f44NJYEeatoq8h5wJ1lA"/>
+    <rules xmi:id="_uQfv0NJfEeatoq8h5wJ1lA" name="R3" parameters="_8fFx8NJeEeatoq8h5wJ1lA _MnXdENJfEeatoq8h5wJ1lA" type="_C7f44NJYEeatoq8h5wJ1lA"/>
+    <rules xmi:id="_x2XqUNJfEeatoq8h5wJ1lA" name="R4" parameters="_3DvjkNJeEeatoq8h5wJ1lA _0FAhkNJeEeatoq8h5wJ1lA _X7Nv4NJfEeatoq8h5wJ1lA" type="_Ed6t4NJYEeatoq8h5wJ1lA"/>
+    <rules xmi:id="_1aMWYNJfEeatoq8h5wJ1lA" name="R5" parameters="_5kx88NJeEeatoq8h5wJ1lA _yKANcNJeEeatoq8h5wJ1lA _X7Nv4NJfEeatoq8h5wJ1lA" type="_Ed6t4NJYEeatoq8h5wJ1lA"/>
+    <rules xmi:id="_4Q-WQNJfEeatoq8h5wJ1lA" name="R6" parameters="_bqoA4NJfEeatoq8h5wJ1lA _TAmQANJfEeatoq8h5wJ1lA _O693YNJfEeatoq8h5wJ1lA" type="_Ed6t4NJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_yKANcNJeEeatoq8h5wJ1lA" name="Personnel" type="_JFsKQNJYEeatoq8h5wJ1lA">
+      <children xmi:id="_O693YNJfEeatoq8h5wJ1lA" name="Director" type="_JFsKQNJYEeatoq8h5wJ1lA"/>
+      <children xmi:id="_MnXdENJfEeatoq8h5wJ1lA" name="Secretary" type="_JFsKQNJYEeatoq8h5wJ1lA"/>
+    </elements>
+    <elements xmi:id="_0FAhkNJeEeatoq8h5wJ1lA" name="Student" type="_JFsKQNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_3DvjkNJeEeatoq8h5wJ1lA" name="BorrowBook" type="_H4pvYNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_5kx88NJeEeatoq8h5wJ1lA" name="ModifyUserAccount" type="_H4pvYNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_TAmQANJfEeatoq8h5wJ1lA" name="CreateUserAccount" type="_H4pvYNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_8fFx8NJeEeatoq8h5wJ1lA" name="alice" type="_G1V4QNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_-R2wENJeEeatoq8h5wJ1lA" name="yves" type="_G1V4QNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="__32dgNJeEeatoq8h5wJ1lA" name="romain" type="_G1V4QNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_X7Nv4NJfEeatoq8h5wJ1lA" name="WorkingDays" type="_KGaAYNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_ZwVecNJfEeatoq8h5wJ1lA" name="Holidays" type="_KGaAYNJYEeatoq8h5wJ1lA"/>
+    <elements xmi:id="_bqoA4NJfEeatoq8h5wJ1lA" name="AllTime" type="_KGaAYNJYEeatoq8h5wJ1lA"/>
+  </policies>
+</SecurityPolicy:SecurityPolicy>

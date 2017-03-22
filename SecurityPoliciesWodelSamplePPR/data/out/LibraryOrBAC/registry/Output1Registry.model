@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../SecurityPoliciesWodelSamplePPR.model#//@commands.0"/>
+  </muts>
+  <muts/>
+  <muts/>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <object href="../../../model/LibraryOrBAC.model#_wsXnQNJdEeatoq8h5wJ1lA"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <object href="../../../model/LibraryOrBAC.model#_RF3eINJeEeatoq8h5wJ1lA"/>
+    <refChanges refName="parameters">
+      <object href="../../../model/LibraryOrBAC.model#_RF3eINJeEeatoq8h5wJ1lA"/>
+    </refChanges>
+  </muts>
+</appliedMutations:Mutations>

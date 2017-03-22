@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
+  <trees xsi:type="mutatormetrics:Folder" name="LibraryOrBAC" path="C:\eclipse\runtime-EclipseApplication\SecurityPoliciesWodelSamplePPD\data\out\LibraryOrBAC">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\SecurityPoliciesWodelSamplePPD\data\out\LibraryOrBAC\Output0.model">
+      <classes name="SecurityPolicy">
+        <references name="policyTypes"/>
+        <references name="policies"/>
+      </classes>
+      <classes name="PolicyType">
+        <attributes name="name"/>
+        <references name="ruleTypes"/>
+        <references name="elementTypes"/>
+      </classes>
+      <classes name="RuleType">
+        <attributes name="name"/>
+        <references name="parameters"/>
+      </classes>
+      <classes name="ElementType">
+        <attributes name="name"/>
+        <attributes name="hierarchy"/>
+      </classes>
+      <classes name="Policy">
+        <attributes name="name"/>
+        <references name="rules"/>
+        <references name="elements"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Rule" modified="1" cmodified="1">
+        <attributes name="name"/>
+        <references name="parameters" modified="1"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Parameter">
+        <attributes name="name"/>
+        <references name="children"/>
+        <references name="type"/>
+      </classes>
+    </mutants>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\SecurityPoliciesWodelSamplePPD\data\out\LibraryOrBAC\Output1.model">
+      <classes name="SecurityPolicy">
+        <references name="policyTypes"/>
+        <references name="policies"/>
+      </classes>
+      <classes name="PolicyType">
+        <attributes name="name"/>
+        <references name="ruleTypes"/>
+        <references name="elementTypes"/>
+      </classes>
+      <classes name="RuleType">
+        <attributes name="name"/>
+        <references name="parameters"/>
+      </classes>
+      <classes name="ElementType">
+        <attributes name="name"/>
+        <attributes name="hierarchy"/>
+      </classes>
+      <classes name="Policy">
+        <attributes name="name"/>
+        <references name="rules"/>
+        <references name="elements"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Rule" modified="1" cmodified="1">
+        <attributes name="name"/>
+        <references name="parameters" modified="1"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Parameter">
+        <attributes name="name"/>
+        <references name="children"/>
+        <references name="type"/>
+      </classes>
+    </mutants>
+    <classes name="SecurityPolicy">
+      <references name="policyTypes"/>
+      <references name="policies"/>
+    </classes>
+    <classes name="PolicyType">
+      <attributes name="name"/>
+      <references name="ruleTypes"/>
+      <references name="elementTypes"/>
+    </classes>
+    <classes name="RuleType">
+      <attributes name="name"/>
+      <references name="parameters"/>
+    </classes>
+    <classes name="ElementType">
+      <attributes name="name"/>
+      <attributes name="hierarchy"/>
+    </classes>
+    <classes name="Policy">
+      <attributes name="name"/>
+      <references name="rules"/>
+      <references name="elements"/>
+      <references name="type"/>
+    </classes>
+    <classes name="Rule" modified="2" cmodified="2">
+      <attributes name="name"/>
+      <references name="parameters" modified="2"/>
+      <references name="type"/>
+    </classes>
+    <classes name="Parameter">
+      <attributes name="name"/>
+      <references name="children"/>
+      <references name="type"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="LibraryRBAC" path="C:\eclipse\runtime-EclipseApplication\SecurityPoliciesWodelSamplePPD\data\out\LibraryRBAC">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\SecurityPoliciesWodelSamplePPD\data\out\LibraryRBAC\Output0.model">
+      <classes name="SecurityPolicy">
+        <references name="policyTypes"/>
+        <references name="policies"/>
+      </classes>
+      <classes name="PolicyType">
+        <attributes name="name"/>
+        <references name="ruleTypes"/>
+        <references name="elementTypes"/>
+      </classes>
+      <classes name="RuleType">
+        <attributes name="name"/>
+        <references name="parameters"/>
+      </classes>
+      <classes name="ElementType">
+        <attributes name="name"/>
+        <attributes name="hierarchy"/>
+      </classes>
+      <classes name="Policy">
+        <attributes name="name"/>
+        <references name="rules"/>
+        <references name="elements"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Rule" modified="1" cmodified="1">
+        <attributes name="name"/>
+        <references name="parameters" modified="1"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Parameter">
+        <attributes name="name"/>
+        <references name="children"/>
+        <references name="type"/>
+      </classes>
+    </mutants>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\SecurityPoliciesWodelSamplePPD\data\out\LibraryRBAC\Output1.model">
+      <classes name="SecurityPolicy">
+        <references name="policyTypes"/>
+        <references name="policies"/>
+      </classes>
+      <classes name="PolicyType">
+        <attributes name="name"/>
+        <references name="ruleTypes"/>
+        <references name="elementTypes"/>
+      </classes>
+      <classes name="RuleType">
+        <attributes name="name"/>
+        <references name="parameters"/>
+      </classes>
+      <classes name="ElementType">
+        <attributes name="name"/>
+        <attributes name="hierarchy"/>
+      </classes>
+      <classes name="Policy">
+        <attributes name="name"/>
+        <references name="rules"/>
+        <references name="elements"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Rule" modified="1" cmodified="1">
+        <attributes name="name"/>
+        <references name="parameters" modified="1"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Parameter">
+        <attributes name="name"/>
+        <references name="children"/>
+        <references name="type"/>
+      </classes>
+    </mutants>
+    <classes name="SecurityPolicy">
+      <references name="policyTypes"/>
+      <references name="policies"/>
+    </classes>
+    <classes name="PolicyType">
+      <attributes name="name"/>
+      <references name="ruleTypes"/>
+      <references name="elementTypes"/>
+    </classes>
+    <classes name="RuleType">
+      <attributes name="name"/>
+      <references name="parameters"/>
+    </classes>
+    <classes name="ElementType">
+      <attributes name="name"/>
+      <attributes name="hierarchy"/>
+    </classes>
+    <classes name="Policy">
+      <attributes name="name"/>
+      <references name="rules"/>
+      <references name="elements"/>
+      <references name="type"/>
+    </classes>
+    <classes name="Rule" modified="2" cmodified="2">
+      <attributes name="name"/>
+      <references name="parameters" modified="2"/>
+      <references name="type"/>
+    </classes>
+    <classes name="Parameter">
+      <attributes name="name"/>
+      <references name="children"/>
+      <references name="type"/>
+    </classes>
+  </trees>
+  <classes xsi:type="mutatormetrics:Class" name="SecurityPolicy">
+    <references name="policyTypes"/>
+    <references name="policies"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="PolicyType">
+    <attributes name="name"/>
+    <references name="ruleTypes"/>
+    <references name="elementTypes"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="RuleType">
+    <attributes name="name"/>
+    <references name="parameters"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="ElementType">
+    <attributes name="name"/>
+    <attributes name="hierarchy"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Policy">
+    <attributes name="name"/>
+    <references name="rules"/>
+    <references name="elements"/>
+    <references name="type"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Rule" modified="4" cmodified="4">
+    <attributes name="name"/>
+    <references name="parameters" modified="4"/>
+    <references name="type"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Parameter">
+    <attributes name="name"/>
+    <references name="children"/>
+    <references name="type"/>
+  </classes>
+</mutatormetrics:MutatorMetrics>

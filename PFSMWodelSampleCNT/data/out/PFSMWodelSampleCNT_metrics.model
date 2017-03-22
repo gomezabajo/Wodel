@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
+  <trees xsi:type="mutatormetrics:Folder" name="pfsm1" path="C:\eclipse\runtime-EclipseApplication\PFSMWodelSampleCNT\data\out\pfsm1">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\PFSMWodelSampleCNT\data\out\pfsm1\Output0.model">
+      <classes name="PFSM" modified="1">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions" modified="1"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" created="5" modified="1" ccreated="1" cmodified="1">
+        <attributes name="probability" created="1" modified="1"/>
+        <references name="src" created="1"/>
+        <references name="tar" created="1"/>
+        <references name="input" created="1"/>
+        <references name="output" created="1"/>
+      </classes>
+      <classes name="AlphabetSymbol">
+        <attributes name="symbol"/>
+      </classes>
+    </mutants>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\PFSMWodelSampleCNT\data\out\pfsm1\Output1.model">
+      <classes name="PFSM" modified="1">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions" modified="1"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" created="5" modified="1" ccreated="1" cmodified="1">
+        <attributes name="probability" created="1" modified="1"/>
+        <references name="src" created="1"/>
+        <references name="tar" created="1"/>
+        <references name="input" created="1"/>
+        <references name="output" created="1"/>
+      </classes>
+      <classes name="AlphabetSymbol">
+        <attributes name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="PFSM" modified="2">
+      <attributes name="name"/>
+      <references name="states"/>
+      <references name="transitions" modified="2"/>
+      <references name="alphabet"/>
+    </classes>
+    <classes name="State">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" created="10" modified="2" ccreated="2" cmodified="2">
+      <attributes name="probability" created="2" modified="2"/>
+      <references name="src" created="2"/>
+      <references name="tar" created="2"/>
+      <references name="input" created="2"/>
+      <references name="output" created="2"/>
+    </classes>
+    <classes name="AlphabetSymbol">
+      <attributes name="symbol"/>
+    </classes>
+  </trees>
+  <classes xsi:type="mutatormetrics:Class" name="PFSM" modified="2">
+    <attributes name="name"/>
+    <references name="states"/>
+    <references name="transitions" modified="2"/>
+    <references name="alphabet"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="State">
+    <attributes name="name"/>
+    <attributes name="isInitial"/>
+    <attributes name="isFinal"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Transition" created="10" modified="2" ccreated="2" cmodified="2">
+    <attributes name="probability" created="2" modified="2"/>
+    <references name="src" created="2"/>
+    <references name="tar" created="2"/>
+    <references name="input" created="2"/>
+    <references name="output" created="2"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="AlphabetSymbol">
+    <attributes name="symbol"/>
+  </classes>
+</mutatormetrics:MutatorMetrics>

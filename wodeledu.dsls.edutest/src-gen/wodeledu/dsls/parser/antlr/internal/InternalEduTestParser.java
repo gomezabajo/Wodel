@@ -520,7 +520,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                             
                     otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAlternativeResponse412); 
 
-                    		newLeafNode(otherlv_1, grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); 
+                    		newLeafNode(otherlv_1, grammarAccess.getAlternativeResponseAccess().getBlockBlockCrossReference_1_0()); 
                     	
 
                     }
@@ -723,7 +723,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                             
                     otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleMultiChoiceDiagram583); 
 
-                    		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); 
+                    		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockCrossReference_1_0()); 
                     	
 
                     }
@@ -926,7 +926,7 @@ public class InternalEduTestParser extends AbstractInternalAntlrParser {
                             
                     otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleMultiChoiceEmendation754); 
 
-                    		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); 
+                    		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockCrossReference_1_0()); 
                     	
 
                     }

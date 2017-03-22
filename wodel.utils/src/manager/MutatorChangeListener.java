@@ -8,6 +8,6 @@ public class MutatorChangeListener implements IResourceChangeListener {
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
 		WodelContext.setProject(null);
-		WodelContext.getProject();
+		//WodelContext.getProject();
 	}
  }

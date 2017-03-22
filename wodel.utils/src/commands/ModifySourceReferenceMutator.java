@@ -20,6 +20,11 @@ import exceptions.ReferenceNonExistingException;
 public class ModifySourceReferenceMutator extends Mutator {
 
 	/**
+	 * Original EObject
+	 */
+	private EObject object;
+	
+	/**
 	 * Original source
 	 */
 	private ObSelectionStrategy source;
@@ -103,6 +108,8 @@ public class ModifySourceReferenceMutator extends Mutator {
 			result = null;
 			return null;
 		}
+		
+		object = source;
 
 		// We get the firstone (does not matter whichone)
 		EStructuralFeature ref = refs.get(0);
@@ -205,6 +212,10 @@ public class ModifySourceReferenceMutator extends Mutator {
 
 	public String getRefType() {
 		return refType;
+	}
+	
+	public EObject getObject() {
+		return object;
 	}
 	// END GETTERS AND SETTERS
 }

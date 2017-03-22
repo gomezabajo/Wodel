@@ -3,7 +3,8 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/wodel.models/src" modelPluginID="wodel.models"
     modelName="EduTest" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
-    operationReflection="true" importOrganizing="true">
+    usedGenPackages="MutatorEnvironment.genmodel#//mutatorenvironment" operationReflection="true"
+    importOrganizing="true">
   <foreignModel>EduTest.ecore</foreignModel>
   <genPackages prefix="Edutest" disposableProviderFactory="true" ecorePackage="EduTest.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="EduTest.ecore#//Order">

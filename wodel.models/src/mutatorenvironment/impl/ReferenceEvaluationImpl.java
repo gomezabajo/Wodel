@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getName <em>Name</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getRefName <em>Ref Name</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getValue <em>Value</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getRefType <em>Ref Type</em>}</li>
@@ -42,6 +43,16 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * @ordered
 	 */
 	protected EReference name;
+
+	/**
+	 * The cached value of the '{@link #getRefName() <em>Ref Name</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefName()
+	 * @generated
+	 * @ordered
+	 */
+	protected EReference refName;
 
 	/**
 	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -138,6 +149,44 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRefName() {
+		if (refName != null && refName.eIsProxy()) {
+			InternalEObject oldRefName = (InternalEObject)refName;
+			refName = (EReference)eResolveProxy(oldRefName);
+			if (refName != oldRefName) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_NAME, oldRefName, refName));
+			}
+		}
+		return refName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference basicGetRefName() {
+		return refName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRefName(EReference newRefName) {
+		EReference oldRefName = refName;
+		refName = newRefName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_NAME, oldRefName, refName));
 	}
 
 	/**
@@ -267,6 +316,9 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				if (resolve) return getName();
 				return basicGetName();
+			case MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_NAME:
+				if (resolve) return getRefName();
+				return basicGetRefName();
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__OPERATOR:
 				return getOperator();
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__VALUE:
@@ -288,6 +340,9 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 		switch (featureID) {
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				setName((EReference)newValue);
+				return;
+			case MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_NAME:
+				setRefName((EReference)newValue);
 				return;
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__OPERATOR:
 				setOperator((Operator)newValue);
@@ -313,6 +368,9 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				setName((EReference)null);
 				return;
+			case MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_NAME:
+				setRefName((EReference)null);
+				return;
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__OPERATOR:
 				setOperator(OPERATOR_EDEFAULT);
 				return;
@@ -336,6 +394,8 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 		switch (featureID) {
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__NAME:
 				return name != null;
+			case MutatorenvironmentPackage.REFERENCE_EVALUATION__REF_NAME:
+				return refName != null;
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__OPERATOR:
 				return operator != OPERATOR_EDEFAULT;
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION__VALUE:

@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ReferenceSetImpl#getReference <em>Reference</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceSetImpl#getObject <em>Object</em>}</li>
- *   <li>{@link mutatorenvironment.impl.ReferenceSetImpl#getRefType <em>Ref Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,16 +56,6 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * @ordered
 	 */
 	protected ObSelectionStrategy object;
-
-	/**
-	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefType()
-	 * @generated
-	 * @ordered
-	 */
-	protected EReference refType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -147,44 +136,6 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
-			InternalEObject oldRefType = (InternalEObject)refType;
-			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE, oldRefType, refType));
-			}
-		}
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference basicGetRefType() {
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefType(EReference newRefType) {
-		EReference oldRefType = refType;
-		refType = newRefType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE, oldRefType, refType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -206,9 +157,6 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 				return getReference();
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:
 				return getObject();
-			case MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE:
-				if (resolve) return getRefType();
-				return basicGetRefType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -229,9 +177,6 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:
 				setObject((ObSelectionStrategy)newValue);
 				return;
-			case MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE:
-				setRefType((EReference)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -250,9 +195,6 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:
 				setObject((ObSelectionStrategy)null);
 				return;
-			case MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE:
-				setRefType((EReference)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -269,8 +211,6 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 				return reference != null && !reference.isEmpty();
 			case MutatorenvironmentPackage.REFERENCE_SET__OBJECT:
 				return object != null;
-			case MutatorenvironmentPackage.REFERENCE_SET__REF_TYPE:
-				return refType != null;
 		}
 		return super.eIsSet(featureID);
 	}

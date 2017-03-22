@@ -130,6 +130,15 @@ public interface AppliedMutationsFactory extends EFactory {
 	ReferenceSwap createReferenceSwap();
 
 	/**
+	 * Returns a new object of class '<em>Reference Att</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Att</em>'.
+	 * @generated
+	 */
+	ReferenceAtt createReferenceAtt();
+
+	/**
 	 * Returns a new object of class '<em>Attribute Swap</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -146,6 +155,15 @@ public interface AppliedMutationsFactory extends EFactory {
 	 * @generated
 	 */
 	CompositeMutation createCompositeMutation();
+
+	/**
+	 * Returns a new object of class '<em>Object Cloned</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Object Cloned</em>'.
+	 * @generated
+	 */
+	ObjectCloned createObjectCloned();
 
 	/**
 	 * Returns the package supported by this factory.

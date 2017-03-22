@@ -66,7 +66,7 @@ public abstract class AbstractEduTestSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (block=[EObject|ID]? config=TestConfiguration tests+=Test*)
+	 *     (block=[Block|ID]? config=TestConfiguration tests+=Test*)
 	 */
 	protected void sequence_AlternativeResponse(EObject context, AlternativeResponse semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -75,7 +75,7 @@ public abstract class AbstractEduTestSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (block=[EObject|ID]? config=TestConfiguration tests+=Test*)
+	 *     (block=[Block|ID]? config=TestConfiguration tests+=Test*)
 	 */
 	protected void sequence_MultiChoiceDiagram(EObject context, MultiChoiceDiagram semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -93,7 +93,7 @@ public abstract class AbstractEduTestSemanticSequencer extends AbstractDelegatin
 	
 	/**
 	 * Constraint:
-	 *     (block=[EObject|ID]? config=MultiChoiceEmConfig tests+=Test*)
+	 *     (block=[Block|ID]? config=MultiChoiceEmConfig tests+=Test*)
 	 */
 	protected void sequence_MultiChoiceEmendation(EObject context, MultiChoiceEmendation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

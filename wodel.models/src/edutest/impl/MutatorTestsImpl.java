@@ -8,13 +8,14 @@ import edutest.Test;
 
 import java.util.Collection;
 
+import mutatorenvironment.Block;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -46,7 +47,7 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * @generated
 	 * @ordered
 	 */
-	protected EObject block;
+	protected Block block;
 
 	/**
 	 * The cached value of the '{@link #getTests() <em>Tests</em>}' containment reference list.
@@ -82,10 +83,10 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EObject getBlock() {
+	public Block getBlock() {
 		if (block != null && block.eIsProxy()) {
 			InternalEObject oldBlock = (InternalEObject)block;
-			block = eResolveProxy(oldBlock);
+			block = (Block)eResolveProxy(oldBlock);
 			if (block != oldBlock) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, EdutestPackage.MUTATOR_TESTS__BLOCK, oldBlock, block));
@@ -99,7 +100,7 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EObject basicGetBlock() {
+	public Block basicGetBlock() {
 		return block;
 	}
 
@@ -108,8 +109,8 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBlock(EObject newBlock) {
-		EObject oldBlock = block;
+	public void setBlock(Block newBlock) {
+		Block oldBlock = block;
 		block = newBlock;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.MUTATOR_TESTS__BLOCK, oldBlock, block));
@@ -168,7 +169,7 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case EdutestPackage.MUTATOR_TESTS__BLOCK:
-				setBlock((EObject)newValue);
+				setBlock((Block)newValue);
 				return;
 			case EdutestPackage.MUTATOR_TESTS__TESTS:
 				getTests().clear();
@@ -187,7 +188,7 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case EdutestPackage.MUTATOR_TESTS__BLOCK:
-				setBlock((EObject)null);
+				setBlock((Block)null);
 				return;
 			case EdutestPackage.MUTATOR_TESTS__TESTS:
 				getTests().clear();

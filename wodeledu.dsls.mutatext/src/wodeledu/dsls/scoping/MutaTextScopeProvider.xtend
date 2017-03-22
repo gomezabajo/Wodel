@@ -37,7 +37,10 @@ class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * Option.type can refer to any EClass in the .ecore file.
 	 */
 	def IScope scope_Option_type(Option opt, EReference ref) {
-       	Scopes.scopeFor(getEClasses(ModelManager.getWorkspaceAbsolutePath + "/" + manager.WodelContext.getProject() + "/resources/AppliedMutations.ecore"))   
+		val Bundle bundle = Platform.getBundle("wodel.models")
+	   	val URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore")
+	   	val String ecore = FileLocator.resolve(fileURL).getFile()
+       	Scopes.scopeFor(getEClasses(ecore))   
 	}
 	
 	/**

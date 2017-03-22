@@ -22,13 +22,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link modelgraph.impl.EdgeImpl#getSource <em>Source</em>}</li>
  *   <li>{@link modelgraph.impl.EdgeImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link modelgraph.impl.EdgeImpl#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class EdgeImpl extends ItemImpl implements Edge {
+public class EdgeImpl extends RelationImpl implements Edge {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -48,16 +47,6 @@ public class EdgeImpl extends ItemImpl implements Edge {
 	 * @ordered
 	 */
 	protected EReference target;
-
-	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabel()
-	 * @generated
-	 * @ordered
-	 */
-	protected EReference label;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -159,44 +148,6 @@ public class EdgeImpl extends ItemImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLabel() {
-		if (label != null && label.eIsProxy()) {
-			InternalEObject oldLabel = (InternalEObject)label;
-			label = (EReference)eResolveProxy(oldLabel);
-			if (label != oldLabel) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelgraphPackage.EDGE__LABEL, oldLabel, label));
-			}
-		}
-		return label;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference basicGetLabel() {
-		return label;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLabel(EReference newLabel) {
-		EReference oldLabel = label;
-		label = newLabel;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelgraphPackage.EDGE__LABEL, oldLabel, label));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -206,9 +157,6 @@ public class EdgeImpl extends ItemImpl implements Edge {
 			case ModelgraphPackage.EDGE__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
-			case ModelgraphPackage.EDGE__LABEL:
-				if (resolve) return getLabel();
-				return basicGetLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -226,9 +174,6 @@ public class EdgeImpl extends ItemImpl implements Edge {
 				return;
 			case ModelgraphPackage.EDGE__TARGET:
 				setTarget((EReference)newValue);
-				return;
-			case ModelgraphPackage.EDGE__LABEL:
-				setLabel((EReference)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -248,9 +193,6 @@ public class EdgeImpl extends ItemImpl implements Edge {
 			case ModelgraphPackage.EDGE__TARGET:
 				setTarget((EReference)null);
 				return;
-			case ModelgraphPackage.EDGE__LABEL:
-				setLabel((EReference)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -267,8 +209,6 @@ public class EdgeImpl extends ItemImpl implements Edge {
 				return source != null;
 			case ModelgraphPackage.EDGE__TARGET:
 				return target != null;
-			case ModelgraphPackage.EDGE__LABEL:
-				return label != null;
 		}
 		return super.eIsSet(featureID);
 	}

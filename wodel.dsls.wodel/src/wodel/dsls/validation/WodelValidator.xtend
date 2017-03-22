@@ -156,12 +156,12 @@ class WodelValidator extends AbstractWodelValidator {
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var AttributeType att_type = attset.getValue();
     			if (att_type instanceof IntegerType) {
-    				if (!att0.getEType().getInstanceClassName().equals("int")) {
+    				if (!att0.getEType().getInstanceClassName().equals("int") && (!att0.getEType().getInstanceClassName().equals("java.lang.Integer"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
     			}
     			if (att_type instanceof BooleanType) {
-    				if (!att0.getEType().getInstanceClassName().equals("boolean")) {
+    				if (!att0.getEType().getInstanceClassName().equals("boolean") && (!att0.getEType().getInstanceClassName().equals("java.lang.Boolean"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
     			}
@@ -172,7 +172,7 @@ class WodelValidator extends AbstractWodelValidator {
     			}
     			if (att_type instanceof DoubleType) {
     				System.out.println("DoubleType: " + att0.getEType().getInstanceClassName())
-    				if (!att0.getEType().getInstanceClassName().equals("double")) {
+    				if (!att0.getEType().getInstanceClassName().equals("double") && (!att0.getEType().getInstanceClassName().equals("java.lang.Double"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
     			}
@@ -224,12 +224,14 @@ class WodelValidator extends AbstractWodelValidator {
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var AttributeType att_type = attset.getValue();
     			if (att_type instanceof IntegerType) {
-    				if (!att0.getEType().getInstanceClassName().equals("int")) {
+    				if (!att0.getEType().getInstanceClassName().equals("int") && (!att0.getEType().getInstanceClassName().equals("java.lang.Integer"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
     			}
     			if (att_type instanceof BooleanType) {
-    				if (!att0.getEType().getInstanceClassName().equals("boolean")) {
+    				var String className = att0.getEType().getInstanceClassName()
+    				System.out.println(className)
+    				if (!att0.getEType().getInstanceClassName().equals("boolean") && (!att0.getEType().getInstanceClassName().equals("java.lang.Boolean"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
     			}
@@ -240,7 +242,7 @@ class WodelValidator extends AbstractWodelValidator {
     			}
     			if (att_type instanceof DoubleType) {
     				System.out.println("DoubleType: " + att0.getEType().getInstanceClassName())
-    				if (!att0.getEType().getInstanceClassName().equals("double")) {
+    				if (!att0.getEType().getInstanceClassName().equals("double") && (!att0.getEType().getInstanceClassName().equals("java.lang.Double"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
     			}

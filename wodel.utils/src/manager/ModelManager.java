@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import mutatorenvironment.Block;
 import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
@@ -43,12 +45,11 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -57,30 +58,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.Workbench;
-import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.XtextPackage;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
-import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 
-import com.google.inject.Injector;
-
-import commands.ObjectEmitter;
 import commands.selection.strategies.ObSelectionStrategy;
-import commands.selection.strategies.RandomTypeSelection;
 import commands.strategies.AttributeConfigurationStrategy;
 import commands.strategies.ReferenceConfigurationStrategy;
 import mutatext.Option;
@@ -224,7 +204,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			String modelName = br.readLine();
 			File[] files = new File(path + '/' + modelName).listFiles();
@@ -249,7 +229,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			return path + '/' + br.readLine();
 		} catch (IOException e) {
@@ -264,7 +244,7 @@ public class ModelManager {
 			String path = getWorkspaceAbsolutePath() + '/' + project;
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			return path + '/' + br.readLine();
 		} catch (IOException e) {
@@ -281,7 +261,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			br.readLine();
 			br.readLine();
@@ -303,7 +283,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			String modelName = br.readLine();
 			File[] files = new File(path + '/' + modelName).listFiles();
@@ -329,7 +309,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			return br.readLine();
 		} catch (IOException e) {
@@ -345,7 +325,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			br.readLine();
 			String mutantName = br.readLine();
@@ -364,7 +344,7 @@ public class ModelManager {
 					+ WodelContext.getProject();
 
 			BufferedReader br = new BufferedReader(new FileReader(path
-					+ "/config/config.txt"));
+					+ "/data/config/config.txt"));
 
 			br.readLine();
 			return br.readLine();
@@ -615,7 +595,78 @@ public class ModelManager {
 		}
 		return objs;
 	}
+	
+	/**
+	 * @param metamodel
+	 *            Loaded Metamodel
+	 * @return ArrayList<EObject> All the classes or objects
+	 */
+	public static ArrayList<EObject> getAllObjects(ArrayList<EPackage> metamodel) {
 
+		ArrayList<EObject> objs = new ArrayList<EObject>();
+
+		for (EPackage p : metamodel) {
+			EList<EObject> objects = p.eContents();
+
+			for (EObject object : objects) {
+				objs.add(object);
+			}
+		}
+		return objs;
+	}
+	
+	/**
+	 * @param packages
+	 *            Loaded Metamodel
+	 * @param model
+	 *            Loaded Model
+	 * @param containing
+	 *            Name of the containing Class
+	 * @return Parents
+	 */
+	public static ArrayList<EObject> getParentObjects(ArrayList<EPackage> packages, Resource model,
+			String containing) {
+
+		ArrayList<EObject> mmobjs = new ArrayList<EObject>();
+		ArrayList<EObject> mmparents = new ArrayList<EObject>();
+		ArrayList<EObject> parents = new ArrayList<EObject>();
+		EObject obj = getObjectOfType(containing, packages);
+
+		mmobjs = getAllObjects(packages);
+
+		for (EObject mmo : mmobjs) {
+			// We search inside the object
+			for (EObject mmcont : mmo.eContents()) {
+				if (mmcont.eClass().getName().equals(containing)) {
+					mmparents.add(mmo);
+					break;
+				}
+				if (mmcont instanceof EReference) {
+					EReference ref = (EReference) mmcont;
+					System.out.println("Container obj:" + ref.getEType().getName());
+					System.out.println("Contained obj:" + ((EClass) obj).getName());
+					ArrayList<EClass> classes = new ArrayList<EClass>();
+					classes.add((EClass) obj);
+					classes.addAll(((EClass) obj).getEAllSuperTypes());
+					for (EClass c : classes) {
+						System.out.println("Class: " + c.getName());
+						if (ref.getEType().getName().equals(c.getName()) && (ref.isContainment() == true)) {
+							mmparents.add(mmo);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		for (EObject mmp : mmparents) {
+			parents.addAll(getObjectsOfType(((EClass) mmp).getName(), model));
+		}
+
+		return parents;
+
+	}
+	
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -623,35 +674,26 @@ public class ModelManager {
 	 *            Name of the containing Class
 	 * @return Parents
 	 */
-	public static ArrayList<EObject> getParentObjects(Resource model,
-			String containing) {
+	public static EObject getContainer(Resource model, EObject object) {
 
 		ArrayList<EObject> objs = new ArrayList<EObject>();
-		ArrayList<EObject> parents = new ArrayList<EObject>();
-
+		EObject parent = null;
 		objs = getAllObjects(model);
 
-		for (EObject o : objs) {
+		for (EObject obj : objs) {
 			// We search inside the object
-			for (EObject cont : o.eContents()) {
-				if (cont.eClass().getName().equals(containing)) {
-					parents.add(o);
+			for (EObject cont : obj.eContents()) {
+				if (EcoreUtil.equals(cont, object)) {
+					parent = obj;
 					break;
 				}
-//				else {
-//					for (EClass eclass : o.eClass().getESuperTypes()) {
-//						for (EObject obj : ModelManager.getObjectsOfType(eclass.getName(), model)) {
-//							if (cont.eClass().getName().equals(obj.eClass().getName())) {
-//								parents.add(o);
-//								break;
-//							}
-//						}
-//					}
-//				}
+			}
+			if (parent != null) {
+				break;
 			}
 		}
 
-		return parents;
+		return parent;
 
 	}
 	
@@ -779,6 +821,25 @@ public class ModelManager {
 		}
 		return null;
 	}
+	
+	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
+	 * @return String Value of the attribute named by -att-
+	 */
+	public static List<String> getStringListAttribute(String att, EObject object) {
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+			if (sf.getName().equals(att)) {
+				return (List<String>) object.eGet(sf, true);
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * @param att
@@ -788,12 +849,14 @@ public class ModelManager {
 	 * @throws WrongAttributeTypeException
 	 */
 	public static Object getAttribute(String att, EObject object) {
-		EClass tipo = object.eClass();
+		if (object != null) {
+			EClass tipo = object.eClass();
 
-		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
-			if (sf != null) {
-				if (sf.getName().equals(att)) {
-					return object.eGet(sf);
+			for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+				if (sf != null) {
+					if (sf.getName().equals(att)) {
+						return object.eGet(sf);
+					}
 				}
 			}
 		}
@@ -823,13 +886,27 @@ public class ModelManager {
 					System.out.println("aqui se produce la excepción!");
 					System.out.println("sf.getEType(): " + sf.getEType());
 					System.out.println("acs: " + acs);
-					if (acs.sameType(sf.getEType())) {
-						object.eSet(sf, acs.getValue(object));
-					} else {
-						throw new WrongAttributeTypeException("The attribute '"
-								+ att + "' is not of the type '"
-								+ acs.getValue().getClass().getSimpleName()
-								+ "'");
+					Object value = acs.getValue(object);
+					if (sf.getEType() instanceof EEnum && value.getClass().getSimpleName().toLowerCase().equals("string")) {
+						EList<EEnumLiteral> literals = ((EEnum) sf.getEType()).getELiterals();
+						for (EEnumLiteral lit : literals) {
+							System.out.println("lit: " + lit);
+							System.out.println("(String) acs.getValue(object): " + (String) value);
+							if (lit.getLiteral().equals((String) value)) {
+								object.eSet(sf, lit);
+								break;
+							}
+						}
+					}
+					else {
+						if (acs.sameType(sf.getEType())) {
+							object.eSet(sf, acs.getValue(object));
+						} else {
+							throw new WrongAttributeTypeException("The attribute '"
+									+ att + "' is not of the type '"
+									+ acs.getValue().getClass().getSimpleName()
+									+ "'");
+						}
 					}
 				}
 			}
@@ -849,6 +926,25 @@ public class ModelManager {
 			if (sf != null) {
 				if (sf.getName().equals(ref)) {
 					return (EObject) object.eGet(sf);
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @throws ReferenceNonExistingException
+	 */
+	public static List<EObject> getReferences(String ref, EObject object) throws
+		ReferenceNonExistingException {
+
+		EClass tipo = object.eClass();
+		// EClass tipo = tarObj.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllReferences()) {
+			if (sf != null) {
+				if (sf.getName().equals(ref)) {
+					return (List<EObject>) object.eGet(sf);
 				}
 			}
 		}
@@ -930,54 +1026,77 @@ public class ModelManager {
 		EObject tarObj = oss.getObject();
 		// EClass tipo = tarObj.eClass();
 
-		System.out.println("ref: " + ref + "; EObject: " + object.toString()
-				+ "; ObSelectionStrategy: " + oss.toString());
-		for (EStructuralFeature sf : tipo.getEAllReferences()) {
-			System.out.println("sf: " + sf.toString());
-			if (sf != null) {
-				if (sf.getName().equals(ref)) {
-					System.out.println("aqui se produce la excepción!");
-					System.out.println("sf.getEType(): " + sf.getEType());
-					System.out.println("oss: " + oss);
-					System.out.println("tarObj: " + tarObj);
-					System.out.println("object: " + object);
-					// EObject objSf = (EObject) tarObj.eGet(sf);
-					// System.out.println("objSf: " + objSf);
-					// EObject objSf = (EObject) tarObj.eGet(sf);
-					// System.out.println("objSf: " + objSf);
-					if (tarObj != null) {
-						boolean b = false;
-						for (EStructuralFeature sfTar : tarObj.eClass()
-								.getEAllReferences()) {
-							if (sfTar != null) {
-								if (sfTar.getName().equals(ref)) {
-									object.eSet(sf, tarObj.eGet(sfTar));
-									b = true;
-									break;
+		if (tarObj != null) {
+			System.out.println("ref: " + ref + "; EObject: " + object.toString()
+					+ "; ObSelectionStrategy: " + oss.toString());
+			for (EStructuralFeature sf : tipo.getEAllReferences()) {
+				System.out.println("sf: " + sf.toString());
+				if (sf != null) {
+					if (sf.getName().equals(ref)) {
+						System.out.println("aqui se produce la excepción!");
+						System.out.println("sf.getEType(): " + sf.getEType());
+						System.out.println("oss: " + oss);
+						System.out.println("tarObj: " + tarObj);
+						System.out.println("object: " + object);
+						// EObject objSf = (EObject) tarObj.eGet(sf);
+						// System.out.println("objSf: " + objSf);
+						// EObject objSf = (EObject) tarObj.eGet(sf);
+						// System.out.println("objSf: " + objSf);
+						if (tarObj != null) {
+							boolean b = false;
+							for (EStructuralFeature sfTar : tarObj.eClass()
+									.getEAllReferences()) {
+								if (sfTar != null) {
+									if (sfTar.getName().equals(ref)) {
+										object.eSet(sf, tarObj.eGet(sfTar));
+										b = true;
+										break;
+									}
 								}
 							}
-						}
-						if (b == false) {
-							try {
-								object.eSet(sf, tarObj);
-							} catch (ClassCastException ex) {
-								throw new WrongAttributeTypeException(
-										"The reference '"
-												+ ref
-												+ "' is not of the type '"
-												+ tarObj.getClass()
-														.getSimpleName() + "'");
+							if (b == false) {
+								try {
+									if (sf.getUpperBound() == 1) {
+										object.eSet(sf, tarObj);
+									}
+									else {
+										// CORRECT THIS
+										List<EObject> objects = (List<EObject>) object.eGet(sf);
+										objects.add(tarObj);
+									}
+								} catch (ClassCastException ex) {
+									throw new WrongAttributeTypeException(
+											"The reference '"
+													+ ref
+													+ "' is not of the type '"
+													+ tarObj.getClass()
+															.getSimpleName() + "'");
+								}
 							}
+						} else {
+							throw new ReferenceNonExistingException(
+									"There is no object for the reference '" + ref
+											+ "'");
 						}
-					} else {
-						throw new ReferenceNonExistingException(
-								"There is no object for the reference '" + ref
-										+ "'");
-
 					}
-					// object.eSet(sf, tarObj);
 				}
 			}
+			return;
+		}
+		List<EObject> tarObjs =  oss.getObjects();
+		if (tarObjs != null) {
+			System.out.println("ref: " + ref + "; EObject: " + object.toString()
+					+ "; ObSelectionStrategy: " + oss.toString());
+			for (EStructuralFeature sf : tipo.getEAllReferences()) {
+				System.out.println("sf: " + sf.toString());
+				if (sf != null) {
+					if (sf.getName().equals(ref)) {
+						List<EObject> objects = (List<EObject>) object.eGet(sf);
+						objects.addAll(tarObjs);
+					}
+				}
+			}
+			return;
 		}
 	}
 
@@ -1006,13 +1125,21 @@ public class ModelManager {
 					System.out.println("sf.getEType(): " + sf.getEType());
 					System.out.println("rcs: " + rcs);
 					if (rcs.sameType()) {
-						object.eSet(sf, rcs.getValue(object));
+						if (rcs.getValue(object) instanceof List<?>) {
+							List<EObject> o = (List<EObject>) object.eGet(sf, true);
+							o = (List<EObject>) rcs.getValue(object);
+							//object.eSet(sf, o);
+						}
+						if (rcs.getValue(object) instanceof EObject) {
+							object.eSet(sf, rcs.getValue(object));
+						}
 					} else {
-						throw new WrongAttributeTypeException("The reference '"
-								+ ref
-								+ "' is not of the type '"
-								+ rcs.getValue(object).getClass()
-										.getSimpleName() + "'");
+						if (rcs.getValue(object) != null) {
+							throw new WrongAttributeTypeException("The reference '"
+									+ ref
+									+ "' is not of the type "
+									+ "'" + rcs.getValue(object).getClass().getSimpleName() + "'");
+						}
 					}
 				}
 			}
@@ -1071,6 +1198,25 @@ public class ModelManager {
 		}
 	}
 
+	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
+	 * @param newValue
+	 *            Value of the new attribute
+	 */
+	public static void setIntAttribute(String att, EObject object,
+			int newValue) {
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+			if (sf.getName().equals(att)) {
+				object.eSet(sf, newValue);
+			}
+		}
+	}
 	/**
 	 * @param att
 	 *            Name of the attribute
@@ -1354,13 +1500,14 @@ public class ModelManager {
 		}
 	}
 
+
 	/**
 	 * @param l
 	 *            List in order to get the size and index
 	 * @return Random number
 	 */
 	public static int getRandomIndex(List l) {
-		if (l.size() == 1)
+		if (l.size() <= 1)
 			return 0;
 
 		int index = rn.nextInt() % l.size();
@@ -1436,8 +1583,39 @@ public class ModelManager {
 
 		return false;
 	}
+	
+	public static boolean compareObjects(EObject ob1, EObject ob2) {
+		IComparisonScope scope = new DefaultComparisonScope(ob1, ob2,
+				null);
+		Comparison comparison = EMFCompare.builder().build().compare(scope);
 
-	/**
+		List<Diff> differences = comparison.getDifferences();
+
+		if (differences.size() == 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public static boolean compareListObjects(List<EObject> lob1, List<EObject> lob2) {
+		if (lob1 == null || lob2 == null) {
+			return false;
+		}
+		
+		if (lob1.size() != lob2.size()) {
+			return false;
+		}
+		for (int i = 0; i < lob1.size(); i++) {
+			if (compareObjects(lob1.get(i), lob2.get(i)) != true) {
+				return false;
+			}
+		}
+		return true;
+		
+	}
+/**
 	 * It returns the list of classes defined in a meta-model.
 	 */
 	public static ArrayList<EClass> getEClasses(List<EPackage> packages) {
@@ -1450,6 +1628,37 @@ public class ModelManager {
 			}
 		}
 		return classes;
+	}
+	
+	/**
+	 * It returns the list of classes defined in a meta-model.
+	 */
+	public static ArrayList<EClass> getSubClasses(List<EClass> classes, EClass eClass) {
+		ArrayList<EClass> subclasses = new ArrayList<EClass>();
+		for (EClass cl : classes) {
+			if (cl.getEAllSuperTypes().contains(eClass)) {
+				if (!subclasses.contains(cl)) {
+					subclasses.add(cl);
+				}
+			}
+		}
+		return subclasses;
+	}
+	
+	/**
+	 * It returns the list of classes defined in a meta-model.
+	 */
+	public static EClass getEClassByName(List<EPackage> packages, String name) {
+		for (EPackage pck : packages) {
+			for (EClassifier cl : pck.getEClassifiers()) {
+				if (cl instanceof EClass) {
+					if (cl.getName().equals(name) == true) {
+						return (EClass) cl;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1512,6 +1721,66 @@ public class ModelManager {
 		return mutations;
 	}
 	
+	public static LinkedHashMap<String, List<EObject>> getBlockCommands(Resource program) {
+		LinkedHashMap<String, List<EObject>> commands = new LinkedHashMap<String, List<EObject>>();
+		try {
+			EObject root = ModelManager.getRoot(program);
+			List<EObject> blocks = ModelManager.getReferences("blocks", root);
+			if (blocks != null) {
+				if (blocks.size() > 0) {
+					for (EObject block : blocks) {
+						String name = null;
+						List<EObject> listEObjects = null;
+						for (EAttribute att : block.eClass().getEAllAttributes()) {
+							if (att.getName().equals("name")) {
+								name = (String) block.eGet(att);
+								break;
+							}
+						}
+						if (commands.containsKey(name) == true) {
+							listEObjects = commands.get(name);
+						}
+						else {
+							listEObjects = new ArrayList<EObject>();
+						}
+						List<EObject> coms = ModelManager.getReferences("commands", block);
+						if (coms != null) {
+							if (coms.size() > 0) {
+								for (EObject com : coms) {
+									listEObjects.add(com);
+								}
+							}
+						}
+						commands.put(name, listEObjects);
+					}
+				}
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return commands;
+	}
+	
+	public static List<EObject> getCommands(Resource program) {
+		List<EObject> commands = new ArrayList<EObject>();
+		try {
+			EObject root = ModelManager.getRoot(program);
+			List<EObject> coms = ModelManager.getReferences("commands", root);
+			if (coms != null) {
+				if (coms.size() > 0) {
+					for (EObject com : coms) {
+						commands.add(com);
+					}
+				}
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return commands;
+	}
+	
 	public static Option getConfigureOption(String type, Resource model) {
 		Iterator<EObject> objects = model.getAllContents();
 
@@ -1560,19 +1829,48 @@ public class ModelManager {
 //				}
 //			}
 //		}
-		objects = model.getAllContents();
-		while (objects.hasNext()) {
-			EObject obj = objects.next();
-			if (obj instanceof Element) {
-				Element element = (Element) obj;
-				if (element.getType().getName().equals(object.eClass().getName())) {
-					if (element.getAtt() == null) {
-						return element;
+		if (object != null) {
+			objects = model.getAllContents();
+			while (objects.hasNext()) {
+				EObject obj = objects.next();
+				if (obj instanceof Element) {
+					Element element = (Element) obj;
+					if (element.getType().getName().equals(object.eClass().getName())) {
+						if (element.getAtt() == null) {
+							return element;
+						}
 					}
 				}
 			}
 		}
 		return null;
+	}
+	
+	public static File getSeedModel(File seed, File mutant, String output) {
+		File ret = null;
+		String outputPath = output.endsWith("/") ? output.replace('/', '\\') + seed.getName().replace(".model", "") : output.replace('/', '\\') + "\\"+ seed.getName().replace(".model", "");
+		String mutantPath = mutant.getPath();
+		String mutantFolder = mutantPath.substring(0, mutantPath.lastIndexOf("\\"));
+		int sub1 = outputPath.length() + 1;
+		int sub2 = mutantFolder.length();
+		if (sub1 < sub2) {
+		String mutantHierarchy = mutantFolder.substring(sub1, sub2);
+			String[] levels = mutantHierarchy.split("\\\\");
+			if (levels.length == 1) {
+				ret = seed;
+			}
+			else {
+				String folders = "";
+				for (int i = 1; i < levels.length - 1; i++) {
+					folders += levels[i] + "\\";
+				}
+				ret = new File(outputPath + "\\" + folders + "\\" + levels[levels.length - 1] + ".model");
+			}
+		}
+		else {
+			ret = seed;
+		}
+		return ret;
 	}
 	public static Element getRefElement(EObject object, EStructuralFeature feature, Resource model) {
 		Iterator<EObject> objects = model.getAllContents();

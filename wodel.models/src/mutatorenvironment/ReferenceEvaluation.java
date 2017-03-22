@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EReference;
  * The following features are supported:
  * <ul>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getName <em>Name</em>}</li>
+ *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefName <em>Ref Name</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getValue <em>Value</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefType <em>Ref Type</em>}</li>
@@ -49,6 +50,32 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * @generated
 	 */
 	void setName(EReference value);
+
+	/**
+	 * Returns the value of the '<em><b>Ref Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ref Name</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ref Name</em>' reference.
+	 * @see #setRefName(EReference)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_RefName()
+	 * @model
+	 * @generated
+	 */
+	EReference getRefName();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ReferenceEvaluation#getRefName <em>Ref Name</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ref Name</em>' reference.
+	 * @see #getRefName()
+	 * @generated
+	 */
+	void setRefName(EReference value);
 
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.

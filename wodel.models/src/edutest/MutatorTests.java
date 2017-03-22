@@ -2,6 +2,8 @@
  */
 package edutest;
 
+import mutatorenvironment.Block;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -33,12 +35,12 @@ public interface MutatorTests extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Block</em>' reference.
-	 * @see #setBlock(EObject)
+	 * @see #setBlock(Block)
 	 * @see edutest.EdutestPackage#getMutatorTests_Block()
 	 * @model
 	 * @generated
 	 */
-	EObject getBlock();
+	Block getBlock();
 
 	/**
 	 * Sets the value of the '{@link edutest.MutatorTests#getBlock <em>Block</em>}' reference.
@@ -48,7 +50,7 @@ public interface MutatorTests extends EObject {
 	 * @see #getBlock()
 	 * @generated
 	 */
-	void setBlock(EObject value);
+	void setBlock(Block value);
 
 	/**
 	 * Returns the value of the '<em><b>Tests</b></em>' containment reference list.

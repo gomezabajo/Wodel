@@ -5,6 +5,7 @@ import java.io.IOException;
 import mutatorenvironment.MutatorenvironmentPackage;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -12,7 +13,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.serializer.impl.Serializer;
 
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 public class WodelUtils {
@@ -45,5 +48,12 @@ public class WodelUtils {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@SuppressWarnings("restriction")
+	public static String deserialize(EObject eObject) {
+		Injector injector = Guice.createInjector(new  wodel.dsls.WodelRuntimeModule());  
+		Serializer serializer = injector.getInstance(Serializer.class);  
+		return serializer.serialize(eObject);
 	}
 }

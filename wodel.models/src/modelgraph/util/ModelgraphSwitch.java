@@ -79,17 +79,79 @@ public class ModelgraphSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelgraphPackage.NAMED_ITEM: {
+				NamedItem namedItem = (NamedItem)theEObject;
+				T result = caseNamedItem(namedItem);
+				if (result == null) result = caseItem(namedItem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.BOOLEAN_ATTRIBUTE: {
+				BooleanAttribute booleanAttribute = (BooleanAttribute)theEObject;
+				T result = caseBooleanAttribute(booleanAttribute);
+				if (result == null) result = caseItem(booleanAttribute);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ModelgraphPackage.NODE: {
 				Node node = (Node)theEObject;
 				T result = caseNode(node);
+				if (result == null) result = caseNamedItem(node);
 				if (result == null) result = caseItem(node);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.RELATION: {
+				Relation relation = (Relation)theEObject;
+				T result = caseRelation(relation);
+				if (result == null) result = caseNamedItem(relation);
+				if (result == null) result = caseItem(relation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelgraphPackage.EDGE: {
 				Edge edge = (Edge)theEObject;
 				T result = caseEdge(edge);
+				if (result == null) result = caseRelation(edge);
+				if (result == null) result = caseNamedItem(edge);
 				if (result == null) result = caseItem(edge);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.LEVEL: {
+				Level level = (Level)theEObject;
+				T result = caseLevel(level);
+				if (result == null) result = caseRelation(level);
+				if (result == null) result = caseNamedItem(level);
+				if (result == null) result = caseItem(level);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.NODE_ENUMERATOR: {
+				NodeEnumerator nodeEnumerator = (NodeEnumerator)theEObject;
+				T result = caseNodeEnumerator(nodeEnumerator);
+				if (result == null) result = caseItem(nodeEnumerator);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.ENUMERATOR: {
+				Enumerator enumerator = (Enumerator)theEObject;
+				T result = caseEnumerator(enumerator);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.INFORMATION: {
+				Information information = (Information)theEObject;
+				T result = caseInformation(information);
+				if (result == null) result = caseItem(information);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelgraphPackage.CONTENT: {
+				Content content = (Content)theEObject;
+				T result = caseContent(content);
+				if (result == null) result = caseNamedItem(content);
+				if (result == null) result = caseItem(content);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -128,6 +190,36 @@ public class ModelgraphSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Named Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Named Item</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNamedItem(NamedItem object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Boolean Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Boolean Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBooleanAttribute(BooleanAttribute object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -143,6 +235,21 @@ public class ModelgraphSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Relation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Relation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRelation(Relation object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Edge</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -154,6 +261,81 @@ public class ModelgraphSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEdge(Edge object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Level</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Level</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLevel(Level object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Node Enumerator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Node Enumerator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNodeEnumerator(NodeEnumerator object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Enumerator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Enumerator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnumerator(Enumerator object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Information</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Information</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInformation(Information object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Content</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseContent(Content object) {
 		return null;
 	}
 

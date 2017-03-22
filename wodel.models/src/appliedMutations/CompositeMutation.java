@@ -12,11 +12,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.CompositeMutation#getSize <em>Size</em>}</li>
  *   <li>{@link appliedMutations.CompositeMutation#getMuts <em>Muts</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getCompositeMutation()
  * @model

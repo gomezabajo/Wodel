@@ -103,14 +103,18 @@ public class RunWodel implements IObjectActionDelegate {
 		int maxAttempts = 10;
 		int numMutants = 3;
 		boolean registry = false;
+		boolean metrics = false;
+		boolean debugMetrics = false;
 		Object ob = null;
 		try {
 			ob = cls.newInstance();
-			Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class});
+			Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class});
 			maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 			numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 			registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
-			m.invoke(ob, maxAttempts, numMutants, registry);
+			metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate mutant metrics", false, null);
+			debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant metrics", false, null);
+			m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics);
 			// ime = (IMutatorExecutor)ob;
 		} catch (Exception e) {
 			e.printStackTrace();

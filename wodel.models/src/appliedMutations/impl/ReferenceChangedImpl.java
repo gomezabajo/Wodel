@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getSrcRefName <em>Src Ref Name</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getRefName <em>Ref Name</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceChangedImpl#getTo <em>To</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

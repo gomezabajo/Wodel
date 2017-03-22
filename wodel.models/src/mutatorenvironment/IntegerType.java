@@ -13,5 +13,5 @@ package mutatorenvironment;
  * @model abstract="true"
  * @generated
  */
-public interface IntegerType extends AttributeType {
+public interface IntegerType extends NumberType {
 } // IntegerType

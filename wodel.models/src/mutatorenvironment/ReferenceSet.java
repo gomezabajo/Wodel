@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>{@link mutatorenvironment.ReferenceSet#getReference <em>Reference</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceSet#getObject <em>Object</em>}</li>
- *   <li>{@link mutatorenvironment.ReferenceSet#getRefType <em>Ref Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,31 +66,5 @@ public interface ReferenceSet extends EObject {
 	 * @generated
 	 */
 	void setObject(ObSelectionStrategy value);
-
-	/**
-	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ref Type</em>' reference.
-	 * @see #setRefType(EReference)
-	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceSet_RefType()
-	 * @model
-	 * @generated
-	 */
-	EReference getRefType();
-
-	/**
-	 * Sets the value of the '{@link mutatorenvironment.ReferenceSet#getRefType <em>Ref Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ref Type</em>' reference.
-	 * @see #getRefType()
-	 * @generated
-	 */
-	void setRefType(EReference value);
 
 } // ReferenceSet

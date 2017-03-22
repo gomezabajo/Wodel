@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link mutatorenvironment.impl.RemoveObjectMutatorImpl#getObject <em>Object</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.RemoveObjectMutatorImpl#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -37,6 +38,16 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 	 * @ordered
 	 */
 	protected ObSelectionStrategy object;
+
+	/**
+	 * The cached value of the '{@link #getContainer() <em>Container</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContainer()
+	 * @generated
+	 * @ordered
+	 */
+	protected ObSelectionStrategy container;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -105,11 +116,56 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ObSelectionStrategy getContainer() {
+		return container;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetContainer(ObSelectionStrategy newContainer, NotificationChain msgs) {
+		ObSelectionStrategy oldContainer = container;
+		container = newContainer;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER, oldContainer, newContainer);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setContainer(ObSelectionStrategy newContainer) {
+		if (newContainer != container) {
+			NotificationChain msgs = null;
+			if (container != null)
+				msgs = ((InternalEObject)container).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER, null, msgs);
+			if (newContainer != null)
+				msgs = ((InternalEObject)newContainer).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER, null, msgs);
+			msgs = basicSetContainer(newContainer, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER, newContainer, newContainer));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__OBJECT:
 				return basicSetObject(null, msgs);
+			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER:
+				return basicSetContainer(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -124,6 +180,8 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 		switch (featureID) {
 			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__OBJECT:
 				return getObject();
+			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER:
+				return getContainer();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -138,6 +196,9 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 		switch (featureID) {
 			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__OBJECT:
 				setObject((ObSelectionStrategy)newValue);
+				return;
+			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER:
+				setContainer((ObSelectionStrategy)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -154,6 +215,9 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__OBJECT:
 				setObject((ObSelectionStrategy)null);
 				return;
+			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER:
+				setContainer((ObSelectionStrategy)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -168,6 +232,8 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 		switch (featureID) {
 			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__OBJECT:
 				return object != null;
+			case MutatorenvironmentPackage.REMOVE_OBJECT_MUTATOR__CONTAINER:
+				return container != null;
 		}
 		return super.eIsSet(featureID);
 	}

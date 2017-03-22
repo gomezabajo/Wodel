@@ -11,7 +11,8 @@ MutatorGraph returns MutatorGraph:
 	name=[ecore::EClass|ID] ':' type=GraphType
 	'{'
 	(nodes+=Node)*
-	(edges+=Edge)*
+	(relations+=Relation)*
+	(contents+=Content)*
 	'}'	
 ;
 
@@ -23,16 +24,81 @@ enum GraphType returns GraphType:
 
 Node returns Node:
 	{Node}
-	name=[ecore::EClass|ID] '(' (negation?='not' | 'yes')? attribute=[ecore::EAttribute|ID] ')' ':' type=NodeType (',' 'shape' '=' shape=NodeShape)?
+	name=[ecore::EClass|ID] ('(' attribute+=BooleanAttribute (',' attribute+=BooleanAttribute)* ')')? ':'
+	type=NodeType ('=' attName=[ecore::EAttribute|ID])?
+	( 'compartments' '=' '{' reference+=[ecore::EReference|ID] ( reference+=[ecore::EReference|ID])* '}')?
+	( 'shape' '=' shape=NodeShape)?
+	( 'color' '=' color=NodeColor)?
+	( 'style' '=' style=NodeStyle)?
+;
+
+BooleanAttribute returns BooleanAttribute:
+	{BooleanAttribute}
+	(negation?='not')? att=[ecore::EAttribute|ID]
+;
+
+Relation returns Relation:
+	Edge | Level
 ;
 
 Edge returns Edge:
 	{Edge}
-	name=[ecore::EClass|ID] '(' source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' ':' 'edge' ',' 'label' '=' label=[ecore::EReference|ID]
+	name=[ecore::EClass|ID] '('source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' ':'
+	'edge' ('=' attName=[ecore::EAttribute|ID])?
+	( 'label' '=' (reference=[ecore::EReference|ID] '.')? label=[ecore::EAttribute|ID])?
+	( 'src_decoration' '=' src_decoration=Decoration)?
+	( 'src_label' '=' src_label=[ecore::EAttribute|ID])?
+	( 'tar_decoration' '=' tar_decoration=Decoration)?
+	( 'tar_label' '=' tar_label=[ecore::EAttribute|ID])?
+;
+
+Level returns Level:
+	{Level}
+	name=[ecore::EClass|ID] '.' upper=[ecore::EReference|ID] ':'
+	'edge' ('=' attName=[ecore::EAttribute|ID])?
+	( 'label' '=' (reference=[ecore::EReference|ID] '.')? label=[ecore::EAttribute|ID])?
+	( 'src_decoration' '=' src_decoration=Decoration)?
+	( 'src_label' '=' src_label=[ecore::EAttribute|ID])?
+	( 'tar_decoration' '=' tar_decoration=Decoration)?
+	( 'tar_label' '=' tar_label=[ecore::EAttribute|ID])?
+;
+
+Content returns Content:
+	{Content}
+	name=[ecore::EClass|ID] ':'
+	(nodenum+=NodeEnumerator ( nodenum+=NodeEnumerator)* )?
+	(info+=Information (info+=Information)* )?
+	('{' attName=[ecore::EAttribute|ID] '}' )?
+	('text' '=' symbol=EString)?
+;
+
+NodeEnumerator returns NodeEnumerator:
+	{NodeEnumerator}
+	att=[ecore::EAttribute|ID] '[' enumerator+=Enumerator ( enumerator+=Enumerator)* ']'
+;
+
+Enumerator returns Enumerator:
+	{Enumerator}
+	literal=[ecore::EEnumLiteral|ID] '=' value=EString
+;
+
+Information returns Information:
+	{Information}
+	type=[ecore::EReference|ID] ('.' att=[ecore::EAttribute|ID])?
 ;
 
 enum NodeType returns NodeType:
-				node = 'node' | markednode = 'markednode';
+	node = 'node' | markednode = 'markednode';
 
 enum NodeShape returns NodeShape:
-				circle = 'circle' | doublecircle = 'doublecircle';
+	circle = 'circle' | doublecircle = 'doublecircle' | record = 'record';
+				
+enum NodeColor returns NodeColor:
+	gray95 = 'gray95';
+	
+enum NodeStyle returns NodeStyle:
+	italic = 'italic' | underline = 'underline';
+	
+enum Decoration returns Decoration:
+	none = 'none' | triangle = 'triangle' | diamond = 'diamond' | odiamond = 'odiamond' | open = 'open' | empty = 'empty'
+;

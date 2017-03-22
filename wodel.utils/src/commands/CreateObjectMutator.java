@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -172,7 +173,9 @@ public class CreateObjectMutator extends Mutator {
 
 		
 		//We create the object
-		EObject newObj = EcoreUtil.create((EClass) obj);
+		EObject newObj = null;
+		
+		newObj = EcoreUtil.create((EClass) obj);
 		
 		boolean sup = false;
 		if(!reference.getEType().getName().equals(newObj.eClass().getName())){
@@ -194,19 +197,25 @@ public class CreateObjectMutator extends Mutator {
 			Map.Entry<String, AttributeConfigurationStrategy> e = (Map.Entry<String, AttributeConfigurationStrategy>)it.next();			
 			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
 		}
-		
+			
 		//Reference configuration
 		it = this.referenceConfig.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)it.next();
 			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
-				ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
+				if (e.getValue().getObject() != null) {
+					ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
+				}
+				if (e.getValue().getObjects() != null) {
+					for (EObject o : e.getValue().getObjects()) {
+						ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+					}
+				}
 			}
 			else {
 				ModelManager.setReference(e.getKey(), newObj, e.getValue());
 			}
 		}
-		
 		//Multivalued
 		if(reference.getUpperBound() < 0 || reference.getUpperBound() > 1){
 			List<EObject> o = null;
@@ -219,7 +228,7 @@ public class CreateObjectMutator extends Mutator {
 			o.add(newObj);		
 			this.result = newObj;
 		}
-		//Monovalued
+		//	Monovalued
 		else{
 			EObject o = null;
 			try{

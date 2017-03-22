@@ -4,12 +4,13 @@ package appliedMutations.impl;
 
 import appliedMutations.AppliedMutationsPackage;
 import appliedMutations.ReferenceCreated;
-
 import java.util.Collection;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -18,11 +19,12 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.ReferenceCreatedImpl#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceCreatedImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link appliedMutations.impl.ReferenceCreatedImpl#getRefName <em>Ref Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -46,6 +48,26 @@ public class ReferenceCreatedImpl extends AppMutationImpl implements ReferenceCr
 	 * @ordered
 	 */
 	protected EList<EReference> ref;
+
+	/**
+	 * The default value of the '{@link #getRefName() <em>Ref Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String REF_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getRefName() <em>Ref Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String refName = REF_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -95,6 +117,27 @@ public class ReferenceCreatedImpl extends AppMutationImpl implements ReferenceCr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getRefName() {
+		return refName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRefName(String newRefName) {
+		String oldRefName = refName;
+		refName = newRefName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AppliedMutationsPackage.REFERENCE_CREATED__REF_NAME, oldRefName, refName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -102,6 +145,8 @@ public class ReferenceCreatedImpl extends AppMutationImpl implements ReferenceCr
 				return getObject();
 			case AppliedMutationsPackage.REFERENCE_CREATED__REF:
 				return getRef();
+			case AppliedMutationsPackage.REFERENCE_CREATED__REF_NAME:
+				return getRefName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -123,6 +168,9 @@ public class ReferenceCreatedImpl extends AppMutationImpl implements ReferenceCr
 				getRef().clear();
 				getRef().addAll((Collection<? extends EReference>)newValue);
 				return;
+			case AppliedMutationsPackage.REFERENCE_CREATED__REF_NAME:
+				setRefName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -141,6 +189,9 @@ public class ReferenceCreatedImpl extends AppMutationImpl implements ReferenceCr
 			case AppliedMutationsPackage.REFERENCE_CREATED__REF:
 				getRef().clear();
 				return;
+			case AppliedMutationsPackage.REFERENCE_CREATED__REF_NAME:
+				setRefName(REF_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -157,8 +208,26 @@ public class ReferenceCreatedImpl extends AppMutationImpl implements ReferenceCr
 				return object != null && !object.isEmpty();
 			case AppliedMutationsPackage.REFERENCE_CREATED__REF:
 				return ref != null && !ref.isEmpty();
+			case AppliedMutationsPackage.REFERENCE_CREATED__REF_NAME:
+				return REF_NAME_EDEFAULT == null ? refName != null : !REF_NAME_EDEFAULT.equals(refName);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (refName: ");
+		result.append(refName);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ReferenceCreatedImpl

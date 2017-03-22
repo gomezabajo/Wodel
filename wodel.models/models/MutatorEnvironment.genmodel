@@ -19,6 +19,13 @@
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Repeat/yes"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Repeat/no"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//ArithmeticOperator">
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/add"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/subtract"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/multiply"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/divide"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/module"/>
+    </genEnums>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//MutatorEnvironment">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/definition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/commands"/>
@@ -53,10 +60,10 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//CreateObjectMutator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CreateObjectMutator/container"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CreateObjectMutator/attributes"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CreateObjectMutator/refType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CreateObjectMutator/references"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//ObSelectionStrategy">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObSelectionStrategy/refType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObSelectionStrategy/expression"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//RandomSelection"/>
@@ -111,8 +118,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//SpecificSelection"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//SpecificReferenceSelection">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SpecificReferenceSelection/refType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SpecificReferenceSelection/objectEmitter"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SpecificReferenceSelection/objSel"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ModifyTargetReferenceMutator">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ModifyTargetReferenceMutator/refType"/>
@@ -126,6 +132,7 @@
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//RemoveObjectMutator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RemoveObjectMutator/object"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RemoveObjectMutator/container"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//RemoveReferenceMutator"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ModifyInformationMutator">
@@ -181,7 +188,6 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//OtherTypeSelection"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//SelectObjectMutator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SelectObjectMutator/container"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SelectObjectMutator/refType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SelectObjectMutator/object"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//AttributeEvaluation">
@@ -192,11 +198,15 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceSet">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceSet/reference"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceSet/object"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceSet/refType"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceInit"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceAtt">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceAtt/attribute"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceAtt/value"/>
+    </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceEvaluation">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/refName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ReferenceEvaluation/operator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/value"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/refType"/>
@@ -226,5 +236,48 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/rule"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomType"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//CloneObjectMutator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//CloneObjectMutator/contents"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CloneObjectMutator/object"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CloneObjectMutator/container"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CloneObjectMutator/refType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CloneObjectMutator/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CloneObjectMutator/references"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//ListType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ListType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//ObjectAttributeType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObjectAttributeType/objSel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObjectAttributeType/attribute"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ObjectAttributeType/operator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//AttributeEvaluationType"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//MinValueType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MinValueType/attribute"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//MaxValueType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MaxValueType/attribute"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//NumberType"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//AttributeOperation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//AttributeOperation/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//AttributeOperation/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//RandomNumberType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RandomNumberType/object"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RandomNumberType/max"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomDoubleNumberType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//RandomDoubleNumberType/min"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomIntegerNumberType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//RandomIntegerNumberType/min"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//SpecificClosureSelection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SpecificClosureSelection/objSel"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//SubsetSelection"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//EachTypeSelection"/>
   </genPackages>
 </genmodel:GenModel>

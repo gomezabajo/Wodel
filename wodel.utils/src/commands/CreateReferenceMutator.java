@@ -159,6 +159,10 @@ public class CreateReferenceMutator extends Mutator {
 	public EReference getReference() {
 		return result;
 	}
+	
+	public String getRefName() {
+		return result.getName();
+	}
 
 	//GETTERS AND SETTERS
 	public EObject getObject() {

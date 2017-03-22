@@ -436,6 +436,15 @@ public interface MutatorenvironmentFactory extends EFactory {
 	ReferenceInit createReferenceInit();
 
 	/**
+	 * Returns a new object of class '<em>Reference Att</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Att</em>'.
+	 * @generated
+	 */
+	ReferenceAtt createReferenceAtt();
+
+	/**
 	 * Returns a new object of class '<em>Reference Evaluation</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -497,6 +506,105 @@ public interface MutatorenvironmentFactory extends EFactory {
 	 * @generated
 	 */
 	RandomType createRandomType();
+
+	/**
+	 * Returns a new object of class '<em>Clone Object Mutator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Clone Object Mutator</em>'.
+	 * @generated
+	 */
+	CloneObjectMutator createCloneObjectMutator();
+
+	/**
+	 * Returns a new object of class '<em>List Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>List Type</em>'.
+	 * @generated
+	 */
+	ListType createListType();
+
+	/**
+	 * Returns a new object of class '<em>Object Attribute Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Object Attribute Type</em>'.
+	 * @generated
+	 */
+	ObjectAttributeType createObjectAttributeType();
+
+	/**
+	 * Returns a new object of class '<em>Min Value Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Min Value Type</em>'.
+	 * @generated
+	 */
+	MinValueType createMinValueType();
+
+	/**
+	 * Returns a new object of class '<em>Max Value Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Max Value Type</em>'.
+	 * @generated
+	 */
+	MaxValueType createMaxValueType();
+
+	/**
+	 * Returns a new object of class '<em>Attribute Operation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Attribute Operation</em>'.
+	 * @generated
+	 */
+	AttributeOperation createAttributeOperation();
+
+	/**
+	 * Returns a new object of class '<em>Random Double Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Random Double Number Type</em>'.
+	 * @generated
+	 */
+	RandomDoubleNumberType createRandomDoubleNumberType();
+
+	/**
+	 * Returns a new object of class '<em>Random Integer Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Random Integer Number Type</em>'.
+	 * @generated
+	 */
+	RandomIntegerNumberType createRandomIntegerNumberType();
+
+	/**
+	 * Returns a new object of class '<em>Specific Closure Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Specific Closure Selection</em>'.
+	 * @generated
+	 */
+	SpecificClosureSelection createSpecificClosureSelection();
+
+	/**
+	 * Returns a new object of class '<em>Subset Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Subset Selection</em>'.
+	 * @generated
+	 */
+	SubsetSelection createSubsetSelection();
+
+	/**
+	 * Returns a new object of class '<em>Each Type Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Each Type Selection</em>'.
+	 * @generated
+	 */
+	EachTypeSelection createEachTypeSelection();
 
 	/**
 	 * Returns the package supported by this factory.

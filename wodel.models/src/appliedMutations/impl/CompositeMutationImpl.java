@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.CompositeMutationImpl#getSize <em>Size</em>}</li>
  *   <li>{@link appliedMutations.impl.CompositeMutationImpl#getMuts <em>Muts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

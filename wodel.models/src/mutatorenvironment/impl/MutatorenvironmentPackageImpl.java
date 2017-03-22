@@ -2,8 +2,11 @@
  */
 package mutatorenvironment.impl;
 
+import mutatorenvironment.ArithmeticOperator;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
+import mutatorenvironment.AttributeEvaluationType;
+import mutatorenvironment.AttributeOperation;
 import mutatorenvironment.AttributeReverse;
 import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeSet;
@@ -15,6 +18,7 @@ import mutatorenvironment.Block;
 import mutatorenvironment.BooleanType;
 import mutatorenvironment.CatEndStringType;
 import mutatorenvironment.CatStartStringType;
+import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteSelection;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
@@ -23,14 +27,18 @@ import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Definition;
 import mutatorenvironment.DoubleType;
+import mutatorenvironment.EachTypeSelection;
 import mutatorenvironment.Evaluation;
 import mutatorenvironment.Expression;
 import mutatorenvironment.IntegerType;
 import mutatorenvironment.Library;
 import mutatorenvironment.ListStringType;
+import mutatorenvironment.ListType;
 import mutatorenvironment.Load;
 import mutatorenvironment.LogicOperator;
 import mutatorenvironment.LowerStringType;
+import mutatorenvironment.MaxValueType;
+import mutatorenvironment.MinValueType;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
@@ -38,19 +46,25 @@ import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentFactory;
 import mutatorenvironment.MutatorenvironmentPackage;
+import mutatorenvironment.NumberType;
 import mutatorenvironment.ObSelectionStrategy;
+import mutatorenvironment.ObjectAttributeType;
 import mutatorenvironment.ObjectEmitter;
 import mutatorenvironment.Operator;
 import mutatorenvironment.OtherSelection;
 import mutatorenvironment.OtherTypeSelection;
 import mutatorenvironment.Program;
 import mutatorenvironment.RandomBooleanType;
+import mutatorenvironment.RandomDoubleNumberType;
 import mutatorenvironment.RandomDoubleType;
+import mutatorenvironment.RandomIntegerNumberType;
 import mutatorenvironment.RandomIntegerType;
+import mutatorenvironment.RandomNumberType;
 import mutatorenvironment.RandomSelection;
 import mutatorenvironment.RandomStringType;
 import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
+import mutatorenvironment.ReferenceAtt;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.ReferenceSet;
@@ -65,6 +79,7 @@ import mutatorenvironment.ReplaceStringType;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
+import mutatorenvironment.SpecificClosureSelection;
 import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
 import mutatorenvironment.SpecificObjectSelection;
@@ -72,6 +87,7 @@ import mutatorenvironment.SpecificReferenceSelection;
 import mutatorenvironment.SpecificSelection;
 import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.StringType;
+import mutatorenvironment.SubsetSelection;
 import mutatorenvironment.UpperStringType;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -500,6 +516,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass referenceAttEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass referenceEvaluationEClass = null;
 
 	/**
@@ -556,6 +579,104 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass cloneObjectMutatorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass listTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass objectAttributeTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass attributeEvaluationTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass minValueTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass maxValueTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass numberTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass attributeOperationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass randomNumberTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass randomDoubleNumberTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass randomIntegerNumberTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass specificClosureSelectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass subsetSelectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eachTypeSelectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum logicOperatorEEnum = null;
 
 	/**
@@ -571,6 +692,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	private EEnum repeatEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum arithmeticOperatorEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -881,17 +1009,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCreateObjectMutator_RefType() {
-		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getCreateObjectMutator_References() {
-		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(3);
+		return (EReference)createObjectMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -908,8 +1027,17 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObSelectionStrategy_Expression() {
+	public EReference getObSelectionStrategy_RefType() {
 		return (EReference)obSelectionStrategyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObSelectionStrategy_Expression() {
+		return (EReference)obSelectionStrategyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1277,17 +1405,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpecificReferenceSelection_RefType() {
+	public EReference getSpecificReferenceSelection_ObjSel() {
 		return (EReference)specificReferenceSelectionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSpecificReferenceSelection_ObjectEmitter() {
-		return (EReference)specificReferenceSelectionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1378,6 +1497,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 */
 	public EReference getRemoveObjectMutator_Object() {
 		return (EReference)removeObjectMutatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRemoveObjectMutator_Container() {
+		return (EReference)removeObjectMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1745,17 +1873,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSelectObjectMutator_RefType() {
-		return (EReference)selectObjectMutatorEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getSelectObjectMutator_Object() {
-		return (EReference)selectObjectMutatorEClass.getEStructuralFeatures().get(2);
+		return (EReference)selectObjectMutatorEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1826,8 +1945,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceSet_RefType() {
-		return (EReference)referenceSetEClass.getEStructuralFeatures().get(2);
+	public EClass getReferenceInit() {
+		return referenceInitEClass;
 	}
 
 	/**
@@ -1835,8 +1954,26 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReferenceInit() {
-		return referenceInitEClass;
+	public EClass getReferenceAtt() {
+		return referenceAttEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReferenceAtt_Attribute() {
+		return (EReference)referenceAttEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReferenceAtt_Value() {
+		return (EReference)referenceAttEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1862,8 +1999,17 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getReferenceEvaluation_RefName() {
+		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getReferenceEvaluation_Operator() {
-		return (EAttribute)referenceEvaluationEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)referenceEvaluationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1872,7 +2018,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	public EReference getReferenceEvaluation_Value() {
-		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(2);
+		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1881,7 +2027,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	public EReference getReferenceEvaluation_RefType() {
-		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(3);
+		return (EReference)referenceEvaluationEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2078,6 +2224,303 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCloneObjectMutator() {
+		return cloneObjectMutatorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCloneObjectMutator_Contents() {
+		return (EAttribute)cloneObjectMutatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCloneObjectMutator_Object() {
+		return (EReference)cloneObjectMutatorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCloneObjectMutator_Container() {
+		return (EReference)cloneObjectMutatorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCloneObjectMutator_RefType() {
+		return (EReference)cloneObjectMutatorEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCloneObjectMutator_Attributes() {
+		return (EReference)cloneObjectMutatorEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCloneObjectMutator_References() {
+		return (EReference)cloneObjectMutatorEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getListType() {
+		return listTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getListType_Value() {
+		return (EReference)listTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getObjectAttributeType() {
+		return objectAttributeTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectAttributeType_ObjSel() {
+		return (EReference)objectAttributeTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectAttributeType_Attribute() {
+		return (EReference)objectAttributeTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getObjectAttributeType_Operator() {
+		return (EAttribute)objectAttributeTypeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAttributeEvaluationType() {
+		return attributeEvaluationTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMinValueType() {
+		return minValueTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMinValueType_Attribute() {
+		return (EReference)minValueTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMaxValueType() {
+		return maxValueTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMaxValueType_Attribute() {
+		return (EReference)maxValueTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNumberType() {
+		return numberTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAttributeOperation() {
+		return attributeOperationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAttributeOperation_Operator() {
+		return (EAttribute)attributeOperationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAttributeOperation_Value() {
+		return (EReference)attributeOperationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRandomNumberType() {
+		return randomNumberTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRandomNumberType_Object() {
+		return (EReference)randomNumberTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRandomNumberType_Max() {
+		return (EReference)randomNumberTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRandomDoubleNumberType() {
+		return randomDoubleNumberTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRandomDoubleNumberType_Min() {
+		return (EAttribute)randomDoubleNumberTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRandomIntegerNumberType() {
+		return randomIntegerNumberTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRandomIntegerNumberType_Min() {
+		return (EAttribute)randomIntegerNumberTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSpecificClosureSelection() {
+		return specificClosureSelectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSpecificClosureSelection_ObjSel() {
+		return (EReference)specificClosureSelectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSubsetSelection() {
+		return subsetSelectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEachTypeSelection() {
+		return eachTypeSelectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getLogicOperator() {
 		return logicOperatorEEnum;
 	}
@@ -2098,6 +2541,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 */
 	public EEnum getRepeat() {
 		return repeatEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getArithmeticOperator() {
+		return arithmeticOperatorEEnum;
 	}
 
 	/**
@@ -2163,10 +2615,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createObjectMutatorEClass = createEClass(CREATE_OBJECT_MUTATOR);
 		createEReference(createObjectMutatorEClass, CREATE_OBJECT_MUTATOR__CONTAINER);
 		createEReference(createObjectMutatorEClass, CREATE_OBJECT_MUTATOR__ATTRIBUTES);
-		createEReference(createObjectMutatorEClass, CREATE_OBJECT_MUTATOR__REF_TYPE);
 		createEReference(createObjectMutatorEClass, CREATE_OBJECT_MUTATOR__REFERENCES);
 
 		obSelectionStrategyEClass = createEClass(OB_SELECTION_STRATEGY);
+		createEReference(obSelectionStrategyEClass, OB_SELECTION_STRATEGY__REF_TYPE);
 		createEReference(obSelectionStrategyEClass, OB_SELECTION_STRATEGY__EXPRESSION);
 
 		randomSelectionEClass = createEClass(RANDOM_SELECTION);
@@ -2228,8 +2680,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		specificSelectionEClass = createEClass(SPECIFIC_SELECTION);
 
 		specificReferenceSelectionEClass = createEClass(SPECIFIC_REFERENCE_SELECTION);
-		createEReference(specificReferenceSelectionEClass, SPECIFIC_REFERENCE_SELECTION__REF_TYPE);
-		createEReference(specificReferenceSelectionEClass, SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER);
+		createEReference(specificReferenceSelectionEClass, SPECIFIC_REFERENCE_SELECTION__OBJ_SEL);
 
 		modifyTargetReferenceMutatorEClass = createEClass(MODIFY_TARGET_REFERENCE_MUTATOR);
 		createEReference(modifyTargetReferenceMutatorEClass, MODIFY_TARGET_REFERENCE_MUTATOR__REF_TYPE);
@@ -2243,6 +2694,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		removeObjectMutatorEClass = createEClass(REMOVE_OBJECT_MUTATOR);
 		createEReference(removeObjectMutatorEClass, REMOVE_OBJECT_MUTATOR__OBJECT);
+		createEReference(removeObjectMutatorEClass, REMOVE_OBJECT_MUTATOR__CONTAINER);
 
 		removeReferenceMutatorEClass = createEClass(REMOVE_REFERENCE_MUTATOR);
 
@@ -2304,7 +2756,6 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		selectObjectMutatorEClass = createEClass(SELECT_OBJECT_MUTATOR);
 		createEReference(selectObjectMutatorEClass, SELECT_OBJECT_MUTATOR__CONTAINER);
-		createEReference(selectObjectMutatorEClass, SELECT_OBJECT_MUTATOR__REF_TYPE);
 		createEReference(selectObjectMutatorEClass, SELECT_OBJECT_MUTATOR__OBJECT);
 
 		attributeEvaluationEClass = createEClass(ATTRIBUTE_EVALUATION);
@@ -2316,12 +2767,16 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		referenceSetEClass = createEClass(REFERENCE_SET);
 		createEReference(referenceSetEClass, REFERENCE_SET__REFERENCE);
 		createEReference(referenceSetEClass, REFERENCE_SET__OBJECT);
-		createEReference(referenceSetEClass, REFERENCE_SET__REF_TYPE);
 
 		referenceInitEClass = createEClass(REFERENCE_INIT);
 
+		referenceAttEClass = createEClass(REFERENCE_ATT);
+		createEReference(referenceAttEClass, REFERENCE_ATT__ATTRIBUTE);
+		createEReference(referenceAttEClass, REFERENCE_ATT__VALUE);
+
 		referenceEvaluationEClass = createEClass(REFERENCE_EVALUATION);
 		createEReference(referenceEvaluationEClass, REFERENCE_EVALUATION__NAME);
+		createEReference(referenceEvaluationEClass, REFERENCE_EVALUATION__REF_NAME);
 		createEAttribute(referenceEvaluationEClass, REFERENCE_EVALUATION__OPERATOR);
 		createEReference(referenceEvaluationEClass, REFERENCE_EVALUATION__VALUE);
 		createEReference(referenceEvaluationEClass, REFERENCE_EVALUATION__REF_TYPE);
@@ -2354,10 +2809,58 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		randomTypeEClass = createEClass(RANDOM_TYPE);
 
+		cloneObjectMutatorEClass = createEClass(CLONE_OBJECT_MUTATOR);
+		createEAttribute(cloneObjectMutatorEClass, CLONE_OBJECT_MUTATOR__CONTENTS);
+		createEReference(cloneObjectMutatorEClass, CLONE_OBJECT_MUTATOR__OBJECT);
+		createEReference(cloneObjectMutatorEClass, CLONE_OBJECT_MUTATOR__CONTAINER);
+		createEReference(cloneObjectMutatorEClass, CLONE_OBJECT_MUTATOR__REF_TYPE);
+		createEReference(cloneObjectMutatorEClass, CLONE_OBJECT_MUTATOR__ATTRIBUTES);
+		createEReference(cloneObjectMutatorEClass, CLONE_OBJECT_MUTATOR__REFERENCES);
+
+		listTypeEClass = createEClass(LIST_TYPE);
+		createEReference(listTypeEClass, LIST_TYPE__VALUE);
+
+		objectAttributeTypeEClass = createEClass(OBJECT_ATTRIBUTE_TYPE);
+		createEReference(objectAttributeTypeEClass, OBJECT_ATTRIBUTE_TYPE__OBJ_SEL);
+		createEReference(objectAttributeTypeEClass, OBJECT_ATTRIBUTE_TYPE__ATTRIBUTE);
+		createEAttribute(objectAttributeTypeEClass, OBJECT_ATTRIBUTE_TYPE__OPERATOR);
+
+		attributeEvaluationTypeEClass = createEClass(ATTRIBUTE_EVALUATION_TYPE);
+
+		minValueTypeEClass = createEClass(MIN_VALUE_TYPE);
+		createEReference(minValueTypeEClass, MIN_VALUE_TYPE__ATTRIBUTE);
+
+		maxValueTypeEClass = createEClass(MAX_VALUE_TYPE);
+		createEReference(maxValueTypeEClass, MAX_VALUE_TYPE__ATTRIBUTE);
+
+		numberTypeEClass = createEClass(NUMBER_TYPE);
+
+		attributeOperationEClass = createEClass(ATTRIBUTE_OPERATION);
+		createEAttribute(attributeOperationEClass, ATTRIBUTE_OPERATION__OPERATOR);
+		createEReference(attributeOperationEClass, ATTRIBUTE_OPERATION__VALUE);
+
+		randomNumberTypeEClass = createEClass(RANDOM_NUMBER_TYPE);
+		createEReference(randomNumberTypeEClass, RANDOM_NUMBER_TYPE__OBJECT);
+		createEReference(randomNumberTypeEClass, RANDOM_NUMBER_TYPE__MAX);
+
+		randomDoubleNumberTypeEClass = createEClass(RANDOM_DOUBLE_NUMBER_TYPE);
+		createEAttribute(randomDoubleNumberTypeEClass, RANDOM_DOUBLE_NUMBER_TYPE__MIN);
+
+		randomIntegerNumberTypeEClass = createEClass(RANDOM_INTEGER_NUMBER_TYPE);
+		createEAttribute(randomIntegerNumberTypeEClass, RANDOM_INTEGER_NUMBER_TYPE__MIN);
+
+		specificClosureSelectionEClass = createEClass(SPECIFIC_CLOSURE_SELECTION);
+		createEReference(specificClosureSelectionEClass, SPECIFIC_CLOSURE_SELECTION__OBJ_SEL);
+
+		subsetSelectionEClass = createEClass(SUBSET_SELECTION);
+
+		eachTypeSelectionEClass = createEClass(EACH_TYPE_SELECTION);
+
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
 		operatorEEnum = createEEnum(OPERATOR);
 		repeatEEnum = createEEnum(REPEAT);
+		arithmeticOperatorEEnum = createEEnum(ARITHMETIC_OPERATOR);
 	}
 
 	/**
@@ -2398,16 +2901,17 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		randomTypeSelectionEClass.getESuperTypes().add(this.getRandomSelection());
 		specificObjectSelectionEClass.getESuperTypes().add(this.getSpecificSelection());
 		attributeScalarEClass.getESuperTypes().add(this.getAttributeSet());
+		attributeTypeEClass.getESuperTypes().add(this.getAttributeEvaluationType());
 		booleanTypeEClass.getESuperTypes().add(this.getAttributeType());
 		specificBooleanTypeEClass.getESuperTypes().add(this.getBooleanType());
 		randomBooleanTypeEClass.getESuperTypes().add(this.getBooleanType());
 		stringTypeEClass.getESuperTypes().add(this.getAttributeType());
 		specificStringTypeEClass.getESuperTypes().add(this.getStringType());
 		randomStringTypeEClass.getESuperTypes().add(this.getStringType());
-		integerTypeEClass.getESuperTypes().add(this.getAttributeType());
+		integerTypeEClass.getESuperTypes().add(this.getNumberType());
 		specificIntegerTypeEClass.getESuperTypes().add(this.getIntegerType());
 		randomIntegerTypeEClass.getESuperTypes().add(this.getIntegerType());
-		doubleTypeEClass.getESuperTypes().add(this.getAttributeType());
+		doubleTypeEClass.getESuperTypes().add(this.getNumberType());
 		specificDoubleTypeEClass.getESuperTypes().add(this.getDoubleType());
 		randomDoubleTypeEClass.getESuperTypes().add(this.getDoubleType());
 		modifySourceReferenceMutatorEClass.getESuperTypes().add(this.getMutator());
@@ -2438,9 +2942,23 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		attributeEvaluationEClass.getESuperTypes().add(this.getEvaluation());
 		attributeReverseEClass.getESuperTypes().add(this.getAttributeSet());
 		referenceInitEClass.getESuperTypes().add(this.getReferenceSet());
+		referenceAttEClass.getESuperTypes().add(this.getReferenceSet());
 		referenceEvaluationEClass.getESuperTypes().add(this.getEvaluation());
 		referenceSwapEClass.getESuperTypes().add(this.getReferenceSet());
 		randomTypeEClass.getESuperTypes().add(this.getAttributeType());
+		cloneObjectMutatorEClass.getESuperTypes().add(this.getMutator());
+		listTypeEClass.getESuperTypes().add(this.getAttributeType());
+		objectAttributeTypeEClass.getESuperTypes().add(this.getAttributeEvaluationType());
+		minValueTypeEClass.getESuperTypes().add(this.getNumberType());
+		maxValueTypeEClass.getESuperTypes().add(this.getNumberType());
+		numberTypeEClass.getESuperTypes().add(this.getAttributeType());
+		attributeOperationEClass.getESuperTypes().add(this.getAttributeSet());
+		randomNumberTypeEClass.getESuperTypes().add(this.getNumberType());
+		randomDoubleNumberTypeEClass.getESuperTypes().add(this.getRandomNumberType());
+		randomIntegerNumberTypeEClass.getESuperTypes().add(this.getRandomNumberType());
+		specificClosureSelectionEClass.getESuperTypes().add(this.getSpecificSelection());
+		subsetSelectionEClass.getESuperTypes().add(this.getObSelectionStrategy());
+		eachTypeSelectionEClass.getESuperTypes().add(this.getSubsetSelection());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2478,10 +2996,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(createObjectMutatorEClass, CreateObjectMutator.class, "CreateObjectMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCreateObjectMutator_Container(), this.getObSelectionStrategy(), null, "container", null, 0, 1, CreateObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCreateObjectMutator_Attributes(), this.getAttributeSet(), null, "attributes", null, 0, -1, CreateObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCreateObjectMutator_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, CreateObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCreateObjectMutator_References(), this.getReferenceSet(), null, "references", null, 0, -1, CreateObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(obSelectionStrategyEClass, ObSelectionStrategy.class, "ObSelectionStrategy", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getObSelectionStrategy_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, ObSelectionStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getObSelectionStrategy_Expression(), this.getExpression(), null, "expression", null, 0, 1, ObSelectionStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(randomSelectionEClass, RandomSelection.class, "RandomSelection", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2543,8 +3061,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(specificSelectionEClass, SpecificSelection.class, "SpecificSelection", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(specificReferenceSelectionEClass, SpecificReferenceSelection.class, "SpecificReferenceSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSpecificReferenceSelection_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, SpecificReferenceSelection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSpecificReferenceSelection_ObjectEmitter(), this.getObjectEmitter(), null, "objectEmitter", null, 0, 1, SpecificReferenceSelection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSpecificReferenceSelection_ObjSel(), this.getObjectEmitter(), null, "objSel", null, 1, 1, SpecificReferenceSelection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(modifyTargetReferenceMutatorEClass, ModifyTargetReferenceMutator.class, "ModifyTargetReferenceMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getModifyTargetReferenceMutator_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, ModifyTargetReferenceMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2558,6 +3075,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		initEClass(removeObjectMutatorEClass, RemoveObjectMutator.class, "RemoveObjectMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRemoveObjectMutator_Object(), this.getObSelectionStrategy(), null, "object", null, 0, 1, RemoveObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRemoveObjectMutator_Container(), this.getObSelectionStrategy(), null, "container", null, 0, 1, RemoveObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(removeReferenceMutatorEClass, RemoveReferenceMutator.class, "RemoveReferenceMutator", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2619,24 +3137,27 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		initEClass(selectObjectMutatorEClass, SelectObjectMutator.class, "SelectObjectMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSelectObjectMutator_Container(), this.getObSelectionStrategy(), null, "container", null, 0, 1, SelectObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSelectObjectMutator_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, SelectObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSelectObjectMutator_Object(), this.getObSelectionStrategy(), null, "object", null, 0, 1, SelectObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEvaluationEClass, AttributeEvaluation.class, "AttributeEvaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttributeEvaluation_Name(), ecorePackage.getEAttribute(), null, "name", null, 1, 1, AttributeEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAttributeEvaluation_Value(), this.getAttributeType(), null, "value", null, 1, 1, AttributeEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAttributeEvaluation_Value(), this.getAttributeEvaluationType(), null, "value", null, 1, 1, AttributeEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeReverseEClass, AttributeReverse.class, "AttributeReverse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(referenceSetEClass, ReferenceSet.class, "ReferenceSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceSet_Reference(), ecorePackage.getEReference(), null, "reference", null, 0, -1, ReferenceSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceSet_Object(), this.getObSelectionStrategy(), null, "object", null, 0, 1, ReferenceSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReferenceSet_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, ReferenceSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(referenceInitEClass, ReferenceInit.class, "ReferenceInit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(referenceAttEClass, ReferenceAtt.class, "ReferenceAtt", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getReferenceAtt_Attribute(), ecorePackage.getEAttribute(), null, "attribute", null, 1, 1, ReferenceAtt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferenceAtt_Value(), this.getAttributeType(), null, "value", null, 1, 1, ReferenceAtt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(referenceEvaluationEClass, ReferenceEvaluation.class, "ReferenceEvaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceEvaluation_Name(), ecorePackage.getEReference(), null, "name", null, 0, 1, ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferenceEvaluation_RefName(), ecorePackage.getEReference(), null, "refName", null, 0, 1, ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getReferenceEvaluation_Operator(), this.getOperator(), "operator", null, 0, 1, ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceEvaluation_Value(), this.getObSelectionStrategy(), null, "value", null, 0, 1, ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceEvaluation_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, ReferenceEvaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2669,6 +3190,53 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		initEClass(randomTypeEClass, RandomType.class, "RandomType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(cloneObjectMutatorEClass, CloneObjectMutator.class, "CloneObjectMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCloneObjectMutator_Contents(), ecorePackage.getEBoolean(), "contents", "false", 1, 1, CloneObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCloneObjectMutator_Object(), this.getObSelectionStrategy(), null, "object", null, 0, 1, CloneObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCloneObjectMutator_Container(), this.getObSelectionStrategy(), null, "container", null, 0, 1, CloneObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCloneObjectMutator_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, CloneObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCloneObjectMutator_Attributes(), this.getAttributeSet(), null, "attributes", null, 0, -1, CloneObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCloneObjectMutator_References(), this.getReferenceSet(), null, "references", null, 0, -1, CloneObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(listTypeEClass, ListType.class, "ListType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getListType_Value(), ecorePackage.getEObject(), null, "value", null, 0, -1, ListType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(objectAttributeTypeEClass, ObjectAttributeType.class, "ObjectAttributeType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getObjectAttributeType_ObjSel(), this.getObjectEmitter(), null, "objSel", null, 1, 1, ObjectAttributeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObjectAttributeType_Attribute(), ecorePackage.getEAttribute(), null, "attribute", null, 1, 1, ObjectAttributeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getObjectAttributeType_Operator(), this.getOperator(), "operator", null, 1, 1, ObjectAttributeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(attributeEvaluationTypeEClass, AttributeEvaluationType.class, "AttributeEvaluationType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(minValueTypeEClass, MinValueType.class, "MinValueType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMinValueType_Attribute(), ecorePackage.getEAttribute(), null, "attribute", null, 1, 1, MinValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(maxValueTypeEClass, MaxValueType.class, "MaxValueType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMaxValueType_Attribute(), ecorePackage.getEAttribute(), null, "attribute", null, 1, 1, MaxValueType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(numberTypeEClass, NumberType.class, "NumberType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(attributeOperationEClass, AttributeOperation.class, "AttributeOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAttributeOperation_Operator(), this.getArithmeticOperator(), "operator", null, 1, 1, AttributeOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAttributeOperation_Value(), this.getAttributeEvaluationType(), null, "value", null, 1, 1, AttributeOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(randomNumberTypeEClass, RandomNumberType.class, "RandomNumberType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRandomNumberType_Object(), this.getObSelectionStrategy(), null, "object", null, 0, 1, RandomNumberType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRandomNumberType_Max(), ecorePackage.getEAttribute(), null, "max", null, 1, 1, RandomNumberType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(randomDoubleNumberTypeEClass, RandomDoubleNumberType.class, "RandomDoubleNumberType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRandomDoubleNumberType_Min(), ecorePackage.getEDouble(), "min", null, 1, 1, RandomDoubleNumberType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(randomIntegerNumberTypeEClass, RandomIntegerNumberType.class, "RandomIntegerNumberType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRandomIntegerNumberType_Min(), ecorePackage.getEInt(), "min", null, 1, 1, RandomIntegerNumberType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(specificClosureSelectionEClass, SpecificClosureSelection.class, "SpecificClosureSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSpecificClosureSelection_ObjSel(), this.getObjectEmitter(), null, "objSel", null, 1, 1, SpecificClosureSelection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(subsetSelectionEClass, SubsetSelection.class, "SubsetSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(eachTypeSelectionEClass, EachTypeSelection.class, "EachTypeSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");
 		addEEnumLiteral(logicOperatorEEnum, LogicOperator.AND);
@@ -2682,6 +3250,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEEnum(repeatEEnum, Repeat.class, "Repeat");
 		addEEnumLiteral(repeatEEnum, Repeat.YES);
 		addEEnumLiteral(repeatEEnum, Repeat.NO);
+
+		initEEnum(arithmeticOperatorEEnum, ArithmeticOperator.class, "ArithmeticOperator");
+		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.ADD);
+		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.SUBTRACT);
+		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.MULTIPLY);
+		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.DIVIDE);
+		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.MODULE);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -2703,7 +3278,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		  (this, 
 		   source, 
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 

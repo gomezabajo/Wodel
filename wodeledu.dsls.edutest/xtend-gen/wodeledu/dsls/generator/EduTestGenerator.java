@@ -3,18 +3,6 @@
  */
 package wodeledu.dsls.generator;
 
-import appliedMutations.AppMutation;
-import appliedMutations.AttributeChanged;
-import appliedMutations.AttributeSwap;
-import appliedMutations.InformationChanged;
-import appliedMutations.ObjectCreated;
-import appliedMutations.ObjectRemoved;
-import appliedMutations.ReferenceChanged;
-import appliedMutations.ReferenceCreated;
-import appliedMutations.ReferenceRemoved;
-import appliedMutations.ReferenceSwap;
-import appliedMutations.SourceReferenceChanged;
-import appliedMutations.TargetReferenceChanged;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import edutest.AlternativeResponse;
@@ -31,10 +19,12 @@ import edutest.Test;
 import edutest.TestConfiguration;
 import exceptions.ModelNotFoundException;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import manager.ModelManager;
 import manager.TestUtils;
 import manager.WodelContext;
@@ -47,6 +37,8 @@ import mutatext.Variable;
 import mutatext.VariableType;
 import mutatext.Word;
 import mutatorenvironment.Block;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -63,6 +55,7 @@ import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import org.osgi.framework.Bundle;
 
 /**
  * Generates code from your model files on save.
@@ -93,7 +86,7 @@ public class EduTestGenerator implements IGenerator {
   
   private HashMap<MutatorTests, HashMap<Test, ArrayList<TestUtils.TestOption>>> options;
   
-  private ArrayList<Block> blocks;
+  private ArrayList<EObject> blocks;
   
   public Resource loadResource(final Resource resource, final String ext, final String metamodel) {
     return null;
@@ -118,45 +111,39 @@ public class EduTestGenerator implements IGenerator {
         String _lastSegment = _uRI.lastSegment();
         String _replaceAll = _lastSegment.replaceAll(".test", ".model");
         String xmiFileName = (_plus_5 + _replaceAll);
-        String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-        String _plus_6 = (_workspaceAbsolutePath_1 + "/");
-        String _project_1 = WodelContext.getProject();
-        String _plus_7 = (_plus_6 + _project_1);
-        final String mutatorecore = (_plus_7 + "/resources/MutatorEnvironment.ecore");
+        final Bundle bundle = Platform.getBundle("wodel.models");
+        final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+        URL _resolve = FileLocator.resolve(fileURL);
+        final String mutatorecore = _resolve.getFile();
         final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
         URI _createURI = URI.createURI(xmiFileName);
         String _fileString = _createURI.toFileString();
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, _fileString);
-        final ArrayList<EObject> blockobjects = ModelManager.getObjectsOfType("Block", mutatormodel);
-        ArrayList<Block> _arrayList = new ArrayList<Block>();
-        this.blocks = _arrayList;
-        for (final EObject blockobj : blockobjects) {
-          EObject _object = ModelManager.getObject(mutatormodel, blockobj);
-          this.blocks.add(((Block) _object));
-        }
+        ArrayList<EObject> _objectsOfType = ModelManager.getObjectsOfType("Block", mutatormodel);
+        this.blocks = _objectsOfType;
         TreeIterator<EObject> _allContents = resource.getAllContents();
         Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_allContents);
         Iterable<Program> _filter = Iterables.<Program>filter(_iterable, Program.class);
         for (final Program p : _filter) {
           {
             if ((i == 0)) {
+              String _project_1 = WodelContext.getProject();
+              String _plus_6 = ("html/" + _project_1);
+              String _plus_7 = (_plus_6 + ".html");
+              this.fileName = _plus_7;
               String _project_2 = WodelContext.getProject();
-              String _plus_8 = ("html/" + _project_2);
-              String _plus_9 = (_plus_8 + ".html");
-              this.fileName = _plus_9;
-              String _project_3 = WodelContext.getProject();
-              String _plus_10 = (_project_3 + ".html");
-              this.pageName = _plus_10;
+              String _plus_8 = (_project_2 + ".html");
+              this.pageName = _plus_8;
             } else {
+              String _project_3 = WodelContext.getProject();
+              String _plus_9 = ("html/" + _project_3);
+              String _plus_10 = (_plus_9 + Integer.valueOf(i));
+              String _plus_11 = (_plus_10 + ".html");
+              this.fileName = _plus_11;
               String _project_4 = WodelContext.getProject();
-              String _plus_11 = ("html/" + _project_4);
-              String _plus_12 = (_plus_11 + Integer.valueOf(i));
+              String _plus_12 = (_project_4 + Integer.valueOf(i));
               String _plus_13 = (_plus_12 + ".html");
-              this.fileName = _plus_13;
-              String _project_5 = WodelContext.getProject();
-              String _plus_14 = (_project_5 + Integer.valueOf(i));
-              String _plus_15 = (_plus_14 + ".html");
-              this.pageName = _plus_15;
+              this.pageName = _plus_13;
             }
             CharSequence _compile = this.compile(p, resource);
             fsa.generateFile(this.fileName, _compile);
@@ -326,7 +313,7 @@ public class EduTestGenerator implements IGenerator {
                     }
                   }
                   {
-                    EObject _block = ((AlternativeResponse)exercise).getBlock();
+                    Block _block = ((AlternativeResponse)exercise).getBlock();
                     boolean _notEquals = (!Objects.equal(_block, null));
                     if (_notEquals) {
                       String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
@@ -338,8 +325,8 @@ public class EduTestGenerator implements IGenerator {
                       String _replace_1 = _source_1.replace(".model", "");
                       String _plus_7 = (_plus_6 + _replace_1);
                       String _plus_8 = (_plus_7 + "/");
-                      EObject _block_1 = ((AlternativeResponse)exercise).getBlock();
-                      String _name_2 = ((Block) _block_1).getName();
+                      Block _block_1 = ((AlternativeResponse)exercise).getBlock();
+                      String _name_2 = _block_1.getName();
                       String _plus_9 = (_plus_8 + _name_2);
                       File _file = new File(_plus_9);
                       _builder.append(folder = _file, "");
@@ -355,8 +342,8 @@ public class EduTestGenerator implements IGenerator {
                                 String _name_3 = f_1.getName();
                                 boolean _endsWith_1 = _name_3.endsWith(".png");
                                 if (_endsWith_1) {
-                                  EObject _block_2 = ((AlternativeResponse)exercise).getBlock();
-                                  String _name_4 = ((Block) _block_2).getName();
+                                  Block _block_2 = ((AlternativeResponse)exercise).getBlock();
+                                  String _name_4 = _block_2.getName();
                                   String _plus_10 = (_name_4 + "/");
                                   String _name_5 = f_1.getName();
                                   String _plus_11 = (_plus_10 + _name_5);
@@ -370,14 +357,14 @@ public class EduTestGenerator implements IGenerator {
                         }
                       }
                       {
-                        EObject _block_3 = ((AlternativeResponse)exercise).getBlock();
-                        EList<Block> _from = ((Block) _block_3).getFrom();
+                        Block _block_3 = ((AlternativeResponse)exercise).getBlock();
+                        EList<Block> _from = _block_3.getFrom();
                         int _length = ((Object[])Conversions.unwrapArray(_from, Object.class)).length;
                         boolean _greaterThan = (_length > 0);
                         if (_greaterThan) {
                           {
-                            EObject _block_4 = ((AlternativeResponse)exercise).getBlock();
-                            EList<Block> _from_1 = ((Block) _block_4).getFrom();
+                            Block _block_4 = ((AlternativeResponse)exercise).getBlock();
+                            EList<Block> _from_1 = _block_4.getFrom();
                             for(final Block b : _from_1) {
                               String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
                               String _plus_12 = (_workspaceAbsolutePath_2 + "/");
@@ -391,8 +378,8 @@ public class EduTestGenerator implements IGenerator {
                               String _name_6 = b.getName();
                               String _plus_17 = (_plus_16 + _name_6);
                               String _plus_18 = (_plus_17 + "/");
-                              EObject _block_5 = ((AlternativeResponse)exercise).getBlock();
-                              String _name_7 = ((Block) _block_5).getName();
+                              Block _block_5 = ((AlternativeResponse)exercise).getBlock();
+                              String _name_7 = _block_5.getName();
                               String _plus_19 = (_plus_18 + _name_7);
                               File wrongFolder = new File(_plus_19);
                               _builder.newLineIfNotEmpty();
@@ -416,8 +403,8 @@ public class EduTestGenerator implements IGenerator {
                                                 if (_endsWith_2) {
                                                   String _name_9 = b.getName();
                                                   String _plus_20 = (_name_9 + "/");
-                                                  EObject _block_6 = ((AlternativeResponse)exercise).getBlock();
-                                                  String _name_10 = ((Block) _block_6).getName();
+                                                  Block _block_6 = ((AlternativeResponse)exercise).getBlock();
+                                                  String _name_10 = _block_6.getName();
                                                   String _plus_21 = (_plus_20 + _name_10);
                                                   String _plus_22 = (_plus_21 + "/");
                                                   String _name_11 = f_2.getName();
@@ -531,7 +518,7 @@ public class EduTestGenerator implements IGenerator {
                     }
                   }
                   {
-                    EObject _block_7 = ((MultiChoiceDiagram)exercise).getBlock();
+                    Block _block_7 = ((MultiChoiceDiagram)exercise).getBlock();
                     boolean _notEquals_1 = (!Objects.equal(_block_7, null));
                     if (_notEquals_1) {
                       String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
@@ -543,8 +530,8 @@ public class EduTestGenerator implements IGenerator {
                       String _replace_4 = _source_4.replace(".model", "");
                       String _plus_33 = (_plus_32 + _replace_4);
                       String _plus_34 = (_plus_33 + "/");
-                      EObject _block_8 = ((MultiChoiceDiagram)exercise).getBlock();
-                      String _name_15 = ((Block) _block_8).getName();
+                      Block _block_8 = ((MultiChoiceDiagram)exercise).getBlock();
+                      String _name_15 = _block_8.getName();
                       String _plus_35 = (_plus_34 + _name_15);
                       File _file_1 = new File(_plus_35);
                       _builder.append(folder_1 = _file_1, "");
@@ -560,8 +547,8 @@ public class EduTestGenerator implements IGenerator {
                                 String _name_16 = f_4.getName();
                                 boolean _endsWith_4 = _name_16.endsWith(".png");
                                 if (_endsWith_4) {
-                                  EObject _block_9 = ((MultiChoiceDiagram)exercise).getBlock();
-                                  String _name_17 = ((Block) _block_9).getName();
+                                  Block _block_9 = ((MultiChoiceDiagram)exercise).getBlock();
+                                  String _name_17 = _block_9.getName();
                                   String _plus_36 = (_name_17 + "/");
                                   String _name_18 = f_4.getName();
                                   String _plus_37 = (_plus_36 + _name_18);
@@ -575,14 +562,14 @@ public class EduTestGenerator implements IGenerator {
                         }
                       }
                       {
-                        EObject _block_10 = ((MultiChoiceDiagram)exercise).getBlock();
-                        EList<Block> _from_2 = ((Block) _block_10).getFrom();
+                        Block _block_10 = ((MultiChoiceDiagram)exercise).getBlock();
+                        EList<Block> _from_2 = _block_10.getFrom();
                         int _length_1 = ((Object[])Conversions.unwrapArray(_from_2, Object.class)).length;
                         boolean _greaterThan_1 = (_length_1 > 0);
                         if (_greaterThan_1) {
                           {
-                            EObject _block_11 = ((MultiChoiceDiagram)exercise).getBlock();
-                            EList<Block> _from_3 = ((Block) _block_11).getFrom();
+                            Block _block_11 = ((MultiChoiceDiagram)exercise).getBlock();
+                            EList<Block> _from_3 = _block_11.getFrom();
                             for(final Block b_1 : _from_3) {
                               String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
                               String _plus_38 = (_workspaceAbsolutePath_5 + "/");
@@ -596,8 +583,8 @@ public class EduTestGenerator implements IGenerator {
                               String _name_19 = b_1.getName();
                               String _plus_43 = (_plus_42 + _name_19);
                               String _plus_44 = (_plus_43 + "/");
-                              EObject _block_12 = ((MultiChoiceDiagram)exercise).getBlock();
-                              String _name_20 = ((Block) _block_12).getName();
+                              Block _block_12 = ((MultiChoiceDiagram)exercise).getBlock();
+                              String _name_20 = _block_12.getName();
                               String _plus_45 = (_plus_44 + _name_20);
                               File wrongFolder_1 = new File(_plus_45);
                               _builder.newLineIfNotEmpty();
@@ -621,8 +608,8 @@ public class EduTestGenerator implements IGenerator {
                                                 if (_endsWith_5) {
                                                   String _name_22 = b_1.getName();
                                                   String _plus_46 = (_name_22 + "/");
-                                                  EObject _block_13 = ((MultiChoiceDiagram)exercise).getBlock();
-                                                  String _name_23 = ((Block) _block_13).getName();
+                                                  Block _block_13 = ((MultiChoiceDiagram)exercise).getBlock();
+                                                  String _name_23 = _block_13.getName();
                                                   String _plus_47 = (_plus_46 + _name_23);
                                                   String _plus_48 = (_plus_47 + "/");
                                                   String _name_24 = f_5.getName();
@@ -698,43 +685,45 @@ public class EduTestGenerator implements IGenerator {
               _builder.append("<!-- REGISTRY: ");
               HashMap<Test, TestUtils.Registry> dataReg = new HashMap<Test, TestUtils.Registry>();
               _builder.newLineIfNotEmpty();
-              String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_52 = (_workspaceAbsolutePath_6 + "/");
-              String _project_6 = WodelContext.getProject();
-              String _plus_53 = (_plus_52 + _project_6);
-              final String ecore = (_plus_53 + "/resources/MutatorEnvironment.ecore");
+              final Bundle bundle = Platform.getBundle("wodel.models");
+              _builder.newLineIfNotEmpty();
+              _builder.append("\t   \t");
+              URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+              _builder.newLineIfNotEmpty();
+              URL _resolve = FileLocator.resolve(fileURL);
+              final String ecore = _resolve.getFile();
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore);
               _builder.newLineIfNotEmpty();
-              String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_54 = (_workspaceAbsolutePath_7 + "/");
-              String _project_7 = WodelContext.getProject();
-              String _plus_55 = (_plus_54 + _project_7);
-              final String registryecore = (_plus_55 + "/resources/AppliedMutations.ecore");
+              URL _entry = bundle.getEntry("/models/AppliedMutations.ecore");
+              _builder.append(fileURL = _entry, "");
+              _builder.newLineIfNotEmpty();
+              URL _resolve_1 = FileLocator.resolve(fileURL);
+              final String registryecore = _resolve_1.getFile();
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
               _builder.newLineIfNotEmpty();
               _builder.newLine();
-              String _workspaceAbsolutePath_8 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_56 = ("file:/" + _workspaceAbsolutePath_8);
-              String _plus_57 = (_plus_56 + "/");
-              String _project_8 = WodelContext.getProject();
-              String _plus_58 = (_plus_57 + _project_8);
-              String _plus_59 = (_plus_58 + 
+              String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_52 = ("file:/" + _workspaceAbsolutePath_6);
+              String _plus_53 = (_plus_52 + "/");
+              String _project_6 = WodelContext.getProject();
+              String _plus_54 = (_plus_53 + _project_6);
+              String _plus_55 = (_plus_54 + 
                 "/");
               String _outputFolder = ModelManager.getOutputFolder();
-              String _plus_60 = (_plus_59 + _outputFolder);
-              String _plus_61 = (_plus_60 + "/");
+              String _plus_56 = (_plus_55 + _outputFolder);
+              String _plus_57 = (_plus_56 + "/");
               URI _uRI = resource.getURI();
               String _lastSegment = _uRI.lastSegment();
               String _replaceAll = _lastSegment.replaceAll(".test", "_modeltext.model");
-              String xmiFileName = (_plus_61 + _replaceAll);
+              String xmiFileName = (_plus_57 + _replaceAll);
               _builder.newLineIfNotEmpty();
-              String _workspaceAbsolutePath_9 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_62 = (_workspaceAbsolutePath_9 + "/");
-              String _project_9 = WodelContext.getProject();
-              String _plus_63 = (_plus_62 + _project_9);
-              final String idelemsecore = (_plus_63 + "/resources/ModelText.ecore");
+              URL _entry_1 = bundle.getEntry("/models/ModelText.ecore");
+              _builder.append(fileURL = _entry_1, "");
+              _builder.newLineIfNotEmpty();
+              URL _resolve_2 = FileLocator.resolve(fileURL);
+              final String idelemsecore = _resolve_2.getFile();
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
               _builder.newLineIfNotEmpty();
@@ -743,27 +732,27 @@ public class EduTestGenerator implements IGenerator {
               final Resource idelemsresource = ModelManager.loadModel(idelemspackages, _fileString);
               _builder.newLineIfNotEmpty();
               _builder.newLine();
-              String _workspaceAbsolutePath_10 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_64 = ("file:/" + _workspaceAbsolutePath_10);
-              String _plus_65 = (_plus_64 + "/");
-              String _project_10 = WodelContext.getProject();
-              String _plus_66 = (_plus_65 + _project_10);
-              String _plus_67 = (_plus_66 + 
+              String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
+              String _plus_58 = ("file:/" + _workspaceAbsolutePath_7);
+              String _plus_59 = (_plus_58 + "/");
+              String _project_7 = WodelContext.getProject();
+              String _plus_60 = (_plus_59 + _project_7);
+              String _plus_61 = (_plus_60 + 
                 "/");
               String _outputFolder_1 = ModelManager.getOutputFolder();
-              String _plus_68 = (_plus_67 + _outputFolder_1);
-              String _plus_69 = (_plus_68 + "/");
+              String _plus_62 = (_plus_61 + _outputFolder_1);
+              String _plus_63 = (_plus_62 + "/");
               URI _uRI_1 = resource.getURI();
               String _lastSegment_1 = _uRI_1.lastSegment();
               String _replaceAll_1 = _lastSegment_1.replaceAll(".test", "_mutatext.model");
-              String _plus_70 = (_plus_69 + _replaceAll_1);
-              _builder.append(xmiFileName = _plus_70, "");
+              String _plus_64 = (_plus_63 + _replaceAll_1);
+              _builder.append(xmiFileName = _plus_64, "");
               _builder.newLineIfNotEmpty();
-              String _workspaceAbsolutePath_11 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_71 = (_workspaceAbsolutePath_11 + "/");
-              String _project_11 = WodelContext.getProject();
-              String _plus_72 = (_plus_71 + _project_11);
-              final String cfgoptsecore = (_plus_72 + "/resources/MutaText.ecore");
+              URL _entry_2 = bundle.getEntry("/models/MutaText.ecore");
+              _builder.append(fileURL = _entry_2, "");
+              _builder.newLineIfNotEmpty();
+              URL _resolve_3 = FileLocator.resolve(fileURL);
+              final String cfgoptsecore = _resolve_3.getFile();
               _builder.newLineIfNotEmpty();
               final ArrayList<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
               _builder.newLineIfNotEmpty();
@@ -771,6 +760,8 @@ public class EduTestGenerator implements IGenerator {
               String _fileString_1 = _createURI_1.toFileString();
               final Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, _fileString_1);
               _builder.newLineIfNotEmpty();
+              _builder.append("-->");
+              _builder.newLine();
               _builder.append("<!--");
               _builder.newLine();
               {
@@ -819,8 +810,8 @@ public class EduTestGenerator implements IGenerator {
                       String _substring = _outputPath.substring(2, _length_2);
                       String _replace_6 = _path.replace(_substring, "");
                       String _replace_7 = _replace_6.replace(".model", ".png");
-                      String _plus_73 = ("diagrams" + _replace_7);
-                      _builder.append(opt.path = _plus_73, "");
+                      String _plus_65 = ("diagrams" + _replace_7);
+                      _builder.append(opt.path = _plus_65, "");
                       _builder.newLineIfNotEmpty();
                       Resource _get_8 = reg.history.get(rnd);
                       _builder.append(opt.resource = _get_8, "");
@@ -859,8 +850,8 @@ public class EduTestGenerator implements IGenerator {
                               String _substring_1 = _outputPath_2.substring(2, _length_3);
                               String _replace_8 = _path_1.replace(_substring_1, "");
                               String _replace_9 = _replace_8.replace(".model", ".png");
-                              String _plus_74 = ("diagrams" + _replace_9);
-                              _builder.append(opt.path = _plus_74, "");
+                              String _plus_66 = ("diagrams" + _replace_9);
+                              _builder.append(opt.path = _plus_66, "");
                               _builder.newLineIfNotEmpty();
                               Resource _get_14 = wrongRegistry.history.get(rnd);
                               _builder.append(opt.resource = _get_14, "");
@@ -915,18 +906,37 @@ public class EduTestGenerator implements IGenerator {
                                 for(final EObject mutation : mutations) {
                                   String text = "";
                                   _builder.newLineIfNotEmpty();
+                                  EClass _eClass = mutation.eClass();
+                                  List<EClass> superTypes = _eClass.getEAllSuperTypes();
+                                  _builder.newLineIfNotEmpty();
+                                  boolean flag = false;
+                                  _builder.newLineIfNotEmpty();
                                   {
-                                    if ((mutation instanceof AppMutation)) {
-                                      AppMutation appMut = ((AppMutation) mutation);
-                                      _builder.newLineIfNotEmpty();
+                                    for(final EClass cl : superTypes) {
                                       {
-                                        if ((appMut instanceof ObjectCreated)) {
+                                        String _name_26 = cl.getName();
+                                        boolean _equals_9 = _name_26.equals("AppMutation");
+                                        if (_equals_9) {
+                                          _builder.append(flag = true, "");
+                                          _builder.newLineIfNotEmpty();
+                                        }
+                                      }
+                                    }
+                                  }
+                                  {
+                                    if ((flag == true)) {
+                                      {
+                                        EClass _eClass_1 = mutation.eClass();
+                                        String _name_27 = _eClass_1.getName();
+                                        boolean _equals_10 = _name_27.equals("ObjectCreated");
+                                        if (_equals_10) {
                                           _builder.newLine();
                                           Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object = ((ObjectCreated)appMut).getObject();
-                                          EObject _get_19 = _object.get(0);
-                                          Element element = ModelManager.getElement(_get_19, idelemsresource);
+                                          EObject _reference = ModelManager.getReference("object", mutation);
+                                          EObject object = ((List<EObject>) _reference).get(0);
+                                          _builder.newLineIfNotEmpty();
+                                          Element element = ModelManager.getElement(object, idelemsresource);
                                           _builder.newLineIfNotEmpty();
                                           Text t = null;
                                           _builder.newLineIfNotEmpty();
@@ -950,9 +960,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_2 instanceof Constant)) {
                                                   String _text = text;
                                                   String _value = ((Constant)w_2).getValue();
-                                                  String _plus_75 = (_value + " ");
-                                                  String _plus_76 = text = (_text + _plus_75);
-                                                  _builder.append(_plus_76, "");
+                                                  String _plus_67 = (_value + " ");
+                                                  String _plus_68 = text = (_text + _plus_67);
+                                                  _builder.append(_plus_68, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -962,8 +972,8 @@ public class EduTestGenerator implements IGenerator {
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     VariableType _type = variable.getType();
-                                                    boolean _equals_9 = Objects.equal(_type, VariableType.OBJECT);
-                                                    if (_equals_9) {
+                                                    boolean _equals_11 = Objects.equal(_type, VariableType.OBJECT);
+                                                    if (_equals_11) {
                                                       {
                                                         EList<modeltext.Word> _words_1 = element.getWords();
                                                         for(final modeltext.Word v : _words_1) {
@@ -971,9 +981,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v instanceof modeltext.Constant)) {
                                                               String _text_1 = text;
                                                               String _value_1 = ((modeltext.Constant)v).getValue();
-                                                              String _plus_77 = (_value_1 + " ");
-                                                              String _plus_78 = text = (_text_1 + _plus_77);
-                                                              _builder.append(_plus_78, "");
+                                                              String _plus_69 = (_value_1 + " ");
+                                                              String _plus_70 = text = (_text_1 + _plus_69);
+                                                              _builder.append(_plus_70, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -983,21 +993,15 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref = ((modeltext.Variable) v).getRef();
-                                                                boolean _equals_10 = Objects.equal(_ref, null);
-                                                                if (_equals_10) {
-                                                                  EList<EObject> _object_1 = ((ObjectCreated)appMut).getObject();
-                                                                  EObject _get_20 = _object_1.get(0);
-                                                                  _builder.append(o = _get_20, "");
+                                                                boolean _equals_12 = Objects.equal(_ref, null);
+                                                                if (_equals_12) {
+                                                                  _builder.append(o = object, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EList<EObject> _object_2 = ((ObjectCreated)appMut).getObject();
-                                                                  EObject _get_21 = _object_2.get(0);
                                                                   EReference _ref_1 = ((modeltext.Variable) v).getRef();
-                                                                  String _name_26 = _ref_1.getName();
-                                                                  EList<EObject> _object_3 = ((ObjectCreated)appMut).getObject();
-                                                                  EObject _get_22 = _object_3.get(0);
-                                                                  EStructuralFeature _referenceByName = ModelManager.getReferenceByName(_name_26, ((EObject) _get_22));
-                                                                  Object _eGet = _get_21.eGet(_referenceByName);
+                                                                  String _name_28 = _ref_1.getName();
+                                                                  EStructuralFeature _referenceByName = ModelManager.getReferenceByName(_name_28, object);
+                                                                  Object _eGet = object.eGet(_referenceByName);
                                                                   _builder.append(o = ((EObject) _eGet), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1007,12 +1011,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_3) {
                                                                   String _text_2 = text;
                                                                   EAttribute _id = ((modeltext.Variable) v).getId();
-                                                                  String _name_27 = _id.getName();
-                                                                  EStructuralFeature _attributeByName = ModelManager.getAttributeByName(_name_27, o);
+                                                                  String _name_29 = _id.getName();
+                                                                  EStructuralFeature _attributeByName = ModelManager.getAttributeByName(_name_29, o);
                                                                   Object _eGet_1 = o.eGet(_attributeByName);
-                                                                  String _plus_79 = (_eGet_1 + " ");
-                                                                  String _plus_80 = text = (_text_2 + _plus_79);
-                                                                  _builder.append(_plus_80, "");
+                                                                  String _plus_71 = (_eGet_1 + " ");
+                                                                  String _plus_72 = text = (_text_2 + _plus_71);
+                                                                  _builder.append(_plus_72, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1038,13 +1042,17 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof ObjectRemoved)) {
+                                        EClass _eClass_2 = mutation.eClass();
+                                        String _name_30 = _eClass_2.getName();
+                                        boolean _equals_13 = _name_30.equals("ObjectRemoved");
+                                        if (_equals_13) {
                                           _builder.newLine();
                                           Option cfgopt_1 = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_4 = ((ObjectRemoved)appMut).getObject();
-                                          EObject _get_23 = _object_4.get(0);
-                                          Element element_1 = ModelManager.getElement(_get_23, idelemsresource);
+                                          EObject _reference_1 = ModelManager.getReference("object", mutation);
+                                          EObject object_1 = ((List<EObject>) _reference_1).get(0);
+                                          _builder.newLineIfNotEmpty();
+                                          Element element_1 = ModelManager.getElement(object_1, idelemsresource);
                                           _builder.newLineIfNotEmpty();
                                           Text t_1 = null;
                                           _builder.newLineIfNotEmpty();
@@ -1068,9 +1076,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_3 instanceof Constant)) {
                                                   String _text_3 = text;
                                                   String _value_2 = ((Constant)w_3).getValue();
-                                                  String _plus_81 = (_value_2 + " ");
-                                                  String _plus_82 = text = (_text_3 + _plus_81);
-                                                  _builder.append(_plus_82, "");
+                                                  String _plus_73 = (_value_2 + " ");
+                                                  String _plus_74 = text = (_text_3 + _plus_73);
+                                                  _builder.append(_plus_74, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1080,8 +1088,8 @@ public class EduTestGenerator implements IGenerator {
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     VariableType _type_1 = variable_1.getType();
-                                                    boolean _equals_11 = Objects.equal(_type_1, VariableType.OBJECT);
-                                                    if (_equals_11) {
+                                                    boolean _equals_14 = Objects.equal(_type_1, VariableType.OBJECT);
+                                                    if (_equals_14) {
                                                       {
                                                         EList<modeltext.Word> _words_3 = element_1.getWords();
                                                         for(final modeltext.Word v_1 : _words_3) {
@@ -1089,9 +1097,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_1 instanceof modeltext.Constant)) {
                                                               String _text_4 = text;
                                                               String _value_3 = ((modeltext.Constant)v_1).getValue();
-                                                              String _plus_83 = (_value_3 + " ");
-                                                              String _plus_84 = text = (_text_4 + _plus_83);
-                                                              _builder.append(_plus_84, "");
+                                                              String _plus_75 = (_value_3 + " ");
+                                                              String _plus_76 = text = (_text_4 + _plus_75);
+                                                              _builder.append(_plus_76, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1101,21 +1109,15 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_2 = ((modeltext.Variable) v_1).getRef();
-                                                                boolean _equals_12 = Objects.equal(_ref_2, null);
-                                                                if (_equals_12) {
-                                                                  EList<EObject> _object_5 = ((ObjectRemoved)appMut).getObject();
-                                                                  EObject _get_24 = _object_5.get(0);
-                                                                  _builder.append(o_1 = _get_24, "");
+                                                                boolean _equals_15 = Objects.equal(_ref_2, null);
+                                                                if (_equals_15) {
+                                                                  _builder.append(o_1 = object_1, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EList<EObject> _object_6 = ((ObjectRemoved)appMut).getObject();
-                                                                  EObject _get_25 = _object_6.get(0);
                                                                   EReference _ref_3 = ((modeltext.Variable) v_1).getRef();
-                                                                  String _name_28 = _ref_3.getName();
-                                                                  EList<EObject> _object_7 = ((ObjectRemoved)appMut).getObject();
-                                                                  EObject _get_26 = _object_7.get(0);
-                                                                  EStructuralFeature _referenceByName_1 = ModelManager.getReferenceByName(_name_28, ((EObject) _get_26));
-                                                                  Object _eGet_2 = _get_25.eGet(_referenceByName_1);
+                                                                  String _name_31 = _ref_3.getName();
+                                                                  EStructuralFeature _referenceByName_1 = ModelManager.getReferenceByName(_name_31, object_1);
+                                                                  Object _eGet_2 = object_1.eGet(_referenceByName_1);
                                                                   _builder.append(o_1 = ((EObject) _eGet_2), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1125,12 +1127,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_5) {
                                                                   String _text_5 = text;
                                                                   EAttribute _id_1 = ((modeltext.Variable) v_1).getId();
-                                                                  String _name_29 = _id_1.getName();
-                                                                  EStructuralFeature _attributeByName_1 = ModelManager.getAttributeByName(_name_29, o_1);
+                                                                  String _name_32 = _id_1.getName();
+                                                                  EStructuralFeature _attributeByName_1 = ModelManager.getAttributeByName(_name_32, o_1);
                                                                   Object _eGet_3 = o_1.eGet(_attributeByName_1);
-                                                                  String _plus_85 = (_eGet_3 + " ");
-                                                                  String _plus_86 = text = (_text_5 + _plus_85);
-                                                                  _builder.append(_plus_86, "");
+                                                                  String _plus_77 = (_eGet_3 + " ");
+                                                                  String _plus_78 = text = (_text_5 + _plus_77);
+                                                                  _builder.append(_plus_78, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1156,7 +1158,10 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof SourceReferenceChanged)) {
+                                        EClass _eClass_3 = mutation.eClass();
+                                        String _name_33 = _eClass_3.getName();
+                                        boolean _equals_16 = _name_33.equals("SourceReferenceChanged");
+                                        if (_equals_16) {
                                           _builder.newLine();
                                           _builder.newLine();
                                           _builder.newLine();
@@ -1165,26 +1170,28 @@ public class EduTestGenerator implements IGenerator {
                                           _builder.newLine();
                                           Option cfgopt_2 = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _from_4 = ((SourceReferenceChanged)appMut).getFrom();
-                                          EClass _eClass = _from_4.eClass();
-                                          String _refName = ((SourceReferenceChanged)appMut).getRefName();
-                                          EStructuralFeature srcRef = _eClass.getEStructuralFeature(_refName);
+                                          EObject _reference_2 = ModelManager.getReference("from", mutation);
+                                          EObject from = ((EObject) _reference_2);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _from_5 = ((SourceReferenceChanged)appMut).getFrom();
-                                          Object _eGet_4 = _from_5.eGet(srcRef);
+                                          Object _attribute = ModelManager.getAttribute("refName", mutation);
+                                          String refName = ((String) _attribute);
+                                          _builder.newLineIfNotEmpty();
+                                          EClass _eClass_4 = from.eClass();
+                                          EStructuralFeature srcRef = _eClass_4.getEStructuralFeature(refName);
+                                          _builder.newLineIfNotEmpty();
+                                          Object _eGet_4 = from.eGet(srcRef);
                                           Element refElement = ModelManager.getRefElement(((EObject) _eGet_4), srcRef, idelemsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _from_6 = ((SourceReferenceChanged)appMut).getFrom();
-                                          Object _eGet_5 = _from_6.eGet(srcRef);
+                                          Object _eGet_5 = from.eGet(srcRef);
                                           Element srcElement = ModelManager.getElement(((EObject) _eGet_5), idelemsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _to = ((SourceReferenceChanged)appMut).getTo();
-                                          EClass _eClass_1 = _to.eClass();
-                                          String _refName_1 = ((SourceReferenceChanged)appMut).getRefName();
-                                          EStructuralFeature tarRef = _eClass_1.getEStructuralFeature(_refName_1);
+                                          EObject _reference_3 = ModelManager.getReference("to", mutation);
+                                          EObject to = ((EObject) _reference_3);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _to_1 = ((SourceReferenceChanged)appMut).getTo();
-                                          Object _eGet_6 = _to_1.eGet(tarRef);
+                                          EClass _eClass_5 = to.eClass();
+                                          EStructuralFeature tarRef = _eClass_5.getEStructuralFeature(refName);
+                                          _builder.newLineIfNotEmpty();
+                                          Object _eGet_6 = to.eGet(tarRef);
                                           Element tarElement = ModelManager.getElement(((EObject) _eGet_6), idelemsresource);
                                           _builder.newLineIfNotEmpty();
                                           Text t_2 = null;
@@ -1209,9 +1216,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_4 instanceof Constant)) {
                                                   String _text_6 = text;
                                                   String _value_4 = ((Constant)w_4).getValue();
-                                                  String _plus_87 = (_value_4 + " ");
-                                                  String _plus_88 = text = (_text_6 + _plus_87);
-                                                  _builder.append(_plus_88, "");
+                                                  String _plus_79 = (_value_4 + " ");
+                                                  String _plus_80 = text = (_text_6 + _plus_79);
+                                                  _builder.append(_plus_80, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1221,8 +1228,8 @@ public class EduTestGenerator implements IGenerator {
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     VariableType _type_2 = variable_2.getType();
-                                                    boolean _equals_13 = Objects.equal(_type_2, VariableType.OLD_FROM_OBJECT);
-                                                    if (_equals_13) {
+                                                    boolean _equals_17 = Objects.equal(_type_2, VariableType.OLD_FROM_OBJECT);
+                                                    if (_equals_17) {
                                                       {
                                                         EList<modeltext.Word> _words_5 = srcElement.getWords();
                                                         for(final modeltext.Word v_2 : _words_5) {
@@ -1230,9 +1237,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_2 instanceof modeltext.Constant)) {
                                                               String _text_7 = text;
                                                               String _value_5 = ((modeltext.Constant)v_2).getValue();
-                                                              String _plus_89 = (_value_5 + " ");
-                                                              String _plus_90 = text = (_text_7 + _plus_89);
-                                                              _builder.append(_plus_90, "");
+                                                              String _plus_81 = (_value_5 + " ");
+                                                              String _plus_82 = text = (_text_7 + _plus_81);
+                                                              _builder.append(_plus_82, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1242,20 +1249,17 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_4 = ((modeltext.Variable) v_2).getRef();
-                                                                boolean _equals_14 = Objects.equal(_ref_4, null);
-                                                                if (_equals_14) {
-                                                                  EObject _from_7 = ((SourceReferenceChanged)appMut).getFrom();
-                                                                  Object _eGet_7 = _from_7.eGet(srcRef);
+                                                                boolean _equals_18 = Objects.equal(_ref_4, null);
+                                                                if (_equals_18) {
+                                                                  Object _eGet_7 = from.eGet(srcRef);
                                                                   _builder.append(o_2 = ((EObject) _eGet_7), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EObject _from_8 = ((SourceReferenceChanged)appMut).getFrom();
-                                                                  Object _eGet_8 = _from_8.eGet(srcRef);
+                                                                  Object _eGet_8 = from.eGet(srcRef);
                                                                   EReference _ref_5 = ((modeltext.Variable) v_2).getRef();
-                                                                  String _name_30 = _ref_5.getName();
-                                                                  EObject _from_9 = ((SourceReferenceChanged)appMut).getFrom();
-                                                                  Object _eGet_9 = _from_9.eGet(srcRef);
-                                                                  EStructuralFeature _referenceByName_2 = ModelManager.getReferenceByName(_name_30, ((EObject) _eGet_9));
+                                                                  String _name_34 = _ref_5.getName();
+                                                                  Object _eGet_9 = from.eGet(srcRef);
+                                                                  EStructuralFeature _referenceByName_2 = ModelManager.getReferenceByName(_name_34, ((EObject) _eGet_9));
                                                                   Object _eGet_10 = ((EObject) _eGet_8).eGet(_referenceByName_2);
                                                                   _builder.append(o_2 = ((EObject) _eGet_10), "");
                                                                   _builder.newLineIfNotEmpty();
@@ -1266,12 +1270,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_7) {
                                                                   String _text_8 = text;
                                                                   EAttribute _id_2 = ((modeltext.Variable) v_2).getId();
-                                                                  String _name_31 = _id_2.getName();
-                                                                  EStructuralFeature _attributeByName_2 = ModelManager.getAttributeByName(_name_31, o_2);
+                                                                  String _name_35 = _id_2.getName();
+                                                                  EStructuralFeature _attributeByName_2 = ModelManager.getAttributeByName(_name_35, o_2);
                                                                   Object _eGet_11 = o_2.eGet(_attributeByName_2);
-                                                                  String _plus_91 = (_eGet_11 + " ");
-                                                                  String _plus_92 = text = (_text_8 + _plus_91);
-                                                                  _builder.append(_plus_92, "");
+                                                                  String _plus_83 = (_eGet_11 + " ");
+                                                                  String _plus_84 = text = (_text_8 + _plus_83);
+                                                                  _builder.append(_plus_84, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1283,8 +1287,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_3 = variable_2.getType();
-                                                    boolean _equals_15 = Objects.equal(_type_3, VariableType.FROM_OBJECT);
-                                                    if (_equals_15) {
+                                                    boolean _equals_19 = Objects.equal(_type_3, VariableType.FROM_OBJECT);
+                                                    if (_equals_19) {
                                                       {
                                                         EList<modeltext.Word> _words_6 = tarElement.getWords();
                                                         for(final modeltext.Word v_3 : _words_6) {
@@ -1292,9 +1296,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_3 instanceof modeltext.Constant)) {
                                                               String _text_9 = text;
                                                               String _value_6 = ((modeltext.Constant)v_3).getValue();
-                                                              String _plus_93 = (_value_6 + " ");
-                                                              String _plus_94 = text = (_text_9 + _plus_93);
-                                                              _builder.append(_plus_94, "");
+                                                              String _plus_85 = (_value_6 + " ");
+                                                              String _plus_86 = text = (_text_9 + _plus_85);
+                                                              _builder.append(_plus_86, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1304,20 +1308,17 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_6 = ((modeltext.Variable) v_3).getRef();
-                                                                boolean _equals_16 = Objects.equal(_ref_6, null);
-                                                                if (_equals_16) {
-                                                                  EObject _to_2 = ((SourceReferenceChanged)appMut).getTo();
-                                                                  Object _eGet_12 = _to_2.eGet(tarRef);
+                                                                boolean _equals_20 = Objects.equal(_ref_6, null);
+                                                                if (_equals_20) {
+                                                                  Object _eGet_12 = to.eGet(tarRef);
                                                                   _builder.append(o_3 = ((EObject) _eGet_12), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EObject _to_3 = ((SourceReferenceChanged)appMut).getTo();
-                                                                  Object _eGet_13 = _to_3.eGet(tarRef);
+                                                                  Object _eGet_13 = to.eGet(tarRef);
                                                                   EReference _ref_7 = ((modeltext.Variable) v_3).getRef();
-                                                                  String _name_32 = _ref_7.getName();
-                                                                  EObject _to_4 = ((SourceReferenceChanged)appMut).getTo();
-                                                                  Object _eGet_14 = _to_4.eGet(tarRef);
-                                                                  EStructuralFeature _referenceByName_3 = ModelManager.getReferenceByName(_name_32, ((EObject) _eGet_14));
+                                                                  String _name_36 = _ref_7.getName();
+                                                                  Object _eGet_14 = to.eGet(tarRef);
+                                                                  EStructuralFeature _referenceByName_3 = ModelManager.getReferenceByName(_name_36, ((EObject) _eGet_14));
                                                                   Object _eGet_15 = ((EObject) _eGet_13).eGet(_referenceByName_3);
                                                                   _builder.append(o_3 = ((EObject) _eGet_15), "");
                                                                   _builder.newLineIfNotEmpty();
@@ -1328,12 +1329,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_8) {
                                                                   String _text_10 = text;
                                                                   EAttribute _id_3 = ((modeltext.Variable) v_3).getId();
-                                                                  String _name_33 = _id_3.getName();
-                                                                  EStructuralFeature _attributeByName_3 = ModelManager.getAttributeByName(_name_33, o_3);
+                                                                  String _name_37 = _id_3.getName();
+                                                                  EStructuralFeature _attributeByName_3 = ModelManager.getAttributeByName(_name_37, o_3);
                                                                   Object _eGet_16 = o_3.eGet(_attributeByName_3);
-                                                                  String _plus_95 = (_eGet_16 + " ");
-                                                                  String _plus_96 = text = (_text_10 + _plus_95);
-                                                                  _builder.append(_plus_96, "");
+                                                                  String _plus_87 = (_eGet_16 + " ");
+                                                                  String _plus_88 = text = (_text_10 + _plus_87);
+                                                                  _builder.append(_plus_88, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1345,8 +1346,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_4 = variable_2.getType();
-                                                    boolean _equals_17 = Objects.equal(_type_4, VariableType.REF_NAME);
-                                                    if (_equals_17) {
+                                                    boolean _equals_21 = Objects.equal(_type_4, VariableType.REF_NAME);
+                                                    if (_equals_21) {
                                                       {
                                                         EList<modeltext.Word> _words_7 = refElement.getWords();
                                                         for(final modeltext.Word v_4 : _words_7) {
@@ -1354,9 +1355,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_4 instanceof modeltext.Constant)) {
                                                               String _text_11 = text;
                                                               String _value_7 = ((modeltext.Constant)v_4).getValue();
-                                                              String _plus_97 = (_value_7 + " ");
-                                                              String _plus_98 = text = (_text_11 + _plus_97);
-                                                              _builder.append(_plus_98, "");
+                                                              String _plus_89 = (_value_7 + " ");
+                                                              String _plus_90 = text = (_text_11 + _plus_89);
+                                                              _builder.append(_plus_90, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1380,42 +1381,45 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof TargetReferenceChanged)) {
+                                        EClass _eClass_6 = mutation.eClass();
+                                        String _name_38 = _eClass_6.getName();
+                                        boolean _equals_22 = _name_38.equals("TargetReferenceChanged");
+                                        if (_equals_22) {
                                           _builder.newLine();
                                           _builder.newLine();
                                           _builder.newLine();
                                           Option cfgopt_3 = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_8 = ((TargetReferenceChanged)appMut).getObject();
-                                          EObject _get_27 = _object_8.get(0);
-                                          Element element_2 = ModelManager.getElement(_get_27, idelemsresource);
+                                          List<EObject> _references = ModelManager.getReferences("object", mutation);
+                                          EObject object_2 = ((List<EObject>) _references).get(0);
                                           _builder.newLineIfNotEmpty();
-                                          String _srcRefName = ((TargetReferenceChanged)appMut).getSrcRefName();
-                                          EList<EObject> _object_9 = ((TargetReferenceChanged)appMut).getObject();
-                                          EObject _get_28 = _object_9.get(0);
-                                          EStructuralFeature refSrc = ModelManager.getReferenceByName(_srcRefName, _get_28);
+                                          Element element_2 = ModelManager.getElement(object_2, idelemsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_10 = ((TargetReferenceChanged)appMut).getObject();
-                                          EObject _get_29 = _object_10.get(0);
-                                          Element refSrcElement = ModelManager.getRefElement(_get_29, refSrc, idelemsresource);
+                                          Object _attribute_1 = ModelManager.getAttribute("refName", mutation);
+                                          String refName_1 = ((String) _attribute_1);
                                           _builder.newLineIfNotEmpty();
-                                          String _refName_2 = ((TargetReferenceChanged)appMut).getRefName();
-                                          EList<EObject> _object_11 = ((TargetReferenceChanged)appMut).getObject();
-                                          EObject _get_30 = _object_11.get(0);
-                                          EStructuralFeature refTar = ModelManager.getReferenceByName(_refName_2, _get_30);
+                                          EStructuralFeature refSrc = ModelManager.getReferenceByName(refName_1, object_2);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_12 = ((TargetReferenceChanged)appMut).getObject();
-                                          EObject _get_31 = _object_12.get(0);
-                                          Element refTarElement = ModelManager.getRefElement(_get_31, refTar, idelemsresource);
+                                          Element refSrcElement = ModelManager.getRefElement(object_2, refSrc, idelemsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _from_10 = ((TargetReferenceChanged)appMut).getFrom();
-                                          Element fromElement = ModelManager.getElement(_from_10, idelemsresource);
+                                          EStructuralFeature refTar = ModelManager.getReferenceByName(refName_1, object_2);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _to_5 = ((TargetReferenceChanged)appMut).getTo();
-                                          Element toElement = ModelManager.getElement(_to_5, idelemsresource);
+                                          Element refTarElement = ModelManager.getRefElement(object_2, refTar, idelemsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EObject _oldTo = ((TargetReferenceChanged)appMut).getOldTo();
-                                          Element oldToElement = ModelManager.getElement(_oldTo, idelemsresource);
+                                          EObject _reference_4 = ModelManager.getReference("from", mutation);
+                                          EObject from_1 = ((EObject) _reference_4);
+                                          _builder.newLineIfNotEmpty();
+                                          Element fromElement = ModelManager.getElement(from_1, idelemsresource);
+                                          _builder.newLineIfNotEmpty();
+                                          EObject _reference_5 = ModelManager.getReference("to", mutation);
+                                          EObject to_1 = ((EObject) _reference_5);
+                                          _builder.newLineIfNotEmpty();
+                                          Element toElement = ModelManager.getElement(to_1, idelemsresource);
+                                          _builder.newLineIfNotEmpty();
+                                          EObject _reference_6 = ModelManager.getReference("oldTo", mutation);
+                                          EObject oldTo = ((EObject) _reference_6);
+                                          _builder.newLineIfNotEmpty();
+                                          Element oldToElement = ModelManager.getElement(oldTo, idelemsresource);
                                           _builder.newLineIfNotEmpty();
                                           Text t_3 = null;
                                           _builder.newLineIfNotEmpty();
@@ -1439,9 +1443,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_5 instanceof Constant)) {
                                                   String _text_12 = text;
                                                   String _value_8 = ((Constant)w_5).getValue();
-                                                  String _plus_99 = (_value_8 + " ");
-                                                  String _plus_100 = text = (_text_12 + _plus_99);
-                                                  _builder.append(_plus_100, "");
+                                                  String _plus_91 = (_value_8 + " ");
+                                                  String _plus_92 = text = (_text_12 + _plus_91);
+                                                  _builder.append(_plus_92, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1451,8 +1455,8 @@ public class EduTestGenerator implements IGenerator {
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     VariableType _type_5 = variable_3.getType();
-                                                    boolean _equals_18 = Objects.equal(_type_5, VariableType.OBJECT);
-                                                    if (_equals_18) {
+                                                    boolean _equals_23 = Objects.equal(_type_5, VariableType.OBJECT);
+                                                    if (_equals_23) {
                                                       {
                                                         EList<modeltext.Word> _words_9 = element_2.getWords();
                                                         for(final modeltext.Word v_5 : _words_9) {
@@ -1460,9 +1464,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_5 instanceof modeltext.Constant)) {
                                                               String _text_13 = text;
                                                               String _value_9 = ((modeltext.Constant)v_5).getValue();
-                                                              String _plus_101 = (_value_9 + " ");
-                                                              String _plus_102 = text = (_text_13 + _plus_101);
-                                                              _builder.append(_plus_102, "");
+                                                              String _plus_93 = (_value_9 + " ");
+                                                              String _plus_94 = text = (_text_13 + _plus_93);
+                                                              _builder.append(_plus_94, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1472,21 +1476,15 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_8 = ((modeltext.Variable) v_5).getRef();
-                                                                boolean _equals_19 = Objects.equal(_ref_8, null);
-                                                                if (_equals_19) {
-                                                                  EList<EObject> _object_13 = ((TargetReferenceChanged)appMut).getObject();
-                                                                  EObject _get_32 = _object_13.get(0);
-                                                                  _builder.append(o_4 = _get_32, "");
+                                                                boolean _equals_24 = Objects.equal(_ref_8, null);
+                                                                if (_equals_24) {
+                                                                  _builder.append(o_4 = object_2, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EList<EObject> _object_14 = ((TargetReferenceChanged)appMut).getObject();
-                                                                  EObject _get_33 = _object_14.get(0);
                                                                   EReference _ref_9 = ((modeltext.Variable) v_5).getRef();
-                                                                  String _name_34 = _ref_9.getName();
-                                                                  EList<EObject> _object_15 = ((TargetReferenceChanged)appMut).getObject();
-                                                                  EObject _get_34 = _object_15.get(0);
-                                                                  EStructuralFeature _referenceByName_4 = ModelManager.getReferenceByName(_name_34, ((EObject) _get_34));
-                                                                  Object _eGet_17 = _get_33.eGet(_referenceByName_4);
+                                                                  String _name_39 = _ref_9.getName();
+                                                                  EStructuralFeature _referenceByName_4 = ModelManager.getReferenceByName(_name_39, object_2);
+                                                                  Object _eGet_17 = object_2.eGet(_referenceByName_4);
                                                                   _builder.append(o_4 = ((EObject) _eGet_17), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1496,12 +1494,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_10) {
                                                                   String _text_14 = text;
                                                                   EAttribute _id_4 = ((modeltext.Variable) v_5).getId();
-                                                                  String _name_35 = _id_4.getName();
-                                                                  EStructuralFeature _attributeByName_4 = ModelManager.getAttributeByName(_name_35, o_4);
+                                                                  String _name_40 = _id_4.getName();
+                                                                  EStructuralFeature _attributeByName_4 = ModelManager.getAttributeByName(_name_40, o_4);
                                                                   Object _eGet_18 = o_4.eGet(_attributeByName_4);
-                                                                  String _plus_103 = (_eGet_18 + " ");
-                                                                  String _plus_104 = text = (_text_14 + _plus_103);
-                                                                  _builder.append(_plus_104, "");
+                                                                  String _plus_95 = (_eGet_18 + " ");
+                                                                  String _plus_96 = text = (_text_14 + _plus_95);
+                                                                  _builder.append(_plus_96, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1513,8 +1511,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_6 = variable_3.getType();
-                                                    boolean _equals_20 = Objects.equal(_type_6, VariableType.FROM_OBJECT);
-                                                    if (_equals_20) {
+                                                    boolean _equals_25 = Objects.equal(_type_6, VariableType.FROM_OBJECT);
+                                                    if (_equals_25) {
                                                       {
                                                         EList<modeltext.Word> _words_10 = fromElement.getWords();
                                                         for(final modeltext.Word v_6 : _words_10) {
@@ -1522,9 +1520,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_6 instanceof modeltext.Constant)) {
                                                               String _text_15 = text;
                                                               String _value_10 = ((modeltext.Constant)v_6).getValue();
-                                                              String _plus_105 = (_value_10 + " ");
-                                                              String _plus_106 = text = (_text_15 + _plus_105);
-                                                              _builder.append(_plus_106, "");
+                                                              String _plus_97 = (_value_10 + " ");
+                                                              String _plus_98 = text = (_text_15 + _plus_97);
+                                                              _builder.append(_plus_98, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1534,18 +1532,15 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_10 = ((modeltext.Variable) v_6).getRef();
-                                                                boolean _equals_21 = Objects.equal(_ref_10, null);
-                                                                if (_equals_21) {
-                                                                  EObject _from_11 = ((TargetReferenceChanged)appMut).getFrom();
-                                                                  _builder.append(o_5 = _from_11, "");
+                                                                boolean _equals_26 = Objects.equal(_ref_10, null);
+                                                                if (_equals_26) {
+                                                                  _builder.append(o_5 = from_1, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EObject _from_12 = ((TargetReferenceChanged)appMut).getFrom();
                                                                   EReference _ref_11 = ((modeltext.Variable) v_6).getRef();
-                                                                  String _name_36 = _ref_11.getName();
-                                                                  EObject _from_13 = ((TargetReferenceChanged)appMut).getFrom();
-                                                                  EStructuralFeature _referenceByName_5 = ModelManager.getReferenceByName(_name_36, ((EObject) _from_13));
-                                                                  Object _eGet_19 = _from_12.eGet(_referenceByName_5);
+                                                                  String _name_41 = _ref_11.getName();
+                                                                  EStructuralFeature _referenceByName_5 = ModelManager.getReferenceByName(_name_41, from_1);
+                                                                  Object _eGet_19 = from_1.eGet(_referenceByName_5);
                                                                   _builder.append(o_5 = ((EObject) _eGet_19), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1555,12 +1550,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_11) {
                                                                   String _text_16 = text;
                                                                   EAttribute _id_5 = ((modeltext.Variable) v_6).getId();
-                                                                  String _name_37 = _id_5.getName();
-                                                                  EStructuralFeature _attributeByName_5 = ModelManager.getAttributeByName(_name_37, o_5);
+                                                                  String _name_42 = _id_5.getName();
+                                                                  EStructuralFeature _attributeByName_5 = ModelManager.getAttributeByName(_name_42, o_5);
                                                                   Object _eGet_20 = o_5.eGet(_attributeByName_5);
-                                                                  String _plus_107 = (_eGet_20 + " ");
-                                                                  String _plus_108 = text = (_text_16 + _plus_107);
-                                                                  _builder.append(_plus_108, "");
+                                                                  String _plus_99 = (_eGet_20 + " ");
+                                                                  String _plus_100 = text = (_text_16 + _plus_99);
+                                                                  _builder.append(_plus_100, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1572,8 +1567,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_7 = variable_3.getType();
-                                                    boolean _equals_22 = Objects.equal(_type_7, VariableType.TO_OBJECT);
-                                                    if (_equals_22) {
+                                                    boolean _equals_27 = Objects.equal(_type_7, VariableType.TO_OBJECT);
+                                                    if (_equals_27) {
                                                       {
                                                         EList<modeltext.Word> _words_11 = toElement.getWords();
                                                         for(final modeltext.Word v_7 : _words_11) {
@@ -1581,9 +1576,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_7 instanceof modeltext.Constant)) {
                                                               String _text_17 = text;
                                                               String _value_11 = ((modeltext.Constant)v_7).getValue();
-                                                              String _plus_109 = (_value_11 + " ");
-                                                              String _plus_110 = text = (_text_17 + _plus_109);
-                                                              _builder.append(_plus_110, "");
+                                                              String _plus_101 = (_value_11 + " ");
+                                                              String _plus_102 = text = (_text_17 + _plus_101);
+                                                              _builder.append(_plus_102, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1593,15 +1588,13 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_12 = ((modeltext.Variable) v_7).getRef();
-                                                                boolean _equals_23 = Objects.equal(_ref_12, null);
-                                                                if (_equals_23) {
-                                                                  EObject _to_6 = ((TargetReferenceChanged)appMut).getTo();
-                                                                  _builder.append(o_6 = _to_6, "");
+                                                                boolean _equals_28 = Objects.equal(_ref_12, null);
+                                                                if (_equals_28) {
+                                                                  _builder.append(o_6 = to_1, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EObject _to_7 = ((TargetReferenceChanged)appMut).getTo();
                                                                   EReference _ref_13 = ((modeltext.Variable) v_7).getRef();
-                                                                  Object _eGet_21 = _to_7.eGet(_ref_13);
+                                                                  Object _eGet_21 = to_1.eGet(_ref_13);
                                                                   _builder.append(o_6 = ((EObject) _eGet_21), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1611,12 +1604,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_12) {
                                                                   String _text_18 = text;
                                                                   EAttribute _id_6 = ((modeltext.Variable) v_7).getId();
-                                                                  String _name_38 = _id_6.getName();
-                                                                  EStructuralFeature _attributeByName_6 = ModelManager.getAttributeByName(_name_38, o_6);
+                                                                  String _name_43 = _id_6.getName();
+                                                                  EStructuralFeature _attributeByName_6 = ModelManager.getAttributeByName(_name_43, o_6);
                                                                   Object _eGet_22 = o_6.eGet(_attributeByName_6);
-                                                                  String _plus_111 = (_eGet_22 + " ");
-                                                                  String _plus_112 = text = (_text_18 + _plus_111);
-                                                                  _builder.append(_plus_112, "");
+                                                                  String _plus_103 = (_eGet_22 + " ");
+                                                                  String _plus_104 = text = (_text_18 + _plus_103);
+                                                                  _builder.append(_plus_104, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1628,8 +1621,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_8 = variable_3.getType();
-                                                    boolean _equals_24 = Objects.equal(_type_8, VariableType.OLD_TO_OBJECT);
-                                                    if (_equals_24) {
+                                                    boolean _equals_29 = Objects.equal(_type_8, VariableType.OLD_TO_OBJECT);
+                                                    if (_equals_29) {
                                                       {
                                                         EList<modeltext.Word> _words_12 = oldToElement.getWords();
                                                         for(final modeltext.Word v_8 : _words_12) {
@@ -1637,9 +1630,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_8 instanceof modeltext.Constant)) {
                                                               String _text_19 = text;
                                                               String _value_12 = ((modeltext.Constant)v_8).getValue();
-                                                              String _plus_113 = (_value_12 + " ");
-                                                              String _plus_114 = text = (_text_19 + _plus_113);
-                                                              _builder.append(_plus_114, "");
+                                                              String _plus_105 = (_value_12 + " ");
+                                                              String _plus_106 = text = (_text_19 + _plus_105);
+                                                              _builder.append(_plus_106, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1649,15 +1642,13 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_14 = ((modeltext.Variable) v_8).getRef();
-                                                                boolean _equals_25 = Objects.equal(_ref_14, null);
-                                                                if (_equals_25) {
-                                                                  EObject _oldTo_1 = ((TargetReferenceChanged)appMut).getOldTo();
-                                                                  _builder.append(o_7 = _oldTo_1, "");
+                                                                boolean _equals_30 = Objects.equal(_ref_14, null);
+                                                                if (_equals_30) {
+                                                                  _builder.append(o_7 = oldTo, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EObject _oldTo_2 = ((TargetReferenceChanged)appMut).getOldTo();
                                                                   EReference _ref_15 = ((modeltext.Variable) v_8).getRef();
-                                                                  Object _eGet_23 = _oldTo_2.eGet(_ref_15);
+                                                                  Object _eGet_23 = oldTo.eGet(_ref_15);
                                                                   _builder.append(o_7 = ((EObject) _eGet_23), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1667,12 +1658,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_13) {
                                                                   String _text_20 = text;
                                                                   EAttribute _id_7 = ((modeltext.Variable) v_8).getId();
-                                                                  String _name_39 = _id_7.getName();
-                                                                  EStructuralFeature _attributeByName_7 = ModelManager.getAttributeByName(_name_39, o_7);
+                                                                  String _name_44 = _id_7.getName();
+                                                                  EStructuralFeature _attributeByName_7 = ModelManager.getAttributeByName(_name_44, o_7);
                                                                   Object _eGet_24 = o_7.eGet(_attributeByName_7);
-                                                                  String _plus_115 = (_eGet_24 + " ");
-                                                                  String _plus_116 = text = (_text_20 + _plus_115);
-                                                                  _builder.append(_plus_116, "");
+                                                                  String _plus_107 = (_eGet_24 + " ");
+                                                                  String _plus_108 = text = (_text_20 + _plus_107);
+                                                                  _builder.append(_plus_108, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1684,8 +1675,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_9 = variable_3.getType();
-                                                    boolean _equals_26 = Objects.equal(_type_9, VariableType.REF_NAME);
-                                                    if (_equals_26) {
+                                                    boolean _equals_31 = Objects.equal(_type_9, VariableType.REF_NAME);
+                                                    if (_equals_31) {
                                                       {
                                                         EList<modeltext.Word> _words_13 = refTarElement.getWords();
                                                         for(final modeltext.Word v_9 : _words_13) {
@@ -1693,9 +1684,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_9 instanceof modeltext.Constant)) {
                                                               String _text_21 = text;
                                                               String _value_13 = ((modeltext.Constant)v_9).getValue();
-                                                              String _plus_117 = (_value_13 + " ");
-                                                              String _plus_118 = text = (_text_21 + _plus_117);
-                                                              _builder.append(_plus_118, "");
+                                                              String _plus_109 = (_value_13 + " ");
+                                                              String _plus_110 = text = (_text_21 + _plus_109);
+                                                              _builder.append(_plus_110, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1705,8 +1696,8 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_10 = variable_3.getType();
-                                                    boolean _equals_27 = Objects.equal(_type_10, VariableType.SRC_REF_NAME);
-                                                    if (_equals_27) {
+                                                    boolean _equals_32 = Objects.equal(_type_10, VariableType.SRC_REF_NAME);
+                                                    if (_equals_32) {
                                                       {
                                                         EList<modeltext.Word> _words_14 = refSrcElement.getWords();
                                                         for(final modeltext.Word v_10 : _words_14) {
@@ -1714,9 +1705,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_10 instanceof modeltext.Constant)) {
                                                               String _text_22 = text;
                                                               String _value_14 = ((modeltext.Constant)v_10).getValue();
-                                                              String _plus_119 = (_value_14 + " ");
-                                                              String _plus_120 = text = (_text_22 + _plus_119);
-                                                              _builder.append(_plus_120, "");
+                                                              String _plus_111 = (_value_14 + " ");
+                                                              String _plus_112 = text = (_text_22 + _plus_111);
+                                                              _builder.append(_plus_112, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1740,7 +1731,10 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof ReferenceSwap)) {
+                                        EClass _eClass_7 = mutation.eClass();
+                                        String _name_45 = _eClass_7.getName();
+                                        boolean _equals_33 = _name_45.equals("ReferenceSwap");
+                                        if (_equals_33) {
                                           _builder.newLine();
                                           _builder.newLine();
                                           _builder.newLine();
@@ -1750,12 +1744,22 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof ReferenceCreated)) {
+                                        EClass _eClass_8 = mutation.eClass();
+                                        String _name_46 = _eClass_8.getName();
+                                        boolean _equals_34 = _name_46.equals("ReferenceCreated");
+                                        if (_equals_34) {
                                           Option cfgopt_4 = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_16 = ((ReferenceCreated)appMut).getObject();
-                                          EObject _get_35 = _object_16.get(0);
-                                          Element element_3 = ModelManager.getElement(_get_35, idelemsresource);
+                                          EObject _reference_7 = ModelManager.getReference("object", mutation);
+                                          EObject object_3 = ((List<EObject>) _reference_7).get(0);
+                                          _builder.newLineIfNotEmpty();
+                                          EObject _reference_8 = ModelManager.getReference("ref", mutation);
+                                          EObject ref = ((List<EObject>) _reference_8).get(0);
+                                          _builder.newLineIfNotEmpty();
+                                          Object _attribute_2 = ModelManager.getAttribute("name", ref);
+                                          String refName_2 = ((String) _attribute_2);
+                                          _builder.newLineIfNotEmpty();
+                                          Element element_3 = ModelManager.getElement(object_3, idelemsresource);
                                           _builder.newLineIfNotEmpty();
                                           Text t_4 = null;
                                           _builder.newLineIfNotEmpty();
@@ -1779,9 +1783,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_6 instanceof Constant)) {
                                                   String _text_23 = text;
                                                   String _value_15 = ((Constant)w_6).getValue();
-                                                  String _plus_121 = (_value_15 + " ");
-                                                  String _plus_122 = text = (_text_23 + _plus_121);
-                                                  _builder.append(_plus_122, "");
+                                                  String _plus_113 = (_value_15 + " ");
+                                                  String _plus_114 = text = (_text_23 + _plus_113);
+                                                  _builder.append(_plus_114, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1791,8 +1795,8 @@ public class EduTestGenerator implements IGenerator {
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     VariableType _type_11 = variable_4.getType();
-                                                    boolean _equals_28 = Objects.equal(_type_11, VariableType.OBJECT);
-                                                    if (_equals_28) {
+                                                    boolean _equals_35 = Objects.equal(_type_11, VariableType.OBJECT);
+                                                    if (_equals_35) {
                                                       {
                                                         EList<modeltext.Word> _words_16 = element_3.getWords();
                                                         for(final modeltext.Word v_11 : _words_16) {
@@ -1800,9 +1804,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_11 instanceof modeltext.Constant)) {
                                                               String _text_24 = text;
                                                               String _value_16 = ((modeltext.Constant)v_11).getValue();
-                                                              String _plus_123 = (_value_16 + " ");
-                                                              String _plus_124 = text = (_text_24 + _plus_123);
-                                                              _builder.append(_plus_124, "");
+                                                              String _plus_115 = (_value_16 + " ");
+                                                              String _plus_116 = text = (_text_24 + _plus_115);
+                                                              _builder.append(_plus_116, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1812,21 +1816,15 @@ public class EduTestGenerator implements IGenerator {
                                                               _builder.newLineIfNotEmpty();
                                                               {
                                                                 EReference _ref_16 = ((modeltext.Variable) v_11).getRef();
-                                                                boolean _equals_29 = Objects.equal(_ref_16, null);
-                                                                if (_equals_29) {
-                                                                  EList<EObject> _object_17 = ((ReferenceCreated)appMut).getObject();
-                                                                  EObject _get_36 = _object_17.get(0);
-                                                                  _builder.append(o_8 = _get_36, "");
+                                                                boolean _equals_36 = Objects.equal(_ref_16, null);
+                                                                if (_equals_36) {
+                                                                  _builder.append(o_8 = object_3, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EList<EObject> _object_18 = ((ReferenceCreated)appMut).getObject();
-                                                                  EObject _get_37 = _object_18.get(0);
                                                                   EReference _ref_17 = ((modeltext.Variable) v_11).getRef();
-                                                                  String _name_40 = _ref_17.getName();
-                                                                  EList<EObject> _object_19 = ((ReferenceCreated)appMut).getObject();
-                                                                  EObject _get_38 = _object_19.get(0);
-                                                                  EStructuralFeature _referenceByName_6 = ModelManager.getReferenceByName(_name_40, _get_38);
-                                                                  Object _eGet_25 = _get_37.eGet(_referenceByName_6);
+                                                                  String _name_47 = _ref_17.getName();
+                                                                  EStructuralFeature _referenceByName_6 = ModelManager.getReferenceByName(_name_47, object_3);
+                                                                  Object _eGet_25 = object_3.eGet(_referenceByName_6);
                                                                   _builder.append(o_8 = ((EObject) _eGet_25), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1836,12 +1834,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_15) {
                                                                   String _text_25 = text;
                                                                   EAttribute _id_8 = ((modeltext.Variable) v_11).getId();
-                                                                  String _name_41 = _id_8.getName();
-                                                                  EStructuralFeature _attributeByName_8 = ModelManager.getAttributeByName(_name_41, o_8);
+                                                                  String _name_48 = _id_8.getName();
+                                                                  EStructuralFeature _attributeByName_8 = ModelManager.getAttributeByName(_name_48, o_8);
                                                                   Object _eGet_26 = o_8.eGet(_attributeByName_8);
-                                                                  String _plus_125 = (_eGet_26 + " ");
-                                                                  String _plus_126 = text = (_text_25 + _plus_125);
-                                                                  _builder.append(_plus_126, "");
+                                                                  String _plus_117 = (_eGet_26 + " ");
+                                                                  String _plus_118 = text = (_text_25 + _plus_117);
+                                                                  _builder.append(_plus_118, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1853,15 +1851,11 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_12 = variable_4.getType();
-                                                    boolean _equals_30 = Objects.equal(_type_12, VariableType.REF_NAME);
-                                                    if (_equals_30) {
+                                                    boolean _equals_37 = Objects.equal(_type_12, VariableType.REF_NAME);
+                                                    if (_equals_37) {
                                                       String _text_26 = text;
-                                                      EList<EReference> _ref_18 = ((ReferenceCreated)appMut).getRef();
-                                                      EReference _get_39 = _ref_18.get(0);
-                                                      String _name_42 = _get_39.getName();
-                                                      String _plus_127 = (_name_42 + " ");
-                                                      String _plus_128 = text = (_text_26 + _plus_127);
-                                                      _builder.append(_plus_128, "");
+                                                      String _plus_119 = text = (_text_26 + (refName_2 + " "));
+                                                      _builder.append(_plus_119, "");
                                                       _builder.newLineIfNotEmpty();
                                                     }
                                                   }
@@ -1881,12 +1875,22 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof ReferenceRemoved)) {
+                                        EClass _eClass_9 = mutation.eClass();
+                                        String _name_49 = _eClass_9.getName();
+                                        boolean _equals_38 = _name_49.equals("ReferenceRemoved");
+                                        if (_equals_38) {
                                           Option cfgopt_5 = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource);
                                           _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_20 = ((ReferenceRemoved)appMut).getObject();
-                                          EObject _get_40 = _object_20.get(0);
-                                          Element element_4 = ModelManager.getElement(_get_40, idelemsresource);
+                                          EObject _reference_9 = ModelManager.getReference("object", mutation);
+                                          EObject object_4 = ((List<EObject>) _reference_9).get(0);
+                                          _builder.newLineIfNotEmpty();
+                                          EObject _reference_10 = ModelManager.getReference("ref", mutation);
+                                          EObject ref_1 = ((List<EObject>) _reference_10).get(0);
+                                          _builder.newLineIfNotEmpty();
+                                          Object _attribute_3 = ModelManager.getAttribute("name", ref_1);
+                                          String refName_3 = ((String) _attribute_3);
+                                          _builder.newLineIfNotEmpty();
+                                          Element element_4 = ModelManager.getElement(object_4, idelemsresource);
                                           _builder.newLineIfNotEmpty();
                                           Text t_5 = null;
                                           _builder.newLineIfNotEmpty();
@@ -1910,9 +1914,9 @@ public class EduTestGenerator implements IGenerator {
                                                 if ((w_7 instanceof Constant)) {
                                                   String _text_27 = text;
                                                   String _value_17 = ((Constant)w_7).getValue();
-                                                  String _plus_129 = (_value_17 + " ");
-                                                  String _plus_130 = text = (_text_27 + _plus_129);
-                                                  _builder.append(_plus_130, "");
+                                                  String _plus_120 = (_value_17 + " ");
+                                                  String _plus_121 = text = (_text_27 + _plus_120);
+                                                  _builder.append(_plus_121, "");
                                                   _builder.newLineIfNotEmpty();
                                                 }
                                               }
@@ -1922,8 +1926,8 @@ public class EduTestGenerator implements IGenerator {
                                                   _builder.newLineIfNotEmpty();
                                                   {
                                                     VariableType _type_13 = variable_5.getType();
-                                                    boolean _equals_31 = Objects.equal(_type_13, VariableType.OBJECT);
-                                                    if (_equals_31) {
+                                                    boolean _equals_39 = Objects.equal(_type_13, VariableType.OBJECT);
+                                                    if (_equals_39) {
                                                       {
                                                         EList<modeltext.Word> _words_18 = element_4.getWords();
                                                         for(final modeltext.Word v_12 : _words_18) {
@@ -1931,9 +1935,9 @@ public class EduTestGenerator implements IGenerator {
                                                             if ((v_12 instanceof modeltext.Constant)) {
                                                               String _text_28 = text;
                                                               String _value_18 = ((modeltext.Constant)v_12).getValue();
-                                                              String _plus_131 = (_value_18 + " ");
-                                                              String _plus_132 = text = (_text_28 + _plus_131);
-                                                              _builder.append(_plus_132, "");
+                                                              String _plus_122 = (_value_18 + " ");
+                                                              String _plus_123 = text = (_text_28 + _plus_122);
+                                                              _builder.append(_plus_123, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -1942,22 +1946,16 @@ public class EduTestGenerator implements IGenerator {
                                                               EObject o_9 = null;
                                                               _builder.newLineIfNotEmpty();
                                                               {
-                                                                EReference _ref_19 = ((modeltext.Variable) v_12).getRef();
-                                                                boolean _equals_32 = Objects.equal(_ref_19, null);
-                                                                if (_equals_32) {
-                                                                  EList<EObject> _object_21 = ((ReferenceRemoved)appMut).getObject();
-                                                                  EObject _get_41 = _object_21.get(0);
-                                                                  _builder.append(o_9 = _get_41, "");
+                                                                EReference _ref_18 = ((modeltext.Variable) v_12).getRef();
+                                                                boolean _equals_40 = Objects.equal(_ref_18, null);
+                                                                if (_equals_40) {
+                                                                  _builder.append(o_9 = object_4, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 } else {
-                                                                  EList<EObject> _object_22 = ((ReferenceRemoved)appMut).getObject();
-                                                                  EObject _get_42 = _object_22.get(0);
-                                                                  EReference _ref_20 = ((modeltext.Variable) v_12).getRef();
-                                                                  String _name_43 = _ref_20.getName();
-                                                                  EList<EObject> _object_23 = ((ReferenceRemoved)appMut).getObject();
-                                                                  EObject _get_43 = _object_23.get(0);
-                                                                  EStructuralFeature _referenceByName_7 = ModelManager.getReferenceByName(_name_43, _get_43);
-                                                                  Object _eGet_27 = _get_42.eGet(_referenceByName_7);
+                                                                  EReference _ref_19 = ((modeltext.Variable) v_12).getRef();
+                                                                  String _name_50 = _ref_19.getName();
+                                                                  EStructuralFeature _referenceByName_7 = ModelManager.getReferenceByName(_name_50, object_4);
+                                                                  Object _eGet_27 = object_4.eGet(_referenceByName_7);
                                                                   _builder.append(o_9 = ((EObject) _eGet_27), "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
@@ -1967,12 +1965,12 @@ public class EduTestGenerator implements IGenerator {
                                                                 if (_notEquals_17) {
                                                                   String _text_29 = text;
                                                                   EAttribute _id_9 = ((modeltext.Variable) v_12).getId();
-                                                                  String _name_44 = _id_9.getName();
-                                                                  EStructuralFeature _attributeByName_9 = ModelManager.getAttributeByName(_name_44, o_9);
+                                                                  String _name_51 = _id_9.getName();
+                                                                  EStructuralFeature _attributeByName_9 = ModelManager.getAttributeByName(_name_51, o_9);
                                                                   Object _eGet_28 = o_9.eGet(_attributeByName_9);
-                                                                  String _plus_133 = (_eGet_28 + " ");
-                                                                  String _plus_134 = text = (_text_29 + _plus_133);
-                                                                  _builder.append(_plus_134, "");
+                                                                  String _plus_124 = (_eGet_28 + " ");
+                                                                  String _plus_125 = text = (_text_29 + _plus_124);
+                                                                  _builder.append(_plus_125, "");
                                                                   _builder.newLineIfNotEmpty();
                                                                 }
                                                               }
@@ -1984,15 +1982,11 @@ public class EduTestGenerator implements IGenerator {
                                                   }
                                                   {
                                                     VariableType _type_14 = variable_5.getType();
-                                                    boolean _equals_33 = Objects.equal(_type_14, VariableType.REF_NAME);
-                                                    if (_equals_33) {
+                                                    boolean _equals_41 = Objects.equal(_type_14, VariableType.REF_NAME);
+                                                    if (_equals_41) {
                                                       String _text_30 = text;
-                                                      EList<EReference> _ref_21 = ((ReferenceRemoved)appMut).getRef();
-                                                      EReference _get_44 = _ref_21.get(0);
-                                                      String _name_45 = _get_44.getName();
-                                                      String _plus_135 = (_name_45 + " ");
-                                                      String _plus_136 = text = (_text_30 + _plus_135);
-                                                      _builder.append(_plus_136, "");
+                                                      String _plus_126 = text = (_text_30 + (refName_3 + " "));
+                                                      _builder.append(_plus_126, "");
                                                       _builder.newLineIfNotEmpty();
                                                     }
                                                   }
@@ -2012,31 +2006,49 @@ public class EduTestGenerator implements IGenerator {
                                         }
                                       }
                                       {
-                                        if ((appMut instanceof InformationChanged)) {
+                                        EClass _eClass_10 = mutation.eClass();
+                                        String _name_52 = _eClass_10.getName();
+                                        boolean _equals_42 = _name_52.equals("InformationChanged");
+                                        if (_equals_42) {
                                           _builder.newLine();
-                                          EList<AttributeChanged> atts = ((InformationChanged)appMut).getAttChanges();
+                                          List<EObject> _references_1 = ModelManager.getReferences("attChanges", mutation);
+                                          List<EObject> attChanges = ((List<EObject>) _references_1);
+                                          _builder.newLineIfNotEmpty();
+                                          EObject _reference_11 = ModelManager.getReference("object", mutation);
+                                          EObject object_5 = ((EObject) _reference_11);
                                           _builder.newLineIfNotEmpty();
                                           ArrayList<String> attributes = new ArrayList<String>();
                                           _builder.newLineIfNotEmpty();
                                           {
-                                            for(final AttributeChanged att : atts) {
+                                            for(final EObject att : attChanges) {
                                               _builder.append(text = "", "");
                                               _builder.newLineIfNotEmpty();
                                               {
-                                                if ((att instanceof AttributeSwap)) {
-                                                  EObject _object_24 = ((InformationChanged)appMut).getObject();
-                                                  EClass _eClass_2 = _object_24.eClass();
-                                                  String _attName = ((AttributeSwap)att).getAttName();
-                                                  EStructuralFeature attName = _eClass_2.getEStructuralFeature(_attName);
+                                                EClass _eClass_11 = att.eClass();
+                                                String _name_53 = _eClass_11.getName();
+                                                boolean _equals_43 = _name_53.equals("AttributeSwap");
+                                                if (_equals_43) {
+                                                  Object _attribute_4 = ModelManager.getAttribute("attName", att);
+                                                  String attName = ((String) _attribute_4);
+                                                  _builder.newLineIfNotEmpty();
+                                                  EClass _eClass_12 = object_5.eClass();
+                                                  EStructuralFeature attributeName = _eClass_12.getEStructuralFeature(attName);
+                                                  _builder.newLineIfNotEmpty();
+                                                  EObject _reference_12 = ModelManager.getReference("attObject", att);
+                                                  EObject attObject = ((EObject) _reference_12);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Object _attribute_5 = ModelManager.getAttribute("firstName", att);
+                                                  String firstName = ((String) _attribute_5);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Object _attribute_6 = ModelManager.getAttribute("newVal", att);
+                                                  String newVal = ((String) _attribute_6);
                                                   _builder.newLineIfNotEmpty();
                                                   _builder.newLine();
                                                   Option cfgopt_6 = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _object_25 = ((InformationChanged)appMut).getObject();
-                                                  Element firstElement = ModelManager.getElement(_object_25, idelemsresource);
+                                                  Element firstElement = ModelManager.getElement(object_5, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _attObject = ((AttributeSwap)att).getAttObject();
-                                                  Element secondElement = ModelManager.getElement(_attObject, idelemsresource);
+                                                  Element secondElement = ModelManager.getElement(attObject, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
                                                   Text t_6 = null;
                                                   _builder.newLineIfNotEmpty();
@@ -2060,9 +2072,9 @@ public class EduTestGenerator implements IGenerator {
                                                         if ((w_8 instanceof Constant)) {
                                                           String _text_31 = text;
                                                           String _value_19 = ((Constant)w_8).getValue();
-                                                          String _plus_137 = (_value_19 + " ");
-                                                          String _plus_138 = text = (_text_31 + _plus_137);
-                                                          _builder.append(_plus_138, "");
+                                                          String _plus_127 = (_value_19 + " ");
+                                                          String _plus_128 = text = (_text_31 + _plus_127);
+                                                          _builder.append(_plus_128, "");
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -2072,8 +2084,8 @@ public class EduTestGenerator implements IGenerator {
                                                           _builder.newLineIfNotEmpty();
                                                           {
                                                             VariableType _type_15 = variable_6.getType();
-                                                            boolean _equals_34 = Objects.equal(_type_15, VariableType.FIRST_OBJECT);
-                                                            if (_equals_34) {
+                                                            boolean _equals_44 = Objects.equal(_type_15, VariableType.FIRST_OBJECT);
+                                                            if (_equals_44) {
                                                               {
                                                                 EList<modeltext.Word> _words_20 = firstElement.getWords();
                                                                 for(final modeltext.Word v_13 : _words_20) {
@@ -2081,9 +2093,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_13 instanceof modeltext.Constant)) {
                                                                       String _text_32 = text;
                                                                       String _value_20 = ((modeltext.Constant)v_13).getValue();
-                                                                      String _plus_139 = (_value_20 + " ");
-                                                                      String _plus_140 = text = (_text_32 + _plus_139);
-                                                                      _builder.append(_plus_140, "");
+                                                                      String _plus_129 = (_value_20 + " ");
+                                                                      String _plus_130 = text = (_text_32 + _plus_129);
+                                                                      _builder.append(_plus_130, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2092,19 +2104,16 @@ public class EduTestGenerator implements IGenerator {
                                                                       EObject o_10 = null;
                                                                       _builder.newLineIfNotEmpty();
                                                                       {
-                                                                        EReference _ref_22 = ((modeltext.Variable) v_13).getRef();
-                                                                        boolean _equals_35 = Objects.equal(_ref_22, null);
-                                                                        if (_equals_35) {
-                                                                          EObject _object_26 = ((InformationChanged)appMut).getObject();
-                                                                          _builder.append(o_10 = _object_26, "");
+                                                                        EReference _ref_20 = ((modeltext.Variable) v_13).getRef();
+                                                                        boolean _equals_45 = Objects.equal(_ref_20, null);
+                                                                        if (_equals_45) {
+                                                                          _builder.append(o_10 = object_5, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         } else {
-                                                                          EObject _object_27 = ((InformationChanged)appMut).getObject();
-                                                                          EReference _ref_23 = ((modeltext.Variable) v_13).getRef();
-                                                                          String _name_46 = _ref_23.getName();
-                                                                          EObject _object_28 = ((InformationChanged)appMut).getObject();
-                                                                          EStructuralFeature _referenceByName_8 = ModelManager.getReferenceByName(_name_46, _object_28);
-                                                                          Object _eGet_29 = _object_27.eGet(_referenceByName_8);
+                                                                          EReference _ref_21 = ((modeltext.Variable) v_13).getRef();
+                                                                          String _name_54 = _ref_21.getName();
+                                                                          EStructuralFeature _referenceByName_8 = ModelManager.getReferenceByName(_name_54, object_5);
+                                                                          Object _eGet_29 = object_5.eGet(_referenceByName_8);
                                                                           _builder.append(o_10 = ((EObject) _eGet_29), "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
@@ -2114,12 +2123,12 @@ public class EduTestGenerator implements IGenerator {
                                                                         if (_notEquals_19) {
                                                                           String _text_33 = text;
                                                                           EAttribute _id_10 = ((modeltext.Variable) v_13).getId();
-                                                                          String _name_47 = _id_10.getName();
-                                                                          EStructuralFeature _attributeByName_10 = ModelManager.getAttributeByName(_name_47, o_10);
+                                                                          String _name_55 = _id_10.getName();
+                                                                          EStructuralFeature _attributeByName_10 = ModelManager.getAttributeByName(_name_55, o_10);
                                                                           Object _eGet_30 = o_10.eGet(_attributeByName_10);
-                                                                          String _plus_141 = (_eGet_30 + " ");
-                                                                          String _plus_142 = text = (_text_33 + _plus_141);
-                                                                          _builder.append(_plus_142, "");
+                                                                          String _plus_131 = (_eGet_30 + " ");
+                                                                          String _plus_132 = text = (_text_33 + _plus_131);
+                                                                          _builder.append(_plus_132, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2131,8 +2140,8 @@ public class EduTestGenerator implements IGenerator {
                                                           }
                                                           {
                                                             VariableType _type_16 = variable_6.getType();
-                                                            boolean _equals_36 = Objects.equal(_type_16, VariableType.SECOND_OBJECT);
-                                                            if (_equals_36) {
+                                                            boolean _equals_46 = Objects.equal(_type_16, VariableType.SECOND_OBJECT);
+                                                            if (_equals_46) {
                                                               {
                                                                 EList<modeltext.Word> _words_21 = secondElement.getWords();
                                                                 for(final modeltext.Word v_14 : _words_21) {
@@ -2140,9 +2149,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_14 instanceof modeltext.Constant)) {
                                                                       String _text_34 = text;
                                                                       String _value_21 = ((modeltext.Constant)v_14).getValue();
-                                                                      String _plus_143 = (_value_21 + " ");
-                                                                      String _plus_144 = text = (_text_34 + _plus_143);
-                                                                      _builder.append(_plus_144, "");
+                                                                      String _plus_133 = (_value_21 + " ");
+                                                                      String _plus_134 = text = (_text_34 + _plus_133);
+                                                                      _builder.append(_plus_134, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2151,16 +2160,14 @@ public class EduTestGenerator implements IGenerator {
                                                                       EObject o_11 = null;
                                                                       _builder.newLineIfNotEmpty();
                                                                       {
-                                                                        EReference _ref_24 = ((modeltext.Variable) v_14).getRef();
-                                                                        boolean _equals_37 = Objects.equal(_ref_24, null);
-                                                                        if (_equals_37) {
-                                                                          EObject _attObject_1 = ((AttributeSwap)att).getAttObject();
-                                                                          _builder.append(o_11 = _attObject_1, "");
+                                                                        EReference _ref_22 = ((modeltext.Variable) v_14).getRef();
+                                                                        boolean _equals_47 = Objects.equal(_ref_22, null);
+                                                                        if (_equals_47) {
+                                                                          _builder.append(o_11 = attObject, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         } else {
-                                                                          EObject _attObject_2 = ((AttributeSwap)att).getAttObject();
-                                                                          EReference _ref_25 = ((modeltext.Variable) v_14).getRef();
-                                                                          Object _eGet_31 = _attObject_2.eGet(_ref_25);
+                                                                          EReference _ref_23 = ((modeltext.Variable) v_14).getRef();
+                                                                          Object _eGet_31 = attObject.eGet(_ref_23);
                                                                           _builder.append(o_11 = ((EObject) _eGet_31), "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
@@ -2170,12 +2177,12 @@ public class EduTestGenerator implements IGenerator {
                                                                         if (_notEquals_20) {
                                                                           String _text_35 = text;
                                                                           EAttribute _id_11 = ((modeltext.Variable) v_14).getId();
-                                                                          String _name_48 = _id_11.getName();
-                                                                          EStructuralFeature _attributeByName_11 = ModelManager.getAttributeByName(_name_48, o_11);
+                                                                          String _name_56 = _id_11.getName();
+                                                                          EStructuralFeature _attributeByName_11 = ModelManager.getAttributeByName(_name_56, o_11);
                                                                           Object _eGet_32 = o_11.eGet(_attributeByName_11);
-                                                                          String _plus_145 = (_eGet_32 + " ");
-                                                                          String _plus_146 = text = (_text_35 + _plus_145);
-                                                                          _builder.append(_plus_146, "");
+                                                                          String _plus_135 = (_eGet_32 + " ");
+                                                                          String _plus_136 = text = (_text_35 + _plus_135);
+                                                                          _builder.append(_plus_136, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2187,50 +2194,43 @@ public class EduTestGenerator implements IGenerator {
                                                           }
                                                           {
                                                             VariableType _type_17 = variable_6.getType();
-                                                            boolean _equals_38 = Objects.equal(_type_17, VariableType.FIRST_ATT_NAME);
-                                                            if (_equals_38) {
+                                                            boolean _equals_48 = Objects.equal(_type_17, VariableType.FIRST_ATT_NAME);
+                                                            if (_equals_48) {
                                                               String _text_36 = text;
-                                                              String _attName_1 = ((AttributeSwap)att).getAttName();
-                                                              String _plus_147 = (_attName_1 + " ");
-                                                              String _plus_148 = text = (_text_36 + _plus_147);
-                                                              _builder.append(_plus_148, "");
+                                                              String _plus_137 = text = (_text_36 + (attName + " "));
+                                                              _builder.append(_plus_137, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
                                                           {
                                                             VariableType _type_18 = variable_6.getType();
-                                                            boolean _equals_39 = Objects.equal(_type_18, VariableType.SECOND_ATT_NAME);
-                                                            if (_equals_39) {
+                                                            boolean _equals_49 = Objects.equal(_type_18, VariableType.SECOND_ATT_NAME);
+                                                            if (_equals_49) {
                                                               String _text_37 = text;
-                                                              String _firstName = ((AttributeSwap)att).getFirstName();
-                                                              String _plus_149 = (_firstName + " ");
-                                                              String _plus_150 = text = (_text_37 + _plus_149);
-                                                              _builder.append(_plus_150, "");
+                                                              String _plus_138 = text = (_text_37 + (firstName + " "));
+                                                              _builder.append(_plus_138, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
                                                           {
                                                             VariableType _type_19 = variable_6.getType();
-                                                            boolean _equals_40 = Objects.equal(_type_19, VariableType.FIRST_VALUE);
-                                                            if (_equals_40) {
+                                                            boolean _equals_50 = Objects.equal(_type_19, VariableType.FIRST_VALUE);
+                                                            if (_equals_50) {
                                                               String _text_38 = text;
-                                                              EObject _object_29 = ((InformationChanged)appMut).getObject();
-                                                              Object _eGet_33 = _object_29.eGet(attName);
-                                                              String _plus_151 = (_eGet_33 + " ");
-                                                              String _plus_152 = text = (_text_38 + _plus_151);
-                                                              _builder.append(_plus_152, "");
+                                                              Object _eGet_33 = object_5.eGet(attributeName);
+                                                              String _plus_139 = (_eGet_33 + " ");
+                                                              String _plus_140 = text = (_text_38 + _plus_139);
+                                                              _builder.append(_plus_140, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
                                                           {
                                                             VariableType _type_20 = variable_6.getType();
-                                                            boolean _equals_41 = Objects.equal(_type_20, VariableType.SECOND_VALUE);
-                                                            if (_equals_41) {
+                                                            boolean _equals_51 = Objects.equal(_type_20, VariableType.SECOND_VALUE);
+                                                            if (_equals_51) {
                                                               String _text_39 = text;
-                                                              String _newVal = ((AttributeSwap)att).getNewVal();
-                                                              String _plus_153 = (_newVal + " ");
-                                                              String _plus_154 = text = (_text_39 + _plus_153);
-                                                              _builder.append(_plus_154, "");
+                                                              String _plus_141 = text = (_text_39 + (newVal + " "));
+                                                              _builder.append(_plus_141, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2250,8 +2250,16 @@ public class EduTestGenerator implements IGenerator {
                                                 } else {
                                                   Option cfgopt_7 = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _object_30 = ((InformationChanged)appMut).getObject();
-                                                  Element element_5 = ModelManager.getElement(_object_30, idelemsresource);
+                                                  Object _attribute_7 = ModelManager.getAttribute("attName", att);
+                                                  String attName_1 = ((String) _attribute_7);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Object _attribute_8 = ModelManager.getAttribute("oldVal", att);
+                                                  String oldVal = ((String) _attribute_8);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Object _attribute_9 = ModelManager.getAttribute("newVal", att);
+                                                  String newVal_1 = ((String) _attribute_9);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Element element_5 = ModelManager.getElement(object_5, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
                                                   Text t_7 = null;
                                                   _builder.newLineIfNotEmpty();
@@ -2275,9 +2283,9 @@ public class EduTestGenerator implements IGenerator {
                                                         if ((w_9 instanceof Constant)) {
                                                           String _text_40 = text;
                                                           String _value_22 = ((Constant)w_9).getValue();
-                                                          String _plus_155 = (_value_22 + " ");
-                                                          String _plus_156 = text = (_text_40 + _plus_155);
-                                                          _builder.append(_plus_156, "");
+                                                          String _plus_142 = (_value_22 + " ");
+                                                          String _plus_143 = text = (_text_40 + _plus_142);
+                                                          _builder.append(_plus_143, "");
                                                           _builder.newLineIfNotEmpty();
                                                         }
                                                       }
@@ -2287,8 +2295,8 @@ public class EduTestGenerator implements IGenerator {
                                                           _builder.newLineIfNotEmpty();
                                                           {
                                                             VariableType _type_21 = variable_7.getType();
-                                                            boolean _equals_42 = Objects.equal(_type_21, VariableType.OBJECT);
-                                                            if (_equals_42) {
+                                                            boolean _equals_52 = Objects.equal(_type_21, VariableType.OBJECT);
+                                                            if (_equals_52) {
                                                               {
                                                                 EList<modeltext.Word> _words_23 = element_5.getWords();
                                                                 for(final modeltext.Word v_15 : _words_23) {
@@ -2296,9 +2304,9 @@ public class EduTestGenerator implements IGenerator {
                                                                     if ((v_15 instanceof modeltext.Constant)) {
                                                                       String _text_41 = text;
                                                                       String _value_23 = ((modeltext.Constant)v_15).getValue();
-                                                                      String _plus_157 = (_value_23 + " ");
-                                                                      String _plus_158 = text = (_text_41 + _plus_157);
-                                                                      _builder.append(_plus_158, "");
+                                                                      String _plus_144 = (_value_23 + " ");
+                                                                      String _plus_145 = text = (_text_41 + _plus_144);
+                                                                      _builder.append(_plus_145, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
@@ -2307,19 +2315,16 @@ public class EduTestGenerator implements IGenerator {
                                                                       EObject o_12 = null;
                                                                       _builder.newLineIfNotEmpty();
                                                                       {
-                                                                        EReference _ref_26 = ((modeltext.Variable) v_15).getRef();
-                                                                        boolean _equals_43 = Objects.equal(_ref_26, null);
-                                                                        if (_equals_43) {
-                                                                          EObject _object_31 = ((InformationChanged)appMut).getObject();
-                                                                          _builder.append(o_12 = _object_31, "");
+                                                                        EReference _ref_24 = ((modeltext.Variable) v_15).getRef();
+                                                                        boolean _equals_53 = Objects.equal(_ref_24, null);
+                                                                        if (_equals_53) {
+                                                                          _builder.append(o_12 = object_5, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         } else {
-                                                                          EObject _object_32 = ((InformationChanged)appMut).getObject();
-                                                                          EReference _ref_27 = ((modeltext.Variable) v_15).getRef();
-                                                                          String _name_49 = _ref_27.getName();
-                                                                          EObject _object_33 = ((InformationChanged)appMut).getObject();
-                                                                          EStructuralFeature _referenceByName_9 = ModelManager.getReferenceByName(_name_49, _object_33);
-                                                                          Object _eGet_34 = _object_32.eGet(_referenceByName_9);
+                                                                          EReference _ref_25 = ((modeltext.Variable) v_15).getRef();
+                                                                          String _name_57 = _ref_25.getName();
+                                                                          EStructuralFeature _referenceByName_9 = ModelManager.getReferenceByName(_name_57, object_5);
+                                                                          Object _eGet_34 = object_5.eGet(_referenceByName_9);
                                                                           _builder.append(o_12 = ((EObject) _eGet_34), "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
@@ -2329,12 +2334,12 @@ public class EduTestGenerator implements IGenerator {
                                                                         if (_notEquals_22) {
                                                                           String _text_42 = text;
                                                                           EAttribute _id_12 = ((modeltext.Variable) v_15).getId();
-                                                                          String _name_50 = _id_12.getName();
-                                                                          EStructuralFeature _attributeByName_12 = ModelManager.getAttributeByName(_name_50, o_12);
+                                                                          String _name_58 = _id_12.getName();
+                                                                          EStructuralFeature _attributeByName_12 = ModelManager.getAttributeByName(_name_58, o_12);
                                                                           Object _eGet_35 = o_12.eGet(_attributeByName_12);
-                                                                          String _plus_159 = (_eGet_35 + " ");
-                                                                          String _plus_160 = text = (_text_42 + _plus_159);
-                                                                          _builder.append(_plus_160, "");
+                                                                          String _plus_146 = (_eGet_35 + " ");
+                                                                          String _plus_147 = text = (_text_42 + _plus_146);
+                                                                          _builder.append(_plus_147, "");
                                                                           _builder.newLineIfNotEmpty();
                                                                         }
                                                                       }
@@ -2346,37 +2351,31 @@ public class EduTestGenerator implements IGenerator {
                                                           }
                                                           {
                                                             VariableType _type_22 = variable_7.getType();
-                                                            boolean _equals_44 = Objects.equal(_type_22, VariableType.ATT_NAME);
-                                                            if (_equals_44) {
+                                                            boolean _equals_54 = Objects.equal(_type_22, VariableType.ATT_NAME);
+                                                            if (_equals_54) {
                                                               String _text_43 = text;
-                                                              String _attName_2 = att.getAttName();
-                                                              String _plus_161 = (_attName_2 + " ");
-                                                              String _plus_162 = text = (_text_43 + _plus_161);
-                                                              _builder.append(_plus_162, "");
+                                                              String _plus_148 = text = (_text_43 + (attName_1 + " "));
+                                                              _builder.append(_plus_148, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
                                                           {
                                                             VariableType _type_23 = variable_7.getType();
-                                                            boolean _equals_45 = Objects.equal(_type_23, VariableType.OLD_VALUE);
-                                                            if (_equals_45) {
+                                                            boolean _equals_55 = Objects.equal(_type_23, VariableType.OLD_VALUE);
+                                                            if (_equals_55) {
                                                               String _text_44 = text;
-                                                              String _oldVal = att.getOldVal();
-                                                              String _plus_163 = (_oldVal + " ");
-                                                              String _plus_164 = text = (_text_44 + _plus_163);
-                                                              _builder.append(_plus_164, "");
+                                                              String _plus_149 = text = (_text_44 + (oldVal + " "));
+                                                              _builder.append(_plus_149, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
                                                           {
                                                             VariableType _type_24 = variable_7.getType();
-                                                            boolean _equals_46 = Objects.equal(_type_24, VariableType.NEW_VALUE);
-                                                            if (_equals_46) {
+                                                            boolean _equals_56 = Objects.equal(_type_24, VariableType.NEW_VALUE);
+                                                            if (_equals_56) {
                                                               String _text_45 = text;
-                                                              String _newVal_1 = att.getNewVal();
-                                                              String _plus_165 = (_newVal_1 + " ");
-                                                              String _plus_166 = text = (_text_45 + _plus_165);
-                                                              _builder.append(_plus_166, "");
+                                                              String _plus_150 = text = (_text_45 + (newVal_1 + " "));
+                                                              _builder.append(_plus_150, "");
                                                               _builder.newLineIfNotEmpty();
                                                             }
                                                           }
@@ -2410,41 +2409,50 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                           }
-                                          EList<ReferenceChanged> refs = ((InformationChanged)appMut).getRefChanges();
+                                          List<EObject> _references_2 = ModelManager.getReferences("refChanges", mutation);
+                                          List<EObject> refChanges = ((List<EObject>) _references_2);
                                           _builder.newLineIfNotEmpty();
                                           ArrayList<String> references = new ArrayList<String>();
                                           _builder.newLineIfNotEmpty();
                                           {
-                                            for(final ReferenceChanged ref : refs) {
+                                            for(final EObject ref_2 : refChanges) {
                                               _builder.append(text = "", "");
                                               _builder.newLineIfNotEmpty();
                                               {
-                                                if ((ref instanceof ReferenceSwap)) {
+                                                EClass _eClass_13 = ref_2.eClass();
+                                                String _name_59 = _eClass_13.getName();
+                                                boolean _equals_57 = _name_59.equals("ReferenceChanged");
+                                                if (_equals_57) {
                                                   _builder.append(text = "", "");
                                                   _builder.newLineIfNotEmpty();
-                                                  Option cfgopt_8 = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource);
+                                                  Option cfgopt_8 = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _object_34 = ((InformationChanged)appMut).getObject();
-                                                  Element firstElement_1 = ModelManager.getElement(_object_34, idelemsresource);
+                                                  Element element_6 = ModelManager.getElement(object_5, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  System.out.println(("firstElement: " + firstElement_1));
+                                                  Object _attribute_10 = ModelManager.getAttribute("srcRefName", ref_2);
+                                                  String srcRefName = ((String) _attribute_10);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _from_14 = ((ReferenceSwap)ref).getFrom();
-                                                  Element firstFromElement = ModelManager.getElement(_from_14, idelemsresource);
+                                                  EClass _eClass_14 = object_5.eClass();
+                                                  EStructuralFeature refSrc_1 = _eClass_14.getEStructuralFeature(srcRefName);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _to_8 = ((ReferenceSwap)ref).getTo();
-                                                  Element firstToElement = ModelManager.getElement(_to_8, idelemsresource);
+                                                  Element refSrcElement_1 = ModelManager.getRefElement(object_5, refSrc_1, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _refObject = ((ReferenceSwap)ref).getRefObject();
-                                                  Element secondElement_1 = ModelManager.getElement(_refObject, idelemsresource);
+                                                  Object _attribute_11 = ModelManager.getAttribute("refName", ref_2);
+                                                  String refName_4 = ((String) _attribute_11);
                                                   _builder.newLineIfNotEmpty();
-                                                  System.out.println(("secondElement: " + secondElement_1));
+                                                  EStructuralFeature refTar_1 = ModelManager.getReferenceByName(refName_4, object_5);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _otherFrom = ((ReferenceSwap)ref).getOtherFrom();
-                                                  Element secondFromElement = ModelManager.getElement(_otherFrom, idelemsresource);
+                                                  Element refTarElement_1 = ModelManager.getRefElement(object_5, refTar_1, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
-                                                  EObject _otherTo = ((ReferenceSwap)ref).getOtherTo();
-                                                  Element secondToElement = ModelManager.getElement(_otherTo, idelemsresource);
+                                                  EObject _reference_13 = ModelManager.getReference("from", ref_2);
+                                                  EObject from_2 = ((EObject) _reference_13);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Element fromElement_1 = ModelManager.getElement(from_2, idelemsresource);
+                                                  _builder.newLineIfNotEmpty();
+                                                  EObject _reference_14 = ModelManager.getReference("to", ref_2);
+                                                  EObject to_2 = ((EObject) _reference_14);
+                                                  _builder.newLineIfNotEmpty();
+                                                  Element toElement_1 = ModelManager.getElement(to_2, idelemsresource);
                                                   _builder.newLineIfNotEmpty();
                                                   _builder.newLine();
                                                   _builder.newLine();
@@ -2465,377 +2473,774 @@ public class EduTestGenerator implements IGenerator {
                                                       _builder.newLine();
                                                     }
                                                   }
+                                                  boolean older = (!Objects.equal(fromElement_1, null));
+                                                  _builder.newLineIfNotEmpty();
+                                                  boolean newer = (!Objects.equal(toElement_1, null));
+                                                  _builder.newLineIfNotEmpty();
                                                   {
-                                                    EList<Word> _words_24 = t_8.getWords();
-                                                    for(final Word w_10 : _words_24) {
+                                                    if (((older == true) && (newer == true))) {
                                                       {
-                                                        if ((w_10 instanceof Constant)) {
-                                                          String _text_46 = text;
-                                                          String _value_24 = ((Constant)w_10).getValue();
-                                                          String _plus_167 = (_value_24 + " ");
-                                                          String _plus_168 = text = (_text_46 + _plus_167);
-                                                          _builder.append(_plus_168, "");
-                                                          _builder.newLineIfNotEmpty();
+                                                        EList<Word> _words_24 = t_8.getWords();
+                                                        for(final Word w_10 : _words_24) {
+                                                          {
+                                                            if ((w_10 instanceof Constant)) {
+                                                              String _text_46 = text;
+                                                              String _value_24 = ((Constant)w_10).getValue();
+                                                              String _plus_151 = (_value_24 + " ");
+                                                              String _plus_152 = text = (_text_46 + _plus_151);
+                                                              _builder.append(_plus_152, "");
+                                                              _builder.newLineIfNotEmpty();
+                                                            }
+                                                          }
+                                                          {
+                                                            if ((w_10 instanceof Variable)) {
+                                                              Variable variable_8 = ((Variable) w_10);
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                VariableType _type_25 = variable_8.getType();
+                                                                boolean _equals_58 = Objects.equal(_type_25, VariableType.OBJECT);
+                                                                if (_equals_58) {
+                                                                  {
+                                                                    EList<modeltext.Word> _words_25 = element_6.getWords();
+                                                                    for(final modeltext.Word v_16 : _words_25) {
+                                                                      {
+                                                                        if ((v_16 instanceof modeltext.Constant)) {
+                                                                          String _text_47 = text;
+                                                                          String _value_25 = ((modeltext.Constant)v_16).getValue();
+                                                                          String _plus_153 = (_value_25 + " ");
+                                                                          String _plus_154 = text = (_text_47 + _plus_153);
+                                                                          _builder.append(_plus_154, "");
+                                                                          _builder.newLineIfNotEmpty();
+                                                                        }
+                                                                      }
+                                                                      {
+                                                                        if ((v_16 instanceof modeltext.Variable)) {
+                                                                          EReference _ref_26 = ((modeltext.Variable) v_16).getRef();
+                                                                          String _plus_155 = ("REF: " + _ref_26);
+                                                                          System.out.println(_plus_155);
+                                                                          _builder.newLineIfNotEmpty();
+                                                                          EObject o_13 = null;
+                                                                          _builder.newLineIfNotEmpty();
+                                                                          {
+                                                                            EReference _ref_27 = ((modeltext.Variable) v_16).getRef();
+                                                                            boolean _equals_59 = Objects.equal(_ref_27, null);
+                                                                            if (_equals_59) {
+                                                                              _builder.append(o_13 = object_5, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            } else {
+                                                                              EReference _ref_28 = ((modeltext.Variable) v_16).getRef();
+                                                                              String _name_60 = _ref_28.getName();
+                                                                              EStructuralFeature _referenceByName_10 = ModelManager.getReferenceByName(_name_60, object_5);
+                                                                              Object _eGet_36 = object_5.eGet(_referenceByName_10);
+                                                                              _builder.append(o_13 = ((EObject) _eGet_36), "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                          {
+                                                                            boolean _notEquals_25 = (!Objects.equal(o_13, null));
+                                                                            if (_notEquals_25) {
+                                                                              String _text_48 = text;
+                                                                              EAttribute _id_13 = ((modeltext.Variable) v_16).getId();
+                                                                              String _name_61 = _id_13.getName();
+                                                                              EStructuralFeature _attributeByName_13 = ModelManager.getAttributeByName(_name_61, o_13);
+                                                                              Object _eGet_37 = o_13.eGet(_attributeByName_13);
+                                                                              String _plus_156 = (_eGet_37 + " ");
+                                                                              String _plus_157 = text = (_text_48 + _plus_156);
+                                                                              _builder.append(_plus_157, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              {
+                                                                VariableType _type_26 = variable_8.getType();
+                                                                boolean _equals_60 = Objects.equal(_type_26, VariableType.FROM_OBJECT);
+                                                                if (_equals_60) {
+                                                                  {
+                                                                    EList<modeltext.Word> _words_26 = fromElement_1.getWords();
+                                                                    for(final modeltext.Word v_17 : _words_26) {
+                                                                      {
+                                                                        if ((v_17 instanceof modeltext.Constant)) {
+                                                                          String _text_49 = text;
+                                                                          String _value_26 = ((modeltext.Constant)v_17).getValue();
+                                                                          String _plus_158 = (_value_26 + " ");
+                                                                          String _plus_159 = text = (_text_49 + _plus_158);
+                                                                          _builder.append(_plus_159, "");
+                                                                          _builder.newLineIfNotEmpty();
+                                                                        }
+                                                                      }
+                                                                      {
+                                                                        if ((v_17 instanceof modeltext.Variable)) {
+                                                                          EObject o_14 = null;
+                                                                          _builder.newLineIfNotEmpty();
+                                                                          {
+                                                                            EReference _ref_29 = ((modeltext.Variable) v_17).getRef();
+                                                                            boolean _equals_61 = Objects.equal(_ref_29, null);
+                                                                            if (_equals_61) {
+                                                                              _builder.append(o_14 = from_2, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            } else {
+                                                                              EReference _ref_30 = ((modeltext.Variable) v_17).getRef();
+                                                                              String _name_62 = _ref_30.getName();
+                                                                              EStructuralFeature _referenceByName_11 = ModelManager.getReferenceByName(_name_62, from_2);
+                                                                              Object _eGet_38 = from_2.eGet(_referenceByName_11);
+                                                                              _builder.append(o_14 = ((EObject) _eGet_38), "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                          {
+                                                                            boolean _notEquals_26 = (!Objects.equal(o_14, null));
+                                                                            if (_notEquals_26) {
+                                                                              String _text_50 = text;
+                                                                              EAttribute _id_14 = ((modeltext.Variable) v_17).getId();
+                                                                              String _name_63 = _id_14.getName();
+                                                                              EStructuralFeature _attributeByName_14 = ModelManager.getAttributeByName(_name_63, o_14);
+                                                                              Object _eGet_39 = o_14.eGet(_attributeByName_14);
+                                                                              String _plus_160 = (_eGet_39 + " ");
+                                                                              String _plus_161 = text = (_text_50 + _plus_160);
+                                                                              _builder.append(_plus_161, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              {
+                                                                VariableType _type_27 = variable_8.getType();
+                                                                boolean _equals_62 = Objects.equal(_type_27, VariableType.TO_OBJECT);
+                                                                if (_equals_62) {
+                                                                  {
+                                                                    EList<modeltext.Word> _words_27 = toElement_1.getWords();
+                                                                    for(final modeltext.Word v_18 : _words_27) {
+                                                                      {
+                                                                        if ((v_18 instanceof modeltext.Constant)) {
+                                                                          String _text_51 = text;
+                                                                          String _value_27 = ((modeltext.Constant)v_18).getValue();
+                                                                          String _plus_162 = (_value_27 + " ");
+                                                                          String _plus_163 = text = (_text_51 + _plus_162);
+                                                                          _builder.append(_plus_163, "");
+                                                                          _builder.newLineIfNotEmpty();
+                                                                        }
+                                                                      }
+                                                                      {
+                                                                        if ((v_18 instanceof modeltext.Variable)) {
+                                                                          EObject o_15 = null;
+                                                                          _builder.newLineIfNotEmpty();
+                                                                          {
+                                                                            EReference _ref_31 = ((modeltext.Variable) v_18).getRef();
+                                                                            boolean _equals_63 = Objects.equal(_ref_31, null);
+                                                                            if (_equals_63) {
+                                                                              _builder.append(o_15 = to_2, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            } else {
+                                                                              EReference _ref_32 = ((modeltext.Variable) v_18).getRef();
+                                                                              Object _eGet_40 = to_2.eGet(_ref_32);
+                                                                              _builder.append(o_15 = ((EObject) _eGet_40), "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                          {
+                                                                            boolean _notEquals_27 = (!Objects.equal(o_15, null));
+                                                                            if (_notEquals_27) {
+                                                                              String _text_52 = text;
+                                                                              EAttribute _id_15 = ((modeltext.Variable) v_18).getId();
+                                                                              String _name_64 = _id_15.getName();
+                                                                              EStructuralFeature _attributeByName_15 = ModelManager.getAttributeByName(_name_64, o_15);
+                                                                              Object _eGet_41 = o_15.eGet(_attributeByName_15);
+                                                                              String _plus_164 = (_eGet_41 + " ");
+                                                                              String _plus_165 = text = (_text_52 + _plus_164);
+                                                                              _builder.append(_plus_165, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              {
+                                                                VariableType _type_28 = variable_8.getType();
+                                                                boolean _equals_64 = Objects.equal(_type_28, VariableType.REF_NAME);
+                                                                if (_equals_64) {
+                                                                  {
+                                                                    boolean _notEquals_28 = (!Objects.equal(refTarElement_1, null));
+                                                                    if (_notEquals_28) {
+                                                                      {
+                                                                        EList<modeltext.Word> _words_28 = refTarElement_1.getWords();
+                                                                        for(final modeltext.Word v_19 : _words_28) {
+                                                                          {
+                                                                            if ((v_19 instanceof modeltext.Constant)) {
+                                                                              String _text_53 = text;
+                                                                              String _value_28 = ((modeltext.Constant)v_19).getValue();
+                                                                              String _plus_166 = (_value_28 + " ");
+                                                                              String _plus_167 = text = (_text_53 + _plus_166);
+                                                                              _builder.append(_plus_167, "");
+                                                                              _builder.newLineIfNotEmpty();
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              {
+                                                                VariableType _type_29 = variable_8.getType();
+                                                                boolean _equals_65 = Objects.equal(_type_29, VariableType.SRC_REF_NAME);
+                                                                if (_equals_65) {
+                                                                  {
+                                                                    EList<modeltext.Word> _words_29 = refSrcElement_1.getWords();
+                                                                    for(final modeltext.Word v_20 : _words_29) {
+                                                                      {
+                                                                        if ((v_20 instanceof modeltext.Constant)) {
+                                                                          String _text_54 = text;
+                                                                          String _value_29 = ((modeltext.Constant)v_20).getValue();
+                                                                          String _plus_168 = (_value_29 + " ");
+                                                                          String _plus_169 = text = (_text_54 + _plus_168);
+                                                                          _builder.append(_plus_169, "");
+                                                                          _builder.newLineIfNotEmpty();
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
                                                         }
                                                       }
                                                       {
-                                                        if ((w_10 instanceof Variable)) {
-                                                          Variable variable_8 = ((Variable) w_10);
-                                                          _builder.newLineIfNotEmpty();
+                                                        if ((older == false)) {
                                                           {
-                                                            VariableType _type_25 = variable_8.getType();
-                                                            boolean _equals_47 = Objects.equal(_type_25, VariableType.FIRST_OBJECT);
-                                                            if (_equals_47) {
+                                                            if ((opt_1.solution == true)) {
+                                                              String _text_55 = text;
+                                                              String _plus_170 = text = (_text_55 + "Delete ");
+                                                              _builder.append(_plus_170, "");
+                                                              _builder.append(" ");
+                                                              _builder.newLineIfNotEmpty();
                                                               {
-                                                                EList<modeltext.Word> _words_25 = firstElement_1.getWords();
-                                                                for(final modeltext.Word v_16 : _words_25) {
-                                                                  {
-                                                                    if ((v_16 instanceof modeltext.Constant)) {
-                                                                      String _text_47 = text;
-                                                                      String _value_25 = ((modeltext.Constant)v_16).getValue();
-                                                                      String _plus_169 = (_value_25 + " ");
-                                                                      String _plus_170 = text = (_text_47 + _plus_169);
-                                                                      _builder.append(_plus_170, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_16 instanceof modeltext.Variable)) {
-                                                                      EReference _ref_28 = ((modeltext.Variable) v_16).getRef();
-                                                                      String _plus_171 = ("REF: " + _ref_28);
-                                                                      System.out.println(_plus_171);
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      EObject o_13 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_29 = ((modeltext.Variable) v_16).getRef();
-                                                                        boolean _equals_48 = Objects.equal(_ref_29, null);
-                                                                        if (_equals_48) {
-                                                                          EObject _refObject_1 = ((ReferenceSwap)ref).getRefObject();
-                                                                          _builder.append(o_13 = _refObject_1, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EObject _refObject_2 = ((ReferenceSwap)ref).getRefObject();
-                                                                          EReference _ref_30 = ((modeltext.Variable) v_16).getRef();
-                                                                          String _name_51 = _ref_30.getName();
-                                                                          EObject _refObject_3 = ((ReferenceSwap)ref).getRefObject();
-                                                                          EStructuralFeature _referenceByName_10 = ModelManager.getReferenceByName(_name_51, _refObject_3);
-                                                                          Object _eGet_36 = _refObject_2.eGet(_referenceByName_10);
-                                                                          _builder.append(o_13 = ((EObject) _eGet_36), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_25 = (!Objects.equal(o_13, null));
-                                                                        if (_notEquals_25) {
-                                                                          String _text_48 = text;
-                                                                          EAttribute _id_13 = ((modeltext.Variable) v_16).getId();
-                                                                          String _name_52 = _id_13.getName();
-                                                                          EStructuralFeature _attributeByName_13 = ModelManager.getAttributeByName(_name_52, o_13);
-                                                                          Object _eGet_37 = o_13.eGet(_attributeByName_13);
-                                                                          String _plus_172 = (_eGet_37 + " ");
-                                                                          String _plus_173 = text = (_text_48 + _plus_172);
-                                                                          _builder.append(_plus_173, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_26 = variable_8.getType();
-                                                            boolean _equals_49 = Objects.equal(_type_26, VariableType.FIRST_FROM_OBJECT);
-                                                            if (_equals_49) {
-                                                              {
-                                                                EList<modeltext.Word> _words_26 = firstFromElement.getWords();
-                                                                for(final modeltext.Word v_17 : _words_26) {
-                                                                  {
-                                                                    if ((v_17 instanceof modeltext.Constant)) {
-                                                                      String _text_49 = text;
-                                                                      String _value_26 = ((modeltext.Constant)v_17).getValue();
-                                                                      String _plus_174 = (_value_26 + " ");
-                                                                      String _plus_175 = text = (_text_49 + _plus_174);
-                                                                      _builder.append(_plus_175, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_17 instanceof modeltext.Variable)) {
-                                                                      EObject o_14 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_31 = ((modeltext.Variable) v_17).getRef();
-                                                                        boolean _equals_50 = Objects.equal(_ref_31, null);
-                                                                        if (_equals_50) {
-                                                                          EObject _otherFrom_1 = ((ReferenceSwap)ref).getOtherFrom();
-                                                                          _builder.append(o_14 = _otherFrom_1, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EObject _otherFrom_2 = ((ReferenceSwap)ref).getOtherFrom();
-                                                                          EReference _ref_32 = ((modeltext.Variable) v_17).getRef();
-                                                                          String _name_53 = _ref_32.getName();
-                                                                          EObject _otherFrom_3 = ((ReferenceSwap)ref).getOtherFrom();
-                                                                          EStructuralFeature _referenceByName_11 = ModelManager.getReferenceByName(_name_53, _otherFrom_3);
-                                                                          Object _eGet_38 = _otherFrom_2.eGet(_referenceByName_11);
-                                                                          _builder.append(o_14 = ((EObject) _eGet_38), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_26 = (!Objects.equal(o_14, null));
-                                                                        if (_notEquals_26) {
-                                                                          String _text_50 = text;
-                                                                          EAttribute _id_14 = ((modeltext.Variable) v_17).getId();
-                                                                          String _name_54 = _id_14.getName();
-                                                                          EStructuralFeature _attributeByName_14 = ModelManager.getAttributeByName(_name_54, o_14);
-                                                                          Object _eGet_39 = o_14.eGet(_attributeByName_14);
-                                                                          String _plus_176 = (_eGet_39 + " ");
-                                                                          String _plus_177 = text = (_text_50 + _plus_176);
-                                                                          _builder.append(_plus_177, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_27 = variable_8.getType();
-                                                            boolean _equals_51 = Objects.equal(_type_27, VariableType.FIRST_TO_OBJECT);
-                                                            if (_equals_51) {
-                                                              {
-                                                                EList<modeltext.Word> _words_27 = firstToElement.getWords();
-                                                                for(final modeltext.Word v_18 : _words_27) {
-                                                                  {
-                                                                    if ((v_18 instanceof modeltext.Constant)) {
-                                                                      String _text_51 = text;
-                                                                      String _value_27 = ((modeltext.Constant)v_18).getValue();
-                                                                      String _plus_178 = (_value_27 + " ");
-                                                                      String _plus_179 = text = (_text_51 + _plus_178);
-                                                                      _builder.append(_plus_179, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_18 instanceof modeltext.Variable)) {
-                                                                      EObject o_15 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_33 = ((modeltext.Variable) v_18).getRef();
-                                                                        boolean _equals_52 = Objects.equal(_ref_33, null);
-                                                                        if (_equals_52) {
-                                                                          EObject _from_15 = ((ReferenceSwap)ref).getFrom();
-                                                                          _builder.append(o_15 = _from_15, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EObject _from_16 = ((ReferenceSwap)ref).getFrom();
-                                                                          EReference _ref_34 = ((modeltext.Variable) v_18).getRef();
-                                                                          String _name_55 = _ref_34.getName();
-                                                                          EObject _from_17 = ((ReferenceSwap)ref).getFrom();
-                                                                          EStructuralFeature _referenceByName_12 = ModelManager.getReferenceByName(_name_55, _from_17);
-                                                                          Object _eGet_40 = _from_16.eGet(_referenceByName_12);
-                                                                          _builder.append(o_15 = ((EObject) _eGet_40), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_27 = (!Objects.equal(o_15, null));
-                                                                        if (_notEquals_27) {
-                                                                          String _text_52 = text;
-                                                                          EAttribute _id_15 = ((modeltext.Variable) v_18).getId();
-                                                                          String _name_56 = _id_15.getName();
-                                                                          EStructuralFeature _attributeByName_15 = ModelManager.getAttributeByName(_name_56, o_15);
-                                                                          Object _eGet_41 = o_15.eGet(_attributeByName_15);
-                                                                          String _plus_180 = (_eGet_41 + " ");
-                                                                          String _plus_181 = text = (_text_52 + _plus_180);
-                                                                          _builder.append(_plus_181, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_28 = variable_8.getType();
-                                                            boolean _equals_53 = Objects.equal(_type_28, VariableType.SECOND_OBJECT);
-                                                            if (_equals_53) {
-                                                              {
-                                                                EList<modeltext.Word> _words_28 = secondElement_1.getWords();
-                                                                for(final modeltext.Word v_19 : _words_28) {
-                                                                  {
-                                                                    if ((v_19 instanceof modeltext.Constant)) {
-                                                                      String _text_53 = text;
-                                                                      String _value_28 = ((modeltext.Constant)v_19).getValue();
-                                                                      String _plus_182 = (_value_28 + " ");
-                                                                      String _plus_183 = text = (_text_53 + _plus_182);
-                                                                      _builder.append(_plus_183, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_19 instanceof modeltext.Variable)) {
-                                                                      EReference _ref_35 = ((modeltext.Variable) v_19).getRef();
-                                                                      String _plus_184 = ("REF: " + _ref_35);
-                                                                      System.out.println(_plus_184);
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      EObject o_16 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_36 = ((modeltext.Variable) v_19).getRef();
-                                                                        boolean _equals_54 = Objects.equal(_ref_36, null);
-                                                                        if (_equals_54) {
-                                                                          EObject _refObject_4 = ((ReferenceSwap)ref).getRefObject();
-                                                                          _builder.append(o_16 = _refObject_4, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EObject _refObject_5 = ((ReferenceSwap)ref).getRefObject();
-                                                                          EReference _ref_37 = ((modeltext.Variable) v_19).getRef();
-                                                                          String _name_57 = _ref_37.getName();
-                                                                          EObject _refObject_6 = ((ReferenceSwap)ref).getRefObject();
-                                                                          EStructuralFeature _referenceByName_13 = ModelManager.getReferenceByName(_name_57, _refObject_6);
-                                                                          Object _eGet_42 = _refObject_5.eGet(_referenceByName_13);
-                                                                          _builder.append(o_16 = ((EObject) _eGet_42), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_28 = (!Objects.equal(o_16, null));
-                                                                        if (_notEquals_28) {
-                                                                          String _text_54 = text;
-                                                                          EAttribute _id_16 = ((modeltext.Variable) v_19).getId();
-                                                                          String _name_58 = _id_16.getName();
-                                                                          EStructuralFeature _attributeByName_16 = ModelManager.getAttributeByName(_name_58, o_16);
-                                                                          Object _eGet_43 = o_16.eGet(_attributeByName_16);
-                                                                          String _plus_185 = (_eGet_43 + " ");
-                                                                          String _plus_186 = text = (_text_54 + _plus_185);
-                                                                          _builder.append(_plus_186, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_29 = variable_8.getType();
-                                                            boolean _equals_55 = Objects.equal(_type_29, VariableType.SECOND_FROM_OBJECT);
-                                                            if (_equals_55) {
-                                                              {
-                                                                EList<modeltext.Word> _words_29 = secondFromElement.getWords();
-                                                                for(final modeltext.Word v_20 : _words_29) {
-                                                                  {
-                                                                    if ((v_20 instanceof modeltext.Constant)) {
-                                                                      String _text_55 = text;
-                                                                      String _value_29 = ((modeltext.Constant)v_20).getValue();
-                                                                      String _plus_187 = (_value_29 + " ");
-                                                                      String _plus_188 = text = (_text_55 + _plus_187);
-                                                                      _builder.append(_plus_188, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_20 instanceof modeltext.Variable)) {
-                                                                      EObject o_17 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_38 = ((modeltext.Variable) v_20).getRef();
-                                                                        boolean _equals_56 = Objects.equal(_ref_38, null);
-                                                                        if (_equals_56) {
-                                                                          EObject _otherTo_1 = ((ReferenceSwap)ref).getOtherTo();
-                                                                          _builder.append(o_17 = _otherTo_1, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EObject _otherTo_2 = ((ReferenceSwap)ref).getOtherTo();
-                                                                          EReference _ref_39 = ((modeltext.Variable) v_20).getRef();
-                                                                          String _name_59 = _ref_39.getName();
-                                                                          EObject _otherTo_3 = ((ReferenceSwap)ref).getOtherTo();
-                                                                          EStructuralFeature _referenceByName_14 = ModelManager.getReferenceByName(_name_59, _otherTo_3);
-                                                                          Object _eGet_44 = _otherTo_2.eGet(_referenceByName_14);
-                                                                          _builder.append(o_17 = ((EObject) _eGet_44), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_29 = (!Objects.equal(o_17, null));
-                                                                        if (_notEquals_29) {
-                                                                          String _text_56 = text;
-                                                                          EAttribute _id_17 = ((modeltext.Variable) v_20).getId();
-                                                                          String _name_60 = _id_17.getName();
-                                                                          EStructuralFeature _attributeByName_17 = ModelManager.getAttributeByName(_name_60, o_17);
-                                                                          Object _eGet_45 = o_17.eGet(_attributeByName_17);
-                                                                          String _plus_189 = (_eGet_45 + " ");
-                                                                          String _plus_190 = text = (_text_56 + _plus_189);
-                                                                          _builder.append(_plus_190, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_30 = variable_8.getType();
-                                                            boolean _equals_57 = Objects.equal(_type_30, VariableType.SECOND_TO_OBJECT);
-                                                            if (_equals_57) {
-                                                              {
-                                                                EList<modeltext.Word> _words_30 = secondToElement.getWords();
+                                                                EList<modeltext.Word> _words_30 = refSrcElement_1.getWords();
                                                                 for(final modeltext.Word v_21 : _words_30) {
                                                                   {
                                                                     if ((v_21 instanceof modeltext.Constant)) {
-                                                                      String _text_57 = text;
+                                                                      String _text_56 = text;
                                                                       String _value_30 = ((modeltext.Constant)v_21).getValue();
-                                                                      String _plus_191 = (_value_30 + " ");
-                                                                      String _plus_192 = text = (_text_57 + _plus_191);
+                                                                      String _plus_171 = (_value_30 + " ");
+                                                                      String _plus_172 = text = (_text_56 + _plus_171);
+                                                                      _builder.append(_plus_172, "");
+                                                                      _builder.newLineIfNotEmpty();
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              String _text_57 = text;
+                                                              String _plus_173 = text = (_text_57 + " from ");
+                                                              _builder.append(_plus_173, "");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<Word> _words_31 = t_8.getWords();
+                                                                for(final Word w_11 : _words_31) {
+                                                                  {
+                                                                    if ((w_11 instanceof Variable)) {
+                                                                      Variable variable_9 = ((Variable) w_11);
+                                                                      _builder.newLineIfNotEmpty();
+                                                                      {
+                                                                        VariableType _type_30 = variable_9.getType();
+                                                                        boolean _equals_66 = Objects.equal(_type_30, VariableType.OBJECT);
+                                                                        if (_equals_66) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_32 = element_6.getWords();
+                                                                            for(final modeltext.Word v_22 : _words_32) {
+                                                                              {
+                                                                                if ((v_22 instanceof modeltext.Variable)) {
+                                                                                  EReference _ref_33 = ((modeltext.Variable) v_22).getRef();
+                                                                                  String _plus_174 = ("REF: " + _ref_33);
+                                                                                  System.out.println(_plus_174);
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  EObject o_16 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_34 = ((modeltext.Variable) v_22).getRef();
+                                                                                    boolean _equals_67 = Objects.equal(_ref_34, null);
+                                                                                    if (_equals_67) {
+                                                                                      _builder.append(o_16 = object_5, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_35 = ((modeltext.Variable) v_22).getRef();
+                                                                                      String _name_65 = _ref_35.getName();
+                                                                                      EStructuralFeature _referenceByName_12 = ModelManager.getReferenceByName(_name_65, object_5);
+                                                                                      Object _eGet_42 = object_5.eGet(_referenceByName_12);
+                                                                                      _builder.append(o_16 = ((EObject) _eGet_42), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_29 = (!Objects.equal(o_16, null));
+                                                                                    if (_notEquals_29) {
+                                                                                      String _text_58 = text;
+                                                                                      EAttribute _id_16 = ((modeltext.Variable) v_22).getId();
+                                                                                      String _name_66 = _id_16.getName();
+                                                                                      EStructuralFeature _attributeByName_16 = ModelManager.getAttributeByName(_name_66, o_16);
+                                                                                      Object _eGet_43 = o_16.eGet(_attributeByName_16);
+                                                                                      String _plus_175 = (_eGet_43 + " ");
+                                                                                      String _plus_176 = text = (_text_58 + _plus_175);
+                                                                                      _builder.append(_plus_176, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                      {
+                                                                        VariableType _type_31 = variable_9.getType();
+                                                                        boolean _equals_68 = Objects.equal(_type_31, VariableType.TO_OBJECT);
+                                                                        if (_equals_68) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_33 = toElement_1.getWords();
+                                                                            for(final modeltext.Word v_23 : _words_33) {
+                                                                              {
+                                                                                if ((v_23 instanceof modeltext.Variable)) {
+                                                                                  EObject o_17 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_36 = ((modeltext.Variable) v_23).getRef();
+                                                                                    boolean _equals_69 = Objects.equal(_ref_36, null);
+                                                                                    if (_equals_69) {
+                                                                                      _builder.append(o_17 = to_2, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_37 = ((modeltext.Variable) v_23).getRef();
+                                                                                      Object _eGet_44 = to_2.eGet(_ref_37);
+                                                                                      _builder.append(o_17 = ((EObject) _eGet_44), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_30 = (!Objects.equal(o_17, null));
+                                                                                    if (_notEquals_30) {
+                                                                                      String _text_59 = text;
+                                                                                      EAttribute _id_17 = ((modeltext.Variable) v_23).getId();
+                                                                                      String _name_67 = _id_17.getName();
+                                                                                      EStructuralFeature _attributeByName_17 = ModelManager.getAttributeByName(_name_67, o_17);
+                                                                                      Object _eGet_45 = o_17.eGet(_attributeByName_17);
+                                                                                      String _plus_177 = ("to " + _eGet_45);
+                                                                                      String _plus_178 = (_plus_177 + " ");
+                                                                                      String _plus_179 = text = (_text_59 + _plus_178);
+                                                                                      _builder.append(_plus_179, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            } else {
+                                                              String _text_60 = text;
+                                                              String _plus_180 = text = (_text_60 + "Create ");
+                                                              _builder.append(_plus_180, "");
+                                                              _builder.append(" ");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<modeltext.Word> _words_34 = refSrcElement_1.getWords();
+                                                                for(final modeltext.Word v_24 : _words_34) {
+                                                                  {
+                                                                    if ((v_24 instanceof modeltext.Constant)) {
+                                                                      String _text_61 = text;
+                                                                      String _value_31 = ((modeltext.Constant)v_24).getValue();
+                                                                      String _plus_181 = (_value_31 + " ");
+                                                                      String _plus_182 = text = (_text_61 + _plus_181);
+                                                                      _builder.append(_plus_182, "");
+                                                                      _builder.newLineIfNotEmpty();
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              String _text_62 = text;
+                                                              String _plus_183 = text = (_text_62 + " from ");
+                                                              _builder.append(_plus_183, "");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<Word> _words_35 = t_8.getWords();
+                                                                for(final Word w_12 : _words_35) {
+                                                                  {
+                                                                    if ((w_12 instanceof Variable)) {
+                                                                      Variable variable_10 = ((Variable) w_12);
+                                                                      _builder.newLineIfNotEmpty();
+                                                                      {
+                                                                        VariableType _type_32 = variable_10.getType();
+                                                                        boolean _equals_70 = Objects.equal(_type_32, VariableType.OBJECT);
+                                                                        if (_equals_70) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_36 = element_6.getWords();
+                                                                            for(final modeltext.Word v_25 : _words_36) {
+                                                                              {
+                                                                                if ((v_25 instanceof modeltext.Variable)) {
+                                                                                  EReference _ref_38 = ((modeltext.Variable) v_25).getRef();
+                                                                                  String _plus_184 = ("REF: " + _ref_38);
+                                                                                  System.out.println(_plus_184);
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  EObject o_18 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_39 = ((modeltext.Variable) v_25).getRef();
+                                                                                    boolean _equals_71 = Objects.equal(_ref_39, null);
+                                                                                    if (_equals_71) {
+                                                                                      _builder.append(o_18 = object_5, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_40 = ((modeltext.Variable) v_25).getRef();
+                                                                                      String _name_68 = _ref_40.getName();
+                                                                                      EStructuralFeature _referenceByName_13 = ModelManager.getReferenceByName(_name_68, object_5);
+                                                                                      Object _eGet_46 = object_5.eGet(_referenceByName_13);
+                                                                                      _builder.append(o_18 = ((EObject) _eGet_46), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_31 = (!Objects.equal(o_18, null));
+                                                                                    if (_notEquals_31) {
+                                                                                      String _text_63 = text;
+                                                                                      EAttribute _id_18 = ((modeltext.Variable) v_25).getId();
+                                                                                      String _name_69 = _id_18.getName();
+                                                                                      EStructuralFeature _attributeByName_18 = ModelManager.getAttributeByName(_name_69, o_18);
+                                                                                      Object _eGet_47 = o_18.eGet(_attributeByName_18);
+                                                                                      String _plus_185 = (_eGet_47 + " ");
+                                                                                      String _plus_186 = text = (_text_63 + _plus_185);
+                                                                                      _builder.append(_plus_186, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                      {
+                                                                        VariableType _type_33 = variable_10.getType();
+                                                                        boolean _equals_72 = Objects.equal(_type_33, VariableType.TO_OBJECT);
+                                                                        if (_equals_72) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_37 = toElement_1.getWords();
+                                                                            for(final modeltext.Word v_26 : _words_37) {
+                                                                              {
+                                                                                if ((v_26 instanceof modeltext.Variable)) {
+                                                                                  EObject o_19 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_41 = ((modeltext.Variable) v_26).getRef();
+                                                                                    boolean _equals_73 = Objects.equal(_ref_41, null);
+                                                                                    if (_equals_73) {
+                                                                                      _builder.append(o_19 = to_2, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_42 = ((modeltext.Variable) v_26).getRef();
+                                                                                      Object _eGet_48 = to_2.eGet(_ref_42);
+                                                                                      _builder.append(o_19 = ((EObject) _eGet_48), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_32 = (!Objects.equal(o_19, null));
+                                                                                    if (_notEquals_32) {
+                                                                                      String _text_64 = text;
+                                                                                      EAttribute _id_19 = ((modeltext.Variable) v_26).getId();
+                                                                                      String _name_70 = _id_19.getName();
+                                                                                      EStructuralFeature _attributeByName_19 = ModelManager.getAttributeByName(_name_70, o_19);
+                                                                                      Object _eGet_49 = o_19.eGet(_attributeByName_19);
+                                                                                      String _plus_187 = ("to " + _eGet_49);
+                                                                                      String _plus_188 = (_plus_187 + " ");
+                                                                                      String _plus_189 = text = (_text_64 + _plus_188);
+                                                                                      _builder.append(_plus_189, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                      {
+                                                        if ((newer == false)) {
+                                                          {
+                                                            if ((opt_1.solution == true)) {
+                                                              String _text_65 = text;
+                                                              String _plus_190 = text = (_text_65 + "Create ");
+                                                              _builder.append(_plus_190, "");
+                                                              _builder.append(" ");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<modeltext.Word> _words_38 = refSrcElement_1.getWords();
+                                                                for(final modeltext.Word v_27 : _words_38) {
+                                                                  {
+                                                                    if ((v_27 instanceof modeltext.Constant)) {
+                                                                      String _text_66 = text;
+                                                                      String _value_32 = ((modeltext.Constant)v_27).getValue();
+                                                                      String _plus_191 = (_value_32 + " ");
+                                                                      String _plus_192 = text = (_text_66 + _plus_191);
                                                                       _builder.append(_plus_192, "");
                                                                       _builder.newLineIfNotEmpty();
                                                                     }
                                                                   }
+                                                                }
+                                                              }
+                                                              String _text_67 = text;
+                                                              String _plus_193 = text = (_text_67 + " from ");
+                                                              _builder.append(_plus_193, "");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<Word> _words_39 = t_8.getWords();
+                                                                for(final Word w_13 : _words_39) {
                                                                   {
-                                                                    if ((v_21 instanceof modeltext.Variable)) {
-                                                                      EObject o_18 = null;
+                                                                    if ((w_13 instanceof Variable)) {
+                                                                      Variable variable_11 = ((Variable) w_13);
                                                                       _builder.newLineIfNotEmpty();
                                                                       {
-                                                                        EReference _ref_40 = ((modeltext.Variable) v_21).getRef();
-                                                                        boolean _equals_58 = Objects.equal(_ref_40, null);
-                                                                        if (_equals_58) {
-                                                                          EObject _to_9 = ((ReferenceSwap)ref).getTo();
-                                                                          _builder.append(o_18 = _to_9, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EObject _to_10 = ((ReferenceSwap)ref).getTo();
-                                                                          EReference _ref_41 = ((modeltext.Variable) v_21).getRef();
-                                                                          String _name_61 = _ref_41.getName();
-                                                                          EObject _to_11 = ((ReferenceSwap)ref).getTo();
-                                                                          EStructuralFeature _referenceByName_15 = ModelManager.getReferenceByName(_name_61, _to_11);
-                                                                          Object _eGet_46 = _to_10.eGet(_referenceByName_15);
-                                                                          _builder.append(o_18 = ((EObject) _eGet_46), "");
-                                                                          _builder.newLineIfNotEmpty();
+                                                                        VariableType _type_34 = variable_11.getType();
+                                                                        boolean _equals_74 = Objects.equal(_type_34, VariableType.FROM_OBJECT);
+                                                                        if (_equals_74) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_40 = fromElement_1.getWords();
+                                                                            for(final modeltext.Word v_28 : _words_40) {
+                                                                              {
+                                                                                if ((v_28 instanceof modeltext.Variable)) {
+                                                                                  EObject o_20 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_43 = ((modeltext.Variable) v_28).getRef();
+                                                                                    boolean _equals_75 = Objects.equal(_ref_43, null);
+                                                                                    if (_equals_75) {
+                                                                                      _builder.append(o_20 = from_2, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_44 = ((modeltext.Variable) v_28).getRef();
+                                                                                      String _name_71 = _ref_44.getName();
+                                                                                      EStructuralFeature _referenceByName_14 = ModelManager.getReferenceByName(_name_71, from_2);
+                                                                                      Object _eGet_50 = from_2.eGet(_referenceByName_14);
+                                                                                      _builder.append(o_20 = ((EObject) _eGet_50), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_33 = (!Objects.equal(o_20, null));
+                                                                                    if (_notEquals_33) {
+                                                                                      String _text_68 = text;
+                                                                                      EAttribute _id_20 = ((modeltext.Variable) v_28).getId();
+                                                                                      String _name_72 = _id_20.getName();
+                                                                                      EStructuralFeature _attributeByName_20 = ModelManager.getAttributeByName(_name_72, o_20);
+                                                                                      Object _eGet_51 = o_20.eGet(_attributeByName_20);
+                                                                                      String _plus_194 = (_eGet_51 + " ");
+                                                                                      String _plus_195 = text = (_text_68 + _plus_194);
+                                                                                      _builder.append(_plus_195, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
                                                                         }
                                                                       }
                                                                       {
-                                                                        boolean _notEquals_30 = (!Objects.equal(o_18, null));
-                                                                        if (_notEquals_30) {
-                                                                          String _text_58 = text;
-                                                                          EAttribute _id_18 = ((modeltext.Variable) v_21).getId();
-                                                                          String _name_62 = _id_18.getName();
-                                                                          EStructuralFeature _attributeByName_18 = ModelManager.getAttributeByName(_name_62, o_18);
-                                                                          Object _eGet_47 = o_18.eGet(_attributeByName_18);
-                                                                          String _plus_193 = (_eGet_47 + " ");
-                                                                          String _plus_194 = text = (_text_58 + _plus_193);
-                                                                          _builder.append(_plus_194, "");
-                                                                          _builder.newLineIfNotEmpty();
+                                                                        VariableType _type_35 = variable_11.getType();
+                                                                        boolean _equals_76 = Objects.equal(_type_35, VariableType.OBJECT);
+                                                                        if (_equals_76) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_41 = toElement_1.getWords();
+                                                                            for(final modeltext.Word v_29 : _words_41) {
+                                                                              {
+                                                                                if ((v_29 instanceof modeltext.Variable)) {
+                                                                                  EObject o_21 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_45 = ((modeltext.Variable) v_29).getRef();
+                                                                                    boolean _equals_77 = Objects.equal(_ref_45, null);
+                                                                                    if (_equals_77) {
+                                                                                      _builder.append(o_21 = object_5, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_46 = ((modeltext.Variable) v_29).getRef();
+                                                                                      String _name_73 = _ref_46.getName();
+                                                                                      EStructuralFeature _referenceByName_15 = ModelManager.getReferenceByName(_name_73, object_5);
+                                                                                      Object _eGet_52 = object_5.eGet(_referenceByName_15);
+                                                                                      _builder.append(o_21 = ((EObject) _eGet_52), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_34 = (!Objects.equal(o_21, null));
+                                                                                    if (_notEquals_34) {
+                                                                                      String _text_69 = text;
+                                                                                      EAttribute _id_21 = ((modeltext.Variable) v_29).getId();
+                                                                                      String _name_74 = _id_21.getName();
+                                                                                      EStructuralFeature _attributeByName_21 = ModelManager.getAttributeByName(_name_74, o_21);
+                                                                                      Object _eGet_53 = o_21.eGet(_attributeByName_21);
+                                                                                      String _plus_196 = ("to " + _eGet_53);
+                                                                                      String _plus_197 = (_plus_196 + " ");
+                                                                                      String _plus_198 = text = (_text_69 + _plus_197);
+                                                                                      _builder.append(_plus_198, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            } else {
+                                                              String _text_70 = text;
+                                                              String _plus_199 = text = (_text_70 + "Delete ");
+                                                              _builder.append(_plus_199, "");
+                                                              _builder.append(" ");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<modeltext.Word> _words_42 = refSrcElement_1.getWords();
+                                                                for(final modeltext.Word v_30 : _words_42) {
+                                                                  {
+                                                                    if ((v_30 instanceof modeltext.Constant)) {
+                                                                      String _text_71 = text;
+                                                                      String _value_33 = ((modeltext.Constant)v_30).getValue();
+                                                                      String _plus_200 = (_value_33 + " ");
+                                                                      String _plus_201 = text = (_text_71 + _plus_200);
+                                                                      _builder.append(_plus_201, "");
+                                                                      _builder.newLineIfNotEmpty();
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                              String _text_72 = text;
+                                                              String _plus_202 = text = (_text_72 + " from ");
+                                                              _builder.append(_plus_202, "");
+                                                              _builder.newLineIfNotEmpty();
+                                                              {
+                                                                EList<Word> _words_43 = t_8.getWords();
+                                                                for(final Word w_14 : _words_43) {
+                                                                  {
+                                                                    if ((w_14 instanceof Variable)) {
+                                                                      Variable variable_12 = ((Variable) w_14);
+                                                                      _builder.newLineIfNotEmpty();
+                                                                      {
+                                                                        VariableType _type_36 = variable_12.getType();
+                                                                        boolean _equals_78 = Objects.equal(_type_36, VariableType.FROM_OBJECT);
+                                                                        if (_equals_78) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_44 = fromElement_1.getWords();
+                                                                            for(final modeltext.Word v_31 : _words_44) {
+                                                                              {
+                                                                                if ((v_31 instanceof modeltext.Variable)) {
+                                                                                  EObject o_22 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_47 = ((modeltext.Variable) v_31).getRef();
+                                                                                    boolean _equals_79 = Objects.equal(_ref_47, null);
+                                                                                    if (_equals_79) {
+                                                                                      _builder.append(o_22 = from_2, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_48 = ((modeltext.Variable) v_31).getRef();
+                                                                                      String _name_75 = _ref_48.getName();
+                                                                                      EStructuralFeature _referenceByName_16 = ModelManager.getReferenceByName(_name_75, from_2);
+                                                                                      Object _eGet_54 = from_2.eGet(_referenceByName_16);
+                                                                                      _builder.append(o_22 = ((EObject) _eGet_54), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_35 = (!Objects.equal(o_22, null));
+                                                                                    if (_notEquals_35) {
+                                                                                      String _text_73 = text;
+                                                                                      EAttribute _id_22 = ((modeltext.Variable) v_31).getId();
+                                                                                      String _name_76 = _id_22.getName();
+                                                                                      EStructuralFeature _attributeByName_22 = ModelManager.getAttributeByName(_name_76, o_22);
+                                                                                      Object _eGet_55 = o_22.eGet(_attributeByName_22);
+                                                                                      String _plus_203 = (_eGet_55 + " ");
+                                                                                      String _plus_204 = text = (_text_73 + _plus_203);
+                                                                                      _builder.append(_plus_204, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                      {
+                                                                        VariableType _type_37 = variable_12.getType();
+                                                                        boolean _equals_80 = Objects.equal(_type_37, VariableType.OBJECT);
+                                                                        if (_equals_80) {
+                                                                          {
+                                                                            EList<modeltext.Word> _words_45 = toElement_1.getWords();
+                                                                            for(final modeltext.Word v_32 : _words_45) {
+                                                                              {
+                                                                                if ((v_32 instanceof modeltext.Variable)) {
+                                                                                  EObject o_23 = null;
+                                                                                  _builder.newLineIfNotEmpty();
+                                                                                  {
+                                                                                    EReference _ref_49 = ((modeltext.Variable) v_32).getRef();
+                                                                                    boolean _equals_81 = Objects.equal(_ref_49, null);
+                                                                                    if (_equals_81) {
+                                                                                      _builder.append(o_23 = object_5, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    } else {
+                                                                                      EReference _ref_50 = ((modeltext.Variable) v_32).getRef();
+                                                                                      String _name_77 = _ref_50.getName();
+                                                                                      EStructuralFeature _referenceByName_17 = ModelManager.getReferenceByName(_name_77, object_5);
+                                                                                      Object _eGet_56 = object_5.eGet(_referenceByName_17);
+                                                                                      _builder.append(o_23 = ((EObject) _eGet_56), "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                  {
+                                                                                    boolean _notEquals_36 = (!Objects.equal(o_23, null));
+                                                                                    if (_notEquals_36) {
+                                                                                      String _text_74 = text;
+                                                                                      EAttribute _id_23 = ((modeltext.Variable) v_32).getId();
+                                                                                      String _name_78 = _id_23.getName();
+                                                                                      EStructuralFeature _attributeByName_23 = ModelManager.getAttributeByName(_name_78, o_23);
+                                                                                      Object _eGet_57 = o_23.eGet(_attributeByName_23);
+                                                                                      String _plus_205 = ("to " + _eGet_57);
+                                                                                      String _plus_206 = (_plus_205 + " ");
+                                                                                      String _plus_207 = text = (_text_74 + _plus_206);
+                                                                                      _builder.append(_plus_207, "");
+                                                                                      _builder.newLineIfNotEmpty();
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
                                                                         }
                                                                       }
                                                                     }
@@ -2844,41 +3249,17 @@ public class EduTestGenerator implements IGenerator {
                                                               }
                                                             }
                                                           }
-                                                          {
-                                                            VariableType _type_31 = variable_8.getType();
-                                                            boolean _equals_59 = Objects.equal(_type_31, VariableType.FIRST_REF_NAME);
-                                                            if (_equals_59) {
-                                                              String _text_59 = text;
-                                                              String _refName_3 = ((ReferenceSwap)ref).getRefName();
-                                                              String _plus_195 = (_refName_3 + " ");
-                                                              String _plus_196 = text = (_text_59 + _plus_195);
-                                                              _builder.append(_plus_196, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_32 = variable_8.getType();
-                                                            boolean _equals_60 = Objects.equal(_type_32, VariableType.SECOND_REF_NAME);
-                                                            if (_equals_60) {
-                                                              String _text_60 = text;
-                                                              String _firstName_1 = ((ReferenceSwap)ref).getFirstName();
-                                                              String _plus_197 = (_firstName_1 + " ");
-                                                              String _plus_198 = text = (_text_60 + _plus_197);
-                                                              _builder.append(_plus_198, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
                                                         }
                                                       }
-                                                    }
-                                                  }
-                                                  {
-                                                    boolean _contains_9 = references.contains(text);
-                                                    boolean _notEquals_31 = (_contains_9 != true);
-                                                    if (_notEquals_31) {
-                                                      boolean _add_17 = references.add(text);
-                                                      _builder.append(_add_17, "");
-                                                      _builder.newLineIfNotEmpty();
+                                                      {
+                                                        boolean _contains_9 = references.contains(text);
+                                                        boolean _notEquals_37 = (_contains_9 != true);
+                                                        if (_notEquals_37) {
+                                                          boolean _add_17 = references.add(text);
+                                                          _builder.append(_add_17, "");
+                                                          _builder.newLineIfNotEmpty();
+                                                        }
+                                                      }
                                                     }
                                                   }
                                                 }
@@ -2889,8 +3270,8 @@ public class EduTestGenerator implements IGenerator {
                                             for(final String txt_1 : references) {
                                               {
                                                 boolean _contains_10 = opt_1.text.contains(txt_1);
-                                                boolean _notEquals_32 = (_contains_10 != true);
-                                                if (_notEquals_32) {
+                                                boolean _notEquals_38 = (_contains_10 != true);
+                                                if (_notEquals_38) {
                                                   boolean _add_18 = opt_1.text.add(txt_1);
                                                   _builder.append(_add_18, "");
                                                   _builder.newLineIfNotEmpty();
@@ -2904,15 +3285,15 @@ public class EduTestGenerator implements IGenerator {
                                   }
                                   _builder.newLine();
                                   {
-                                    boolean _notEquals_33 = (!Objects.equal(opt_1.text, null));
-                                    if (_notEquals_33) {
+                                    boolean _notEquals_39 = (!Objects.equal(opt_1.text, null));
+                                    if (_notEquals_39) {
                                       boolean isRepeated = this.subsumeRadio(opts_1, opt_1);
                                       _builder.newLineIfNotEmpty();
                                       {
                                         if ((isRepeated == false)) {
-                                          Integer _get_45 = this.total.get(exercise);
-                                          int _plus_199 = ((_get_45).intValue() + 1);
-                                          Integer _put_13 = this.total.put(exercise, Integer.valueOf(_plus_199));
+                                          Integer _get_19 = this.total.get(exercise);
+                                          int _plus_208 = ((_get_19).intValue() + 1);
+                                          Integer _put_13 = this.total.put(exercise, Integer.valueOf(_plus_208));
                                           _builder.append(_put_13, "");
                                           _builder.newLineIfNotEmpty();
                                           boolean _add_19 = opts_1.add(opt_1);
@@ -2938,41 +3319,62 @@ public class EduTestGenerator implements IGenerator {
                 } else {
                   MultiChoiceEmConfig _config_1 = ((MultiChoiceEmendation)exercise).getConfig();
                   Mode _mode_1 = _config_1.getMode();
-                  boolean _equals_61 = Objects.equal(_mode_1, Mode.CHECKBOX);
-                  if (_equals_61) {
+                  boolean _equals_82 = Objects.equal(_mode_1, Mode.CHECKBOX);
+                  if (_equals_82) {
                     {
                       EList<Test> _tests_7 = ((MultiChoiceEmendation)exercise).getTests();
                       for(final Test test_7 : _tests_7) {
                         ArrayList<TestUtils.TestOption> opts_2 = new ArrayList<TestUtils.TestOption>();
                         _builder.newLineIfNotEmpty();
                         {
-                          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_46 = this.options.get(exercise);
-                          ArrayList<TestUtils.TestOption> _get_47 = _get_46.get(test_7);
-                          boolean _notEquals_34 = (!Objects.equal(_get_47, null));
-                          if (_notEquals_34) {
+                          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_20 = this.options.get(exercise);
+                          ArrayList<TestUtils.TestOption> _get_21 = _get_20.get(test_7);
+                          boolean _notEquals_40 = (!Objects.equal(_get_21, null));
+                          if (_notEquals_40) {
                             {
-                              HashMap<Test, ArrayList<TestUtils.TestOption>> _get_48 = this.options.get(exercise);
-                              ArrayList<TestUtils.TestOption> _get_49 = _get_48.get(test_7);
-                              for(final TestUtils.TestOption opt_2 : _get_49) {
+                              HashMap<Test, ArrayList<TestUtils.TestOption>> _get_22 = this.options.get(exercise);
+                              ArrayList<TestUtils.TestOption> _get_23 = _get_22.get(test_7);
+                              for(final TestUtils.TestOption opt_2 : _get_23) {
                                 ArrayList<EObject> _objects_1 = ModelManager.getObjects(opt_2.resource);
                                 ArrayList<EObject> mutations_1 = ModelManager.getMutations(_objects_1);
                                 _builder.newLineIfNotEmpty();
                                 {
                                   for(final EObject mutation_1 : mutations_1) {
+                                    System.out.println(("mutation: " + mutation_1));
+                                    _builder.newLineIfNotEmpty();
                                     String text_1 = "";
                                     _builder.newLineIfNotEmpty();
+                                    EClass _eClass_15 = mutation_1.eClass();
+                                    List<EClass> superTypes_1 = _eClass_15.getEAllSuperTypes();
+                                    _builder.newLineIfNotEmpty();
+                                    boolean flag_1 = false;
+                                    _builder.newLineIfNotEmpty();
                                     {
-                                      if ((mutation_1 instanceof AppMutation)) {
-                                        AppMutation appMut_1 = ((AppMutation) mutation_1);
-                                        _builder.newLineIfNotEmpty();
+                                      for(final EClass cl_1 : superTypes_1) {
                                         {
-                                          if ((appMut_1 instanceof ObjectCreated)) {
+                                          String _name_79 = cl_1.getName();
+                                          boolean _equals_83 = _name_79.equals("AppMutation");
+                                          if (_equals_83) {
+                                            _builder.append(flag_1 = true, "");
+                                            _builder.newLineIfNotEmpty();
+                                          }
+                                        }
+                                      }
+                                    }
+                                    {
+                                      if ((flag_1 == true)) {
+                                        {
+                                          EClass _eClass_16 = mutation_1.eClass();
+                                          String _name_80 = _eClass_16.getName();
+                                          boolean _equals_84 = _name_80.equals("ObjectCreated");
+                                          if (_equals_84) {
                                             _builder.newLine();
                                             Option cfgopt_9 = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_35 = ((ObjectCreated)appMut_1).getObject();
-                                            EObject _get_50 = _object_35.get(0);
-                                            Element element_6 = ModelManager.getElement(_get_50, idelemsresource);
+                                            EObject _reference_15 = ModelManager.getReference("object", mutation_1);
+                                            EObject object_6 = ((List<EObject>) _reference_15).get(0);
+                                            _builder.newLineIfNotEmpty();
+                                            Element element_7 = ModelManager.getElement(object_6, idelemsresource);
                                             _builder.newLineIfNotEmpty();
                                             Text t_9 = null;
                                             _builder.newLineIfNotEmpty();
@@ -2990,75 +3392,69 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                             {
-                                              EList<Word> _words_31 = t_9.getWords();
-                                              for(final Word w_11 : _words_31) {
+                                              EList<Word> _words_46 = t_9.getWords();
+                                              for(final Word w_15 : _words_46) {
                                                 {
-                                                  if ((w_11 instanceof Constant)) {
-                                                    String _text_61 = text_1;
-                                                    String _value_31 = ((Constant)w_11).getValue();
-                                                    String _plus_200 = (_value_31 + " ");
-                                                    String _plus_201 = text_1 = (_text_61 + _plus_200);
-                                                    _builder.append(_plus_201, "");
+                                                  if ((w_15 instanceof Constant)) {
+                                                    String _text_75 = text_1;
+                                                    String _value_34 = ((Constant)w_15).getValue();
+                                                    String _plus_209 = (_value_34 + " ");
+                                                    String _plus_210 = text_1 = (_text_75 + _plus_209);
+                                                    _builder.append(_plus_210, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
                                                 {
-                                                  if ((w_11 instanceof Variable)) {
-                                                    Variable variable_9 = ((Variable) w_11);
+                                                  if ((w_15 instanceof Variable)) {
+                                                    Variable variable_13 = ((Variable) w_15);
                                                     _builder.newLineIfNotEmpty();
                                                     {
-                                                      VariableType _type_33 = variable_9.getType();
-                                                      boolean _equals_62 = Objects.equal(_type_33, VariableType.OBJECT);
-                                                      if (_equals_62) {
+                                                      VariableType _type_38 = variable_13.getType();
+                                                      boolean _equals_85 = Objects.equal(_type_38, VariableType.OBJECT);
+                                                      if (_equals_85) {
                                                         {
-                                                          EList<modeltext.Word> _words_32 = element_6.getWords();
-                                                          for(final modeltext.Word v_22 : _words_32) {
+                                                          EList<modeltext.Word> _words_47 = element_7.getWords();
+                                                          for(final modeltext.Word v_33 : _words_47) {
                                                             {
-                                                              if ((v_22 instanceof modeltext.Constant)) {
-                                                                String _text_62 = text_1;
-                                                                String _value_32 = ((modeltext.Constant)v_22).getValue();
-                                                                String _plus_202 = (_value_32 + " ");
-                                                                String _plus_203 = text_1 = (_text_62 + _plus_202);
-                                                                _builder.append(_plus_203, "");
+                                                              if ((v_33 instanceof modeltext.Constant)) {
+                                                                String _text_76 = text_1;
+                                                                String _value_35 = ((modeltext.Constant)v_33).getValue();
+                                                                String _plus_211 = (_value_35 + " ");
+                                                                String _plus_212 = text_1 = (_text_76 + _plus_211);
+                                                                _builder.append(_plus_212, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_22 instanceof modeltext.Variable)) {
-                                                                EObject o_19 = null;
+                                                              if ((v_33 instanceof modeltext.Variable)) {
+                                                                EObject o_24 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_42 = ((modeltext.Variable) v_22).getRef();
-                                                                  boolean _equals_63 = Objects.equal(_ref_42, null);
-                                                                  if (_equals_63) {
-                                                                    EList<EObject> _object_36 = ((ObjectCreated)appMut_1).getObject();
-                                                                    EObject _get_51 = _object_36.get(0);
-                                                                    _builder.append(o_19 = _get_51, "");
+                                                                  EReference _ref_51 = ((modeltext.Variable) v_33).getRef();
+                                                                  boolean _equals_86 = Objects.equal(_ref_51, null);
+                                                                  if (_equals_86) {
+                                                                    _builder.append(o_24 = object_6, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EList<EObject> _object_37 = ((ObjectCreated)appMut_1).getObject();
-                                                                    EObject _get_52 = _object_37.get(0);
-                                                                    EReference _ref_43 = ((modeltext.Variable) v_22).getRef();
-                                                                    String _name_63 = _ref_43.getName();
-                                                                    EList<EObject> _object_38 = ((ObjectCreated)appMut_1).getObject();
-                                                                    EObject _get_53 = _object_38.get(0);
-                                                                    EStructuralFeature _referenceByName_16 = ModelManager.getReferenceByName(_name_63, ((EObject) _get_53));
-                                                                    Object _eGet_48 = _get_52.eGet(_referenceByName_16);
-                                                                    _builder.append(o_19 = ((EObject) _eGet_48), "");
+                                                                    EReference _ref_52 = ((modeltext.Variable) v_33).getRef();
+                                                                    String _name_81 = _ref_52.getName();
+                                                                    EStructuralFeature _referenceByName_18 = ModelManager.getReferenceByName(_name_81, object_6);
+                                                                    Object _eGet_58 = object_6.eGet(_referenceByName_18);
+                                                                    _builder.append(o_24 = ((EObject) _eGet_58), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_35 = (!Objects.equal(o_19, null));
-                                                                  if (_notEquals_35) {
-                                                                    String _text_63 = text_1;
-                                                                    EAttribute _id_19 = ((modeltext.Variable) v_22).getId();
-                                                                    String _name_64 = _id_19.getName();
-                                                                    EStructuralFeature _attributeByName_19 = ModelManager.getAttributeByName(_name_64, o_19);
-                                                                    Object _eGet_49 = o_19.eGet(_attributeByName_19);
-                                                                    String _plus_204 = (_eGet_49 + " ");
-                                                                    String _plus_205 = text_1 = (_text_63 + _plus_204);
-                                                                    _builder.append(_plus_205, "");
+                                                                  boolean _notEquals_41 = (!Objects.equal(o_24, null));
+                                                                  if (_notEquals_41) {
+                                                                    String _text_77 = text_1;
+                                                                    EAttribute _id_24 = ((modeltext.Variable) v_33).getId();
+                                                                    String _name_82 = _id_24.getName();
+                                                                    EStructuralFeature _attributeByName_24 = ModelManager.getAttributeByName(_name_82, o_24);
+                                                                    Object _eGet_59 = o_24.eGet(_attributeByName_24);
+                                                                    String _plus_213 = (_eGet_59 + " ");
+                                                                    String _plus_214 = text_1 = (_text_77 + _plus_213);
+                                                                    _builder.append(_plus_214, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3085,9 +3481,9 @@ public class EduTestGenerator implements IGenerator {
                                             _builder.newLineIfNotEmpty();
                                             {
                                               if ((isRepeated_1 == false)) {
-                                                Integer _get_54 = this.total.get(exercise);
-                                                int _plus_206 = ((_get_54).intValue() + 1);
-                                                Integer _put_15 = this.total.put(exercise, Integer.valueOf(_plus_206));
+                                                Integer _get_24 = this.total.get(exercise);
+                                                int _plus_215 = ((_get_24).intValue() + 1);
+                                                Integer _put_15 = this.total.put(exercise, Integer.valueOf(_plus_215));
                                                 _builder.append(_put_15, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_21 = opts_2.add(optClone);
@@ -3098,13 +3494,17 @@ public class EduTestGenerator implements IGenerator {
                                           }
                                         }
                                         {
-                                          if ((appMut_1 instanceof ObjectRemoved)) {
+                                          EClass _eClass_17 = mutation_1.eClass();
+                                          String _name_83 = _eClass_17.getName();
+                                          boolean _equals_87 = _name_83.equals("ObjectRemoved");
+                                          if (_equals_87) {
                                             _builder.newLine();
                                             Option cfgopt_10 = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_39 = ((ObjectRemoved)appMut_1).getObject();
-                                            EObject _get_55 = _object_39.get(0);
-                                            Element element_7 = ModelManager.getElement(_get_55, idelemsresource);
+                                            EObject _reference_16 = ModelManager.getReference("object", mutation_1);
+                                            EObject object_7 = ((List<EObject>) _reference_16).get(0);
+                                            _builder.newLineIfNotEmpty();
+                                            Element element_8 = ModelManager.getElement(object_7, idelemsresource);
                                             _builder.newLineIfNotEmpty();
                                             Text t_10 = null;
                                             _builder.newLineIfNotEmpty();
@@ -3122,75 +3522,69 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                             {
-                                              EList<Word> _words_33 = t_10.getWords();
-                                              for(final Word w_12 : _words_33) {
+                                              EList<Word> _words_48 = t_10.getWords();
+                                              for(final Word w_16 : _words_48) {
                                                 {
-                                                  if ((w_12 instanceof Constant)) {
-                                                    String _text_64 = text_1;
-                                                    String _value_33 = ((Constant)w_12).getValue();
-                                                    String _plus_207 = (_value_33 + " ");
-                                                    String _plus_208 = text_1 = (_text_64 + _plus_207);
-                                                    _builder.append(_plus_208, "");
+                                                  if ((w_16 instanceof Constant)) {
+                                                    String _text_78 = text_1;
+                                                    String _value_36 = ((Constant)w_16).getValue();
+                                                    String _plus_216 = (_value_36 + " ");
+                                                    String _plus_217 = text_1 = (_text_78 + _plus_216);
+                                                    _builder.append(_plus_217, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
                                                 {
-                                                  if ((w_12 instanceof Variable)) {
-                                                    Variable variable_10 = ((Variable) w_12);
+                                                  if ((w_16 instanceof Variable)) {
+                                                    Variable variable_14 = ((Variable) w_16);
                                                     _builder.newLineIfNotEmpty();
                                                     {
-                                                      VariableType _type_34 = variable_10.getType();
-                                                      boolean _equals_64 = Objects.equal(_type_34, VariableType.OBJECT);
-                                                      if (_equals_64) {
+                                                      VariableType _type_39 = variable_14.getType();
+                                                      boolean _equals_88 = Objects.equal(_type_39, VariableType.OBJECT);
+                                                      if (_equals_88) {
                                                         {
-                                                          EList<modeltext.Word> _words_34 = element_7.getWords();
-                                                          for(final modeltext.Word v_23 : _words_34) {
+                                                          EList<modeltext.Word> _words_49 = element_8.getWords();
+                                                          for(final modeltext.Word v_34 : _words_49) {
                                                             {
-                                                              if ((v_23 instanceof modeltext.Constant)) {
-                                                                String _text_65 = text_1;
-                                                                String _value_34 = ((modeltext.Constant)v_23).getValue();
-                                                                String _plus_209 = (_value_34 + " ");
-                                                                String _plus_210 = text_1 = (_text_65 + _plus_209);
-                                                                _builder.append(_plus_210, "");
+                                                              if ((v_34 instanceof modeltext.Constant)) {
+                                                                String _text_79 = text_1;
+                                                                String _value_37 = ((modeltext.Constant)v_34).getValue();
+                                                                String _plus_218 = (_value_37 + " ");
+                                                                String _plus_219 = text_1 = (_text_79 + _plus_218);
+                                                                _builder.append(_plus_219, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_23 instanceof modeltext.Variable)) {
-                                                                EObject o_20 = null;
+                                                              if ((v_34 instanceof modeltext.Variable)) {
+                                                                EObject o_25 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_44 = ((modeltext.Variable) v_23).getRef();
-                                                                  boolean _equals_65 = Objects.equal(_ref_44, null);
-                                                                  if (_equals_65) {
-                                                                    EList<EObject> _object_40 = ((ObjectRemoved)appMut_1).getObject();
-                                                                    EObject _get_56 = _object_40.get(0);
-                                                                    _builder.append(o_20 = _get_56, "");
+                                                                  EReference _ref_53 = ((modeltext.Variable) v_34).getRef();
+                                                                  boolean _equals_89 = Objects.equal(_ref_53, null);
+                                                                  if (_equals_89) {
+                                                                    _builder.append(o_25 = object_7, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EList<EObject> _object_41 = ((ObjectRemoved)appMut_1).getObject();
-                                                                    EObject _get_57 = _object_41.get(0);
-                                                                    EReference _ref_45 = ((modeltext.Variable) v_23).getRef();
-                                                                    String _name_65 = _ref_45.getName();
-                                                                    EList<EObject> _object_42 = ((ObjectRemoved)appMut_1).getObject();
-                                                                    EObject _get_58 = _object_42.get(0);
-                                                                    EStructuralFeature _referenceByName_17 = ModelManager.getReferenceByName(_name_65, ((EObject) _get_58));
-                                                                    Object _eGet_50 = _get_57.eGet(_referenceByName_17);
-                                                                    _builder.append(o_20 = ((EObject) _eGet_50), "");
+                                                                    EReference _ref_54 = ((modeltext.Variable) v_34).getRef();
+                                                                    String _name_84 = _ref_54.getName();
+                                                                    EStructuralFeature _referenceByName_19 = ModelManager.getReferenceByName(_name_84, object_7);
+                                                                    Object _eGet_60 = object_7.eGet(_referenceByName_19);
+                                                                    _builder.append(o_25 = ((EObject) _eGet_60), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_36 = (!Objects.equal(o_20, null));
-                                                                  if (_notEquals_36) {
-                                                                    String _text_66 = text_1;
-                                                                    EAttribute _id_20 = ((modeltext.Variable) v_23).getId();
-                                                                    String _name_66 = _id_20.getName();
-                                                                    EStructuralFeature _attributeByName_20 = ModelManager.getAttributeByName(_name_66, o_20);
-                                                                    Object _eGet_51 = o_20.eGet(_attributeByName_20);
-                                                                    String _plus_211 = (_eGet_51 + " ");
-                                                                    String _plus_212 = text_1 = (_text_66 + _plus_211);
-                                                                    _builder.append(_plus_212, "");
+                                                                  boolean _notEquals_42 = (!Objects.equal(o_25, null));
+                                                                  if (_notEquals_42) {
+                                                                    String _text_80 = text_1;
+                                                                    EAttribute _id_25 = ((modeltext.Variable) v_34).getId();
+                                                                    String _name_85 = _id_25.getName();
+                                                                    EStructuralFeature _attributeByName_25 = ModelManager.getAttributeByName(_name_85, o_25);
+                                                                    Object _eGet_61 = o_25.eGet(_attributeByName_25);
+                                                                    String _plus_220 = (_eGet_61 + " ");
+                                                                    String _plus_221 = text_1 = (_text_80 + _plus_220);
+                                                                    _builder.append(_plus_221, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3211,9 +3605,9 @@ public class EduTestGenerator implements IGenerator {
                                                         _builder.newLineIfNotEmpty();
                                                         {
                                                           if ((isRepeated_2 == false)) {
-                                                            Integer _get_59 = this.total.get(exercise);
-                                                            int _plus_213 = ((_get_59).intValue() + 1);
-                                                            Integer _put_16 = this.total.put(exercise, Integer.valueOf(_plus_213));
+                                                            Integer _get_25 = this.total.get(exercise);
+                                                            int _plus_222 = ((_get_25).intValue() + 1);
+                                                            Integer _put_16 = this.total.put(exercise, Integer.valueOf(_plus_222));
                                                             _builder.append(_put_16, "");
                                                             _builder.newLineIfNotEmpty();
                                                             boolean _add_23 = opts_2.add(optClone_1);
@@ -3229,8 +3623,8 @@ public class EduTestGenerator implements IGenerator {
                                             }
                                             {
                                               boolean _contains_11 = opt_2.text.contains(text_1);
-                                              boolean _notEquals_37 = (_contains_11 != true);
-                                              if (_notEquals_37) {
+                                              boolean _notEquals_43 = (_contains_11 != true);
+                                              if (_notEquals_43) {
                                                 boolean _add_24 = opt_2.text.add(text_1);
                                                 _builder.append(_add_24, "");
                                                 _builder.newLineIfNotEmpty();
@@ -3239,7 +3633,10 @@ public class EduTestGenerator implements IGenerator {
                                           }
                                         }
                                         {
-                                          if ((appMut_1 instanceof SourceReferenceChanged)) {
+                                          EClass _eClass_18 = mutation_1.eClass();
+                                          String _name_86 = _eClass_18.getName();
+                                          boolean _equals_90 = _name_86.equals("SourceReferenceChanged");
+                                          if (_equals_90) {
                                             _builder.newLine();
                                             _builder.newLine();
                                             _builder.newLine();
@@ -3248,27 +3645,29 @@ public class EduTestGenerator implements IGenerator {
                                             _builder.newLine();
                                             Option cfgopt_11 = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _from_18 = ((SourceReferenceChanged)appMut_1).getFrom();
-                                            EClass _eClass_3 = _from_18.eClass();
-                                            String _refName_4 = ((SourceReferenceChanged)appMut_1).getRefName();
-                                            EStructuralFeature srcRef_1 = _eClass_3.getEStructuralFeature(_refName_4);
+                                            EObject _reference_17 = ModelManager.getReference("from", mutation_1);
+                                            EObject from_3 = ((EObject) _reference_17);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _from_19 = ((SourceReferenceChanged)appMut_1).getFrom();
-                                            Object _eGet_52 = _from_19.eGet(srcRef_1);
-                                            Element refElement_1 = ModelManager.getRefElement(((EObject) _eGet_52), srcRef_1, idelemsresource);
+                                            Object _attribute_12 = ModelManager.getAttribute("refName", mutation_1);
+                                            String refName_5 = ((String) _attribute_12);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _from_20 = ((SourceReferenceChanged)appMut_1).getFrom();
-                                            Object _eGet_53 = _from_20.eGet(srcRef_1);
-                                            Element srcElement_1 = ModelManager.getElement(((EObject) _eGet_53), idelemsresource);
+                                            EClass _eClass_19 = from_3.eClass();
+                                            EStructuralFeature srcRef_1 = _eClass_19.getEStructuralFeature(refName_5);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _to_12 = ((SourceReferenceChanged)appMut_1).getTo();
-                                            EClass _eClass_4 = _to_12.eClass();
-                                            String _refName_5 = ((SourceReferenceChanged)appMut_1).getRefName();
-                                            EStructuralFeature tarRef_1 = _eClass_4.getEStructuralFeature(_refName_5);
+                                            Object _eGet_62 = from_3.eGet(srcRef_1);
+                                            Element refElement_1 = ModelManager.getRefElement(((EObject) _eGet_62), srcRef_1, idelemsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _to_13 = ((SourceReferenceChanged)appMut_1).getTo();
-                                            Object _eGet_54 = _to_13.eGet(tarRef_1);
-                                            Element tarElement_1 = ModelManager.getElement(((EObject) _eGet_54), idelemsresource);
+                                            Object _eGet_63 = from_3.eGet(srcRef_1);
+                                            Element srcElement_1 = ModelManager.getElement(((EObject) _eGet_63), idelemsresource);
+                                            _builder.newLineIfNotEmpty();
+                                            EObject _reference_18 = ModelManager.getReference("to", mutation_1);
+                                            EObject to_3 = ((EObject) _reference_18);
+                                            _builder.newLineIfNotEmpty();
+                                            EClass _eClass_20 = to_3.eClass();
+                                            EStructuralFeature tarRef_1 = _eClass_20.getEStructuralFeature(refName_5);
+                                            _builder.newLineIfNotEmpty();
+                                            Object _eGet_64 = to_3.eGet(tarRef_1);
+                                            Element tarElement_1 = ModelManager.getElement(((EObject) _eGet_64), idelemsresource);
                                             _builder.newLineIfNotEmpty();
                                             Text t_11 = null;
                                             _builder.newLineIfNotEmpty();
@@ -3286,75 +3685,72 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                             {
-                                              EList<Word> _words_35 = t_11.getWords();
-                                              for(final Word w_13 : _words_35) {
+                                              EList<Word> _words_50 = t_11.getWords();
+                                              for(final Word w_17 : _words_50) {
                                                 {
-                                                  if ((w_13 instanceof Constant)) {
-                                                    String _text_67 = text_1;
-                                                    String _value_35 = ((Constant)w_13).getValue();
-                                                    String _plus_214 = (_value_35 + " ");
-                                                    String _plus_215 = text_1 = (_text_67 + _plus_214);
-                                                    _builder.append(_plus_215, "");
+                                                  if ((w_17 instanceof Constant)) {
+                                                    String _text_81 = text_1;
+                                                    String _value_38 = ((Constant)w_17).getValue();
+                                                    String _plus_223 = (_value_38 + " ");
+                                                    String _plus_224 = text_1 = (_text_81 + _plus_223);
+                                                    _builder.append(_plus_224, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
                                                 {
-                                                  if ((w_13 instanceof Variable)) {
-                                                    Variable variable_11 = ((Variable) w_13);
+                                                  if ((w_17 instanceof Variable)) {
+                                                    Variable variable_15 = ((Variable) w_17);
                                                     _builder.newLineIfNotEmpty();
                                                     {
-                                                      VariableType _type_35 = variable_11.getType();
-                                                      boolean _equals_66 = Objects.equal(_type_35, VariableType.OLD_FROM_OBJECT);
-                                                      if (_equals_66) {
+                                                      VariableType _type_40 = variable_15.getType();
+                                                      boolean _equals_91 = Objects.equal(_type_40, VariableType.OLD_FROM_OBJECT);
+                                                      if (_equals_91) {
                                                         {
-                                                          EList<modeltext.Word> _words_36 = srcElement_1.getWords();
-                                                          for(final modeltext.Word v_24 : _words_36) {
+                                                          EList<modeltext.Word> _words_51 = srcElement_1.getWords();
+                                                          for(final modeltext.Word v_35 : _words_51) {
                                                             {
-                                                              if ((v_24 instanceof modeltext.Constant)) {
-                                                                String _text_68 = text_1;
-                                                                String _value_36 = ((modeltext.Constant)v_24).getValue();
-                                                                String _plus_216 = (_value_36 + " ");
-                                                                String _plus_217 = text_1 = (_text_68 + _plus_216);
-                                                                _builder.append(_plus_217, "");
+                                                              if ((v_35 instanceof modeltext.Constant)) {
+                                                                String _text_82 = text_1;
+                                                                String _value_39 = ((modeltext.Constant)v_35).getValue();
+                                                                String _plus_225 = (_value_39 + " ");
+                                                                String _plus_226 = text_1 = (_text_82 + _plus_225);
+                                                                _builder.append(_plus_226, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_24 instanceof modeltext.Variable)) {
-                                                                EObject o_21 = null;
+                                                              if ((v_35 instanceof modeltext.Variable)) {
+                                                                EObject o_26 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_46 = ((modeltext.Variable) v_24).getRef();
-                                                                  boolean _equals_67 = Objects.equal(_ref_46, null);
-                                                                  if (_equals_67) {
-                                                                    EObject _from_21 = ((SourceReferenceChanged)appMut_1).getFrom();
-                                                                    Object _eGet_55 = _from_21.eGet(srcRef_1);
-                                                                    _builder.append(o_21 = ((EObject) _eGet_55), "");
+                                                                  EReference _ref_55 = ((modeltext.Variable) v_35).getRef();
+                                                                  boolean _equals_92 = Objects.equal(_ref_55, null);
+                                                                  if (_equals_92) {
+                                                                    Object _eGet_65 = from_3.eGet(srcRef_1);
+                                                                    _builder.append(o_26 = ((EObject) _eGet_65), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EObject _from_22 = ((SourceReferenceChanged)appMut_1).getFrom();
-                                                                    Object _eGet_56 = _from_22.eGet(srcRef_1);
-                                                                    EReference _ref_47 = ((modeltext.Variable) v_24).getRef();
-                                                                    String _name_67 = _ref_47.getName();
-                                                                    EObject _from_23 = ((SourceReferenceChanged)appMut_1).getFrom();
-                                                                    Object _eGet_57 = _from_23.eGet(srcRef_1);
-                                                                    EStructuralFeature _referenceByName_18 = ModelManager.getReferenceByName(_name_67, ((EObject) _eGet_57));
-                                                                    Object _eGet_58 = ((EObject) _eGet_56).eGet(_referenceByName_18);
-                                                                    _builder.append(o_21 = ((EObject) _eGet_58), "");
+                                                                    Object _eGet_66 = from_3.eGet(srcRef_1);
+                                                                    EReference _ref_56 = ((modeltext.Variable) v_35).getRef();
+                                                                    String _name_87 = _ref_56.getName();
+                                                                    Object _eGet_67 = from_3.eGet(srcRef_1);
+                                                                    EStructuralFeature _referenceByName_20 = ModelManager.getReferenceByName(_name_87, ((EObject) _eGet_67));
+                                                                    Object _eGet_68 = ((EObject) _eGet_66).eGet(_referenceByName_20);
+                                                                    _builder.append(o_26 = ((EObject) _eGet_68), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_38 = (!Objects.equal(o_21, null));
-                                                                  if (_notEquals_38) {
-                                                                    String _text_69 = text_1;
-                                                                    EAttribute _id_21 = ((modeltext.Variable) v_24).getId();
-                                                                    String _name_68 = _id_21.getName();
-                                                                    EStructuralFeature _attributeByName_21 = ModelManager.getAttributeByName(_name_68, o_21);
-                                                                    Object _eGet_59 = o_21.eGet(_attributeByName_21);
-                                                                    String _plus_218 = (_eGet_59 + " ");
-                                                                    String _plus_219 = text_1 = (_text_69 + _plus_218);
-                                                                    _builder.append(_plus_219, "");
+                                                                  boolean _notEquals_44 = (!Objects.equal(o_26, null));
+                                                                  if (_notEquals_44) {
+                                                                    String _text_83 = text_1;
+                                                                    EAttribute _id_26 = ((modeltext.Variable) v_35).getId();
+                                                                    String _name_88 = _id_26.getName();
+                                                                    EStructuralFeature _attributeByName_26 = ModelManager.getAttributeByName(_name_88, o_26);
+                                                                    Object _eGet_69 = o_26.eGet(_attributeByName_26);
+                                                                    String _plus_227 = (_eGet_69 + " ");
+                                                                    String _plus_228 = text_1 = (_text_83 + _plus_227);
+                                                                    _builder.append(_plus_228, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3365,58 +3761,55 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_36 = variable_11.getType();
-                                                      boolean _equals_68 = Objects.equal(_type_36, VariableType.FROM_OBJECT);
-                                                      if (_equals_68) {
+                                                      VariableType _type_41 = variable_15.getType();
+                                                      boolean _equals_93 = Objects.equal(_type_41, VariableType.FROM_OBJECT);
+                                                      if (_equals_93) {
                                                         {
-                                                          EList<modeltext.Word> _words_37 = tarElement_1.getWords();
-                                                          for(final modeltext.Word v_25 : _words_37) {
+                                                          EList<modeltext.Word> _words_52 = tarElement_1.getWords();
+                                                          for(final modeltext.Word v_36 : _words_52) {
                                                             {
-                                                              if ((v_25 instanceof modeltext.Constant)) {
-                                                                String _text_70 = text_1;
-                                                                String _value_37 = ((modeltext.Constant)v_25).getValue();
-                                                                String _plus_220 = (_value_37 + " ");
-                                                                String _plus_221 = text_1 = (_text_70 + _plus_220);
-                                                                _builder.append(_plus_221, "");
+                                                              if ((v_36 instanceof modeltext.Constant)) {
+                                                                String _text_84 = text_1;
+                                                                String _value_40 = ((modeltext.Constant)v_36).getValue();
+                                                                String _plus_229 = (_value_40 + " ");
+                                                                String _plus_230 = text_1 = (_text_84 + _plus_229);
+                                                                _builder.append(_plus_230, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_25 instanceof modeltext.Variable)) {
-                                                                EObject o_22 = null;
+                                                              if ((v_36 instanceof modeltext.Variable)) {
+                                                                EObject o_27 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_48 = ((modeltext.Variable) v_25).getRef();
-                                                                  boolean _equals_69 = Objects.equal(_ref_48, null);
-                                                                  if (_equals_69) {
-                                                                    EObject _to_14 = ((SourceReferenceChanged)appMut_1).getTo();
-                                                                    Object _eGet_60 = _to_14.eGet(tarRef_1);
-                                                                    _builder.append(o_22 = ((EObject) _eGet_60), "");
+                                                                  EReference _ref_57 = ((modeltext.Variable) v_36).getRef();
+                                                                  boolean _equals_94 = Objects.equal(_ref_57, null);
+                                                                  if (_equals_94) {
+                                                                    Object _eGet_70 = to_3.eGet(tarRef_1);
+                                                                    _builder.append(o_27 = ((EObject) _eGet_70), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EObject _to_15 = ((SourceReferenceChanged)appMut_1).getTo();
-                                                                    Object _eGet_61 = _to_15.eGet(tarRef_1);
-                                                                    EReference _ref_49 = ((modeltext.Variable) v_25).getRef();
-                                                                    String _name_69 = _ref_49.getName();
-                                                                    EObject _to_16 = ((SourceReferenceChanged)appMut_1).getTo();
-                                                                    Object _eGet_62 = _to_16.eGet(tarRef_1);
-                                                                    EStructuralFeature _referenceByName_19 = ModelManager.getReferenceByName(_name_69, ((EObject) _eGet_62));
-                                                                    Object _eGet_63 = ((EObject) _eGet_61).eGet(_referenceByName_19);
-                                                                    _builder.append(o_22 = ((EObject) _eGet_63), "");
+                                                                    Object _eGet_71 = to_3.eGet(tarRef_1);
+                                                                    EReference _ref_58 = ((modeltext.Variable) v_36).getRef();
+                                                                    String _name_89 = _ref_58.getName();
+                                                                    Object _eGet_72 = to_3.eGet(tarRef_1);
+                                                                    EStructuralFeature _referenceByName_21 = ModelManager.getReferenceByName(_name_89, ((EObject) _eGet_72));
+                                                                    Object _eGet_73 = ((EObject) _eGet_71).eGet(_referenceByName_21);
+                                                                    _builder.append(o_27 = ((EObject) _eGet_73), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_39 = (!Objects.equal(o_22, null));
-                                                                  if (_notEquals_39) {
-                                                                    String _text_71 = text_1;
-                                                                    EAttribute _id_22 = ((modeltext.Variable) v_25).getId();
-                                                                    String _name_70 = _id_22.getName();
-                                                                    EStructuralFeature _attributeByName_22 = ModelManager.getAttributeByName(_name_70, o_22);
-                                                                    Object _eGet_64 = o_22.eGet(_attributeByName_22);
-                                                                    String _plus_222 = (_eGet_64 + " ");
-                                                                    String _plus_223 = text_1 = (_text_71 + _plus_222);
-                                                                    _builder.append(_plus_223, "");
+                                                                  boolean _notEquals_45 = (!Objects.equal(o_27, null));
+                                                                  if (_notEquals_45) {
+                                                                    String _text_85 = text_1;
+                                                                    EAttribute _id_27 = ((modeltext.Variable) v_36).getId();
+                                                                    String _name_90 = _id_27.getName();
+                                                                    EStructuralFeature _attributeByName_27 = ModelManager.getAttributeByName(_name_90, o_27);
+                                                                    Object _eGet_74 = o_27.eGet(_attributeByName_27);
+                                                                    String _plus_231 = (_eGet_74 + " ");
+                                                                    String _plus_232 = text_1 = (_text_85 + _plus_231);
+                                                                    _builder.append(_plus_232, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3427,19 +3820,19 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_37 = variable_11.getType();
-                                                      boolean _equals_70 = Objects.equal(_type_37, VariableType.REF_NAME);
-                                                      if (_equals_70) {
+                                                      VariableType _type_42 = variable_15.getType();
+                                                      boolean _equals_95 = Objects.equal(_type_42, VariableType.REF_NAME);
+                                                      if (_equals_95) {
                                                         {
-                                                          EList<modeltext.Word> _words_38 = refElement_1.getWords();
-                                                          for(final modeltext.Word v_26 : _words_38) {
+                                                          EList<modeltext.Word> _words_53 = refElement_1.getWords();
+                                                          for(final modeltext.Word v_37 : _words_53) {
                                                             {
-                                                              if ((v_26 instanceof modeltext.Constant)) {
-                                                                String _text_72 = text_1;
-                                                                String _value_38 = ((modeltext.Constant)v_26).getValue();
-                                                                String _plus_224 = (_value_38 + " ");
-                                                                String _plus_225 = text_1 = (_text_72 + _plus_224);
-                                                                _builder.append(_plus_225, "");
+                                                              if ((v_37 instanceof modeltext.Constant)) {
+                                                                String _text_86 = text_1;
+                                                                String _value_41 = ((modeltext.Constant)v_37).getValue();
+                                                                String _plus_233 = (_value_41 + " ");
+                                                                String _plus_234 = text_1 = (_text_86 + _plus_233);
+                                                                _builder.append(_plus_234, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3464,9 +3857,9 @@ public class EduTestGenerator implements IGenerator {
                                             _builder.newLineIfNotEmpty();
                                             {
                                               if ((isRepeated_3 == false)) {
-                                                Integer _get_60 = this.total.get(exercise);
-                                                int _plus_226 = ((_get_60).intValue() + 1);
-                                                Integer _put_17 = this.total.put(exercise, Integer.valueOf(_plus_226));
+                                                Integer _get_26 = this.total.get(exercise);
+                                                int _plus_235 = ((_get_26).intValue() + 1);
+                                                Integer _put_17 = this.total.put(exercise, Integer.valueOf(_plus_235));
                                                 _builder.append(_put_17, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_26 = opts_2.add(optClone_2);
@@ -3476,43 +3869,51 @@ public class EduTestGenerator implements IGenerator {
                                             }
                                           }
                                         }
+                                        EClass _eClass_21 = mutation_1.eClass();
+                                        String _name_91 = _eClass_21.getName();
+                                        String _plus_236 = ("mutation.eClass.name: " + _name_91);
+                                        System.out.println(_plus_236);
+                                        _builder.newLineIfNotEmpty();
                                         {
-                                          if ((appMut_1 instanceof TargetReferenceChanged)) {
+                                          EClass _eClass_22 = mutation_1.eClass();
+                                          String _name_92 = _eClass_22.getName();
+                                          boolean _equals_96 = _name_92.equals("TargetReferenceChanged");
+                                          if (_equals_96) {
                                             _builder.newLine();
                                             _builder.newLine();
                                             _builder.newLine();
                                             Option cfgopt_12 = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_43 = ((TargetReferenceChanged)appMut_1).getObject();
-                                            EObject _get_61 = _object_43.get(0);
-                                            Element element_8 = ModelManager.getElement(_get_61, idelemsresource);
+                                            List<EObject> _references_3 = ModelManager.getReferences("object", mutation_1);
+                                            EObject object_8 = ((List<EObject>) _references_3).get(0);
                                             _builder.newLineIfNotEmpty();
-                                            String _srcRefName_1 = ((TargetReferenceChanged)appMut_1).getSrcRefName();
-                                            EList<EObject> _object_44 = ((TargetReferenceChanged)appMut_1).getObject();
-                                            EObject _get_62 = _object_44.get(0);
-                                            EStructuralFeature refSrc_1 = ModelManager.getReferenceByName(_srcRefName_1, _get_62);
+                                            Element element_9 = ModelManager.getElement(object_8, idelemsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_45 = ((TargetReferenceChanged)appMut_1).getObject();
-                                            EObject _get_63 = _object_45.get(0);
-                                            Element refSrcElement_1 = ModelManager.getRefElement(_get_63, refSrc_1, idelemsresource);
+                                            Object _attribute_13 = ModelManager.getAttribute("refName", mutation_1);
+                                            String refName_6 = ((String) _attribute_13);
                                             _builder.newLineIfNotEmpty();
-                                            String _refName_6 = ((TargetReferenceChanged)appMut_1).getRefName();
-                                            EList<EObject> _object_46 = ((TargetReferenceChanged)appMut_1).getObject();
-                                            EObject _get_64 = _object_46.get(0);
-                                            EStructuralFeature refTar_1 = ModelManager.getReferenceByName(_refName_6, _get_64);
+                                            EStructuralFeature refSrc_2 = ModelManager.getReferenceByName(refName_6, object_8);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_47 = ((TargetReferenceChanged)appMut_1).getObject();
-                                            EObject _get_65 = _object_47.get(0);
-                                            Element refTarElement_1 = ModelManager.getRefElement(_get_65, refTar_1, idelemsresource);
+                                            Element refSrcElement_2 = ModelManager.getRefElement(object_8, refSrc_2, idelemsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _from_24 = ((TargetReferenceChanged)appMut_1).getFrom();
-                                            Element fromElement_1 = ModelManager.getElement(_from_24, idelemsresource);
+                                            EStructuralFeature refTar_2 = ModelManager.getReferenceByName(refName_6, object_8);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _to_17 = ((TargetReferenceChanged)appMut_1).getTo();
-                                            Element toElement_1 = ModelManager.getElement(_to_17, idelemsresource);
+                                            Element refTarElement_2 = ModelManager.getRefElement(object_8, refTar_2, idelemsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EObject _oldTo_3 = ((TargetReferenceChanged)appMut_1).getOldTo();
-                                            Element oldToElement_1 = ModelManager.getElement(_oldTo_3, idelemsresource);
+                                            EObject _reference_19 = ModelManager.getReference("from", mutation_1);
+                                            EObject from_4 = ((EObject) _reference_19);
+                                            _builder.newLineIfNotEmpty();
+                                            Element fromElement_2 = ModelManager.getElement(from_4, idelemsresource);
+                                            _builder.newLineIfNotEmpty();
+                                            EObject _reference_20 = ModelManager.getReference("to", mutation_1);
+                                            EObject to_4 = ((EObject) _reference_20);
+                                            _builder.newLineIfNotEmpty();
+                                            Element toElement_2 = ModelManager.getElement(to_4, idelemsresource);
+                                            _builder.newLineIfNotEmpty();
+                                            EObject _reference_21 = ModelManager.getReference("oldTo", mutation_1);
+                                            EObject oldTo_1 = ((EObject) _reference_21);
+                                            _builder.newLineIfNotEmpty();
+                                            Element oldToElement_1 = ModelManager.getElement(oldTo_1, idelemsresource);
                                             _builder.newLineIfNotEmpty();
                                             Text t_12 = null;
                                             _builder.newLineIfNotEmpty();
@@ -3530,199 +3931,78 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                             {
-                                              EList<Word> _words_39 = t_12.getWords();
-                                              for(final Word w_14 : _words_39) {
+                                              EList<Word> _words_54 = t_12.getWords();
+                                              for(final Word w_18 : _words_54) {
                                                 {
-                                                  if ((w_14 instanceof Constant)) {
-                                                    String _text_73 = text_1;
-                                                    String _value_39 = ((Constant)w_14).getValue();
-                                                    String _plus_227 = (_value_39 + " ");
-                                                    String _plus_228 = text_1 = (_text_73 + _plus_227);
-                                                    _builder.append(_plus_228, "");
+                                                  if ((w_18 instanceof Constant)) {
+                                                    String _text_87 = text_1;
+                                                    String _value_42 = ((Constant)w_18).getValue();
+                                                    String _plus_237 = (_value_42 + " ");
+                                                    String _plus_238 = text_1 = (_text_87 + _plus_237);
+                                                    _builder.append(_plus_238, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
                                                 {
-                                                  if ((w_14 instanceof Variable)) {
-                                                    Variable variable_12 = ((Variable) w_14);
+                                                  if ((w_18 instanceof Variable)) {
+                                                    Variable variable_16 = ((Variable) w_18);
                                                     _builder.newLineIfNotEmpty();
                                                     {
-                                                      VariableType _type_38 = variable_12.getType();
-                                                      boolean _equals_71 = Objects.equal(_type_38, VariableType.OBJECT);
-                                                      if (_equals_71) {
+                                                      VariableType _type_43 = variable_16.getType();
+                                                      boolean _equals_97 = Objects.equal(_type_43, VariableType.OBJECT);
+                                                      if (_equals_97) {
                                                         {
-                                                          Attribute _att = element_8.getAtt();
-                                                          boolean _equals_72 = Objects.equal(_att, null);
-                                                          if (_equals_72) {
+                                                          Attribute _att = element_9.getAtt();
+                                                          boolean _equals_98 = Objects.equal(_att, null);
+                                                          if (_equals_98) {
                                                             {
-                                                              EList<modeltext.Word> _words_40 = element_8.getWords();
-                                                              for(final modeltext.Word v_27 : _words_40) {
+                                                              EList<modeltext.Word> _words_55 = element_9.getWords();
+                                                              for(final modeltext.Word v_38 : _words_55) {
                                                                 {
-                                                                  if ((v_27 instanceof modeltext.Constant)) {
-                                                                    String _text_74 = text_1;
-                                                                    String _value_40 = ((modeltext.Constant)v_27).getValue();
-                                                                    String _plus_229 = (_value_40 + " ");
-                                                                    String _plus_230 = text_1 = (_text_74 + _plus_229);
-                                                                    _builder.append(_plus_230, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  if ((v_27 instanceof modeltext.Variable)) {
-                                                                    EObject o_23 = null;
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      EReference _ref_50 = ((modeltext.Variable) v_27).getRef();
-                                                                      boolean _equals_73 = Objects.equal(_ref_50, null);
-                                                                      if (_equals_73) {
-                                                                        EList<EObject> _object_48 = ((TargetReferenceChanged)appMut_1).getObject();
-                                                                        EObject _get_66 = _object_48.get(0);
-                                                                        _builder.append(o_23 = _get_66, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      } else {
-                                                                        EList<EObject> _object_49 = ((TargetReferenceChanged)appMut_1).getObject();
-                                                                        EObject _get_67 = _object_49.get(0);
-                                                                        EReference _ref_51 = ((modeltext.Variable) v_27).getRef();
-                                                                        String _name_71 = _ref_51.getName();
-                                                                        EList<EObject> _object_50 = ((TargetReferenceChanged)appMut_1).getObject();
-                                                                        EObject _get_68 = _object_50.get(0);
-                                                                        EStructuralFeature _referenceByName_20 = ModelManager.getReferenceByName(_name_71, ((EObject) _get_68));
-                                                                        Object _eGet_65 = _get_67.eGet(_referenceByName_20);
-                                                                        _builder.append(o_23 = ((EObject) _eGet_65), "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      boolean _notEquals_40 = (!Objects.equal(o_23, null));
-                                                                      if (_notEquals_40) {
-                                                                        String _text_75 = text_1;
-                                                                        EAttribute _id_23 = ((modeltext.Variable) v_27).getId();
-                                                                        String _name_72 = _id_23.getName();
-                                                                        EStructuralFeature _attributeByName_23 = ModelManager.getAttributeByName(_name_72, o_23);
-                                                                        Object _eGet_66 = o_23.eGet(_attributeByName_23);
-                                                                        String _plus_231 = (_eGet_66 + " ");
-                                                                        String _plus_232 = text_1 = (_text_75 + _plus_231);
-                                                                        _builder.append(_plus_232, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_39 = variable_12.getType();
-                                                      boolean _equals_74 = Objects.equal(_type_39, VariableType.FROM_OBJECT);
-                                                      if (_equals_74) {
-                                                        {
-                                                          EList<modeltext.Word> _words_41 = fromElement_1.getWords();
-                                                          for(final modeltext.Word v_28 : _words_41) {
-                                                            {
-                                                              if ((v_28 instanceof modeltext.Constant)) {
-                                                                String _text_76 = text_1;
-                                                                String _value_41 = ((modeltext.Constant)v_28).getValue();
-                                                                String _plus_233 = (_value_41 + " ");
-                                                                String _plus_234 = text_1 = (_text_76 + _plus_233);
-                                                                _builder.append(_plus_234, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_28 instanceof modeltext.Variable)) {
-                                                                EObject o_24 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_52 = ((modeltext.Variable) v_28).getRef();
-                                                                  boolean _equals_75 = Objects.equal(_ref_52, null);
-                                                                  if (_equals_75) {
-                                                                    EObject _from_25 = ((TargetReferenceChanged)appMut_1).getFrom();
-                                                                    _builder.append(o_24 = _from_25, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    EObject _from_26 = ((TargetReferenceChanged)appMut_1).getFrom();
-                                                                    EReference _ref_53 = ((modeltext.Variable) v_28).getRef();
-                                                                    String _name_73 = _ref_53.getName();
-                                                                    EObject _from_27 = ((TargetReferenceChanged)appMut_1).getFrom();
-                                                                    EStructuralFeature _referenceByName_21 = ModelManager.getReferenceByName(_name_73, ((EObject) _from_27));
-                                                                    Object _eGet_67 = _from_26.eGet(_referenceByName_21);
-                                                                    _builder.append(o_24 = ((EObject) _eGet_67), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_41 = (!Objects.equal(o_24, null));
-                                                                  if (_notEquals_41) {
-                                                                    String _text_77 = text_1;
-                                                                    EAttribute _id_24 = ((modeltext.Variable) v_28).getId();
-                                                                    String _name_74 = _id_24.getName();
-                                                                    EStructuralFeature _attributeByName_24 = ModelManager.getAttributeByName(_name_74, o_24);
-                                                                    Object _eGet_68 = o_24.eGet(_attributeByName_24);
-                                                                    String _plus_235 = (_eGet_68 + " ");
-                                                                    String _plus_236 = text_1 = (_text_77 + _plus_235);
-                                                                    _builder.append(_plus_236, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_40 = variable_12.getType();
-                                                      boolean _equals_76 = Objects.equal(_type_40, VariableType.TO_OBJECT);
-                                                      if (_equals_76) {
-                                                        {
-                                                          EList<modeltext.Word> _words_42 = toElement_1.getWords();
-                                                          for(final modeltext.Word v_29 : _words_42) {
-                                                            {
-                                                              if ((v_29 instanceof modeltext.Constant)) {
-                                                                String _text_78 = text_1;
-                                                                String _value_42 = ((modeltext.Constant)v_29).getValue();
-                                                                String _plus_237 = (_value_42 + " ");
-                                                                String _plus_238 = text_1 = (_text_78 + _plus_237);
-                                                                _builder.append(_plus_238, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_29 instanceof modeltext.Variable)) {
-                                                                EObject o_25 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_54 = ((modeltext.Variable) v_29).getRef();
-                                                                  boolean _equals_77 = Objects.equal(_ref_54, null);
-                                                                  if (_equals_77) {
-                                                                    EObject _to_18 = ((TargetReferenceChanged)appMut_1).getTo();
-                                                                    _builder.append(o_25 = _to_18, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    EObject _to_19 = ((TargetReferenceChanged)appMut_1).getTo();
-                                                                    EReference _ref_55 = ((modeltext.Variable) v_29).getRef();
-                                                                    Object _eGet_69 = _to_19.eGet(_ref_55);
-                                                                    _builder.append(o_25 = ((EObject) _eGet_69), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_42 = (!Objects.equal(o_25, null));
-                                                                  if (_notEquals_42) {
-                                                                    String _text_79 = text_1;
-                                                                    EAttribute _id_25 = ((modeltext.Variable) v_29).getId();
-                                                                    String _name_75 = _id_25.getName();
-                                                                    EStructuralFeature _attributeByName_25 = ModelManager.getAttributeByName(_name_75, o_25);
-                                                                    Object _eGet_70 = o_25.eGet(_attributeByName_25);
-                                                                    String _plus_239 = (_eGet_70 + " ");
-                                                                    String _plus_240 = text_1 = (_text_79 + _plus_239);
+                                                                  if ((v_38 instanceof modeltext.Constant)) {
+                                                                    String _text_88 = text_1;
+                                                                    String _value_43 = ((modeltext.Constant)v_38).getValue();
+                                                                    String _plus_239 = (_value_43 + " ");
+                                                                    String _plus_240 = text_1 = (_text_88 + _plus_239);
                                                                     _builder.append(_plus_240, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
+                                                                {
+                                                                  if ((v_38 instanceof modeltext.Variable)) {
+                                                                    EObject o_28 = null;
+                                                                    _builder.newLineIfNotEmpty();
+                                                                    {
+                                                                      EReference _ref_59 = ((modeltext.Variable) v_38).getRef();
+                                                                      boolean _equals_99 = Objects.equal(_ref_59, null);
+                                                                      if (_equals_99) {
+                                                                        _builder.append(o_28 = object_8, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      } else {
+                                                                        EReference _ref_60 = ((modeltext.Variable) v_38).getRef();
+                                                                        String _name_93 = _ref_60.getName();
+                                                                        EStructuralFeature _referenceByName_22 = ModelManager.getReferenceByName(_name_93, object_8);
+                                                                        Object _eGet_75 = object_8.eGet(_referenceByName_22);
+                                                                        _builder.append(o_28 = ((EObject) _eGet_75), "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      boolean _notEquals_46 = (!Objects.equal(o_28, null));
+                                                                      if (_notEquals_46) {
+                                                                        String _text_89 = text_1;
+                                                                        EAttribute _id_28 = ((modeltext.Variable) v_38).getId();
+                                                                        String _name_94 = _id_28.getName();
+                                                                        EStructuralFeature _attributeByName_28 = ModelManager.getAttributeByName(_name_94, o_28);
+                                                                        Object _eGet_76 = o_28.eGet(_attributeByName_28);
+                                                                        String _plus_241 = (_eGet_76 + " ");
+                                                                        String _plus_242 = text_1 = (_text_89 + _plus_241);
+                                                                        _builder.append(_plus_242, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
                                                               }
                                                             }
                                                           }
@@ -3730,52 +4010,52 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_41 = variable_12.getType();
-                                                      boolean _equals_78 = Objects.equal(_type_41, VariableType.OLD_TO_OBJECT);
-                                                      if (_equals_78) {
+                                                      VariableType _type_44 = variable_16.getType();
+                                                      boolean _equals_100 = Objects.equal(_type_44, VariableType.FROM_OBJECT);
+                                                      if (_equals_100) {
                                                         {
-                                                          EList<modeltext.Word> _words_43 = oldToElement_1.getWords();
-                                                          for(final modeltext.Word v_30 : _words_43) {
+                                                          EList<modeltext.Word> _words_56 = fromElement_2.getWords();
+                                                          for(final modeltext.Word v_39 : _words_56) {
                                                             {
-                                                              if ((v_30 instanceof modeltext.Constant)) {
-                                                                String _text_80 = text_1;
-                                                                String _value_43 = ((modeltext.Constant)v_30).getValue();
-                                                                String _plus_241 = (_value_43 + " ");
-                                                                String _plus_242 = text_1 = (_text_80 + _plus_241);
-                                                                _builder.append(_plus_242, "");
+                                                              if ((v_39 instanceof modeltext.Constant)) {
+                                                                String _text_90 = text_1;
+                                                                String _value_44 = ((modeltext.Constant)v_39).getValue();
+                                                                String _plus_243 = (_value_44 + " ");
+                                                                String _plus_244 = text_1 = (_text_90 + _plus_243);
+                                                                _builder.append(_plus_244, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_30 instanceof modeltext.Variable)) {
-                                                                EObject o_26 = null;
+                                                              if ((v_39 instanceof modeltext.Variable)) {
+                                                                EObject o_29 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_56 = ((modeltext.Variable) v_30).getRef();
-                                                                  boolean _equals_79 = Objects.equal(_ref_56, null);
-                                                                  if (_equals_79) {
-                                                                    EObject _oldTo_4 = ((TargetReferenceChanged)appMut_1).getOldTo();
-                                                                    _builder.append(o_26 = _oldTo_4, "");
+                                                                  EReference _ref_61 = ((modeltext.Variable) v_39).getRef();
+                                                                  boolean _equals_101 = Objects.equal(_ref_61, null);
+                                                                  if (_equals_101) {
+                                                                    _builder.append(o_29 = from_4, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EObject _oldTo_5 = ((TargetReferenceChanged)appMut_1).getOldTo();
-                                                                    EReference _ref_57 = ((modeltext.Variable) v_30).getRef();
-                                                                    Object _eGet_71 = _oldTo_5.eGet(_ref_57);
-                                                                    _builder.append(o_26 = ((EObject) _eGet_71), "");
+                                                                    EReference _ref_62 = ((modeltext.Variable) v_39).getRef();
+                                                                    String _name_95 = _ref_62.getName();
+                                                                    EStructuralFeature _referenceByName_23 = ModelManager.getReferenceByName(_name_95, from_4);
+                                                                    Object _eGet_77 = from_4.eGet(_referenceByName_23);
+                                                                    _builder.append(o_29 = ((EObject) _eGet_77), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_43 = (!Objects.equal(o_26, null));
-                                                                  if (_notEquals_43) {
-                                                                    String _text_81 = text_1;
-                                                                    EAttribute _id_26 = ((modeltext.Variable) v_30).getId();
-                                                                    String _name_76 = _id_26.getName();
-                                                                    EStructuralFeature _attributeByName_26 = ModelManager.getAttributeByName(_name_76, o_26);
-                                                                    Object _eGet_72 = o_26.eGet(_attributeByName_26);
-                                                                    String _plus_243 = (_eGet_72 + " ");
-                                                                    String _plus_244 = text_1 = (_text_81 + _plus_243);
-                                                                    _builder.append(_plus_244, "");
+                                                                  boolean _notEquals_47 = (!Objects.equal(o_29, null));
+                                                                  if (_notEquals_47) {
+                                                                    String _text_91 = text_1;
+                                                                    EAttribute _id_29 = ((modeltext.Variable) v_39).getId();
+                                                                    String _name_96 = _id_29.getName();
+                                                                    EStructuralFeature _attributeByName_29 = ModelManager.getAttributeByName(_name_96, o_29);
+                                                                    Object _eGet_78 = o_29.eGet(_attributeByName_29);
+                                                                    String _plus_245 = (_eGet_78 + " ");
+                                                                    String _plus_246 = text_1 = (_text_91 + _plus_245);
+                                                                    _builder.append(_plus_246, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3786,19 +4066,127 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_42 = variable_12.getType();
-                                                      boolean _equals_80 = Objects.equal(_type_42, VariableType.REF_NAME);
-                                                      if (_equals_80) {
+                                                      VariableType _type_45 = variable_16.getType();
+                                                      boolean _equals_102 = Objects.equal(_type_45, VariableType.TO_OBJECT);
+                                                      if (_equals_102) {
                                                         {
-                                                          EList<modeltext.Word> _words_44 = refTarElement_1.getWords();
-                                                          for(final modeltext.Word v_31 : _words_44) {
+                                                          EList<modeltext.Word> _words_57 = toElement_2.getWords();
+                                                          for(final modeltext.Word v_40 : _words_57) {
                                                             {
-                                                              if ((v_31 instanceof modeltext.Constant)) {
-                                                                String _text_82 = text_1;
-                                                                String _value_44 = ((modeltext.Constant)v_31).getValue();
-                                                                String _plus_245 = (_value_44 + " ");
-                                                                String _plus_246 = text_1 = (_text_82 + _plus_245);
-                                                                _builder.append(_plus_246, "");
+                                                              if ((v_40 instanceof modeltext.Constant)) {
+                                                                String _text_92 = text_1;
+                                                                String _value_45 = ((modeltext.Constant)v_40).getValue();
+                                                                String _plus_247 = (_value_45 + " ");
+                                                                String _plus_248 = text_1 = (_text_92 + _plus_247);
+                                                                _builder.append(_plus_248, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                            {
+                                                              if ((v_40 instanceof modeltext.Variable)) {
+                                                                EObject o_30 = null;
+                                                                _builder.newLineIfNotEmpty();
+                                                                {
+                                                                  EReference _ref_63 = ((modeltext.Variable) v_40).getRef();
+                                                                  boolean _equals_103 = Objects.equal(_ref_63, null);
+                                                                  if (_equals_103) {
+                                                                    _builder.append(o_30 = to_4, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  } else {
+                                                                    EReference _ref_64 = ((modeltext.Variable) v_40).getRef();
+                                                                    Object _eGet_79 = to_4.eGet(_ref_64);
+                                                                    _builder.append(o_30 = ((EObject) _eGet_79), "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                                {
+                                                                  boolean _notEquals_48 = (!Objects.equal(o_30, null));
+                                                                  if (_notEquals_48) {
+                                                                    String _text_93 = text_1;
+                                                                    EAttribute _id_30 = ((modeltext.Variable) v_40).getId();
+                                                                    String _name_97 = _id_30.getName();
+                                                                    EStructuralFeature _attributeByName_30 = ModelManager.getAttributeByName(_name_97, o_30);
+                                                                    Object _eGet_80 = o_30.eGet(_attributeByName_30);
+                                                                    String _plus_249 = (_eGet_80 + " ");
+                                                                    String _plus_250 = text_1 = (_text_93 + _plus_249);
+                                                                    _builder.append(_plus_250, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                    {
+                                                      VariableType _type_46 = variable_16.getType();
+                                                      boolean _equals_104 = Objects.equal(_type_46, VariableType.OLD_TO_OBJECT);
+                                                      if (_equals_104) {
+                                                        {
+                                                          EList<modeltext.Word> _words_58 = oldToElement_1.getWords();
+                                                          for(final modeltext.Word v_41 : _words_58) {
+                                                            {
+                                                              if ((v_41 instanceof modeltext.Constant)) {
+                                                                String _text_94 = text_1;
+                                                                String _value_46 = ((modeltext.Constant)v_41).getValue();
+                                                                String _plus_251 = (_value_46 + " ");
+                                                                String _plus_252 = text_1 = (_text_94 + _plus_251);
+                                                                _builder.append(_plus_252, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                            {
+                                                              if ((v_41 instanceof modeltext.Variable)) {
+                                                                EObject o_31 = null;
+                                                                _builder.newLineIfNotEmpty();
+                                                                {
+                                                                  EReference _ref_65 = ((modeltext.Variable) v_41).getRef();
+                                                                  boolean _equals_105 = Objects.equal(_ref_65, null);
+                                                                  if (_equals_105) {
+                                                                    _builder.append(o_31 = oldTo_1, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  } else {
+                                                                    EReference _ref_66 = ((modeltext.Variable) v_41).getRef();
+                                                                    Object _eGet_81 = oldTo_1.eGet(_ref_66);
+                                                                    _builder.append(o_31 = ((EObject) _eGet_81), "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                                {
+                                                                  boolean _notEquals_49 = (!Objects.equal(o_31, null));
+                                                                  if (_notEquals_49) {
+                                                                    String _text_95 = text_1;
+                                                                    EAttribute _id_31 = ((modeltext.Variable) v_41).getId();
+                                                                    String _name_98 = _id_31.getName();
+                                                                    EStructuralFeature _attributeByName_31 = ModelManager.getAttributeByName(_name_98, o_31);
+                                                                    Object _eGet_82 = o_31.eGet(_attributeByName_31);
+                                                                    String _plus_253 = (_eGet_82 + " ");
+                                                                    String _plus_254 = text_1 = (_text_95 + _plus_253);
+                                                                    _builder.append(_plus_254, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                    {
+                                                      VariableType _type_47 = variable_16.getType();
+                                                      boolean _equals_106 = Objects.equal(_type_47, VariableType.REF_NAME);
+                                                      if (_equals_106) {
+                                                        {
+                                                          EList<modeltext.Word> _words_59 = refTarElement_2.getWords();
+                                                          for(final modeltext.Word v_42 : _words_59) {
+                                                            {
+                                                              if ((v_42 instanceof modeltext.Constant)) {
+                                                                String _text_96 = text_1;
+                                                                String _value_47 = ((modeltext.Constant)v_42).getValue();
+                                                                String _plus_255 = (_value_47 + " ");
+                                                                String _plus_256 = text_1 = (_text_96 + _plus_255);
+                                                                _builder.append(_plus_256, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3807,19 +4195,19 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_43 = variable_12.getType();
-                                                      boolean _equals_81 = Objects.equal(_type_43, VariableType.SRC_REF_NAME);
-                                                      if (_equals_81) {
+                                                      VariableType _type_48 = variable_16.getType();
+                                                      boolean _equals_107 = Objects.equal(_type_48, VariableType.SRC_REF_NAME);
+                                                      if (_equals_107) {
                                                         {
-                                                          EList<modeltext.Word> _words_45 = refSrcElement_1.getWords();
-                                                          for(final modeltext.Word v_32 : _words_45) {
+                                                          EList<modeltext.Word> _words_60 = refSrcElement_2.getWords();
+                                                          for(final modeltext.Word v_43 : _words_60) {
                                                             {
-                                                              if ((v_32 instanceof modeltext.Constant)) {
-                                                                String _text_83 = text_1;
-                                                                String _value_45 = ((modeltext.Constant)v_32).getValue();
-                                                                String _plus_247 = (_value_45 + " ");
-                                                                String _plus_248 = text_1 = (_text_83 + _plus_247);
-                                                                _builder.append(_plus_248, "");
+                                                              if ((v_43 instanceof modeltext.Constant)) {
+                                                                String _text_97 = text_1;
+                                                                String _value_48 = ((modeltext.Constant)v_43).getValue();
+                                                                String _plus_257 = (_value_48 + " ");
+                                                                String _plus_258 = text_1 = (_text_97 + _plus_257);
+                                                                _builder.append(_plus_258, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -3844,9 +4232,9 @@ public class EduTestGenerator implements IGenerator {
                                             _builder.newLineIfNotEmpty();
                                             {
                                               if ((isRepeated_4 == false)) {
-                                                Integer _get_69 = this.total.get(exercise);
-                                                int _plus_249 = ((_get_69).intValue() + 1);
-                                                Integer _put_18 = this.total.put(exercise, Integer.valueOf(_plus_249));
+                                                Integer _get_27 = this.total.get(exercise);
+                                                int _plus_259 = ((_get_27).intValue() + 1);
+                                                Integer _put_18 = this.total.put(exercise, Integer.valueOf(_plus_259));
                                                 _builder.append(_put_18, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_28 = opts_2.add(optClone_3);
@@ -3857,7 +4245,10 @@ public class EduTestGenerator implements IGenerator {
                                           }
                                         }
                                         {
-                                          if ((appMut_1 instanceof ReferenceSwap)) {
+                                          EClass _eClass_23 = mutation_1.eClass();
+                                          String _name_99 = _eClass_23.getName();
+                                          boolean _equals_108 = _name_99.equals("ReferenceSwap");
+                                          if (_equals_108) {
                                             _builder.newLine();
                                             _builder.newLine();
                                             _builder.newLine();
@@ -3867,12 +4258,22 @@ public class EduTestGenerator implements IGenerator {
                                           }
                                         }
                                         {
-                                          if ((appMut_1 instanceof ReferenceCreated)) {
+                                          EClass _eClass_24 = mutation_1.eClass();
+                                          String _name_100 = _eClass_24.getName();
+                                          boolean _equals_109 = _name_100.equals("ReferenceCreated");
+                                          if (_equals_109) {
                                             Option cfgopt_13 = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_51 = ((ReferenceCreated)appMut_1).getObject();
-                                            EObject _get_70 = _object_51.get(0);
-                                            Element element_9 = ModelManager.getElement(_get_70, idelemsresource);
+                                            EObject _reference_22 = ModelManager.getReference("object", mutation_1);
+                                            EObject object_9 = ((List<EObject>) _reference_22).get(0);
+                                            _builder.newLineIfNotEmpty();
+                                            EObject _reference_23 = ModelManager.getReference("ref", mutation_1);
+                                            EObject ref_3 = ((List<EObject>) _reference_23).get(0);
+                                            _builder.newLineIfNotEmpty();
+                                            Object _attribute_14 = ModelManager.getAttribute("name", ref_3);
+                                            String refName_7 = ((String) _attribute_14);
+                                            _builder.newLineIfNotEmpty();
+                                            Element element_10 = ModelManager.getElement(object_9, idelemsresource);
                                             _builder.newLineIfNotEmpty();
                                             Text t_13 = null;
                                             _builder.newLineIfNotEmpty();
@@ -3890,75 +4291,69 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                             {
-                                              EList<Word> _words_46 = t_13.getWords();
-                                              for(final Word w_15 : _words_46) {
+                                              EList<Word> _words_61 = t_13.getWords();
+                                              for(final Word w_19 : _words_61) {
                                                 {
-                                                  if ((w_15 instanceof Constant)) {
-                                                    String _text_84 = text_1;
-                                                    String _value_46 = ((Constant)w_15).getValue();
-                                                    String _plus_250 = (_value_46 + " ");
-                                                    String _plus_251 = text_1 = (_text_84 + _plus_250);
-                                                    _builder.append(_plus_251, "");
+                                                  if ((w_19 instanceof Constant)) {
+                                                    String _text_98 = text_1;
+                                                    String _value_49 = ((Constant)w_19).getValue();
+                                                    String _plus_260 = (_value_49 + " ");
+                                                    String _plus_261 = text_1 = (_text_98 + _plus_260);
+                                                    _builder.append(_plus_261, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
                                                 {
-                                                  if ((w_15 instanceof Variable)) {
-                                                    Variable variable_13 = ((Variable) w_15);
+                                                  if ((w_19 instanceof Variable)) {
+                                                    Variable variable_17 = ((Variable) w_19);
                                                     _builder.newLineIfNotEmpty();
                                                     {
-                                                      VariableType _type_44 = variable_13.getType();
-                                                      boolean _equals_82 = Objects.equal(_type_44, VariableType.OBJECT);
-                                                      if (_equals_82) {
+                                                      VariableType _type_49 = variable_17.getType();
+                                                      boolean _equals_110 = Objects.equal(_type_49, VariableType.OBJECT);
+                                                      if (_equals_110) {
                                                         {
-                                                          EList<modeltext.Word> _words_47 = element_9.getWords();
-                                                          for(final modeltext.Word v_33 : _words_47) {
+                                                          EList<modeltext.Word> _words_62 = element_10.getWords();
+                                                          for(final modeltext.Word v_44 : _words_62) {
                                                             {
-                                                              if ((v_33 instanceof modeltext.Constant)) {
-                                                                String _text_85 = text_1;
-                                                                String _value_47 = ((modeltext.Constant)v_33).getValue();
-                                                                String _plus_252 = (_value_47 + " ");
-                                                                String _plus_253 = text_1 = (_text_85 + _plus_252);
-                                                                _builder.append(_plus_253, "");
+                                                              if ((v_44 instanceof modeltext.Constant)) {
+                                                                String _text_99 = text_1;
+                                                                String _value_50 = ((modeltext.Constant)v_44).getValue();
+                                                                String _plus_262 = (_value_50 + " ");
+                                                                String _plus_263 = text_1 = (_text_99 + _plus_262);
+                                                                _builder.append(_plus_263, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_33 instanceof modeltext.Variable)) {
-                                                                EObject o_27 = null;
+                                                              if ((v_44 instanceof modeltext.Variable)) {
+                                                                EObject o_32 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_58 = ((modeltext.Variable) v_33).getRef();
-                                                                  boolean _equals_83 = Objects.equal(_ref_58, null);
-                                                                  if (_equals_83) {
-                                                                    EList<EObject> _object_52 = ((ReferenceCreated)appMut_1).getObject();
-                                                                    EObject _get_71 = _object_52.get(0);
-                                                                    _builder.append(o_27 = _get_71, "");
+                                                                  EReference _ref_67 = ((modeltext.Variable) v_44).getRef();
+                                                                  boolean _equals_111 = Objects.equal(_ref_67, null);
+                                                                  if (_equals_111) {
+                                                                    _builder.append(o_32 = object_9, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EList<EObject> _object_53 = ((ReferenceCreated)appMut_1).getObject();
-                                                                    EObject _get_72 = _object_53.get(0);
-                                                                    EReference _ref_59 = ((modeltext.Variable) v_33).getRef();
-                                                                    String _name_77 = _ref_59.getName();
-                                                                    EList<EObject> _object_54 = ((ReferenceCreated)appMut_1).getObject();
-                                                                    EObject _get_73 = _object_54.get(0);
-                                                                    EStructuralFeature _referenceByName_22 = ModelManager.getReferenceByName(_name_77, _get_73);
-                                                                    Object _eGet_73 = _get_72.eGet(_referenceByName_22);
-                                                                    _builder.append(o_27 = ((EObject) _eGet_73), "");
+                                                                    EReference _ref_68 = ((modeltext.Variable) v_44).getRef();
+                                                                    String _name_101 = _ref_68.getName();
+                                                                    EStructuralFeature _referenceByName_24 = ModelManager.getReferenceByName(_name_101, object_9);
+                                                                    Object _eGet_83 = object_9.eGet(_referenceByName_24);
+                                                                    _builder.append(o_32 = ((EObject) _eGet_83), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_44 = (!Objects.equal(o_27, null));
-                                                                  if (_notEquals_44) {
-                                                                    String _text_86 = text_1;
-                                                                    EAttribute _id_27 = ((modeltext.Variable) v_33).getId();
-                                                                    String _name_78 = _id_27.getName();
-                                                                    EStructuralFeature _attributeByName_27 = ModelManager.getAttributeByName(_name_78, o_27);
-                                                                    Object _eGet_74 = o_27.eGet(_attributeByName_27);
-                                                                    String _plus_254 = (_eGet_74 + " ");
-                                                                    String _plus_255 = text_1 = (_text_86 + _plus_254);
-                                                                    _builder.append(_plus_255, "");
+                                                                  boolean _notEquals_50 = (!Objects.equal(o_32, null));
+                                                                  if (_notEquals_50) {
+                                                                    String _text_100 = text_1;
+                                                                    EAttribute _id_32 = ((modeltext.Variable) v_44).getId();
+                                                                    String _name_102 = _id_32.getName();
+                                                                    EStructuralFeature _attributeByName_32 = ModelManager.getAttributeByName(_name_102, o_32);
+                                                                    Object _eGet_84 = o_32.eGet(_attributeByName_32);
+                                                                    String _plus_264 = (_eGet_84 + " ");
+                                                                    String _plus_265 = text_1 = (_text_100 + _plus_264);
+                                                                    _builder.append(_plus_265, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -3969,16 +4364,12 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_45 = variable_13.getType();
-                                                      boolean _equals_84 = Objects.equal(_type_45, VariableType.REF_NAME);
-                                                      if (_equals_84) {
-                                                        String _text_87 = text_1;
-                                                        EList<EReference> _ref_60 = ((ReferenceCreated)appMut_1).getRef();
-                                                        EReference _get_74 = _ref_60.get(0);
-                                                        String _name_79 = _get_74.getName();
-                                                        String _plus_256 = (_name_79 + " ");
-                                                        String _plus_257 = text_1 = (_text_87 + _plus_256);
-                                                        _builder.append(_plus_257, "");
+                                                      VariableType _type_50 = variable_17.getType();
+                                                      boolean _equals_112 = Objects.equal(_type_50, VariableType.REF_NAME);
+                                                      if (_equals_112) {
+                                                        String _text_101 = text_1;
+                                                        String _plus_266 = text_1 = (_text_101 + (refName_7 + " "));
+                                                        _builder.append(_plus_266, "");
                                                         _builder.newLineIfNotEmpty();
                                                       }
                                                     }
@@ -3999,9 +4390,9 @@ public class EduTestGenerator implements IGenerator {
                                             _builder.newLineIfNotEmpty();
                                             {
                                               if ((isRepeated_5 == false)) {
-                                                Integer _get_75 = this.total.get(exercise);
-                                                int _plus_258 = ((_get_75).intValue() + 1);
-                                                Integer _put_19 = this.total.put(exercise, Integer.valueOf(_plus_258));
+                                                Integer _get_28 = this.total.get(exercise);
+                                                int _plus_267 = ((_get_28).intValue() + 1);
+                                                Integer _put_19 = this.total.put(exercise, Integer.valueOf(_plus_267));
                                                 _builder.append(_put_19, "");
                                                 _builder.newLineIfNotEmpty();
                                                 boolean _add_30 = opts_2.add(optClone_4);
@@ -4012,12 +4403,22 @@ public class EduTestGenerator implements IGenerator {
                                           }
                                         }
                                         {
-                                          if ((appMut_1 instanceof ReferenceRemoved)) {
+                                          EClass _eClass_25 = mutation_1.eClass();
+                                          String _name_103 = _eClass_25.getName();
+                                          boolean _equals_113 = _name_103.equals("ReferenceRemoved");
+                                          if (_equals_113) {
                                             Option cfgopt_14 = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource);
                                             _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_55 = ((ReferenceRemoved)appMut_1).getObject();
-                                            EObject _get_76 = _object_55.get(0);
-                                            Element element_10 = ModelManager.getElement(_get_76, idelemsresource);
+                                            EObject _reference_24 = ModelManager.getReference("object", mutation_1);
+                                            EObject object_10 = ((List<EObject>) _reference_24).get(0);
+                                            _builder.newLineIfNotEmpty();
+                                            EObject _reference_25 = ModelManager.getReference("ref", mutation_1);
+                                            EObject ref_4 = ((List<EObject>) _reference_25).get(0);
+                                            _builder.newLineIfNotEmpty();
+                                            Object _attribute_15 = ModelManager.getAttribute("name", ref_4);
+                                            String refName_8 = ((String) _attribute_15);
+                                            _builder.newLineIfNotEmpty();
+                                            Element element_11 = ModelManager.getElement(object_10, idelemsresource);
                                             _builder.newLineIfNotEmpty();
                                             Text t_14 = null;
                                             _builder.newLineIfNotEmpty();
@@ -4035,75 +4436,69 @@ public class EduTestGenerator implements IGenerator {
                                               }
                                             }
                                             {
-                                              EList<Word> _words_48 = t_14.getWords();
-                                              for(final Word w_16 : _words_48) {
+                                              EList<Word> _words_63 = t_14.getWords();
+                                              for(final Word w_20 : _words_63) {
                                                 {
-                                                  if ((w_16 instanceof Constant)) {
-                                                    String _text_88 = text_1;
-                                                    String _value_48 = ((Constant)w_16).getValue();
-                                                    String _plus_259 = (_value_48 + " ");
-                                                    String _plus_260 = text_1 = (_text_88 + _plus_259);
-                                                    _builder.append(_plus_260, "");
+                                                  if ((w_20 instanceof Constant)) {
+                                                    String _text_102 = text_1;
+                                                    String _value_51 = ((Constant)w_20).getValue();
+                                                    String _plus_268 = (_value_51 + " ");
+                                                    String _plus_269 = text_1 = (_text_102 + _plus_268);
+                                                    _builder.append(_plus_269, "");
                                                     _builder.newLineIfNotEmpty();
                                                   }
                                                 }
                                                 {
-                                                  if ((w_16 instanceof Variable)) {
-                                                    Variable variable_14 = ((Variable) w_16);
+                                                  if ((w_20 instanceof Variable)) {
+                                                    Variable variable_18 = ((Variable) w_20);
                                                     _builder.newLineIfNotEmpty();
                                                     {
-                                                      VariableType _type_46 = variable_14.getType();
-                                                      boolean _equals_85 = Objects.equal(_type_46, VariableType.OBJECT);
-                                                      if (_equals_85) {
+                                                      VariableType _type_51 = variable_18.getType();
+                                                      boolean _equals_114 = Objects.equal(_type_51, VariableType.OBJECT);
+                                                      if (_equals_114) {
                                                         {
-                                                          EList<modeltext.Word> _words_49 = element_10.getWords();
-                                                          for(final modeltext.Word v_34 : _words_49) {
+                                                          EList<modeltext.Word> _words_64 = element_11.getWords();
+                                                          for(final modeltext.Word v_45 : _words_64) {
                                                             {
-                                                              if ((v_34 instanceof modeltext.Constant)) {
-                                                                String _text_89 = text_1;
-                                                                String _value_49 = ((modeltext.Constant)v_34).getValue();
-                                                                String _plus_261 = (_value_49 + " ");
-                                                                String _plus_262 = text_1 = (_text_89 + _plus_261);
-                                                                _builder.append(_plus_262, "");
+                                                              if ((v_45 instanceof modeltext.Constant)) {
+                                                                String _text_103 = text_1;
+                                                                String _value_52 = ((modeltext.Constant)v_45).getValue();
+                                                                String _plus_270 = (_value_52 + " ");
+                                                                String _plus_271 = text_1 = (_text_103 + _plus_270);
+                                                                _builder.append(_plus_271, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              if ((v_34 instanceof modeltext.Variable)) {
-                                                                EObject o_28 = null;
+                                                              if ((v_45 instanceof modeltext.Variable)) {
+                                                                EObject o_33 = null;
                                                                 _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EReference _ref_61 = ((modeltext.Variable) v_34).getRef();
-                                                                  boolean _equals_86 = Objects.equal(_ref_61, null);
-                                                                  if (_equals_86) {
-                                                                    EList<EObject> _object_56 = ((ReferenceRemoved)appMut_1).getObject();
-                                                                    EObject _get_77 = _object_56.get(0);
-                                                                    _builder.append(o_28 = _get_77, "");
+                                                                  EReference _ref_69 = ((modeltext.Variable) v_45).getRef();
+                                                                  boolean _equals_115 = Objects.equal(_ref_69, null);
+                                                                  if (_equals_115) {
+                                                                    _builder.append(o_33 = object_10, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   } else {
-                                                                    EList<EObject> _object_57 = ((ReferenceRemoved)appMut_1).getObject();
-                                                                    EObject _get_78 = _object_57.get(0);
-                                                                    EReference _ref_62 = ((modeltext.Variable) v_34).getRef();
-                                                                    String _name_80 = _ref_62.getName();
-                                                                    EList<EObject> _object_58 = ((ReferenceRemoved)appMut_1).getObject();
-                                                                    EObject _get_79 = _object_58.get(0);
-                                                                    EStructuralFeature _referenceByName_23 = ModelManager.getReferenceByName(_name_80, _get_79);
-                                                                    Object _eGet_75 = _get_78.eGet(_referenceByName_23);
-                                                                    _builder.append(o_28 = ((EObject) _eGet_75), "");
+                                                                    EReference _ref_70 = ((modeltext.Variable) v_45).getRef();
+                                                                    String _name_104 = _ref_70.getName();
+                                                                    EStructuralFeature _referenceByName_25 = ModelManager.getReferenceByName(_name_104, object_10);
+                                                                    Object _eGet_85 = object_10.eGet(_referenceByName_25);
+                                                                    _builder.append(o_33 = ((EObject) _eGet_85), "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
                                                                 {
-                                                                  boolean _notEquals_45 = (!Objects.equal(o_28, null));
-                                                                  if (_notEquals_45) {
-                                                                    String _text_90 = text_1;
-                                                                    EAttribute _id_28 = ((modeltext.Variable) v_34).getId();
-                                                                    String _name_81 = _id_28.getName();
-                                                                    EStructuralFeature _attributeByName_28 = ModelManager.getAttributeByName(_name_81, o_28);
-                                                                    Object _eGet_76 = o_28.eGet(_attributeByName_28);
-                                                                    String _plus_263 = (_eGet_76 + " ");
-                                                                    String _plus_264 = text_1 = (_text_90 + _plus_263);
-                                                                    _builder.append(_plus_264, "");
+                                                                  boolean _notEquals_51 = (!Objects.equal(o_33, null));
+                                                                  if (_notEquals_51) {
+                                                                    String _text_104 = text_1;
+                                                                    EAttribute _id_33 = ((modeltext.Variable) v_45).getId();
+                                                                    String _name_105 = _id_33.getName();
+                                                                    EStructuralFeature _attributeByName_33 = ModelManager.getAttributeByName(_name_105, o_33);
+                                                                    Object _eGet_86 = o_33.eGet(_attributeByName_33);
+                                                                    String _plus_272 = (_eGet_86 + " ");
+                                                                    String _plus_273 = text_1 = (_text_104 + _plus_272);
+                                                                    _builder.append(_plus_273, "");
                                                                     _builder.newLineIfNotEmpty();
                                                                   }
                                                                 }
@@ -4114,16 +4509,12 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      VariableType _type_47 = variable_14.getType();
-                                                      boolean _equals_87 = Objects.equal(_type_47, VariableType.REF_NAME);
-                                                      if (_equals_87) {
-                                                        String _text_91 = text_1;
-                                                        EList<EReference> _ref_63 = ((ReferenceRemoved)appMut_1).getRef();
-                                                        EReference _get_80 = _ref_63.get(0);
-                                                        String _name_82 = _get_80.getName();
-                                                        String _plus_265 = (_name_82 + " ");
-                                                        String _plus_266 = text_1 = (_text_91 + _plus_265);
-                                                        _builder.append(_plus_266, "");
+                                                      VariableType _type_52 = variable_18.getType();
+                                                      boolean _equals_116 = Objects.equal(_type_52, VariableType.REF_NAME);
+                                                      if (_equals_116) {
+                                                        String _text_105 = text_1;
+                                                        String _plus_274 = text_1 = (_text_105 + (refName_8 + " "));
+                                                        _builder.append(_plus_274, "");
                                                         _builder.newLineIfNotEmpty();
                                                       }
                                                     }
@@ -4133,8 +4524,8 @@ public class EduTestGenerator implements IGenerator {
                                             }
                                             {
                                               boolean _contains_12 = opt_2.text.contains(text_1);
-                                              boolean _notEquals_46 = (_contains_12 != true);
-                                              if (_notEquals_46) {
+                                              boolean _notEquals_52 = (_contains_12 != true);
+                                              if (_notEquals_52) {
                                                 boolean _add_31 = opt_2.text.add(text_1);
                                                 _builder.append(_add_31, "");
                                                 _builder.newLineIfNotEmpty();
@@ -4143,29 +4534,47 @@ public class EduTestGenerator implements IGenerator {
                                           }
                                         }
                                         {
-                                          if ((appMut_1 instanceof InformationChanged)) {
+                                          EClass _eClass_26 = mutation_1.eClass();
+                                          String _name_106 = _eClass_26.getName();
+                                          boolean _equals_117 = _name_106.equals("InformationChanged");
+                                          if (_equals_117) {
                                             _builder.newLine();
-                                            EList<AttributeChanged> atts_1 = ((InformationChanged)appMut_1).getAttChanges();
+                                            List<EObject> _references_4 = ModelManager.getReferences("attChanges", mutation_1);
+                                            List<EObject> attChanges_1 = ((List<EObject>) _references_4);
+                                            _builder.newLineIfNotEmpty();
+                                            EObject _reference_26 = ModelManager.getReference("object", mutation_1);
+                                            EObject object_11 = ((EObject) _reference_26);
                                             _builder.newLineIfNotEmpty();
                                             {
-                                              for(final AttributeChanged att_1 : atts_1) {
+                                              for(final EObject att_1 : attChanges_1) {
                                                 _builder.append(text_1 = "", "");
                                                 _builder.newLineIfNotEmpty();
                                                 {
-                                                  if ((att_1 instanceof AttributeSwap)) {
-                                                    EObject _object_59 = ((InformationChanged)appMut_1).getObject();
-                                                    EClass _eClass_5 = _object_59.eClass();
-                                                    String _attName_3 = ((AttributeSwap)att_1).getAttName();
-                                                    EStructuralFeature attName_1 = _eClass_5.getEStructuralFeature(_attName_3);
+                                                  EClass _eClass_27 = att_1.eClass();
+                                                  String _name_107 = _eClass_27.getName();
+                                                  boolean _equals_118 = _name_107.equals("AttributeSwap");
+                                                  if (_equals_118) {
+                                                    Object _attribute_16 = ModelManager.getAttribute("attName", att_1);
+                                                    String attName_2 = ((String) _attribute_16);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EClass _eClass_28 = object_11.eClass();
+                                                    EStructuralFeature attributeName_1 = _eClass_28.getEStructuralFeature(attName_2);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_27 = ModelManager.getReference("attObject", att_1);
+                                                    EObject attObject_1 = ((EObject) _reference_27);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_17 = ModelManager.getAttribute("firstName", att_1);
+                                                    String firstName_1 = ((String) _attribute_17);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_18 = ModelManager.getAttribute("newVal", att_1);
+                                                    String newVal_2 = ((String) _attribute_18);
                                                     _builder.newLineIfNotEmpty();
                                                     _builder.newLine();
                                                     Option cfgopt_15 = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource);
                                                     _builder.newLineIfNotEmpty();
-                                                    EObject _object_60 = ((InformationChanged)appMut_1).getObject();
-                                                    Element firstElement_2 = ModelManager.getElement(_object_60, idelemsresource);
+                                                    Element firstElement_1 = ModelManager.getElement(object_11, idelemsresource);
                                                     _builder.newLineIfNotEmpty();
-                                                    EObject _attObject_3 = ((AttributeSwap)att_1).getAttObject();
-                                                    Element secondElement_2 = ModelManager.getElement(_attObject_3, idelemsresource);
+                                                    Element secondElement_1 = ModelManager.getElement(attObject_1, idelemsresource);
                                                     _builder.newLineIfNotEmpty();
                                                     Text t_15 = null;
                                                     _builder.newLineIfNotEmpty();
@@ -4183,72 +4592,69 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      EList<Word> _words_50 = t_15.getWords();
-                                                      for(final Word w_17 : _words_50) {
+                                                      EList<Word> _words_65 = t_15.getWords();
+                                                      for(final Word w_21 : _words_65) {
                                                         {
-                                                          if ((w_17 instanceof Constant)) {
-                                                            String _text_92 = text_1;
-                                                            String _value_50 = ((Constant)w_17).getValue();
-                                                            String _plus_267 = (_value_50 + " ");
-                                                            String _plus_268 = text_1 = (_text_92 + _plus_267);
-                                                            _builder.append(_plus_268, "");
+                                                          if ((w_21 instanceof Constant)) {
+                                                            String _text_106 = text_1;
+                                                            String _value_53 = ((Constant)w_21).getValue();
+                                                            String _plus_275 = (_value_53 + " ");
+                                                            String _plus_276 = text_1 = (_text_106 + _plus_275);
+                                                            _builder.append(_plus_276, "");
                                                             _builder.newLineIfNotEmpty();
                                                           }
                                                         }
                                                         {
-                                                          if ((w_17 instanceof Variable)) {
-                                                            Variable variable_15 = ((Variable) w_17);
+                                                          if ((w_21 instanceof Variable)) {
+                                                            Variable variable_19 = ((Variable) w_21);
                                                             _builder.newLineIfNotEmpty();
                                                             {
-                                                              VariableType _type_48 = variable_15.getType();
-                                                              boolean _equals_88 = Objects.equal(_type_48, VariableType.FIRST_OBJECT);
-                                                              if (_equals_88) {
+                                                              VariableType _type_53 = variable_19.getType();
+                                                              boolean _equals_119 = Objects.equal(_type_53, VariableType.FIRST_OBJECT);
+                                                              if (_equals_119) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_51 = firstElement_2.getWords();
-                                                                  for(final modeltext.Word v_35 : _words_51) {
+                                                                  EList<modeltext.Word> _words_66 = firstElement_1.getWords();
+                                                                  for(final modeltext.Word v_46 : _words_66) {
                                                                     {
-                                                                      if ((v_35 instanceof modeltext.Constant)) {
-                                                                        String _text_93 = text_1;
-                                                                        String _value_51 = ((modeltext.Constant)v_35).getValue();
-                                                                        String _plus_269 = (_value_51 + " ");
-                                                                        String _plus_270 = text_1 = (_text_93 + _plus_269);
-                                                                        _builder.append(_plus_270, "");
+                                                                      if ((v_46 instanceof modeltext.Constant)) {
+                                                                        String _text_107 = text_1;
+                                                                        String _value_54 = ((modeltext.Constant)v_46).getValue();
+                                                                        String _plus_277 = (_value_54 + " ");
+                                                                        String _plus_278 = text_1 = (_text_107 + _plus_277);
+                                                                        _builder.append(_plus_278, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
                                                                     {
-                                                                      if ((v_35 instanceof modeltext.Variable)) {
-                                                                        EObject o_29 = null;
+                                                                      if ((v_46 instanceof modeltext.Variable)) {
+                                                                        EObject o_34 = null;
                                                                         _builder.newLineIfNotEmpty();
                                                                         {
-                                                                          EReference _ref_64 = ((modeltext.Variable) v_35).getRef();
-                                                                          boolean _equals_89 = Objects.equal(_ref_64, null);
-                                                                          if (_equals_89) {
-                                                                            EObject _object_61 = ((InformationChanged)appMut_1).getObject();
-                                                                            _builder.append(o_29 = _object_61, "");
+                                                                          EReference _ref_71 = ((modeltext.Variable) v_46).getRef();
+                                                                          boolean _equals_120 = Objects.equal(_ref_71, null);
+                                                                          if (_equals_120) {
+                                                                            _builder.append(o_34 = object_11, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           } else {
-                                                                            EObject _object_62 = ((InformationChanged)appMut_1).getObject();
-                                                                            EReference _ref_65 = ((modeltext.Variable) v_35).getRef();
-                                                                            String _name_83 = _ref_65.getName();
-                                                                            EObject _object_63 = ((InformationChanged)appMut_1).getObject();
-                                                                            EStructuralFeature _referenceByName_24 = ModelManager.getReferenceByName(_name_83, _object_63);
-                                                                            Object _eGet_77 = _object_62.eGet(_referenceByName_24);
-                                                                            _builder.append(o_29 = ((EObject) _eGet_77), "");
+                                                                            EReference _ref_72 = ((modeltext.Variable) v_46).getRef();
+                                                                            String _name_108 = _ref_72.getName();
+                                                                            EStructuralFeature _referenceByName_26 = ModelManager.getReferenceByName(_name_108, object_11);
+                                                                            Object _eGet_87 = object_11.eGet(_referenceByName_26);
+                                                                            _builder.append(o_34 = ((EObject) _eGet_87), "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
                                                                         {
-                                                                          boolean _notEquals_47 = (!Objects.equal(o_29, null));
-                                                                          if (_notEquals_47) {
-                                                                            String _text_94 = text_1;
-                                                                            EAttribute _id_29 = ((modeltext.Variable) v_35).getId();
-                                                                            String _name_84 = _id_29.getName();
-                                                                            EStructuralFeature _attributeByName_29 = ModelManager.getAttributeByName(_name_84, o_29);
-                                                                            Object _eGet_78 = o_29.eGet(_attributeByName_29);
-                                                                            String _plus_271 = (_eGet_78 + " ");
-                                                                            String _plus_272 = text_1 = (_text_94 + _plus_271);
-                                                                            _builder.append(_plus_272, "");
+                                                                          boolean _notEquals_53 = (!Objects.equal(o_34, null));
+                                                                          if (_notEquals_53) {
+                                                                            String _text_108 = text_1;
+                                                                            EAttribute _id_34 = ((modeltext.Variable) v_46).getId();
+                                                                            String _name_109 = _id_34.getName();
+                                                                            EStructuralFeature _attributeByName_34 = ModelManager.getAttributeByName(_name_109, o_34);
+                                                                            Object _eGet_88 = o_34.eGet(_attributeByName_34);
+                                                                            String _plus_279 = (_eGet_88 + " ");
+                                                                            String _plus_280 = text_1 = (_text_108 + _plus_279);
+                                                                            _builder.append(_plus_280, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4259,52 +4665,50 @@ public class EduTestGenerator implements IGenerator {
                                                               }
                                                             }
                                                             {
-                                                              VariableType _type_49 = variable_15.getType();
-                                                              boolean _equals_90 = Objects.equal(_type_49, VariableType.SECOND_OBJECT);
-                                                              if (_equals_90) {
+                                                              VariableType _type_54 = variable_19.getType();
+                                                              boolean _equals_121 = Objects.equal(_type_54, VariableType.SECOND_OBJECT);
+                                                              if (_equals_121) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_52 = secondElement_2.getWords();
-                                                                  for(final modeltext.Word v_36 : _words_52) {
+                                                                  EList<modeltext.Word> _words_67 = secondElement_1.getWords();
+                                                                  for(final modeltext.Word v_47 : _words_67) {
                                                                     {
-                                                                      if ((v_36 instanceof modeltext.Constant)) {
-                                                                        String _text_95 = text_1;
-                                                                        String _value_52 = ((modeltext.Constant)v_36).getValue();
-                                                                        String _plus_273 = (_value_52 + " ");
-                                                                        String _plus_274 = text_1 = (_text_95 + _plus_273);
-                                                                        _builder.append(_plus_274, "");
+                                                                      if ((v_47 instanceof modeltext.Constant)) {
+                                                                        String _text_109 = text_1;
+                                                                        String _value_55 = ((modeltext.Constant)v_47).getValue();
+                                                                        String _plus_281 = (_value_55 + " ");
+                                                                        String _plus_282 = text_1 = (_text_109 + _plus_281);
+                                                                        _builder.append(_plus_282, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
                                                                     {
-                                                                      if ((v_36 instanceof modeltext.Variable)) {
-                                                                        EObject o_30 = null;
+                                                                      if ((v_47 instanceof modeltext.Variable)) {
+                                                                        EObject o_35 = null;
                                                                         _builder.newLineIfNotEmpty();
                                                                         {
-                                                                          EReference _ref_66 = ((modeltext.Variable) v_36).getRef();
-                                                                          boolean _equals_91 = Objects.equal(_ref_66, null);
-                                                                          if (_equals_91) {
-                                                                            EObject _attObject_4 = ((AttributeSwap)att_1).getAttObject();
-                                                                            _builder.append(o_30 = _attObject_4, "");
+                                                                          EReference _ref_73 = ((modeltext.Variable) v_47).getRef();
+                                                                          boolean _equals_122 = Objects.equal(_ref_73, null);
+                                                                          if (_equals_122) {
+                                                                            _builder.append(o_35 = attObject_1, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           } else {
-                                                                            EObject _attObject_5 = ((AttributeSwap)att_1).getAttObject();
-                                                                            EReference _ref_67 = ((modeltext.Variable) v_36).getRef();
-                                                                            Object _eGet_79 = _attObject_5.eGet(_ref_67);
-                                                                            _builder.append(o_30 = ((EObject) _eGet_79), "");
+                                                                            EReference _ref_74 = ((modeltext.Variable) v_47).getRef();
+                                                                            Object _eGet_89 = attObject_1.eGet(_ref_74);
+                                                                            _builder.append(o_35 = ((EObject) _eGet_89), "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
                                                                         {
-                                                                          boolean _notEquals_48 = (!Objects.equal(o_30, null));
-                                                                          if (_notEquals_48) {
-                                                                            String _text_96 = text_1;
-                                                                            EAttribute _id_30 = ((modeltext.Variable) v_36).getId();
-                                                                            String _name_85 = _id_30.getName();
-                                                                            EStructuralFeature _attributeByName_30 = ModelManager.getAttributeByName(_name_85, o_30);
-                                                                            Object _eGet_80 = o_30.eGet(_attributeByName_30);
-                                                                            String _plus_275 = (_eGet_80 + " ");
-                                                                            String _plus_276 = text_1 = (_text_96 + _plus_275);
-                                                                            _builder.append(_plus_276, "");
+                                                                          boolean _notEquals_54 = (!Objects.equal(o_35, null));
+                                                                          if (_notEquals_54) {
+                                                                            String _text_110 = text_1;
+                                                                            EAttribute _id_35 = ((modeltext.Variable) v_47).getId();
+                                                                            String _name_110 = _id_35.getName();
+                                                                            EStructuralFeature _attributeByName_35 = ModelManager.getAttributeByName(_name_110, o_35);
+                                                                            Object _eGet_90 = o_35.eGet(_attributeByName_35);
+                                                                            String _plus_283 = (_eGet_90 + " ");
+                                                                            String _plus_284 = text_1 = (_text_110 + _plus_283);
+                                                                            _builder.append(_plus_284, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4315,51 +4719,44 @@ public class EduTestGenerator implements IGenerator {
                                                               }
                                                             }
                                                             {
-                                                              VariableType _type_50 = variable_15.getType();
-                                                              boolean _equals_92 = Objects.equal(_type_50, VariableType.FIRST_ATT_NAME);
-                                                              if (_equals_92) {
-                                                                String _text_97 = text_1;
-                                                                String _attName_4 = ((AttributeSwap)att_1).getAttName();
-                                                                String _plus_277 = (_attName_4 + " ");
-                                                                String _plus_278 = text_1 = (_text_97 + _plus_277);
-                                                                _builder.append(_plus_278, "");
+                                                              VariableType _type_55 = variable_19.getType();
+                                                              boolean _equals_123 = Objects.equal(_type_55, VariableType.FIRST_ATT_NAME);
+                                                              if (_equals_123) {
+                                                                String _text_111 = text_1;
+                                                                String _plus_285 = text_1 = (_text_111 + (attName_2 + " "));
+                                                                _builder.append(_plus_285, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              VariableType _type_51 = variable_15.getType();
-                                                              boolean _equals_93 = Objects.equal(_type_51, VariableType.SECOND_ATT_NAME);
-                                                              if (_equals_93) {
-                                                                String _text_98 = text_1;
-                                                                String _firstName_2 = ((AttributeSwap)att_1).getFirstName();
-                                                                String _plus_279 = (_firstName_2 + " ");
-                                                                String _plus_280 = text_1 = (_text_98 + _plus_279);
-                                                                _builder.append(_plus_280, "");
+                                                              VariableType _type_56 = variable_19.getType();
+                                                              boolean _equals_124 = Objects.equal(_type_56, VariableType.SECOND_ATT_NAME);
+                                                              if (_equals_124) {
+                                                                String _text_112 = text_1;
+                                                                String _plus_286 = text_1 = (_text_112 + (firstName_1 + " "));
+                                                                _builder.append(_plus_286, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              VariableType _type_52 = variable_15.getType();
-                                                              boolean _equals_94 = Objects.equal(_type_52, VariableType.FIRST_VALUE);
-                                                              if (_equals_94) {
-                                                                String _text_99 = text_1;
-                                                                EObject _object_64 = ((InformationChanged)appMut_1).getObject();
-                                                                Object _eGet_81 = _object_64.eGet(attName_1);
-                                                                String _plus_281 = (_eGet_81 + " ");
-                                                                String _plus_282 = text_1 = (_text_99 + _plus_281);
-                                                                _builder.append(_plus_282, "");
+                                                              VariableType _type_57 = variable_19.getType();
+                                                              boolean _equals_125 = Objects.equal(_type_57, VariableType.FIRST_VALUE);
+                                                              if (_equals_125) {
+                                                                String _text_113 = text_1;
+                                                                Object _eGet_91 = object_11.eGet(attributeName_1);
+                                                                String _plus_287 = (_eGet_91 + " ");
+                                                                String _plus_288 = text_1 = (_text_113 + _plus_287);
+                                                                _builder.append(_plus_288, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
                                                             {
-                                                              VariableType _type_53 = variable_15.getType();
-                                                              boolean _equals_95 = Objects.equal(_type_53, VariableType.SECOND_VALUE);
-                                                              if (_equals_95) {
-                                                                String _text_100 = text_1;
-                                                                String _newVal_2 = ((AttributeSwap)att_1).getNewVal();
-                                                                String _plus_283 = (_newVal_2 + " ");
-                                                                String _plus_284 = text_1 = (_text_100 + _plus_283);
-                                                                _builder.append(_plus_284, "");
+                                                              VariableType _type_58 = variable_19.getType();
+                                                              boolean _equals_126 = Objects.equal(_type_58, VariableType.SECOND_VALUE);
+                                                              if (_equals_126) {
+                                                                String _text_114 = text_1;
+                                                                String _plus_289 = text_1 = (_text_114 + (newVal_2 + " "));
+                                                                _builder.append(_plus_289, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4380,9 +4777,9 @@ public class EduTestGenerator implements IGenerator {
                                                     _builder.newLineIfNotEmpty();
                                                     {
                                                       if ((isRepeated_6 == false)) {
-                                                        Integer _get_81 = this.total.get(exercise);
-                                                        int _plus_285 = ((_get_81).intValue() + 1);
-                                                        Integer _put_20 = this.total.put(exercise, Integer.valueOf(_plus_285));
+                                                        Integer _get_29 = this.total.get(exercise);
+                                                        int _plus_290 = ((_get_29).intValue() + 1);
+                                                        Integer _put_20 = this.total.put(exercise, Integer.valueOf(_plus_290));
                                                         _builder.append(_put_20, "");
                                                         _builder.newLineIfNotEmpty();
                                                         boolean _add_33 = opts_2.add(optClone_5);
@@ -4393,8 +4790,16 @@ public class EduTestGenerator implements IGenerator {
                                                   } else {
                                                     Option cfgopt_16 = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource);
                                                     _builder.newLineIfNotEmpty();
-                                                    EObject _object_65 = ((InformationChanged)appMut_1).getObject();
-                                                    Element element_11 = ModelManager.getElement(_object_65, idelemsresource);
+                                                    Object _attribute_19 = ModelManager.getAttribute("attName", att_1);
+                                                    String attName_3 = ((String) _attribute_19);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_20 = ModelManager.getAttribute("oldVal", att_1);
+                                                    String oldVal_1 = ((String) _attribute_20);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_21 = ModelManager.getAttribute("newVal", att_1);
+                                                    String newVal_3 = ((String) _attribute_21);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element element_12 = ModelManager.getElement(object_11, idelemsresource);
                                                     _builder.newLineIfNotEmpty();
                                                     Text t_16 = null;
                                                     _builder.newLineIfNotEmpty();
@@ -4412,72 +4817,69 @@ public class EduTestGenerator implements IGenerator {
                                                       }
                                                     }
                                                     {
-                                                      EList<Word> _words_53 = t_16.getWords();
-                                                      for(final Word w_18 : _words_53) {
+                                                      EList<Word> _words_68 = t_16.getWords();
+                                                      for(final Word w_22 : _words_68) {
                                                         {
-                                                          if ((w_18 instanceof Constant)) {
-                                                            String _text_101 = text_1;
-                                                            String _value_53 = ((Constant)w_18).getValue();
-                                                            String _plus_286 = (_value_53 + " ");
-                                                            String _plus_287 = text_1 = (_text_101 + _plus_286);
-                                                            _builder.append(_plus_287, "");
+                                                          if ((w_22 instanceof Constant)) {
+                                                            String _text_115 = text_1;
+                                                            String _value_56 = ((Constant)w_22).getValue();
+                                                            String _plus_291 = (_value_56 + " ");
+                                                            String _plus_292 = text_1 = (_text_115 + _plus_291);
+                                                            _builder.append(_plus_292, "");
                                                             _builder.newLineIfNotEmpty();
                                                           }
                                                         }
                                                         {
-                                                          if ((w_18 instanceof Variable)) {
-                                                            Variable variable_16 = ((Variable) w_18);
+                                                          if ((w_22 instanceof Variable)) {
+                                                            Variable variable_20 = ((Variable) w_22);
                                                             _builder.newLineIfNotEmpty();
                                                             {
-                                                              VariableType _type_54 = variable_16.getType();
-                                                              boolean _equals_96 = Objects.equal(_type_54, VariableType.OBJECT);
-                                                              if (_equals_96) {
+                                                              VariableType _type_59 = variable_20.getType();
+                                                              boolean _equals_127 = Objects.equal(_type_59, VariableType.OBJECT);
+                                                              if (_equals_127) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_54 = element_11.getWords();
-                                                                  for(final modeltext.Word v_37 : _words_54) {
+                                                                  EList<modeltext.Word> _words_69 = element_12.getWords();
+                                                                  for(final modeltext.Word v_48 : _words_69) {
                                                                     {
-                                                                      if ((v_37 instanceof modeltext.Constant)) {
-                                                                        String _text_102 = text_1;
-                                                                        String _value_54 = ((modeltext.Constant)v_37).getValue();
-                                                                        String _plus_288 = (_value_54 + " ");
-                                                                        String _plus_289 = text_1 = (_text_102 + _plus_288);
-                                                                        _builder.append(_plus_289, "");
+                                                                      if ((v_48 instanceof modeltext.Constant)) {
+                                                                        String _text_116 = text_1;
+                                                                        String _value_57 = ((modeltext.Constant)v_48).getValue();
+                                                                        String _plus_293 = (_value_57 + " ");
+                                                                        String _plus_294 = text_1 = (_text_116 + _plus_293);
+                                                                        _builder.append(_plus_294, "");
                                                                         _builder.newLineIfNotEmpty();
                                                                       }
                                                                     }
                                                                     {
-                                                                      if ((v_37 instanceof modeltext.Variable)) {
-                                                                        EObject o_31 = null;
+                                                                      if ((v_48 instanceof modeltext.Variable)) {
+                                                                        EObject o_36 = null;
                                                                         _builder.newLineIfNotEmpty();
                                                                         {
-                                                                          EReference _ref_68 = ((modeltext.Variable) v_37).getRef();
-                                                                          boolean _equals_97 = Objects.equal(_ref_68, null);
-                                                                          if (_equals_97) {
-                                                                            EObject _object_66 = ((InformationChanged)appMut_1).getObject();
-                                                                            _builder.append(o_31 = _object_66, "");
+                                                                          EReference _ref_75 = ((modeltext.Variable) v_48).getRef();
+                                                                          boolean _equals_128 = Objects.equal(_ref_75, null);
+                                                                          if (_equals_128) {
+                                                                            _builder.append(o_36 = object_11, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           } else {
-                                                                            EObject _object_67 = ((InformationChanged)appMut_1).getObject();
-                                                                            EReference _ref_69 = ((modeltext.Variable) v_37).getRef();
-                                                                            String _name_86 = _ref_69.getName();
-                                                                            EObject _object_68 = ((InformationChanged)appMut_1).getObject();
-                                                                            EStructuralFeature _referenceByName_25 = ModelManager.getReferenceByName(_name_86, _object_68);
-                                                                            Object _eGet_82 = _object_67.eGet(_referenceByName_25);
-                                                                            _builder.append(o_31 = ((EObject) _eGet_82), "");
+                                                                            EReference _ref_76 = ((modeltext.Variable) v_48).getRef();
+                                                                            String _name_111 = _ref_76.getName();
+                                                                            EStructuralFeature _referenceByName_27 = ModelManager.getReferenceByName(_name_111, object_11);
+                                                                            Object _eGet_92 = object_11.eGet(_referenceByName_27);
+                                                                            _builder.append(o_36 = ((EObject) _eGet_92), "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
                                                                         {
-                                                                          boolean _notEquals_49 = (!Objects.equal(o_31, null));
-                                                                          if (_notEquals_49) {
-                                                                            String _text_103 = text_1;
-                                                                            EAttribute _id_31 = ((modeltext.Variable) v_37).getId();
-                                                                            String _name_87 = _id_31.getName();
-                                                                            EStructuralFeature _attributeByName_31 = ModelManager.getAttributeByName(_name_87, o_31);
-                                                                            Object _eGet_83 = o_31.eGet(_attributeByName_31);
-                                                                            String _plus_290 = (_eGet_83 + " ");
-                                                                            String _plus_291 = text_1 = (_text_103 + _plus_290);
-                                                                            _builder.append(_plus_291, "");
+                                                                          boolean _notEquals_55 = (!Objects.equal(o_36, null));
+                                                                          if (_notEquals_55) {
+                                                                            String _text_117 = text_1;
+                                                                            EAttribute _id_36 = ((modeltext.Variable) v_48).getId();
+                                                                            String _name_112 = _id_36.getName();
+                                                                            EStructuralFeature _attributeByName_36 = ModelManager.getAttributeByName(_name_112, o_36);
+                                                                            Object _eGet_93 = o_36.eGet(_attributeByName_36);
+                                                                            String _plus_295 = (_eGet_93 + " ");
+                                                                            String _plus_296 = text_1 = (_text_117 + _plus_295);
+                                                                            _builder.append(_plus_296, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
@@ -4488,38 +4890,32 @@ public class EduTestGenerator implements IGenerator {
                                                               }
                                                             }
                                                             {
-                                                              VariableType _type_55 = variable_16.getType();
-                                                              boolean _equals_98 = Objects.equal(_type_55, VariableType.ATT_NAME);
-                                                              if (_equals_98) {
-                                                                String _text_104 = text_1;
-                                                                String _attName_5 = att_1.getAttName();
-                                                                String _plus_292 = (_attName_5 + " ");
-                                                                String _plus_293 = text_1 = (_text_104 + _plus_292);
-                                                                _builder.append(_plus_293, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_56 = variable_16.getType();
-                                                              boolean _equals_99 = Objects.equal(_type_56, VariableType.OLD_VALUE);
-                                                              if (_equals_99) {
-                                                                String _text_105 = text_1;
-                                                                String _oldVal_1 = att_1.getOldVal();
-                                                                String _plus_294 = (_oldVal_1 + " ");
-                                                                String _plus_295 = text_1 = (_text_105 + _plus_294);
-                                                                _builder.append(_plus_295, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_57 = variable_16.getType();
-                                                              boolean _equals_100 = Objects.equal(_type_57, VariableType.NEW_VALUE);
-                                                              if (_equals_100) {
-                                                                String _text_106 = text_1;
-                                                                String _newVal_3 = att_1.getNewVal();
-                                                                String _plus_296 = (_newVal_3 + " ");
-                                                                String _plus_297 = text_1 = (_text_106 + _plus_296);
+                                                              VariableType _type_60 = variable_20.getType();
+                                                              boolean _equals_129 = Objects.equal(_type_60, VariableType.ATT_NAME);
+                                                              if (_equals_129) {
+                                                                String _text_118 = text_1;
+                                                                String _plus_297 = text_1 = (_text_118 + (attName_3 + " "));
                                                                 _builder.append(_plus_297, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_61 = variable_20.getType();
+                                                              boolean _equals_130 = Objects.equal(_type_61, VariableType.OLD_VALUE);
+                                                              if (_equals_130) {
+                                                                String _text_119 = text_1;
+                                                                String _plus_298 = text_1 = (_text_119 + (oldVal_1 + " "));
+                                                                _builder.append(_plus_298, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_62 = variable_20.getType();
+                                                              boolean _equals_131 = Objects.equal(_type_62, VariableType.NEW_VALUE);
+                                                              if (_equals_131) {
+                                                                String _text_120 = text_1;
+                                                                String _plus_299 = text_1 = (_text_120 + (newVal_3 + " "));
+                                                                _builder.append(_plus_299, "");
                                                                 _builder.newLineIfNotEmpty();
                                                               }
                                                             }
@@ -4540,9 +4936,9 @@ public class EduTestGenerator implements IGenerator {
                                                     _builder.newLineIfNotEmpty();
                                                     {
                                                       if ((isRepeated_7 == false)) {
-                                                        Integer _get_82 = this.total.get(exercise);
-                                                        int _plus_298 = ((_get_82).intValue() + 1);
-                                                        Integer _put_21 = this.total.put(exercise, Integer.valueOf(_plus_298));
+                                                        Integer _get_30 = this.total.get(exercise);
+                                                        int _plus_300 = ((_get_30).intValue() + 1);
+                                                        Integer _put_21 = this.total.put(exercise, Integer.valueOf(_plus_300));
                                                         _builder.append(_put_21, "");
                                                         _builder.newLineIfNotEmpty();
                                                         boolean _add_35 = opts_2.add(optClone_6);
@@ -4554,44 +4950,50 @@ public class EduTestGenerator implements IGenerator {
                                                 }
                                               }
                                             }
-                                            EList<ReferenceChanged> refs_1 = ((InformationChanged)appMut_1).getRefChanges();
+                                            List<EObject> _references_5 = ModelManager.getReferences("refChanges", mutation_1);
+                                            List<EObject> refChanges_1 = ((List<EObject>) _references_5);
                                             _builder.newLineIfNotEmpty();
                                             {
-                                              for(final ReferenceChanged ref_1 : refs_1) {
+                                              for(final EObject ref_5 : refChanges_1) {
                                                 _builder.append(text_1 = "", "");
                                                 _builder.newLineIfNotEmpty();
                                                 {
-                                                  if ((ref_1 instanceof ReferenceSwap)) {
-                                                    _builder.append(text_1 = "", "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    Option cfgopt_17 = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _object_69 = ((InformationChanged)appMut_1).getObject();
-                                                    Element firstElement_3 = ModelManager.getElement(_object_69, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    System.out.println(("firstElement: " + firstElement_3));
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _from_28 = ((ReferenceSwap)ref_1).getFrom();
-                                                    Element firstFromElement_1 = ModelManager.getElement(_from_28, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _to_20 = ((ReferenceSwap)ref_1).getTo();
-                                                    Element firstToElement_1 = ModelManager.getElement(_to_20, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _refObject_7 = ((ReferenceSwap)ref_1).getRefObject();
-                                                    Element secondElement_3 = ModelManager.getElement(_refObject_7, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    System.out.println(("secondElement: " + secondElement_3));
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _otherFrom_4 = ((ReferenceSwap)ref_1).getOtherFrom();
-                                                    Element secondFromElement_1 = ModelManager.getElement(_otherFrom_4, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _otherTo_4 = ((ReferenceSwap)ref_1).getOtherTo();
-                                                    Element secondToElement_1 = ModelManager.getElement(_otherTo_4, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
+                                                  EClass _eClass_29 = ref_5.eClass();
+                                                  String _name_113 = _eClass_29.getName();
+                                                  boolean _equals_132 = _name_113.equals("ReferenceChanged");
+                                                  if (_equals_132) {
                                                     _builder.newLine();
                                                     _builder.newLine();
                                                     _builder.newLine();
-                                                    _builder.newLine();
+                                                    Option cfgopt_17 = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element element_13 = ModelManager.getElement(object_11, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_22 = ModelManager.getAttribute("srcRefName", ref_5);
+                                                    String srcRefName_1 = ((String) _attribute_22);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EClass _eClass_30 = object_11.eClass();
+                                                    EStructuralFeature refSrc_3 = _eClass_30.getEStructuralFeature(srcRefName_1);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element refSrcElement_3 = ModelManager.getRefElement(object_11, refSrc_3, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_23 = ModelManager.getAttribute("refName", ref_5);
+                                                    String refName_9 = ((String) _attribute_23);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EStructuralFeature refTar_3 = ModelManager.getReferenceByName(refName_9, object_11);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element refTarElement_3 = ModelManager.getRefElement(object_11, refTar_3, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_28 = ModelManager.getReference("from", ref_5);
+                                                    EObject from_5 = ((EObject) _reference_28);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element fromElement_3 = ModelManager.getElement(from_5, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_29 = ModelManager.getReference("to", ref_5);
+                                                    EObject to_5 = ((EObject) _reference_29);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element toElement_3 = ModelManager.getElement(to_5, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
                                                     Text t_17 = null;
                                                     _builder.newLineIfNotEmpty();
                                                     {
@@ -4607,257 +5009,240 @@ public class EduTestGenerator implements IGenerator {
                                                         _builder.newLine();
                                                       }
                                                     }
+                                                    boolean older_1 = (!Objects.equal(fromElement_3, null));
+                                                    _builder.newLineIfNotEmpty();
+                                                    boolean newer_1 = (!Objects.equal(toElement_3, null));
+                                                    _builder.newLineIfNotEmpty();
                                                     {
-                                                      EList<Word> _words_55 = t_17.getWords();
-                                                      for(final Word w_19 : _words_55) {
+                                                      if (((older_1 == true) && (newer_1 == true))) {
                                                         {
-                                                          if ((w_19 instanceof Constant)) {
-                                                            String _text_107 = text_1;
-                                                            String _value_55 = ((Constant)w_19).getValue();
-                                                            String _plus_299 = (_value_55 + " ");
-                                                            String _plus_300 = text_1 = (_text_107 + _plus_299);
-                                                            _builder.append(_plus_300, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                          }
-                                                        }
-                                                        {
-                                                          if ((w_19 instanceof Variable)) {
-                                                            Variable variable_17 = ((Variable) w_19);
-                                                            _builder.newLineIfNotEmpty();
+                                                          EList<Word> _words_70 = t_17.getWords();
+                                                          for(final Word w_23 : _words_70) {
                                                             {
-                                                              VariableType _type_58 = variable_17.getType();
-                                                              boolean _equals_101 = Objects.equal(_type_58, VariableType.FIRST_OBJECT);
-                                                              if (_equals_101) {
+                                                              if ((w_23 instanceof Constant)) {
+                                                                String _text_121 = text_1;
+                                                                String _value_58 = ((Constant)w_23).getValue();
+                                                                String _plus_301 = (_value_58 + " ");
+                                                                String _plus_302 = text_1 = (_text_121 + _plus_301);
+                                                                _builder.append(_plus_302, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                            {
+                                                              if ((w_23 instanceof Variable)) {
+                                                                Variable variable_21 = ((Variable) w_23);
+                                                                _builder.newLineIfNotEmpty();
                                                                 {
-                                                                  EList<modeltext.Word> _words_56 = firstElement_3.getWords();
-                                                                  for(final modeltext.Word v_38 : _words_56) {
+                                                                  VariableType _type_63 = variable_21.getType();
+                                                                  boolean _equals_133 = Objects.equal(_type_63, VariableType.OBJECT);
+                                                                  if (_equals_133) {
                                                                     {
-                                                                      if ((v_38 instanceof modeltext.Constant)) {
-                                                                        String _text_108 = text_1;
-                                                                        String _value_56 = ((modeltext.Constant)v_38).getValue();
-                                                                        String _plus_301 = (_value_56 + " ");
-                                                                        String _plus_302 = text_1 = (_text_108 + _plus_301);
-                                                                        _builder.append(_plus_302, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_38 instanceof modeltext.Variable)) {
-                                                                        EReference _ref_70 = ((modeltext.Variable) v_38).getRef();
-                                                                        String _plus_303 = ("REF: " + _ref_70);
-                                                                        System.out.println(_plus_303);
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        EObject o_32 = null;
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      Attribute _att_1 = element_13.getAtt();
+                                                                      boolean _equals_134 = Objects.equal(_att_1, null);
+                                                                      if (_equals_134) {
                                                                         {
-                                                                          EReference _ref_71 = ((modeltext.Variable) v_38).getRef();
-                                                                          boolean _equals_102 = Objects.equal(_ref_71, null);
-                                                                          if (_equals_102) {
-                                                                            EObject _refObject_8 = ((ReferenceSwap)ref_1).getRefObject();
-                                                                            _builder.append(o_32 = _refObject_8, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EObject _refObject_9 = ((ReferenceSwap)ref_1).getRefObject();
-                                                                            EReference _ref_72 = ((modeltext.Variable) v_38).getRef();
-                                                                            String _name_88 = _ref_72.getName();
-                                                                            EObject _refObject_10 = ((ReferenceSwap)ref_1).getRefObject();
-                                                                            EStructuralFeature _referenceByName_26 = ModelManager.getReferenceByName(_name_88, _refObject_10);
-                                                                            Object _eGet_84 = _refObject_9.eGet(_referenceByName_26);
-                                                                            _builder.append(o_32 = ((EObject) _eGet_84), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_50 = (!Objects.equal(o_32, null));
-                                                                          if (_notEquals_50) {
-                                                                            String _text_109 = text_1;
-                                                                            EAttribute _id_32 = ((modeltext.Variable) v_38).getId();
-                                                                            String _name_89 = _id_32.getName();
-                                                                            EStructuralFeature _attributeByName_32 = ModelManager.getAttributeByName(_name_89, o_32);
-                                                                            Object _eGet_85 = o_32.eGet(_attributeByName_32);
-                                                                            String _plus_304 = (_eGet_85 + " ");
-                                                                            String _plus_305 = text_1 = (_text_109 + _plus_304);
-                                                                            _builder.append(_plus_305, "");
-                                                                            _builder.newLineIfNotEmpty();
+                                                                          EList<modeltext.Word> _words_71 = element_13.getWords();
+                                                                          for(final modeltext.Word v_49 : _words_71) {
+                                                                            {
+                                                                              if ((v_49 instanceof modeltext.Constant)) {
+                                                                                String _text_122 = text_1;
+                                                                                String _value_59 = ((modeltext.Constant)v_49).getValue();
+                                                                                String _plus_303 = (_value_59 + " ");
+                                                                                String _plus_304 = text_1 = (_text_122 + _plus_303);
+                                                                                _builder.append(_plus_304, "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              }
+                                                                            }
+                                                                            {
+                                                                              if ((v_49 instanceof modeltext.Variable)) {
+                                                                                EObject o_37 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_77 = ((modeltext.Variable) v_49).getRef();
+                                                                                  boolean _equals_135 = Objects.equal(_ref_77, null);
+                                                                                  if (_equals_135) {
+                                                                                    _builder.append(o_37 = object_11, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_78 = ((modeltext.Variable) v_49).getRef();
+                                                                                    String _name_114 = _ref_78.getName();
+                                                                                    EStructuralFeature _referenceByName_28 = ModelManager.getReferenceByName(_name_114, object_11);
+                                                                                    Object _eGet_94 = object_11.eGet(_referenceByName_28);
+                                                                                    _builder.append(o_37 = ((EObject) _eGet_94), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_56 = (!Objects.equal(o_37, null));
+                                                                                  if (_notEquals_56) {
+                                                                                    String _text_123 = text_1;
+                                                                                    EAttribute _id_37 = ((modeltext.Variable) v_49).getId();
+                                                                                    String _name_115 = _id_37.getName();
+                                                                                    EStructuralFeature _attributeByName_37 = ModelManager.getAttributeByName(_name_115, o_37);
+                                                                                    Object _eGet_95 = o_37.eGet(_attributeByName_37);
+                                                                                    String _plus_305 = (_eGet_95 + " ");
+                                                                                    String _plus_306 = text_1 = (_text_123 + _plus_305);
+                                                                                    _builder.append(_plus_306, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
                                                                           }
                                                                         }
                                                                       }
                                                                     }
                                                                   }
                                                                 }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_59 = variable_17.getType();
-                                                              boolean _equals_103 = Objects.equal(_type_59, VariableType.FIRST_FROM_OBJECT);
-                                                              if (_equals_103) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_57 = firstFromElement_1.getWords();
-                                                                  for(final modeltext.Word v_39 : _words_57) {
+                                                                  VariableType _type_64 = variable_21.getType();
+                                                                  boolean _equals_136 = Objects.equal(_type_64, VariableType.FROM_OBJECT);
+                                                                  if (_equals_136) {
                                                                     {
-                                                                      if ((v_39 instanceof modeltext.Constant)) {
-                                                                        String _text_110 = text_1;
-                                                                        String _value_57 = ((modeltext.Constant)v_39).getValue();
-                                                                        String _plus_306 = (_value_57 + " ");
-                                                                        String _plus_307 = text_1 = (_text_110 + _plus_306);
-                                                                        _builder.append(_plus_307, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_39 instanceof modeltext.Variable)) {
-                                                                        EObject o_33 = null;
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      EList<modeltext.Word> _words_72 = fromElement_3.getWords();
+                                                                      for(final modeltext.Word v_50 : _words_72) {
                                                                         {
-                                                                          EReference _ref_73 = ((modeltext.Variable) v_39).getRef();
-                                                                          boolean _equals_104 = Objects.equal(_ref_73, null);
-                                                                          if (_equals_104) {
-                                                                            EObject _otherFrom_5 = ((ReferenceSwap)ref_1).getOtherFrom();
-                                                                            _builder.append(o_33 = _otherFrom_5, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EObject _otherFrom_6 = ((ReferenceSwap)ref_1).getOtherFrom();
-                                                                            EReference _ref_74 = ((modeltext.Variable) v_39).getRef();
-                                                                            String _name_90 = _ref_74.getName();
-                                                                            EObject _otherFrom_7 = ((ReferenceSwap)ref_1).getOtherFrom();
-                                                                            EStructuralFeature _referenceByName_27 = ModelManager.getReferenceByName(_name_90, _otherFrom_7);
-                                                                            Object _eGet_86 = _otherFrom_6.eGet(_referenceByName_27);
-                                                                            _builder.append(o_33 = ((EObject) _eGet_86), "");
+                                                                          if ((v_50 instanceof modeltext.Constant)) {
+                                                                            String _text_124 = text_1;
+                                                                            String _value_60 = ((modeltext.Constant)v_50).getValue();
+                                                                            String _plus_307 = (_value_60 + " ");
+                                                                            String _plus_308 = text_1 = (_text_124 + _plus_307);
+                                                                            _builder.append(_plus_308, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
                                                                         {
-                                                                          boolean _notEquals_51 = (!Objects.equal(o_33, null));
-                                                                          if (_notEquals_51) {
-                                                                            String _text_111 = text_1;
-                                                                            EAttribute _id_33 = ((modeltext.Variable) v_39).getId();
-                                                                            String _name_91 = _id_33.getName();
-                                                                            EStructuralFeature _attributeByName_33 = ModelManager.getAttributeByName(_name_91, o_33);
-                                                                            Object _eGet_87 = o_33.eGet(_attributeByName_33);
-                                                                            String _plus_308 = (_eGet_87 + " ");
-                                                                            String _plus_309 = text_1 = (_text_111 + _plus_308);
-                                                                            _builder.append(_plus_309, "");
+                                                                          if ((v_50 instanceof modeltext.Variable)) {
+                                                                            EObject o_38 = null;
                                                                             _builder.newLineIfNotEmpty();
+                                                                            {
+                                                                              EReference _ref_79 = ((modeltext.Variable) v_50).getRef();
+                                                                              boolean _equals_137 = Objects.equal(_ref_79, null);
+                                                                              if (_equals_137) {
+                                                                                _builder.append(o_38 = from_5, "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              } else {
+                                                                                EReference _ref_80 = ((modeltext.Variable) v_50).getRef();
+                                                                                String _name_116 = _ref_80.getName();
+                                                                                EStructuralFeature _referenceByName_29 = ModelManager.getReferenceByName(_name_116, from_5);
+                                                                                Object _eGet_96 = from_5.eGet(_referenceByName_29);
+                                                                                _builder.append(o_38 = ((EObject) _eGet_96), "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              }
+                                                                            }
+                                                                            {
+                                                                              boolean _notEquals_57 = (!Objects.equal(o_38, null));
+                                                                              if (_notEquals_57) {
+                                                                                String _text_125 = text_1;
+                                                                                EAttribute _id_38 = ((modeltext.Variable) v_50).getId();
+                                                                                String _name_117 = _id_38.getName();
+                                                                                EStructuralFeature _attributeByName_38 = ModelManager.getAttributeByName(_name_117, o_38);
+                                                                                Object _eGet_97 = o_38.eGet(_attributeByName_38);
+                                                                                String _plus_309 = (_eGet_97 + " ");
+                                                                                String _plus_310 = text_1 = (_text_125 + _plus_309);
+                                                                                _builder.append(_plus_310, "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              }
+                                                                            }
                                                                           }
                                                                         }
                                                                       }
                                                                     }
                                                                   }
                                                                 }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_60 = variable_17.getType();
-                                                              boolean _equals_105 = Objects.equal(_type_60, VariableType.FIRST_TO_OBJECT);
-                                                              if (_equals_105) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_58 = firstToElement_1.getWords();
-                                                                  for(final modeltext.Word v_40 : _words_58) {
+                                                                  VariableType _type_65 = variable_21.getType();
+                                                                  boolean _equals_138 = Objects.equal(_type_65, VariableType.TO_OBJECT);
+                                                                  if (_equals_138) {
                                                                     {
-                                                                      if ((v_40 instanceof modeltext.Constant)) {
-                                                                        String _text_112 = text_1;
-                                                                        String _value_58 = ((modeltext.Constant)v_40).getValue();
-                                                                        String _plus_310 = (_value_58 + " ");
-                                                                        String _plus_311 = text_1 = (_text_112 + _plus_310);
-                                                                        _builder.append(_plus_311, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_40 instanceof modeltext.Variable)) {
-                                                                        EObject o_34 = null;
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      EList<modeltext.Word> _words_73 = toElement_3.getWords();
+                                                                      for(final modeltext.Word v_51 : _words_73) {
                                                                         {
-                                                                          EReference _ref_75 = ((modeltext.Variable) v_40).getRef();
-                                                                          boolean _equals_106 = Objects.equal(_ref_75, null);
-                                                                          if (_equals_106) {
-                                                                            EObject _from_29 = ((ReferenceSwap)ref_1).getFrom();
-                                                                            _builder.append(o_34 = _from_29, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EObject _from_30 = ((ReferenceSwap)ref_1).getFrom();
-                                                                            EReference _ref_76 = ((modeltext.Variable) v_40).getRef();
-                                                                            String _name_92 = _ref_76.getName();
-                                                                            EObject _from_31 = ((ReferenceSwap)ref_1).getFrom();
-                                                                            EStructuralFeature _referenceByName_28 = ModelManager.getReferenceByName(_name_92, _from_31);
-                                                                            Object _eGet_88 = _from_30.eGet(_referenceByName_28);
-                                                                            _builder.append(o_34 = ((EObject) _eGet_88), "");
+                                                                          if ((v_51 instanceof modeltext.Constant)) {
+                                                                            String _text_126 = text_1;
+                                                                            String _value_61 = ((modeltext.Constant)v_51).getValue();
+                                                                            String _plus_311 = (_value_61 + " ");
+                                                                            String _plus_312 = text_1 = (_text_126 + _plus_311);
+                                                                            _builder.append(_plus_312, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
                                                                         }
                                                                         {
-                                                                          boolean _notEquals_52 = (!Objects.equal(o_34, null));
-                                                                          if (_notEquals_52) {
-                                                                            String _text_113 = text_1;
-                                                                            EAttribute _id_34 = ((modeltext.Variable) v_40).getId();
-                                                                            String _name_93 = _id_34.getName();
-                                                                            EStructuralFeature _attributeByName_34 = ModelManager.getAttributeByName(_name_93, o_34);
-                                                                            Object _eGet_89 = o_34.eGet(_attributeByName_34);
-                                                                            String _plus_312 = (_eGet_89 + " ");
-                                                                            String _plus_313 = text_1 = (_text_113 + _plus_312);
-                                                                            _builder.append(_plus_313, "");
+                                                                          if ((v_51 instanceof modeltext.Variable)) {
+                                                                            EObject o_39 = null;
                                                                             _builder.newLineIfNotEmpty();
+                                                                            {
+                                                                              EReference _ref_81 = ((modeltext.Variable) v_51).getRef();
+                                                                              boolean _equals_139 = Objects.equal(_ref_81, null);
+                                                                              if (_equals_139) {
+                                                                                _builder.append(o_39 = to_5, "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              } else {
+                                                                                EReference _ref_82 = ((modeltext.Variable) v_51).getRef();
+                                                                                Object _eGet_98 = to_5.eGet(_ref_82);
+                                                                                _builder.append(o_39 = ((EObject) _eGet_98), "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              }
+                                                                            }
+                                                                            {
+                                                                              boolean _notEquals_58 = (!Objects.equal(o_39, null));
+                                                                              if (_notEquals_58) {
+                                                                                String _text_127 = text_1;
+                                                                                EAttribute _id_39 = ((modeltext.Variable) v_51).getId();
+                                                                                String _name_118 = _id_39.getName();
+                                                                                EStructuralFeature _attributeByName_39 = ModelManager.getAttributeByName(_name_118, o_39);
+                                                                                Object _eGet_99 = o_39.eGet(_attributeByName_39);
+                                                                                String _plus_313 = (_eGet_99 + " ");
+                                                                                String _plus_314 = text_1 = (_text_127 + _plus_313);
+                                                                                _builder.append(_plus_314, "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              }
+                                                                            }
                                                                           }
                                                                         }
                                                                       }
                                                                     }
                                                                   }
                                                                 }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_61 = variable_17.getType();
-                                                              boolean _equals_107 = Objects.equal(_type_61, VariableType.SECOND_OBJECT);
-                                                              if (_equals_107) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_59 = secondElement_3.getWords();
-                                                                  for(final modeltext.Word v_41 : _words_59) {
+                                                                  VariableType _type_66 = variable_21.getType();
+                                                                  boolean _equals_140 = Objects.equal(_type_66, VariableType.REF_NAME);
+                                                                  if (_equals_140) {
                                                                     {
-                                                                      if ((v_41 instanceof modeltext.Constant)) {
-                                                                        String _text_114 = text_1;
-                                                                        String _value_59 = ((modeltext.Constant)v_41).getValue();
-                                                                        String _plus_314 = (_value_59 + " ");
-                                                                        String _plus_315 = text_1 = (_text_114 + _plus_314);
-                                                                        _builder.append(_plus_315, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_41 instanceof modeltext.Variable)) {
-                                                                        EReference _ref_77 = ((modeltext.Variable) v_41).getRef();
-                                                                        String _plus_316 = ("REF: " + _ref_77);
-                                                                        System.out.println(_plus_316);
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        EObject o_35 = null;
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      boolean _notEquals_59 = (!Objects.equal(refTarElement_3, null));
+                                                                      if (_notEquals_59) {
                                                                         {
-                                                                          EReference _ref_78 = ((modeltext.Variable) v_41).getRef();
-                                                                          boolean _equals_108 = Objects.equal(_ref_78, null);
-                                                                          if (_equals_108) {
-                                                                            EObject _refObject_11 = ((ReferenceSwap)ref_1).getRefObject();
-                                                                            _builder.append(o_35 = _refObject_11, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EObject _refObject_12 = ((ReferenceSwap)ref_1).getRefObject();
-                                                                            EReference _ref_79 = ((modeltext.Variable) v_41).getRef();
-                                                                            String _name_94 = _ref_79.getName();
-                                                                            EObject _refObject_13 = ((ReferenceSwap)ref_1).getRefObject();
-                                                                            EStructuralFeature _referenceByName_29 = ModelManager.getReferenceByName(_name_94, _refObject_13);
-                                                                            Object _eGet_90 = _refObject_12.eGet(_referenceByName_29);
-                                                                            _builder.append(o_35 = ((EObject) _eGet_90), "");
-                                                                            _builder.newLineIfNotEmpty();
+                                                                          EList<modeltext.Word> _words_74 = refTarElement_3.getWords();
+                                                                          for(final modeltext.Word v_52 : _words_74) {
+                                                                            {
+                                                                              if ((v_52 instanceof modeltext.Constant)) {
+                                                                                String _text_128 = text_1;
+                                                                                String _value_62 = ((modeltext.Constant)v_52).getValue();
+                                                                                String _plus_315 = (_value_62 + " ");
+                                                                                String _plus_316 = text_1 = (_text_128 + _plus_315);
+                                                                                _builder.append(_plus_316, "");
+                                                                                _builder.newLineIfNotEmpty();
+                                                                              }
+                                                                            }
                                                                           }
                                                                         }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                                {
+                                                                  VariableType _type_67 = variable_21.getType();
+                                                                  boolean _equals_141 = Objects.equal(_type_67, VariableType.SRC_REF_NAME);
+                                                                  if (_equals_141) {
+                                                                    {
+                                                                      EList<modeltext.Word> _words_75 = refSrcElement_3.getWords();
+                                                                      for(final modeltext.Word v_53 : _words_75) {
                                                                         {
-                                                                          boolean _notEquals_53 = (!Objects.equal(o_35, null));
-                                                                          if (_notEquals_53) {
-                                                                            String _text_115 = text_1;
-                                                                            EAttribute _id_35 = ((modeltext.Variable) v_41).getId();
-                                                                            String _name_95 = _id_35.getName();
-                                                                            EStructuralFeature _attributeByName_35 = ModelManager.getAttributeByName(_name_95, o_35);
-                                                                            Object _eGet_91 = o_35.eGet(_attributeByName_35);
-                                                                            String _plus_317 = (_eGet_91 + " ");
-                                                                            String _plus_318 = text_1 = (_text_115 + _plus_317);
+                                                                          if ((v_53 instanceof modeltext.Constant)) {
+                                                                            String _text_129 = text_1;
+                                                                            String _value_63 = ((modeltext.Constant)v_53).getValue();
+                                                                            String _plus_317 = (_value_63 + " ");
+                                                                            String _plus_318 = text_1 = (_text_129 + _plus_317);
                                                                             _builder.append(_plus_318, "");
                                                                             _builder.newLineIfNotEmpty();
                                                                           }
@@ -4868,57 +5253,132 @@ public class EduTestGenerator implements IGenerator {
                                                                 }
                                                               }
                                                             }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                    {
+                                                      if ((older_1 == false)) {
+                                                        {
+                                                          if ((opt_2.solution == true)) {
+                                                            String _text_130 = text_1;
+                                                            String _plus_319 = text_1 = (_text_130 + "Delete ");
+                                                            _builder.append(_plus_319, "");
+                                                            _builder.append(" ");
+                                                            _builder.newLineIfNotEmpty();
                                                             {
-                                                              VariableType _type_62 = variable_17.getType();
-                                                              boolean _equals_109 = Objects.equal(_type_62, VariableType.SECOND_FROM_OBJECT);
-                                                              if (_equals_109) {
+                                                              EList<modeltext.Word> _words_76 = refSrcElement_3.getWords();
+                                                              for(final modeltext.Word v_54 : _words_76) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_60 = secondFromElement_1.getWords();
-                                                                  for(final modeltext.Word v_42 : _words_60) {
+                                                                  if ((v_54 instanceof modeltext.Constant)) {
+                                                                    String _text_131 = text_1;
+                                                                    String _value_64 = ((modeltext.Constant)v_54).getValue();
+                                                                    String _plus_320 = (_value_64 + " ");
+                                                                    String _plus_321 = text_1 = (_text_131 + _plus_320);
+                                                                    _builder.append(_plus_321, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            String _text_132 = text_1;
+                                                            String _plus_322 = text_1 = (_text_132 + " from ");
+                                                            _builder.append(_plus_322, "");
+                                                            _builder.newLineIfNotEmpty();
+                                                            {
+                                                              EList<Word> _words_77 = t_17.getWords();
+                                                              for(final Word w_24 : _words_77) {
+                                                                {
+                                                                  if ((w_24 instanceof Variable)) {
+                                                                    Variable variable_22 = ((Variable) w_24);
+                                                                    _builder.newLineIfNotEmpty();
                                                                     {
-                                                                      if ((v_42 instanceof modeltext.Constant)) {
-                                                                        String _text_116 = text_1;
-                                                                        String _value_60 = ((modeltext.Constant)v_42).getValue();
-                                                                        String _plus_319 = (_value_60 + " ");
-                                                                        String _plus_320 = text_1 = (_text_116 + _plus_319);
-                                                                        _builder.append(_plus_320, "");
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      VariableType _type_68 = variable_22.getType();
+                                                                      boolean _equals_142 = Objects.equal(_type_68, VariableType.OBJECT);
+                                                                      if (_equals_142) {
+                                                                        {
+                                                                          EList<modeltext.Word> _words_78 = element_13.getWords();
+                                                                          for(final modeltext.Word v_55 : _words_78) {
+                                                                            {
+                                                                              if ((v_55 instanceof modeltext.Variable)) {
+                                                                                EObject o_40 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_83 = ((modeltext.Variable) v_55).getRef();
+                                                                                  boolean _equals_143 = Objects.equal(_ref_83, null);
+                                                                                  if (_equals_143) {
+                                                                                    _builder.append(o_40 = object_11, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_84 = ((modeltext.Variable) v_55).getRef();
+                                                                                    String _name_119 = _ref_84.getName();
+                                                                                    EStructuralFeature _referenceByName_30 = ModelManager.getReferenceByName(_name_119, from_5);
+                                                                                    Object _eGet_100 = object_11.eGet(_referenceByName_30);
+                                                                                    _builder.append(o_40 = ((EObject) _eGet_100), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_60 = (!Objects.equal(o_40, null));
+                                                                                  if (_notEquals_60) {
+                                                                                    String _text_133 = text_1;
+                                                                                    EAttribute _id_40 = ((modeltext.Variable) v_55).getId();
+                                                                                    String _name_120 = _id_40.getName();
+                                                                                    EStructuralFeature _attributeByName_40 = ModelManager.getAttributeByName(_name_120, o_40);
+                                                                                    Object _eGet_101 = o_40.eGet(_attributeByName_40);
+                                                                                    String _plus_323 = (_eGet_101 + " ");
+                                                                                    String _plus_324 = text_1 = (_text_133 + _plus_323);
+                                                                                    _builder.append(_plus_324, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
                                                                       }
                                                                     }
                                                                     {
-                                                                      if ((v_42 instanceof modeltext.Variable)) {
-                                                                        EObject o_36 = null;
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      VariableType _type_69 = variable_22.getType();
+                                                                      boolean _equals_144 = Objects.equal(_type_69, VariableType.TO_OBJECT);
+                                                                      if (_equals_144) {
                                                                         {
-                                                                          EReference _ref_80 = ((modeltext.Variable) v_42).getRef();
-                                                                          boolean _equals_110 = Objects.equal(_ref_80, null);
-                                                                          if (_equals_110) {
-                                                                            EObject _otherTo_5 = ((ReferenceSwap)ref_1).getOtherTo();
-                                                                            _builder.append(o_36 = _otherTo_5, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EObject _otherTo_6 = ((ReferenceSwap)ref_1).getOtherTo();
-                                                                            EReference _ref_81 = ((modeltext.Variable) v_42).getRef();
-                                                                            String _name_96 = _ref_81.getName();
-                                                                            EObject _otherTo_7 = ((ReferenceSwap)ref_1).getOtherTo();
-                                                                            EStructuralFeature _referenceByName_30 = ModelManager.getReferenceByName(_name_96, _otherTo_7);
-                                                                            Object _eGet_92 = _otherTo_6.eGet(_referenceByName_30);
-                                                                            _builder.append(o_36 = ((EObject) _eGet_92), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_54 = (!Objects.equal(o_36, null));
-                                                                          if (_notEquals_54) {
-                                                                            String _text_117 = text_1;
-                                                                            EAttribute _id_36 = ((modeltext.Variable) v_42).getId();
-                                                                            String _name_97 = _id_36.getName();
-                                                                            EStructuralFeature _attributeByName_36 = ModelManager.getAttributeByName(_name_97, o_36);
-                                                                            Object _eGet_93 = o_36.eGet(_attributeByName_36);
-                                                                            String _plus_321 = (_eGet_93 + " ");
-                                                                            String _plus_322 = text_1 = (_text_117 + _plus_321);
-                                                                            _builder.append(_plus_322, "");
-                                                                            _builder.newLineIfNotEmpty();
+                                                                          EList<modeltext.Word> _words_79 = toElement_3.getWords();
+                                                                          for(final modeltext.Word v_56 : _words_79) {
+                                                                            {
+                                                                              if ((v_56 instanceof modeltext.Variable)) {
+                                                                                EObject o_41 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_85 = ((modeltext.Variable) v_56).getRef();
+                                                                                  boolean _equals_145 = Objects.equal(_ref_85, null);
+                                                                                  if (_equals_145) {
+                                                                                    _builder.append(o_41 = to_5, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_86 = ((modeltext.Variable) v_56).getRef();
+                                                                                    Object _eGet_102 = to_5.eGet(_ref_86);
+                                                                                    _builder.append(o_41 = ((EObject) _eGet_102), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_61 = (!Objects.equal(o_41, null));
+                                                                                  if (_notEquals_61) {
+                                                                                    String _text_134 = text_1;
+                                                                                    EAttribute _id_41 = ((modeltext.Variable) v_56).getId();
+                                                                                    String _name_121 = _id_41.getName();
+                                                                                    EStructuralFeature _attributeByName_41 = ModelManager.getAttributeByName(_name_121, o_41);
+                                                                                    Object _eGet_103 = o_41.eGet(_attributeByName_41);
+                                                                                    String _plus_325 = ("to " + _eGet_103);
+                                                                                    String _plus_326 = (_plus_325 + " ");
+                                                                                    String _plus_327 = text_1 = (_text_134 + _plus_326);
+                                                                                    _builder.append(_plus_327, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
                                                                           }
                                                                         }
                                                                       }
@@ -4927,57 +5387,125 @@ public class EduTestGenerator implements IGenerator {
                                                                 }
                                                               }
                                                             }
+                                                          } else {
+                                                            String _text_135 = text_1;
+                                                            String _plus_328 = text_1 = (_text_135 + "Create ");
+                                                            _builder.append(_plus_328, "");
+                                                            _builder.append(" ");
+                                                            _builder.newLineIfNotEmpty();
                                                             {
-                                                              VariableType _type_63 = variable_17.getType();
-                                                              boolean _equals_111 = Objects.equal(_type_63, VariableType.SECOND_TO_OBJECT);
-                                                              if (_equals_111) {
+                                                              EList<modeltext.Word> _words_80 = refSrcElement_3.getWords();
+                                                              for(final modeltext.Word v_57 : _words_80) {
                                                                 {
-                                                                  EList<modeltext.Word> _words_61 = secondToElement_1.getWords();
-                                                                  for(final modeltext.Word v_43 : _words_61) {
+                                                                  if ((v_57 instanceof modeltext.Constant)) {
+                                                                    String _text_136 = text_1;
+                                                                    String _value_65 = ((modeltext.Constant)v_57).getValue();
+                                                                    String _plus_329 = (_value_65 + " ");
+                                                                    String _plus_330 = text_1 = (_text_136 + _plus_329);
+                                                                    _builder.append(_plus_330, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            String _text_137 = text_1;
+                                                            String _plus_331 = text_1 = (_text_137 + " from ");
+                                                            _builder.append(_plus_331, "");
+                                                            _builder.newLineIfNotEmpty();
+                                                            {
+                                                              EList<Word> _words_81 = t_17.getWords();
+                                                              for(final Word w_25 : _words_81) {
+                                                                {
+                                                                  if ((w_25 instanceof Variable)) {
+                                                                    Variable variable_23 = ((Variable) w_25);
+                                                                    _builder.newLineIfNotEmpty();
                                                                     {
-                                                                      if ((v_43 instanceof modeltext.Constant)) {
-                                                                        String _text_118 = text_1;
-                                                                        String _value_61 = ((modeltext.Constant)v_43).getValue();
-                                                                        String _plus_323 = (_value_61 + " ");
-                                                                        String _plus_324 = text_1 = (_text_118 + _plus_323);
-                                                                        _builder.append(_plus_324, "");
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      VariableType _type_70 = variable_23.getType();
+                                                                      boolean _equals_146 = Objects.equal(_type_70, VariableType.OBJECT);
+                                                                      if (_equals_146) {
+                                                                        {
+                                                                          EList<modeltext.Word> _words_82 = element_13.getWords();
+                                                                          for(final modeltext.Word v_58 : _words_82) {
+                                                                            {
+                                                                              if ((v_58 instanceof modeltext.Variable)) {
+                                                                                EObject o_42 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_87 = ((modeltext.Variable) v_58).getRef();
+                                                                                  boolean _equals_147 = Objects.equal(_ref_87, null);
+                                                                                  if (_equals_147) {
+                                                                                    _builder.append(o_42 = object_11, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_88 = ((modeltext.Variable) v_58).getRef();
+                                                                                    String _name_122 = _ref_88.getName();
+                                                                                    EStructuralFeature _referenceByName_31 = ModelManager.getReferenceByName(_name_122, from_5);
+                                                                                    Object _eGet_104 = object_11.eGet(_referenceByName_31);
+                                                                                    _builder.append(o_42 = ((EObject) _eGet_104), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_62 = (!Objects.equal(o_42, null));
+                                                                                  if (_notEquals_62) {
+                                                                                    String _text_138 = text_1;
+                                                                                    EAttribute _id_42 = ((modeltext.Variable) v_58).getId();
+                                                                                    String _name_123 = _id_42.getName();
+                                                                                    EStructuralFeature _attributeByName_42 = ModelManager.getAttributeByName(_name_123, o_42);
+                                                                                    Object _eGet_105 = o_42.eGet(_attributeByName_42);
+                                                                                    String _plus_332 = (_eGet_105 + " ");
+                                                                                    String _plus_333 = text_1 = (_text_138 + _plus_332);
+                                                                                    _builder.append(_plus_333, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
                                                                       }
                                                                     }
                                                                     {
-                                                                      if ((v_43 instanceof modeltext.Variable)) {
-                                                                        EObject o_37 = null;
-                                                                        _builder.newLineIfNotEmpty();
+                                                                      VariableType _type_71 = variable_23.getType();
+                                                                      boolean _equals_148 = Objects.equal(_type_71, VariableType.TO_OBJECT);
+                                                                      if (_equals_148) {
                                                                         {
-                                                                          EReference _ref_82 = ((modeltext.Variable) v_43).getRef();
-                                                                          boolean _equals_112 = Objects.equal(_ref_82, null);
-                                                                          if (_equals_112) {
-                                                                            EObject _to_21 = ((ReferenceSwap)ref_1).getTo();
-                                                                            _builder.append(o_37 = _to_21, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EObject _to_22 = ((ReferenceSwap)ref_1).getTo();
-                                                                            EReference _ref_83 = ((modeltext.Variable) v_43).getRef();
-                                                                            String _name_98 = _ref_83.getName();
-                                                                            EObject _to_23 = ((ReferenceSwap)ref_1).getTo();
-                                                                            EStructuralFeature _referenceByName_31 = ModelManager.getReferenceByName(_name_98, _to_23);
-                                                                            Object _eGet_94 = _to_22.eGet(_referenceByName_31);
-                                                                            _builder.append(o_37 = ((EObject) _eGet_94), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_55 = (!Objects.equal(o_37, null));
-                                                                          if (_notEquals_55) {
-                                                                            String _text_119 = text_1;
-                                                                            EAttribute _id_37 = ((modeltext.Variable) v_43).getId();
-                                                                            String _name_99 = _id_37.getName();
-                                                                            EStructuralFeature _attributeByName_37 = ModelManager.getAttributeByName(_name_99, o_37);
-                                                                            Object _eGet_95 = o_37.eGet(_attributeByName_37);
-                                                                            String _plus_325 = (_eGet_95 + " ");
-                                                                            String _plus_326 = text_1 = (_text_119 + _plus_325);
-                                                                            _builder.append(_plus_326, "");
-                                                                            _builder.newLineIfNotEmpty();
+                                                                          EList<modeltext.Word> _words_83 = toElement_3.getWords();
+                                                                          for(final modeltext.Word v_59 : _words_83) {
+                                                                            {
+                                                                              if ((v_59 instanceof modeltext.Variable)) {
+                                                                                EObject o_43 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_89 = ((modeltext.Variable) v_59).getRef();
+                                                                                  boolean _equals_149 = Objects.equal(_ref_89, null);
+                                                                                  if (_equals_149) {
+                                                                                    _builder.append(o_43 = to_5, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_90 = ((modeltext.Variable) v_59).getRef();
+                                                                                    Object _eGet_106 = to_5.eGet(_ref_90);
+                                                                                    _builder.append(o_43 = ((EObject) _eGet_106), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_63 = (!Objects.equal(o_43, null));
+                                                                                  if (_notEquals_63) {
+                                                                                    String _text_139 = text_1;
+                                                                                    EAttribute _id_43 = ((modeltext.Variable) v_59).getId();
+                                                                                    String _name_124 = _id_43.getName();
+                                                                                    EStructuralFeature _attributeByName_43 = ModelManager.getAttributeByName(_name_124, o_43);
+                                                                                    Object _eGet_107 = o_43.eGet(_attributeByName_43);
+                                                                                    String _plus_334 = ("to " + _eGet_107);
+                                                                                    String _plus_335 = (_plus_334 + " ");
+                                                                                    String _plus_336 = text_1 = (_text_139 + _plus_335);
+                                                                                    _builder.append(_plus_336, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
                                                                           }
                                                                         }
                                                                       }
@@ -4986,28 +5514,269 @@ public class EduTestGenerator implements IGenerator {
                                                                 }
                                                               }
                                                             }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                    {
+                                                      if ((newer_1 == false)) {
+                                                        {
+                                                          if ((opt_2.solution == true)) {
+                                                            String _text_140 = text_1;
+                                                            String _plus_337 = text_1 = (_text_140 + "Create ");
+                                                            _builder.append(_plus_337, "");
+                                                            _builder.append(" ");
+                                                            _builder.newLineIfNotEmpty();
                                                             {
-                                                              VariableType _type_64 = variable_17.getType();
-                                                              boolean _equals_113 = Objects.equal(_type_64, VariableType.FIRST_REF_NAME);
-                                                              if (_equals_113) {
-                                                                String _text_120 = text_1;
-                                                                String _refName_7 = ((ReferenceSwap)ref_1).getRefName();
-                                                                String _plus_327 = (_refName_7 + " ");
-                                                                String _plus_328 = text_1 = (_text_120 + _plus_327);
-                                                                _builder.append(_plus_328, "");
-                                                                _builder.newLineIfNotEmpty();
+                                                              EList<modeltext.Word> _words_84 = refSrcElement_3.getWords();
+                                                              for(final modeltext.Word v_60 : _words_84) {
+                                                                {
+                                                                  if ((v_60 instanceof modeltext.Constant)) {
+                                                                    String _text_141 = text_1;
+                                                                    String _value_66 = ((modeltext.Constant)v_60).getValue();
+                                                                    String _plus_338 = (_value_66 + " ");
+                                                                    String _plus_339 = text_1 = (_text_141 + _plus_338);
+                                                                    _builder.append(_plus_339, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
                                                               }
                                                             }
+                                                            String _text_142 = text_1;
+                                                            String _plus_340 = text_1 = (_text_142 + " from ");
+                                                            _builder.append(_plus_340, "");
+                                                            _builder.newLineIfNotEmpty();
                                                             {
-                                                              VariableType _type_65 = variable_17.getType();
-                                                              boolean _equals_114 = Objects.equal(_type_65, VariableType.SECOND_REF_NAME);
-                                                              if (_equals_114) {
-                                                                String _text_121 = text_1;
-                                                                String _firstName_3 = ((ReferenceSwap)ref_1).getFirstName();
-                                                                String _plus_329 = (_firstName_3 + " ");
-                                                                String _plus_330 = text_1 = (_text_121 + _plus_329);
-                                                                _builder.append(_plus_330, "");
-                                                                _builder.newLineIfNotEmpty();
+                                                              EList<Word> _words_85 = t_17.getWords();
+                                                              for(final Word w_26 : _words_85) {
+                                                                {
+                                                                  if ((w_26 instanceof Variable)) {
+                                                                    Variable variable_24 = ((Variable) w_26);
+                                                                    _builder.newLineIfNotEmpty();
+                                                                    {
+                                                                      VariableType _type_72 = variable_24.getType();
+                                                                      boolean _equals_150 = Objects.equal(_type_72, VariableType.FROM_OBJECT);
+                                                                      if (_equals_150) {
+                                                                        {
+                                                                          EList<modeltext.Word> _words_86 = fromElement_3.getWords();
+                                                                          for(final modeltext.Word v_61 : _words_86) {
+                                                                            {
+                                                                              if ((v_61 instanceof modeltext.Variable)) {
+                                                                                EObject o_44 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_91 = ((modeltext.Variable) v_61).getRef();
+                                                                                  boolean _equals_151 = Objects.equal(_ref_91, null);
+                                                                                  if (_equals_151) {
+                                                                                    _builder.append(o_44 = from_5, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_92 = ((modeltext.Variable) v_61).getRef();
+                                                                                    String _name_125 = _ref_92.getName();
+                                                                                    EStructuralFeature _referenceByName_32 = ModelManager.getReferenceByName(_name_125, from_5);
+                                                                                    Object _eGet_108 = from_5.eGet(_referenceByName_32);
+                                                                                    _builder.append(o_44 = ((EObject) _eGet_108), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_64 = (!Objects.equal(o_44, null));
+                                                                                  if (_notEquals_64) {
+                                                                                    String _text_143 = text_1;
+                                                                                    EAttribute _id_44 = ((modeltext.Variable) v_61).getId();
+                                                                                    String _name_126 = _id_44.getName();
+                                                                                    EStructuralFeature _attributeByName_44 = ModelManager.getAttributeByName(_name_126, o_44);
+                                                                                    Object _eGet_109 = o_44.eGet(_attributeByName_44);
+                                                                                    String _plus_341 = (_eGet_109 + " ");
+                                                                                    String _plus_342 = text_1 = (_text_143 + _plus_341);
+                                                                                    _builder.append(_plus_342, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      VariableType _type_73 = variable_24.getType();
+                                                                      boolean _equals_152 = Objects.equal(_type_73, VariableType.OBJECT);
+                                                                      if (_equals_152) {
+                                                                        {
+                                                                          EList<modeltext.Word> _words_87 = toElement_3.getWords();
+                                                                          for(final modeltext.Word v_62 : _words_87) {
+                                                                            {
+                                                                              if ((v_62 instanceof modeltext.Variable)) {
+                                                                                EObject o_45 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_93 = ((modeltext.Variable) v_62).getRef();
+                                                                                  boolean _equals_153 = Objects.equal(_ref_93, null);
+                                                                                  if (_equals_153) {
+                                                                                    _builder.append(o_45 = object_11, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_94 = ((modeltext.Variable) v_62).getRef();
+                                                                                    String _name_127 = _ref_94.getName();
+                                                                                    EStructuralFeature _referenceByName_33 = ModelManager.getReferenceByName(_name_127, object_11);
+                                                                                    Object _eGet_110 = object_11.eGet(_referenceByName_33);
+                                                                                    _builder.append(o_45 = ((EObject) _eGet_110), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_65 = (!Objects.equal(o_45, null));
+                                                                                  if (_notEquals_65) {
+                                                                                    String _text_144 = text_1;
+                                                                                    EAttribute _id_45 = ((modeltext.Variable) v_62).getId();
+                                                                                    String _name_128 = _id_45.getName();
+                                                                                    EStructuralFeature _attributeByName_45 = ModelManager.getAttributeByName(_name_128, o_45);
+                                                                                    Object _eGet_111 = o_45.eGet(_attributeByName_45);
+                                                                                    String _plus_343 = ("to " + _eGet_111);
+                                                                                    String _plus_344 = (_plus_343 + " ");
+                                                                                    String _plus_345 = text_1 = (_text_144 + _plus_344);
+                                                                                    _builder.append(_plus_345, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          } else {
+                                                            String _text_145 = text_1;
+                                                            String _plus_346 = text_1 = (_text_145 + "Delete ");
+                                                            _builder.append(_plus_346, "");
+                                                            _builder.append(" ");
+                                                            _builder.newLineIfNotEmpty();
+                                                            {
+                                                              EList<modeltext.Word> _words_88 = refSrcElement_3.getWords();
+                                                              for(final modeltext.Word v_63 : _words_88) {
+                                                                {
+                                                                  if ((v_63 instanceof modeltext.Constant)) {
+                                                                    String _text_146 = text_1;
+                                                                    String _value_67 = ((modeltext.Constant)v_63).getValue();
+                                                                    String _plus_347 = (_value_67 + " ");
+                                                                    String _plus_348 = text_1 = (_text_146 + _plus_347);
+                                                                    _builder.append(_plus_348, "");
+                                                                    _builder.newLineIfNotEmpty();
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            String _text_147 = text_1;
+                                                            String _plus_349 = text_1 = (_text_147 + " from ");
+                                                            _builder.append(_plus_349, "");
+                                                            _builder.newLineIfNotEmpty();
+                                                            {
+                                                              EList<Word> _words_89 = t_17.getWords();
+                                                              for(final Word w_27 : _words_89) {
+                                                                {
+                                                                  if ((w_27 instanceof Variable)) {
+                                                                    Variable variable_25 = ((Variable) w_27);
+                                                                    _builder.newLineIfNotEmpty();
+                                                                    {
+                                                                      VariableType _type_74 = variable_25.getType();
+                                                                      boolean _equals_154 = Objects.equal(_type_74, VariableType.FROM_OBJECT);
+                                                                      if (_equals_154) {
+                                                                        {
+                                                                          EList<modeltext.Word> _words_90 = fromElement_3.getWords();
+                                                                          for(final modeltext.Word v_64 : _words_90) {
+                                                                            {
+                                                                              if ((v_64 instanceof modeltext.Variable)) {
+                                                                                EObject o_46 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_95 = ((modeltext.Variable) v_64).getRef();
+                                                                                  boolean _equals_155 = Objects.equal(_ref_95, null);
+                                                                                  if (_equals_155) {
+                                                                                    _builder.append(o_46 = from_5, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_96 = ((modeltext.Variable) v_64).getRef();
+                                                                                    String _name_129 = _ref_96.getName();
+                                                                                    EStructuralFeature _referenceByName_34 = ModelManager.getReferenceByName(_name_129, from_5);
+                                                                                    Object _eGet_112 = from_5.eGet(_referenceByName_34);
+                                                                                    _builder.append(o_46 = ((EObject) _eGet_112), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_66 = (!Objects.equal(o_46, null));
+                                                                                  if (_notEquals_66) {
+                                                                                    String _text_148 = text_1;
+                                                                                    EAttribute _id_46 = ((modeltext.Variable) v_64).getId();
+                                                                                    String _name_130 = _id_46.getName();
+                                                                                    EStructuralFeature _attributeByName_46 = ModelManager.getAttributeByName(_name_130, o_46);
+                                                                                    Object _eGet_113 = o_46.eGet(_attributeByName_46);
+                                                                                    String _plus_350 = (_eGet_113 + " ");
+                                                                                    String _plus_351 = text_1 = (_text_148 + _plus_350);
+                                                                                    _builder.append(_plus_351, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      VariableType _type_75 = variable_25.getType();
+                                                                      boolean _equals_156 = Objects.equal(_type_75, VariableType.OBJECT);
+                                                                      if (_equals_156) {
+                                                                        {
+                                                                          EList<modeltext.Word> _words_91 = toElement_3.getWords();
+                                                                          for(final modeltext.Word v_65 : _words_91) {
+                                                                            {
+                                                                              if ((v_65 instanceof modeltext.Variable)) {
+                                                                                EObject o_47 = null;
+                                                                                _builder.newLineIfNotEmpty();
+                                                                                {
+                                                                                  EReference _ref_97 = ((modeltext.Variable) v_65).getRef();
+                                                                                  boolean _equals_157 = Objects.equal(_ref_97, null);
+                                                                                  if (_equals_157) {
+                                                                                    _builder.append(o_47 = object_11, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  } else {
+                                                                                    EReference _ref_98 = ((modeltext.Variable) v_65).getRef();
+                                                                                    String _name_131 = _ref_98.getName();
+                                                                                    EStructuralFeature _referenceByName_35 = ModelManager.getReferenceByName(_name_131, object_11);
+                                                                                    Object _eGet_114 = object_11.eGet(_referenceByName_35);
+                                                                                    _builder.append(o_47 = ((EObject) _eGet_114), "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                                {
+                                                                                  boolean _notEquals_67 = (!Objects.equal(o_47, null));
+                                                                                  if (_notEquals_67) {
+                                                                                    String _text_149 = text_1;
+                                                                                    EAttribute _id_47 = ((modeltext.Variable) v_65).getId();
+                                                                                    String _name_132 = _id_47.getName();
+                                                                                    EStructuralFeature _attributeByName_47 = ModelManager.getAttributeByName(_name_132, o_47);
+                                                                                    Object _eGet_115 = o_47.eGet(_attributeByName_47);
+                                                                                    String _plus_352 = ("to " + _eGet_115);
+                                                                                    String _plus_353 = (_plus_352 + " ");
+                                                                                    String _plus_354 = text_1 = (_text_149 + _plus_353);
+                                                                                    _builder.append(_plus_354, "");
+                                                                                    _builder.newLineIfNotEmpty();
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
                                                               }
                                                             }
                                                           }
@@ -5027,13 +5796,488 @@ public class EduTestGenerator implements IGenerator {
                                                     _builder.newLineIfNotEmpty();
                                                     {
                                                       if ((isRepeated_8 == false)) {
-                                                        Integer _get_83 = this.total.get(exercise);
-                                                        int _plus_331 = ((_get_83).intValue() + 1);
-                                                        Integer _put_22 = this.total.put(exercise, Integer.valueOf(_plus_331));
+                                                        Integer _get_31 = this.total.get(exercise);
+                                                        int _plus_355 = ((_get_31).intValue() + 1);
+                                                        Integer _put_22 = this.total.put(exercise, Integer.valueOf(_plus_355));
                                                         _builder.append(_put_22, "");
                                                         _builder.newLineIfNotEmpty();
                                                         boolean _add_37 = opts_2.add(optClone_7);
                                                         _builder.append(_add_37, "");
+                                                        _builder.newLineIfNotEmpty();
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                                {
+                                                  EClass _eClass_31 = ref_5.eClass();
+                                                  String _name_133 = _eClass_31.getName();
+                                                  boolean _equals_158 = _name_133.equals("ReferenceSwap");
+                                                  if (_equals_158) {
+                                                    _builder.append(text_1 = "", "");
+                                                    _builder.newLineIfNotEmpty();
+                                                    Option cfgopt_18 = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element firstElement_2 = ModelManager.getElement(object_11, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    System.out.println(("firstElement: " + firstElement_2));
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_30 = ModelManager.getReference("from", ref_5);
+                                                    EObject firstFrom = ((EObject) _reference_30);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element firstFromElement = ModelManager.getElement(firstFrom, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_31 = ModelManager.getReference("to", ref_5);
+                                                    EObject firstTo = ((EObject) _reference_31);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element firstToElement = ModelManager.getElement(firstTo, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_32 = ModelManager.getReference("refObject", ref_5);
+                                                    EObject refObject = ((EObject) _reference_32);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element secondElement_2 = ModelManager.getElement(refObject, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    System.out.println(("secondElement: " + secondElement_2));
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_33 = ModelManager.getReference("otherFrom", ref_5);
+                                                    EObject secondFrom = ((EObject) _reference_33);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element secondFromElement = ModelManager.getElement(secondFrom, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    EObject _reference_34 = ModelManager.getReference("otherTo", ref_5);
+                                                    EObject secondTo = ((EObject) _reference_34);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Element secondToElement = ModelManager.getElement(secondTo, idelemsresource);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_24 = ModelManager.getAttribute("refName", ref_5);
+                                                    String refName_10 = ((String) _attribute_24);
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _attribute_25 = ModelManager.getAttribute("refFirstName", ref_5);
+                                                    String refFirstName = ((String) _attribute_25);
+                                                    _builder.newLineIfNotEmpty();
+                                                    _builder.newLine();
+                                                    _builder.newLine();
+                                                    _builder.newLine();
+                                                    _builder.newLine();
+                                                    Text t_18 = null;
+                                                    _builder.newLineIfNotEmpty();
+                                                    {
+                                                      if ((opt_2.solution == true)) {
+                                                        Text _valid_18 = cfgopt_18.getValid();
+                                                        _builder.append(t_18 = _valid_18, "");
+                                                        _builder.newLineIfNotEmpty();
+                                                        _builder.newLine();
+                                                      } else {
+                                                        Text _invalid_18 = cfgopt_18.getInvalid();
+                                                        _builder.append(t_18 = _invalid_18, "");
+                                                        _builder.newLineIfNotEmpty();
+                                                        _builder.newLine();
+                                                      }
+                                                    }
+                                                    {
+                                                      EList<Word> _words_92 = t_18.getWords();
+                                                      for(final Word w_28 : _words_92) {
+                                                        {
+                                                          if ((w_28 instanceof Constant)) {
+                                                            String _text_150 = text_1;
+                                                            String _value_68 = ((Constant)w_28).getValue();
+                                                            String _plus_356 = (_value_68 + " ");
+                                                            String _plus_357 = text_1 = (_text_150 + _plus_356);
+                                                            _builder.append(_plus_357, "");
+                                                            _builder.newLineIfNotEmpty();
+                                                          }
+                                                        }
+                                                        {
+                                                          if ((w_28 instanceof Variable)) {
+                                                            Variable variable_26 = ((Variable) w_28);
+                                                            _builder.newLineIfNotEmpty();
+                                                            {
+                                                              VariableType _type_76 = variable_26.getType();
+                                                              boolean _equals_159 = Objects.equal(_type_76, VariableType.FIRST_OBJECT);
+                                                              if (_equals_159) {
+                                                                {
+                                                                  EList<modeltext.Word> _words_93 = firstElement_2.getWords();
+                                                                  for(final modeltext.Word v_66 : _words_93) {
+                                                                    {
+                                                                      if ((v_66 instanceof modeltext.Constant)) {
+                                                                        String _text_151 = text_1;
+                                                                        String _value_69 = ((modeltext.Constant)v_66).getValue();
+                                                                        String _plus_358 = (_value_69 + " ");
+                                                                        String _plus_359 = text_1 = (_text_151 + _plus_358);
+                                                                        _builder.append(_plus_359, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      if ((v_66 instanceof modeltext.Variable)) {
+                                                                        EReference _ref_99 = ((modeltext.Variable) v_66).getRef();
+                                                                        String _plus_360 = ("REF: " + _ref_99);
+                                                                        System.out.println(_plus_360);
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        EObject o_48 = null;
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        {
+                                                                          EReference _ref_100 = ((modeltext.Variable) v_66).getRef();
+                                                                          boolean _equals_160 = Objects.equal(_ref_100, null);
+                                                                          if (_equals_160) {
+                                                                            _builder.append(o_48 = refObject, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          } else {
+                                                                            EReference _ref_101 = ((modeltext.Variable) v_66).getRef();
+                                                                            String _name_134 = _ref_101.getName();
+                                                                            EStructuralFeature _referenceByName_36 = ModelManager.getReferenceByName(_name_134, refObject);
+                                                                            Object _eGet_116 = refObject.eGet(_referenceByName_36);
+                                                                            _builder.append(o_48 = ((EObject) _eGet_116), "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                        {
+                                                                          boolean _notEquals_68 = (!Objects.equal(o_48, null));
+                                                                          if (_notEquals_68) {
+                                                                            String _text_152 = text_1;
+                                                                            EAttribute _id_48 = ((modeltext.Variable) v_66).getId();
+                                                                            String _name_135 = _id_48.getName();
+                                                                            EStructuralFeature _attributeByName_48 = ModelManager.getAttributeByName(_name_135, o_48);
+                                                                            Object _eGet_117 = o_48.eGet(_attributeByName_48);
+                                                                            String _plus_361 = (_eGet_117 + " ");
+                                                                            String _plus_362 = text_1 = (_text_152 + _plus_361);
+                                                                            _builder.append(_plus_362, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_77 = variable_26.getType();
+                                                              boolean _equals_161 = Objects.equal(_type_77, VariableType.FIRST_FROM_OBJECT);
+                                                              if (_equals_161) {
+                                                                {
+                                                                  EList<modeltext.Word> _words_94 = firstFromElement.getWords();
+                                                                  for(final modeltext.Word v_67 : _words_94) {
+                                                                    {
+                                                                      if ((v_67 instanceof modeltext.Constant)) {
+                                                                        String _text_153 = text_1;
+                                                                        String _value_70 = ((modeltext.Constant)v_67).getValue();
+                                                                        String _plus_363 = (_value_70 + " ");
+                                                                        String _plus_364 = text_1 = (_text_153 + _plus_363);
+                                                                        _builder.append(_plus_364, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      if ((v_67 instanceof modeltext.Variable)) {
+                                                                        EObject o_49 = null;
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        {
+                                                                          EReference _ref_102 = ((modeltext.Variable) v_67).getRef();
+                                                                          boolean _equals_162 = Objects.equal(_ref_102, null);
+                                                                          if (_equals_162) {
+                                                                            _builder.append(o_49 = secondFrom, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          } else {
+                                                                            EReference _ref_103 = ((modeltext.Variable) v_67).getRef();
+                                                                            String _name_136 = _ref_103.getName();
+                                                                            EStructuralFeature _referenceByName_37 = ModelManager.getReferenceByName(_name_136, secondFrom);
+                                                                            Object _eGet_118 = secondFrom.eGet(_referenceByName_37);
+                                                                            _builder.append(o_49 = ((EObject) _eGet_118), "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                        {
+                                                                          boolean _notEquals_69 = (!Objects.equal(o_49, null));
+                                                                          if (_notEquals_69) {
+                                                                            String _text_154 = text_1;
+                                                                            EAttribute _id_49 = ((modeltext.Variable) v_67).getId();
+                                                                            String _name_137 = _id_49.getName();
+                                                                            EStructuralFeature _attributeByName_49 = ModelManager.getAttributeByName(_name_137, o_49);
+                                                                            Object _eGet_119 = o_49.eGet(_attributeByName_49);
+                                                                            String _plus_365 = (_eGet_119 + " ");
+                                                                            String _plus_366 = text_1 = (_text_154 + _plus_365);
+                                                                            _builder.append(_plus_366, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_78 = variable_26.getType();
+                                                              boolean _equals_163 = Objects.equal(_type_78, VariableType.FIRST_TO_OBJECT);
+                                                              if (_equals_163) {
+                                                                {
+                                                                  EList<modeltext.Word> _words_95 = firstToElement.getWords();
+                                                                  for(final modeltext.Word v_68 : _words_95) {
+                                                                    {
+                                                                      if ((v_68 instanceof modeltext.Constant)) {
+                                                                        String _text_155 = text_1;
+                                                                        String _value_71 = ((modeltext.Constant)v_68).getValue();
+                                                                        String _plus_367 = (_value_71 + " ");
+                                                                        String _plus_368 = text_1 = (_text_155 + _plus_367);
+                                                                        _builder.append(_plus_368, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      if ((v_68 instanceof modeltext.Variable)) {
+                                                                        EObject o_50 = null;
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        {
+                                                                          EReference _ref_104 = ((modeltext.Variable) v_68).getRef();
+                                                                          boolean _equals_164 = Objects.equal(_ref_104, null);
+                                                                          if (_equals_164) {
+                                                                            _builder.append(o_50 = firstFrom, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          } else {
+                                                                            EReference _ref_105 = ((modeltext.Variable) v_68).getRef();
+                                                                            String _name_138 = _ref_105.getName();
+                                                                            EStructuralFeature _referenceByName_38 = ModelManager.getReferenceByName(_name_138, firstFrom);
+                                                                            Object _eGet_120 = firstFrom.eGet(_referenceByName_38);
+                                                                            _builder.append(o_50 = ((EObject) _eGet_120), "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                        {
+                                                                          boolean _notEquals_70 = (!Objects.equal(o_50, null));
+                                                                          if (_notEquals_70) {
+                                                                            String _text_156 = text_1;
+                                                                            EAttribute _id_50 = ((modeltext.Variable) v_68).getId();
+                                                                            String _name_139 = _id_50.getName();
+                                                                            EStructuralFeature _attributeByName_50 = ModelManager.getAttributeByName(_name_139, o_50);
+                                                                            Object _eGet_121 = o_50.eGet(_attributeByName_50);
+                                                                            String _plus_369 = (_eGet_121 + " ");
+                                                                            String _plus_370 = text_1 = (_text_156 + _plus_369);
+                                                                            _builder.append(_plus_370, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_79 = variable_26.getType();
+                                                              boolean _equals_165 = Objects.equal(_type_79, VariableType.SECOND_OBJECT);
+                                                              if (_equals_165) {
+                                                                {
+                                                                  EList<modeltext.Word> _words_96 = secondElement_2.getWords();
+                                                                  for(final modeltext.Word v_69 : _words_96) {
+                                                                    {
+                                                                      if ((v_69 instanceof modeltext.Constant)) {
+                                                                        String _text_157 = text_1;
+                                                                        String _value_72 = ((modeltext.Constant)v_69).getValue();
+                                                                        String _plus_371 = (_value_72 + " ");
+                                                                        String _plus_372 = text_1 = (_text_157 + _plus_371);
+                                                                        _builder.append(_plus_372, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      if ((v_69 instanceof modeltext.Variable)) {
+                                                                        EReference _ref_106 = ((modeltext.Variable) v_69).getRef();
+                                                                        String _plus_373 = ("REF: " + _ref_106);
+                                                                        System.out.println(_plus_373);
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        EObject o_51 = null;
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        {
+                                                                          EReference _ref_107 = ((modeltext.Variable) v_69).getRef();
+                                                                          boolean _equals_166 = Objects.equal(_ref_107, null);
+                                                                          if (_equals_166) {
+                                                                            _builder.append(o_51 = refObject, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          } else {
+                                                                            EReference _ref_108 = ((modeltext.Variable) v_69).getRef();
+                                                                            String _name_140 = _ref_108.getName();
+                                                                            EStructuralFeature _referenceByName_39 = ModelManager.getReferenceByName(_name_140, refObject);
+                                                                            Object _eGet_122 = refObject.eGet(_referenceByName_39);
+                                                                            _builder.append(o_51 = ((EObject) _eGet_122), "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                        {
+                                                                          boolean _notEquals_71 = (!Objects.equal(o_51, null));
+                                                                          if (_notEquals_71) {
+                                                                            String _text_158 = text_1;
+                                                                            EAttribute _id_51 = ((modeltext.Variable) v_69).getId();
+                                                                            String _name_141 = _id_51.getName();
+                                                                            EStructuralFeature _attributeByName_51 = ModelManager.getAttributeByName(_name_141, o_51);
+                                                                            Object _eGet_123 = o_51.eGet(_attributeByName_51);
+                                                                            String _plus_374 = (_eGet_123 + " ");
+                                                                            String _plus_375 = text_1 = (_text_158 + _plus_374);
+                                                                            _builder.append(_plus_375, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_80 = variable_26.getType();
+                                                              boolean _equals_167 = Objects.equal(_type_80, VariableType.SECOND_FROM_OBJECT);
+                                                              if (_equals_167) {
+                                                                {
+                                                                  EList<modeltext.Word> _words_97 = secondFromElement.getWords();
+                                                                  for(final modeltext.Word v_70 : _words_97) {
+                                                                    {
+                                                                      if ((v_70 instanceof modeltext.Constant)) {
+                                                                        String _text_159 = text_1;
+                                                                        String _value_73 = ((modeltext.Constant)v_70).getValue();
+                                                                        String _plus_376 = (_value_73 + " ");
+                                                                        String _plus_377 = text_1 = (_text_159 + _plus_376);
+                                                                        _builder.append(_plus_377, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      if ((v_70 instanceof modeltext.Variable)) {
+                                                                        EObject o_52 = null;
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        {
+                                                                          EReference _ref_109 = ((modeltext.Variable) v_70).getRef();
+                                                                          boolean _equals_168 = Objects.equal(_ref_109, null);
+                                                                          if (_equals_168) {
+                                                                            _builder.append(o_52 = secondTo, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          } else {
+                                                                            EReference _ref_110 = ((modeltext.Variable) v_70).getRef();
+                                                                            String _name_142 = _ref_110.getName();
+                                                                            EStructuralFeature _referenceByName_40 = ModelManager.getReferenceByName(_name_142, secondTo);
+                                                                            Object _eGet_124 = secondTo.eGet(_referenceByName_40);
+                                                                            _builder.append(o_52 = ((EObject) _eGet_124), "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                        {
+                                                                          boolean _notEquals_72 = (!Objects.equal(o_52, null));
+                                                                          if (_notEquals_72) {
+                                                                            String _text_160 = text_1;
+                                                                            EAttribute _id_52 = ((modeltext.Variable) v_70).getId();
+                                                                            String _name_143 = _id_52.getName();
+                                                                            EStructuralFeature _attributeByName_52 = ModelManager.getAttributeByName(_name_143, o_52);
+                                                                            Object _eGet_125 = o_52.eGet(_attributeByName_52);
+                                                                            String _plus_378 = (_eGet_125 + " ");
+                                                                            String _plus_379 = text_1 = (_text_160 + _plus_378);
+                                                                            _builder.append(_plus_379, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_81 = variable_26.getType();
+                                                              boolean _equals_169 = Objects.equal(_type_81, VariableType.SECOND_TO_OBJECT);
+                                                              if (_equals_169) {
+                                                                {
+                                                                  EList<modeltext.Word> _words_98 = secondToElement.getWords();
+                                                                  for(final modeltext.Word v_71 : _words_98) {
+                                                                    {
+                                                                      if ((v_71 instanceof modeltext.Constant)) {
+                                                                        String _text_161 = text_1;
+                                                                        String _value_74 = ((modeltext.Constant)v_71).getValue();
+                                                                        String _plus_380 = (_value_74 + " ");
+                                                                        String _plus_381 = text_1 = (_text_161 + _plus_380);
+                                                                        _builder.append(_plus_381, "");
+                                                                        _builder.newLineIfNotEmpty();
+                                                                      }
+                                                                    }
+                                                                    {
+                                                                      if ((v_71 instanceof modeltext.Variable)) {
+                                                                        EObject o_53 = null;
+                                                                        _builder.newLineIfNotEmpty();
+                                                                        {
+                                                                          EReference _ref_111 = ((modeltext.Variable) v_71).getRef();
+                                                                          boolean _equals_170 = Objects.equal(_ref_111, null);
+                                                                          if (_equals_170) {
+                                                                            _builder.append(o_53 = firstTo, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          } else {
+                                                                            EReference _ref_112 = ((modeltext.Variable) v_71).getRef();
+                                                                            String _name_144 = _ref_112.getName();
+                                                                            EStructuralFeature _referenceByName_41 = ModelManager.getReferenceByName(_name_144, firstTo);
+                                                                            Object _eGet_126 = firstTo.eGet(_referenceByName_41);
+                                                                            _builder.append(o_53 = ((EObject) _eGet_126), "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                        {
+                                                                          boolean _notEquals_73 = (!Objects.equal(o_53, null));
+                                                                          if (_notEquals_73) {
+                                                                            String _text_162 = text_1;
+                                                                            EAttribute _id_53 = ((modeltext.Variable) v_71).getId();
+                                                                            String _name_145 = _id_53.getName();
+                                                                            EStructuralFeature _attributeByName_53 = ModelManager.getAttributeByName(_name_145, o_53);
+                                                                            Object _eGet_127 = o_53.eGet(_attributeByName_53);
+                                                                            String _plus_382 = (_eGet_127 + " ");
+                                                                            String _plus_383 = text_1 = (_text_162 + _plus_382);
+                                                                            _builder.append(_plus_383, "");
+                                                                            _builder.newLineIfNotEmpty();
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_82 = variable_26.getType();
+                                                              boolean _equals_171 = Objects.equal(_type_82, VariableType.FIRST_REF_NAME);
+                                                              if (_equals_171) {
+                                                                String _text_163 = text_1;
+                                                                String _plus_384 = text_1 = (_text_163 + (refName_10 + " "));
+                                                                _builder.append(_plus_384, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                            {
+                                                              VariableType _type_83 = variable_26.getType();
+                                                              boolean _equals_172 = Objects.equal(_type_83, VariableType.SECOND_REF_NAME);
+                                                              if (_equals_172) {
+                                                                String _text_164 = text_1;
+                                                                String _plus_385 = text_1 = (_text_164 + (refFirstName + " "));
+                                                                _builder.append(_plus_385, "");
+                                                                _builder.newLineIfNotEmpty();
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                    ArrayList<String> _arrayList_9 = new ArrayList<String>();
+                                                    _builder.append(opt_2.text = _arrayList_9, "");
+                                                    _builder.newLineIfNotEmpty();
+                                                    boolean _add_38 = opt_2.text.add(text_1);
+                                                    _builder.append(_add_38, "");
+                                                    _builder.newLineIfNotEmpty();
+                                                    Object _clone_8 = opt_2.clone();
+                                                    TestUtils.TestOption optClone_8 = ((TestUtils.TestOption) _clone_8);
+                                                    _builder.newLineIfNotEmpty();
+                                                    boolean isRepeated_9 = this.subsumeCheckbox(opts_2, optClone_8);
+                                                    _builder.newLineIfNotEmpty();
+                                                    {
+                                                      if ((isRepeated_9 == false)) {
+                                                        Integer _get_32 = this.total.get(exercise);
+                                                        int _plus_386 = ((_get_32).intValue() + 1);
+                                                        Integer _put_23 = this.total.put(exercise, Integer.valueOf(_plus_386));
+                                                        _builder.append(_put_23, "");
+                                                        _builder.newLineIfNotEmpty();
+                                                        boolean _add_39 = opts_2.add(optClone_8);
+                                                        _builder.append(_add_39, "");
                                                         _builder.newLineIfNotEmpty();
                                                       }
                                                     }
@@ -5051,8 +6295,8 @@ public class EduTestGenerator implements IGenerator {
                             }
                             Collections.shuffle(opts_2);
                             _builder.newLineIfNotEmpty();
-                            ArrayList<TestUtils.TestOption> _put_23 = testOptions.put(test_7, opts_2);
-                            _builder.append(_put_23, "");
+                            ArrayList<TestUtils.TestOption> _put_24 = testOptions.put(test_7, opts_2);
+                            _builder.append(_put_24, "");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -5061,15 +6305,15 @@ public class EduTestGenerator implements IGenerator {
                   }
                 }
               }
-              HashMap<Test, ArrayList<TestUtils.TestOption>> _put_24 = this.options.put(exercise, testOptions);
-              _builder.append(_put_24, "");
+              HashMap<Test, ArrayList<TestUtils.TestOption>> _put_25 = this.options.put(exercise, testOptions);
+              _builder.append(_put_25, "");
               _builder.newLineIfNotEmpty();
+              _builder.append("-->");
+              _builder.newLine();
             }
           }
         }
       }
-      _builder.append("\t    ");
-      _builder.newLine();
       _builder.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
       _builder.newLine();
       _builder.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
@@ -5240,23 +6484,23 @@ public class EduTestGenerator implements IGenerator {
                 EList<Test> _tests_8 = ((MultiChoiceEmendation)exercise_2).getTests();
                 for(final Test test_8 : _tests_8) {
                   {
-                    HashMap<Test, ArrayList<TestUtils.TestOption>> _get_84 = this.options.get(exercise_2);
-                    ArrayList<TestUtils.TestOption> _get_85 = _get_84.get(test_8);
-                    boolean _notEquals_56 = (!Objects.equal(_get_85, null));
-                    if (_notEquals_56) {
+                    HashMap<Test, ArrayList<TestUtils.TestOption>> _get_33 = this.options.get(exercise_2);
+                    ArrayList<TestUtils.TestOption> _get_34 = _get_33.get(test_8);
+                    boolean _notEquals_74 = (!Objects.equal(_get_34, null));
+                    if (_notEquals_74) {
                       {
-                        Integer _get_86 = this.total.get(exercise_2);
-                        boolean _notEquals_57 = (!Objects.equal(_get_86, null));
-                        if (_notEquals_57) {
+                        Integer _get_35 = this.total.get(exercise_2);
+                        boolean _notEquals_75 = (!Objects.equal(_get_35, null));
+                        if (_notEquals_75) {
                           _builder.append("//");
-                          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_87 = this.options.get(exercise_2);
-                          ArrayList<TestUtils.TestOption> _get_88 = _get_87.get(test_8);
-                          int _size_2 = _get_88.size();
+                          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_36 = this.options.get(exercise_2);
+                          ArrayList<TestUtils.TestOption> _get_37 = _get_36.get(test_8);
+                          int _size_2 = _get_37.size();
                           double _multiply = (1.0 * _size_2);
-                          Integer _get_89 = this.total.get(exercise_2);
-                          double _divide = (_multiply / (_get_89).intValue());
-                          Double _put_25 = points.put(test_8, Double.valueOf(_divide));
-                          _builder.append(_put_25, "");
+                          Integer _get_38 = this.total.get(exercise_2);
+                          double _divide = (_multiply / (_get_38).intValue());
+                          Double _put_26 = points.put(test_8, Double.valueOf(_divide));
+                          _builder.append(_put_26, "");
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -5265,8 +6509,8 @@ public class EduTestGenerator implements IGenerator {
                 }
               }
               _builder.append("//");
-              HashMap<Test, Double> _put_26 = this.puntuation.put(exercise_2, points);
-              _builder.append(_put_26, "");
+              HashMap<Test, Double> _put_27 = this.puntuation.put(exercise_2, points);
+              _builder.append(_put_27, "");
               _builder.newLineIfNotEmpty();
               _builder.newLine();
               _builder.append("//");
@@ -5278,23 +6522,23 @@ public class EduTestGenerator implements IGenerator {
                   {
                     if ((exercise_2 instanceof MultiChoiceEmendation)) {
                       {
-                        HashMap<Test, Double> _get_90 = this.puntuation.get(exercise_2);
-                        Double _get_91 = _get_90.get(test_9);
-                        boolean _notEquals_58 = (!Objects.equal(_get_91, null));
-                        if (_notEquals_58) {
+                        HashMap<Test, Double> _get_39 = this.puntuation.get(exercise_2);
+                        Double _get_40 = _get_39.get(test_9);
+                        boolean _notEquals_76 = (!Objects.equal(_get_40, null));
+                        if (_notEquals_76) {
                           _builder.append("//");
-                          HashMap<Test, Double> _get_92 = this.puntuation.get(exercise_2);
-                          Double _get_93 = _get_92.get(test_9);
+                          HashMap<Test, Double> _get_41 = this.puntuation.get(exercise_2);
+                          Double _get_42 = _get_41.get(test_9);
                           MultiChoiceEmConfig _config_2 = ((MultiChoiceEmendation)exercise_2).getConfig();
                           double _penalty = _config_2.getPenalty();
-                          double _multiply_1 = ((_get_93).doubleValue() * _penalty);
-                          Double _put_27 = penal.put(test_9, Double.valueOf(_multiply_1));
-                          _builder.append(_put_27, "");
+                          double _multiply_1 = ((_get_42).doubleValue() * _penalty);
+                          Double _put_28 = penal.put(test_9, Double.valueOf(_multiply_1));
+                          _builder.append(_put_28, "");
                           _builder.newLineIfNotEmpty();
                         } else {
                           _builder.append("//");
-                          Double _put_28 = penal.put(test_9, Double.valueOf(0.0));
-                          _builder.append(_put_28, "");
+                          Double _put_29 = penal.put(test_9, Double.valueOf(0.0));
+                          _builder.append(_put_29, "");
                           _builder.newLineIfNotEmpty();
                         }
                       }
@@ -5303,48 +6547,48 @@ public class EduTestGenerator implements IGenerator {
                   {
                     if ((exercise_2 instanceof AlternativeResponse)) {
                       _builder.append("//");
-                      Double _put_29 = penal.put(test_9, Double.valueOf(0.0));
-                      _builder.append(_put_29, "");
+                      Double _put_30 = penal.put(test_9, Double.valueOf(0.0));
+                      _builder.append(_put_30, "");
                       _builder.newLineIfNotEmpty();
                     }
                   }
                   {
                     if ((exercise_2 instanceof MultiChoiceDiagram)) {
                       _builder.append("//");
-                      Double _put_30 = penal.put(test_9, Double.valueOf(0.0));
-                      _builder.append(_put_30, "");
+                      Double _put_31 = penal.put(test_9, Double.valueOf(0.0));
+                      _builder.append(_put_31, "");
                       _builder.newLineIfNotEmpty();
                     }
                   }
                 }
               }
               _builder.append("//");
-              HashMap<Test, Double> _put_31 = this.penalty.put(exercise_2, penal);
-              _builder.append(_put_31, "");
+              HashMap<Test, Double> _put_32 = this.penalty.put(exercise_2, penal);
+              _builder.append(_put_32, "");
               _builder.newLineIfNotEmpty();
               _builder.newLine();
               {
                 EList<Test> _tests_10 = ((MultiChoiceEmendation)exercise_2).getTests();
                 for(final Test test_10 : _tests_10) {
                   _builder.append("//");
-                  boolean _add_38 = ltests.add(test_10);
-                  _builder.append(_add_38, "");
+                  boolean _add_40 = ltests.add(test_10);
+                  _builder.append(_add_40, "");
                   _builder.newLineIfNotEmpty();
                 }
               }
               {
                 MultiChoiceEmConfig _config_3 = ((MultiChoiceEmendation)exercise_2).getConfig();
                 Order _order = _config_3.getOrder();
-                boolean _equals_115 = Objects.equal(_order, Order.FIXED);
-                if (_equals_115) {
+                boolean _equals_173 = Objects.equal(_order, Order.FIXED);
+                if (_equals_173) {
                   _builder.newLine();
                 }
               }
               {
                 MultiChoiceEmConfig _config_4 = ((MultiChoiceEmendation)exercise_2).getConfig();
                 Order _order_1 = _config_4.getOrder();
-                boolean _equals_116 = Objects.equal(_order_1, Order.RANDOM);
-                if (_equals_116) {
+                boolean _equals_174 = Objects.equal(_order_1, Order.RANDOM);
+                if (_equals_174) {
                   _builder.append("//");
                   Collections.shuffle(ltests);
                   _builder.newLineIfNotEmpty();
@@ -5353,8 +6597,8 @@ public class EduTestGenerator implements IGenerator {
               {
                 MultiChoiceEmConfig _config_5 = ((MultiChoiceEmendation)exercise_2).getConfig();
                 Order _order_2 = _config_5.getOrder();
-                boolean _equals_117 = Objects.equal(_order_2, Order.ASCENDING);
-                if (_equals_117) {
+                boolean _equals_175 = Objects.equal(_order_2, Order.ASCENDING);
+                if (_equals_175) {
                   _builder.append("//");
                   Collections.<Test>sort(ltests, new Comparator<Test>() {
                     @Override
@@ -5389,8 +6633,8 @@ public class EduTestGenerator implements IGenerator {
               {
                 MultiChoiceEmConfig _config_6 = ((MultiChoiceEmendation)exercise_2).getConfig();
                 Order _order_3 = _config_6.getOrder();
-                boolean _equals_118 = Objects.equal(_order_3, Order.DESCENDING);
-                if (_equals_118) {
+                boolean _equals_176 = Objects.equal(_order_3, Order.DESCENDING);
+                if (_equals_176) {
                   _builder.append("//");
                   Collections.<Test>sort(ltests, new Comparator<Test>() {
                     @Override
@@ -5443,8 +6687,8 @@ public class EduTestGenerator implements IGenerator {
             }
           }
           _builder.append("//");
-          ArrayList<Test> _put_32 = this.tests.put(exercise_2, ltests);
-          _builder.append(_put_32, "");
+          ArrayList<Test> _put_33 = this.tests.put(exercise_2, ltests);
+          _builder.append(_put_33, "");
           _builder.newLineIfNotEmpty();
           _builder.append("var currentTotal");
           _builder.append(part, "");
@@ -5458,8 +6702,8 @@ public class EduTestGenerator implements IGenerator {
           _builder.append(this.num = 0, "");
           _builder.newLineIfNotEmpty();
           {
-            ArrayList<Test> _get_94 = this.tests.get(exercise_2);
-            for(final Test test_11 : _get_94) {
+            ArrayList<Test> _get_43 = this.tests.get(exercise_2);
+            for(final Test test_11 : _get_43) {
               _builder.append("//COUNTER: ");
               _builder.append(this.num = (this.num + 1), "");
               _builder.newLineIfNotEmpty();
@@ -5471,16 +6715,30 @@ public class EduTestGenerator implements IGenerator {
               _builder.newLineIfNotEmpty();
               {
                 if ((exercise_2 instanceof MultiChoiceEmendation)) {
-                  _builder.append("var weight");
-                  _builder.append(this.num, "");
-                  _builder.append("_");
-                  _builder.append(part, "");
-                  _builder.append("Mark = ");
-                  HashMap<Test, Double> _get_95 = this.puntuation.get(exercise_2);
-                  Double _get_96 = _get_95.get(test_11);
-                  _builder.append(_get_96, "");
-                  _builder.append(";");
-                  _builder.newLineIfNotEmpty();
+                  {
+                    HashMap<Test, Double> _get_44 = this.puntuation.get(exercise_2);
+                    Double _get_45 = _get_44.get(test_11);
+                    boolean _notEquals_77 = (!Objects.equal(_get_45, null));
+                    if (_notEquals_77) {
+                      _builder.append("var weight");
+                      _builder.append(this.num, "");
+                      _builder.append("_");
+                      _builder.append(part, "");
+                      _builder.append("Mark = ");
+                      HashMap<Test, Double> _get_46 = this.puntuation.get(exercise_2);
+                      Double _get_47 = _get_46.get(test_11);
+                      _builder.append(_get_47, "");
+                      _builder.append(";");
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      _builder.append("var weight");
+                      _builder.append(this.num, "");
+                      _builder.append("_");
+                      _builder.append(part, "");
+                      _builder.append("Mark = 0.0;");
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
                 }
               }
               _builder.append("var answered");
@@ -5491,16 +6749,30 @@ public class EduTestGenerator implements IGenerator {
               _builder.newLineIfNotEmpty();
               {
                 if ((exercise_2 instanceof MultiChoiceEmendation)) {
-                  _builder.append("var penalty");
-                  _builder.append(this.num, "");
-                  _builder.append("_");
-                  _builder.append(part, "");
-                  _builder.append("Mark = ");
-                  HashMap<Test, Double> _get_97 = this.penalty.get(exercise_2);
-                  Double _get_98 = _get_97.get(test_11);
-                  _builder.append(_get_98, "");
-                  _builder.append(";");
-                  _builder.newLineIfNotEmpty();
+                  {
+                    HashMap<Test, Double> _get_48 = this.penalty.get(exercise_2);
+                    Double _get_49 = _get_48.get(test_11);
+                    boolean _notEquals_78 = (!Objects.equal(_get_49, null));
+                    if (_notEquals_78) {
+                      _builder.append("var penalty");
+                      _builder.append(this.num, "");
+                      _builder.append("_");
+                      _builder.append(part, "");
+                      _builder.append("Mark = ");
+                      HashMap<Test, Double> _get_50 = this.penalty.get(exercise_2);
+                      Double _get_51 = _get_50.get(test_11);
+                      _builder.append(_get_51, "");
+                      _builder.append(";");
+                      _builder.newLineIfNotEmpty();
+                    } else {
+                      _builder.append("var penalty");
+                      _builder.append(this.num, "");
+                      _builder.append("_");
+                      _builder.append(part, "");
+                      _builder.append("Mark = 0.0;");
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
                 }
               }
             }
@@ -5518,8 +6790,8 @@ public class EduTestGenerator implements IGenerator {
           _builder.append(this.num = 0, "    \t\t");
           _builder.newLineIfNotEmpty();
           {
-            ArrayList<Test> _get_99 = this.tests.get(exercise_2);
-            for(final Test test_12 : _get_99) {
+            ArrayList<Test> _get_52 = this.tests.get(exercise_2);
+            for(final Test test_12 : _get_52) {
               _builder.append("    \t\t");
               _builder.append("//COUNTER: ");
               _builder.append(this.num = (this.num + 1), "    \t\t");
@@ -5582,45 +6854,45 @@ public class EduTestGenerator implements IGenerator {
               System.out.println(("exercise: " + exercise_2));
               _builder.newLineIfNotEmpty();
               {
-                ArrayList<Test> _get_100 = this.tests.get(exercise_2);
-                for(final Test test_13 : _get_100) {
+                ArrayList<Test> _get_53 = this.tests.get(exercise_2);
+                for(final Test test_13 : _get_53) {
                   _builder.append("    \t");
                   _builder.append("\t");
                   System.out.println(("test: " + test_13));
                   _builder.newLineIfNotEmpty();
                   _builder.append("    \t");
                   _builder.append("\t");
-                  HashMap<Test, ArrayList<String>> _get_101 = this.rand.get(exercise_2);
-                  String _plus_332 = ("rand.get(exercise): " + _get_101);
-                  System.out.println(_plus_332);
+                  HashMap<Test, ArrayList<String>> _get_54 = this.rand.get(exercise_2);
+                  String _plus_387 = ("rand.get(exercise): " + _get_54);
+                  System.out.println(_plus_387);
                   _builder.newLineIfNotEmpty();
                   _builder.append("    \t");
                   _builder.append("\t");
-                  HashMap<Test, ArrayList<String>> _get_102 = this.rand.get(exercise_2);
-                  ArrayList<String> _get_103 = _get_102.get(test_13);
-                  String _plus_333 = ("rand.get(exercise).get(test): " + _get_103);
-                  System.out.println(_plus_333);
+                  HashMap<Test, ArrayList<String>> _get_55 = this.rand.get(exercise_2);
+                  ArrayList<String> _get_56 = _get_55.get(test_13);
+                  String _plus_388 = ("rand.get(exercise).get(test): " + _get_56);
+                  System.out.println(_plus_388);
                   _builder.newLineIfNotEmpty();
                 }
               }
               {
-                ArrayList<Test> _get_104 = this.tests.get(exercise_2);
-                for(final Test test_14 : _get_104) {
+                ArrayList<Test> _get_57 = this.tests.get(exercise_2);
+                for(final Test test_14 : _get_57) {
                   _builder.append("    \t");
                   _builder.append("\t");
                   _builder.append("//COUNTER: ");
                   _builder.append(this.num = (this.num + 1), "    \t\t");
                   _builder.newLineIfNotEmpty();
                   {
-                    HashMap<Test, ArrayList<String>> _get_105 = this.rand.get(exercise_2);
-                    ArrayList<String> _get_106 = _get_105.get(test_14);
-                    int _size_4 = _get_106.size();
+                    HashMap<Test, ArrayList<String>> _get_58 = this.rand.get(exercise_2);
+                    ArrayList<String> _get_59 = _get_58.get(test_14);
+                    int _size_4 = _get_59.size();
                     boolean _greaterThan_4 = (_size_4 > 0);
                     if (_greaterThan_4) {
                       _builder.append("//DIAGRAM: ");
-                      HashMap<Test, ArrayList<String>> _get_107 = this.rand.get(exercise_2);
-                      ArrayList<String> _get_108 = _get_107.get(test_14);
-                      String diagram = _get_108.get(0);
+                      HashMap<Test, ArrayList<String>> _get_60 = this.rand.get(exercise_2);
+                      ArrayList<String> _get_61 = _get_60.get(test_14);
+                      String diagram = _get_61.get(0);
                       _builder.newLineIfNotEmpty();
                       _builder.append("    \t\t");
                       _builder.append("image = document.getElementById(\'td-exercise-");
@@ -5644,8 +6916,8 @@ public class EduTestGenerator implements IGenerator {
                           _builder.append("    \t\t\t");
                           _builder.append("if (diagram == \'");
                           int _indexOf_1 = diagram.indexOf("/");
-                          int _plus_334 = (_indexOf_1 + 1);
-                          String _substring_2 = diagram.substring(_plus_334);
+                          int _plus_389 = (_indexOf_1 + 1);
+                          String _substring_2 = diagram.substring(_plus_389);
                           _builder.append(_substring_2, "    \t\t\t");
                           _builder.append("\') {");
                           _builder.newLineIfNotEmpty();
@@ -5759,8 +7031,8 @@ public class EduTestGenerator implements IGenerator {
                       {
                         TestConfiguration _config_7 = ((AlternativeResponse)exercise_2).getConfig();
                         boolean _isRetry = _config_7.isRetry();
-                        boolean _equals_119 = (_isRetry == false);
-                        if (_equals_119) {
+                        boolean _equals_177 = (_isRetry == false);
+                        if (_equals_177) {
                           _builder.append("document.getElementById(\'a-right-");
                           _builder.append(this.num, "");
                           _builder.append("-");
@@ -5843,23 +7115,23 @@ public class EduTestGenerator implements IGenerator {
               _builder.append(this.num = 0, "    \t\t");
               _builder.newLineIfNotEmpty();
               {
-                ArrayList<Test> _get_109 = this.tests.get(exercise_2);
-                for(final Test test_15 : _get_109) {
+                ArrayList<Test> _get_62 = this.tests.get(exercise_2);
+                for(final Test test_15 : _get_62) {
                   _builder.append("    \t");
                   _builder.append("\t");
                   _builder.append("//COUNTER: ");
                   _builder.append(this.num = (this.num + 1), "    \t\t");
                   _builder.newLineIfNotEmpty();
                   {
-                    HashMap<Test, ArrayList<String>> _get_110 = this.rand.get(exercise_2);
-                    ArrayList<String> _get_111 = _get_110.get(test_15);
-                    int _size_5 = _get_111.size();
+                    HashMap<Test, ArrayList<String>> _get_63 = this.rand.get(exercise_2);
+                    ArrayList<String> _get_64 = _get_63.get(test_15);
+                    int _size_5 = _get_64.size();
                     boolean _greaterThan_6 = (_size_5 > 0);
                     if (_greaterThan_6) {
                       _builder.append("//DIAGRAM: ");
-                      HashMap<Test, ArrayList<String>> _get_112 = this.rand.get(exercise_2);
-                      ArrayList<String> _get_113 = _get_112.get(test_15);
-                      String diagram_1 = _get_113.get(0);
+                      HashMap<Test, ArrayList<String>> _get_65 = this.rand.get(exercise_2);
+                      ArrayList<String> _get_66 = _get_65.get(test_15);
+                      String diagram_1 = _get_66.get(0);
                       _builder.newLineIfNotEmpty();
                       _builder.append("    \t\t");
                       _builder.append("image = document.getElementById(\'td-exercise-");
@@ -5883,8 +7155,8 @@ public class EduTestGenerator implements IGenerator {
                           _builder.append("    \t\t\t");
                           _builder.append("if (diagram == \'");
                           int _indexOf_3 = diagram_1.indexOf("/");
-                          int _plus_335 = (_indexOf_3 + 1);
-                          String _substring_3 = diagram_1.substring(_plus_335);
+                          int _plus_390 = (_indexOf_3 + 1);
+                          String _substring_3 = diagram_1.substring(_plus_390);
                           _builder.append(_substring_3, "    \t\t\t");
                           _builder.append("\') {");
                           _builder.newLineIfNotEmpty();
@@ -6000,8 +7272,8 @@ public class EduTestGenerator implements IGenerator {
                       {
                         TestConfiguration _config_8 = ((AlternativeResponse)exercise_2).getConfig();
                         boolean _isRetry_1 = _config_8.isRetry();
-                        boolean _equals_120 = (_isRetry_1 == false);
-                        if (_equals_120) {
+                        boolean _equals_178 = (_isRetry_1 == false);
+                        if (_equals_178) {
                           _builder.append("document.getElementById(\'a-right-");
                           _builder.append(this.num, "");
                           _builder.append("-");
@@ -6088,16 +7360,16 @@ public class EduTestGenerator implements IGenerator {
               _builder.append(this.num = 0, "    \t\t");
               _builder.newLineIfNotEmpty();
               {
-                ArrayList<Test> _get_114 = this.tests.get(exercise_2);
-                for(final Test test_16 : _get_114) {
+                ArrayList<Test> _get_67 = this.tests.get(exercise_2);
+                for(final Test test_16 : _get_67) {
                   _builder.append("    \t\t");
                   _builder.append("//COUNTER: ");
                   _builder.append(this.num = (this.num + 1), "    \t\t");
                   _builder.newLineIfNotEmpty();
                   {
-                    HashMap<Test, ArrayList<String>> _get_115 = this.diagrams.get(exercise_2);
-                    ArrayList<String> _get_116 = _get_115.get(test_16);
-                    for(final String diagram_2 : _get_116) {
+                    HashMap<Test, ArrayList<String>> _get_68 = this.diagrams.get(exercise_2);
+                    ArrayList<String> _get_69 = _get_68.get(test_16);
+                    for(final String diagram_2 : _get_69) {
                       _builder.append("image = document.getElementById(\'td-exercise-");
                       _builder.append(this.num, "");
                       _builder.append("-");
@@ -6118,8 +7390,8 @@ public class EduTestGenerator implements IGenerator {
                           _builder.append("\t");
                           _builder.append("if (diagram == \'");
                           int _indexOf_5 = diagram_2.indexOf("/");
-                          int _plus_336 = (_indexOf_5 + 1);
-                          String _substring_4 = diagram_2.substring(_plus_336);
+                          int _plus_391 = (_indexOf_5 + 1);
+                          String _substring_4 = diagram_2.substring(_plus_391);
                           _builder.append(_substring_4, "\t");
                           _builder.append("\') {");
                           _builder.newLineIfNotEmpty();
@@ -6235,8 +7507,8 @@ public class EduTestGenerator implements IGenerator {
                       {
                         TestConfiguration _config_9 = ((MultiChoiceDiagram)exercise_2).getConfig();
                         boolean _isRetry_2 = _config_9.isRetry();
-                        boolean _equals_121 = (_isRetry_2 == false);
-                        if (_equals_121) {
+                        boolean _equals_179 = (_isRetry_2 == false);
+                        if (_equals_179) {
                           _builder.append("document.getElementById(\'a-exercise-");
                           _builder.append(this.num, "");
                           _builder.append("-");
@@ -6315,8 +7587,8 @@ public class EduTestGenerator implements IGenerator {
               _builder.append(this.num = 0, "    \t\t");
               _builder.newLineIfNotEmpty();
               {
-                ArrayList<Test> _get_117 = this.tests.get(exercise_2);
-                for(final Test test_17 : _get_117) {
+                ArrayList<Test> _get_70 = this.tests.get(exercise_2);
+                for(final Test test_17 : _get_70) {
                   _builder.append("    \t\t");
                   _builder.append("//COUNTER: ");
                   _builder.append(this.num = (this.num + 1), "    \t\t");
@@ -6337,14 +7609,14 @@ public class EduTestGenerator implements IGenerator {
                   String diagram_3 = "";
                   _builder.newLineIfNotEmpty();
                   {
-                    HashMap<Test, ArrayList<TestUtils.TestOption>> _get_118 = this.options.get(exercise_2);
-                    ArrayList<TestUtils.TestOption> _get_119 = _get_118.get(test_17);
-                    boolean _notEquals_59 = (!Objects.equal(_get_119, null));
-                    if (_notEquals_59) {
+                    HashMap<Test, ArrayList<TestUtils.TestOption>> _get_71 = this.options.get(exercise_2);
+                    ArrayList<TestUtils.TestOption> _get_72 = _get_71.get(test_17);
+                    boolean _notEquals_79 = (!Objects.equal(_get_72, null));
+                    if (_notEquals_79) {
                       {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_120 = this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_121 = _get_120.get(test_17);
-                        for(final TestUtils.TestOption opt_3 : _get_121) {
+                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_73 = this.options.get(exercise_2);
+                        ArrayList<TestUtils.TestOption> _get_74 = _get_73.get(test_17);
+                        for(final TestUtils.TestOption opt_3 : _get_74) {
                           {
                             if ((opt_3.solution == true)) {
                               _builder.append("//");
@@ -6368,8 +7640,8 @@ public class EduTestGenerator implements IGenerator {
                   {
                     MultiChoiceEmConfig _config_10 = ((MultiChoiceEmendation)exercise_2).getConfig();
                     Mode _mode_2 = _config_10.getMode();
-                    boolean _equals_122 = Objects.equal(_mode_2, Mode.CHECKBOX);
-                    if (_equals_122) {
+                    boolean _equals_180 = Objects.equal(_mode_2, Mode.CHECKBOX);
+                    if (_equals_180) {
                       _builder.append("var checkboxes = document.getElementsByName(\'checkbox-");
                       _builder.append(this.num, "");
                       _builder.append("-");
@@ -6448,8 +7720,8 @@ public class EduTestGenerator implements IGenerator {
                     } else {
                       MultiChoiceEmConfig _config_11 = ((MultiChoiceEmendation)exercise_2).getConfig();
                       Mode _mode_3 = _config_11.getMode();
-                      boolean _equals_123 = Objects.equal(_mode_3, Mode.RADIOBUTTON);
-                      if (_equals_123) {
+                      boolean _equals_181 = Objects.equal(_mode_3, Mode.RADIOBUTTON);
+                      if (_equals_181) {
                         _builder.append("var radiobuttons = document.getElementsByName(\'radiobutton-");
                         _builder.append(this.num, "");
                         _builder.append("-");
@@ -6623,8 +7895,8 @@ public class EduTestGenerator implements IGenerator {
                   {
                     MultiChoiceEmConfig _config_12 = ((MultiChoiceEmendation)exercise_2).getConfig();
                     boolean _isRetry_3 = _config_12.isRetry();
-                    boolean _equals_124 = (_isRetry_3 == false);
-                    if (_equals_124) {
+                    boolean _equals_182 = (_isRetry_3 == false);
+                    if (_equals_182) {
                       _builder.append("   \t\t\t\t");
                       _builder.append("if (document.getElementById(\'a-submit-");
                       _builder.append(this.num, "   \t\t\t\t");
@@ -6787,13 +8059,13 @@ public class EduTestGenerator implements IGenerator {
           }
           {
             ProgramConfiguration _config_13 = program.getConfig();
-            boolean _notEquals_60 = (!Objects.equal(_config_13, null));
-            if (_notEquals_60) {
+            boolean _notEquals_80 = (!Objects.equal(_config_13, null));
+            if (_notEquals_80) {
               {
                 ProgramConfiguration _config_14 = program.getConfig();
                 Navigation _navigation = _config_14.getNavigation();
-                boolean _equals_125 = Objects.equal(_navigation, Navigation.FREE);
-                if (_equals_125) {
+                boolean _equals_183 = Objects.equal(_navigation, Navigation.FREE);
+                if (_equals_183) {
                   {
                     if ((part > 1)) {
                       _builder.append("<tr>");

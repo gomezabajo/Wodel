@@ -16,7 +16,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -33,7 +32,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link mutatorenvironment.impl.CreateObjectMutatorImpl#getContainer <em>Container</em>}</li>
  *   <li>{@link mutatorenvironment.impl.CreateObjectMutatorImpl#getAttributes <em>Attributes</em>}</li>
- *   <li>{@link mutatorenvironment.impl.CreateObjectMutatorImpl#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.CreateObjectMutatorImpl#getReferences <em>References</em>}</li>
  * </ul>
  * </p>
@@ -60,16 +58,6 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 	 * @ordered
 	 */
 	protected EList<AttributeSet> attributes;
-
-	/**
-	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefType()
-	 * @generated
-	 * @ordered
-	 */
-	protected EReference refType;
 
 	/**
 	 * The cached value of the '{@link #getReferences() <em>References</em>}' containment reference list.
@@ -160,44 +148,6 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
-			InternalEObject oldRefType = (InternalEObject)refType;
-			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REF_TYPE, oldRefType, refType));
-			}
-		}
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference basicGetRefType() {
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefType(EReference newRefType) {
-		EReference oldRefType = refType;
-		refType = newRefType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REF_TYPE, oldRefType, refType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<ReferenceSet> getReferences() {
 		if (references == null) {
 			references = new EObjectContainmentEList<ReferenceSet>(ReferenceSet.class, this, MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REFERENCES);
@@ -235,9 +185,6 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 				return getContainer();
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__ATTRIBUTES:
 				return getAttributes();
-			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REF_TYPE:
-				if (resolve) return getRefType();
-				return basicGetRefType();
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REFERENCES:
 				return getReferences();
 		}
@@ -259,9 +206,6 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__ATTRIBUTES:
 				getAttributes().clear();
 				getAttributes().addAll((Collection<? extends AttributeSet>)newValue);
-				return;
-			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REF_TYPE:
-				setRefType((EReference)newValue);
 				return;
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REFERENCES:
 				getReferences().clear();
@@ -285,9 +229,6 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__ATTRIBUTES:
 				getAttributes().clear();
 				return;
-			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REF_TYPE:
-				setRefType((EReference)null);
-				return;
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REFERENCES:
 				getReferences().clear();
 				return;
@@ -307,8 +248,6 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 				return container != null;
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__ATTRIBUTES:
 				return attributes != null && !attributes.isEmpty();
-			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REF_TYPE:
-				return refType != null;
 			case MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REFERENCES:
 				return references != null && !references.isEmpty();
 		}

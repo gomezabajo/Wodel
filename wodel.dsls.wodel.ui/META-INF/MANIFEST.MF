@@ -18,7 +18,8 @@ Require-Bundle: wodel.dsls.wodel;visibility:=reexport,
  org.eclipse.compare,
  wodel.postprocessor,
  wodel.registry,
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ wodel.utils
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: wodel.dsls.ui.quickfix,

@@ -62,4 +62,35 @@
             genModel="models/Asple.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorMetrics -->
+      <package
+            uri="http://mutatormetrics/1.0"
+            class="mutatormetrics.MutatormetricsPackage"
+            genModel="models/MutatorMetrics.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated EssentialOCLCS -->
+      <package
+            uri="http://www.eclipse.org/ocl/3.1.0/EssentialOCLCST"
+            class="essentialoclcs.EssentialoclcsPackage"
+            genModel="models/EssentialOCLCS.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated EssentialOCLCS -->
+      <package
+            uri="http://www.eclipse.org/ocl/3.1.0/BaseCST"
+            class="basecs.BasecsPackage"
+            genModel="models/EssentialOCLCS.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated EssentialOCLCS -->
+      <package
+            uri="http://www.eclipse.org/ocl/3.1.0/Pivot"
+            class="pivot.PivotPackage"
+            genModel="models/EssentialOCLCS.genmodel"/>
+   </extension>
 </plugin>

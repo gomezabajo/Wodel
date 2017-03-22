@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.AttributeChangedImpl#getAttName <em>Att Name</em>}</li>
  *   <li>{@link appliedMutations.impl.AttributeChangedImpl#getOldVal <em>Old Val</em>}</li>
  *   <li>{@link appliedMutations.impl.AttributeChangedImpl#getNewVal <em>New Val</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.ReferenceSwap#getRefObject <em>Ref Object</em>}</li>
  *   <li>{@link appliedMutations.ReferenceSwap#getFirstName <em>First Name</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link appliedMutations.ReferenceSwap#getOtherTo <em>Other To</em>}</li>
  *   <li>{@link appliedMutations.ReferenceSwap#getOtherToName <em>Other To Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getReferenceSwap()
  * @model

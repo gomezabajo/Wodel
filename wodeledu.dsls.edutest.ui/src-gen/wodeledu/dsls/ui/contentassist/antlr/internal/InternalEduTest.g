@@ -2661,12 +2661,12 @@ rule__AlternativeResponse__BlockAssignment_1
     }
 :
 (
-{ before(grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); }
+{ before(grammarAccess.getAlternativeResponseAccess().getBlockBlockCrossReference_1_0()); }
 (
-{ before(grammarAccess.getAlternativeResponseAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); }
-	RULE_ID{ after(grammarAccess.getAlternativeResponseAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); }
+{ before(grammarAccess.getAlternativeResponseAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); }
+	RULE_ID{ after(grammarAccess.getAlternativeResponseAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); }
 )
-{ after(grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); }
+{ after(grammarAccess.getAlternativeResponseAccess().getBlockBlockCrossReference_1_0()); }
 )
 
 ;
@@ -2710,12 +2710,12 @@ rule__MultiChoiceDiagram__BlockAssignment_1
     }
 :
 (
-{ before(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); }
+{ before(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockCrossReference_1_0()); }
 (
-{ before(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); }
-	RULE_ID{ after(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); }
+{ before(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); }
+	RULE_ID{ after(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); }
 )
-{ after(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); }
+{ after(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockCrossReference_1_0()); }
 )
 
 ;
@@ -2759,12 +2759,12 @@ rule__MultiChoiceEmendation__BlockAssignment_1
     }
 :
 (
-{ before(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); }
+{ before(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockCrossReference_1_0()); }
 (
-{ before(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); }
-	RULE_ID{ after(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); }
+{ before(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); }
+	RULE_ID{ after(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); }
 )
-{ after(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); }
+{ after(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockCrossReference_1_0()); }
 )
 
 ;

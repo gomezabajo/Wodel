@@ -2,7 +2,9 @@
  */
 package modelgraph;
 
-import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -12,10 +14,12 @@ import org.eclipse.emf.ecore.EAttribute;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link modelgraph.Node#isNegation <em>Negation</em>}</li>
  *   <li>{@link modelgraph.Node#getAttribute <em>Attribute</em>}</li>
+ *   <li>{@link modelgraph.Node#getReference <em>Reference</em>}</li>
  *   <li>{@link modelgraph.Node#getType <em>Type</em>}</li>
  *   <li>{@link modelgraph.Node#getShape <em>Shape</em>}</li>
+ *   <li>{@link modelgraph.Node#getColor <em>Color</em>}</li>
+ *   <li>{@link modelgraph.Node#getStyle <em>Style</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,59 +27,38 @@ import org.eclipse.emf.ecore.EAttribute;
  * @model
  * @generated
  */
-public interface Node extends Item {
+public interface Node extends NamedItem {
 	/**
-	 * Returns the value of the '<em><b>Negation</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
+	 * Returns the value of the '<em><b>Attribute</b></em>' containment reference list.
+	 * The list contents are of type {@link modelgraph.BooleanAttribute}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Negation</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Attribute</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Negation</em>' attribute.
-	 * @see #setNegation(boolean)
-	 * @see modelgraph.ModelgraphPackage#getNode_Negation()
-	 * @model default="false"
-	 * @generated
-	 */
-	boolean isNegation();
-
-	/**
-	 * Sets the value of the '{@link modelgraph.Node#isNegation <em>Negation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Negation</em>' attribute.
-	 * @see #isNegation()
-	 * @generated
-	 */
-	void setNegation(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Attribute</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attribute</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Attribute</em>' reference.
-	 * @see #setAttribute(EAttribute)
+	 * @return the value of the '<em>Attribute</em>' containment reference list.
 	 * @see modelgraph.ModelgraphPackage#getNode_Attribute()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<BooleanAttribute> getAttribute();
+
+	/**
+	 * Returns the value of the '<em><b>Reference</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Reference</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Reference</em>' reference list.
+	 * @see modelgraph.ModelgraphPackage#getNode_Reference()
 	 * @model
 	 * @generated
 	 */
-	EAttribute getAttribute();
-
-	/**
-	 * Sets the value of the '{@link modelgraph.Node#getAttribute <em>Attribute</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Attribute</em>' reference.
-	 * @see #getAttribute()
-	 * @generated
-	 */
-	void setAttribute(EAttribute value);
+	EList<EReference> getReference();
 
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
@@ -134,5 +117,63 @@ public interface Node extends Item {
 	 * @generated
 	 */
 	void setShape(NodeShape value);
+
+	/**
+	 * Returns the value of the '<em><b>Color</b></em>' attribute.
+	 * The literals are from the enumeration {@link modelgraph.NodeColor}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Color</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Color</em>' attribute.
+	 * @see modelgraph.NodeColor
+	 * @see #setColor(NodeColor)
+	 * @see modelgraph.ModelgraphPackage#getNode_Color()
+	 * @model
+	 * @generated
+	 */
+	NodeColor getColor();
+
+	/**
+	 * Sets the value of the '{@link modelgraph.Node#getColor <em>Color</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Color</em>' attribute.
+	 * @see modelgraph.NodeColor
+	 * @see #getColor()
+	 * @generated
+	 */
+	void setColor(NodeColor value);
+
+	/**
+	 * Returns the value of the '<em><b>Style</b></em>' attribute.
+	 * The literals are from the enumeration {@link modelgraph.NodeStyle}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Style</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Style</em>' attribute.
+	 * @see modelgraph.NodeStyle
+	 * @see #setStyle(NodeStyle)
+	 * @see modelgraph.ModelgraphPackage#getNode_Style()
+	 * @model
+	 * @generated
+	 */
+	NodeStyle getStyle();
+
+	/**
+	 * Sets the value of the '{@link modelgraph.Node#getStyle <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Style</em>' attribute.
+	 * @see modelgraph.NodeStyle
+	 * @see #getStyle()
+	 * @generated
+	 */
+	void setStyle(NodeStyle value);
 
 } // Node

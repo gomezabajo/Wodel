@@ -14,11 +14,12 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.ReferenceCreated#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.ReferenceCreated#getRef <em>Ref</em>}</li>
+ *   <li>{@link appliedMutations.ReferenceCreated#getRefName <em>Ref Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getReferenceCreated()
  * @model
@@ -57,4 +58,30 @@ public interface ReferenceCreated extends AppMutation {
 	 * @generated
 	 */
 	EList<EReference> getRef();
+
+	/**
+	 * Returns the value of the '<em><b>Ref Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ref Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ref Name</em>' attribute.
+	 * @see #setRefName(String)
+	 * @see appliedMutations.AppliedMutationsPackage#getReferenceCreated_RefName()
+	 * @model required="true"
+	 * @generated
+	 */
+	String getRefName();
+
+	/**
+	 * Sets the value of the '{@link appliedMutations.ReferenceCreated#getRefName <em>Ref Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ref Name</em>' attribute.
+	 * @see #getRefName()
+	 * @generated
+	 */
+	void setRefName(String value);
 } // ReferenceCreated

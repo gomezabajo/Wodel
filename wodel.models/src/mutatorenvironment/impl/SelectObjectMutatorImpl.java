@@ -10,7 +10,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -23,7 +22,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link mutatorenvironment.impl.SelectObjectMutatorImpl#getContainer <em>Container</em>}</li>
- *   <li>{@link mutatorenvironment.impl.SelectObjectMutatorImpl#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.SelectObjectMutatorImpl#getObject <em>Object</em>}</li>
  * </ul>
  * </p>
@@ -40,16 +38,6 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * @ordered
 	 */
 	protected ObSelectionStrategy container;
-
-	/**
-	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefType()
-	 * @generated
-	 * @ordered
-	 */
-	protected EReference refType;
 
 	/**
 	 * The cached value of the '{@link #getObject() <em>Object</em>}' containment reference.
@@ -128,44 +116,6 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
-			InternalEObject oldRefType = (InternalEObject)refType;
-			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE, oldRefType, refType));
-			}
-		}
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference basicGetRefType() {
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefType(EReference newRefType) {
-		EReference oldRefType = refType;
-		refType = newRefType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE, oldRefType, refType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -230,9 +180,6 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 		switch (featureID) {
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				return getContainer();
-			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE:
-				if (resolve) return getRefType();
-				return basicGetRefType();
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT:
 				return getObject();
 		}
@@ -249,9 +196,6 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 		switch (featureID) {
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				setContainer((ObSelectionStrategy)newValue);
-				return;
-			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE:
-				setRefType((EReference)newValue);
 				return;
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT:
 				setObject((ObSelectionStrategy)newValue);
@@ -271,9 +215,6 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				setContainer((ObSelectionStrategy)null);
 				return;
-			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE:
-				setRefType((EReference)null);
-				return;
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT:
 				setObject((ObSelectionStrategy)null);
 				return;
@@ -291,8 +232,6 @@ public class SelectObjectMutatorImpl extends MutatorImpl implements SelectObject
 		switch (featureID) {
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__CONTAINER:
 				return container != null;
-			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__REF_TYPE:
-				return refType != null;
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR__OBJECT:
 				return object != null;
 		}

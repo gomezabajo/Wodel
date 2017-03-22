@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalModelGraphLexer extends Lexer {
-    public static final int RULE_STRING=5;
-    public static final int RULE_SL_COMMENT=8;
     public static final int T__19=19;
     public static final int T__15=15;
     public static final int T__16=16;
@@ -23,14 +21,12 @@ public class InternalModelGraphLexer extends Lexer {
     public static final int T__12=12;
     public static final int T__13=13;
     public static final int T__14=14;
-    public static final int EOF=-1;
     public static final int RULE_ID=4;
-    public static final int RULE_WS=9;
-    public static final int RULE_ANY_OTHER=10;
     public static final int T__26=26;
     public static final int T__27=27;
     public static final int T__28=28;
     public static final int RULE_INT=6;
+    public static final int T__29=29;
     public static final int T__22=22;
     public static final int RULE_ML_COMMENT=7;
     public static final int T__23=23;
@@ -38,6 +34,30 @@ public class InternalModelGraphLexer extends Lexer {
     public static final int T__25=25;
     public static final int T__20=20;
     public static final int T__21=21;
+    public static final int RULE_STRING=5;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T__37=37;
+    public static final int T__38=38;
+    public static final int T__39=39;
+    public static final int T__33=33;
+    public static final int T__34=34;
+    public static final int T__35=35;
+    public static final int T__36=36;
+    public static final int EOF=-1;
+    public static final int T__30=30;
+    public static final int T__31=31;
+    public static final int T__32=32;
+    public static final int RULE_WS=9;
+    public static final int RULE_ANY_OTHER=10;
+    public static final int T__48=48;
+    public static final int T__44=44;
+    public static final int T__45=45;
+    public static final int T__46=46;
+    public static final int T__47=47;
+    public static final int T__40=40;
+    public static final int T__41=41;
+    public static final int T__42=42;
+    public static final int T__43=43;
 
     // delegates
     // delegators
@@ -158,11 +178,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:16:7: ( 'not' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:16:9: 'not'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:16:7: ( ',' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:16:9: ','
             {
-            match("not"); 
-
+            match(','); 
 
             }
 
@@ -179,11 +198,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:17:7: ( 'yes' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:17:9: 'yes'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:17:7: ( ')' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:17:9: ')'
             {
-            match("yes"); 
-
+            match(')'); 
 
             }
 
@@ -200,10 +218,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:18:7: ( ')' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:18:9: ')'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:18:7: ( '=' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:18:9: '='
             {
-            match(')'); 
+            match('='); 
 
             }
 
@@ -220,10 +238,11 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:19:7: ( ',' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:19:9: ','
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:19:7: ( 'compartments' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:19:9: 'compartments'
             {
-            match(','); 
+            match("compartments"); 
+
 
             }
 
@@ -261,10 +280,11 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:21:7: ( '=' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:21:9: '='
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:21:7: ( 'color' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:21:9: 'color'
             {
-            match('='); 
+            match("color"); 
+
 
             }
 
@@ -281,10 +301,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:22:7: ( 'edge' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:22:9: 'edge'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:22:7: ( 'style' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:22:9: 'style'
             {
-            match("edge"); 
+            match("style"); 
 
 
             }
@@ -302,10 +322,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:23:7: ( 'label' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:23:9: 'label'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:23:7: ( 'not' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:23:9: 'not'
             {
-            match("label"); 
+            match("not"); 
 
 
             }
@@ -323,10 +343,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:24:7: ( 'diagram' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:24:9: 'diagram'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:24:7: ( 'edge' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:24:9: 'edge'
             {
-            match("diagram"); 
+            match("edge"); 
 
 
             }
@@ -344,10 +364,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:25:7: ( 'node' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:25:9: 'node'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:25:7: ( 'label' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:25:9: 'label'
             {
-            match("node"); 
+            match("label"); 
 
 
             }
@@ -365,11 +385,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:26:7: ( 'markednode' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:26:9: 'markednode'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:26:7: ( '.' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:26:9: '.'
             {
-            match("markednode"); 
-
+            match('.'); 
 
             }
 
@@ -386,10 +405,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:27:7: ( 'circle' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:27:9: 'circle'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:27:7: ( 'src_decoration' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:27:9: 'src_decoration'
             {
-            match("circle"); 
+            match("src_decoration"); 
 
 
             }
@@ -407,10 +426,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:28:7: ( 'doublecircle' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:28:9: 'doublecircle'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:28:7: ( 'src_label' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:28:9: 'src_label'
             {
-            match("doublecircle"); 
+            match("src_label"); 
 
 
             }
@@ -423,15 +442,433 @@ public class InternalModelGraphLexer extends Lexer {
     }
     // $ANTLR end "T__28"
 
+    // $ANTLR start "T__29"
+    public final void mT__29() throws RecognitionException {
+        try {
+            int _type = T__29;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:29:7: ( 'tar_decoration' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:29:9: 'tar_decoration'
+            {
+            match("tar_decoration"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__29"
+
+    // $ANTLR start "T__30"
+    public final void mT__30() throws RecognitionException {
+        try {
+            int _type = T__30;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:30:7: ( 'tar_label' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:30:9: 'tar_label'
+            {
+            match("tar_label"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__30"
+
+    // $ANTLR start "T__31"
+    public final void mT__31() throws RecognitionException {
+        try {
+            int _type = T__31;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:31:7: ( 'text' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:31:9: 'text'
+            {
+            match("text"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__31"
+
+    // $ANTLR start "T__32"
+    public final void mT__32() throws RecognitionException {
+        try {
+            int _type = T__32;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:32:7: ( '[' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:32:9: '['
+            {
+            match('['); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__32"
+
+    // $ANTLR start "T__33"
+    public final void mT__33() throws RecognitionException {
+        try {
+            int _type = T__33;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:33:7: ( ']' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:33:9: ']'
+            {
+            match(']'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__33"
+
+    // $ANTLR start "T__34"
+    public final void mT__34() throws RecognitionException {
+        try {
+            int _type = T__34;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:34:7: ( 'diagram' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:34:9: 'diagram'
+            {
+            match("diagram"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__34"
+
+    // $ANTLR start "T__35"
+    public final void mT__35() throws RecognitionException {
+        try {
+            int _type = T__35;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:35:7: ( 'node' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:35:9: 'node'
+            {
+            match("node"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__35"
+
+    // $ANTLR start "T__36"
+    public final void mT__36() throws RecognitionException {
+        try {
+            int _type = T__36;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:36:7: ( 'markednode' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:36:9: 'markednode'
+            {
+            match("markednode"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__36"
+
+    // $ANTLR start "T__37"
+    public final void mT__37() throws RecognitionException {
+        try {
+            int _type = T__37;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:37:7: ( 'circle' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:37:9: 'circle'
+            {
+            match("circle"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__37"
+
+    // $ANTLR start "T__38"
+    public final void mT__38() throws RecognitionException {
+        try {
+            int _type = T__38;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:38:7: ( 'doublecircle' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:38:9: 'doublecircle'
+            {
+            match("doublecircle"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__38"
+
+    // $ANTLR start "T__39"
+    public final void mT__39() throws RecognitionException {
+        try {
+            int _type = T__39;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:39:7: ( 'record' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:39:9: 'record'
+            {
+            match("record"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__39"
+
+    // $ANTLR start "T__40"
+    public final void mT__40() throws RecognitionException {
+        try {
+            int _type = T__40;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:40:7: ( 'gray95' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:40:9: 'gray95'
+            {
+            match("gray95"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__40"
+
+    // $ANTLR start "T__41"
+    public final void mT__41() throws RecognitionException {
+        try {
+            int _type = T__41;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:41:7: ( 'italic' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:41:9: 'italic'
+            {
+            match("italic"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__41"
+
+    // $ANTLR start "T__42"
+    public final void mT__42() throws RecognitionException {
+        try {
+            int _type = T__42;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:42:7: ( 'underline' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:42:9: 'underline'
+            {
+            match("underline"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__42"
+
+    // $ANTLR start "T__43"
+    public final void mT__43() throws RecognitionException {
+        try {
+            int _type = T__43;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:43:7: ( 'none' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:43:9: 'none'
+            {
+            match("none"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__43"
+
+    // $ANTLR start "T__44"
+    public final void mT__44() throws RecognitionException {
+        try {
+            int _type = T__44;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:44:7: ( 'triangle' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:44:9: 'triangle'
+            {
+            match("triangle"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__44"
+
+    // $ANTLR start "T__45"
+    public final void mT__45() throws RecognitionException {
+        try {
+            int _type = T__45;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:45:7: ( 'diamond' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:45:9: 'diamond'
+            {
+            match("diamond"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__45"
+
+    // $ANTLR start "T__46"
+    public final void mT__46() throws RecognitionException {
+        try {
+            int _type = T__46;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:46:7: ( 'odiamond' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:46:9: 'odiamond'
+            {
+            match("odiamond"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__46"
+
+    // $ANTLR start "T__47"
+    public final void mT__47() throws RecognitionException {
+        try {
+            int _type = T__47;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:47:7: ( 'open' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:47:9: 'open'
+            {
+            match("open"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__47"
+
+    // $ANTLR start "T__48"
+    public final void mT__48() throws RecognitionException {
+        try {
+            int _type = T__48;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:48:7: ( 'empty' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:48:9: 'empty'
+            {
+            match("empty"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__48"
+
     // $ANTLR start "RULE_ID"
     public final void mRULE_ID() throws RecognitionException {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:526:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:526:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1538:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1538:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:526:11: ( '^' )?
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1538:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -440,7 +877,7 @@ public class InternalModelGraphLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:526:11: '^'
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1538:11: '^'
                     {
                     match('^'); 
 
@@ -458,7 +895,7 @@ public class InternalModelGraphLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:526:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1538:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -507,10 +944,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:528:10: ( ( '0' .. '9' )+ )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:528:12: ( '0' .. '9' )+
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1540:10: ( ( '0' .. '9' )+ )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1540:12: ( '0' .. '9' )+
             {
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:528:12: ( '0' .. '9' )+
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1540:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -524,7 +961,7 @@ public class InternalModelGraphLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:528:13: '0' .. '9'
+            	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1540:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -556,10 +993,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -577,10 +1014,10 @@ public class InternalModelGraphLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -596,7 +1033,7 @@ public class InternalModelGraphLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:21: '\\\\' .
+                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -604,7 +1041,7 @@ public class InternalModelGraphLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -629,10 +1066,10 @@ public class InternalModelGraphLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -648,7 +1085,7 @@ public class InternalModelGraphLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:54: '\\\\' .
+                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -656,7 +1093,7 @@ public class InternalModelGraphLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:530:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1542:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -699,12 +1136,12 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:532:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:532:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1544:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1544:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:532:24: ( options {greedy=false; } : . )*
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1544:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -729,7 +1166,7 @@ public class InternalModelGraphLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:532:52: .
+            	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1544:52: .
             	    {
             	    matchAny(); 
 
@@ -759,12 +1196,12 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -777,7 +1214,7 @@ public class InternalModelGraphLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -797,7 +1234,7 @@ public class InternalModelGraphLexer extends Lexer {
                 }
             } while (true);
 
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:40: ( ( '\\r' )? '\\n' )?
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -806,9 +1243,9 @@ public class InternalModelGraphLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:41: ( '\\r' )? '\\n'
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:41: ( '\\r' )? '\\n'
                     {
-                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:41: ( '\\r' )?
+                    // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -817,7 +1254,7 @@ public class InternalModelGraphLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:534:41: '\\r'
+                            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1546:41: '\\r'
                             {
                             match('\r'); 
 
@@ -849,10 +1286,10 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:536:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:536:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1548:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1548:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:536:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1548:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -906,8 +1343,8 @@ public class InternalModelGraphLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:538:16: ( . )
-            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:538:18: .
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1550:16: ( . )
+            // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1550:18: .
             {
             matchAny(); 
 
@@ -922,8 +1359,8 @@ public class InternalModelGraphLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:8: ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
-        int alt12=25;
+        // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:8: ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        int alt12=45;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
@@ -1053,49 +1490,189 @@ public class InternalModelGraphLexer extends Lexer {
                 }
                 break;
             case 19 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:118: RULE_ID
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:118: T__29
+                {
+                mT__29(); 
+
+                }
+                break;
+            case 20 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:124: T__30
+                {
+                mT__30(); 
+
+                }
+                break;
+            case 21 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:130: T__31
+                {
+                mT__31(); 
+
+                }
+                break;
+            case 22 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:136: T__32
+                {
+                mT__32(); 
+
+                }
+                break;
+            case 23 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:142: T__33
+                {
+                mT__33(); 
+
+                }
+                break;
+            case 24 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:148: T__34
+                {
+                mT__34(); 
+
+                }
+                break;
+            case 25 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:154: T__35
+                {
+                mT__35(); 
+
+                }
+                break;
+            case 26 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:160: T__36
+                {
+                mT__36(); 
+
+                }
+                break;
+            case 27 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:166: T__37
+                {
+                mT__37(); 
+
+                }
+                break;
+            case 28 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:172: T__38
+                {
+                mT__38(); 
+
+                }
+                break;
+            case 29 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:178: T__39
+                {
+                mT__39(); 
+
+                }
+                break;
+            case 30 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:184: T__40
+                {
+                mT__40(); 
+
+                }
+                break;
+            case 31 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:190: T__41
+                {
+                mT__41(); 
+
+                }
+                break;
+            case 32 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:196: T__42
+                {
+                mT__42(); 
+
+                }
+                break;
+            case 33 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:202: T__43
+                {
+                mT__43(); 
+
+                }
+                break;
+            case 34 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:208: T__44
+                {
+                mT__44(); 
+
+                }
+                break;
+            case 35 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:214: T__45
+                {
+                mT__45(); 
+
+                }
+                break;
+            case 36 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:220: T__46
+                {
+                mT__46(); 
+
+                }
+                break;
+            case 37 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:226: T__47
+                {
+                mT__47(); 
+
+                }
+                break;
+            case 38 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:232: T__48
+                {
+                mT__48(); 
+
+                }
+                break;
+            case 39 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:238: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
-            case 20 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:126: RULE_INT
+            case 40 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:246: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
-            case 21 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:135: RULE_STRING
+            case 41 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:255: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
-            case 22 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:147: RULE_ML_COMMENT
+            case 42 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:267: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
-            case 23 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:163: RULE_SL_COMMENT
+            case 43 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:283: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
-            case 24 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:179: RULE_WS
+            case 44 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:299: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 25 :
-                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:187: RULE_ANY_OTHER
+            case 45 :
+                // ../wodeledu.dsls.modelgraph/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelGraph.g:1:307: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1109,123 +1686,125 @@ public class InternalModelGraphLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\1\32\4\uffff\2\32\2\uffff\1\32\1\uffff\4\32\1\27\2\uffff"+
-        "\3\27\2\uffff\2\32\5\uffff\2\32\2\uffff\1\32\1\uffff\5\32\5\uffff"+
-        "\2\32\1\74\1\32\1\76\10\32\1\uffff\1\107\1\uffff\1\32\1\111\6\32"+
-        "\1\uffff\1\120\1\uffff\1\121\5\32\2\uffff\2\32\1\131\2\32\1\134"+
-        "\1\32\1\uffff\2\32\1\uffff\1\32\1\141\2\32\1\uffff\1\144\1\32\1"+
-        "\uffff\1\32\1\147\1\uffff";
+        "\1\uffff\1\42\7\uffff\5\42\1\uffff\1\42\2\uffff\6\42\1\37\2\uffff"+
+        "\3\37\2\uffff\2\42\10\uffff\11\42\1\uffff\3\42\2\uffff\10\42\5\uffff"+
+        "\10\42\1\147\30\42\1\uffff\1\u0082\1\u0083\1\u0084\3\42\1\u0089"+
+        "\11\42\1\u0093\3\42\1\u0097\1\42\1\u0099\1\u009a\2\42\3\uffff\1"+
+        "\u009d\1\u009e\2\42\1\uffff\11\42\1\uffff\3\42\1\uffff\1\u00ad\2"+
+        "\uffff\2\42\2\uffff\6\42\1\u00b6\1\u00b7\1\u00b8\5\42\1\uffff\5"+
+        "\42\1\u00c3\1\u00c4\1\42\3\uffff\11\42\1\u00cf\2\uffff\2\42\1\u00d2"+
+        "\1\u00d3\3\42\1\u00d7\1\42\1\u00d9\1\uffff\1\42\1\u00db\2\uffff"+
+        "\1\u00dc\2\42\1\uffff\1\42\1\uffff\1\42\2\uffff\4\42\1\u00e5\2\42"+
+        "\1\u00e8\1\uffff\2\42\1\uffff\1\u00eb\1\u00ec\2\uffff";
     static final String DFA12_eofS =
-        "\150\uffff";
+        "\u00ed\uffff";
     static final String DFA12_minS =
-        "\1\0\1\141\4\uffff\1\157\1\145\2\uffff\1\150\1\uffff\1\144\1\141"+
-        "\2\151\1\101\2\uffff\2\0\1\52\2\uffff\1\164\1\162\5\uffff\1\144"+
-        "\1\163\2\uffff\1\141\1\uffff\1\147\1\142\1\141\1\165\1\162\5\uffff"+
-        "\1\141\1\153\1\60\1\145\1\60\1\160\2\145\1\147\1\142\1\143\1\155"+
-        "\1\145\1\uffff\1\60\1\uffff\1\145\1\60\1\154\1\162\2\154\1\157\1"+
-        "\144\1\uffff\1\60\1\uffff\1\60\1\141\2\145\1\144\1\156\2\uffff\1"+
-        "\155\1\143\1\60\1\145\1\157\1\60\1\151\1\uffff\1\154\1\144\1\uffff"+
-        "\1\162\1\60\1\145\1\143\1\uffff\1\60\1\154\1\uffff\1\145\1\60\1"+
-        "\uffff";
+        "\1\0\1\141\7\uffff\1\151\1\150\1\157\1\144\1\141\1\uffff\1\141"+
+        "\2\uffff\1\151\1\145\1\162\1\164\1\156\1\144\1\101\2\uffff\2\0\1"+
+        "\52\2\uffff\1\164\1\162\10\uffff\1\154\1\162\1\141\1\171\1\143\1"+
+        "\144\1\147\1\160\1\142\1\uffff\1\162\1\170\1\151\2\uffff\1\141\1"+
+        "\165\1\143\2\141\1\144\1\151\1\145\5\uffff\1\141\1\153\1\160\1\157"+
+        "\1\143\1\160\1\154\1\137\1\60\3\145\1\164\1\145\1\137\1\164\1\141"+
+        "\1\147\1\142\1\157\1\171\1\154\1\145\1\141\1\156\1\155\1\145\1\141"+
+        "\1\162\1\154\2\145\1\144\1\uffff\3\60\1\171\1\154\1\144\1\60\1\156"+
+        "\1\162\1\157\1\154\1\162\1\71\1\151\1\162\1\155\1\60\1\157\1\144"+
+        "\1\162\1\60\1\145\2\60\1\145\1\141\3\uffff\2\60\1\145\1\141\1\uffff"+
+        "\1\147\1\141\1\156\1\145\1\144\1\65\1\143\1\154\1\157\1\uffff\1"+
+        "\144\1\156\1\164\1\uffff\1\60\2\uffff\1\143\1\142\2\uffff\1\143"+
+        "\1\142\1\154\1\155\1\144\1\143\3\60\1\151\1\156\1\145\1\157\1\155"+
+        "\1\uffff\1\157\1\145\1\157\2\145\2\60\1\151\3\uffff\1\156\1\144"+
+        "\1\154\1\144\1\145\1\162\1\154\1\162\1\154\1\60\2\uffff\1\162\1"+
+        "\145\2\60\1\145\1\156\1\141\1\60\1\141\1\60\1\uffff\1\143\1\60\2"+
+        "\uffff\1\60\2\164\1\uffff\1\164\1\uffff\1\154\2\uffff\1\163\2\151"+
+        "\1\145\1\60\2\157\1\60\1\uffff\2\156\1\uffff\2\60\2\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\1\145\4\uffff\1\157\1\145\2\uffff\1\150\1\uffff\1\144"+
-        "\1\141\1\157\1\151\1\172\2\uffff\2\uffff\1\57\2\uffff\1\164\1\162"+
-        "\5\uffff\1\164\1\163\2\uffff\1\141\1\uffff\1\147\1\142\1\141\1\165"+
-        "\1\162\5\uffff\1\141\1\153\1\172\1\145\1\172\1\160\2\145\1\147\1"+
-        "\142\1\143\1\155\1\145\1\uffff\1\172\1\uffff\1\145\1\172\1\154\1"+
-        "\162\2\154\1\157\1\144\1\uffff\1\172\1\uffff\1\172\1\141\2\145\1"+
-        "\144\1\156\2\uffff\1\155\1\143\1\172\1\145\1\157\1\172\1\151\1\uffff"+
-        "\1\154\1\144\1\uffff\1\162\1\172\1\145\1\143\1\uffff\1\172\1\154"+
-        "\1\uffff\1\145\1\172\1\uffff";
+        "\1\uffff\1\145\7\uffff\1\157\1\164\1\157\1\155\1\141\1\uffff\1"+
+        "\162\2\uffff\1\157\1\145\1\162\1\164\1\156\1\160\1\172\2\uffff\2"+
+        "\uffff\1\57\2\uffff\1\164\1\162\10\uffff\1\155\1\162\1\141\1\171"+
+        "\1\143\1\164\1\147\1\160\1\142\1\uffff\1\162\1\170\1\151\2\uffff"+
+        "\1\141\1\165\1\143\2\141\1\144\1\151\1\145\5\uffff\1\141\1\153\1"+
+        "\160\1\157\1\143\1\160\1\154\1\137\1\172\3\145\1\164\1\145\1\137"+
+        "\1\164\1\141\1\155\1\142\1\157\1\171\1\154\1\145\1\141\1\156\1\155"+
+        "\1\145\1\141\1\162\1\154\2\145\1\154\1\uffff\3\172\1\171\2\154\1"+
+        "\172\1\156\1\162\1\157\1\154\1\162\1\71\1\151\1\162\1\155\1\172"+
+        "\1\157\1\144\1\162\1\172\1\145\2\172\1\145\1\141\3\uffff\2\172\1"+
+        "\145\1\141\1\uffff\1\147\1\141\1\156\1\145\1\144\1\65\1\143\1\154"+
+        "\1\157\1\uffff\1\144\1\156\1\164\1\uffff\1\172\2\uffff\1\143\1\142"+
+        "\2\uffff\1\143\1\142\1\154\1\155\1\144\1\143\3\172\1\151\1\156\1"+
+        "\145\1\157\1\155\1\uffff\1\157\1\145\1\157\2\145\2\172\1\151\3\uffff"+
+        "\1\156\1\144\1\154\1\144\1\145\1\162\1\154\1\162\1\154\1\172\2\uffff"+
+        "\1\162\1\145\2\172\1\145\1\156\1\141\1\172\1\141\1\172\1\uffff\1"+
+        "\143\1\172\2\uffff\1\172\2\164\1\uffff\1\164\1\uffff\1\154\2\uffff"+
+        "\1\163\2\151\1\145\1\172\2\157\1\172\1\uffff\2\156\1\uffff\2\172"+
+        "\2\uffff";
     static final String DFA12_acceptS =
-        "\2\uffff\1\2\1\3\1\4\1\5\2\uffff\1\10\1\11\1\uffff\1\13\5\uffff"+
-        "\1\23\1\24\3\uffff\1\30\1\31\2\uffff\1\23\1\2\1\3\1\4\1\5\2\uffff"+
-        "\1\10\1\11\1\uffff\1\13\5\uffff\1\24\1\25\1\26\1\27\1\30\15\uffff"+
-        "\1\6\1\uffff\1\7\10\uffff\1\17\1\uffff\1\14\6\uffff\1\12\1\15\7"+
-        "\uffff\1\21\2\uffff\1\16\4\uffff\1\1\2\uffff\1\20\2\uffff\1\22";
+        "\2\uffff\1\2\1\3\1\4\1\5\1\6\1\7\1\10\5\uffff\1\20\1\uffff\1\26"+
+        "\1\27\7\uffff\1\47\1\50\3\uffff\1\54\1\55\2\uffff\1\47\1\2\1\3\1"+
+        "\4\1\5\1\6\1\7\1\10\11\uffff\1\20\3\uffff\1\26\1\27\10\uffff\1\50"+
+        "\1\51\1\52\1\53\1\54\41\uffff\1\15\32\uffff\1\31\1\41\1\16\4\uffff"+
+        "\1\25\11\uffff\1\45\3\uffff\1\13\1\uffff\1\12\1\14\2\uffff\1\46"+
+        "\1\17\16\uffff\1\33\10\uffff\1\35\1\36\1\37\12\uffff\1\30\1\43\12"+
+        "\uffff\1\42\2\uffff\1\44\1\1\3\uffff\1\22\1\uffff\1\24\1\uffff\1"+
+        "\40\1\32\10\uffff\1\11\2\uffff\1\34\2\uffff\1\21\1\23";
     static final String DFA12_specialS =
-        "\1\1\22\uffff\1\0\1\2\123\uffff}>";
+        "\1\2\32\uffff\1\0\1\1\u00d0\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\11\27\2\26\2\27\1\26\22\27\1\26\1\27\1\23\4\27\1\24\1\5\1"+
-            "\10\2\27\1\11\2\27\1\25\12\22\1\2\2\27\1\13\3\27\32\21\3\27"+
-            "\1\20\1\21\1\27\2\21\1\17\1\16\1\14\6\21\1\15\1\1\1\6\4\21\1"+
-            "\12\5\21\1\7\1\21\1\3\1\27\1\4\uff82\27",
-            "\1\31\3\uffff\1\30",
+            "\11\37\2\36\2\37\1\36\22\37\1\36\1\37\1\33\4\37\1\34\1\5\1"+
+            "\7\2\37\1\6\1\37\1\16\1\35\12\32\1\2\2\37\1\10\3\37\32\31\1"+
+            "\20\1\37\1\21\1\30\1\31\1\37\2\31\1\11\1\22\1\14\1\31\1\24\1"+
+            "\31\1\25\2\31\1\15\1\1\1\13\1\27\2\31\1\23\1\12\1\17\1\26\5"+
+            "\31\1\3\1\37\1\4\uff82\37",
+            "\1\41\3\uffff\1\40",
             "",
             "",
             "",
             "",
-            "\1\37",
-            "\1\40",
             "",
             "",
-            "\1\43",
             "",
-            "\1\45",
-            "\1\46",
-            "\1\47\5\uffff\1\50",
-            "\1\51",
-            "\32\32\4\uffff\1\32\1\uffff\32\32",
-            "",
-            "",
-            "\0\53",
-            "\0\53",
-            "\1\54\4\uffff\1\55",
-            "",
-            "",
+            "\1\53\5\uffff\1\52",
+            "\1\54\11\uffff\1\56\1\uffff\1\55",
             "\1\57",
-            "\1\60",
+            "\1\60\10\uffff\1\61",
+            "\1\62",
+            "",
+            "\1\64\3\uffff\1\65\14\uffff\1\66",
             "",
             "",
-            "",
-            "",
-            "",
-            "\1\62\17\uffff\1\61",
-            "\1\63",
-            "",
-            "",
-            "\1\64",
-            "",
-            "\1\65",
-            "\1\66",
-            "\1\67",
-            "\1\70",
-            "\1\71",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\72",
+            "\1\71\5\uffff\1\72",
             "\1\73",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\1\74",
             "\1\75",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-            "\1\77",
-            "\1\100",
-            "\1\101",
-            "\1\102",
-            "\1\103",
-            "\1\104",
-            "\1\105",
+            "\1\76",
+            "\1\77\13\uffff\1\100",
+            "\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "",
+            "\0\102",
+            "\0\102",
+            "\1\103\4\uffff\1\104",
+            "",
+            "",
             "\1\106",
+            "\1\107",
             "",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
             "",
-            "\1\110",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\111\1\110",
             "\1\112",
             "\1\113",
             "\1\114",
             "\1\115",
-            "\1\116",
-            "\1\117",
-            "",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-            "",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\1\117\11\uffff\1\120\5\uffff\1\116",
+            "\1\121",
             "\1\122",
             "\1\123",
+            "",
             "\1\124",
             "\1\125",
             "\1\126",
@@ -1233,25 +1812,183 @@ public class InternalModelGraphLexer extends Lexer {
             "",
             "\1\127",
             "\1\130",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\1\131",
             "\1\132",
             "\1\133",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\1\134",
             "\1\135",
-            "",
             "\1\136",
-            "\1\137",
             "",
+            "",
+            "",
+            "",
+            "",
+            "\1\137",
             "\1\140",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\1\141",
             "\1\142",
             "\1\143",
-            "",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\1\144",
             "\1\145",
-            "",
             "\1\146",
-            "\12\32\7\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\150",
+            "\1\151",
+            "\1\152",
+            "\1\153",
+            "\1\154",
+            "\1\155",
+            "\1\156",
+            "\1\157",
+            "\1\160\5\uffff\1\161",
+            "\1\162",
+            "\1\163",
+            "\1\164",
+            "\1\165",
+            "\1\166",
+            "\1\167",
+            "\1\170",
+            "\1\171",
+            "\1\172",
+            "\1\173",
+            "\1\174",
+            "\1\175",
+            "\1\176",
+            "\1\177",
+            "\1\u0080\7\uffff\1\u0081",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u0085",
+            "\1\u0086",
+            "\1\u0087\7\uffff\1\u0088",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u008a",
+            "\1\u008b",
+            "\1\u008c",
+            "\1\u008d",
+            "\1\u008e",
+            "\1\u008f",
+            "\1\u0090",
+            "\1\u0091",
+            "\1\u0092",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u0094",
+            "\1\u0095",
+            "\1\u0096",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u0098",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u009b",
+            "\1\u009c",
+            "",
+            "",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u009f",
+            "\1\u00a0",
+            "",
+            "\1\u00a1",
+            "\1\u00a2",
+            "\1\u00a3",
+            "\1\u00a4",
+            "\1\u00a5",
+            "\1\u00a6",
+            "\1\u00a7",
+            "\1\u00a8",
+            "\1\u00a9",
+            "",
+            "\1\u00aa",
+            "\1\u00ab",
+            "\1\u00ac",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "",
+            "\1\u00ae",
+            "\1\u00af",
+            "",
+            "",
+            "\1\u00b0",
+            "\1\u00b1",
+            "\1\u00b2",
+            "\1\u00b3",
+            "\1\u00b4",
+            "\1\u00b5",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u00b9",
+            "\1\u00ba",
+            "\1\u00bb",
+            "\1\u00bc",
+            "\1\u00bd",
+            "",
+            "\1\u00be",
+            "\1\u00bf",
+            "\1\u00c0",
+            "\1\u00c1",
+            "\1\u00c2",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u00c5",
+            "",
+            "",
+            "",
+            "\1\u00c6",
+            "\1\u00c7",
+            "\1\u00c8",
+            "\1\u00c9",
+            "\1\u00ca",
+            "\1\u00cb",
+            "\1\u00cc",
+            "\1\u00cd",
+            "\1\u00ce",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "",
+            "\1\u00d0",
+            "\1\u00d1",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u00d4",
+            "\1\u00d5",
+            "\1\u00d6",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u00d8",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "\1\u00da",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u00dd",
+            "\1\u00de",
+            "",
+            "\1\u00df",
+            "",
+            "\1\u00e0",
+            "",
+            "",
+            "\1\u00e1",
+            "\1\u00e2",
+            "\1\u00e3",
+            "\1\u00e4",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\1\u00e6",
+            "\1\u00e7",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
+            "\1\u00e9",
+            "\1\u00ea",
+            "",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "\12\42\7\uffff\32\42\4\uffff\1\42\1\uffff\32\42",
+            "",
             ""
     };
 
@@ -1285,23 +2022,33 @@ public class InternalModelGraphLexer extends Lexer {
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA12_19 = input.LA(1);
+                        int LA12_27 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA12_19>='\u0000' && LA12_19<='\uFFFF')) ) {s = 43;}
+                        if ( ((LA12_27>='\u0000' && LA12_27<='\uFFFF')) ) {s = 66;}
 
-                        else s = 23;
+                        else s = 31;
 
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
+                        int LA12_28 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA12_28>='\u0000' && LA12_28<='\uFFFF')) ) {s = 66;}
+
+                        else s = 31;
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 2 : 
                         int LA12_0 = input.LA(1);
 
                         s = -1;
@@ -1315,51 +2062,57 @@ public class InternalModelGraphLexer extends Lexer {
 
                         else if ( (LA12_0=='(') ) {s = 5;}
 
-                        else if ( (LA12_0=='n') ) {s = 6;}
+                        else if ( (LA12_0==',') ) {s = 6;}
 
-                        else if ( (LA12_0=='y') ) {s = 7;}
+                        else if ( (LA12_0==')') ) {s = 7;}
 
-                        else if ( (LA12_0==')') ) {s = 8;}
+                        else if ( (LA12_0=='=') ) {s = 8;}
 
-                        else if ( (LA12_0==',') ) {s = 9;}
+                        else if ( (LA12_0=='c') ) {s = 9;}
 
                         else if ( (LA12_0=='s') ) {s = 10;}
 
-                        else if ( (LA12_0=='=') ) {s = 11;}
+                        else if ( (LA12_0=='n') ) {s = 11;}
 
                         else if ( (LA12_0=='e') ) {s = 12;}
 
                         else if ( (LA12_0=='l') ) {s = 13;}
 
-                        else if ( (LA12_0=='d') ) {s = 14;}
+                        else if ( (LA12_0=='.') ) {s = 14;}
 
-                        else if ( (LA12_0=='c') ) {s = 15;}
+                        else if ( (LA12_0=='t') ) {s = 15;}
 
-                        else if ( (LA12_0=='^') ) {s = 16;}
+                        else if ( (LA12_0=='[') ) {s = 16;}
 
-                        else if ( ((LA12_0>='A' && LA12_0<='Z')||LA12_0=='_'||(LA12_0>='a' && LA12_0<='b')||(LA12_0>='f' && LA12_0<='k')||(LA12_0>='o' && LA12_0<='r')||(LA12_0>='t' && LA12_0<='x')||LA12_0=='z') ) {s = 17;}
+                        else if ( (LA12_0==']') ) {s = 17;}
 
-                        else if ( ((LA12_0>='0' && LA12_0<='9')) ) {s = 18;}
+                        else if ( (LA12_0=='d') ) {s = 18;}
 
-                        else if ( (LA12_0=='\"') ) {s = 19;}
+                        else if ( (LA12_0=='r') ) {s = 19;}
 
-                        else if ( (LA12_0=='\'') ) {s = 20;}
+                        else if ( (LA12_0=='g') ) {s = 20;}
 
-                        else if ( (LA12_0=='/') ) {s = 21;}
+                        else if ( (LA12_0=='i') ) {s = 21;}
 
-                        else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 22;}
+                        else if ( (LA12_0=='u') ) {s = 22;}
 
-                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||LA12_0=='!'||(LA12_0>='#' && LA12_0<='&')||(LA12_0>='*' && LA12_0<='+')||(LA12_0>='-' && LA12_0<='.')||(LA12_0>=';' && LA12_0<='<')||(LA12_0>='>' && LA12_0<='@')||(LA12_0>='[' && LA12_0<=']')||LA12_0=='`'||LA12_0=='|'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 23;}
+                        else if ( (LA12_0=='o') ) {s = 23;}
 
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
-                        int LA12_20 = input.LA(1);
+                        else if ( (LA12_0=='^') ) {s = 24;}
 
-                        s = -1;
-                        if ( ((LA12_20>='\u0000' && LA12_20<='\uFFFF')) ) {s = 43;}
+                        else if ( ((LA12_0>='A' && LA12_0<='Z')||LA12_0=='_'||(LA12_0>='a' && LA12_0<='b')||LA12_0=='f'||LA12_0=='h'||(LA12_0>='j' && LA12_0<='k')||(LA12_0>='p' && LA12_0<='q')||(LA12_0>='v' && LA12_0<='z')) ) {s = 25;}
 
-                        else s = 23;
+                        else if ( ((LA12_0>='0' && LA12_0<='9')) ) {s = 26;}
+
+                        else if ( (LA12_0=='\"') ) {s = 27;}
+
+                        else if ( (LA12_0=='\'') ) {s = 28;}
+
+                        else if ( (LA12_0=='/') ) {s = 29;}
+
+                        else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 30;}
+
+                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||LA12_0=='!'||(LA12_0>='#' && LA12_0<='&')||(LA12_0>='*' && LA12_0<='+')||LA12_0=='-'||(LA12_0>=';' && LA12_0<='<')||(LA12_0>='>' && LA12_0<='@')||LA12_0=='\\'||LA12_0=='`'||LA12_0=='|'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 31;}
 
                         if ( s>=0 ) return s;
                         break;

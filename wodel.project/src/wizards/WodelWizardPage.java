@@ -198,8 +198,8 @@ public class WodelWizardPage extends WizardPage {
 		}
 		this.projectText.setText("NewWodelProject");
 		this.fileText.setText("NewFile.mutator");
-		this.modelText.setText("model");
-		this.mutantText.setText("out");
+		this.modelText.setText("data/model");
+		this.mutantText.setText("data/out");
 	}
 
 	/**

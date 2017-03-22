@@ -204,7 +204,7 @@ ruleAlternativeResponse returns [EObject current=null]
         }
 	otherlv_1=RULE_ID
 	{
-		newLeafNode(otherlv_1, grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); 
+		newLeafNode(otherlv_1, grammarAccess.getAlternativeResponseAccess().getBlockBlockCrossReference_1_0()); 
 	}
 
 )
@@ -286,7 +286,7 @@ ruleMultiChoiceDiagram returns [EObject current=null]
         }
 	otherlv_1=RULE_ID
 	{
-		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); 
+		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockCrossReference_1_0()); 
 	}
 
 )
@@ -368,7 +368,7 @@ ruleMultiChoiceEmendation returns [EObject current=null]
         }
 	otherlv_1=RULE_ID
 	{
-		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); 
+		newLeafNode(otherlv_1, grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockCrossReference_1_0()); 
 	}
 
 )

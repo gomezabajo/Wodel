@@ -2,18 +2,30 @@
  */
 package modelgraph.impl;
 
+import java.util.Collection;
+
+import modelgraph.BooleanAttribute;
 import modelgraph.ModelgraphPackage;
 import modelgraph.Node;
+import modelgraph.NodeColor;
 import modelgraph.NodeShape;
+import modelgraph.NodeStyle;
 import modelgraph.NodeType;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,45 +34,37 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link modelgraph.impl.NodeImpl#isNegation <em>Negation</em>}</li>
  *   <li>{@link modelgraph.impl.NodeImpl#getAttribute <em>Attribute</em>}</li>
+ *   <li>{@link modelgraph.impl.NodeImpl#getReference <em>Reference</em>}</li>
  *   <li>{@link modelgraph.impl.NodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link modelgraph.impl.NodeImpl#getShape <em>Shape</em>}</li>
+ *   <li>{@link modelgraph.impl.NodeImpl#getColor <em>Color</em>}</li>
+ *   <li>{@link modelgraph.impl.NodeImpl#getStyle <em>Style</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NodeImpl extends ItemImpl implements Node {
+public class NodeImpl extends NamedItemImpl implements Node {
 	/**
-	 * The default value of the '{@link #isNegation() <em>Negation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isNegation()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean NEGATION_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isNegation() <em>Negation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isNegation()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean negation = NEGATION_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getAttribute() <em>Attribute</em>}' reference.
+	 * The cached value of the '{@link #getAttribute() <em>Attribute</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getAttribute()
 	 * @generated
 	 * @ordered
 	 */
-	protected EAttribute attribute;
+	protected EList<BooleanAttribute> attribute;
+
+	/**
+	 * The cached value of the '{@link #getReference() <em>Reference</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReference()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EReference> reference;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -103,6 +107,46 @@ public class NodeImpl extends ItemImpl implements Node {
 	protected NodeShape shape = SHAPE_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getColor() <em>Color</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getColor()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final NodeColor COLOR_EDEFAULT = NodeColor.GRAY95;
+
+	/**
+	 * The cached value of the '{@link #getColor() <em>Color</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getColor()
+	 * @generated
+	 * @ordered
+	 */
+	protected NodeColor color = COLOR_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getStyle() <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStyle()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final NodeStyle STYLE_EDEFAULT = NodeStyle.NONE;
+
+	/**
+	 * The cached value of the '{@link #getStyle() <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStyle()
+	 * @generated
+	 * @ordered
+	 */
+	protected NodeStyle style = STYLE_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -126,35 +170,9 @@ public class NodeImpl extends ItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isNegation() {
-		return negation;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setNegation(boolean newNegation) {
-		boolean oldNegation = negation;
-		negation = newNegation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelgraphPackage.NODE__NEGATION, oldNegation, negation));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getAttribute() {
-		if (attribute != null && attribute.eIsProxy()) {
-			InternalEObject oldAttribute = (InternalEObject)attribute;
-			attribute = (EAttribute)eResolveProxy(oldAttribute);
-			if (attribute != oldAttribute) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelgraphPackage.NODE__ATTRIBUTE, oldAttribute, attribute));
-			}
+	public EList<BooleanAttribute> getAttribute() {
+		if (attribute == null) {
+			attribute = new EObjectContainmentEList<BooleanAttribute>(BooleanAttribute.class, this, ModelgraphPackage.NODE__ATTRIBUTE);
 		}
 		return attribute;
 	}
@@ -164,20 +182,11 @@ public class NodeImpl extends ItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute basicGetAttribute() {
-		return attribute;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAttribute(EAttribute newAttribute) {
-		EAttribute oldAttribute = attribute;
-		attribute = newAttribute;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelgraphPackage.NODE__ATTRIBUTE, oldAttribute, attribute));
+	public EList<EReference> getReference() {
+		if (reference == null) {
+			reference = new EObjectResolvingEList<EReference>(EReference.class, this, ModelgraphPackage.NODE__REFERENCE);
+		}
+		return reference;
 	}
 
 	/**
@@ -227,18 +236,77 @@ public class NodeImpl extends ItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public NodeColor getColor() {
+		return color;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setColor(NodeColor newColor) {
+		NodeColor oldColor = color;
+		color = newColor == null ? COLOR_EDEFAULT : newColor;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelgraphPackage.NODE__COLOR, oldColor, color));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NodeStyle getStyle() {
+		return style;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStyle(NodeStyle newStyle) {
+		NodeStyle oldStyle = style;
+		style = newStyle == null ? STYLE_EDEFAULT : newStyle;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelgraphPackage.NODE__STYLE, oldStyle, style));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ModelgraphPackage.NODE__ATTRIBUTE:
+				return ((InternalEList<?>)getAttribute()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelgraphPackage.NODE__NEGATION:
-				return isNegation();
 			case ModelgraphPackage.NODE__ATTRIBUTE:
-				if (resolve) return getAttribute();
-				return basicGetAttribute();
+				return getAttribute();
+			case ModelgraphPackage.NODE__REFERENCE:
+				return getReference();
 			case ModelgraphPackage.NODE__TYPE:
 				return getType();
 			case ModelgraphPackage.NODE__SHAPE:
 				return getShape();
+			case ModelgraphPackage.NODE__COLOR:
+				return getColor();
+			case ModelgraphPackage.NODE__STYLE:
+				return getStyle();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -248,20 +316,29 @@ public class NodeImpl extends ItemImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelgraphPackage.NODE__NEGATION:
-				setNegation((Boolean)newValue);
-				return;
 			case ModelgraphPackage.NODE__ATTRIBUTE:
-				setAttribute((EAttribute)newValue);
+				getAttribute().clear();
+				getAttribute().addAll((Collection<? extends BooleanAttribute>)newValue);
+				return;
+			case ModelgraphPackage.NODE__REFERENCE:
+				getReference().clear();
+				getReference().addAll((Collection<? extends EReference>)newValue);
 				return;
 			case ModelgraphPackage.NODE__TYPE:
 				setType((NodeType)newValue);
 				return;
 			case ModelgraphPackage.NODE__SHAPE:
 				setShape((NodeShape)newValue);
+				return;
+			case ModelgraphPackage.NODE__COLOR:
+				setColor((NodeColor)newValue);
+				return;
+			case ModelgraphPackage.NODE__STYLE:
+				setStyle((NodeStyle)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -275,17 +352,23 @@ public class NodeImpl extends ItemImpl implements Node {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelgraphPackage.NODE__NEGATION:
-				setNegation(NEGATION_EDEFAULT);
-				return;
 			case ModelgraphPackage.NODE__ATTRIBUTE:
-				setAttribute((EAttribute)null);
+				getAttribute().clear();
+				return;
+			case ModelgraphPackage.NODE__REFERENCE:
+				getReference().clear();
 				return;
 			case ModelgraphPackage.NODE__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
 			case ModelgraphPackage.NODE__SHAPE:
 				setShape(SHAPE_EDEFAULT);
+				return;
+			case ModelgraphPackage.NODE__COLOR:
+				setColor(COLOR_EDEFAULT);
+				return;
+			case ModelgraphPackage.NODE__STYLE:
+				setStyle(STYLE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -299,14 +382,18 @@ public class NodeImpl extends ItemImpl implements Node {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelgraphPackage.NODE__NEGATION:
-				return negation != NEGATION_EDEFAULT;
 			case ModelgraphPackage.NODE__ATTRIBUTE:
-				return attribute != null;
+				return attribute != null && !attribute.isEmpty();
+			case ModelgraphPackage.NODE__REFERENCE:
+				return reference != null && !reference.isEmpty();
 			case ModelgraphPackage.NODE__TYPE:
 				return type != TYPE_EDEFAULT;
 			case ModelgraphPackage.NODE__SHAPE:
 				return shape != SHAPE_EDEFAULT;
+			case ModelgraphPackage.NODE__COLOR:
+				return color != COLOR_EDEFAULT;
+			case ModelgraphPackage.NODE__STYLE:
+				return style != STYLE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -321,12 +408,14 @@ public class NodeImpl extends ItemImpl implements Node {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (negation: ");
-		result.append(negation);
-		result.append(", type: ");
+		result.append(" (type: ");
 		result.append(type);
 		result.append(", shape: ");
 		result.append(shape);
+		result.append(", color: ");
+		result.append(color);
+		result.append(", style: ");
+		result.append(style);
 		result.append(')');
 		return result.toString();
 	}

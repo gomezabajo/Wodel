@@ -6897,17 +6897,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2663:1: ( ( RULE_ID ) )
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2664:1: ( RULE_ID )
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); 
+             before(grammarAccess.getAlternativeResponseAccess().getBlockBlockCrossReference_1_0()); 
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2665:1: ( RULE_ID )
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2666:1: RULE_ID
             {
-             before(grammarAccess.getAlternativeResponseAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); 
+             before(grammarAccess.getAlternativeResponseAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
             match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_rule__AlternativeResponse__BlockAssignment_15307); 
-             after(grammarAccess.getAlternativeResponseAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); 
+             after(grammarAccess.getAlternativeResponseAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
 
             }
 
-             after(grammarAccess.getAlternativeResponseAccess().getBlockEObjectCrossReference_1_0()); 
+             after(grammarAccess.getAlternativeResponseAccess().getBlockBlockCrossReference_1_0()); 
 
             }
 
@@ -7024,17 +7024,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2712:1: ( ( RULE_ID ) )
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2713:1: ( RULE_ID )
             {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); 
+             before(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockCrossReference_1_0()); 
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2714:1: ( RULE_ID )
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2715:1: RULE_ID
             {
-             before(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); 
+             before(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
             match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_rule__MultiChoiceDiagram__BlockAssignment_15408); 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); 
+             after(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
 
             }
 
-             after(grammarAccess.getMultiChoiceDiagramAccess().getBlockEObjectCrossReference_1_0()); 
+             after(grammarAccess.getMultiChoiceDiagramAccess().getBlockBlockCrossReference_1_0()); 
 
             }
 
@@ -7151,17 +7151,17 @@ public class InternalEduTestParser extends AbstractInternalContentAssistParser {
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2761:1: ( ( RULE_ID ) )
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2762:1: ( RULE_ID )
             {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); 
+             before(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockCrossReference_1_0()); 
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2763:1: ( RULE_ID )
             // ../wodeledu.dsls.edutest.ui/src-gen/wodeledu/dsls/ui/contentassist/antlr/internal/InternalEduTest.g:2764:1: RULE_ID
             {
-             before(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); 
+             before(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
             match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_rule__MultiChoiceEmendation__BlockAssignment_15509); 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectIDTerminalRuleCall_1_0_1()); 
+             after(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockIDTerminalRuleCall_1_0_1()); 
 
             }
 
-             after(grammarAccess.getMultiChoiceEmendationAccess().getBlockEObjectCrossReference_1_0()); 
+             after(grammarAccess.getMultiChoiceEmendationAccess().getBlockBlockCrossReference_1_0()); 
 
             }
 

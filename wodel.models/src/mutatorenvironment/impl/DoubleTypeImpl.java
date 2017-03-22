@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class DoubleTypeImpl extends AttributeTypeImpl implements DoubleType {
+public abstract class DoubleTypeImpl extends NumberTypeImpl implements DoubleType {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

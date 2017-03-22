@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.TargetReferenceChangedImpl#getOldTo <em>Old To</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

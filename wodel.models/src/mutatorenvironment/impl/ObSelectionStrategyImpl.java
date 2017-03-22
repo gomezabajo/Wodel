@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getExpression <em>Expression</em>}</li>
  * </ul>
  * </p>
@@ -28,6 +30,16 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implements ObSelectionStrategy {
+	/**
+	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EReference refType;
+
 	/**
 	 * The cached value of the '{@link #getExpression() <em>Expression</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -55,6 +67,44 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	@Override
 	protected EClass eStaticClass() {
 		return MutatorenvironmentPackage.Literals.OB_SELECTION_STRATEGY;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRefType() {
+		if (refType != null && refType.eIsProxy()) {
+			InternalEObject oldRefType = (InternalEObject)refType;
+			refType = (EReference)eResolveProxy(oldRefType);
+			if (refType != oldRefType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_TYPE, oldRefType, refType));
+			}
+		}
+		return refType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference basicGetRefType() {
+		return refType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRefType(EReference newRefType) {
+		EReference oldRefType = refType;
+		refType = newRefType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_TYPE, oldRefType, refType));
 	}
 
 	/**
@@ -122,6 +172,9 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_TYPE:
+				if (resolve) return getRefType();
+				return basicGetRefType();
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return getExpression();
 		}
@@ -136,6 +189,9 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_TYPE:
+				setRefType((EReference)newValue);
+				return;
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				setExpression((Expression)newValue);
 				return;
@@ -151,6 +207,9 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_TYPE:
+				setRefType((EReference)null);
+				return;
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				setExpression((Expression)null);
 				return;
@@ -166,6 +225,8 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_TYPE:
+				return refType != null;
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return expression != null;
 		}

@@ -219,51 +219,81 @@ public class WodelValidator extends AbstractWodelValidator {
           EAttribute att0_2 = _attribute_5.get(0);
           AttributeType att_type = ((AttributeScalar)attset).getValue();
           if ((att_type instanceof IntegerType)) {
+            boolean _and_1 = false;
             EClassifier _eType_4 = att0_2.getEType();
             String _instanceClassName = _eType_4.getInstanceClassName();
             boolean _equals_2 = _instanceClassName.equals("int");
             boolean _not = (!_equals_2);
-            if (_not) {
+            if (!_not) {
+              _and_1 = false;
+            } else {
+              EClassifier _eType_5 = att0_2.getEType();
+              String _instanceClassName_1 = _eType_5.getInstanceClassName();
+              boolean _equals_3 = _instanceClassName_1.equals("java.lang.Integer");
+              boolean _not_1 = (!_equals_3);
+              _and_1 = _not_1;
+            }
+            if (_and_1) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof BooleanType)) {
-            EClassifier _eType_5 = att0_2.getEType();
-            String _instanceClassName_1 = _eType_5.getInstanceClassName();
-            boolean _equals_3 = _instanceClassName_1.equals("boolean");
-            boolean _not_1 = (!_equals_3);
-            if (_not_1) {
+            boolean _and_2 = false;
+            EClassifier _eType_6 = att0_2.getEType();
+            String _instanceClassName_2 = _eType_6.getInstanceClassName();
+            boolean _equals_4 = _instanceClassName_2.equals("boolean");
+            boolean _not_2 = (!_equals_4);
+            if (!_not_2) {
+              _and_2 = false;
+            } else {
+              EClassifier _eType_7 = att0_2.getEType();
+              String _instanceClassName_3 = _eType_7.getInstanceClassName();
+              boolean _equals_5 = _instanceClassName_3.equals("java.lang.Boolean");
+              boolean _not_3 = (!_equals_5);
+              _and_2 = _not_3;
+            }
+            if (_and_2) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof StringType)) {
-            EClassifier _eType_6 = att0_2.getEType();
-            String _instanceClassName_2 = _eType_6.getInstanceClassName();
-            boolean _equals_4 = _instanceClassName_2.equals("java.lang.String");
-            boolean _not_2 = (!_equals_4);
-            if (_not_2) {
+            EClassifier _eType_8 = att0_2.getEType();
+            String _instanceClassName_4 = _eType_8.getInstanceClassName();
+            boolean _equals_6 = _instanceClassName_4.equals("java.lang.String");
+            boolean _not_4 = (!_equals_6);
+            if (_not_4) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof DoubleType)) {
-            EClassifier _eType_7 = att0_2.getEType();
-            String _instanceClassName_3 = _eType_7.getInstanceClassName();
-            String _plus = ("DoubleType: " + _instanceClassName_3);
+            EClassifier _eType_9 = att0_2.getEType();
+            String _instanceClassName_5 = _eType_9.getInstanceClassName();
+            String _plus = ("DoubleType: " + _instanceClassName_5);
             System.out.println(_plus);
-            EClassifier _eType_8 = att0_2.getEType();
-            String _instanceClassName_4 = _eType_8.getInstanceClassName();
-            boolean _equals_5 = _instanceClassName_4.equals("double");
-            boolean _not_3 = (!_equals_5);
-            if (_not_3) {
+            boolean _and_3 = false;
+            EClassifier _eType_10 = att0_2.getEType();
+            String _instanceClassName_6 = _eType_10.getInstanceClassName();
+            boolean _equals_7 = _instanceClassName_6.equals("double");
+            boolean _not_5 = (!_equals_7);
+            if (!_not_5) {
+              _and_3 = false;
+            } else {
+              EClassifier _eType_11 = att0_2.getEType();
+              String _instanceClassName_7 = _eType_11.getInstanceClassName();
+              boolean _equals_8 = _instanceClassName_7.equals("java.lang.Double");
+              boolean _not_6 = (!_equals_8);
+              _and_3 = _not_6;
+            }
+            if (_and_3) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof ListStringType)) {
-            EClassifier _eType_9 = att0_2.getEType();
-            String _instanceClassName_5 = _eType_9.getInstanceClassName();
-            boolean _equals_6 = _instanceClassName_5.equals("java.lang.String");
-            boolean _not_4 = (!_equals_6);
-            if (_not_4) {
+            EClassifier _eType_12 = att0_2.getEType();
+            String _instanceClassName_8 = _eType_12.getInstanceClassName();
+            boolean _equals_9 = _instanceClassName_8.equals("java.lang.String");
+            boolean _not_7 = (!_equals_9);
+            if (_not_7) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
@@ -339,51 +369,84 @@ public class WodelValidator extends AbstractWodelValidator {
           EAttribute att0_2 = _attribute_5.get(0);
           AttributeType att_type = ((AttributeScalar)attset).getValue();
           if ((att_type instanceof IntegerType)) {
+            boolean _and_1 = false;
             EClassifier _eType_4 = att0_2.getEType();
             String _instanceClassName = _eType_4.getInstanceClassName();
             boolean _equals_2 = _instanceClassName.equals("int");
             boolean _not = (!_equals_2);
-            if (_not) {
+            if (!_not) {
+              _and_1 = false;
+            } else {
+              EClassifier _eType_5 = att0_2.getEType();
+              String _instanceClassName_1 = _eType_5.getInstanceClassName();
+              boolean _equals_3 = _instanceClassName_1.equals("java.lang.Integer");
+              boolean _not_1 = (!_equals_3);
+              _and_1 = _not_1;
+            }
+            if (_and_1) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof BooleanType)) {
-            EClassifier _eType_5 = att0_2.getEType();
-            String _instanceClassName_1 = _eType_5.getInstanceClassName();
-            boolean _equals_3 = _instanceClassName_1.equals("boolean");
-            boolean _not_1 = (!_equals_3);
-            if (_not_1) {
+            EClassifier _eType_6 = att0_2.getEType();
+            String className = _eType_6.getInstanceClassName();
+            System.out.println(className);
+            boolean _and_2 = false;
+            EClassifier _eType_7 = att0_2.getEType();
+            String _instanceClassName_2 = _eType_7.getInstanceClassName();
+            boolean _equals_4 = _instanceClassName_2.equals("boolean");
+            boolean _not_2 = (!_equals_4);
+            if (!_not_2) {
+              _and_2 = false;
+            } else {
+              EClassifier _eType_8 = att0_2.getEType();
+              String _instanceClassName_3 = _eType_8.getInstanceClassName();
+              boolean _equals_5 = _instanceClassName_3.equals("java.lang.Boolean");
+              boolean _not_3 = (!_equals_5);
+              _and_2 = _not_3;
+            }
+            if (_and_2) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof StringType)) {
-            EClassifier _eType_6 = att0_2.getEType();
-            String _instanceClassName_2 = _eType_6.getInstanceClassName();
-            boolean _equals_4 = _instanceClassName_2.equals("java.lang.String");
-            boolean _not_2 = (!_equals_4);
-            if (_not_2) {
+            EClassifier _eType_9 = att0_2.getEType();
+            String _instanceClassName_4 = _eType_9.getInstanceClassName();
+            boolean _equals_6 = _instanceClassName_4.equals("java.lang.String");
+            boolean _not_4 = (!_equals_6);
+            if (_not_4) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof DoubleType)) {
-            EClassifier _eType_7 = att0_2.getEType();
-            String _instanceClassName_3 = _eType_7.getInstanceClassName();
-            String _plus = ("DoubleType: " + _instanceClassName_3);
+            EClassifier _eType_10 = att0_2.getEType();
+            String _instanceClassName_5 = _eType_10.getInstanceClassName();
+            String _plus = ("DoubleType: " + _instanceClassName_5);
             System.out.println(_plus);
-            EClassifier _eType_8 = att0_2.getEType();
-            String _instanceClassName_4 = _eType_8.getInstanceClassName();
-            boolean _equals_5 = _instanceClassName_4.equals("double");
-            boolean _not_3 = (!_equals_5);
-            if (_not_3) {
+            boolean _and_3 = false;
+            EClassifier _eType_11 = att0_2.getEType();
+            String _instanceClassName_6 = _eType_11.getInstanceClassName();
+            boolean _equals_7 = _instanceClassName_6.equals("double");
+            boolean _not_5 = (!_equals_7);
+            if (!_not_5) {
+              _and_3 = false;
+            } else {
+              EClassifier _eType_12 = att0_2.getEType();
+              String _instanceClassName_7 = _eType_12.getInstanceClassName();
+              boolean _equals_8 = _instanceClassName_7.equals("java.lang.Double");
+              boolean _not_6 = (!_equals_8);
+              _and_3 = _not_6;
+            }
+            if (_and_3) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }
           if ((att_type instanceof ListStringType)) {
-            EClassifier _eType_9 = att0_2.getEType();
-            String _instanceClassName_5 = _eType_9.getInstanceClassName();
-            boolean _equals_6 = _instanceClassName_5.equals("java.lang.String");
-            boolean _not_4 = (!_equals_6);
-            if (_not_4) {
+            EClassifier _eType_13 = att0_2.getEType();
+            String _instanceClassName_8 = _eType_13.getInstanceClassName();
+            boolean _equals_9 = _instanceClassName_8.equals("java.lang.String");
+            boolean _not_7 = (!_equals_9);
+            if (_not_7) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
             }
           }

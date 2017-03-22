@@ -170,6 +170,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 			case MutatorenvironmentPackage.ATTRIBUTE_TYPE: {
 				AttributeType attributeType = (AttributeType)theEObject;
 				T result = caseAttributeType(attributeType);
+				if (result == null) result = caseAttributeEvaluationType(attributeType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -177,6 +178,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				BooleanType booleanType = (BooleanType)theEObject;
 				T result = caseBooleanType(booleanType);
 				if (result == null) result = caseAttributeType(booleanType);
+				if (result == null) result = caseAttributeEvaluationType(booleanType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -185,6 +187,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseSpecificBooleanType(specificBooleanType);
 				if (result == null) result = caseBooleanType(specificBooleanType);
 				if (result == null) result = caseAttributeType(specificBooleanType);
+				if (result == null) result = caseAttributeEvaluationType(specificBooleanType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -193,6 +196,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseRandomBooleanType(randomBooleanType);
 				if (result == null) result = caseBooleanType(randomBooleanType);
 				if (result == null) result = caseAttributeType(randomBooleanType);
+				if (result == null) result = caseAttributeEvaluationType(randomBooleanType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -200,6 +204,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				StringType stringType = (StringType)theEObject;
 				T result = caseStringType(stringType);
 				if (result == null) result = caseAttributeType(stringType);
+				if (result == null) result = caseAttributeEvaluationType(stringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -208,6 +213,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseSpecificStringType(specificStringType);
 				if (result == null) result = caseStringType(specificStringType);
 				if (result == null) result = caseAttributeType(specificStringType);
+				if (result == null) result = caseAttributeEvaluationType(specificStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -216,13 +222,16 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseRandomStringType(randomStringType);
 				if (result == null) result = caseStringType(randomStringType);
 				if (result == null) result = caseAttributeType(randomStringType);
+				if (result == null) result = caseAttributeEvaluationType(randomStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MutatorenvironmentPackage.INTEGER_TYPE: {
 				IntegerType integerType = (IntegerType)theEObject;
 				T result = caseIntegerType(integerType);
+				if (result == null) result = caseNumberType(integerType);
 				if (result == null) result = caseAttributeType(integerType);
+				if (result == null) result = caseAttributeEvaluationType(integerType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -230,7 +239,9 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				SpecificIntegerType specificIntegerType = (SpecificIntegerType)theEObject;
 				T result = caseSpecificIntegerType(specificIntegerType);
 				if (result == null) result = caseIntegerType(specificIntegerType);
+				if (result == null) result = caseNumberType(specificIntegerType);
 				if (result == null) result = caseAttributeType(specificIntegerType);
+				if (result == null) result = caseAttributeEvaluationType(specificIntegerType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -238,14 +249,18 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				RandomIntegerType randomIntegerType = (RandomIntegerType)theEObject;
 				T result = caseRandomIntegerType(randomIntegerType);
 				if (result == null) result = caseIntegerType(randomIntegerType);
+				if (result == null) result = caseNumberType(randomIntegerType);
 				if (result == null) result = caseAttributeType(randomIntegerType);
+				if (result == null) result = caseAttributeEvaluationType(randomIntegerType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MutatorenvironmentPackage.DOUBLE_TYPE: {
 				DoubleType doubleType = (DoubleType)theEObject;
 				T result = caseDoubleType(doubleType);
+				if (result == null) result = caseNumberType(doubleType);
 				if (result == null) result = caseAttributeType(doubleType);
+				if (result == null) result = caseAttributeEvaluationType(doubleType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -253,7 +268,9 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				SpecificDoubleType specificDoubleType = (SpecificDoubleType)theEObject;
 				T result = caseSpecificDoubleType(specificDoubleType);
 				if (result == null) result = caseDoubleType(specificDoubleType);
+				if (result == null) result = caseNumberType(specificDoubleType);
 				if (result == null) result = caseAttributeType(specificDoubleType);
+				if (result == null) result = caseAttributeEvaluationType(specificDoubleType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -261,7 +278,9 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				RandomDoubleType randomDoubleType = (RandomDoubleType)theEObject;
 				T result = caseRandomDoubleType(randomDoubleType);
 				if (result == null) result = caseDoubleType(randomDoubleType);
+				if (result == null) result = caseNumberType(randomDoubleType);
 				if (result == null) result = caseAttributeType(randomDoubleType);
+				if (result == null) result = caseAttributeEvaluationType(randomDoubleType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -335,6 +354,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseUpperStringType(upperStringType);
 				if (result == null) result = caseStringType(upperStringType);
 				if (result == null) result = caseAttributeType(upperStringType);
+				if (result == null) result = caseAttributeEvaluationType(upperStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -343,6 +363,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseLowerStringType(lowerStringType);
 				if (result == null) result = caseStringType(lowerStringType);
 				if (result == null) result = caseAttributeType(lowerStringType);
+				if (result == null) result = caseAttributeEvaluationType(lowerStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -350,6 +371,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				ListStringType listStringType = (ListStringType)theEObject;
 				T result = caseListStringType(listStringType);
 				if (result == null) result = caseAttributeType(listStringType);
+				if (result == null) result = caseAttributeEvaluationType(listStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -358,6 +380,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseCatStartStringType(catStartStringType);
 				if (result == null) result = caseStringType(catStartStringType);
 				if (result == null) result = caseAttributeType(catStartStringType);
+				if (result == null) result = caseAttributeEvaluationType(catStartStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -366,6 +389,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseCatEndStringType(catEndStringType);
 				if (result == null) result = caseStringType(catEndStringType);
 				if (result == null) result = caseAttributeType(catEndStringType);
+				if (result == null) result = caseAttributeEvaluationType(catEndStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -394,6 +418,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				T result = caseReplaceStringType(replaceStringType);
 				if (result == null) result = caseStringType(replaceStringType);
 				if (result == null) result = caseAttributeType(replaceStringType);
+				if (result == null) result = caseAttributeEvaluationType(replaceStringType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -506,6 +531,13 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MutatorenvironmentPackage.REFERENCE_ATT: {
+				ReferenceAtt referenceAtt = (ReferenceAtt)theEObject;
+				T result = caseReferenceAtt(referenceAtt);
+				if (result == null) result = caseReferenceSet(referenceAtt);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION: {
 				ReferenceEvaluation referenceEvaluation = (ReferenceEvaluation)theEObject;
 				T result = caseReferenceEvaluation(referenceEvaluation);
@@ -554,6 +586,124 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				RandomType randomType = (RandomType)theEObject;
 				T result = caseRandomType(randomType);
 				if (result == null) result = caseAttributeType(randomType);
+				if (result == null) result = caseAttributeEvaluationType(randomType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.CLONE_OBJECT_MUTATOR: {
+				CloneObjectMutator cloneObjectMutator = (CloneObjectMutator)theEObject;
+				T result = caseCloneObjectMutator(cloneObjectMutator);
+				if (result == null) result = caseMutator(cloneObjectMutator);
+				if (result == null) result = caseObjectEmitter(cloneObjectMutator);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.LIST_TYPE: {
+				ListType listType = (ListType)theEObject;
+				T result = caseListType(listType);
+				if (result == null) result = caseAttributeType(listType);
+				if (result == null) result = caseAttributeEvaluationType(listType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.OBJECT_ATTRIBUTE_TYPE: {
+				ObjectAttributeType objectAttributeType = (ObjectAttributeType)theEObject;
+				T result = caseObjectAttributeType(objectAttributeType);
+				if (result == null) result = caseAttributeEvaluationType(objectAttributeType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION_TYPE: {
+				AttributeEvaluationType attributeEvaluationType = (AttributeEvaluationType)theEObject;
+				T result = caseAttributeEvaluationType(attributeEvaluationType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.MIN_VALUE_TYPE: {
+				MinValueType minValueType = (MinValueType)theEObject;
+				T result = caseMinValueType(minValueType);
+				if (result == null) result = caseNumberType(minValueType);
+				if (result == null) result = caseAttributeType(minValueType);
+				if (result == null) result = caseAttributeEvaluationType(minValueType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.MAX_VALUE_TYPE: {
+				MaxValueType maxValueType = (MaxValueType)theEObject;
+				T result = caseMaxValueType(maxValueType);
+				if (result == null) result = caseNumberType(maxValueType);
+				if (result == null) result = caseAttributeType(maxValueType);
+				if (result == null) result = caseAttributeEvaluationType(maxValueType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.NUMBER_TYPE: {
+				NumberType numberType = (NumberType)theEObject;
+				T result = caseNumberType(numberType);
+				if (result == null) result = caseAttributeType(numberType);
+				if (result == null) result = caseAttributeEvaluationType(numberType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.ATTRIBUTE_OPERATION: {
+				AttributeOperation attributeOperation = (AttributeOperation)theEObject;
+				T result = caseAttributeOperation(attributeOperation);
+				if (result == null) result = caseAttributeSet(attributeOperation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.RANDOM_NUMBER_TYPE: {
+				RandomNumberType randomNumberType = (RandomNumberType)theEObject;
+				T result = caseRandomNumberType(randomNumberType);
+				if (result == null) result = caseNumberType(randomNumberType);
+				if (result == null) result = caseAttributeType(randomNumberType);
+				if (result == null) result = caseAttributeEvaluationType(randomNumberType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.RANDOM_DOUBLE_NUMBER_TYPE: {
+				RandomDoubleNumberType randomDoubleNumberType = (RandomDoubleNumberType)theEObject;
+				T result = caseRandomDoubleNumberType(randomDoubleNumberType);
+				if (result == null) result = caseRandomNumberType(randomDoubleNumberType);
+				if (result == null) result = caseNumberType(randomDoubleNumberType);
+				if (result == null) result = caseAttributeType(randomDoubleNumberType);
+				if (result == null) result = caseAttributeEvaluationType(randomDoubleNumberType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.RANDOM_INTEGER_NUMBER_TYPE: {
+				RandomIntegerNumberType randomIntegerNumberType = (RandomIntegerNumberType)theEObject;
+				T result = caseRandomIntegerNumberType(randomIntegerNumberType);
+				if (result == null) result = caseRandomNumberType(randomIntegerNumberType);
+				if (result == null) result = caseNumberType(randomIntegerNumberType);
+				if (result == null) result = caseAttributeType(randomIntegerNumberType);
+				if (result == null) result = caseAttributeEvaluationType(randomIntegerNumberType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.SPECIFIC_CLOSURE_SELECTION: {
+				SpecificClosureSelection specificClosureSelection = (SpecificClosureSelection)theEObject;
+				T result = caseSpecificClosureSelection(specificClosureSelection);
+				if (result == null) result = caseSpecificSelection(specificClosureSelection);
+				if (result == null) result = caseObSelectionStrategy(specificClosureSelection);
+				if (result == null) result = caseObjectEmitter(specificClosureSelection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.SUBSET_SELECTION: {
+				SubsetSelection subsetSelection = (SubsetSelection)theEObject;
+				T result = caseSubsetSelection(subsetSelection);
+				if (result == null) result = caseObSelectionStrategy(subsetSelection);
+				if (result == null) result = caseObjectEmitter(subsetSelection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.EACH_TYPE_SELECTION: {
+				EachTypeSelection eachTypeSelection = (EachTypeSelection)theEObject;
+				T result = caseEachTypeSelection(eachTypeSelection);
+				if (result == null) result = caseSubsetSelection(eachTypeSelection);
+				if (result == null) result = caseObSelectionStrategy(eachTypeSelection);
+				if (result == null) result = caseObjectEmitter(eachTypeSelection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1432,6 +1582,21 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Att</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Att</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferenceAtt(ReferenceAtt object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Reference Evaluation</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1548,6 +1713,216 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRandomType(RandomType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Clone Object Mutator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Clone Object Mutator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCloneObjectMutator(CloneObjectMutator object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>List Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>List Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseListType(ListType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Object Attribute Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Object Attribute Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseObjectAttributeType(ObjectAttributeType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Evaluation Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Evaluation Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAttributeEvaluationType(AttributeEvaluationType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Min Value Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Min Value Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMinValueType(MinValueType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Max Value Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Max Value Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMaxValueType(MaxValueType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Number Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNumberType(NumberType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Operation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Operation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAttributeOperation(AttributeOperation object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Random Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Random Number Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRandomNumberType(RandomNumberType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Random Double Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Random Double Number Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRandomDoubleNumberType(RandomDoubleNumberType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Random Integer Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Random Integer Number Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRandomIntegerNumberType(RandomIntegerNumberType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Specific Closure Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Specific Closure Selection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSpecificClosureSelection(SpecificClosureSelection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Subset Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Subset Selection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSubsetSelection(SubsetSelection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Each Type Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Each Type Selection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEachTypeSelection(EachTypeSelection object) {
 		return null;
 	}
 

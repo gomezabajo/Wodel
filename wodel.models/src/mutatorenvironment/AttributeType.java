@@ -2,7 +2,6 @@
  */
 package mutatorenvironment;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface AttributeType extends EObject {
+public interface AttributeType extends AttributeEvaluationType {
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
 	 * The literals are from the enumeration {@link mutatorenvironment.Operator}.

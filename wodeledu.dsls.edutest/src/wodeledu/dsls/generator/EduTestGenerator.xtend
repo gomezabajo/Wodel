@@ -55,6 +55,9 @@ import manager.TestUtils.Registry
 import manager.TestUtils
 import org.osgi.framework.Bundle
 import org.eclipse.core.runtime.Platform
+import org.eclipse.emf.ecore.EClass
+import java.util.List
+import org.eclipse.emf.ecore.util.EObjectResolvingEList
 
 /**
  * Generates code from your model files on save.
@@ -73,7 +76,7 @@ class EduTestGenerator implements IGenerator {
 	private HashMap<MutatorTests, Integer> total;
 	private HashMap<MutatorTests, ArrayList<Test>> tests;
 	private HashMap<MutatorTests, HashMap<Test, ArrayList<TestOption>>> options;
-	private ArrayList<Block> blocks;
+	private ArrayList<EObject> blocks;
 	
 	def Resource loadResource(Resource resource, String ext, String metamodel) {
 	}
@@ -84,14 +87,15 @@ class EduTestGenerator implements IGenerator {
 			//loads the mutator model
 			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
 			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", ".model")
-			val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore";
+			val Bundle bundle = Platform.getBundle("wodel.models")
+	   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
+	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
+			//val String mutatorecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore";
 			val ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore)
+			//val EPackage epackage = mutatorpackages.get(0);
+			//EPackage.Registry.INSTANCE.put(epackage.getNsURI(), epackage);
 			val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
-			val ArrayList<EObject> blockobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
-			blocks = new ArrayList<Block>()
-			for (EObject blockobj : blockobjects) {
-				blocks.add(ModelManager.getObject(mutatormodel, blockobj) as Block)
-			}	
+			blocks = ModelManager.getObjectsOfType("Block", mutatormodel)
 
 			for (p : resource.allContents.toIterable.filter(Program)) {
 				if (i == 0) {
@@ -182,26 +186,26 @@ class EduTestGenerator implements IGenerator {
 			«ENDIF»
 			«IF exercise.block != null»
 				«folder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + (exercise.block as Block).name 
+					+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + exercise.block.name 
 				)»
 				«IF (folder.isDirectory() == true)»
 					«FOR f : folder.listFiles()»
 						«IF f.name.endsWith('.png')»
-							«fileNames.add((exercise.block as Block).name + '/' + f.name)»
+							«fileNames.add(exercise.block.name + '/' + f.name)»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
-				«IF (exercise.block as Block).from.length > 0»
-					«FOR b : (exercise.block as Block).from»
+				«IF exercise.block.from.length > 0»
+					«FOR b : exercise.block.from»
 						«var File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
-							+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + b.name + '/' + (exercise.block as Block).name
+							+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + b.name + '/' + exercise.block.name
 						)»
 						«IF (wrongFolder.isDirectory() == true)»
 							«FOR f : wrongFolder.listFiles()»
 								«IF (f.isDirectory() == true)»
 									«FOR w : f.listFiles()»
 										«IF w.name.endsWith('.png')»
-											«fileNames.add(b.name + '/' + (exercise.block as Block).name + '/' + f.name + '/' + w.name)»
+											«fileNames.add(b.name + '/' + exercise.block.name + '/' + f.name + '/' + w.name)»
 										«ENDIF»
 									«ENDFOR»
 								«ENDIF»
@@ -239,26 +243,26 @@ class EduTestGenerator implements IGenerator {
 			«ENDIF»
 			«IF exercise.block != null»
 				«folder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
-					+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + (exercise.block as Block).name 
+					+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + exercise.block.name 
 				)»
 				«IF (folder.isDirectory() == true)»
 					«FOR f : folder.listFiles()»
 						«IF f.name.endsWith('.png')»
-							«fileNames.add((exercise.block as Block).name + '/' + f.name)»
+							«fileNames.add(exercise.block.name + '/' + f.name)»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
-				«IF (exercise.block as Block).from.length > 0»
-					«FOR b : (exercise.block as Block).from»
+				«IF exercise.block.from.length > 0»
+					«FOR b : exercise.block.from»
 						«var File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + '/'
-							+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + b.name + '/' + (exercise.block as Block).name
+							+ WodelContext.getProject() + '/src-gen/html/diagrams/' + test.source.replace('.model', '') + '/' + b.name + '/' + exercise.block.name
 						)»
 						«IF (wrongFolder.isDirectory() == true)»
 							«FOR f : wrongFolder.listFiles()»
 								«IF (f.isDirectory() == true)»
 									«FOR w : f.listFiles()»
 										«IF w.name.endsWith('.png')»
-											«fileNames.add(b.name + '/' + (exercise.block as Block).name + '/' + f.name + '/' + w.name)»
+											«fileNames.add(b.name + '/' + exercise.block.name + '/' + f.name + '/' + w.name)»
 										«ENDIF»
 									«ENDFOR»
 								«ENDIF»
@@ -282,22 +286,28 @@ class EduTestGenerator implements IGenerator {
    		«ENDIF»
 		«IF exercise instanceof MultiChoiceEmendation»
 		<!-- REGISTRY: «var dataReg = new HashMap<Test, Registry>()»
-		«val String ecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/MutatorEnvironment.ecore"»
+		«val Bundle bundle = Platform.getBundle("wodel.models")»
+	   	«var URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")»
+		«val String ecore = FileLocator.resolve(fileURL).getFile()»
 		«val ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore)»
-		«val String registryecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/AppliedMutations.ecore"»
+		«fileURL = bundle.getEntry("/models/AppliedMutations.ecore")»
+		«val String registryecore = FileLocator.resolve(fileURL).getFile()»
 		«val ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore)»
 		«/*loads the idelems model*/»
 		«var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
 			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", "_modeltext.model")»
-		«val String idelemsecore = ModelManager.getWorkspaceAbsolutePath + "/" + WodelContext.getProject() + "/resources/ModelText.ecore"»
+		«fileURL = bundle.getEntry("/models/ModelText.ecore")»
+		«val String idelemsecore = FileLocator.resolve(fileURL).getFile()»
 		«val ArrayList<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore)»
 		«val idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString)»
 		«/*loads the cfgopts model*/»
 		«xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
 			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", "_mutatext.model")»
-		«val String cfgoptsecore = ModelManager.getWorkspaceAbsolutePath + '/' + WodelContext.getProject() + "/resources/MutaText.ecore"»
+		«fileURL = bundle.getEntry("/models/MutaText.ecore")»
+		«val String cfgoptsecore = FileLocator.resolve(fileURL).getFile()»
 		«val ArrayList<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore)»
 		«val cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString)»
+		-->
 		<!--
 		«FOR test : exercise.tests»
 			«dataReg.put(test, TestUtils.getRegistry(exercise, test, blocks, packages, registrypackages))»
@@ -340,12 +350,19 @@ class EduTestGenerator implements IGenerator {
 				«var ArrayList<EObject> mutations = ModelManager.getMutations(ModelManager.getObjects(opt.resource))»
 				«FOR mutation : mutations»
 					«var String text = ''»
-					«IF mutation instanceof AppMutation»
-					«var AppMutation appMut = mutation as AppMutation»
-					«IF appMut instanceof ObjectCreated»
+					«var List<EClass> superTypes = mutation.eClass.getEAllSuperTypes»
+					«var boolean flag = false»
+					«FOR EClass cl : superTypes»
+						«IF cl.getName().equals("AppMutation")»
+							«flag = true»
+						«ENDIF»
+					«ENDFOR»
+					«IF flag == true»
+					«IF mutation.eClass.name.equals("ObjectCreated")»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -368,9 +385,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.object.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -384,10 +401,11 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof ObjectRemoved»
+					«IF mutation.eClass.name.equals("ObjectRemoved")»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -410,9 +428,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.object.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -426,7 +444,7 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof SourceReferenceChanged»
+					«IF mutation.eClass.name.equals("SourceReferenceChanged")»
 					«/*var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)*/»
 					«/*var EObject srcObject = appMut.getFrom.eGet(srcRef) as EObject*/»
 					«/*var EStructuralFeature srcName = srcObject.eClass.getEStructuralFeature('name')*/»
@@ -434,11 +452,14 @@ class EduTestGenerator implements IGenerator {
 					«/*var EObject tarObject = appMut.getTo.eGet(tarRef) as EObject*/»
 					«/*var EStructuralFeature tarName = tarObject.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource)»
-					«var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)»
-					«var Element refElement = ModelManager.getRefElement((appMut.getFrom.eGet(srcRef) as EObject), srcRef, idelemsresource)»
-					«var Element srcElement = ModelManager.getElement((appMut.getFrom.eGet(srcRef) as EObject), idelemsresource)»
-					«var EStructuralFeature tarRef = appMut.getTo.eClass.getEStructuralFeature(appMut.getRefName)»
-					«var Element tarElement = ModelManager.getElement((appMut.getTo.eGet(tarRef) as EObject), idelemsresource)»
+					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
+					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var EStructuralFeature srcRef = from.eClass.getEStructuralFeature(refName)»
+					«var Element refElement = ModelManager.getRefElement((from.eGet(srcRef) as EObject), srcRef, idelemsresource)»
+					«var Element srcElement = ModelManager.getElement((from.eGet(srcRef) as EObject), idelemsresource)»
+					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var EStructuralFeature tarRef = to.eClass.getEStructuralFeature(refName)»
+					«var Element tarElement = ModelManager.getElement((to.eGet(tarRef) as EObject), idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -461,9 +482,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getFrom.eGet(srcRef) as EObject»
+					«o = from.eGet(srcRef) as EObject»
 					«ELSE»
-					«o = (appMut.getFrom.eGet(srcRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getFrom.eGet(srcRef) as EObject)) as EObject»
+					«o = (from.eGet(srcRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from.eGet(srcRef) as EObject)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -479,9 +500,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getTo.eGet(tarRef) as EObject»
+					«o = to.eGet(tarRef) as EObject»
 					«ELSE»
-					«o = (appMut.getTo.eGet(tarRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getTo.eGet(tarRef) as EObject)) as EObject»
+					«o = (to.eGet(tarRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, to.eGet(tarRef) as EObject)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -502,19 +523,24 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof TargetReferenceChanged»
+					«IF mutation.eClass.name.equals("TargetReferenceChanged")»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.object.get(0), idelemsresource)»
-					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(appMut.srcRefName, appMut.object.get(0))»
-					«var Element refSrcElement = ModelManager.getRefElement(appMut.object.get(0), refSrc, idelemsresource)»
-					«var EStructuralFeature refTar = ModelManager.getReferenceByName(appMut.refName, appMut.object.get(0))»
-					«var Element refTarElement = ModelManager.getRefElement(appMut.object.get(0), refTar, idelemsresource)»
-					«var Element fromElement = ModelManager.getElement(appMut.getFrom, idelemsresource)»
-					«var Element toElement = ModelManager.getElement(appMut.getTo, idelemsresource)»
-					«var Element oldToElement = ModelManager.getElement(appMut.getOldTo, idelemsresource)»
+					«var EObject object = (ModelManager.getReferences("object", mutation) as List<EObject>).get(0)»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
+					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object)»
+					«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
+					«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
+					«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
+					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
+					«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
+					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var Element toElement = ModelManager.getElement(to, idelemsresource)»
+					«var EObject oldTo = (ModelManager.getReference("oldTo", mutation) as EObject)»
+					«var Element oldToElement = ModelManager.getElement(oldTo, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -537,9 +563,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.object.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -555,9 +581,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getFrom»
+					«o = from»
 					«ELSE»
-					«o = appMut.getFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getFrom as EObject)) as EObject»
+					«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -573,9 +599,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getTo»
+					«o = to»
 					«ELSE»
-					«o = appMut.getTo.eGet((v as modeltext.Variable).ref) as EObject»
+					«o = to.eGet((v as modeltext.Variable).ref) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -591,9 +617,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getOldTo»
+					«o = oldTo»
 					«ELSE»
-					«o = appMut.getOldTo.eGet((v as modeltext.Variable).ref) as EObject»
+					«o = oldTo.eGet((v as modeltext.Variable).ref) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -621,7 +647,7 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof ReferenceSwap»
+					«IF mutation.eClass.name.equals("ReferenceSwap")»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature firstRef = appMut.getRefObject.eClass.getEStructuralFeature(appMut.getRefName)*/»
@@ -629,9 +655,12 @@ class EduTestGenerator implements IGenerator {
 					«/*var EStructuralFeature otherToName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature otherFromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«ENDIF»
-					«IF appMut instanceof ReferenceCreated»
+					«IF mutation.eClass.name.equals("ReferenceCreated")»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
+					«var String refName = ModelManager.getAttribute("name", ref) as String»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -654,9 +683,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getObject.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -665,7 +694,7 @@ class EduTestGenerator implements IGenerator {
 					«ENDFOR»
 					«ENDIF»
 					«IF variable.type == VariableType.REF_NAME»
-					«text += appMut.getRef.get(0).name + " "»
+					«text += refName + " "»
 					«ENDIF»
 					«ENDIF»
 					«ENDFOR»
@@ -673,9 +702,12 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof ReferenceRemoved»
+					«IF mutation.eClass.name.equals("ReferenceRemoved")»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
+					«var String refName = ModelManager.getAttribute("name", ref) as String»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -698,9 +730,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getObject.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -709,7 +741,7 @@ class EduTestGenerator implements IGenerator {
 					«ENDFOR»
 					«ENDIF»
 					«IF variable.type == VariableType.REF_NAME»
-					«text += appMut.getRef.get(0).name + " "»
+					«text += refName + " "»
 					«ENDIF»
 					«ENDIF»
 					«ENDFOR»
@@ -717,18 +749,23 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof InformationChanged»
+					«IF mutation.eClass.name.equals("InformationChanged")»
 					«/*var EStructuralFeature name = appMut.getObject.eClass.getEStructuralFeature('name')*/»
-					«var EList<AttributeChanged> atts = appMut.getAttChanges»
+					«var List<EObject> attChanges = (ModelManager.getReferences("attChanges", mutation) as List<EObject>)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as EObject)»
 					«var ArrayList<String> attributes = new ArrayList<String>()»
-					«FOR att : atts»
+					«FOR att : attChanges»
 						«text = ''»
-						«IF att instanceof AttributeSwap»
-						«var EStructuralFeature attName = appMut.getObject.eClass.getEStructuralFeature(att.attName)»
+						«IF att.eClass.name.equals("AttributeSwap")»
+						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
+						«var EStructuralFeature attributeName = object.eClass.getEStructuralFeature(attName)»
+						«var EObject attObject = (ModelManager.getReference("attObject", att) as EObject)»
+						«var String firstName = (ModelManager.getAttribute("firstName", att) as String)»
+						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
 						«/*var EStructuralFeature objectName = att.attObject.eClass.getEStructuralFeature('name')*/»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource)»
-						«var Element firstElement = ModelManager.getElement(appMut.getObject, idelemsresource)»
-						«var Element secondElement = ModelManager.getElement(att.attObject, idelemsresource)»
+						«var Element firstElement = ModelManager.getElement(object, idelemsresource)»
+						«var Element secondElement = ModelManager.getElement(attObject, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
 						«t = cfgopt.valid»
@@ -751,9 +788,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = appMut.getObject»
+						«o = object»
 						«ELSE»
-						«o = appMut.getObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getObject)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -769,9 +806,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = att.getAttObject»
+						«o = attObject»
 						«ELSE»
-						«o = att.getAttObject.eGet((v as modeltext.Variable).ref) as EObject»
+						«o = attObject.eGet((v as modeltext.Variable).ref) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -780,16 +817,16 @@ class EduTestGenerator implements IGenerator {
 						«ENDFOR»
 						«ENDIF»
 						«IF variable.type == VariableType.FIRST_ATT_NAME»
-						«text += att.attName + " "»
+						«text += attName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.SECOND_ATT_NAME»
-						«text += att.firstName + " "»
+						«text += firstName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.FIRST_VALUE»
-						«text += appMut.getObject.eGet(attName) + " "»
+						«text += object.eGet(attributeName) + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.SECOND_VALUE»
-						«text += att.newVal + " "»
+						«text += newVal + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
@@ -798,7 +835,10 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ELSE»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource)»
-						«var Element element = ModelManager.getElement(appMut.getObject, idelemsresource)»
+						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
+						«var String oldVal = (ModelManager.getAttribute("oldVal", att) as String)»
+						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
+						«var Element element = ModelManager.getElement(object, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
 						«t = cfgopt.valid»
@@ -821,9 +861,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = appMut.object»
+						«o = object»
 						«ELSE»
-						«o = appMut.object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -832,13 +872,13 @@ class EduTestGenerator implements IGenerator {
 						«ENDFOR»
 						«ENDIF»
 						«IF variable.type == VariableType.ATT_NAME»
-						«text += att.attName + " "»
+						«text += attName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.OLD_VALUE»
-						«text += att.oldVal + " "»
+						«text += oldVal + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.NEW_VALUE»
-						«text += att.newVal + " "»
+						«text += newVal + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
@@ -852,21 +892,24 @@ class EduTestGenerator implements IGenerator {
 						«opt.text.add(txt)»
 					«ENDIF»
 					«ENDFOR»
-					«var EList<ReferenceChanged> refs = appMut.getRefChanges»
+					«var List<EObject> refChanges = (ModelManager.getReferences("refChanges", mutation) as List<EObject>)»
 					«var ArrayList<String> references = new ArrayList<String>()»
-					«FOR ref : refs»
+					«FOR ref : refChanges»
 						«text = ''»
-						«IF ref instanceof ReferenceSwap»
+						«IF ref.eClass.name.equals("ReferenceChanged")»
 						«text = ''»
-						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource)»
-						«var Element firstElement = ModelManager.getElement(appMut.object, idelemsresource)»
-						«System.out.println("firstElement: " + firstElement)»
-						«var Element firstFromElement = ModelManager.getElement(ref.getFrom, idelemsresource)»
-						«var Element firstToElement = ModelManager.getElement(ref.getTo, idelemsresource)»
-						«var Element secondElement = ModelManager.getElement(ref.getRefObject, idelemsresource)»
-						«System.out.println("secondElement: " + secondElement)»
-						«var Element secondFromElement = ModelManager.getElement(ref.getOtherFrom, idelemsresource)»
-						«var Element secondToElement = ModelManager.getElement(ref.getOtherTo, idelemsresource)»
+						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource)»
+						«var Element element = ModelManager.getElement(object, idelemsresource)»
+						«var String srcRefName = (ModelManager.getAttribute("srcRefName", ref) as String)»
+						«var EStructuralFeature refSrc = object.eClass.getEStructuralFeature(srcRefName)»
+						«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
+						«var String refName = (ModelManager.getAttribute("refName", ref) as String)»
+						«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
+						«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
+						«var EObject from = (ModelManager.getReference("from", ref) as EObject)»
+						«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
+						«var EObject to = (ModelManager.getReference("to", ref) as EObject)»
+						«var Element toElement = ModelManager.getElement(to, idelemsresource)»
 						«/*System.out.println("toName: " + toName)*/»
 						«/*System.out.println("fromName: " + fromName)*/»
 						«/*System.out.println("firstRef: " + firstRef)*/»
@@ -879,14 +922,17 @@ class EduTestGenerator implements IGenerator {
 						«t = cfgopt.invalid»
 						«/*text = 'Reference ' + appMut.getRefName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getTo.eGet(toName) + ' to ' + appMut.getOtherFrom.eGet(otherFromName) + ' and reference ' + appMut.getFirstName + ' from ' + appMut.getRefObject.eClass.name + ' from ' + appMut.getOtherTo.eGet(otherToName) +  ' to ' + appMut.getFrom.eGet(fromName) + ' were swapped'*/»
 						«ENDIF»
+						«var boolean older = (fromElement != null)»
+						«var boolean newer = (toElement != null)»
+						«IF older == true && newer == true»
 						«FOR Word w : t.words»
 						«IF w instanceof Constant»
 						«text += w.value + " "»
 						«ENDIF»
 						«IF w instanceof Variable»
 						«var variable = w as Variable»
-						«IF variable.type == VariableType.FIRST_OBJECT»
-						«FOR modeltext.Word v : firstElement.words»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : element.words»
 						«IF v instanceof modeltext.Constant»
 						«text += v.value + " "»
 						«ENDIF»
@@ -894,9 +940,9 @@ class EduTestGenerator implements IGenerator {
 						«System.out.println("REF: " + (v as modeltext.Variable).ref)»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getRefObject»
+						«o = object»
 						«ELSE»
-						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getRefObject)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -904,17 +950,17 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDFOR»
 						«ENDIF»
-						«IF variable.type == VariableType.FIRST_FROM_OBJECT»
-						«FOR modeltext.Word v : firstFromElement.words»
+						«IF variable.type == VariableType.FROM_OBJECT»
+						«FOR modeltext.Word v : fromElement.words»
 						«IF v instanceof modeltext.Constant»
 						«text += v.value + " "»
 						«ENDIF»
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getOtherFrom»
+						«o = from»
 						«ELSE»
-						«o = ref.getOtherFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getOtherFrom)) as EObject»
+						«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -922,17 +968,17 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDFOR»
 						«ENDIF»
-						«IF variable.type == VariableType.FIRST_TO_OBJECT»
-						«FOR modeltext.Word v : firstToElement.words»
+						«IF variable.type == VariableType.TO_OBJECT»
+						«FOR modeltext.Word v : toElement.words»
 						«IF v instanceof modeltext.Constant»
 						«text += v.value + " "»
 						«ENDIF»
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getFrom»
+						«o = to»
 						«ELSE»
-						«o = ref.getFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getFrom)) as EObject»
+						«o = to.eGet((v as modeltext.Variable).ref) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -940,18 +986,45 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDFOR»
 						«ENDIF»
-						«IF variable.type == VariableType.SECOND_OBJECT»
-						«FOR modeltext.Word v : secondElement.words»
+						«IF variable.type == VariableType.REF_NAME»
+						«IF refTarElement != null»
+						«FOR modeltext.Word v : refTarElement.words»
 						«IF v instanceof modeltext.Constant»
 						«text += v.value + " "»
 						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«IF variable.type == VariableType.SRC_REF_NAME»
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«IF older == false»
+						«IF opt.solution == true»
+						«text += "Delete "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : element.words»
 						«IF v instanceof modeltext.Variable»
 						«System.out.println("REF: " + (v as modeltext.Variable).ref)»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getRefObject»
+						«o = object»
 						«ELSE»
-						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getRefObject)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -959,35 +1032,43 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDFOR»
 						«ENDIF»
-						«IF variable.type == VariableType.SECOND_FROM_OBJECT»
-						«FOR modeltext.Word v : secondFromElement.words»
-						«IF v instanceof modeltext.Constant»
-						«text += v.value + " "»
-						«ENDIF»
+						«IF variable.type == VariableType.TO_OBJECT»
+						«FOR modeltext.Word v : toElement.words»
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getOtherTo»
+						«o = to»
 						«ELSE»
-						«o = ref.getOtherTo.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getOtherTo)) as EObject»
+						«o = to.eGet((v as modeltext.Variable).ref) as EObject»
 						«ENDIF»
 						«IF o != null»
-						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
 						«ENDIF»
-						«IF variable.type == VariableType.SECOND_TO_OBJECT»
-						«FOR modeltext.Word v : secondToElement.words»
+						«ENDIF»
+						«ENDFOR»
+						«ELSE»
+						«text += "Create "» 
+						«FOR modeltext.Word v : refSrcElement.words»
 						«IF v instanceof modeltext.Constant»
 						«text += v.value + " "»
 						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : element.words»
 						«IF v instanceof modeltext.Variable»
+						«System.out.println("REF: " + (v as modeltext.Variable).ref)»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getTo»
+						«o = object»
 						«ELSE»
-						«o = ref.getTo.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getTo)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -995,16 +1076,117 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDFOR»
 						«ENDIF»
-						«IF variable.type == VariableType.FIRST_REF_NAME»
-						«text += ref.getRefName + " "»
+						«IF variable.type == VariableType.TO_OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = to»
+						«ELSE»
+						«o = to.eGet((v as modeltext.Variable).ref) as EObject»
 						«ENDIF»
-						«IF variable.type == VariableType.SECOND_REF_NAME»
-						«text += ref.getFirstName + " "»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«IF newer == false»
+						«IF opt.solution == true»
+						«text += "Create "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FROM_OBJECT»
+						«FOR modeltext.Word v : fromElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = from»
+						«ELSE»
+						«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ELSE»
+						«text += "Delete "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FROM_OBJECT»
+						«FOR modeltext.Word v : fromElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = from»
+						«ELSE»
+						«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
 						«IF references.contains(text) != true»
 						«references.add(text)»
+						«ENDIF»
 						«ENDIF»
 						«ENDIF»
 					«ENDFOR»
@@ -1036,13 +1218,21 @@ class EduTestGenerator implements IGenerator {
 			«FOR opt : options.get(exercise).get(test)»
 				«var ArrayList<EObject> mutations = ModelManager.getMutations(ModelManager.getObjects(opt.resource))»
 				«FOR mutation : mutations»
+					«System.out.println("mutation: " + mutation)»
 					«var String text = ''»
-					«IF mutation instanceof AppMutation»
-					«var AppMutation appMut = mutation as AppMutation»
-					«IF appMut instanceof ObjectCreated»
+					«var List<EClass> superTypes = mutation.eClass.getEAllSuperTypes»
+					«var boolean flag = false»
+					«FOR EClass cl : superTypes»
+						«IF cl.getName().equals("AppMutation")»
+							«flag = true»
+						«ENDIF»
+					«ENDFOR»
+					«IF flag == true»
+					«IF mutation.eClass.name.equals("ObjectCreated")»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -1065,9 +1255,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.object.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1086,10 +1276,11 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof ObjectRemoved»
+					«IF mutation.eClass.name.equals("ObjectRemoved")»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -1112,9 +1303,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.object.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1136,7 +1327,7 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof SourceReferenceChanged»
+					«IF mutation.eClass.name.equals("SourceReferenceChanged")»
 					«/*var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)*/»
 					«/*var EObject srcObject = appMut.getFrom.eGet(srcRef) as EObject*/»
 					«/*var EStructuralFeature srcName = srcObject.eClass.getEStructuralFeature('name')*/»
@@ -1144,11 +1335,14 @@ class EduTestGenerator implements IGenerator {
 					«/*var EObject tarObject = appMut.getTo.eGet(tarRef) as EObject*/»
 					«/*var EStructuralFeature tarName = tarObject.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource)»
-					«var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)»
-					«var Element refElement = ModelManager.getRefElement((appMut.getFrom.eGet(srcRef) as EObject), srcRef, idelemsresource)»
-					«var Element srcElement = ModelManager.getElement((appMut.getFrom.eGet(srcRef) as EObject), idelemsresource)»
-					«var EStructuralFeature tarRef = appMut.getTo.eClass.getEStructuralFeature(appMut.getRefName)»
-					«var Element tarElement = ModelManager.getElement((appMut.getTo.eGet(tarRef) as EObject), idelemsresource)»
+					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
+					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var EStructuralFeature srcRef = from.eClass.getEStructuralFeature(refName)»
+					«var Element refElement = ModelManager.getRefElement((from.eGet(srcRef) as EObject), srcRef, idelemsresource)»
+					«var Element srcElement = ModelManager.getElement((from.eGet(srcRef) as EObject), idelemsresource)»
+					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var EStructuralFeature tarRef = to.eClass.getEStructuralFeature(refName)»
+					«var Element tarElement = ModelManager.getElement((to.eGet(tarRef) as EObject), idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -1171,9 +1365,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getFrom.eGet(srcRef) as EObject»
+					«o = from.eGet(srcRef) as EObject»
 					«ELSE»
-					«o = (appMut.getFrom.eGet(srcRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getFrom.eGet(srcRef) as EObject)) as EObject»
+					«o = (from.eGet(srcRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from.eGet(srcRef) as EObject)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1189,9 +1383,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getTo.eGet(tarRef) as EObject»
+					«o = to.eGet(tarRef) as EObject»
 					«ELSE»
-					«o = (appMut.getTo.eGet(tarRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getTo.eGet(tarRef) as EObject)) as EObject»
+					«o = (to.eGet(tarRef) as EObject).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, to.eGet(tarRef) as EObject)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1217,19 +1411,25 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof TargetReferenceChanged»
+					«System.out.println("mutation.eClass.name: " + mutation.eClass.name)»
+					«IF mutation.eClass.name.equals("TargetReferenceChanged")»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.object.get(0), idelemsresource)»
-					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(appMut.srcRefName, appMut.object.get(0))»
-					«var Element refSrcElement = ModelManager.getRefElement(appMut.object.get(0), refSrc, idelemsresource)»
-					«var EStructuralFeature refTar = ModelManager.getReferenceByName(appMut.refName, appMut.object.get(0))»
-					«var Element refTarElement = ModelManager.getRefElement(appMut.object.get(0), refTar, idelemsresource)»
-					«var Element fromElement = ModelManager.getElement(appMut.getFrom, idelemsresource)»
-					«var Element toElement = ModelManager.getElement(appMut.getTo, idelemsresource)»
-					«var Element oldToElement = ModelManager.getElement(appMut.getOldTo, idelemsresource)»
+					«var EObject object = (ModelManager.getReferences("object", mutation) as List<EObject>).get(0)»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
+					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object)»
+					«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
+					«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
+					«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
+					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
+					«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
+					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var Element toElement = ModelManager.getElement(to, idelemsresource)»
+					«var EObject oldTo = (ModelManager.getReference("oldTo", mutation) as EObject)»
+					«var Element oldToElement = ModelManager.getElement(oldTo, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -1253,9 +1453,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.object.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.object.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object.get(0) as EObject)) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1272,9 +1472,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getFrom»
+					«o = from»
 					«ELSE»
-					«o = appMut.getFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getFrom as EObject)) as EObject»
+					«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1290,9 +1490,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getTo»
+					«o = to»
 					«ELSE»
-					«o = appMut.getTo.eGet((v as modeltext.Variable).ref) as EObject»
+					«o = to.eGet((v as modeltext.Variable).ref) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1308,9 +1508,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getOldTo»
+					«o = oldTo»
 					«ELSE»
-					«o = appMut.getOldTo.eGet((v as modeltext.Variable).ref) as EObject»
+					«o = oldTo.eGet((v as modeltext.Variable).ref) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1343,7 +1543,7 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof ReferenceSwap»
+					«IF mutation.eClass.name.equals("ReferenceSwap")»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature firstRef = appMut.getRefObject.eClass.getEStructuralFeature(appMut.getRefName)*/»
@@ -1351,9 +1551,12 @@ class EduTestGenerator implements IGenerator {
 					«/*var EStructuralFeature otherToName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature otherFromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«ENDIF»
-					«IF appMut instanceof ReferenceCreated»
+					«IF mutation.eClass.name.equals("ReferenceCreated")»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
+					«var String refName = ModelManager.getAttribute("name", ref) as String»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -1376,9 +1579,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getObject.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1387,7 +1590,7 @@ class EduTestGenerator implements IGenerator {
 					«ENDFOR»
 					«ENDIF»
 					«IF variable.type == VariableType.REF_NAME»
-					«text += appMut.getRef.get(0).name + " "»
+					«text += refName + " "»
 					«ENDIF»
 					«ENDIF»
 					«ENDFOR»
@@ -1400,9 +1603,12 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof ReferenceRemoved»
+					«IF mutation.eClass.name.equals("ReferenceRemoved")»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource)»
-					«var Element element = ModelManager.getElement(appMut.getObject.get(0), idelemsresource)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
+					«var String refName = ModelManager.getAttribute("name", ref) as String»
+					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
 					«t = cfgopt.valid»
@@ -1425,9 +1631,9 @@ class EduTestGenerator implements IGenerator {
 					«IF v instanceof modeltext.Variable»
 					«var EObject o = null»
 					«IF (v as modeltext.Variable).ref == null»
-					«o = appMut.getObject.get(0)»
+					«o = object»
 					«ELSE»
-					«o = appMut.getObject.get(0).eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getObject.get(0))) as EObject»
+					«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 					«ENDIF»
 					«IF o != null»
 					«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1436,7 +1642,7 @@ class EduTestGenerator implements IGenerator {
 					«ENDFOR»
 					«ENDIF»
 					«IF variable.type == VariableType.REF_NAME»
-					«text += appMut.getRef.get(0).name + " "»
+					«text += refName + " "»
 					«ENDIF»
 					«ENDIF»
 					«ENDFOR»
@@ -1444,17 +1650,22 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF appMut instanceof InformationChanged»
+					«IF mutation.eClass.name.equals("InformationChanged")»
 					«/*var EStructuralFeature name = appMut.getObject.eClass.getEStructuralFeature('name')*/»
-					«var EList<AttributeChanged> atts = appMut.getAttChanges»
-					«FOR att : atts»
+					«var List<EObject> attChanges = (ModelManager.getReferences("attChanges", mutation) as List<EObject>)»
+					«var EObject object = (ModelManager.getReference("object", mutation) as EObject)»
+					«FOR att : attChanges»
 						«text = ''»
-						«IF att instanceof AttributeSwap»
-						«var EStructuralFeature attName = appMut.getObject.eClass.getEStructuralFeature(att.attName)»
+						«IF att.eClass.name.equals("AttributeSwap")»
+						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
+						«var EStructuralFeature attributeName = object.eClass.getEStructuralFeature(attName)»
+						«var EObject attObject = (ModelManager.getReference("attObject", att) as EObject)»
+						«var String firstName = (ModelManager.getAttribute("firstName", att) as String)»
+						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
 						«/*var EStructuralFeature objectName = att.attObject.eClass.getEStructuralFeature('name')*/»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource)»
-						«var Element firstElement = ModelManager.getElement(appMut.getObject, idelemsresource)»
-						«var Element secondElement = ModelManager.getElement(att.attObject, idelemsresource)»
+						«var Element firstElement = ModelManager.getElement(object, idelemsresource)»
+						«var Element secondElement = ModelManager.getElement(attObject, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
 						«t = cfgopt.valid»
@@ -1477,9 +1688,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = appMut.getObject»
+						«o = object»
 						«ELSE»
-						«o = appMut.getObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.getObject)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1495,9 +1706,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = att.getAttObject»
+						«o = attObject»
 						«ELSE»
-						«o = att.getAttObject.eGet((v as modeltext.Variable).ref) as EObject»
+						«o = attObject.eGet((v as modeltext.Variable).ref) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1506,16 +1717,16 @@ class EduTestGenerator implements IGenerator {
 						«ENDFOR»
 						«ENDIF»
 						«IF variable.type == VariableType.FIRST_ATT_NAME»
-						«text += att.attName + " "»
+						«text += attName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.SECOND_ATT_NAME»
-						«text += att.firstName + " "»
+						«text += firstName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.FIRST_VALUE»
-						«text += appMut.getObject.eGet(attName) + " "»
+						«text += object.eGet(attributeName) + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.SECOND_VALUE»
-						«text += att.newVal + " "»
+						«text += newVal + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
@@ -1529,7 +1740,10 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ELSE»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource)»
-						«var Element element = ModelManager.getElement(appMut.getObject, idelemsresource)»
+						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
+						«var String oldVal = (ModelManager.getAttribute("oldVal", att) as String)»
+						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
+						«var Element element = ModelManager.getElement(object, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
 						«t = cfgopt.valid»
@@ -1552,9 +1766,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = appMut.object»
+						«o = object»
 						«ELSE»
-						«o = appMut.object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, appMut.object)) as EObject»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1563,13 +1777,13 @@ class EduTestGenerator implements IGenerator {
 						«ENDFOR»
 						«ENDIF»
 						«IF variable.type == VariableType.ATT_NAME»
-						«text += att.attName + " "»
+						«text += attName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.OLD_VALUE»
-						«text += att.oldVal + " "»
+						«text += oldVal + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.NEW_VALUE»
-						«text += att.newVal + " "»
+						«text += newVal + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
@@ -1583,20 +1797,322 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDIF»
 					«ENDFOR»
-					«var EList<ReferenceChanged> refs = appMut.getRefChanges»
-					«FOR ref : refs»
+					«var List<EObject> refChanges = (ModelManager.getReferences("refChanges", mutation) as List<EObject>)»
+					«FOR ref : refChanges»
 						«text = ''»
-						«IF ref instanceof ReferenceSwap»
+						«IF ref.eClass.name.equals("ReferenceChanged")»
+						«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
+						«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
+						«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
+						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource)»
+						«var Element element = ModelManager.getElement(object, idelemsresource)»
+						«var String srcRefName = (ModelManager.getAttribute("srcRefName", ref) as String)»
+						«var EStructuralFeature refSrc = object.eClass.getEStructuralFeature(srcRefName)»
+						«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
+						«var String refName = (ModelManager.getAttribute("refName", ref) as String)»
+						«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
+						«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
+						«var EObject from = (ModelManager.getReference("from", ref) as EObject)»
+						«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
+						«var EObject to = (ModelManager.getReference("to", ref) as EObject)»
+						«var Element toElement = ModelManager.getElement(to, idelemsresource)»
+						«var Text t = null»
+						«IF opt.solution == true»
+						«t = cfgopt.valid»
+						«/*text = 'Change ' + appMut.getRefName + ' from ' + appMut.object.get(0).eClass.name + ' with ' + appMut.srcRefName + ' ' + appMut.getFrom.eGet(fromName) + ' from ' + appMut.getTo.eGet(toName) + ' to ' + appMut.getOldTo.eGet(oldToName)*/»
+						«ELSE»
+						«t = cfgopt.invalid»
+						«/*text = 'Change ' + appMut.getRefName + ' from ' + appMut.object.get(0).eClass.name + ' with ' + appMut.srcRefName + ' ' + appMut.getFrom.eGet(fromName) + ' from ' + appMut.getOldTo.eGet(oldToName) + ' to ' + appMut.getTo.eGet(toName)*/»
+						«ENDIF»
+						«var boolean older = (fromElement != null)»
+						«var boolean newer = (toElement != null)»
+						«IF older == true && newer == true»
+						«FOR Word w : t.words»
+						«IF w instanceof Constant»
+						«text += w.value + " "»
+						«ENDIF»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«IF element.att == null»
+						«FOR modeltext.Word v : element.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«IF variable.type == VariableType.FROM_OBJECT»
+						«FOR modeltext.Word v : fromElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = from»
+						«ELSE»
+						«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.TO_OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = to»
+						«ELSE»
+						«o = to.eGet((v as modeltext.Variable).ref) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.REF_NAME»
+						«IF refTarElement != null»
+						«FOR modeltext.Word v : refTarElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«IF variable.type == VariableType.SRC_REF_NAME»
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF older == false»
+						«IF opt.solution == true»
+						«text += "Delete "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : element.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.TO_OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = to»
+						«ELSE»
+						«o = to.eGet((v as modeltext.Variable).ref) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ELSE»
+						«text += "Create "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : element.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.TO_OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = to»
+						«ELSE»
+						«o = to.eGet((v as modeltext.Variable).ref) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«IF newer == false»
+						«IF opt.solution == true»
+						«text += "Create "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FROM_OBJECT»
+						«FOR modeltext.Word v : fromElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = from»
+						«ELSE»
+						«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ELSE»
+						«text += "Delete "» 
+						«FOR modeltext.Word v : refSrcElement.words»
+						«IF v instanceof modeltext.Constant»
+						«text += v.value + " "»
+						«ENDIF»
+						«ENDFOR»
+						«text+= " from "»
+						«FOR Word w : t.words»
+						«IF w instanceof Variable»
+						«var variable = w as Variable»
+						«IF variable.type == VariableType.FROM_OBJECT»
+						«FOR modeltext.Word v : fromElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = from»
+						«ELSE»
+						«o = from.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, from)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«IF variable.type == VariableType.OBJECT»
+						«FOR modeltext.Word v : toElement.words»
+						«IF v instanceof modeltext.Variable»
+						«var EObject o = null»
+						«IF (v as modeltext.Variable).ref == null»
+						«o = object»
+						«ELSE»
+						«o = object.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, object)) as EObject»
+						«ENDIF»
+						«IF o != null»
+						«text += "to " + o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«ENDFOR»
+						«ENDIF»
+						«ENDIF»
+						«opt.text = new ArrayList<String>()»
+						«opt.text.add(text)»
+						«var TestOption optClone = opt.clone as TestOption»
+						«var boolean isRepeated = opts.subsumeCheckbox(optClone)»
+						«IF isRepeated == false»
+						«total.put(exercise, total.get(exercise) + 1)»
+						«opts.add(optClone)»
+						«ENDIF»
+						«ENDIF»
+						«IF ref.eClass.name.equals("ReferenceSwap")»
 						«text = ''»
 						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource)»
-						«var Element firstElement = ModelManager.getElement(appMut.object, idelemsresource)»
+						«var Element firstElement = ModelManager.getElement(object, idelemsresource)»
 						«System.out.println("firstElement: " + firstElement)»
-						«var Element firstFromElement = ModelManager.getElement(ref.getFrom, idelemsresource)»
-						«var Element firstToElement = ModelManager.getElement(ref.getTo, idelemsresource)»
-						«var Element secondElement = ModelManager.getElement(ref.getRefObject, idelemsresource)»
+						«var EObject firstFrom = (ModelManager.getReference("from", ref) as EObject)»
+						«var Element firstFromElement = ModelManager.getElement(firstFrom, idelemsresource)»
+						«var EObject firstTo = (ModelManager.getReference("to", ref) as EObject)»
+						«var Element firstToElement = ModelManager.getElement(firstTo, idelemsresource)»
+						«var EObject refObject = (ModelManager.getReference("refObject", ref) as EObject)»
+						«var Element secondElement = ModelManager.getElement(refObject, idelemsresource)»
 						«System.out.println("secondElement: " + secondElement)»
-						«var Element secondFromElement = ModelManager.getElement(ref.getOtherFrom, idelemsresource)»
-						«var Element secondToElement = ModelManager.getElement(ref.getOtherTo, idelemsresource)»
+						«var EObject secondFrom = (ModelManager.getReference("otherFrom", ref) as EObject)»
+						«var Element secondFromElement = ModelManager.getElement(secondFrom, idelemsresource)»
+						«var EObject secondTo = (ModelManager.getReference("otherTo", ref) as EObject)»
+						«var Element secondToElement = ModelManager.getElement(secondTo, idelemsresource)»
+						«var String refName = (ModelManager.getAttribute("refName", ref) as String)»
+						«var String refFirstName = (ModelManager.getAttribute("refFirstName", ref) as String)»
 						«/*System.out.println("toName: " + toName)*/»
 						«/*System.out.println("fromName: " + fromName)*/»
 						«/*System.out.println("firstRef: " + firstRef)*/»
@@ -1624,9 +2140,9 @@ class EduTestGenerator implements IGenerator {
 						«System.out.println("REF: " + (v as modeltext.Variable).ref)»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getRefObject»
+						«o = refObject»
 						«ELSE»
-						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getRefObject)) as EObject»
+						«o = refObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, refObject)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1642,9 +2158,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getOtherFrom»
+						«o = secondFrom»
 						«ELSE»
-						«o = ref.getOtherFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getOtherFrom)) as EObject»
+						«o = secondFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, secondFrom)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1660,9 +2176,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getFrom»
+						«o = firstFrom»
 						«ELSE»
-						«o = ref.getFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getFrom)) as EObject»
+						«o = firstFrom.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, firstFrom)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1679,9 +2195,9 @@ class EduTestGenerator implements IGenerator {
 						«System.out.println("REF: " + (v as modeltext.Variable).ref)»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getRefObject»
+						«o = refObject»
 						«ELSE»
-						«o = ref.getRefObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getRefObject)) as EObject»
+						«o = refObject.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, refObject)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1697,9 +2213,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getOtherTo»
+						«o = secondTo»
 						«ELSE»
-						«o = ref.getOtherTo.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getOtherTo)) as EObject»
+						«o = secondTo.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, secondTo)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1715,9 +2231,9 @@ class EduTestGenerator implements IGenerator {
 						«IF v instanceof modeltext.Variable»
 						«var EObject o = null»
 						«IF (v as modeltext.Variable).ref == null»
-						«o = ref.getTo»
+						«o = firstTo»
 						«ELSE»
-						«o = ref.getTo.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, ref.getTo)) as EObject»
+						«o = firstTo.eGet(ModelManager.getReferenceByName((v as modeltext.Variable).ref.name, firstTo)) as EObject»
 						«ENDIF»
 						«IF o != null»
 						«text += o.eGet(ModelManager.getAttributeByName((v as modeltext.Variable).id.name, o)) + " "»
@@ -1726,10 +2242,10 @@ class EduTestGenerator implements IGenerator {
 						«ENDFOR»
 						«ENDIF»
 						«IF variable.type == VariableType.FIRST_REF_NAME»
-						«text += ref.getRefName + " "»
+						«text += refName + " "»
 						«ENDIF»
 						«IF variable.type == VariableType.SECOND_REF_NAME»
-						«text += ref.getFirstName + " "»
+						«text += refFirstName + " "»
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
@@ -1753,9 +2269,9 @@ class EduTestGenerator implements IGenerator {
 		«ENDFOR»
 		«ENDIF»
 		«options.put(exercise, testOptions)»
+		-->
 		«ENDIF»
 		«ENDFOR»
-	    
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
@@ -1882,11 +2398,19 @@ class EduTestGenerator implements IGenerator {
    		//COUNTER: «num = num + 1»
    		var exercise«num»_«part»Mark = false;
    		«IF exercise instanceof MultiChoiceEmendation»
+   		«IF puntuation.get(exercise).get(test) != null»
    		var weight«num»_«part»Mark = «puntuation.get(exercise).get(test)»;
+   		«ELSE»
+   		var weight«num»_«part»Mark = 0.0;
+   		«ENDIF»
    		«ENDIF»
    		var answered«num»_«part»Exercise = false;
    		«IF exercise instanceof MultiChoiceEmendation»
+   		«IF penalty.get(exercise).get(test) != null»
    		var penalty«num»_«part»Mark = «penalty.get(exercise).get(test)»;
+   		«ELSE»
+   		var penalty«num»_«part»Mark = 0.0;
+   		«ENDIF»
    		«ENDIF»
    		«ENDFOR»
    		function show«part»(num) {

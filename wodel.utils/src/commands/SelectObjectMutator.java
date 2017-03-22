@@ -42,6 +42,8 @@ public class SelectObjectMutator extends Mutator {
 	 * Selected object
 	 */
 	private EObject result;
+	
+	private EObject selectedObject;
 
 	/**
 	 * @param model
@@ -59,22 +61,102 @@ public class SelectObjectMutator extends Mutator {
 		this.objectSelection = object;
 	}
 	
+	/**
+	 * @param model
+	 * @param metaModel
+	 * @param referenceSelection
+	 * @param containerSelection
+	 * @param attributeConfig
+	 * Normal constructor
+	 */
+	public SelectObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, EObject obj){
+		super(model, metaModel, "ObjectSelected");
+		this.referenceSelection = referenceSelection;
+		this.containerSelection = containerSelection;
+		this.selectedObject = obj;
+	}
+	
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
-		if (objectSelection == null) {
+		if (objectSelection == null && selectedObject == null) {
 			return null;
 		}
-		if (containerSelection == null) {
-			return null;
+		EObject object = null;
+		if (objectSelection != null) {
+		 object = objectSelection.getObject();
 		}
-		if (referenceSelection == null) {
-			return null;
+		if (selectedObject != null) {
+			object = selectedObject;
 		}
-		EObject object = objectSelection.getObject();
 		//We select the container of the new Object
-		EObject container = containerSelection.getObject();
-		//We select the container of the new Object
-		EReference reference = (EReference) referenceSelection.getObject();
+		EObject container = null;
+		if (containerSelection != null) {
+			container = containerSelection.getObject();
+		}
+		if (container != null) {
+			//We select the container of the new Object
+			EReference reference = null;
+			if (referenceSelection != null) {
+				reference = (EReference) referenceSelection.getObject();
+			}
+			if (reference != null) {
+				if (container.eGet(reference) instanceof List<?>) {
+					List<EObject> objects = (List<EObject>) container.eGet(reference);
+					for (EObject obj : objects) {
+						System.out.println(ModelManager.getStringAttribute("name", obj));
+						System.out.println(ModelManager.getStringAttribute("name", object));
+						if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(object))) {
+							object = obj;
+							break;
+						}
+					}
+				}
+				else {
+					EObject obj = (EObject) container.eGet(reference);
+					if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(object))) {
+						object = obj;
+					}
+				}
+			}
+		}
+		else {
+			List<EObject> containers = null;
+			if (containerSelection != null) {
+				containers = containerSelection.getObjects();
+				
+				if (containers != null) {
+					//We select the containers of the new Object
+					EReference reference = null;
+					if (referenceSelection != null) {
+						reference = (EReference) referenceSelection.getObject();
+					}
+					if (reference != null) {
+						for (EObject cont : containers) {
+							if (cont.eGet(reference) instanceof List<?>) {
+								List<EObject> objects = (List<EObject>) cont.eGet(reference);
+								for (EObject obj : objects) {
+									if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(object))) {
+										object = obj;
+										break;
+									}
+								}
+								if (object != null) {
+									break;
+								}
+							}
+							else {
+								EObject obj = (EObject) cont.eGet(reference);
+								if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(object))) {
+									object = obj;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		if(object==null){
 			result = null;
@@ -84,10 +166,6 @@ public class SelectObjectMutator extends Mutator {
 		//We get the new Object
 		if(((EClass) object.eClass()).isAbstract()==true){
 			throw new AbstractCreationException("The object '"+((EClass)object.eClass()).getName()+"' is abstract and cannot be instantiated.");
-		}
-		if(object==null){
-			result = null;
-			return null;
 		}
 		
 		this.result = object;

@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
+import mutatorenvironment.AttributeOperation;
 import mutatorenvironment.AttributeReverse;
 import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeSwap;
@@ -15,29 +16,38 @@ import mutatorenvironment.BinaryOperator;
 import mutatorenvironment.Block;
 import mutatorenvironment.CatEndStringType;
 import mutatorenvironment.CatStartStringType;
+import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
+import mutatorenvironment.EachTypeSelection;
 import mutatorenvironment.Expression;
 import mutatorenvironment.Library;
 import mutatorenvironment.ListStringType;
+import mutatorenvironment.ListType;
 import mutatorenvironment.Load;
 import mutatorenvironment.LowerStringType;
+import mutatorenvironment.MaxValueType;
+import mutatorenvironment.MinValueType;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentPackage;
+import mutatorenvironment.ObjectAttributeType;
 import mutatorenvironment.OtherTypeSelection;
 import mutatorenvironment.Program;
 import mutatorenvironment.RandomBooleanType;
+import mutatorenvironment.RandomDoubleNumberType;
 import mutatorenvironment.RandomDoubleType;
+import mutatorenvironment.RandomIntegerNumberType;
 import mutatorenvironment.RandomIntegerType;
 import mutatorenvironment.RandomStringType;
 import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
+import mutatorenvironment.ReferenceAtt;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.ReferenceSwap;
@@ -49,6 +59,7 @@ import mutatorenvironment.ReplaceStringType;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
+import mutatorenvironment.SpecificClosureSelection;
 import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
 import mutatorenvironment.SpecificObjectSelection;
@@ -82,6 +93,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION:
 				sequence_AttributeEvaluation(context, (AttributeEvaluation) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.ATTRIBUTE_OPERATION:
+				sequence_AttributeOperation(context, (AttributeOperation) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.ATTRIBUTE_REVERSE:
 				sequence_AttributeReverse(context, (AttributeReverse) semanticObject); 
 				return; 
@@ -106,6 +120,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.CAT_START_STRING_TYPE:
 				sequence_CatStartStringType(context, (CatStartStringType) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.CLONE_OBJECT_MUTATOR:
+				sequence_CloneObjectMutator(context, (CloneObjectMutator) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.COMPLETE_TYPE_SELECTION:
 				sequence_CompleteTypeSelection(context, (CompleteTypeSelection) semanticObject); 
 				return; 
@@ -121,6 +138,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.CREATE_REFERENCE_MUTATOR:
 				sequence_CreateReferenceMutator(context, (CreateReferenceMutator) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.EACH_TYPE_SELECTION:
+				sequence_EachTypeSelection(context, (EachTypeSelection) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.EXPRESSION:
 				sequence_Expression(context, (Expression) semanticObject); 
 				return; 
@@ -130,11 +150,20 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.LIST_STRING_TYPE:
 				sequence_ListStringType(context, (ListStringType) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.LIST_TYPE:
+				sequence_ListType(context, (ListType) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.LOAD:
 				sequence_Load(context, (Load) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.LOWER_STRING_TYPE:
 				sequence_LowerStringType(context, (LowerStringType) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.MAX_VALUE_TYPE:
+				sequence_MaxValueType(context, (MaxValueType) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.MIN_VALUE_TYPE:
+				sequence_MinValueType(context, (MinValueType) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR:
 				sequence_ModifyInformationMutator(context, (ModifyInformationMutator) semanticObject); 
@@ -148,6 +177,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.MUTATOR_ENVIRONMENT:
 				sequence_MutatorEnvironment(context, (MutatorEnvironment) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.OBJECT_ATTRIBUTE_TYPE:
+				sequence_ObjectAttributeType(context, (ObjectAttributeType) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.OTHER_TYPE_SELECTION:
 				sequence_OtherTypeSelection(context, (OtherTypeSelection) semanticObject); 
 				return; 
@@ -157,8 +189,14 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.RANDOM_BOOLEAN_TYPE:
 				sequence_RandomBooleanType(context, (RandomBooleanType) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.RANDOM_DOUBLE_NUMBER_TYPE:
+				sequence_RandomDoubleNumberType(context, (RandomDoubleNumberType) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_TYPE:
 				sequence_RandomDoubleType(context, (RandomDoubleType) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.RANDOM_INTEGER_NUMBER_TYPE:
+				sequence_RandomIntegerNumberType(context, (RandomIntegerNumberType) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.RANDOM_INTEGER_TYPE:
 				sequence_RandomIntegerType(context, (RandomIntegerType) semanticObject); 
@@ -171,6 +209,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 				return; 
 			case MutatorenvironmentPackage.RANDOM_TYPE_SELECTION:
 				sequence_RandomTypeSelection(context, (RandomTypeSelection) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.REFERENCE_ATT:
+				sequence_ReferenceAtt(context, (ReferenceAtt) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION:
 				sequence_ReferenceEvaluation(context, (ReferenceEvaluation) semanticObject); 
@@ -205,6 +246,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.SPECIFIC_BOOLEAN_TYPE:
 				sequence_SpecificBooleanType(context, (SpecificBooleanType) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.SPECIFIC_CLOSURE_SELECTION:
+				sequence_SpecificClosureSelection(context, (SpecificClosureSelection) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.SPECIFIC_DOUBLE_TYPE:
 				sequence_SpecificDoubleType(context, (SpecificDoubleType) semanticObject); 
 				return; 
@@ -235,7 +279,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (name=[EAttribute|ID] value=AttributeType)
+	 *     (name=[EAttribute|ID] value=AttributeEvaluationType)
 	 */
 	protected void sequence_AttributeEvaluation(EObject context, AttributeEvaluation semanticObject) {
 		if(errorAcceptor != null) {
@@ -247,8 +291,17 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
 		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getNameEAttributeIDTerminalRuleCall_1_0_1(), semanticObject.getName());
-		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getValueAttributeTypeParserRuleCall_2_0(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getAttributeEvaluationAccess().getValueAttributeEvaluationTypeParserRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (attribute+=[EAttribute|ID] operator=ArithmeticOperator value=AttributeEvaluationType)
+	 */
+	protected void sequence_AttributeOperation(EObject context, AttributeOperation semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -360,7 +413,23 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (type=[EClass|ID] expression=Expression?)
+	 *     (
+	 *         name=ID? 
+	 *         contents?='contents'? 
+	 *         object=ObSelectionStrategy 
+	 *         container=ObSelectionStrategy? 
+	 *         ((attributes+=AttributeSet | references+=ReferenceSet)? (attributes+=AttributeSet | references+=ReferenceSet)*)? 
+	 *         (min=EInt? max=MaxCardinality)?
+	 *     )
+	 */
+	protected void sequence_CloneObjectMutator(EObject context, CloneObjectMutator semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (type=[EClass|ID] refType=[EReference|ID]? expression=Expression?)
 	 */
 	protected void sequence_CompleteTypeSelection(EObject context, CompleteTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -403,7 +472,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 *     (
 	 *         name=ID? 
 	 *         type=[EClass|ID] 
-	 *         (container=ObSelectionStrategy refType=[EReference|ID]?)? 
+	 *         container=ObSelectionStrategy? 
 	 *         ((attributes+=AttributeSet | references+=ReferenceSet)? (attributes+=AttributeSet | references+=ReferenceSet)*)? 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
@@ -418,6 +487,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 *     (name=ID? refType=[EReference|ID] target=ObSelectionStrategy? source=ObSelectionStrategy? (min=EInt? max=MaxCardinality)?)
 	 */
 	protected void sequence_CreateReferenceMutator(EObject context, CreateReferenceMutator semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (type=[EClass|ID] expression=Expression?)
+	 */
+	protected void sequence_EachTypeSelection(EObject context, EachTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -458,6 +536,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (operator=Operator value+=[EObject|ID] value+=[EObject|ID]*)
+	 */
+	protected void sequence_ListType(EObject context, ListType semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     file=EString
 	 */
 	protected void sequence_Load(EObject context, Load semanticObject) {
@@ -478,6 +565,44 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 */
 	protected void sequence_LowerStringType(EObject context, LowerStringType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (operator=Operator attribute=[EAttribute|ID])
+	 */
+	protected void sequence_MaxValueType(EObject context, MaxValueType semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.MAX_VALUE_TYPE__ATTRIBUTE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.MAX_VALUE_TYPE__ATTRIBUTE));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getMaxValueTypeAccess().getOperatorOperatorEnumRuleCall_0_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getMaxValueTypeAccess().getAttributeEAttributeIDTerminalRuleCall_3_0_1(), semanticObject.getAttribute());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (operator=Operator attribute=[EAttribute|ID])
+	 */
+	protected void sequence_MinValueType(EObject context, MinValueType semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.ATTRIBUTE_TYPE__OPERATOR));
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.MIN_VALUE_TYPE__ATTRIBUTE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.MIN_VALUE_TYPE__ATTRIBUTE));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getMinValueTypeAccess().getOperatorOperatorEnumRuleCall_0_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getMinValueTypeAccess().getAttributeEAttributeIDTerminalRuleCall_3_0_1(), semanticObject.getAttribute());
+		feeder.finish();
 	}
 	
 	
@@ -529,7 +654,29 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (type=[EClass|ID] expression=Expression?)
+	 *     (operator=Operator objSel=[ObjectEmitter|ID] attribute=[EAttribute|ID])
+	 */
+	protected void sequence_ObjectAttributeType(EObject context, ObjectAttributeType semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.OBJECT_ATTRIBUTE_TYPE__OBJ_SEL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.OBJECT_ATTRIBUTE_TYPE__OBJ_SEL));
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.OBJECT_ATTRIBUTE_TYPE__ATTRIBUTE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.OBJECT_ATTRIBUTE_TYPE__ATTRIBUTE));
+			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.OBJECT_ATTRIBUTE_TYPE__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.OBJECT_ATTRIBUTE_TYPE__OPERATOR));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getObjectAttributeTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getObjectAttributeTypeAccess().getObjSelObjectEmitterIDTerminalRuleCall_2_0_1(), semanticObject.getObjSel());
+		feeder.accept(grammarAccess.getObjectAttributeTypeAccess().getAttributeEAttributeIDTerminalRuleCall_4_0_1(), semanticObject.getAttribute());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (type=[EClass|ID] refType=[EReference|ID]? expression=Expression?)
 	 */
 	protected void sequence_OtherTypeSelection(EObject context, OtherTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -556,9 +703,27 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (operator=Operator min=EDouble object=ObSelectionStrategy? max=[EAttribute|ID])
+	 */
+	protected void sequence_RandomDoubleNumberType(EObject context, RandomDoubleNumberType semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (operator=Operator (min=EDouble max=EDouble)?)
 	 */
 	protected void sequence_RandomDoubleType(EObject context, RandomDoubleType semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (operator=Operator min=EInt object=ObSelectionStrategy? max=[EAttribute|ID])
+	 */
+	protected void sequence_RandomIntegerNumberType(EObject context, RandomIntegerNumberType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -583,7 +748,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (type=[EClass|ID] expression=Expression?)
+	 *     (type=[EClass|ID] refType=[EReference|ID]? expression=Expression?)
 	 */
 	protected void sequence_RandomTypeSelection(EObject context, RandomTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -608,7 +773,16 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (name=[EReference|ID]? operator=Operator (value=ObSelectionStrategy refType=[EReference|ID]?)?)
+	 *     (reference+=[EReference|ID] attribute=[EAttribute|ID] value=AttributeType)
+	 */
+	protected void sequence_ReferenceAtt(EObject context, ReferenceAtt semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name=[EReference|ID]? refName=[EReference|ID]? operator=Operator value=ObSelectionStrategy?)
 	 */
 	protected void sequence_ReferenceEvaluation(EObject context, ReferenceEvaluation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -617,7 +791,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (reference+=[EReference|ID] object=ObSelectionStrategy refType=[EReference|ID]?)
+	 *     (reference+=[EReference|ID] object=ObSelectionStrategy)
 	 */
 	protected void sequence_ReferenceInit(EObject context, ReferenceInit semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -644,7 +818,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (object=ObSelectionStrategy (min=EInt? max=MaxCardinality)?)
+	 *     (object=ObSelectionStrategy container=ObSelectionStrategy? (min=EInt? max=MaxCardinality)?)
 	 */
 	protected void sequence_RemoveObjectMutator(EObject context, RemoveObjectMutator semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -693,7 +867,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (name=ID object=ObSelectionStrategy (container=ObSelectionStrategy refType=[EReference|ID]?)?)
+	 *     (name=ID object=ObSelectionStrategy container=ObSelectionStrategy?)
 	 */
 	protected void sequence_SelectObjectMutator(EObject context, SelectObjectMutator semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -737,6 +911,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (objSel=[ObjectEmitter|ID] refType=[EReference|ID]? expression=Expression?)
+	 */
+	protected void sequence_SpecificClosureSelection(EObject context, SpecificClosureSelection semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (operator=Operator value=EDouble)
 	 */
 	protected void sequence_SpecificDoubleType(EObject context, SpecificDoubleType semanticObject) {
@@ -775,7 +958,7 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (objSel=[ObjectEmitter|ID] expression=Expression?)
+	 *     (objSel=[ObjectEmitter|ID] refType=[EReference|ID]? expression=Expression?)
 	 */
 	protected void sequence_SpecificObjectSelection(EObject context, SpecificObjectSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

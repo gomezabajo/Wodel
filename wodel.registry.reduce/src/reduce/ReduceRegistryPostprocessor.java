@@ -304,7 +304,7 @@ public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 	@Override
 	public boolean doProcess(Resource seed, Resource mutant, String filename) {
 		try {
-			Bundle bundle = Platform.getBundle("MutProgram");
+			Bundle bundle = Platform.getBundle("wodel.models");
 	   		URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
 	   		String ecore = FileLocator.resolve(fileURL).getFile();
 	   		

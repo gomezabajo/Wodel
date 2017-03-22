@@ -2,7 +2,6 @@
  */
 package mutatorenvironment;
 
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -12,8 +11,7 @@ import org.eclipse.emf.ecore.EReference;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link mutatorenvironment.SpecificReferenceSelection#getRefType <em>Ref Type</em>}</li>
- *   <li>{@link mutatorenvironment.SpecificReferenceSelection#getObjectEmitter <em>Object Emitter</em>}</li>
+ *   <li>{@link mutatorenvironment.SpecificReferenceSelection#getObjSel <em>Obj Sel</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,55 +21,29 @@ import org.eclipse.emf.ecore.EReference;
  */
 public interface SpecificReferenceSelection extends SpecificSelection {
 	/**
-	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
+	 * Returns the value of the '<em><b>Obj Sel</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
+	 * If the meaning of the '<em>Obj Sel</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ref Type</em>' reference.
-	 * @see #setRefType(EReference)
-	 * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificReferenceSelection_RefType()
-	 * @model
+	 * @return the value of the '<em>Obj Sel</em>' reference.
+	 * @see #setObjSel(ObjectEmitter)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificReferenceSelection_ObjSel()
+	 * @model required="true"
 	 * @generated
 	 */
-	EReference getRefType();
+	ObjectEmitter getObjSel();
 
 	/**
-	 * Sets the value of the '{@link mutatorenvironment.SpecificReferenceSelection#getRefType <em>Ref Type</em>}' reference.
+	 * Sets the value of the '{@link mutatorenvironment.SpecificReferenceSelection#getObjSel <em>Obj Sel</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ref Type</em>' reference.
-	 * @see #getRefType()
+	 * @param value the new value of the '<em>Obj Sel</em>' reference.
+	 * @see #getObjSel()
 	 * @generated
 	 */
-	void setRefType(EReference value);
-
-	/**
-	 * Returns the value of the '<em><b>Object Emitter</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Object Emitter</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Object Emitter</em>' containment reference.
-	 * @see #setObjectEmitter(ObjectEmitter)
-	 * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificReferenceSelection_ObjectEmitter()
-	 * @model containment="true"
-	 * @generated
-	 */
-	ObjectEmitter getObjectEmitter();
-
-	/**
-	 * Sets the value of the '{@link mutatorenvironment.SpecificReferenceSelection#getObjectEmitter <em>Object Emitter</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Object Emitter</em>' containment reference.
-	 * @see #getObjectEmitter()
-	 * @generated
-	 */
-	void setObjectEmitter(ObjectEmitter value);
+	void setObjSel(ObjectEmitter value);
 
 } // SpecificReferenceSelection

@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.TargetReferenceChanged#getOldTo <em>Old To</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getTargetReferenceChanged()
  * @model

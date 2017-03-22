@@ -7,10 +7,8 @@ import mutatorenvironment.ObjectEmitter;
 import mutatorenvironment.SpecificReferenceSelection;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -22,8 +20,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link mutatorenvironment.impl.SpecificReferenceSelectionImpl#getRefType <em>Ref Type</em>}</li>
- *   <li>{@link mutatorenvironment.impl.SpecificReferenceSelectionImpl#getObjectEmitter <em>Object Emitter</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.SpecificReferenceSelectionImpl#getObjSel <em>Obj Sel</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,24 +28,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implements SpecificReferenceSelection {
 	/**
-	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
+	 * The cached value of the '{@link #getObjSel() <em>Obj Sel</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRefType()
+	 * @see #getObjSel()
 	 * @generated
 	 * @ordered
 	 */
-	protected EReference refType;
-
-	/**
-	 * The cached value of the '{@link #getObjectEmitter() <em>Object Emitter</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObjectEmitter()
-	 * @generated
-	 * @ordered
-	 */
-	protected ObjectEmitter objectEmitter;
+	protected ObjectEmitter objSel;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,16 +61,16 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefType() {
-		if (refType != null && refType.eIsProxy()) {
-			InternalEObject oldRefType = (InternalEObject)refType;
-			refType = (EReference)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
+	public ObjectEmitter getObjSel() {
+		if (objSel != null && objSel.eIsProxy()) {
+			InternalEObject oldObjSel = (InternalEObject)objSel;
+			objSel = (ObjectEmitter)eResolveProxy(oldObjSel);
+			if (objSel != oldObjSel) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__REF_TYPE, oldRefType, refType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJ_SEL, oldObjSel, objSel));
 			}
 		}
-		return refType;
+		return objSel;
 	}
 
 	/**
@@ -91,8 +78,8 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetRefType() {
-		return refType;
+	public ObjectEmitter basicGetObjSel() {
+		return objSel;
 	}
 
 	/**
@@ -100,68 +87,11 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRefType(EReference newRefType) {
-		EReference oldRefType = refType;
-		refType = newRefType;
+	public void setObjSel(ObjectEmitter newObjSel) {
+		ObjectEmitter oldObjSel = objSel;
+		objSel = newObjSel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__REF_TYPE, oldRefType, refType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ObjectEmitter getObjectEmitter() {
-		return objectEmitter;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetObjectEmitter(ObjectEmitter newObjectEmitter, NotificationChain msgs) {
-		ObjectEmitter oldObjectEmitter = objectEmitter;
-		objectEmitter = newObjectEmitter;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER, oldObjectEmitter, newObjectEmitter);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setObjectEmitter(ObjectEmitter newObjectEmitter) {
-		if (newObjectEmitter != objectEmitter) {
-			NotificationChain msgs = null;
-			if (objectEmitter != null)
-				msgs = ((InternalEObject)objectEmitter).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER, null, msgs);
-			if (newObjectEmitter != null)
-				msgs = ((InternalEObject)newObjectEmitter).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER, null, msgs);
-			msgs = basicSetObjectEmitter(newObjectEmitter, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER, newObjectEmitter, newObjectEmitter));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER:
-				return basicSetObjectEmitter(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJ_SEL, oldObjSel, objSel));
 	}
 
 	/**
@@ -172,11 +102,9 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__REF_TYPE:
-				if (resolve) return getRefType();
-				return basicGetRefType();
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER:
-				return getObjectEmitter();
+			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJ_SEL:
+				if (resolve) return getObjSel();
+				return basicGetObjSel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -189,11 +117,8 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__REF_TYPE:
-				setRefType((EReference)newValue);
-				return;
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER:
-				setObjectEmitter((ObjectEmitter)newValue);
+			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJ_SEL:
+				setObjSel((ObjectEmitter)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -207,11 +132,8 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__REF_TYPE:
-				setRefType((EReference)null);
-				return;
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER:
-				setObjectEmitter((ObjectEmitter)null);
+			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJ_SEL:
+				setObjSel((ObjectEmitter)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -225,10 +147,8 @@ public class SpecificReferenceSelectionImpl extends SpecificSelectionImpl implem
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__REF_TYPE:
-				return refType != null;
-			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJECT_EMITTER:
-				return objectEmitter != null;
+			case MutatorenvironmentPackage.SPECIFIC_REFERENCE_SELECTION__OBJ_SEL:
+				return objSel != null;
 		}
 		return super.eIsSet(featureID);
 	}

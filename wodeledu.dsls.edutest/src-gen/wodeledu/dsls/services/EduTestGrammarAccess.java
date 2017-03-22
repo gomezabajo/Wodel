@@ -79,8 +79,8 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cAlternativeResponseKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cBlockAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cBlockEObjectCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
-		private final RuleCall cBlockEObjectIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockEObjectCrossReference_1_0.eContents().get(1);
+		private final CrossReference cBlockBlockCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
+		private final RuleCall cBlockBlockIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockBlockCrossReference_1_0.eContents().get(1);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTestConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -89,23 +89,23 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//AlternativeResponse:
-		//	"AlternativeResponse" block=[ecore::EObject]? "{" config=TestConfiguration tests+=Test* "}";
+		//	"AlternativeResponse" block=[mutatorenvironment::Block]? "{" config=TestConfiguration tests+=Test* "}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"AlternativeResponse" block=[ecore::EObject]? "{" config=TestConfiguration tests+=Test* "}"
+		//"AlternativeResponse" block=[mutatorenvironment::Block]? "{" config=TestConfiguration tests+=Test* "}"
 		public Group getGroup() { return cGroup; }
 
 		//"AlternativeResponse"
 		public Keyword getAlternativeResponseKeyword_0() { return cAlternativeResponseKeyword_0; }
 
-		//block=[ecore::EObject]?
+		//block=[mutatorenvironment::Block]?
 		public Assignment getBlockAssignment_1() { return cBlockAssignment_1; }
 
-		//[ecore::EObject]
-		public CrossReference getBlockEObjectCrossReference_1_0() { return cBlockEObjectCrossReference_1_0; }
+		//[mutatorenvironment::Block]
+		public CrossReference getBlockBlockCrossReference_1_0() { return cBlockBlockCrossReference_1_0; }
 
 		//ID
-		public RuleCall getBlockEObjectIDTerminalRuleCall_1_0_1() { return cBlockEObjectIDTerminalRuleCall_1_0_1; }
+		public RuleCall getBlockBlockIDTerminalRuleCall_1_0_1() { return cBlockBlockIDTerminalRuleCall_1_0_1; }
 
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -131,8 +131,8 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMultiChoiceDiagramKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cBlockAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cBlockEObjectCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
-		private final RuleCall cBlockEObjectIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockEObjectCrossReference_1_0.eContents().get(1);
+		private final CrossReference cBlockBlockCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
+		private final RuleCall cBlockBlockIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockBlockCrossReference_1_0.eContents().get(1);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigTestConfigurationParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -141,23 +141,23 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MultiChoiceDiagram:
-		//	"MultiChoiceDiagram" block=[ecore::EObject]? "{" config=TestConfiguration tests+=Test* "}";
+		//	"MultiChoiceDiagram" block=[mutatorenvironment::Block]? "{" config=TestConfiguration tests+=Test* "}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"MultiChoiceDiagram" block=[ecore::EObject]? "{" config=TestConfiguration tests+=Test* "}"
+		//"MultiChoiceDiagram" block=[mutatorenvironment::Block]? "{" config=TestConfiguration tests+=Test* "}"
 		public Group getGroup() { return cGroup; }
 
 		//"MultiChoiceDiagram"
 		public Keyword getMultiChoiceDiagramKeyword_0() { return cMultiChoiceDiagramKeyword_0; }
 
-		//block=[ecore::EObject]?
+		//block=[mutatorenvironment::Block]?
 		public Assignment getBlockAssignment_1() { return cBlockAssignment_1; }
 
-		//[ecore::EObject]
-		public CrossReference getBlockEObjectCrossReference_1_0() { return cBlockEObjectCrossReference_1_0; }
+		//[mutatorenvironment::Block]
+		public CrossReference getBlockBlockCrossReference_1_0() { return cBlockBlockCrossReference_1_0; }
 
 		//ID
-		public RuleCall getBlockEObjectIDTerminalRuleCall_1_0_1() { return cBlockEObjectIDTerminalRuleCall_1_0_1; }
+		public RuleCall getBlockBlockIDTerminalRuleCall_1_0_1() { return cBlockBlockIDTerminalRuleCall_1_0_1; }
 
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -183,8 +183,8 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cMultiChoiceEmendationKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cBlockAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cBlockEObjectCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
-		private final RuleCall cBlockEObjectIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockEObjectCrossReference_1_0.eContents().get(1);
+		private final CrossReference cBlockBlockCrossReference_1_0 = (CrossReference)cBlockAssignment_1.eContents().get(0);
+		private final RuleCall cBlockBlockIDTerminalRuleCall_1_0_1 = (RuleCall)cBlockBlockCrossReference_1_0.eContents().get(1);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cConfigAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cConfigMultiChoiceEmConfigParserRuleCall_3_0 = (RuleCall)cConfigAssignment_3.eContents().get(0);
@@ -193,23 +193,23 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MultiChoiceEmendation:
-		//	"MultiChoiceEmendation" block=[ecore::EObject]? "{" config=MultiChoiceEmConfig tests+=Test* "}";
+		//	"MultiChoiceEmendation" block=[mutatorenvironment::Block]? "{" config=MultiChoiceEmConfig tests+=Test* "}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"MultiChoiceEmendation" block=[ecore::EObject]? "{" config=MultiChoiceEmConfig tests+=Test* "}"
+		//"MultiChoiceEmendation" block=[mutatorenvironment::Block]? "{" config=MultiChoiceEmConfig tests+=Test* "}"
 		public Group getGroup() { return cGroup; }
 
 		//"MultiChoiceEmendation"
 		public Keyword getMultiChoiceEmendationKeyword_0() { return cMultiChoiceEmendationKeyword_0; }
 
-		//block=[ecore::EObject]?
+		//block=[mutatorenvironment::Block]?
 		public Assignment getBlockAssignment_1() { return cBlockAssignment_1; }
 
-		//[ecore::EObject]
-		public CrossReference getBlockEObjectCrossReference_1_0() { return cBlockEObjectCrossReference_1_0; }
+		//[mutatorenvironment::Block]
+		public CrossReference getBlockBlockCrossReference_1_0() { return cBlockBlockCrossReference_1_0; }
 
 		//ID
-		public RuleCall getBlockEObjectIDTerminalRuleCall_1_0_1() { return cBlockEObjectIDTerminalRuleCall_1_0_1; }
+		public RuleCall getBlockBlockIDTerminalRuleCall_1_0_1() { return cBlockBlockIDTerminalRuleCall_1_0_1; }
 
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
@@ -729,7 +729,7 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AlternativeResponse:
-	//	"AlternativeResponse" block=[ecore::EObject]? "{" config=TestConfiguration tests+=Test* "}";
+	//	"AlternativeResponse" block=[mutatorenvironment::Block]? "{" config=TestConfiguration tests+=Test* "}";
 	public AlternativeResponseElements getAlternativeResponseAccess() {
 		return pAlternativeResponse;
 	}
@@ -739,7 +739,7 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//MultiChoiceDiagram:
-	//	"MultiChoiceDiagram" block=[ecore::EObject]? "{" config=TestConfiguration tests+=Test* "}";
+	//	"MultiChoiceDiagram" block=[mutatorenvironment::Block]? "{" config=TestConfiguration tests+=Test* "}";
 	public MultiChoiceDiagramElements getMultiChoiceDiagramAccess() {
 		return pMultiChoiceDiagram;
 	}
@@ -749,7 +749,7 @@ public class EduTestGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//MultiChoiceEmendation:
-	//	"MultiChoiceEmendation" block=[ecore::EObject]? "{" config=MultiChoiceEmConfig tests+=Test* "}";
+	//	"MultiChoiceEmendation" block=[mutatorenvironment::Block]? "{" config=MultiChoiceEmConfig tests+=Test* "}";
 	public MultiChoiceEmendationElements getMultiChoiceEmendationAccess() {
 		return pMultiChoiceEmendation;
 	}

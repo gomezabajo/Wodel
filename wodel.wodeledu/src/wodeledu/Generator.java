@@ -72,78 +72,78 @@ public class Generator implements IGenerator {
 		String idelemsFileName = fileName.replace(fileExtension, "modeltext");
 		String cfgoptsFileName = fileName.replace(fileExtension, "mutatext");
 		
-		final IFolder resourcesFolder = mutProject.getFolder(new Path("resources"));
-		try {
-			final File jarFile = new File(AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-			String srcName = "";
-			if (jarFile.isFile()) {
-				final JarFile jar = new JarFile(jarFile);
-				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-				while(entries.hasMoreElements()) {
-					JarEntry entry = entries.nextElement();
-					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("models") && entry.getName().endsWith("AppliedMutations.ecore")) {
-							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-							InputStream input = jar.getInputStream(entry);
-							FileOutputStream output = new FileOutputStream(dest);
-							while (input.available() > 0) {
-								output.write(input.read());
-							}
-							output.close();
-							input.close();
-						}
-						if (entry.getName().startsWith("models") && entry.getName().endsWith("ModelText.ecore")) {
-							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-							InputStream input = jar.getInputStream(entry);
-							FileOutputStream output = new FileOutputStream(dest);
-							while (input.available() > 0) {
-								output.write(input.read());
-							}
-							output.close();
-							input.close();
-						}
-						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutaText.ecore")) {
-							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-							InputStream input = jar.getInputStream(entry);
-							FileOutputStream output = new FileOutputStream(dest);
-							while (input.available() > 0) {
-								output.write(input.read());
-							}
-							output.close();
-							input.close();
-						}
-					}
-				}
-				jar.close();
-		    }
-			else {
-				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/AppliedMutations.ecore";
-				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/AppliedMutations.ecore";
-				File src = new Path(srcName).toFile();
-				File dest = new Path(tarName).toFile();
-				if ((src != null) && (dest != null)) {
-					ModelManager.copyFile(src, dest);
-				}
-				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/ModelText.ecore";
-				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/ModelText.ecore";
-				src = new Path(srcName).toFile();
-				dest = new Path(tarName).toFile();
-				if ((src != null) && (dest != null)) {
-					ModelManager.copyFile(src, dest);
-				}
-				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutaText.ecore";
-				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutaText.ecore";
-				src = new Path(srcName).toFile();
-				dest = new Path(tarName).toFile();
-				if ((src != null) && (dest != null)) {
-					ModelManager.copyFile(src, dest);
-				}
-			}
-		} catch (IOException e) {
-		}
+//		final IFolder resourcesFolder = mutProject.getFolder(new Path("resources"));
+//		try {
+//			final File jarFile = new File(AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+//			String srcName = "";
+//			if (jarFile.isFile()) {
+//				final JarFile jar = new JarFile(jarFile);
+//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+//				while(entries.hasMoreElements()) {
+//					JarEntry entry = entries.nextElement();
+//					if (! entry.isDirectory()) {
+//						if (entry.getName().startsWith("models") && entry.getName().endsWith("AppliedMutations.ecore")) {
+//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+//							InputStream input = jar.getInputStream(entry);
+//							FileOutputStream output = new FileOutputStream(dest);
+//							while (input.available() > 0) {
+//								output.write(input.read());
+//							}
+//							output.close();
+//							input.close();
+//						}
+//						if (entry.getName().startsWith("models") && entry.getName().endsWith("ModelText.ecore")) {
+//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+//							InputStream input = jar.getInputStream(entry);
+//							FileOutputStream output = new FileOutputStream(dest);
+//							while (input.available() > 0) {
+//								output.write(input.read());
+//							}
+//							output.close();
+//							input.close();
+//						}
+//						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutaText.ecore")) {
+//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+//							InputStream input = jar.getInputStream(entry);
+//							FileOutputStream output = new FileOutputStream(dest);
+//							while (input.available() > 0) {
+//								output.write(input.read());
+//							}
+//							output.close();
+//							input.close();
+//						}
+//					}
+//				}
+//				jar.close();
+//		    }
+//			else {
+//				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/AppliedMutations.ecore";
+//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/AppliedMutations.ecore";
+//				File src = new Path(srcName).toFile();
+//				File dest = new Path(tarName).toFile();
+//				if ((src != null) && (dest != null)) {
+//					ModelManager.copyFile(src, dest);
+//				}
+//				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/ModelText.ecore";
+//				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/ModelText.ecore";
+//				src = new Path(srcName).toFile();
+//				dest = new Path(tarName).toFile();
+//				if ((src != null) && (dest != null)) {
+//					ModelManager.copyFile(src, dest);
+//				}
+//				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutaText.ecore";
+//				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutaText.ecore";
+//				src = new Path(srcName).toFile();
+//				dest = new Path(tarName).toFile();
+//				if ((src != null) && (dest != null)) {
+//					ModelManager.copyFile(src, dest);
+//				}
+//			}
+//		} catch (IOException e) {
+//		}
 		final IFile graphFile = srcPath.getFile(new Path(graphFileName));
 		try {
 			InputStream stream = openContentStream();
@@ -169,16 +169,16 @@ public class Generator implements IGenerator {
 				EClass rooteclass = eclasses.get(0);
 				def += rooteclass.getName() + ": diagram {\n";
 				if (eatt != null) {
-					def += "\t" + eclass.getName() + "(" + eatt.getName() + "): node, shape=circle\n";
+					def += "\t" + eclass.getName() + "(" + eatt.getName() + "): node shape=circle\n";
 				}
 			}
 			else {
 				def += "//RootNode: diagram {\n";
 			}
 			def += "\t//InitialNode(isInitial): markednode\n"
-				+ "\t//SimpleNode(not isFinal): node, shape=circle\n"
-				+ "\t//EndingNode(isFinal): node, shape=doublecircle\n"
-				+ "\t//Relation(source, target): edge, label=symbol\n"
+				+ "\t//SimpleNode(not isFinal): node shape=circle\n"
+				+ "\t//EndingNode(isFinal): node shape=doublecircle\n"
+				+ "\t//Relation(source, target): edge label=symbol\n"
 			+ "}";
 			if (graphFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));

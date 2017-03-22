@@ -36,7 +36,17 @@ public enum NodeShape implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DOUBLECIRCLE(1, "doublecircle", "doublecircle");
+	DOUBLECIRCLE(1, "doublecircle", "doublecircle"),
+
+	/**
+	 * The '<em><b>Record</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #RECORD_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	RECORD(2, "record", "record");
 
 	/**
 	 * The '<em><b>Circle</b></em>' literal value.
@@ -69,6 +79,21 @@ public enum NodeShape implements Enumerator {
 	public static final int DOUBLECIRCLE_VALUE = 1;
 
 	/**
+	 * The '<em><b>Record</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Record</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #RECORD
+	 * @model name="record"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int RECORD_VALUE = 2;
+
+	/**
 	 * An array of all the '<em><b>Node Shape</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -78,6 +103,7 @@ public enum NodeShape implements Enumerator {
 		new NodeShape[] {
 			CIRCLE,
 			DOUBLECIRCLE,
+			RECORD,
 		};
 
 	/**
@@ -130,6 +156,7 @@ public enum NodeShape implements Enumerator {
 		switch (value) {
 			case CIRCLE_VALUE: return CIRCLE;
 			case DOUBLECIRCLE_VALUE: return DOUBLECIRCLE;
+			case RECORD_VALUE: return RECORD;
 		}
 		return null;
 	}

@@ -57,12 +57,12 @@ public interface AttributeEvaluation extends Evaluation {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' containment reference.
-	 * @see #setValue(AttributeType)
+	 * @see #setValue(AttributeEvaluationType)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getAttributeEvaluation_Value()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	AttributeType getValue();
+	AttributeEvaluationType getValue();
 
 	/**
 	 * Sets the value of the '{@link mutatorenvironment.AttributeEvaluation#getValue <em>Value</em>}' containment reference.
@@ -72,6 +72,6 @@ public interface AttributeEvaluation extends Evaluation {
 	 * @see #getValue()
 	 * @generated
 	 */
-	void setValue(AttributeType value);
+	void setValue(AttributeEvaluationType value);
 
 } // AttributeEvaluation

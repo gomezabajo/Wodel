@@ -3,7 +3,7 @@
 package mutatorenvironment.impl;
 
 import mutatorenvironment.AttributeEvaluation;
-import mutatorenvironment.AttributeType;
+import mutatorenvironment.AttributeEvaluationType;
 import mutatorenvironment.MutatorenvironmentPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -48,7 +48,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * @generated
 	 * @ordered
 	 */
-	protected AttributeType value;
+	protected AttributeEvaluationType value;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -112,7 +112,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeType getValue() {
+	public AttributeEvaluationType getValue() {
 		return value;
 	}
 
@@ -121,8 +121,8 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetValue(AttributeType newValue, NotificationChain msgs) {
-		AttributeType oldValue = value;
+	public NotificationChain basicSetValue(AttributeEvaluationType newValue, NotificationChain msgs) {
+		AttributeEvaluationType oldValue = value;
 		value = newValue;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE, oldValue, newValue);
@@ -136,7 +136,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(AttributeType newValue) {
+	public void setValue(AttributeEvaluationType newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
 			if (value != null)
@@ -193,7 +193,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 				setName((EAttribute)newValue);
 				return;
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
-				setValue((AttributeType)newValue);
+				setValue((AttributeEvaluationType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -211,7 +211,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 				setName((EAttribute)null);
 				return;
 			case MutatorenvironmentPackage.ATTRIBUTE_EVALUATION__VALUE:
-				setValue((AttributeType)null);
+				setValue((AttributeEvaluationType)null);
 				return;
 		}
 		super.eUnset(featureID);

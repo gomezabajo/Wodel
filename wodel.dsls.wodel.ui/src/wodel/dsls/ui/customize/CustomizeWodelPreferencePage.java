@@ -53,6 +53,14 @@ public class CustomizeWodelPreferencePage extends LanguageRootPreferencePage {
 				addField(new BooleanFieldEditor(src.getName(), src.getName(), getFieldEditorParent()));
 			}
 		}
+    	new LabelFieldEditor("Check this box if you want to filter concrete classes on metrics", getFieldEditorParent());
+    	addField(new BooleanFieldEditor("Filter concrete classes", "Filter concrete classes", getFieldEditorParent()));
+    	new LabelFieldEditor("Check this box if you want to generate metrics of the mutations", getFieldEditorParent());
+    	addField(new BooleanFieldEditor("Generate mutant metrics", "Generate mutant metrics", getFieldEditorParent()));
+    	new LabelFieldEditor("Check this box if you want to generate debug metrics of the mutations", getFieldEditorParent());
+    	addField(new BooleanFieldEditor("Generate debug mutant metrics", "Generate debug mutant metrics", getFieldEditorParent()));
+    	new LabelFieldEditor("Check this box if you want to generate all the metrics related to the original seed models", getFieldEditorParent());
+    	addField(new BooleanFieldEditor("Base metrics", "Base metrics", getFieldEditorParent()));
     	new LabelFieldEditor("\n\nWrite which number of attempts will be executed until assuring mutant is unique", getFieldEditorParent());
     	addField(new StringFieldEditor("Number of attempts", "", 8, getFieldEditorParent()));
     	new LabelFieldEditor("\n\n", getFieldEditorParent());

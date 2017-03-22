@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/wodel.models/src" modelPluginID="wodel.models"
+    modelName="MutatorMetrics" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>MutatorMetrics.ecore</foreignModel>
+  <genPackages prefix="Mutatormetrics" disposableProviderFactory="true" ecorePackage="MutatorMetrics.ecore#/">
+    <genClasses ecoreClass="MutatorMetrics.ecore#//MutatorMetrics">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorMetrics.ecore#//MutatorMetrics/trees"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorMetrics.ecore#//MutatorMetrics/classes"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MutatorMetrics.ecore#//Tree">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Tree/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorMetrics.ecore#//Tree/mutants"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorMetrics.ecore#//Tree/classes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Tree/path"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorMetrics.ecore#//Folder"/>
+    <genClasses ecoreClass="MutatorMetrics.ecore#//Mutant"/>
+    <genClasses image="false" ecoreClass="MutatorMetrics.ecore#//Object">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Object/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Object/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Object/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Object/removed"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorMetrics.ecore#//Class">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorMetrics.ecore#//Class/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorMetrics.ecore#//Class/references"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Class/ccreated"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Class/cmodified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorMetrics.ecore#//Class/cremoved"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorMetrics.ecore#//Reference"/>
+    <genClasses ecoreClass="MutatorMetrics.ecore#//Attribute"/>
+  </genPackages>
+</genmodel:GenModel>

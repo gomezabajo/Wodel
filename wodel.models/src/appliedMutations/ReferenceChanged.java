@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.ReferenceChanged#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getSrcRefName <em>Src Ref Name</em>}</li>
@@ -19,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link appliedMutations.ReferenceChanged#getRefName <em>Ref Name</em>}</li>
  *   <li>{@link appliedMutations.ReferenceChanged#getTo <em>To</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getReferenceChanged()
  * @model

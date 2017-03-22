@@ -5,10 +5,16 @@ package wodeledu.dsls.serializer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import modelgraph.BooleanAttribute;
+import modelgraph.Content;
 import modelgraph.Edge;
+import modelgraph.Enumerator;
+import modelgraph.Information;
+import modelgraph.Level;
 import modelgraph.ModelgraphPackage;
 import modelgraph.MutatorGraph;
 import modelgraph.Node;
+import modelgraph.NodeEnumerator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
@@ -31,8 +37,23 @@ public abstract class AbstractModelGraphSemanticSequencer extends AbstractDelega
 	@Override
 	public void createSequence(EObject context, EObject semanticObject) {
 		if(semanticObject.eClass().getEPackage() == ModelgraphPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+			case ModelgraphPackage.BOOLEAN_ATTRIBUTE:
+				sequence_BooleanAttribute(context, (BooleanAttribute) semanticObject); 
+				return; 
+			case ModelgraphPackage.CONTENT:
+				sequence_Content(context, (Content) semanticObject); 
+				return; 
 			case ModelgraphPackage.EDGE:
 				sequence_Edge(context, (Edge) semanticObject); 
+				return; 
+			case ModelgraphPackage.ENUMERATOR:
+				sequence_Enumerator(context, (Enumerator) semanticObject); 
+				return; 
+			case ModelgraphPackage.INFORMATION:
+				sequence_Information(context, (Information) semanticObject); 
+				return; 
+			case ModelgraphPackage.LEVEL:
+				sequence_Level(context, (Level) semanticObject); 
 				return; 
 			case ModelgraphPackage.MUTATOR_GRAPH:
 				sequence_MutatorGraph(context, (MutatorGraph) semanticObject); 
@@ -40,38 +61,112 @@ public abstract class AbstractModelGraphSemanticSequencer extends AbstractDelega
 			case ModelgraphPackage.NODE:
 				sequence_Node(context, (Node) semanticObject); 
 				return; 
+			case ModelgraphPackage.NODE_ENUMERATOR:
+				sequence_NodeEnumerator(context, (NodeEnumerator) semanticObject); 
+				return; 
 			}
 		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
 	
 	/**
 	 * Constraint:
-	 *     (name=[EClass|ID] source=[EReference|ID] target=[EReference|ID] label=[EReference|ID])
+	 *     (negation?='not'? att=[EAttribute|ID])
+	 */
+	protected void sequence_BooleanAttribute(EObject context, BooleanAttribute semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         name=[EClass|ID] 
+	 *         (nodenum+=NodeEnumerator nodenum+=NodeEnumerator*)? 
+	 *         (info+=Information info+=Information*)? 
+	 *         attName=[EAttribute|ID]? 
+	 *         symbol=EString?
+	 *     )
+	 */
+	protected void sequence_Content(EObject context, Content semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         name=[EClass|ID] 
+	 *         source=[EReference|ID] 
+	 *         target=[EReference|ID] 
+	 *         attName=[EAttribute|ID]? 
+	 *         (reference=[EReference|ID]? label=[EAttribute|ID])? 
+	 *         src_decoration=Decoration? 
+	 *         src_label=[EAttribute|ID]? 
+	 *         tar_decoration=Decoration? 
+	 *         tar_label=[EAttribute|ID]?
+	 *     )
 	 */
 	protected void sequence_Edge(EObject context, Edge semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (literal=[EEnumLiteral|ID] value=EString)
+	 */
+	protected void sequence_Enumerator(EObject context, Enumerator semanticObject) {
 		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ModelgraphPackage.Literals.ITEM__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelgraphPackage.Literals.ITEM__NAME));
-			if(transientValues.isValueTransient(semanticObject, ModelgraphPackage.Literals.EDGE__SOURCE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelgraphPackage.Literals.EDGE__SOURCE));
-			if(transientValues.isValueTransient(semanticObject, ModelgraphPackage.Literals.EDGE__TARGET) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelgraphPackage.Literals.EDGE__TARGET));
-			if(transientValues.isValueTransient(semanticObject, ModelgraphPackage.Literals.EDGE__LABEL) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelgraphPackage.Literals.EDGE__LABEL));
+			if(transientValues.isValueTransient(semanticObject, ModelgraphPackage.Literals.ENUMERATOR__LITERAL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelgraphPackage.Literals.ENUMERATOR__LITERAL));
+			if(transientValues.isValueTransient(semanticObject, ModelgraphPackage.Literals.ENUMERATOR__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelgraphPackage.Literals.ENUMERATOR__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getEdgeAccess().getNameEClassIDTerminalRuleCall_1_0_1(), semanticObject.getName());
-		feeder.accept(grammarAccess.getEdgeAccess().getSourceEReferenceIDTerminalRuleCall_3_0_1(), semanticObject.getSource());
-		feeder.accept(grammarAccess.getEdgeAccess().getTargetEReferenceIDTerminalRuleCall_5_0_1(), semanticObject.getTarget());
-		feeder.accept(grammarAccess.getEdgeAccess().getLabelEReferenceIDTerminalRuleCall_12_0_1(), semanticObject.getLabel());
+		feeder.accept(grammarAccess.getEnumeratorAccess().getLiteralEEnumLiteralIDTerminalRuleCall_1_0_1(), semanticObject.getLiteral());
+		feeder.accept(grammarAccess.getEnumeratorAccess().getValueEStringParserRuleCall_3_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (metamodel=EString name=[EClass|ID] type=GraphType nodes+=Node* edges+=Edge*)
+	 *     (type=[EReference|ID] att=[EAttribute|ID]?)
+	 */
+	protected void sequence_Information(EObject context, Information semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         name=[EClass|ID] 
+	 *         upper=[EReference|ID] 
+	 *         attName=[EAttribute|ID]? 
+	 *         (reference=[EReference|ID]? label=[EAttribute|ID])? 
+	 *         src_decoration=Decoration? 
+	 *         src_label=[EAttribute|ID]? 
+	 *         tar_decoration=Decoration? 
+	 *         tar_label=[EAttribute|ID]?
+	 *     )
+	 */
+	protected void sequence_Level(EObject context, Level semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         metamodel=EString 
+	 *         name=[EClass|ID] 
+	 *         type=GraphType 
+	 *         nodes+=Node* 
+	 *         relations+=Relation* 
+	 *         contents+=Content*
+	 *     )
 	 */
 	protected void sequence_MutatorGraph(EObject context, MutatorGraph semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -80,7 +175,25 @@ public abstract class AbstractModelGraphSemanticSequencer extends AbstractDelega
 	
 	/**
 	 * Constraint:
-	 *     (name=[EClass|ID] negation?='not'? attribute=[EAttribute|ID] type=NodeType shape=NodeShape?)
+	 *     (att=[EAttribute|ID] enumerator+=Enumerator enumerator+=Enumerator*)
+	 */
+	protected void sequence_NodeEnumerator(EObject context, NodeEnumerator semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         name=[EClass|ID] 
+	 *         (attribute+=BooleanAttribute attribute+=BooleanAttribute*)? 
+	 *         type=NodeType 
+	 *         attName=[EAttribute|ID]? 
+	 *         (reference+=[EReference|ID] reference+=[EReference|ID]*)? 
+	 *         shape=NodeShape? 
+	 *         color=NodeColor? 
+	 *         style=NodeStyle?
+	 *     )
 	 */
 	protected void sequence_Node(EObject context, Node semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

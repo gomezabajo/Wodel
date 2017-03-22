@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.AttributeSwapImpl#getAttObject <em>Att Object</em>}</li>
  *   <li>{@link appliedMutations.impl.AttributeSwapImpl#getFirstName <em>First Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

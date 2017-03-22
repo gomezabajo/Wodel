@@ -17,6 +17,12 @@ import org.eclipse.emf.ecore.EAttribute
 import modelgraph.MutatorGraph
 import modelgraph.Edge
 import modelgraph.Node
+import modelgraph.Level
+import org.eclipse.emf.ecore.EEnumLiteral
+import org.eclipse.emf.ecore.EEnum
+import modelgraph.Information
+import modelgraph.NodeEnumerator
+import modelgraph.Content
 
 /**
  * This class contains custom scoping description.
@@ -44,10 +50,40 @@ class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
 		scope.addAll(getEClasses((edge.eContainer as MutatorGraph).metamodel))
        	Scopes.scopeFor(scope)
 	}
+	
+	def IScope scope_Node_reference(Node node, EReference ref) {
+		val scope = new ArrayList<EReference>()
+		scope.addAll(getEReferences((node.eContainer as MutatorGraph).metamodel, node.name.name))
+		Scopes.scopeFor(scope)
+	}
 
-	def IScope scope_Node_attribute(Node node, EReference ref) {
+	def IScope scope_BooleanAttribute_att(Node node, EReference ref) {
 		val scope = new ArrayList<EAttribute>()
 		scope.addAll(getEAttributes((node.eContainer as MutatorGraph).metamodel, node.name.name))
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_NamedItem_attName(Node node, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((node.eContainer as MutatorGraph).metamodel, node.name.name))
+       	Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_NamedItem_attName(Edge edge, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((edge.eContainer as MutatorGraph).metamodel, edge.name.name))
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_NamedItem_attName(Content content, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((content.eContainer as MutatorGraph).metamodel, content.name.name))
+       	Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_NamedItem_attName(Level level, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((level.eContainer as MutatorGraph).metamodel, level.name.name))
        	Scopes.scopeFor(scope)
 	}
 	
@@ -63,12 +99,71 @@ class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
        	Scopes.scopeFor(scope)
 	}
 
-	def IScope scope_Edge_label(Edge edge, EReference ref) {
+	def IScope scope_Relation_reference(Edge edge, EReference ref) {
 		val scope = new ArrayList<EReference>()
 		scope.addAll(getEReferences((edge.eContainer as MutatorGraph).metamodel, edge.name.name))
+		Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_Relation_label(Edge edge, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		if (edge.reference != null) {
+			scope.addAll(getEAttributes((edge.eContainer as MutatorGraph).metamodel, edge.reference.EType.name))
+		}
+		else {
+			scope.addAll(getEAttributes((edge.eContainer as MutatorGraph).metamodel, edge.name.name))
+		}
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_Relation_src_label(Edge edge, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((edge.eContainer as MutatorGraph).metamodel, edge.name.name))
        	Scopes.scopeFor(scope)
 	}
 
+	def IScope scope_Relation_tar_label(Edge edge, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((edge.eContainer as MutatorGraph).metamodel, edge.name.name))
+       	Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_Level_upper(Level level, EReference ref) {
+		val scope = new ArrayList<EReference>()
+		scope.addAll(getEReferences((level.eContainer as MutatorGraph).metamodel, level.name.name))
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_Content_attName(Content content, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((content.eContainer as MutatorGraph).metamodel, content.name.name))
+		Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_NodeEnumerator_att(Content content, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes((content.eContainer as MutatorGraph).metamodel, content.name.name))
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_Enumerator_literal(NodeEnumerator nodenum, EReference ref) {
+		val scope = new ArrayList<EEnumLiteral>()
+		scope.addAll(getELiterals(((nodenum.eContainer as Content).eContainer as MutatorGraph).metamodel, nodenum.att.EType.name))
+		Scopes.scopeFor(scope)
+	}
+
+	def IScope scope_Information_type(Content content, EReference ref) {
+		val scope = new ArrayList<EReference>()
+		scope.addAll(getEReferences((content.eContainer as MutatorGraph).metamodel, content.name.name))
+       	Scopes.scopeFor(scope)
+	}
+	
+	def IScope scope_Information_att(Information info, EReference ref) {
+		val scope = new ArrayList<EAttribute>()
+		scope.addAll(getEAttributes(((info.eContainer as Content).eContainer as MutatorGraph).metamodel, info.type.EType.name))
+       	Scopes.scopeFor(scope)
+	}
+	
 	/** 
 	 * It returns the list of classes defined in a meta-model.
 	 * @param String file containing the metamodel
@@ -94,12 +189,14 @@ class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
 	   	System.out.println("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile + ", String eclassName=" + eclassName + ")")
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
 	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
-	  	if (eclass!=null) {
-	  		return eclass.EAllAttributes
-		}
-	  	else {
-	  		return new ArrayList<EAttribute>()
-	  	}
+        val ArrayList<EAttribute> atts = new ArrayList<EAttribute>()
+        if (eclass != null) {
+        	atts.addAll(eclass.EAllAttributes)
+        	for (EClass c : eclass.getESuperTypes) {
+        		atts.addAll(c.EAllAttributes)
+        	}
+        }
+        return atts
   	}
 
 	/** 
@@ -111,11 +208,29 @@ class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
 	 def private List<EReference> getEReferences (String metamodelFile, String eclassName) {
         val List<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
         val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+        val ArrayList<EReference> refs = new ArrayList<EReference>()
         if (eclass != null) {
-        	return eclass.EAllReferences
+        	refs.addAll(eclass.EAllReferences)
+        	for (EClass c : eclass.getESuperTypes) {
+        		refs.addAll(c.EAllReferences)
+        	}
         }
-        else {
-        	return new ArrayList<EReference>()
+        return refs
+	 }
+	 
+	 /** 
+	 * It returns the list of literals of a enum.
+	 * @param String file containing the metamodel
+	 * @param String class name
+	 * @return List<EReference>
+	 */
+	 def private List<EEnumLiteral> getELiterals (String metamodelFile, String eenumName) {
+        val List<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
+        val EEnum            eenum     = ModelManager.getObjectOfType(eenumName, metamodel) as EEnum
+        val ArrayList<EEnumLiteral> lits = new ArrayList<EEnumLiteral>()
+        if (eenum != null) {
+        	lits.addAll(eenum.ELiterals)
         }
+        return lits
 	 }
 }

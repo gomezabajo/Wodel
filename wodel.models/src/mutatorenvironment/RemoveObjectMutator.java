@@ -12,6 +12,7 @@ package mutatorenvironment;
  * The following features are supported:
  * <ul>
  *   <li>{@link mutatorenvironment.RemoveObjectMutator#getObject <em>Object</em>}</li>
+ *   <li>{@link mutatorenvironment.RemoveObjectMutator#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,5 +46,31 @@ public interface RemoveObjectMutator extends Mutator {
 	 * @generated
 	 */
 	void setObject(ObSelectionStrategy value);
+
+	/**
+	 * Returns the value of the '<em><b>Container</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Container</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Container</em>' containment reference.
+	 * @see #setContainer(ObSelectionStrategy)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getRemoveObjectMutator_Container()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ObSelectionStrategy getContainer();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.RemoveObjectMutator#getContainer <em>Container</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Container</em>' containment reference.
+	 * @see #getContainer()
+	 * @generated
+	 */
+	void setContainer(ObSelectionStrategy value);
 
 } // RemoveObjectMutator

@@ -4,11 +4,12 @@ package modelgraph.impl;
 
 import java.util.Collection;
 
-import modelgraph.Edge;
+import modelgraph.Content;
 import modelgraph.GraphType;
 import modelgraph.ModelgraphPackage;
 import modelgraph.MutatorGraph;
 import modelgraph.Node;
+import modelgraph.Relation;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -32,7 +33,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link modelgraph.impl.MutatorGraphImpl#getType <em>Type</em>}</li>
  *   <li>{@link modelgraph.impl.MutatorGraphImpl#getNodes <em>Nodes</em>}</li>
- *   <li>{@link modelgraph.impl.MutatorGraphImpl#getEdges <em>Edges</em>}</li>
+ *   <li>{@link modelgraph.impl.MutatorGraphImpl#getRelations <em>Relations</em>}</li>
+ *   <li>{@link modelgraph.impl.MutatorGraphImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link modelgraph.impl.MutatorGraphImpl#getMetamodel <em>Metamodel</em>}</li>
  * </ul>
  * </p>
@@ -71,14 +73,24 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 	protected EList<Node> nodes;
 
 	/**
-	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' containment reference list.
+	 * The cached value of the '{@link #getRelations() <em>Relations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEdges()
+	 * @see #getRelations()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Edge> edges;
+	protected EList<Relation> relations;
+
+	/**
+	 * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContents()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Content> contents;
 
 	/**
 	 * The default value of the '{@link #getMetamodel() <em>Metamodel</em>}' attribute.
@@ -157,11 +169,23 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Edge> getEdges() {
-		if (edges == null) {
-			edges = new EObjectContainmentEList<Edge>(Edge.class, this, ModelgraphPackage.MUTATOR_GRAPH__EDGES);
+	public EList<Relation> getRelations() {
+		if (relations == null) {
+			relations = new EObjectContainmentEList<Relation>(Relation.class, this, ModelgraphPackage.MUTATOR_GRAPH__RELATIONS);
 		}
-		return edges;
+		return relations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Content> getContents() {
+		if (contents == null) {
+			contents = new EObjectContainmentEList<Content>(Content.class, this, ModelgraphPackage.MUTATOR_GRAPH__CONTENTS);
+		}
+		return contents;
 	}
 
 	/**
@@ -195,8 +219,10 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 		switch (featureID) {
 			case ModelgraphPackage.MUTATOR_GRAPH__NODES:
 				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
-			case ModelgraphPackage.MUTATOR_GRAPH__EDGES:
-				return ((InternalEList<?>)getEdges()).basicRemove(otherEnd, msgs);
+			case ModelgraphPackage.MUTATOR_GRAPH__RELATIONS:
+				return ((InternalEList<?>)getRelations()).basicRemove(otherEnd, msgs);
+			case ModelgraphPackage.MUTATOR_GRAPH__CONTENTS:
+				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -213,8 +239,10 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 				return getType();
 			case ModelgraphPackage.MUTATOR_GRAPH__NODES:
 				return getNodes();
-			case ModelgraphPackage.MUTATOR_GRAPH__EDGES:
-				return getEdges();
+			case ModelgraphPackage.MUTATOR_GRAPH__RELATIONS:
+				return getRelations();
+			case ModelgraphPackage.MUTATOR_GRAPH__CONTENTS:
+				return getContents();
 			case ModelgraphPackage.MUTATOR_GRAPH__METAMODEL:
 				return getMetamodel();
 		}
@@ -237,9 +265,13 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 				getNodes().clear();
 				getNodes().addAll((Collection<? extends Node>)newValue);
 				return;
-			case ModelgraphPackage.MUTATOR_GRAPH__EDGES:
-				getEdges().clear();
-				getEdges().addAll((Collection<? extends Edge>)newValue);
+			case ModelgraphPackage.MUTATOR_GRAPH__RELATIONS:
+				getRelations().clear();
+				getRelations().addAll((Collection<? extends Relation>)newValue);
+				return;
+			case ModelgraphPackage.MUTATOR_GRAPH__CONTENTS:
+				getContents().clear();
+				getContents().addAll((Collection<? extends Content>)newValue);
 				return;
 			case ModelgraphPackage.MUTATOR_GRAPH__METAMODEL:
 				setMetamodel((String)newValue);
@@ -262,8 +294,11 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 			case ModelgraphPackage.MUTATOR_GRAPH__NODES:
 				getNodes().clear();
 				return;
-			case ModelgraphPackage.MUTATOR_GRAPH__EDGES:
-				getEdges().clear();
+			case ModelgraphPackage.MUTATOR_GRAPH__RELATIONS:
+				getRelations().clear();
+				return;
+			case ModelgraphPackage.MUTATOR_GRAPH__CONTENTS:
+				getContents().clear();
 				return;
 			case ModelgraphPackage.MUTATOR_GRAPH__METAMODEL:
 				setMetamodel(METAMODEL_EDEFAULT);
@@ -284,8 +319,10 @@ public class MutatorGraphImpl extends ItemImpl implements MutatorGraph {
 				return type != TYPE_EDEFAULT;
 			case ModelgraphPackage.MUTATOR_GRAPH__NODES:
 				return nodes != null && !nodes.isEmpty();
-			case ModelgraphPackage.MUTATOR_GRAPH__EDGES:
-				return edges != null && !edges.isEmpty();
+			case ModelgraphPackage.MUTATOR_GRAPH__RELATIONS:
+				return relations != null && !relations.isEmpty();
+			case ModelgraphPackage.MUTATOR_GRAPH__CONTENTS:
+				return contents != null && !contents.isEmpty();
 			case ModelgraphPackage.MUTATOR_GRAPH__METAMODEL:
 				return METAMODEL_EDEFAULT == null ? metamodel != null : !METAMODEL_EDEFAULT.equals(metamodel);
 		}

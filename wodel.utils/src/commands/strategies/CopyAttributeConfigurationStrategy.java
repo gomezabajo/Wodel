@@ -23,12 +23,16 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		Object src = eobj.eGet(source);
-		Object tar = eobj.eGet(target);
-		System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
-		if ((c.getInstanceClassName().toLowerCase().equals(src.getClass().getSimpleName().toLowerCase())) && (c.getInstanceClassName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase()))) {
+		if (source.getEType().equals(target.getEType())) {
 			return true;
 		}
+		//Object src = eobj.eGet(source);
+		//Object tar = eobj.eGet(target);
+		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
+		//if (((c.getInstanceClassName().toLowerCase().equals(src.getClass().getSimpleName().toLowerCase())) && (c.getInstanceClassName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase()))) ||
+		//	((c.getInstanceClass().getSimpleName().toLowerCase().equals(src.getClass().getSimpleName().toLowerCase())) && (c.getInstanceClass().getSimpleName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase())))) {
+		//	return true;
+		//}
 		//System.out.println("c: " + c.getInstanceClass().toString() + ", source: " + src.getClass().toString() + ", target:" + tar.getClass().toString());
 		//if ((c.getInstanceClass() == src.getClass()) && (c.getInstanceClass() == tar.getClass())) {
 		//	return true;
@@ -74,27 +78,31 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 			}
 		}
 		eobj = obj_src;
-		eobjatt = EcoreUtil.copy(obj_tar);
+		eobjatt = EcoreUtil.copy(obj_src);
 	}
 
 	public CopyAttributeConfigurationStrategy(EObject obj_tar, EObject obj_src, String target, String source) {
 		super("");
-		for (EAttribute a : obj_src.eClass().getEAllAttributes()) {
-			if (a.getName().equals(source)) {
-				System.out.println("SOURCE: " + source + ", VALUE: " + obj_src.eGet(a));
-				this.source = a;
-				break;
+		if (obj_src != null) {
+			for (EAttribute a : obj_src.eClass().getEAllAttributes()) {
+				if (a.getName().equals(source)) {
+					System.out.println("SOURCE: " + source + ", VALUE: " + obj_src.eGet(a));
+					this.source = a;
+					break;
+				}
 			}
 		}
-		for (EAttribute a : obj_tar.eClass().getEAllAttributes()) {
-			if (a.getName().equals(target)) {
-				System.out.println("TARGET: " + target + ", VALUE: " + obj_tar.eGet(a));
-				this.target = a;
-				break;
+		if (obj_tar != null) {
+			for (EAttribute a : obj_tar.eClass().getEAllAttributes()) {
+				if (a.getName().equals(target)) {
+					System.out.println("TARGET: " + target + ", VALUE: " + obj_tar.eGet(a));
+					this.target = a;
+					break;
+				}
 			}
 		}
 		eobj = obj_src;
-		eobjatt = EcoreUtil.copy(obj_tar);
+		eobjatt = EcoreUtil.copy(obj_src);
 	}
 
 	public Object getValue(EObject o) {

@@ -18,6 +18,8 @@ import edutest.ProgramConfiguration;
 import edutest.Test;
 import edutest.TestConfiguration;
 
+import mutatorenvironment.MutatorenvironmentPackage;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -169,6 +171,9 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		EdutestPackageImpl theEdutestPackage = (EdutestPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EdutestPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EdutestPackageImpl());
 
 		isInited = true;
+
+		// Initialize simple dependencies
+		MutatorenvironmentPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theEdutestPackage.createPackageContents();
@@ -529,6 +534,9 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		MutatorenvironmentPackage theMutatorenvironmentPackage = (MutatorenvironmentPackage)EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -547,7 +555,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEReference(getProgram_Exercises(), this.getMutatorTests(), null, "exercises", null, 0, -1, Program.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mutatorTestsEClass, MutatorTests.class, "MutatorTests", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMutatorTests_Block(), ecorePackage.getEObject(), null, "block", null, 0, 1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorTests_Block(), theMutatorenvironmentPackage.getBlock(), null, "block", null, 0, 1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorTests_Tests(), this.getTest(), null, "tests", null, 0, -1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(configurationEClass, Configuration.class, "Configuration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -612,7 +620,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		  (this, 
 		   source, 
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore",
+			 "mutatorenvironment", "MutatorEnvironment.ecore#/"
 		   });
 	}
 

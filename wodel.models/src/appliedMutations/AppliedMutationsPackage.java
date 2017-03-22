@@ -528,13 +528,22 @@ public interface AppliedMutationsPackage extends EPackage {
 	int REFERENCE_CREATED__REF = APP_MUTATION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Ref Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CREATED__REF_NAME = APP_MUTATION_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Reference Created</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_CREATED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 2;
+	int REFERENCE_CREATED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Reference Created</em>' class.
@@ -583,13 +592,22 @@ public interface AppliedMutationsPackage extends EPackage {
 	int REFERENCE_REMOVED__REF = APP_MUTATION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Ref Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_REMOVED__REF_NAME = APP_MUTATION_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Reference Removed</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_REMOVED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 2;
+	int REFERENCE_REMOVED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Reference Removed</em>' class.
@@ -867,6 +885,115 @@ public interface AppliedMutationsPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link appliedMutations.impl.ReferenceAttImpl <em>Reference Att</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see appliedMutations.impl.ReferenceAttImpl
+	 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getReferenceAtt()
+	 * @generated
+	 */
+	int REFERENCE_ATT = 12;
+
+	/**
+	 * The feature id for the '<em><b>Def</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__DEF = REFERENCE_CHANGED__DEF;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__OBJECT = REFERENCE_CHANGED__OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Src Ref Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__SRC_REF_NAME = REFERENCE_CHANGED__SRC_REF_NAME;
+
+	/**
+	 * The feature id for the '<em><b>From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__FROM = REFERENCE_CHANGED__FROM;
+
+	/**
+	 * The feature id for the '<em><b>Ref Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__REF_NAME = REFERENCE_CHANGED__REF_NAME;
+
+	/**
+	 * The feature id for the '<em><b>To</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__TO = REFERENCE_CHANGED__TO;
+
+	/**
+	 * The feature id for the '<em><b>Att Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__ATT_NAME = REFERENCE_CHANGED_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Old Val</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__OLD_VAL = REFERENCE_CHANGED_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>New Val</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT__NEW_VAL = REFERENCE_CHANGED_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Reference Att</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT_FEATURE_COUNT = REFERENCE_CHANGED_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Reference Att</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ATT_OPERATION_COUNT = REFERENCE_CHANGED_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link appliedMutations.impl.AttributeSwapImpl <em>Attribute Swap</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -874,7 +1001,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getAttributeSwap()
 	 * @generated
 	 */
-	int ATTRIBUTE_SWAP = 12;
+	int ATTRIBUTE_SWAP = 13;
 
 	/**
 	 * The feature id for the '<em><b>Def</b></em>' reference.
@@ -957,7 +1084,7 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getCompositeMutation()
 	 * @generated
 	 */
-	int COMPOSITE_MUTATION = 13;
+	int COMPOSITE_MUTATION = 14;
 
 	/**
 	 * The feature id for the '<em><b>Def</b></em>' reference.
@@ -1003,6 +1130,53 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPOSITE_MUTATION_OPERATION_COUNT = APP_MUTATION_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link appliedMutations.impl.ObjectClonedImpl <em>Object Cloned</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see appliedMutations.impl.ObjectClonedImpl
+	 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getObjectCloned()
+	 * @generated
+	 */
+	int OBJECT_CLONED = 15;
+
+	/**
+	 * The feature id for the '<em><b>Def</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_CLONED__DEF = APP_MUTATION__DEF;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_CLONED__OBJECT = APP_MUTATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Object Cloned</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_CLONED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Object Cloned</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_CLONED_OPERATION_COUNT = APP_MUTATION_OPERATION_COUNT + 0;
 
 
 	/**
@@ -1229,6 +1403,17 @@ public interface AppliedMutationsPackage extends EPackage {
 	EReference getReferenceCreated_Ref();
 
 	/**
+	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceCreated#getRefName <em>Ref Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ref Name</em>'.
+	 * @see appliedMutations.ReferenceCreated#getRefName()
+	 * @see #getReferenceCreated()
+	 * @generated
+	 */
+	EAttribute getReferenceCreated_RefName();
+
+	/**
 	 * Returns the meta object for class '{@link appliedMutations.ReferenceRemoved <em>Reference Removed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1259,6 +1444,17 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getReferenceRemoved_Ref();
+
+	/**
+	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceRemoved#getRefName <em>Ref Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ref Name</em>'.
+	 * @see appliedMutations.ReferenceRemoved#getRefName()
+	 * @see #getReferenceRemoved()
+	 * @generated
+	 */
+	EAttribute getReferenceRemoved_RefName();
 
 	/**
 	 * Returns the meta object for class '{@link appliedMutations.InformationChanged <em>Information Changed</em>}'.
@@ -1423,6 +1619,49 @@ public interface AppliedMutationsPackage extends EPackage {
 	EAttribute getReferenceSwap_OtherToName();
 
 	/**
+	 * Returns the meta object for class '{@link appliedMutations.ReferenceAtt <em>Reference Att</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reference Att</em>'.
+	 * @see appliedMutations.ReferenceAtt
+	 * @generated
+	 */
+	EClass getReferenceAtt();
+
+	/**
+	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceAtt#getAttName <em>Att Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Att Name</em>'.
+	 * @see appliedMutations.ReferenceAtt#getAttName()
+	 * @see #getReferenceAtt()
+	 * @generated
+	 */
+	EAttribute getReferenceAtt_AttName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceAtt#getOldVal <em>Old Val</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Old Val</em>'.
+	 * @see appliedMutations.ReferenceAtt#getOldVal()
+	 * @see #getReferenceAtt()
+	 * @generated
+	 */
+	EAttribute getReferenceAtt_OldVal();
+
+	/**
+	 * Returns the meta object for the attribute '{@link appliedMutations.ReferenceAtt#getNewVal <em>New Val</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>New Val</em>'.
+	 * @see appliedMutations.ReferenceAtt#getNewVal()
+	 * @see #getReferenceAtt()
+	 * @generated
+	 */
+	EAttribute getReferenceAtt_NewVal();
+
+	/**
 	 * Returns the meta object for class '{@link appliedMutations.AttributeSwap <em>Attribute Swap</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1485,6 +1724,27 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getCompositeMutation_Muts();
+
+	/**
+	 * Returns the meta object for class '{@link appliedMutations.ObjectCloned <em>Object Cloned</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Object Cloned</em>'.
+	 * @see appliedMutations.ObjectCloned
+	 * @generated
+	 */
+	EClass getObjectCloned();
+
+	/**
+	 * Returns the meta object for the reference list '{@link appliedMutations.ObjectCloned#getObject <em>Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Object</em>'.
+	 * @see appliedMutations.ObjectCloned#getObject()
+	 * @see #getObjectCloned()
+	 * @generated
+	 */
+	EReference getObjectCloned_Object();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1694,6 +1954,14 @@ public interface AppliedMutationsPackage extends EPackage {
 		EReference REFERENCE_CREATED__REF = eINSTANCE.getReferenceCreated_Ref();
 
 		/**
+		 * The meta object literal for the '<em><b>Ref Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_CREATED__REF_NAME = eINSTANCE.getReferenceCreated_RefName();
+
+		/**
 		 * The meta object literal for the '{@link appliedMutations.impl.ReferenceRemovedImpl <em>Reference Removed</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1718,6 +1986,14 @@ public interface AppliedMutationsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REFERENCE_REMOVED__REF = eINSTANCE.getReferenceRemoved_Ref();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_REMOVED__REF_NAME = eINSTANCE.getReferenceRemoved_RefName();
 
 		/**
 		 * The meta object literal for the '{@link appliedMutations.impl.InformationChangedImpl <em>Information Changed</em>}' class.
@@ -1846,6 +2122,40 @@ public interface AppliedMutationsPackage extends EPackage {
 		EAttribute REFERENCE_SWAP__OTHER_TO_NAME = eINSTANCE.getReferenceSwap_OtherToName();
 
 		/**
+		 * The meta object literal for the '{@link appliedMutations.impl.ReferenceAttImpl <em>Reference Att</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see appliedMutations.impl.ReferenceAttImpl
+		 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getReferenceAtt()
+		 * @generated
+		 */
+		EClass REFERENCE_ATT = eINSTANCE.getReferenceAtt();
+
+		/**
+		 * The meta object literal for the '<em><b>Att Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_ATT__ATT_NAME = eINSTANCE.getReferenceAtt_AttName();
+
+		/**
+		 * The meta object literal for the '<em><b>Old Val</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_ATT__OLD_VAL = eINSTANCE.getReferenceAtt_OldVal();
+
+		/**
+		 * The meta object literal for the '<em><b>New Val</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_ATT__NEW_VAL = eINSTANCE.getReferenceAtt_NewVal();
+
+		/**
 		 * The meta object literal for the '{@link appliedMutations.impl.AttributeSwapImpl <em>Attribute Swap</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1896,6 +2206,24 @@ public interface AppliedMutationsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPOSITE_MUTATION__MUTS = eINSTANCE.getCompositeMutation_Muts();
+
+		/**
+		 * The meta object literal for the '{@link appliedMutations.impl.ObjectClonedImpl <em>Object Cloned</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see appliedMutations.impl.ObjectClonedImpl
+		 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getObjectCloned()
+		 * @generated
+		 */
+		EClass OBJECT_CLONED = eINSTANCE.getObjectCloned();
+
+		/**
+		 * The meta object literal for the '<em><b>Object</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_CLONED__OBJECT = eINSTANCE.getObjectCloned_Object();
 
 	}
 

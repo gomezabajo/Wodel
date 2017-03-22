@@ -31,6 +31,15 @@ public interface ModelgraphFactory extends EFactory {
 	MutatorGraph createMutatorGraph();
 
 	/**
+	 * Returns a new object of class '<em>Boolean Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Boolean Attribute</em>'.
+	 * @generated
+	 */
+	BooleanAttribute createBooleanAttribute();
+
+	/**
 	 * Returns a new object of class '<em>Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -47,6 +56,51 @@ public interface ModelgraphFactory extends EFactory {
 	 * @generated
 	 */
 	Edge createEdge();
+
+	/**
+	 * Returns a new object of class '<em>Level</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Level</em>'.
+	 * @generated
+	 */
+	Level createLevel();
+
+	/**
+	 * Returns a new object of class '<em>Node Enumerator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Node Enumerator</em>'.
+	 * @generated
+	 */
+	NodeEnumerator createNodeEnumerator();
+
+	/**
+	 * Returns a new object of class '<em>Enumerator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Enumerator</em>'.
+	 * @generated
+	 */
+	Enumerator createEnumerator();
+
+	/**
+	 * Returns a new object of class '<em>Information</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Information</em>'.
+	 * @generated
+	 */
+	Information createInformation();
+
+	/**
+	 * Returns a new object of class '<em>Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Content</em>'.
+	 * @generated
+	 */
+	Content createContent();
 
 	/**
 	 * Returns the package supported by this factory.

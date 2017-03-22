@@ -2,6 +2,7 @@
  */
 package mutatorenvironment;
 
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -11,6 +12,7 @@ package mutatorenvironment;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link mutatorenvironment.ObSelectionStrategy#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.ObSelectionStrategy#getExpression <em>Expression</em>}</li>
  * </ul>
  * </p>
@@ -20,6 +22,32 @@ package mutatorenvironment;
  * @generated
  */
 public interface ObSelectionStrategy extends ObjectEmitter {
+	/**
+	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ref Type</em>' reference.
+	 * @see #setRefType(EReference)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getObSelectionStrategy_RefType()
+	 * @model
+	 * @generated
+	 */
+	EReference getRefType();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ObSelectionStrategy#getRefType <em>Ref Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ref Type</em>' reference.
+	 * @see #getRefType()
+	 * @generated
+	 */
+	void setRefType(EReference value);
+
 	/**
 	 * Returns the value of the '<em><b>Expression</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

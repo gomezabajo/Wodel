@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.InformationChanged#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.InformationChanged#getAttChanges <em>Att Changes</em>}</li>
  *   <li>{@link appliedMutations.InformationChanged#getRefChanges <em>Ref Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getInformationChanged()
  * @model

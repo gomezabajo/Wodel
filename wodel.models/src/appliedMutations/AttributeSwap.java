@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.AttributeSwap#getAttObject <em>Att Object</em>}</li>
  *   <li>{@link appliedMutations.AttributeSwap#getFirstName <em>First Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getAttributeSwap()
  * @model

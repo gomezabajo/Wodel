@@ -10,12 +10,12 @@ package appliedMutations;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.AttributeChanged#getAttName <em>Att Name</em>}</li>
  *   <li>{@link appliedMutations.AttributeChanged#getOldVal <em>Old Val</em>}</li>
  *   <li>{@link appliedMutations.AttributeChanged#getNewVal <em>New Val</em>}</li>
  * </ul>
- * </p>
  *
  * @see appliedMutations.AppliedMutationsPackage#getAttributeChanged()
  * @model

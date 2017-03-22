@@ -23,12 +23,15 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		Object src = eobj.eGet(source);
-		Object tar = eobj.eGet(target);
-		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
-		if ((c.getInstanceClassName().toLowerCase().equals(src.getClass().getSimpleName().toLowerCase())) && (c.getInstanceClassName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase()))) {
+		if (source.getEType().equals(target.getEType())) {
 			return true;
 		}
+		//Object src = eobj.eGet(source);
+		//Object tar = eobj.eGet(target);
+		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
+		//if ((c.getInstanceClassName().toLowerCase().equals(src.getClass().getSimpleName().toLowerCase())) && (c.getInstanceClassName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase()))) {
+		//	return true;
+		//}
 		//System.out.println("c: " + c.getInstanceClass().toString() + ", source: " + src.getClass().toString() + ", target:" + tar.getClass().toString());
 		//if ((c.getInstanceClass() == src.getClass()) && (c.getInstanceClass() == tar.getClass())) {
 		//	return true;

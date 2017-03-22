@@ -1,8 +1,11 @@
 package commands.strategies;
 
+import java.util.List;
+
 import manager.ModelManager;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 
 public class RandomConfigurationStrategy extends AttributeConfigurationStrategy {
@@ -21,12 +24,18 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		System.out.println("RANDOM: c.getInstanceClass().getSimpleName().toLowerCase(): " + c.getInstanceClass().getSimpleName().toLowerCase());
-		if (c.getInstanceClass().getSimpleName().toLowerCase().equals("int") ||
-				c.getInstanceClass().getSimpleName().toLowerCase().equals("double") ||
-				c.getInstanceClass().getSimpleName().toLowerCase().equals("string") ||
-				c.getInstanceClass().getSimpleName().toLowerCase().equals("boolean"))
+		if (c.getInstanceClass() != null) {
+			System.out.println("RANDOM: c.getInstanceClass().getSimpleName().toLowerCase(): " + c.getInstanceClass().getSimpleName().toLowerCase());
+			String className = c.getInstanceClass().getSimpleName().toLowerCase();
+			if (className.equals("int") ||
+				className.equals("double") ||
+				className.equals("string") ||
+				className.equals("boolean"))
 			return true;
+		}
+		if (c.getClass().getSimpleName().toLowerCase().equals("eenumimpl")) {
+			return true;
+		}
 		return false;
 	}
 	
@@ -34,7 +43,8 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 		Object ret = null;
 		int max = 10;
 		System.out.println("RANDOM: this.value.getClass().getSimpleName().toLowerCase(): " + this.value.getClass().getSimpleName().toLowerCase());
-		if (this.value.getClass().getSimpleName().toLowerCase().equals("integer")) {
+		String className = this.value.getClass().getSimpleName().toLowerCase();
+		if (className.equals("integer")) {
 			int i = 0;
 			do {
 				i++;
@@ -42,7 +52,7 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 			}
 			while ((ret == this.value) && (i < max));
 		}
-		if (this.value.getClass().getSimpleName().toLowerCase().equals("double")) {
+		if (className.toLowerCase().equals("double")) {
 			int i = 0;
 			do {
 				i++;
@@ -50,7 +60,7 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 			}
 			while ((ret == this.value) && (i < max));
 		}
-		if (this.value.getClass().getSimpleName().toLowerCase().equals("string")) {
+		if (className.equals("string")) {
 			int size = ModelManager.rn.nextInt(5);
 			int i = 0;
 			do {
@@ -66,9 +76,20 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 			}
 			while ((((String) ret).equals((String) this.value)) && (i < max));
 		}
-		if (this.value.getClass().getSimpleName().toLowerCase().equals("boolean")) {
+		if (className.equals("boolean")) {
 			ret = !(boolean) this.value;
 		}
+		if (this.value instanceof EEnumLiteral) {
+			int i = 0;
+			List<EEnumLiteral> literals = ((EEnumLiteral) this.value).getEEnum().getELiterals();
+			EEnumLiteral lit = null;
+			do {
+				i++;
+				lit = literals.get(ModelManager.getRandomIndex(literals));
+			}
+			while ((((EEnumLiteral) this.value).getLiteral().equals(lit.getLiteral())) && (i < max));
+			ret = lit;
+   		}
 		return ret;
 	}
 	public Object getValue(EObject o){
@@ -110,6 +131,17 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 		if (this.value.getClass().getSimpleName().toLowerCase().equals("boolean")) {
 			ret = !(boolean) this.value;
 		}
+		if (this.value instanceof EEnumLiteral) {
+			int i = 0;
+			List<EEnumLiteral> literals = ((EEnumLiteral) this.value).getEEnum().getELiterals();
+			EEnumLiteral lit = null;
+			do {
+				i++;
+				lit = literals.get(ModelManager.getRandomIndex(literals));
+			}
+			while ((((EEnumLiteral) this.value).getLiteral().equals(lit.getLiteral())) && (i < max));
+			ret = lit;
+   		}
 		return ret;
 	}
 }

@@ -85,6 +85,24 @@ import java.util.HashSet
 import manager.ModelManager
 import wodel.dsls.WodelUtils
 import mutatorenvironment.RandomType
+import mutatorenvironment.CloneObjectMutator
+import mutatorenvironment.ReferenceAtt
+import mutatorenvironment.ListType
+import exceptions.ModelNotFoundException
+import appliedMutations.ObjectCloned
+import appliedMutations.InformationChanged
+import appliedMutations.AppMutation
+import appliedMutations.ObjectRemoved
+import mutatorenvironment.ObjectAttributeType
+import mutatorenvironment.MaxValueType
+import mutatorenvironment.MinValueType
+import manager.MutatorUtils
+import mutatorenvironment.AttributeOperation
+import mutatorenvironment.ArithmeticOperator
+import mutatorenvironment.RandomIntegerNumberType
+import mutatorenvironment.RandomDoubleNumberType
+import mutatorenvironment.SpecificClosureSelection
+import mutatorenvironment.EachTypeSelection
 
 /**
  * Generates code from your model files on save.
@@ -122,6 +140,25 @@ class WodelGenerator implements IGenerator {
 	private int nMut;
 	//private ArrayList<EPackage> packages;
 	
+	def String getMutatorPath(File[] files) {
+		var String mutatorPath = null
+		var int i = 0
+		while (mutatorPath == null && i < files.size) {
+			var File file = files.get(i)
+			if (file.isFile == true) {
+				if (file.getName().equals(fileName)) {
+					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(manager.WodelContext.getProject)).replace("\\", "/")
+					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+'/'+mutatorFolderAndFile
+				}
+			}
+			else {
+				mutatorPath = getMutatorPath(file.listFiles)
+			}
+			i++
+		}
+		return mutatorPath
+	}
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		manager.WodelContext.setProject(null)
 		manager.WodelContext.getProject
@@ -130,7 +167,16 @@ class WodelGenerator implements IGenerator {
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
 			fileName = resource.URI.lastSegment
-			var xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ "/src/" + fileName
+			var projectFolderName = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject + '/'
+			var File projectFolder = new File(projectFolderName)
+			var File[] files = projectFolder.listFiles
+			var String xTextFileName = getMutatorPath(files)
+			
+			//"file:/" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ "/src/" + fileName
+			//var File file = new File(xTextFileName)
+			//if (file.exists() == false) {
+			//	xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject + "/" + fileName
+			//}
 			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output + fileName.replaceAll("mutator", "model")
 			WodelUtils.serialize(xTextFileName, xmiFileName)
 			/* Write the EObject into a file */
@@ -154,19 +200,650 @@ class WodelGenerator implements IGenerator {
 		private ArrayList<Mutator> «methodName»(ArrayList<EPackage> packages, Resource model, HashMap<String, EObject> hmObjects, HashMap<String, List<EObject>> hmList) throws ReferenceNonExistingException {
 			ArrayList<Mutator> mutations = new ArrayList<Mutator>();
 		«IF mut instanceof ModifyInformationMutator»
-			//MODIFY INFORMATION «methodName»
+		//MODIFY INFORMATION «methodName»
+		«IF mut.object instanceof RandomTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
+			«IF mut.object.expression == null»
+				EObject object = rts.getObject();
+			«ELSE»
+				List<EObject> objects = rts.getObjects();
+			   	//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+			   	//EXPRESSION LEVEL: «nExpression = 0»
+			   	//EXPRESSION LEVEL: «expressionList.add(0)»
+			   	Expression exp«expressionList.get(0)» = new Expression();
+			   	«mut.object.expression.method»
+		   		List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+				EObject object = null;
+				if (selectedObjects.size() > 0) {
+					object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+				}
+			«ENDIF»
+			ObSelectionStrategy objectSelection = null; 
+			if (object != null) {
+			«IF mut.name!= null»
+				hmObjects.put("«mut.name»", object);
+			«ENDIF»
+				objectSelection = new SpecificObjectSelection(packages, model, object);
+			}
+		«ELSEIF mut.object instanceof CompleteTypeSelection»
+			CompleteTypeSelection cts = new CompleteTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+			List<EObject> objects = cts.getObjects();
+			«IF mut.name!= null»
+				hmList.put("«mut.name»", objects);
+			«ENDIF»
+			List<ObSelectionStrategy> listSelection = new ArrayList<ObSelectionStrategy>();
+			for (EObject obj : objects) {
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
+				listSelection.add(objectSelection);
+			}
+		«ELSEIF mut.object instanceof SpecificObjectSelection»
+			ObSelectionStrategy objectSelection = null;
+			if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+				objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+			} else {
+				return mutations;
+			}
+		«ELSEIF mut.object instanceof SpecificClosureSelection»
+			«IF ((mut.object as SpecificClosureSelection).objSel != null && (mut.object as SpecificClosureSelection).refType != null)»
+			ObSelectionStrategy objectSelection = null;
+			if (hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»") != null) {
+				objectSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»"), "«(mut.object as SpecificClosureSelection).refType.name»");
+			}
+			else {
+				return mutations;
+			}
+			«ENDIF»
+		«ELSEIF mut.object instanceof EachTypeSelection»
+			CompleteTypeSelection cts = new CompleteTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+			List<EObject> objects = cts.getObjects();
+			«IF mut.name!= null»
+				hmList.put("«mut.name»", objects);
+			«ENDIF»
+			List<ObSelectionStrategy> listSelection = new ArrayList<ObSelectionStrategy>();
+			for (EObject obj : objects) {
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
+				listSelection.add(objectSelection);
+			}
+		«ENDIF»
+				
+		HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		//COUNTER:«var counter = 0»
+		«FOR c : mut.attributes »
+			//COUNTER:«counter++»
+			«IF c.attribute.get(0) !=null»
+				«val EAttribute attribute = c.attribute.get(0)»
+				//NAME:«attributeName = attribute.name»
+			«ELSE»
+				//NAME:«attributeName = ""»
+			«ENDIF»
+			«IF c instanceof AttributeSwap»
+			   	«val attributeSwap = c as AttributeSwap»
+			   	«IF attributeSwap.object != null»
+			   		«IF attributeSwap.object instanceof RandomTypeSelection»
+			   		if (hmObjects.get("«(attributeSwap.object as RandomTypeSelection).name»") != null) {
+		   				atts.put("«attributeName»", new SwapAttributeConfigurationStrategy(hmObjects.get("«(attributeSwap.object as RandomTypeSelection).name»"), "«(attributeSwap.object as RandomTypeSelection).type.name»", "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»", model));
+		   			}
+		   			«ELSEIF attributeSwap.object instanceof SpecificObjectSelection»
+			   		if (objectSelection != null && objectSelection.getObject() != null) {
+			   			if (hmObjects.get("«(attributeSwap.object as SpecificObjectSelection).objSel.name»") != null) {
+			   				atts.put("«attributeName»", new SwapAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("«(attributeSwap.object as SpecificObjectSelection).objSel.name»"), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
+			   			} else {
+							return mutations;
+						}
+		   			}
+		   			«ENDIF»
+		   		«ELSE»
+		   		if (objectSelection != null && objectSelection.getObject() != null) {
+		   			atts.put("«attributeName»", new SwapAttributeConfigurationStrategy(objectSelection.getObject(), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
+		   		}
+				«ENDIF»
+			«ELSEIF c instanceof AttributeCopy»
+		   		«val attributeCopy = c as AttributeCopy»
+		   		«IF attributeCopy.object != null»
+					«IF attributeCopy.object instanceof RandomTypeSelection»
+					if (objectSelection != null && objectSelection.getObject() != null) {
+		   				atts.put("«attributeName»", new CopyAttributeConfigurationStrategy(objectSelection.getObject(), "«(attributeCopy.object as RandomTypeSelection).type.name»", "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»", model));
+		   			}
+					«ELSEIF attributeCopy.object instanceof SpecificObjectSelection»
+						if (objectSelection != null && objectSelection.getObject() != null) {
+							if (hmObjects.get("«(attributeCopy.object as SpecificObjectSelection).objSel.name»") != null) {
+			   					atts.put("«attributeName»", new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("«(attributeCopy.object as SpecificObjectSelection).objSel.name»"), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
+							} else {
+								return mutations;
+							}
+						}
+					«ENDIF»
+	   			«ELSE»
+		   		if (objectSelection != null && objectSelection.getObject() != null) {
+	   				atts.put("«attributeName»", new CopyAttributeConfigurationStrategy(objectSelection.getObject(), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
+	   			}
+	   		«ENDIF»
+	   		«ELSEIF c instanceof AttributeOperation»
+	   			«val attributeOperation = c as AttributeOperation»
+	   			if (objectSelection != null && objectSelection.getObject() != null) {
+	   			«IF attributeOperation.value instanceof ObjectAttributeType»
+	   				//«val ObjectAttributeType objectAtt = attributeOperation.value as ObjectAttributeType»
+	   				Object value = ModelManager.getAttribute("«objectAtt.attribute.name»", hmObjects.get("«objectAtt.objSel.name»"));
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof SpecificIntegerType»
+	   				//«val SpecificIntegerType specInt = attributeOperation.value as SpecificIntegerType»
+	   				Object value = «specInt.value»;
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof RandomIntegerType»
+	   				//«val RandomIntegerType rnInt = attributeOperation.value as RandomIntegerType»
+	   				int min = «rnInt.min»;
+	   				int max = «rnInt.max»;
+	   				Object value = (min == 0 && max == 0) ? 0 : ModelManager.rn.nextInt(max - min) + min;
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof RandomIntegerNumberType»
+	   				//«val RandomIntegerNumberType rnNumInt = attributeOperation.value as RandomIntegerNumberType»
+	   				int min = «rnNumInt.min»;
+	   				int max = 0;
+	   				«IF rnNumInt.object instanceof SpecificObjectSelection»
+	   				//«val SpecificObjectSelection sel = rnNumInt.object as SpecificObjectSelection»
+	   				max = ModelManager.getIntAttribute("«rnNumInt.max.name»", hmObjects.get("«sel.objSel.name»"));
+	   				«ENDIF»
+	   				Object value = (min == 0 && max == 0) ? 0 : ModelManager.rn.nextInt(max - min) + min;
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof SpecificDoubleType»
+	   				//«val SpecificDoubleType specDouble = attributeOperation.value as SpecificDoubleType»
+	   				Object value = «specDouble.value»;
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof RandomDoubleType»
+	   				//«val RandomDoubleType rnDouble = attributeOperation.value as RandomDoubleType»
+	   				int min = (int) Math.floor(«rnDouble.min» * 100);
+					int max = (int) Math.floor(«rnDouble.max» * 100);
+					Object value = 0.0;
+					if (min != 0 || max != 0) {
+						int rn = ModelManager.rn.nextInt(max - min) + min;
+	   					value = rn / 100.0;
+	   				}
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof RandomDoubleNumberType»
+	   				//«val RandomDoubleNumberType rnNumDouble = attributeOperation.value as RandomDoubleNumberType»
+	   				int min = (int) Math.floor(«rnNumDouble.min» * 100);
+	   				int max = 0;
+	   				«IF rnNumDouble.object instanceof SpecificObjectSelection»
+	   				//«val SpecificObjectSelection sel = rnNumDouble.object as SpecificObjectSelection»
+	   				max = (int) Math.floor(ModelManager.getDoubleAttribute("«rnNumDouble.max.name»", hmObjects.get("«sel.objSel.name»")) * 100);
+	   				«ENDIF»
+					Object value = 0.0;
+					if (min != 0 || max != 0) {
+						int rn = ModelManager.rn.nextInt(max - min) + min;
+	   					value = rn / 100.0;
+	   				}
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof MinValueType»
+	   				//«val MinValueType minValue = attributeOperation.value as MinValueType»
+	   				MinValueConfigurationStrategy minStrategy = new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(minValue)»", "«minValue.attribute.name»");
+	   				Object value = minStrategy.getValue(); 
+	   			«ENDIF»
+	   			«IF attributeOperation.value instanceof MaxValueType»
+	   				//«val MaxValueType maxValue = attributeOperation.value as MaxValueType»
+	   				MaxValueConfigurationStrategy maxStrategy = new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(maxValue)»", "«maxValue.attribute.name»");
+	   				Object value = maxStrategy.getValue(); 
+	   			«ENDIF»
+	   			«IF attributeOperation.operator == ArithmeticOperator.ADD»
+	   				«attributeOperation.add()»
+	   			«ENDIF»
+	   			«IF attributeOperation.operator == ArithmeticOperator.SUBTRACT»
+	   				«attributeOperation.subtract()»
+	   			«ENDIF»
+	   			«IF attributeOperation.operator == ArithmeticOperator.MULTIPLY»
+	   				«attributeOperation.multiply()»
+	   			«ENDIF»
+	   			«IF attributeOperation.operator == ArithmeticOperator.DIVIDE»
+	   				«attributeOperation.divide()»
+	   			«ENDIF»
+	   			«IF attributeOperation.operator == ArithmeticOperator.MODULE»
+	   				«attributeOperation.module()»
+	   			«ENDIF»
+	   			}
+			«ELSE»
+			if (objectSelection != null) {
+				«c.method(false)»
+			}
+			«ENDIF»
+   		«ENDFOR»
+		   				
+		HashMap<String, ReferenceConfigurationStrategy> refs = new HashMap<String, ReferenceConfigurationStrategy>();
+		HashMap<String, AttributeConfigurationStrategy> attsRef = new HashMap<String, AttributeConfigurationStrategy>();
+		ArrayList<EObject> objsAttRef = new ArrayList<EObject>();
+		//COUNTER:«counter = 0»
+		«FOR c : mut.references »
+			//COUNTER:«counter++»
+			«IF c.reference.get(0) !=null»
+				«val EReference reference = c.reference.get(0)»
+				//NAME:«referenceName = reference.name»
+			«ELSE»
+				//NAME:«referenceName = ""»
+			«ENDIF»
+		  	«IF c instanceof ReferenceSwap»
+	   			«val referenceSwap = c as ReferenceSwap»
+	   			«IF referenceSwap.object != null»
+					«IF referenceSwap.object instanceof RandomTypeSelection»
+					if (hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»") != null) {
+	   					refs.put("«referenceName»", new SwapReferenceConfigurationStrategy(hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»"), "«(referenceSwap.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", "«c.getReference().get(1).name»", model));
+	   				}
+	   				«ELSEIF referenceSwap.object instanceof SpecificObjectSelection»
+	   				if (objectSelection != null && objectSelection.getObject() != null) {
+	   					if (hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»") != null) {
+		   					refs.put("«referenceName»", new SwapReferenceConfigurationStrategy(objectSelection.getObject(), hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»"), "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
+			   			} else {
+							return mutations;
+						}
+	   				}
+	   				«ENDIF»
+		   		«ELSE»
+				if (objectSelection != null && objectSelection.getObject() != null) {
+					refs.put("«referenceName»", new SwapReferenceConfigurationStrategy(objectSelection.getObject(), "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
+	   			}
+		   		«ENDIF»
+		   	«ENDIF»
+	   		«IF c instanceof ReferenceInit»
+	   		«val referenceInit = c as ReferenceInit»
+	   			«IF referenceInit.object instanceof SpecificObjectSelection»
+	   				if (objectSelection != null && objectSelection.getObject() != null) {
+	   					if (hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»") != null) {
+		   					refs.put("«referenceName»", new SpecificReferenceConfigurationStrategy(model, objectSelection.getObject(), hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»"), "«referenceInit.getReference().get(0).name»"));
+			   			} else {
+							return mutations;
+						}
+	   				}
+	   			«ENDIF»
+	   			«IF referenceInit.object instanceof OtherTypeSelection»
+	   			if (objectSelection != null && objectSelection.getObject() != null) {
+	   				refs.put("«referenceName»", new RandomReferenceConfigurationStrategy(model, objectSelection.getObject(), "«referenceInit.getReference().get(0).name»", "«(referenceInit.object as OtherTypeSelection).type.name»"));
+	   			}
+	   			«ENDIF»
+			«ENDIF»
+			«IF c instanceof ReferenceAtt»
+	   			«val referenceAtt = c as ReferenceAtt»
+	   			«IF referenceAtt.reference != null»
+					«IF referenceAtt.attribute != null»
+					//NAME:«attributeName = referenceAtt.attribute.name»
+					«IF referenceAtt.value != null»
+					«IF (referenceAtt.eContainer as ModifyInformationMutator).object instanceof SpecificObjectSelection»
+					EObject refObjectSelected = null;
+					if (hmObjects.get("«((referenceAtt.eContainer as ModifyInformationMutator).object as SpecificObjectSelection).objSel.name»") != null) {
+						for (EReference ref : hmObjects.get("«((referenceAtt.eContainer as ModifyInformationMutator).object as SpecificObjectSelection).objSel.name»").eClass().getEReferences()) {
+							if (ref.getName().equals("«referenceAtt.reference.get(0).name»")) {
+								refObjectSelected = (EObject) hmObjects.get("«((referenceAtt.eContainer as ModifyInformationMutator).object as SpecificObjectSelection).objSel.name»").eGet(ref);
+								break;
+							}
+						}
+					}
+					«ELSEIF (referenceAtt.eContainer as ModifyInformationMutator).object instanceof RandomTypeSelection»
+					EObject refObjectSelected = null;
+					if (objectSelection != null) {
+						if (objectSelection.getObject() != null) {
+							for (EReference ref : objectSelection.getObject().eClass().getEReferences()) {
+								if (ref.getName().equals("«referenceAtt.reference.get(0).name»")) {
+									refObjectSelected = (EObject) objectSelection.getObject().eGet(ref);
+									break;
+								}
+							}
+						}
+					}
+					«ENDIF»
+					if (refObjectSelected != null) {
+						objsAttRef.add(refObjectSelected);
+						attsRef.put("«attributeName»", «referenceAtt.value.method(true)»);
+					}
+					«ENDIF»
+					«ENDIF»
+		   		«ENDIF»
+		   	«ENDIF»
+		«ENDFOR»
+		«IF mut.object instanceof CompleteTypeSelection»
+	   	for (ObSelectionStrategy objectSelection : listSelection) {
+	   		ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs, objsAttRef, attsRef);
+	   		//INC COUNTER: «nMutation++»
+	   		if (mut != null) {
+	   			mut.setId("m«nMutation»");
+				mutations.add(mut);
+			}
+	   	}
+	   	«ELSEIF mut.object instanceof EachTypeSelection»
+	   	for (ObSelectionStrategy objectSelection : listSelection) {
+	   		ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs, objsAttRef, attsRef);
+	   		//INC COUNTER: «nMutation++»
+	   		if (mut != null) {
+	   			mut.setId("m«nMutation»");
+				mutations.add(mut);
+			}
+	   	}
+	   	«ELSE»
+	   	if (objectSelection != null) {
+	   		ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs, objsAttRef, attsRef);
+	   		//INC COUNTER: «nMutation++»
+	   		if (mut != null) {
+	   			mut.setId("m«nMutation»");
+				mutations.add(mut);
+			}
+	   	}
+		«ENDIF»
+		//END MODIFY INFORMATION «methodName»
+	«ENDIF»
+	«IF mut instanceof CreateObjectMutator»
+		//CREATE OBJECT «methodName»
+		«IF mut.container == null»
+			ArrayList<EObject> containers = ModelManager.getParentObjects(packages, model, "«mut.type.name»");
+			EObject container = containers.get(ModelManager.getRandomIndex(containers));
+			ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+			SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+		«ELSE»
+			«IF mut.container instanceof RandomTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
+				EObject container = rts.getObject();
+				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.container.refType != null»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+				«ELSE»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+			«ENDIF»
+			«IF mut.container instanceof CompleteTypeSelection»
+				«/* THE SAME AS RANDOM */»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
+				EObject container = rts.getObject();
+				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.container.refType != null»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+				«ELSE»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+			«ENDIF»
+			«IF mut.container instanceof EachTypeSelection»
+				«/* THE SAME AS RANDOM */»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
+				EObject container = rts.getObject();
+				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.container.refType != null»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+				«ELSE»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+			«ENDIF»
+			«IF mut.container instanceof SpecificObjectSelection»
+				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+				«IF mut.container.refType != null»
+					SpecificReferenceSelection referenceSelection = null;
+					if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+		   			} else {
+						return mutations;
+					}
+				«ELSE»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+			«ENDIF»
+			«IF mut.container instanceof SpecificClosureSelection»
+				ObSelectionStrategy containerSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"), "«(mut.container as SpecificClosureSelection).refType.name»");
+				«IF mut.container.refType != null»
+					SpecificReferenceSelection referenceSelection = null;
+					if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"));
+		   			} else {
+						return mutations;
+					}
+				«ELSE»
+					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+			«ENDIF»
+		«ENDIF»
+		HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+		ObSelectionStrategy objectSelection = null;
+		«FOR c : mut.attributes»
+			«c.method(false)»
+		«ENDFOR»
+		HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+		«FOR c : mut.references»
+			«c.method»
+		«ENDFOR»
+		CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "«mut.type.name»");
+		//INC COUNTER: «nMutation++»
+		if (mut != null) {
+			mut.setId("m«nMutation»");
+			mutations.add(mut);
+		}
+		//END CREATE OBJECT «methodName»
+	«ENDIF»	
+	«IF mut instanceof SelectObjectMutator»
+	//SELECT OBJECT «methodName»
+		ObSelectionStrategy containerSelection = null;
+		SpecificReferenceSelection referenceSelection = null;
+		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection || mut.object instanceof EachTypeSelection»
+			«IF mut.container == null»
+			«IF mut.object instanceof RandomTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
+			«ENDIF»
+			«IF mut.object instanceof CompleteTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+			«ENDIF»
+			«IF mut.object instanceof EachTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+			«ENDIF»
+			«ELSE»
+				«IF mut.container instanceof RandomTypeSelection»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
+					EObject container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+					«IF mut.container.refType != null»
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+					«ELSE»
+						referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+					«ENDIF»
+				«ELSEIF mut.container instanceof CompleteTypeSelection»
+					«/* THE SAME AS RANDOM */»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
+					EObject container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+					«IF mut.container.refType != null»
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+					«ELSE»
+						referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+					«ENDIF»
+				«ELSEIF mut.container instanceof EachTypeSelection»
+					«/* THE SAME AS RANDOM */»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
+					EObject container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+					«IF mut.container.refType != null»
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+					«ELSE»
+						referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+					«ENDIF»
+				«ELSEIF mut.container instanceof SpecificObjectSelection»
+					if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+						containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+		   			} else {
+		   				if (hmList.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+		   					containerSelection = new SpecificObjectSelection(packages, model, hmList.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+		   				}
+		   				else {
+							return mutations;
+						}
+					}
+					«IF mut.container.refType != null»
+						if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+							referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+			   			} else {
+			   				return mutations;
+						}
+					«ELSE»
+						referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+					«ENDIF»
+				«ELSEIF mut.container instanceof SpecificClosureSelection»
+					if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+						containerSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"), "«(mut.container as SpecificClosureSelection).refType.name»");
+		   			} else {
+						return mutations;
+					}
+					«IF mut.container.refType != null»
+						if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+							referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"));
+			   			} else {
+							return mutations;
+						}
+					«ELSE»
+						referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+					«ENDIF»
+				«ENDIF»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«mut.object.type.name»", referenceSelection, containerSelection);	
+				«IF ((mut.object.expression == null) && (mut.container.expression == null))»
+					EObject object = rts.getObject();
+				«ENDIF»
+			«ENDIF»
+			«IF ((mut.object.expression == null) && (mut.container == null))»
+				EObject object = rts.getObject();
+			«ENDIF»
+			
+			«IF (mut.object.expression != null)»
+				«IF (mut.container == null)»
+				List<EObject> objects = rts.getObjects();
+				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+				//EXPRESSION LEVEL: «nExpression = 0»
+				//EXPRESSION LEVEL: «expressionList.add(0)»
+				Expression exp«expressionList.get(0)» = new Expression();
+				«mut.object.expression.method»
+   				List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+				«IF mut.object instanceof RandomTypeSelection»
+				EObject object = null;
+				if (selectedObjects.size() > 0) {
+					object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+				}
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+				objects = selectedObjects;
+				«ENDIF»
+				«IF mut.object instanceof EachTypeSelection»
+				«mut.object.expression.each»
+				«ENDIF»
+				«ELSEIF (mut.container.expression == null)»
+				List<EObject> objects = rts.getObjects();
+				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+				//EXPRESSION LEVEL: «nExpression = 0»
+				//EXPRESSION LEVEL: «expressionList.add(0)»
+				Expression exp«expressionList.get(0)» = new Expression();
+				«mut.object.expression.method»
+   				List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+   				«IF mut.object instanceof RandomTypeSelection»
+				EObject object = null;
+				if (selectedObjects.size() > 0) {
+					object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+				}
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+				objects = selectedObjects;
+				«ENDIF»
+				«IF mut.object instanceof EachTypeSelection»
+				«mut.object.expression.each»
+				«ENDIF»
+				«ENDIF»
+			«ENDIF»
+			«IF (mut.object.expression == null)»
+				«IF ((mut.container != null) && (mut.container.expression != null))»
+				List<EObject> objects = rts.getObjects();
+				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+				//EXPRESSION LEVEL: «nExpression = 0»
+				//EXPRESSION LEVEL: «expressionList.add(0)»
+				Expression exp«expressionList.get(0)» = new Expression();
+				«mut.container.expression.method»
+   				List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+   				«IF mut.object instanceof RandomTypeSelection»
+				EObject object = null;
+				if (selectedObjects.size() > 0) {
+					object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+				}
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+				objects = selectedObjects;
+				«ENDIF»
+				«IF mut.object instanceof EachTypeSelection»
+				«mut.container.expression.each»
+				«ENDIF»
+				«ENDIF»
+			«ENDIF»
+			«IF mut.object instanceof RandomTypeSelection»
+			ObSelectionStrategy objectSelection = null; 
+			if (object != null) {
+				objectSelection = new SpecificObjectSelection(packages, model, object);
+			}
+			«ENDIF»
+			«ELSEIF mut.object instanceof CompleteTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+				EObject object = rts.getObject();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+			«ELSEIF mut.object instanceof EachTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+				EObject object = rts.getObject();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+			«ELSEIF mut.object instanceof SpecificObjectSelection»
+				ObSelectionStrategy objectSelection = null;
+				if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+					objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSEIF mut.object instanceof SpecificClosureSelection»
+				ObSelectionStrategy objectSelection = null;
+				if (hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»") != null) {
+					objectSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»"), "«(mut.object as SpecificClosureSelection).refType.name»");
+	   			} else {
+					return mutations;
+				}
+			«ELSEIF mut.object instanceof EachTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+				EObject object = rts.getObject();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+			«ELSE»
+				ArrayList<EObject> objects = ModelManager.getParentObjects(packages, model, "«mut.type.name»");
+				EObject container = containers.get(ModelManager.getRandomIndex(objects));
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+			«ENDIF»
+			«IF mut.object instanceof CompleteTypeSelection»
+			for (EObject obj : objects) {
+				SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, obj);
+			   	//INC COUNTER: «nMutation++»
+			   	if (mut != null) {
+			   		mut.setId("m«nMutation»");
+					mutations.add(mut);
+				}
+			}
+			«ELSEIF mut.object instanceof EachTypeSelection»
+			for (EObject obj : objects) {
+				SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, obj);
+			   	//INC COUNTER: «nMutation++»
+			   	if (mut != null) {
+			   		mut.setId("m«nMutation»");
+					mutations.add(mut);
+				}
+			}
+			«ELSE»
+			SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, objectSelection);
+			//INC COUNTER: «nMutation++»
+			if (mut != null) {
+				mut.setId("m«nMutation»");
+				mutations.add(mut);
+			}
+			«ENDIF»
+			//END SELECT OBJECT «methodName»
+		«ENDIF»
+		«IF mut instanceof CloneObjectMutator»
+			//CLONE OBJECT «methodName»
 			«IF mut.object instanceof RandomTypeSelection»
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
 				«IF mut.object.expression == null»
 					EObject object = rts.getObject();
 				«ELSE»
 					List<EObject> objects = rts.getObjects();
-				   	//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
-				   	//EXPRESSION LEVEL: «nExpression = 0»
-				   	//EXPRESSION LEVEL: «expressionList.add(0)»
-				   	Expression exp«expressionList.get(0)» = new Expression();
-				   	«mut.object.expression.method»
-			   		List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+	   				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+	   				//EXPRESSION LEVEL: «nExpression = 0»
+	   				//EXPRESSION LEVEL: «expressionList.add(0)»
+	   				Expression exp«expressionList.get(0)» = new Expression();
+	   				«mut.object.expression.method»
+   					List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
 					EObject object = null;
 					if (selectedObjects.size() > 0) {
 						object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
@@ -174,468 +851,668 @@ class WodelGenerator implements IGenerator {
 				«ENDIF»
 				ObSelectionStrategy objectSelection = null; 
 				if (object != null) {
-				«IF mut.name!= null»
-					hmObjects.put("«mut.name»", object);
-				«ENDIF»
 					objectSelection = new SpecificObjectSelection(packages, model, object);
 				}
-				«ELSEIF mut.object instanceof CompleteTypeSelection»
-					CompleteTypeSelection cts = new CompleteTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
-					List<EObject> objects = cts.getObjects();
-					«IF mut.name!= null»
-						hmList.put("«mut.name»", objects);
-					«ENDIF»
-					List<ObSelectionStrategy> listSelection = new ArrayList<ObSelectionStrategy>();
-					for (EObject obj : objects) {
-						ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
-						listSelection.add(objectSelection);
-					}
-				«ELSEIF mut.object instanceof SpecificObjectSelection»
-						ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
-				«ENDIF»
-					
-				HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
-				//COUNTER:«var counter = 0»
-				«FOR c : mut.attributes »
-					//COUNTER:«counter++»
-					«IF c.attribute.get(0) !=null»
-						«val EAttribute attribute = c.attribute.get(0)»
-						//NAME:«attributeName = attribute.name»
-					«ELSE»
-						//NAME:«attributeName = ""»
-					«ENDIF»
-				   	«IF c instanceof AttributeSwap»
-				   		«val attributeSwap = c as AttributeSwap»
-				   		«IF attributeSwap.object != null»
-				   			«IF attributeSwap.object instanceof RandomTypeSelection»
-			   				atts.put("«attributeName»", new SwapAttributeConfigurationStrategy(hmObjects.get("«(attributeSwap.object as RandomTypeSelection).name»"), "«(attributeSwap.object as RandomTypeSelection).type.name»", "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»", model));
-			   				«ELSEIF attributeSwap.object instanceof SpecificObjectSelection»
-				   			if (objectSelection != null) {
-				   				atts.put("«attributeName»", new SwapAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("«(attributeSwap.object as SpecificObjectSelection).objSel.name»"), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
-			   				}
-			   				«ENDIF»
-			   			«ELSE»
-			   			if (objectSelection != null) {
-			   				atts.put("«attributeName»", new SwapAttributeConfigurationStrategy(objectSelection.getObject(), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
-			   			}
-		   			«ENDIF»
-		   			«ELSEIF c instanceof AttributeCopy»
-			   			«val attributeCopy = c as AttributeCopy»
-			   			«IF attributeCopy.object != null»
-				   			«IF attributeCopy.object instanceof RandomTypeSelection»
-				   			if (objectSelection != null) {
-			   					atts.put("«attributeName»", new CopyAttributeConfigurationStrategy(objectSelection.getObject(), "«(attributeCopy.object as RandomTypeSelection).type.name»", "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»", model));
-			   				}
-		   				«ELSEIF attributeCopy.object instanceof SpecificObjectSelection»
-		   				if (objectSelection != null) {
-			   					atts.put("«attributeName»", new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("«(attributeCopy.object as SpecificObjectSelection).objSel.name»"), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
-		   				}
-		   				«ENDIF»
-			   			«ELSE»
-				   			if (objectSelection != null) {
-			   					atts.put("«attributeName»", new CopyAttributeConfigurationStrategy(objectSelection.getObject(), "«c.getAttribute().get(0).name»", "«c.getAttribute().get(1).name»"));
-			   				}
-			   			«ENDIF»
-		   			«ELSE»
-		   				if (objectSelection != null) {
-		   				«c.method»
-		   				}
-		   			«ENDIF»
-   				«ENDFOR»
-			   				
-				HashMap<String, ReferenceConfigurationStrategy> refs = new HashMap<String, ReferenceConfigurationStrategy>();
-				//COUNTER:«counter = 0»
-				«FOR c : mut.references »
-					//COUNTER:«counter++»
-					«IF c.reference.get(0) !=null»
-						«val EReference reference = c.reference.get(0)»
-						//NAME:«referenceName = reference.name»
-					«ELSE»
-						//NAME:«referenceName = ""»
-					«ENDIF»
-			   		«IF c instanceof ReferenceSwap»
-		   				«val referenceSwap = c as ReferenceSwap»
-		   				«IF referenceSwap.object != null»
-			   				«IF referenceSwap.object instanceof RandomTypeSelection»
-		   					refs.put("«referenceName»", new SwapReferenceConfigurationStrategy(hmObjects.get("«(referenceSwap.object as RandomTypeSelection).name»"), "«(referenceSwap.object as RandomTypeSelection).type.name»", "«c.getReference().get(0).name»", "«c.getReference().get(1).name»", model));
-		   					«ELSEIF referenceSwap.object instanceof SpecificObjectSelection»
-		   					if (objectSelection != null) {
-				   				refs.put("«referenceName»", new SwapReferenceConfigurationStrategy(objectSelection.getObject(), hmObjects.get("«(referenceSwap.object as SpecificObjectSelection).objSel.name»"), "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
-		   					}
-		   					«ENDIF»
-			   			«ELSE»
-				   		if (objectSelection != null) {
-				   			refs.put("«referenceName»", new SwapReferenceConfigurationStrategy(objectSelection.getObject(), "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
-		   				}
-			   			«ENDIF»
-			   			«/*HERE IT SHOULD BE PLACED SOME CODE FOR COPYING REFERENCES*/»
-		   			«ENDIF»
-			   	«ENDFOR»
-	   			«IF mut.object instanceof CompleteTypeSelection»
-		   		for (ObSelectionStrategy objectSelection : listSelection) {
-		   			ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs);
-		   			//INC COUNTER: «nMutation++»
-		   			mut.setId("m«nMutation»");
-					mutations.add(mut);
-		   		}
-		   		«ELSE»
-		   		if (objectSelection != null) {
-		   			ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs);
-		   			//INC COUNTER: «nMutation++»
-		   			mut.setId("m«nMutation»");
-					mutations.add(mut);
-		   		}
-				«ENDIF»
-			//END MODIFY INFORMATION «methodName»
+			«ELSEIF mut.object instanceof CompleteTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+				EObject object = rts.getObject();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object»);
+			«ELSEIF mut.object instanceof EachTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+				EObject object = rts.getObject();
+				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object»);
+			«ELSEIF mut.object instanceof SpecificObjectSelection»
+				ObSelectionStrategy objectSelection = null;
+				if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+					objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSEIF mut.object instanceof SpecificClosureSelection»
+				ObSelectionStrategy objectSelection = null;
+				if (hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»") != null) {
+					objectSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»"), "«(mut.object as SpecificClosureSelection).refType.name»");
+	   			} else {
+					return mutations;
+				}
 			«ENDIF»
-			«IF mut instanceof CreateObjectMutator»
-				//CREATE OBJECT «methodName»
+			EObject container = null;
+			ObSelectionStrategy containerSelection = null;
+			if (objectSelection != null) {
+			«IF mut.container == null»
+				container = ModelManager.getContainer(model, objectSelection.getObject());
+				containerSelection = new SpecificObjectSelection(packages, model, container);
+			«ELSE»
+				«IF mut.container instanceof RandomTypeSelection»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
+					container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+				«ENDIF»
+				«IF mut.container instanceof CompleteTypeSelection»
+					«/* THE SAME AS RANDOM */»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
+					container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+				«ENDIF»
+				«IF mut.container instanceof EachTypeSelection»
+					«/* THE SAME AS RANDOM */»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
+					container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+				«ENDIF»
+				«IF mut.container instanceof SpecificObjectSelection»
+					«IF mut.refType != null»
+					if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+						containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+		   			} else {
+						return mutations;
+					}
+					«ENDIF»
+				«ENDIF»
+				«IF mut.container instanceof SpecificClosureSelection»
+					«IF mut.refType != null»
+					if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+						containerSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"), "«(mut.container as SpecificClosureSelection).refType.name»");
+		   			} else {
+						return mutations;
+					}
+					«ENDIF»
+				«ENDIF»
+			«ENDIF»
+			}
+			«IF mut.refType != null»
+				SpecificReferenceSelection referenceSelection = null;
+				«IF mut.container instanceof SpecificObjectSelection»
+				if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+					referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.refType.name»", hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+				«ELSEIF mut.container instanceof SpecificClosureSelection»
+				if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+					referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.refType.name»", hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+				«ELSE»
+				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.refType.name»", containerSelection);
+				«ENDIF»
+			«ELSE»
+				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+			«ENDIF»
+			HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
+			«FOR c : mut.attributes»
+				«c.method(false)»
+			«ENDFOR»
+			HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
+			«FOR c : mut.references»
+				«c.method»
+			«ENDFOR»
+			CloneObjectMutator mut = null;
+			if (objectSelection != null && objectSelection.getObject() != null) {
+			«IF mut.object instanceof SpecificObjectSelection»
+			«IF (mut.object as SpecificObjectSelection).objSel instanceof SelectObjectMutator»
+				mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificObjectSelection).objSel as SelectObjectMutator).object.type.name»");
+			«ENDIF»
+			«IF (mut.object as SpecificObjectSelection).objSel instanceof CreateObjectMutator»
+				mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificObjectSelection).objSel as CreateObjectMutator).type.name»");
+			«ENDIF»
+			«IF (mut.object as SpecificObjectSelection).objSel instanceof CloneObjectMutator»
+				mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«((mut.object as SpecificObjectSelection).objSel as CloneObjectMutator).object.type.name»");
+			«ENDIF»
+			«ENDIF»
+			«IF mut.object instanceof RandomTypeSelection»
+				mut = new CloneObjectMutator(model, packages, objectSelection.getObject(), «mut.contents», referenceSelection, containerSelection, atts, refs, "«(mut.object as RandomTypeSelection).type.name»");
+			«ENDIF»
+			}
+		  	//INC COUNTER: «nMutation++»
+		  	if (mut != null) {
+		   		mut.setId("m«nMutation»");
+				mutations.add(mut);
+			}
+			//END CLONE OBJECT «methodName»
+		«ENDIF»	
+		«IF mut instanceof ModifySourceReferenceMutator»
+		//MODIFY SOURCE REFERENCE «methodName»
+			«IF mut.source instanceof RandomTypeSelection»
+				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");
+			«ELSEIF mut.source instanceof CompleteTypeSelection»
+				List<EObject> objects = hmList.get("«(mut.source as CompleteTypeSelection).type.name»");
+				List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
+				for (EObject obj : objects) {
+					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
+					listSourceSelection.add(objectSelection);
+				}
+			«ELSEIF mut.source instanceof EachTypeSelection»
+				List<EObject> objects = hmList.get("«(mut.source as EachTypeSelection).type.name»");
+				List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
+				for (EObject obj : objects) {
+					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
+					listSourceSelection.add(objectSelection);
+				}
+			«ELSEIF mut.source instanceof SpecificObjectSelection»
+				ObSelectionStrategy sourceSelection = null;
+				if (hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»") != null) {
+					sourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSE»
+				ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+			«ENDIF»
+			«IF mut.newSource instanceof RandomTypeSelection»
+				RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as RandomTypeSelection).type.name»");
+			«ELSEIF mut.newSource instanceof OtherTypeSelection»
+				EObject otherSourceSelection = null; 
+				«IF mut.source instanceof CompleteTypeSelection»
+					otherSourceSelection = sourceSelection.get(0).getObject();
+				«ELSE»
+					otherSourceSelection = sourceSelection.getObject();
+				«ENDIF»
+				«IF mut.source instanceof EachTypeSelection»
+					otherSourceSelection = sourceSelection.get(0).getObject();
+				«ELSE»
+					otherSourceSelection = sourceSelection.getObject();
+				«ENDIF»
+				Object otherRef = null;
+				if (otherSourceSelection != null) {
+					for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
+						if (ref.getName().equals("«mut.refType.name»")) {
+							otherRef = otherSourceSelection.eGet(ref);
+							break;
+						}
+					}
+				}
+				OtherTypeSelection newSourceSelection = new OtherTypeSelection(packages, model, "«(mut.newSource as OtherTypeSelection).type.name»", otherRef);
+			«ELSEIF mut.newSource instanceof CompleteTypeSelection»
+				«/*THE SAME AS RANDOM*/»
+				RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as CompleteTypeSelection).type.name»");
+			«ELSEIF mut.newSource instanceof EachTypeSelection»
+				«/*THE SAME AS RANDOM*/»
+				RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as EachTypeSelection).type.name»");						
+			«ELSEIF mut.newSource instanceof SpecificObjectSelection»
+				ObSelectionStrategy newSourceSelection = null;
+				if (hmObjects.get("«(mut.newSource as SpecificObjectSelection).objSel.name»") != null) {
+					newSourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.newSource as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSE»
+				ObSelectionStrategy newSourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+			«ENDIF»
+			«IF mut.source instanceof CompleteTypeSelection»
+   				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
+					ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
+				   	//INC COUNTER: «nMutation++»
+				   	if (mut != null) {
+				   		mut.setId("m«nMutation»");
+						mutations.add(mut);
+					}
+				}
+			«ELSEIF mut.source instanceof EachTypeSelection»
+   				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
+					ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
+				   	//INC COUNTER: «nMutation++»
+				   	if (mut != null) {
+				   		mut.setId("m«nMutation»");
+						mutations.add(mut);
+					}
+				}
+			«ELSE»
+				ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
+			   	//INC COUNTER: «nMutation++»
+			   	if (mut != null) {
+			   		mut.setId("m«nMutation»");
+					mutations.add(mut);
+				}
+		   	«ENDIF»
+			//END MODIFY SOURCE REFERENCE «methodName»
+		«ENDIF»
+		«IF mut instanceof ModifyTargetReferenceMutator»
+		//MODIFY TARGET REFERENCE «methodName»
+			«IF mut.source instanceof RandomTypeSelection»
+				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");			
+			«ELSEIF mut.source instanceof CompleteTypeSelection»
+				List<EObject> objects = hmList.get("«(mut.source as CompleteTypeSelection).type.name»");
+				List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
+				for (EObject obj : objects) {
+					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
+					listSourceSelection.add(objectSelection);
+				}
+			«ELSEIF mut.source instanceof EachTypeSelection»
+				List<EObject> objects = hmList.get("«(mut.source as EachTypeSelection).type.name»");
+				List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
+				for (EObject obj : objects) {
+					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
+					listSourceSelection.add(objectSelection);
+				}
+			«ELSEIF mut.source instanceof SpecificObjectSelection»
+				ObSelectionStrategy sourceSelection = null;
+				if (hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»") != null) { 
+					sourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSE»
+				ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+			«ENDIF»
+			«IF mut.newTarget instanceof RandomTypeSelection»
+				RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as RandomTypeSelection).type.name»");
+			«ELSEIF mut.newTarget instanceof OtherTypeSelection»
+				EObject otherSourceSelection = null; 
+				«IF mut.source instanceof CompleteTypeSelection»
+					otherSourceSelection = sourceSelection.get(0).getObject();
+				«ELSEIF mut.source instanceof EachTypeSelection»
+					otherSourceSelection = sourceSelection.get(0).getObject();
+				«ELSE»
+					otherSourceSelection = sourceSelection.getObject();
+				«ENDIF»
+				Object otherRef = null;
+				if (otherSourceSelection != null) {
+					for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
+						if (ref.getName().equals("«mut.refType.name»")) {
+							otherRef = otherSourceSelection.eGet(ref);
+							break;
+						}
+					}
+				}
+				OtherTypeSelection newTargetSelection = new OtherTypeSelection(packages, model, "«(mut.newTarget as OtherTypeSelection).type.name»", otherRef);
+			«ELSEIF mut.newTarget instanceof CompleteTypeSelection»
+				RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as CompleteTypeSelection).type.name»");			
+			«ELSEIF mut.newTarget instanceof EachTypeSelection»
+				RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as EachTypeSelection).type.name»");			
+			«ELSEIF mut.newTarget instanceof SpecificObjectSelection»
+				ObSelectionStrategy newTargetSelection = null;
+				if (hmObjects.get("«(mut.newTarget as SpecificObjectSelection).objSel.name»") != null) {
+					newTargetSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.newTarget as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSE»
+				ObSelectionStrategy newTargetSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+			«ENDIF»
+			«IF mut.source instanceof CompleteTypeSelection»
+   				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
+   					mutations.add(ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»"));
+	   			}
+	   		«ELSEIF mut.source instanceof EachTypeSelection»
+   				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
+   					mutations.add(ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»"));
+	   			}
+   			«ELSE»
+				ModifyTargetReferenceMutator mut = new ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»");
+			   	//INC COUNTER: «nMutation++»
+			   	if (mut != null) {
+			   		mut.setId("m«nMutation»");
+					mutations.add(mut);
+				}
+		«ENDIF»
+		//END MODIFY TARGET REFERENCE «methodName»
+		«ENDIF»
+		«IF mut instanceof CreateReferenceMutator»
+		//CREATE REFERENCE «methodName»
+			«IF mut.source instanceof RandomTypeSelection»
+				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");			
+			«ELSEIF mut.source instanceof CompleteTypeSelection»
+				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as CompleteTypeSelection).type.name»");
+			«ELSEIF mut.source instanceof EachTypeSelection»
+				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as EachTypeSelection).type.name»");		
+			«ELSEIF mut.source instanceof SpecificObjectSelection»
+				ObSelectionStrategy sourceSelection = null;
+				if (hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»") != null) {
+					sourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSE»
+				ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+			«ENDIF»
+			«IF mut.target instanceof RandomTypeSelection»
+				RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as RandomTypeSelection).type.name»");			
+			«ELSEIF mut.target instanceof CompleteTypeSelection»
+				RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as CompleteTypeSelection).type.name»");
+			«ELSEIF mut.target instanceof EachTypeSelection»
+				RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as EachTypeSelection).type.name»");						
+			«ELSEIF mut.target instanceof SpecificObjectSelection»
+				ObSelectionStrategy targetSelection = null;
+				if (hmObjects.get("«(mut.target as SpecificObjectSelection).objSel.name»") != null) {
+					targetSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.target as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+			«ELSE»
+				ObSelectionStrategy targetSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+			«ENDIF»
+			CreateReferenceMutator mut = new CreateReferenceMutator(model, packages, sourceSelection, targetSelection, "«mut.refType.name»");
+		   	//INC COUNTER: «nMutation++»
+		   	if (mut != null) {
+		   		mut.setId("m«nMutation»");
+				mutations.add(mut);
+			}
+			//END CREATE REFERENCE «methodName»
+		«ENDIF»
+		«IF mut instanceof RemoveObjectMutator»
+		// REMOVE OBJECT «methodName»
+			ObSelectionStrategy containerSelection = null;
+			SpecificReferenceSelection referenceSelection = null;
+			«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection || mut.object instanceof EachTypeSelection»
 				«IF mut.container == null»
-					ArrayList<EObject> containers = ModelManager.getParentObjects(model, "«mut.type.name»");
-					EObject container = containers.get(ModelManager.getRandomIndex(containers));
-					ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.object instanceof RandomTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+				«ENDIF»
+				«IF mut.object instanceof EachTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+				«ENDIF»
 				«ELSE»
 					«IF mut.container instanceof RandomTypeSelection»
 						RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
 						EObject container = rts.getObject();
-						ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
-					«ENDIF»
-					«IF mut.container instanceof CompleteTypeSelection»
+						containerSelection = new SpecificObjectSelection(packages, model, container);
+						«IF mut.container.refType != null»
+							referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+						«ELSE»
+							referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+						«ENDIF»
+					«ELSEIF mut.container instanceof CompleteTypeSelection»
 						«/* THE SAME AS RANDOM */»
 						RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
 						EObject container = rts.getObject();
-						ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
-					«ENDIF»
-					«IF mut.container instanceof SpecificObjectSelection»
-						«IF mut.refType != null»
-						ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+						containerSelection = new SpecificObjectSelection(packages, model, container);
+						«IF mut.container.refType != null»
+							referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+						«ELSE»
+							referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+						«ENDIF»
+					«ELSEIF mut.container instanceof EachTypeSelection»
+						«/* THE SAME AS RANDOM */»
+						RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
+						EObject container = rts.getObject();
+						containerSelection = new SpecificObjectSelection(packages, model, container);
+						«IF mut.container.refType != null»
+							referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+						«ELSE»
+							referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+						«ENDIF»
+					«ELSEIF mut.container instanceof SpecificObjectSelection»
+						if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+							containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+			   			} else {
+							return mutations;
+						}
+						«IF mut.container.refType != null»
+							if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+								referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+				   			} else {
+								return mutations;
+							}
+						«ELSE»
+							referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
 						«ENDIF»
 					«ENDIF»
-				«ENDIF»
-				«IF mut.refType != null»
-					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.refType.name»",
-					«IF mut.container instanceof SpecificObjectSelection» hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»")
-					«ELSE» containerSelection«ENDIF»);
-				«ELSE»
-					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-				«ENDIF»
-				HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
-				«FOR c : mut.attributes»
-					«c.method»
-				«ENDFOR»
-				HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-				«FOR c : mut.references»
-					«c.method»
-				«ENDFOR»
-				CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "«mut.type.name»");
-			   	//INC COUNTER: «nMutation++»
-			   	mut.setId("m«nMutation»");
-				mutations.add(mut);
-				//END CREATE OBJECT «methodName»
-			«ENDIF»	
-			«IF mut instanceof SelectObjectMutator»
-			//SELECT OBJECT «methodName»
-				«IF mut.object instanceof RandomTypeSelection»
-					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
-					«IF mut.object.expression == null»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»", referenceSelection, containerSelection);
+					«IF ((mut.object.expression == null) && (mut.container.expression == null))»
 						EObject object = rts.getObject();
-					«ELSE»
-						List<EObject> objects = rts.getObjects();
-	   					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
-	   					//EXPRESSION LEVEL: «nExpression = 0»
-	   					//EXPRESSION LEVEL: «expressionList.add(0)»
-	   					Expression exp«expressionList.get(0)» = new Expression();
-	   					«mut.object.expression.method»
-   						List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
-						EObject object = null;
-						if (selectedObjects.size() > 0) {
-							object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
-						}
-					«ENDIF»
-					ObSelectionStrategy objectSelection = null; 
-					if (object != null) {
-						objectSelection = new SpecificObjectSelection(packages, model, object);
-					}
-				«ELSEIF mut.object instanceof CompleteTypeSelection»
-					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
-					EObject object = rts.getObject();
-					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object»);
-				«ELSEIF mut.object instanceof SpecificObjectSelection»
-					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
-				«ELSE»
-					ArrayList<EObject> objects = ModelManager.getParentObjects(model, "«mut.type.name»");
-					EObject container = containers.get(ModelManager.getRandomIndex(objects));
-					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+					«ENDIF»	
 				«ENDIF»
-		
+				«IF ((mut.object.expression == null) && (mut.container == null))»
+					EObject object = rts.getObject();
+				«ENDIF»
+				«IF mut.object.expression != null»
+					«IF mut.container == null»
+					List<EObject> objects = rts.getObjects();
+   					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+   					//EXPRESSION LEVEL: «nExpression = 0»
+   					//EXPRESSION LEVEL: «expressionList.add(0)»
+   					Expression exp«expressionList.get(0)» = new Expression();
+   					«mut.object.expression.method»
+					List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+					«IF mut.object instanceof RandomTypeSelection»
+					EObject object = null;
+					if (selectedObjects.size() > 0) {
+						object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+					}
+					«ENDIF»
+					«IF mut.object instanceof CompleteTypeSelection»
+					objects = selectedObjects;
+					«ENDIF»
+					«IF mut.object instanceof EachTypeSelection»
+					objects = selectedObjects;
+					«ENDIF»
+					«ELSEIF mut.container.expression == null»
+					List<EObject> objects = rts.getObjects();
+					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+					//EXPRESSION LEVEL: «nExpression = 0»
+					//EXPRESSION LEVEL: «expressionList.add(0)»
+					Expression exp«expressionList.get(0)» = new Expression();
+					«mut.object.expression.method»
+   					List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+					«IF mut.object instanceof RandomTypeSelection»
+					EObject object = null;
+					if (selectedObjects.size() > 0) {
+						object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+					}
+					«ENDIF»
+					«IF mut.object instanceof CompleteTypeSelection»
+					objects = selectedObjects;
+					«ENDIF»
+					«IF mut.object instanceof EachTypeSelection»
+					objects = selectedObjects;
+					«ENDIF»
+					«ENDIF»
+				«ENDIF»
+				«IF (mut.object.expression == null)»
+					«IF ((mut.container != null) && (mut.container.expression != null))»
+					List<EObject> objects = rts.getObjects();
+					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+					//EXPRESSION LEVEL: «nExpression = 0»
+					//EXPRESSION LEVEL: «expressionList.add(0)»
+					Expression exp«expressionList.get(0)» = new Expression();
+					«mut.container.expression.method»
+   					List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+					«IF mut.object instanceof RandomTypeSelection»
+					EObject object = null;
+					if (selectedObjects.size() > 0) {
+						object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+					}
+					«ENDIF»
+					«IF mut.object instanceof CompleteTypeSelection»
+					objects = selectedObjects;
+					«ENDIF»
+					«IF mut.object instanceof EachTypeSelection»
+					objects = selectedObjects;
+					«ENDIF»
+					«ENDIF»
+				«ENDIF»
+				«IF mut.object instanceof RandomTypeSelection»
+				ObSelectionStrategy objectSelection = null; 
+					if (object != null) {
+					objectSelection = new SpecificObjectSelection(packages, model, object);
+				}
+				«ENDIF»
+				«ELSEIF mut.object instanceof SpecificObjectSelection»
+				«IF mut.container == null»
+				ObSelectionStrategy objectSelection = null;
+				if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+					objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+	   			} else {
+					return mutations;
+				}
+				«ELSE»
 				«IF mut.container instanceof RandomTypeSelection»
 					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
 					EObject container = rts.getObject();
-					ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.container.refType != null»
+					referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+				«ELSE»
+					referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
 				«ELSEIF mut.container instanceof CompleteTypeSelection»
 					«/* THE SAME AS RANDOM */»
-					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as RandomTypeSelection).type.name»");
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
 					EObject container = rts.getObject();
-					ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.container.refType != null»
+					referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+				«ELSE»
+					referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+				«ELSEIF mut.container instanceof EachTypeSelection»
+					«/* THE SAME AS RANDOM */»
+					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
+					EObject container = rts.getObject();
+					containerSelection = new SpecificObjectSelection(packages, model, container);
+				«IF mut.container.refType != null»
+					referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
+				«ELSE»
+					referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
 				«ELSEIF mut.container instanceof SpecificObjectSelection»
-					ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).type.name»"));
-				«ELSE»
-					ArrayList<EObject> containers = ModelManager.getParentObjects(model, "«mut.object.type.name»");
-					EObject container = containers.get(ModelManager.getRandomIndex(containers));
-					ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
-				«ENDIF»
-		
-				«IF mut.refType != null»
-					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.refType.name»",
-						«IF mut.container instanceof SpecificObjectSelection» hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»")
-							«ELSE» containerSelection«ENDIF»);
-				«ELSE»
-					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-				«ENDIF»
-				
-				SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, objectSelection);
-			   	//INC COUNTER: «nMutation++»
-			   	mut.setId("m«nMutation»");
-				mutations.add(mut);
-			//END SELECT OBJECT «methodName»
-			«ENDIF»
-			«IF mut instanceof ModifySourceReferenceMutator»
-			//MODIFY SOURCE REFERENCE «methodName»
-				«IF mut.source instanceof RandomTypeSelection»
-					RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");
-				«ELSEIF mut.source instanceof CompleteTypeSelection»
-					List<EObject> objects = hmList.get("«(mut.source as CompleteTypeSelection).type.name»");
-					List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
-					for (EObject obj : objects) {
-						ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
-						listSourceSelection.add(objectSelection);
+					if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+						containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+		   			} else {
+						return mutations;
 					}
-				«ELSEIF mut.source instanceof SpecificObjectSelection»
-					ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»"));
-				«ELSE»
-					ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
-				«ENDIF»
-		
-				«IF mut.newSource instanceof RandomTypeSelection»
-					RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as RandomTypeSelection).type.name»");
-				«ELSEIF mut.newSource instanceof OtherTypeSelection»
-					EObject otherSourceSelection = null; 
-					«IF mut.source instanceof CompleteTypeSelection»
-						otherSourceSelection = sourceSelection.get(0).getObject();
-					«ELSE»
-						otherSourceSelection = sourceSelection.getObject();
-					«ENDIF»
-					Object otherRef = null;
-					if (otherSourceSelection != null) {
-						for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
-							if (ref.getName().equals("«mut.refType.name»")) {
-								otherRef = otherSourceSelection.eGet(ref);
-								break;
-							}
-						}
-					}
-					OtherTypeSelection newSourceSelection = new OtherTypeSelection(packages, model, "«(mut.newSource as OtherTypeSelection).type.name»", otherRef);
-				«ELSEIF mut.newSource instanceof CompleteTypeSelection»
-					«/*THE SAME AS RANDOM*/»
-					RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as CompleteTypeSelection).type.name»");			
-				«ELSEIF mut.newSource instanceof SpecificObjectSelection»
-					ObSelectionStrategy newSourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.newSource as SpecificObjectSelection).objSel.name»"));
-				«ELSE»
-					ObSelectionStrategy newSourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
-				«ENDIF»
-				«IF mut.source instanceof CompleteTypeSelection»
-   					for (ObSelectionStrategy sourceSelection : listSourceSelection) {
-						ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
-					   	//INC COUNTER: «nMutation++»
-					   	mut.setId("m«nMutation»");
-						mutations.add(mut);
+				«IF mut.container.refType != null»
+					if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+		   			} else {
+						return mutations;
 					}
 				«ELSE»
-					ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
-				   	//INC COUNTER: «nMutation++»
-				   	mut.setId("m«nMutation»");
-					mutations.add(mut);
-		   		«ENDIF»
-			//END MODIFY SOURCE REFERENCE «methodName»
-			«ENDIF»
-			«IF mut instanceof ModifyTargetReferenceMutator»
-			//MODIFY TARGET REFERENCE «methodName»
-				«IF mut.source instanceof RandomTypeSelection»
-					RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");			
-				«ELSEIF mut.source instanceof CompleteTypeSelection»
-					List<EObject> objects = hmList.get("«(mut.source as CompleteTypeSelection).type.name»");
-					List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
-					for (EObject obj : objects) {
-						ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
-						listSourceSelection.add(objectSelection);
+					referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+				«ENDIF»
+				«ELSEIF mut.container instanceof SpecificClosureSelection»
+					if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+						containerSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"), "«(mut.container as SpecificClosureSelection).refType.name»");
+		   			} else {
+						return mutations;
 					}
-				«ELSEIF mut.source instanceof SpecificObjectSelection»
-					ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»"));
-				«ELSE»
-					ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
-				«ENDIF»
-		
-				«IF mut.newTarget instanceof RandomTypeSelection»
-					RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as RandomTypeSelection).type.name»");
-				«ELSEIF mut.newTarget instanceof OtherTypeSelection»
-					EObject otherSourceSelection = null; 
-					«IF mut.source instanceof CompleteTypeSelection»
-						otherSourceSelection = sourceSelection.get(0).getObject();
-					«ELSE»
-						otherSourceSelection = sourceSelection.getObject();
-					«ENDIF»
-					Object otherRef = null;
-					if (otherSourceSelection != null) {
-						for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
-							if (ref.getName().equals("«mut.refType.name»")) {
-								otherRef = otherSourceSelection.eGet(ref);
-								break;
-							}
-						}
+				«IF mut.container.refType != null»
+					if (hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»") != null) {
+						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", hmObjects.get("«(mut.container as SpecificClosureSelection).objSel.name»"));
+		   			} else {
+						return mutations;
 					}
-					OtherTypeSelection newTargetSelection = new OtherTypeSelection(packages, model, "«(mut.newTarget as OtherTypeSelection).type.name»", otherRef);
-				«ELSEIF mut.newTarget instanceof CompleteTypeSelection»
-					RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as CompleteTypeSelection).type.name»");			
-				«ELSEIF mut.newTarget instanceof SpecificObjectSelection»
-					ObSelectionStrategy newTargetSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.newTarget as SpecificObjectSelection).objSel.name»"));
 				«ELSE»
-					ObSelectionStrategy newTargetSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+					referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
 				«ENDIF»
-		
-				«IF mut.source instanceof CompleteTypeSelection»
-   					for (ObSelectionStrategy sourceSelection : listSourceSelection) {
-   						mutations.add(ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»"));
-	   				}
-   				«ELSE»
-					ModifyTargetReferenceMutator mut = new ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»");
-				   	//INC COUNTER: «nMutation++»
-				   	mut.setId("m«nMutation»");
-					mutations.add(mut);
-			«ENDIF»
-			//END MODIFY TARGET REFERENCE «methodName»
-			«ENDIF»
-			«IF mut instanceof CreateReferenceMutator»
-			//CREATE REFERENCE «methodName»
-				«IF mut.source instanceof RandomTypeSelection»
-					RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");			
-				«ELSEIF mut.source instanceof CompleteTypeSelection»
-					RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as CompleteTypeSelection).type.name»");	
-				«ELSEIF mut.source instanceof SpecificObjectSelection»
-					ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»"));
-				«ELSE»
-					ObSelectionStrategy sourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
 				«ENDIF»
-		
-				«IF mut.target instanceof RandomTypeSelection»
-					RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as RandomTypeSelection).type.name»");			
-				«ELSEIF mut.target instanceof CompleteTypeSelection»
-					RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as CompleteTypeSelection).type.name»");			
-				«ELSEIF mut.target instanceof SpecificObjectSelection»
-					ObSelectionStrategy targetSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.target as SpecificObjectSelection).objSel.name»"));
-				«ELSE»
-					ObSelectionStrategy targetSelection = new SpecificObjectSelection(packages, model, (EObject) null);
+				ObSelectionStrategy objectSelection = null;
+				if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+					objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"), referenceSelection, containerSelection);
+	   			} else {
+					return mutations;
+				}
 				«ENDIF»
-		
-				CreateReferenceMutator mut = new CreateReferenceMutator(model, packages, sourceSelection, targetSelection, "«mut.refType.name»");
-			   	//INC COUNTER: «nMutation++»
-			   	mut.setId("m«nMutation»");
-				mutations.add(mut);
-				//END CREATE REFERENCE «methodName»
-			«ENDIF»
-			«IF mut instanceof RemoveObjectMutator»
-			// REMOVE OBJECT «methodName»
-				«IF mut.object instanceof RandomTypeSelection»
-					«IF mut.object.expression == null»
-						ObSelectionStrategy objectSelection = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
-					«ELSE»
-	   					ObSelectionStrategy rts = new CompleteTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
-						List<EObject> objects = rts.getObjects();
-	   					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
-	   					//EXPRESSION LEVEL: «nExpression = 0»
-	   					//EXPRESSION LEVEL: «expressionList.add(0)»
-	   					Expression exp«expressionList.get(0)» = new Expression();
-	   					«mut.object.expression.method»
-   						List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
-						EObject object = null;
-						if (selectedObjects.size() > 0) {
-							object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
-						}
-						ObSelectionStrategy objectSelection = null; 
-						if (object != null) {
-							objectSelection = new SpecificObjectSelection(packages, model, object);
-						}
-					«ENDIF»
-				«ELSEIF mut.object instanceof SpecificObjectSelection»
-					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
 				«ELSEIF mut.object instanceof CompleteTypeSelection»
 					«IF mut.object.expression == null»
 						CompleteTypeSelection objectsSelection = new CompleteTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
 						List<EObject> objects = objectsSelection.getObjects();
+					«ELSE»
+						List<EObject> objects = selectedObjects;
 					«ENDIF»
-					«IF mut.object.expression != null»
-						ObSelectionStrategy rts = new CompleteTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
-						List<EObject> objects = rts.getObjects();
-	   					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
-	   					//EXPRESSION LEVEL: «nExpression = 0»
-	   					//EXPRESSION LEVEL: «expressionList.add(0)»
-	   					Expression exp«expressionList.get(0)» = new Expression();
-	   					«mut.object.expression.method»
-   						objects = evaluate(objects, exp«expressionList.get(0)»);
+				«ELSEIF mut.object instanceof EachTypeSelection»
+					«IF mut.object.expression == null»
+						CompleteTypeSelection objectsSelection = new CompleteTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
+						List<EObject> objects = objectsSelection.getObjects();
+					«ELSE»
+						List<EObject> objects = selectedObjects;
 					«ENDIF»
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
 					for (EObject obj : objects) {
-						RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj);
+						RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
 					   	//INC COUNTER: «nMutation++»
-					   	mut.setId("m«nMutation»");
-						mutations.add(mut);
+					   	if (mut != null) {
+					   		mut.setId("m«nMutation»");
+							mutations.add(mut);
+						}
+					}
+				«ELSEIF mut.object instanceof EachTypeSelection»
+					for (EObject obj : objects) {
+						RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
+					   	//INC COUNTER: «nMutation++»
+					   	if (mut != null) {
+					   		mut.setId("m«nMutation»");
+							mutations.add(mut);
+						}
 					}
 				«ELSE»
-					RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, objectSelection);
-				   	//INC COUNTER: «nMutation++»
-				   	mut.setId("m«nMutation»");
-					mutations.add(mut);
+					RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, objectSelection, referenceSelection, containerSelection);
+			   		//INC COUNTER: «nMutation++»
+			   		if (mut != null) {
+				   		mut.setId("m«nMutation»");
+						mutations.add(mut);
+					}
 			«ENDIF»
 			//END REMOVE OBJECT «methodName»
-			«ENDIF»
-			«IF mut instanceof RemoveRandomReferenceMutator»
-			// REMOVE RANDOM REFERENCE «methodName»
-				RandomTypeSelection containerSelection = new RandomTypeSelection(packages, model, "«mut.type.name»");			
-		
-				RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "«mut.refType.name»");
-			   	//INC COUNTER: «nMutation++»
-			   	mut.setId("m«nMutation»");
+		«ENDIF»
+		«IF mut instanceof RemoveRandomReferenceMutator»
+		// REMOVE RANDOM REFERENCE «methodName»
+			RandomTypeSelection containerSelection = new RandomTypeSelection(packages, model, "«mut.type.name»");			
+			RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "«mut.refType.name»");
+		  	//INC COUNTER: «nMutation++»
+		  	if (mut != null) {
+		  		mut.setId("m«nMutation»");
 				mutations.add(mut);
+			}
 				
 			//END REMOVE RANDOM REFERENCE «methodName»
+		«ENDIF»
+		«IF mut instanceof RemoveSpecificReferenceMutator»
+		// REMOVE SPECIFIC REFERENCE «methodName»
+			ObSelectioNStrategy containerSelection = null;
+			«IF mut.container instanceof RandomTypeSelection»
+				if (hmObjects.get("«(mut.container as RandomTypeSelection).type.name»") != null) {
+					containerSelection = new RandomTypeSelection(packages, model, hmObjects.get("«(mut.container as RandomTypeSelection).type.name»"));
+				} else {
+					return mutations;
+				}
+			«ELSEIF mut.container instanceof SpecificObjectSelection»
+				if (hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»") != null) {
+					containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
+				} else {
+					return mutations;
+				}
+			«ELSEIF mut.container instanceof CompleteTypeSelection»
+				if (hmObjects.get("«(mut.container as CompleteTypeSelection).type.name»") != null) {
+					containerSelection = new CompleteTypeSelection(packages, model, hmObjects.get("«(mut.container as CompleteTypeSelection).type.name»"));
+				} else {
+					return mutations;
+				}
+			«ELSEIF mut.container instanceof EachTypeSelection»
+				if (hmObjects.get("«(mut.container as EachTypeSelection).type.name»") != null) {
+					containerSelection = new CompleteTypeSelection(packages, model, hmObjects.get("«(mut.container as EachTypeSelection).type.name»"));
+				} else {
+					return mutations;
+				}
 			«ENDIF»
-			«IF mut instanceof RemoveSpecificReferenceMutator»
-			// REMOVE SPECIFIC REFERENCE «methodName»
-				«IF mut.container instanceof RandomTypeSelection»
-					ObSelectionStrategy containerSelection = new RandomTypeSelection(packages, model, hmObjects.get("«(mut.container as RandomTypeSelection).type.name»"));
-				«ELSEIF mut.container instanceof SpecificObjectSelection»
-					ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»"));
-				«ELSEIF mut.container instanceof CompleteTypeSelection»
-					ObSelectionStrategy containerSelection = new CompleteTypeSelection(packages, model, hmObjects.get("«(mut.container as CompleteTypeSelection).type.name»"));
-				«ENDIF»
-				RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "«mut.refType.name»");
-			   	//INC COUNTER: «nMutation++»
-			   	mut.setId("m«nMutation»");
+			RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "«mut.refType.name»");
+		   	//INC COUNTER: «nMutation++»
+		   	if (mut != null) {
+		   		mut.setId("m«nMutation»");
 				mutations.add(mut);
-			//END REMOVE SPECIFIC REFERENCE «methodName»
-			«ENDIF»
-			«IF mut instanceof RemoveCompleteReferenceMutator»
-			// REMOVE COMPLETE REFERENCE «methodName»
-				CompleteTypeSelection containersSelection = new CompleteTypeSelection(packages, model, "«mut.type.name»");
-				List<EObject> objects = containersSelection.getObjects();
-				for (EObject obj : objects) {
-					RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, obj, "«mut.refType.name»");
-				   	//INC COUNTER: «nMutation++»
-				   	mut.setId("m«nMutation»");
-					mutations.add(mut);
 			}
-			//END REMOVE COMPLETE REFERENCE «methodName»
-			«ENDIF»
+		//END REMOVE SPECIFIC REFERENCE «methodName»
+		«ENDIF»
+		«IF mut instanceof RemoveCompleteReferenceMutator»
+		// REMOVE COMPLETE REFERENCE «methodName»
+			CompleteTypeSelection containersSelection = new CompleteTypeSelection(packages, model, "«mut.type.name»");
+			List<EObject> objects = containersSelection.getObjects();
+			for (EObject obj : objects) {
+				RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, obj, "«mut.refType.name»");
+			   	//INC COUNTER: «nMutation++»
+			   	if (mut != null) {
+			   		mut.setId("m«nMutation»");
+					mutations.add(mut);
+				}
+			}
+		//END REMOVE COMPLETE REFERENCE «methodName»
+		«ENDIF»
 			return mutations;	
 		}
 	'''
@@ -729,10 +1606,43 @@ class WodelGenerator implements IGenerator {
 	'''
 	def registryMethod(Mutator mut)'''
 	//REGISTRY COUNTER: «nRegistryMutation++»
-	private AppMutation «registryMethodName»(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed) {
+	private AppMutation «registryMethodName»(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed, List<String> mutPaths, ArrayList<EPackage> packages) {
 		AppMutation appMut = null;
 	«IF mut instanceof CreateObjectMutator»
 		ObjectCreated cMut = AppliedMutationsFactory.eINSTANCE.createObjectCreated();
+		if ((mutPaths != null) && (packages != null)) {
+			try {
+				Resource mutant = null;
+				EObject object = null;
+				for (String mutatorPath : mutPaths) {
+					mutant = ModelManager.loadModel(packages, mutatorPath);
+					object = ModelManager.getObject(mutant, mut.getObject());
+					if (object != null) {
+						System.out.println("FOUND!!!");
+						break;
+					}
+					//Reload input
+	    			try {
+						mutant.unload();
+						mutant.load(null); 
+					} catch (Exception e) {}
+				}
+				if (object != null) {
+					cMut.getObject().add(object);
+				}
+				else {
+					cMut.getObject().add(mut.getObject());
+				}
+			} catch (ModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		cMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+		appMut = cMut;
+	«ENDIF»
+	«IF mut instanceof CloneObjectMutator»
+		ObjectCloned cMut = AppliedMutationsFactory.eINSTANCE.createObjectCloned();
 		if (mut.getObject() != null) {
 			cMut.getObject().add(mut.getObject());
 		}
@@ -743,8 +1653,33 @@ class WodelGenerator implements IGenerator {
 		ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
 		System.out.println("ModelManager.getObject(seed, mut.getObject()): " + ModelManager.getObject(seed, mut.getObject()));
 		if (ModelManager.getObject(seed, mut.getObject()) != null) {
-			if (ModelManager.getObject(seed, mut.getObject()) != null) {
-				rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));
+			rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));
+		}
+		else {
+			if ((mutPaths != null) && (packages != null)) {
+				try {
+					Resource mutant = null;
+					EObject object = null;
+					for (String mutatorPath : mutPaths) {
+						mutant = ModelManager.loadModel(packages, mutatorPath);
+						object = ModelManager.getObject(mutant, mut.getObject());
+						if (object != null) {
+							System.out.println("FOUND!!!");
+							break;
+						}
+						//Reload input
+	    				try {
+							mutant.unload();
+							mutant.load(null); 
+						} catch (Exception e) {}
+					}
+					if (object != null) {
+						rMut.getObject().add(object);
+					}
+				} catch (ModelNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
@@ -757,6 +1692,7 @@ class WodelGenerator implements IGenerator {
 		}
 		if (((CreateReferenceMutator) mut).getReference() != null) {
 			rMut.getRef().add(((CreateReferenceMutator) mut).getReference());
+			rMut.setRefName(((CreateReferenceMutator) mut).getRefName());
 		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
@@ -772,6 +1708,7 @@ class WodelGenerator implements IGenerator {
 		rMut.getObject().addAll(objects);
 		if (((RemoveReferenceMutator) mut).getReference() != null) {
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+			rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
 		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
@@ -787,6 +1724,7 @@ class WodelGenerator implements IGenerator {
 		rMut.getObject().addAll(objects);
 		if (((RemoveReferenceMutator) mut).getReference() != null) {
 			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+			rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
 		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
@@ -800,7 +1738,10 @@ class WodelGenerator implements IGenerator {
 			}
 		}
 		rMut.getObject().addAll(objects);
-		rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+		if (((RemoveReferenceMutator) mut).getReference() != null) {
+			rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+			rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
+		}
 		rMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 		appMut = rMut;
 	«ENDIF»
@@ -816,6 +1757,11 @@ class WodelGenerator implements IGenerator {
 			//«var EAttribute eattfirst = att.attribute.get(0)»
 			//«var EAttribute eattsec = eattfirst»
 			«IF att instanceof AttributeScalar»
+			AttributeChanged attMut«attCounter» = null;
+			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
+			attMut«attCounter».setAttName("«eattfirst.name»");
+			«ENDIF»
+			«IF att instanceof AttributeOperation»
 			AttributeChanged attMut«attCounter» = null;
 			attMut«attCounter» = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 			attMut«attCounter».setAttName("«eattfirst.name»");
@@ -870,7 +1816,7 @@ class WodelGenerator implements IGenerator {
 			//«var EReference eref = ref.reference.get(0)»
 			ReferenceChanged refMut«refCounter» = null;
 			refMut«refCounter» = AppliedMutationsFactory.eINSTANCE.createReferenceChanged();
-			refMut«refCounter».setRefName("«eref.name»");
+			refMut«refCounter».setRefName("«ref.reference.get(0).name»");
 			refMut«refCounter».getObject().add(((ModifyInformationMutator) mut).getObject());
 			«ENDIF»
 			«IF ref instanceof ReferenceSwap»
@@ -888,14 +1834,40 @@ class WodelGenerator implements IGenerator {
 			refMut«refCounter».setOtherTo(((ModifyInformationMutator) mut).getOtherTarget());
 			refMut«refCounter».setOtherToName(((ModifyInformationMutator) mut).getOtherTargetName());
 			«ENDIF»
-			previous = ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getPrevious());
-			next = ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getNext());
+			«IF ref instanceof ReferenceAtt»
+			//«var att = ref.attribute»
+			appliedMutations.ReferenceAtt refMut«refCounter» = null;
+			refMut«refCounter» = AppliedMutationsFactory.eINSTANCE.createReferenceAtt();
+			refMut«refCounter».setAttName("«att.name»");
+			if (ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefAttObject()) != null) {
+				refMut«refCounter».getObject().add(ModelManager.getObject(seed, ((ModifyInformationMutator) mut).getRefAttObject()));
+			}
+			refMut«refCounter».setRefName("«ref.reference.get(0).name»");
+			Object oldRefAttVal«refCounter» = null;
+			Object newRefAttVal«refCounter» = null;
+			if (((ModifyInformationMutator) mut).getOldRefAttValue("«att.name»") != null) {
+				oldRefAttVal«refCounter» = ((ModifyInformationMutator) mut).getOldRefAttValue("«att.name»");
+			}
+			if (((ModifyInformationMutator) mut).getNewRefAttValue("«att.name»") != null) {
+				newRefAttVal«refCounter» = ((ModifyInformationMutator) mut).getNewRefAttValue("«att.name»");
+			}
+			if (oldRefAttVal«refCounter» != null) {
+				refMut«refCounter».setOldVal(oldRefAttVal«refCounter».toString());
+			}
+			if (newRefAttVal«refCounter» != null) {
+				refMut«refCounter».setNewVal(newRefAttVal«refCounter».toString());
+			}
+			refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
+			«ENDIF»
+			previous = ((ModifyInformationMutator) mut).getPrevious();
+			next = ((ModifyInformationMutator) mut).getNext();
 			if (previous != null) {
 				refMut«refCounter».setFrom(previous);
 			}
 			if (next != null) {
 				refMut«refCounter».setTo(next);
 			}
+			refMut«refCounter».setSrcRefName(((ModifyInformationMutator) mut).getSrcRefType());
 			refMut«refCounter».setDef(hmMutator.get("m«nRegistryMutation»"));
 			refsMut.add(refMut«refCounter»);
 			icMut.setDef(hmMutator.get("m«nRegistryMutation»"));
@@ -906,6 +1878,7 @@ class WodelGenerator implements IGenerator {
 	«ENDIF»
 	«IF mut instanceof ModifySourceReferenceMutator»
 			SourceReferenceChanged srcMut = AppliedMutationsFactory.eINSTANCE.createSourceReferenceChanged();
+			srcMut.getObject().add(mut.getObject());
 			srcMut.setFrom(((ModifySourceReferenceMutator) mut).getSource());
 			srcMut.setTo(((ModifySourceReferenceMutator) mut).getNewSource());
 			srcMut.setRefName(((ModifySourceReferenceMutator) mut).getRefType());
@@ -914,11 +1887,7 @@ class WodelGenerator implements IGenerator {
 	«ENDIF»
 	«IF mut instanceof ModifyTargetReferenceMutator»
 			TargetReferenceChanged trcMut = AppliedMutationsFactory.eINSTANCE.createTargetReferenceChanged();
-			if (((ModifyTargetReferenceMutator) mut).getObject() != null) {
-				if (ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()) != null) {
-					trcMut.getObject().add(ModelManager.getObject(seed, ((ModifyTargetReferenceMutator) mut).getObject()));
-				}
-			}
+			trcMut.getObject().add(mut.getObject());
 			trcMut.setFrom(((ModifyTargetReferenceMutator) mut).getSource());
 			trcMut.setSrcRefName(((ModifyTargetReferenceMutator) mut).getSrcRefType());
 			trcMut.setTo(((ModifyTargetReferenceMutator) mut).getNewTarget());
@@ -948,7 +1917,7 @@ class WodelGenerator implements IGenerator {
 		«FOR c : mut.commands»
 		//REGISTRY METHOD NAME:«registryMethodName = "registry" + localNRegistryMethod.toString()»
 		//REGISTRY COUNTER INC: «localNRegistryMutation++»
-		AppMutation appMut«mutCounter + 1» = «registryMethodName»(muts.get(«mutCounter»), hmMutator, seed);
+		AppMutation appMut«mutCounter + 1» = «registryMethodName»(muts.get(«mutCounter»), hmMutator, seed, null, null);
 		appMut«mutCounter + 1».setDef(hmMutator.get("m«localNRegistryMutation»"));
 		appMuts.add(appMut«mutCounter + 1»);
 		//REGISTRY METHOD INC: «localNRegistryMethod++»
@@ -993,7 +1962,7 @@ class WodelGenerator implements IGenerator {
 			«c.generateMethods»
 			«c.generateRegistryMethods»
 		«ENDFOR»
-		public void block_«b.name»(int maxAttempts, int numMutants, boolean registry, ArrayList<String> fromNames, HashMap<String, HashSet<String>> hashmapMutants) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+		public void block_«b.name»(int maxAttempts, int numMutants, boolean registry, ArrayList<String> fromNames, HashMap<String, HashSet<String>> hashmapMutants, HashMap<String, List<String>> hashmapMutVersions) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		if (maxAttempts <= 0) {
@@ -1019,6 +1988,10 @@ import java.util.Set;
 import java.util.List;
 
 import manager.ModelManager;
+import manager.MutatorMetrics;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -1038,6 +2011,7 @@ import mutatorenvironment.MutatorEnvironment;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.EList;
+import org.osgi.framework.Bundle;
 
 public class «className» extends manager.MutatorUtils implements manager.IMutatorExecutor {
 	
@@ -1054,19 +2028,36 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«c.generateMethods»
 		«c.generateRegistryMethods»
 	«ENDFOR»
-	public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
 		if (maxAttempts <= 0) {
 			maxAttempts = 1;
 		}
+		
+		HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+		
 		«IF e.definition instanceof Program»
 		«val program = e.definition as Program»
 		«e.multiple»
 		«ENDIF»
-	}
-	
+
+		//Generate metrics model
+		Bundle bundle = Platform.getBundle("wodel.models");
+	   	URL fileURL = bundle.getEntry("/models/MutatorMetrics.ecore");
+	   	String metricsecore = FileLocator.resolve(fileURL).getFile();
+   		//String metricsecore = "«path + "/resources/MutatorMetrics.ecore"»";
+   		
+   		if (metrics == true) {
+   			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			MutatorMetrics.generateMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   		}
+   		if (debugMetrics == true) {
+			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			MutatorMetrics.generateDebugMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);   			
+   		}
+   	}
 }
 	«ENDIF»
 	«ENDIF»
@@ -1074,21 +2065,40 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	«FOR b : e.blocks»
 		«b.generateBlock(nMethod, nCompositeMethod, nMutation, nRegistryMutation, nRegistryMethod, nCompositeRegistryMethod, nCompositeCommands)»
 	«ENDFOR»
-	public void execute(int maxAttempts, int numMutants, boolean registry) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
+ 		if (maxAttempts <= 0) {
+			maxAttempts = 1;
+		}
+		
  		HashMap<String, HashSet<String>> hashmapMutants = new HashMap<String, HashSet<String>>();
+ 		HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
+ 		
 		ArrayList<String> fromNames = null;
 		«FOR b : e.blocks»
 		fromNames = new ArrayList<String>();
 		«FOR from : b.from»
 		fromNames.add("«from.name»");
 		«ENDFOR»
-		block_«b.name»(maxAttempts, numMutants, registry, fromNames, hashmapMutants);
+		block_«b.name»(maxAttempts, numMutants, registry, fromNames, hashmapMutants, hashmapMutVersions);
 		«ENDFOR»
+   		//Generate metrics model
+		Bundle bundle = Platform.getBundle("wodel.models");
+	   	URL fileURL = bundle.getEntry("/models/MutatorMetrics.ecore");
+	   	String metricsecore = FileLocator.resolve(fileURL).getFile();
+   		//String metricsecore = "«path + "/resources/MutatorMetrics.ecore"»";
+   		
+   		if (metrics == true) {
+   			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			MutatorMetrics.generateMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   		}
+   		if (debugMetrics == true) {
+			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			MutatorMetrics.generateDebugMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   		}
 	}
-	
 }
 	«ENDIF»
 
@@ -1157,7 +2167,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«var String outputPath = path+'/'+e.output» 
 		String modelURI = "«modelPath»";
 		String modelsURI = "«outputPath»";
-		String resourcesURI = "«path + '/resources/'»";
+		//String resourcesURI = "«path + '/resources/'»";
 
 		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
 		«IF (e.source.path.endsWith("/"))»
@@ -1188,8 +2198,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			Resource model = ModelManager.loadModel(packages, modelFilename);
 			Resource seed = ModelManager.loadModel(packages, modelFilename);
 
-			HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
-			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
 		«ENDIF»
    '''
    
@@ -1200,7 +2208,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«var String outputPath = path+'/'+e.output» 
 		String modelURI = "«modelPath»";
 		String modelsURI = "«outputPath»";
-		String resourcesURI = "«path + '/resources/'»";
+		//String resourcesURI = "«path + '/resources/'»";
 		
 		HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();
 		HashMap<String, String> hashmapModelFolders = new HashMap<String, String>();
@@ -1275,13 +2283,10 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			Resource model = ModelManager.loadModel(packages, modelFilename);
 			Resource seed = ModelManager.loadModel(packages, modelFilename);
 
-			HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
-			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
-
 		«ENDIF»
    '''
 
-    def method(AttributeSet e) '''
+    def method(AttributeSet e, boolean flag) '''
     	«IF e.attribute.get(0) !=null»
 		«val EAttribute attribute = e.attribute.get(0)»
 		//NAME:«attributeName = attribute.name»
@@ -1289,7 +2294,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		//NAME:«attributeName = ""»
 		«ENDIF»
 		«IF e instanceof AttributeScalar»
-   		atts.put("«attributeName»", «e.value.method»);
+   		atts.put("«attributeName»", «e.value.method(flag)»);
    		«ENDIF»
    		«IF e instanceof AttributeUnset»
    		atts.put("«attributeName»", null);
@@ -1297,9 +2302,10 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		«IF e instanceof AttributeReverse»
    		atts.put("«attributeName»", new ReverseBooleanConfigurationStrategy("«attributeName»"));
    		«ENDIF»
-	'''	
+	'''
+	
 	def method(ReferenceSet e) '''
-    	«IF e.reference.get(0) !=null»
+		«IF e.reference.get(0) !=null»
 		«val EReference reference = e.reference.get(0)»
 		//NAME:«referenceName = reference.name»
 		«ELSE»
@@ -1310,7 +2316,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		refs.put("«referenceName»", refSelection«nReference»);
    		«ENDIF»
 	'''	
-	def method(AttributeType e) '''
+	def method(AttributeType e, boolean flag) '''
 	«IF e instanceof StringType»
 		«(e as StringType).method»
 	«ELSEIF e instanceof DoubleType»
@@ -1320,9 +2326,19 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	«ELSEIF e instanceof IntegerType»
 		«(e as IntegerType).method»
 	«ELSEIF e instanceof ListStringType»
-		«(e as ListStringType).method»
+		«(e as ListStringType).method(flag)»
+	«ELSEIF e instanceof ListType»
+		«(e as ListType).method(flag)»
 	«ELSEIF e instanceof RandomType»
-		«(e as RandomType).method»
+		«(e as RandomType).method(flag)»
+	«ELSEIF e instanceof MinValueType»
+		«(e as MinValueType).method»
+	«ELSEIF e instanceof MaxValueType»
+		«(e as MaxValueType).method»
+	«ELSEIF e instanceof RandomIntegerNumberType»
+		«(e as RandomIntegerNumberType).method»
+	«ELSEIF e instanceof RandomDoubleNumberType»
+		«(e as RandomDoubleNumberType).method»
 	«ENDIF»
 	'''
 	
@@ -1390,23 +2406,84 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			new RandomIntegerConfigurationStrategy(«r.min», «r.max», false)		
 		«ENDIF»
 		'''
-	def method(ListStringType e) '''
+	def method(ListStringType e, boolean flag) '''
 		«IF e instanceof ListStringType»
 			«IF !attributeName.equals("")»
-				new ListStringConfigurationStrategy((String) ModelManager.getAttribute("«attributeName»", objectSelection.getObject()), "«(e as ListStringType).value»", "«attributeName»")
+				«IF flag == false»
+					(ModelManager.getAttribute("«attributeName»", (objectSelection != null) ? objectSelection.getObject() : null) instanceof String) ? new ListStringConfigurationStrategy((String) ModelManager.getAttribute("«attributeName»", (objectSelection != null) ? objectSelection.getObject() : null), "«(e as ListStringType).value»", "«attributeName»") : null
+				«ELSE»
+					(ModelManager.getAttribute("«attributeName»", refObjectSelected) instanceof String) ? new ListStringConfigurationStrategy((String) ModelManager.getAttribute("«attributeName»", refObjectSelected), "«(e as ListStringType).value»", "«attributeName»") : null
+				«ENDIF»
 			«ELSE»
 				null
 			«ENDIF»
 		«ENDIF»
 		'''
-	def method(RandomType e) '''
-		«IF e instanceof RandomType»
+		
+	def method(ListType e, boolean flag) '''
+		«IF e instanceof ListType»
 			«IF !attributeName.equals("")»
-				new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", objectSelection.getObject()), "«attributeName»")
+				«IF flag == false»
+					(ModelManager.getAttribute("«attributeName»", (objectSelection != null) ? objectSelection.getObject() : null) instanceof EObject) ? new ListConfigurationStrategy((EObject) ModelManager.getAttribute("«attributeName»", (objectSelection != null) ? objectSelection.getObject() : null), "«(e as ListType).value»", "«attributeName»") : null
+				«ELSE»
+					(ModelManager.getAttribute("«attributeName»", refObjectSelected) instanceof EObject) ? new ListConfigurationStrategy((EObject) ModelManager.getAttribute("«attributeName»", refObjectSelected), "«(e as ListType).value»", "«attributeName»") : null
+				«ENDIF»
 			«ELSE»
 				null
 			«ENDIF»
 		«ENDIF»
+		'''
+	def method(RandomType e, boolean flag) '''
+		«IF e instanceof RandomType»
+			«IF !attributeName.equals("")»
+				«IF flag == false»
+					new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", objectSelection.getObject()), "«attributeName»")
+				«ELSE»
+					new RandomConfigurationStrategy(ModelManager.getAttribute("«attributeName»", refObjectSelected), "«attributeName»")
+				«ENDIF»
+			«ELSE»
+				null
+			«ENDIF»
+		«ENDIF»
+		'''
+	def method(MinValueType e) '''
+		new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(e)»", "«e.attribute.name»")
+		'''
+	def method(MaxValueType e) '''
+		new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(e)»", "«e.attribute.name»")
+		'''
+	def method(RandomIntegerNumberType e) '''
+		«IF e.object instanceof SpecificObjectSelection»
+		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
+		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»")), false)
+		«ENDIF»
+		'''
+	
+	def method(RandomDoubleNumberType e) '''
+		«IF e.object instanceof SpecificObjectSelection»
+		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
+		new RandomDoubleConfigurationStrategy(«e.min», ModelManager.getDoubleAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»")), false)
+		«ENDIF»
+	'''
+
+	def add(AttributeOperation op) '''
+		atts.put("«attributeName»", new AddOperationConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(op)»", "«attributeName»", objectSelection.getObject(), value));
+	'''
+
+	def subtract(AttributeOperation op) '''
+		atts.put("«attributeName»", new SubtractOperationConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(op)»", "«attributeName»", objectSelection.getObject(), value));
+	'''
+
+	def multiply(AttributeOperation op) '''
+		atts.put("«attributeName»", new MultiplyOperationConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(op)»", "«attributeName»", objectSelection.getObject(), value));
+	'''
+
+	def divide(AttributeOperation op) '''
+		atts.put("«attributeName»", new DivideOperationConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(op)»", "«attributeName»", objectSelection.getObject(), value));
+	'''
+
+	def module(AttributeOperation op) '''
+		atts.put("«attributeName»", new ModuleOperationConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(op)»", "«attributeName»", objectSelection.getObject(), value));
 	'''
 	//END DATA TYPES COMPILES
 	//************************
@@ -1435,15 +2512,33 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 				new SpecificObjectSelection(packages, model, refObject«nReference»);
 			}
 		«ELSEIF e instanceof CompleteTypeSelection»
-			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as RandomTypeSelection).type.name»");
+			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as CompleteTypeSelection).type.name»");
+			EObject refObject«nReference» = refRts«nReference».getObject();
+			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model,	refObject«nReference»);
+		«ELSEIF e instanceof EachTypeSelection»
+			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as EachTypeSelection).type.name»");
 			EObject refObject«nReference» = refRts«nReference».getObject();
 			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model,	refObject«nReference»);
 		«ELSEIF e instanceof SpecificObjectSelection»
-			«IF (e.eContainer as ReferenceInit).refType != null»
-			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model, hmObjects.get("«(e as SpecificObjectSelection).objSel.name»"), "«(e.eContainer as ReferenceInit).refType.name»");
+			ObSelectionStrategy refSelection«nReference» = null;
+			if (hmObjects.get("«(e as SpecificObjectSelection).objSel.name»") != null) {
+			«IF e.refType != null»
+				refSelection«nReference» = new SpecificObjectSelection(packages, model, hmObjects.get("«(e as SpecificObjectSelection).objSel.name»"), "«e.refType.name»");
 			«ELSE»
-			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model, hmObjects.get("«(e as SpecificObjectSelection).objSel.name»"));
+				refSelection«nReference» = new SpecificObjectSelection(packages, model, hmObjects.get("«(e as SpecificObjectSelection).objSel.name»"));
 			«ENDIF»
+			} else {
+				if (hmList.get("«(e as SpecificObjectSelection).objSel.name»") != null) {
+				«IF e.refType != null»
+					refSelection«nReference» = new SpecificObjectSelection(packages, model, hmList.get("«(e as SpecificObjectSelection).objSel.name»"), "«e.refType.name»");
+				«ELSE»
+					refSelection«nReference» = new SpecificObjectSelection(packages, model, hmList.get("«(e as SpecificObjectSelection).objSel.name»"));
+				«ENDIF»
+				}
+				else {
+					return mutations;
+				}
+			}
 		«ENDIF»
 	'''
 	//END REFERENCES COMPILES
@@ -1454,6 +2549,14 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    def method(Expression exp) '''
   		//INDEX EXPRESSION: «val indexExpression = expressionList.size() - 1»
   		«IF exp.first instanceof AttributeEvaluation»
+  		«IF (exp.first as AttributeEvaluation).value instanceof ObjectAttributeType»
+  		exp«expressionList.get(indexExpression)».first = new AttributeEvaluation();
+  		//ATTRIBUTE: «val attev = exp.first as AttributeEvaluation»
+  		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).name = "«attev.name.name»";
+   		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).operator = "«(attev.value as ObjectAttributeType).operator»";
+		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values = new ArrayList<String>();
+   		«ENDIF»
+   		«IF (exp.first as AttributeEvaluation).value instanceof AttributeType»
   		exp«expressionList.get(indexExpression)».first = new AttributeEvaluation();
   		//ATTRIBUTE: «val attev = exp.first as AttributeEvaluation»
    		((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).name = "«attev.name.name»";
@@ -1475,6 +2578,26 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add("«(attev.value as SpecificIntegerType).value»");
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "int";
 		«ENDIF»
+		«IF attev.value instanceof MinValueType»
+			MinValueConfigurationStrategy min«expressionList.get(indexExpression)» = new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(attev.value as MinValueType)»", "«(attev.value as MinValueType).attribute.name»");
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add(min«expressionList.get(indexExpression)».getValue().toString());
+   			«IF (attev.value as MinValueType).attribute.getEType.name.equals("EInt")»
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "int";
+   			«ENDIF»
+   			«IF (attev.value as MinValueType).attribute.getEType.name.equals("EDouble")»
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "double";
+   			«ENDIF»
+		«ENDIF»
+		«IF attev.value instanceof MaxValueType»
+			MaxValueConfigurationStrategy max«expressionList.get(indexExpression)» = new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(attev.value as MaxValueType)»", "«(attev.value as MaxValueType).attribute.name»");
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).values.add(max«expressionList.get(indexExpression)».getValue().toString());
+   			«IF (attev.value as MaxValueType).attribute.getEType.name.equals("EInt")»
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "int";
+   			«ENDIF»
+   			«IF (attev.value as MaxValueType).attribute.getEType.name.equals("EDouble")»
+   			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "double";
+   			«ENDIF»
+		«ENDIF»
 		«IF attev.value instanceof ListStringType»
 			//«val list = attev.value as ListStringType»
 			«FOR item : list.value»
@@ -1482,6 +2605,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    			«ENDFOR»
    			((AttributeEvaluation) exp«expressionList.get(indexExpression)».first).type = "String";
 		«ENDIF»
+   		«ENDIF»
    		«ENDIF»
    		«IF exp.first instanceof ReferenceEvaluation»
 		exp«expressionList.get(indexExpression)».first = new ReferenceEvaluation();
@@ -1491,19 +2615,34 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		«ELSE»
 			((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).name = null;
 		«ENDIF»
+		«IF refev.refName != null»
+			((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).refName = "«refev.refName.name»";
+		«ELSE»
+			((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).refName = null;
+		«ENDIF»
 		((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).operator = "«refev.operator»";
 		«IF refev.value == null»
 	   		((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = null;
    		«ELSEIF refev.value instanceof SpecificObjectSelection»
-   			«IF refev.refType == null»
+   			«IF refev.refType == null && refev.value.refType == null»
 	   		((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = new SpecificObjectSelection(packages, model, hmObjects.get("«(refev.value as SpecificObjectSelection).objSel.name»")).getObject();
 	   		«ELSE»
-	   		EObject srcObjExp = new SpecificObjectSelection(packages, model, hmObjects.get("«(refev.value as SpecificObjectSelection).objSel.name»")).getObject();
+	   		«IF refev.refType != null»
+	   		EObject srcObjExp = hmObjects.get("«(refev.value as SpecificObjectSelection).objSel.name»");
 	   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
 				if (ref.getName().equals("«refev.refType.name»")) {
 					((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = srcObjExp.eGet(ref);		
 				}
 			}
+			«ENDIF»
+	   		«IF refev.value.refType != null»
+	   		EObject srcObjExp = hmObjects.get("«(refev.value as SpecificObjectSelection).objSel.name»");
+	   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+				if (ref.getName().equals("«refev.value.refType.name»")) {
+					((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = srcObjExp.eGet(ref);		
+				}
+			}
+			«ENDIF»
 	   		«ENDIF»
 		«ELSE»
 		«IF refev.value instanceof RandomTypeSelection»
@@ -1539,6 +2678,12 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		//EVNAME: «var evName = 0»
    		«FOR ev : exp.second»
    			«IF ev instanceof AttributeEvaluation»
+   			«IF (ev as AttributeEvaluation).value instanceof ObjectAttributeType»
+   			AttributeEvaluation ev«evName»_«expressionList.get(indexExpression)» = new AttributeEvaluation();
+   			ev«evName»_«expressionList.get(indexExpression)».name = "«ev.name.name»";
+   			ev«evName»_«expressionList.get(indexExpression)».operator = "«(ev.value as ObjectAttributeType).operator»";
+   			«ENDIF»
+   			«IF (ev as AttributeEvaluation).value instanceof AttributeType»
    			AttributeEvaluation ev«evName»_«expressionList.get(indexExpression)» = new AttributeEvaluation();
    			ev«evName»_«expressionList.get(indexExpression)».name = "«ev.name.name»";
    			ev«evName»_«expressionList.get(indexExpression)».operator = "«(ev.value as SpecificStringType).operator»";
@@ -1558,6 +2703,27 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	   			ev«evName»_«expressionList.get(indexExpression)».value = "«(ev.value as SpecificIntegerType).value»";
 	   			ev«evName»_«expressionList.get(indexExpression)».type = "int";
 			«ENDIF»
+			«IF ev.value instanceof MinValueType»
+			MinValueConfigurationStrategy min«evName»_«expressionList.get(indexExpression)» = new MinValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(ev.value as MinValueType)»", "«(ev.value as MinValueType).attribute.name»");
+   			((AttributeEvaluation) exp«evName»_«expressionList.get(indexExpression)».first).values.add(min«expressionList.get(indexExpression)».getValue().toString());
+   			«IF (ev.value as MinValueType).attribute.getEType.name.equals("EInt")»
+   			((AttributeEvaluation) exp«evName»_«expressionList.get(indexExpression)».first).type = "int";
+   			«ENDIF»
+   			«IF (ev.value as MinValueType).attribute.getEType.name.equals("EDouble")»
+   			((AttributeEvaluation) exp«evName»_«expressionList.get(indexExpression)».first).type = "double";
+   			«ENDIF»
+			«ENDIF»
+			«IF ev.value instanceof MaxValueType»
+			MaxValueConfigurationStrategy max«evName»_«expressionList.get(indexExpression)» = new MaxValueConfigurationStrategy(packages, model, "«MutatorUtils.getClassName(ev.value as MaxValueType)»", "«(ev.value as MinValueType).attribute.name»");
+   			((AttributeEvaluation) exp«evName»_«expressionList.get(indexExpression)».first).values.add(max«expressionList.get(indexExpression)».getValue().toString());
+   			«IF (ev.value as MinValueType).attribute.getEType.name.equals("EInt")»
+   			((AttributeEvaluation) exp«evName»_«expressionList.get(indexExpression)».first).type = "int";
+   			«ENDIF»
+   			«IF (ev.value as MinValueType).attribute.getEType.name.equals("EDouble")»
+   			((AttributeEvaluation) exp«evName»_«expressionList.get(indexExpression)».first).type = "double";
+   			«ENDIF»
+			«ENDIF»
+   			«ENDIF»
    			«ENDIF»
    			«IF ev instanceof ReferenceEvaluation»
 	   		ReferenceEvaluation ev«evName»_«expressionList.get(indexExpression)» = new ReferenceEvaluation();
@@ -1566,19 +2732,34 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	   		«ELSE»
 	   			ev«evName»_«expressionList.get(indexExpression)».name = null;
 	   		«ENDIF»
+	   		«IF ev.refName != null»
+	   			ev«evName»_«expressionList.get(indexExpression)».refName = "«ev.refName.name»";
+	   		«ELSE»
+	   			ev«evName»_«expressionList.get(indexExpression)».refName = null;
+	   		«ENDIF»
    			ev«evName»_«expressionList.get(indexExpression)».operator = "«ev.operator»";
    			«IF ev.value == null»
 	   			ev«evName»_«expressionList.get(indexExpression)».value = null;
    			«ELSEIF ev.value instanceof SpecificObjectSelection»
-   				«IF ev.refType == null»
+   				«IF ev.refType == null && ev.value.refType == null»
    					ev«evName»_«expressionList.get(indexExpression)».value = new SpecificObjectSelection(packages, model, hmObjects.get("«(ev.value as SpecificObjectSelection).objSel.name»")).getObject();
 	   			«ELSE»
-	   				EObject srcObjExp«evName»_«expressionList.get(indexExpression)» = new SpecificObjectSelection(packages, model, hmObjects.get("«(ev.value as SpecificObjectSelection).objSel.name»")).getObject();
+	   			«IF ev.refType != null»
+	   				EObject srcObjExp«evName»_«expressionList.get(indexExpression)» = hmObjects.get("«(ev.value as SpecificObjectSelection).objSel.name»");
 	   				for (EReference ref : srcObjExp«evName»_«expressionList.get(indexExpression)».eClass().getEAllReferences()) {
 						if (ref.getName().equals("«ev.refType.name»")) {
 							ev«evName»_«expressionList.get(indexExpression)».value = srcObjExp«evName»_«expressionList.get(indexExpression)».eGet(ref);		
 						}
 					}
+	   			«ENDIF»
+	   			«IF ev.value.refType != null»
+	   				EObject srcObjExp«evName»_«expressionList.get(indexExpression)» = hmObjects.get("«(ev.value as SpecificObjectSelection).objSel.name»");
+	   				for (EReference ref : srcObjExp«evName»_«expressionList.get(indexExpression)».eClass().getEAllReferences()) {
+						if (ref.getName().equals("«ev.value.refType.name»")) {
+							ev«evName»_«expressionList.get(indexExpression)».value = srcObjExp«evName»_«expressionList.get(indexExpression)».eGet(ref);		
+						}
+					}
+	   			«ENDIF»
 	   			«ENDIF»
 			«ELSE»
 			«IF ev.value instanceof RandomTypeSelection»
@@ -1607,10 +2788,38 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		«ENDFOR»
    '''
    //END CLAUSES
+
+   //*********
+   // EACH CLAUSES
+   def each(Expression exp) '''
+  		//INDEX EXPRESSION: «val indexExpression = expressionList.size() - 1»
+  		«IF exp.first instanceof AttributeEvaluation»
+  		//ATTRIBUTE: «val attev = exp.first as AttributeEvaluation»
+  		selectedObjects = unique(selectedObjects, "«attev.name.name»", false);
+   		«ENDIF»
+   		«IF exp.first instanceof ReferenceEvaluation»
+		exp«expressionList.get(indexExpression)».first = new ReferenceEvaluation();
+		//REFERENCE: «val refev = exp.first as ReferenceEvaluation»
+  		selectedObjects = unique(selectedObjects, "«refev.name.name»", true);
+  		«ENDIF»
+  		«FOR ev : exp.second»
+   			«IF ev instanceof AttributeEvaluation»
+	  		selectedObjects = unique(selectedObjects, "«ev.name.name»", false);
+   			«ENDIF»
+   			«IF ev instanceof ReferenceEvaluation»
+	  		selectedObjects = unique(selectedObjects, "«ev.name.name»", true);
+	  		«ENDIF»
+   		«ENDFOR»
+   		objects = selectedObjects;
+   '''
+   //END CLAUSES
    //COMMANDS
    
    def execute(MutatorEnvironment e)'''
-		String mutatorecore = resourcesURI + "MutatorEnvironment.ecore";
+   		//Generate metrics model
+		Bundle bundle = Platform.getBundle("wodel.models");
+	   	URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+	   	String mutatorecore = FileLocator.resolve(fileURL).getFile();
 		
 		//Load MetaModel
 		ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
@@ -1619,11 +2828,15 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
 				
    	   	for (int i = 0; i < numMutants; i++) {
+   	   		HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
+			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
    	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + ".model";
+   	   		String mutPath = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + "vs";
    	   		boolean isRepeated = true;
    			int attempts = 0;
    			int max = 0;
    			while ((isRepeated == true) && (attempts < maxAttempts)) {
+				List<String> mutPaths = new ArrayList<String>();
 				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
    				attempts++;
    				//RESET COUNTER: «nMethod = 0»
@@ -1636,77 +2849,31 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 
    	   			«FOR c : e.commands »
    	   				«IF c instanceof Mutator»
-   	   				«c.compile»		
+   	   				«c.compile»
    	   				«ENDIF»
 				«ENDFOR»
       
-				// COMPLETES MUTANT
-		   		int valid = complete(packages, model);
-	       		if (valid != 1) {
-	       			// VERIFY THE OCL CONSTRAINTS
-	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-	       			«FOR constraint : e.constraints»
-	       			if (rules.get("«constraint.type.name»") == null) {
-	       				rules.put("«constraint.type.name»", new ArrayList<String>());
-	       			}
-	       			ArrayList<String> newrules = rules.get("«constraint.type.name»");
-	       			newrules.add("«constraint.rule»");
-       				rules.put("«constraint.type.name»", newrules);
-	       			«ENDFOR»
-		       		if (matchesOCL(model, rules) == true) {
-	   					// VERIFY IF MUTANT IS DIFFERENT
-   						isRepeated = different(packages, model, hashsetMutants);
-   					
-   						System.out.println("isRepeated: " + isRepeated);
-   						// IF MUTANT IS DIFFERENT STORES IT AND PROCEEDS
-   						if (isRepeated == false) {
-			      			File outputFolder = new File(hashmapModelFilenames.get(modelFilename));
-      						if (outputFolder.exists() != true) {
-      							outputFolder.mkdir();
-      						}
-       						ModelManager.saveOutModel(model, mutFilename);
-       			      		hashsetMutants.add(mutFilename);
-       			      		if (registry == true) {
-       			      			Resource mutant = ModelManager.loadModel(packages, mutFilename);
-								for (AppMutation mut : muts.getMuts()) {
-       			      				if (mut instanceof ObjectCreated) {
-       			      					List<EObject> emuts = ((ObjectCreated) mut).getObject();
-       			      					if (emuts.size() > 0) {
-		   	       			      			EObject emutated = emuts.get(0);
-		   	       			      			emuts.remove(0);
-		   	       			      			if (ModelManager.getObject(mutant, emutated) != null) {
-		   	       			      				emuts.add(ModelManager.getObject(mutant, emutated));
-		   	       			      			}
-		   	       			      		}
-									}
-									if (mut instanceof ReferenceCreated) {
-		   								List<EReference> emuts = ((ReferenceCreated) mut).getRef();
-		   								if (emuts.size() > 0) {
-		   									EReference emutated = emuts.get(0);
-		   									emuts.remove(0);
-		   									if (ModelManager.getReference(mutant, emutated) != null) {
-		   										emuts.add(ModelManager.getReference(mutant, emutated));
-		   									}
-		   								}
-		   							}
-       			      			}
-	       			      		File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
-    	   			      		if (registryFolder.exists() != true) {
-       				      			registryFolder.mkdir();
-       				      		}
-       				      		String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + i + "Registry.model";
-       			    	  		ModelManager.createModel(muts, registryFilename);
-       			      		}
-						}
-					}
-				}   
+      
+      			//MUTANT COMPLETION AND REGISTRY
+       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
+       			«FOR constraint : e.constraints»
+       			if (rules.get("«constraint.type.name»") == null) {
+       				rules.put("«constraint.type.name»", new ArrayList<String>());
+       			}
+       			ArrayList<String> newrules = rules.get("«constraint.type.name»");
+       			newrules.add("«constraint.rule»");
+   				rules.put("«constraint.type.name»", newrules);
+      			«ENDFOR»
+      			
+				isRepeated = registryMutant(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
+
 	    		//Reload input
 	    		try {
 					model.unload();
 					model.load(null); 
 				} catch (Exception e) {}
    			}
-   		}   
+   		}
 	'''
 	
 	def executeBlock(MutatorEnvironment e,
@@ -1719,7 +2886,10 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		int numCompositeRegistryMethod,
 		int numCompositeCommands
 	)'''
-		String mutatorecore = resourcesURI + "MutatorEnvironment.ecore";
+		//Generate metrics model
+		Bundle bundle = Platform.getBundle("wodel.models");
+	   	URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+	   	String mutatorecore = FileLocator.resolve(fileURL).getFile();
 		
 		//Load MetaModel
 		ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
@@ -1728,15 +2898,20 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		HashMap<String, EObject> hmMutator = getMutators(ModelManager.getObjects(mutatormodel));
 				
    	   	for (int i = 0; i < numMutants; i++) {
+			HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
+			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
    	   		«IF b.from.size == 0»
    	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + ".model";
+   	   		String mutPath = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + "vs";
    	   		«ELSE»
    	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + i + ".model";
+   	   		String mutPath = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + i + "vs";
    	   		«ENDIF»
    	   		boolean isRepeated = true;
    			int attempts = 0;
    			int max = 0;
    			while ((isRepeated == true) && (attempts < maxAttempts)) {
+   				List<String> mutPaths = new ArrayList<String>();
 				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
    				attempts++;
    				//RESET COUNTER: «nMethod = numMethod»
@@ -1764,7 +2939,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
        			rules.put("«constraint.type.name»", newrules);
        			«ENDFOR»
        			
-				isRepeated = registryMutantWithBlocks(packages, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i);
+				isRepeated = registryMutantWithBlocks(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions);
       
 	    		//Reload input
 	    		try {
@@ -1851,6 +3026,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethod.toString()»
 		
 		if (l«commandName» != null) {
+			int k = 0;
 			for (Mutator mut : l«commandName») {
 				«IF executeMutation == true»
 				if (mut != null) {
@@ -1861,16 +3037,51 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 						hashmapEObject.put("«e.name»", mut.getObject());
 					«ENDIF»
 					«IF e instanceof SelectObjectMutator»
+						«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
 						hashmapEObject.put("«e.name»", mut.getObject());
+						«ENDIF»
+						«IF e.object instanceof CompleteTypeSelection || e.object instanceof EachTypeSelection»
+						List<EObject> listEObjects = null;
+						if (hashmapList.get("«e.name»") != null) {
+							listEObjects = hashmapList.get("«e.name»");
+						}
+						else {
+							listEObjects = new ArrayList<EObject>();
+						}
+						listEObjects.add(mut.getObject());
+						hashmapList.put("«e.name»", listEObjects);
+						«ENDIF»
+					«ENDIF»
+					«IF e instanceof CloneObjectMutator»
+						«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+						hashmapEObject.put("«e.name»", mut.getObject());
+						«ENDIF»
+						«IF e.object instanceof CompleteTypeSelection || e.object instanceof EachTypeSelection»
+						List<EObject> listEObjects = null;
+						if (hashmapList.get("«e.name»") != null) {
+							listEObjects = hashmapList.get("«e.name»");
+						}
+						else {
+							listEObjects = new ArrayList<EObject>();
+						}
+						listEObjects.add(mut.getObject());
+						hashmapList.put("«e.name»", listEObjects);
+						«ENDIF»
 					«ENDIF»
 					«ENDIF»
-					AppMutation appMut = «registryMethodName»(mut, hmMutator, seed);
-					if (appMut != null) {
-						muts.getMuts().add(appMut);
-					}
+						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
+						ModelManager.saveOutModel(model, mutatorPath);
+						if (mutPaths.contains(mutatorPath) == false) {
+							mutPaths.add(mutatorPath);
+						}
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						if (appMut != null) {
+							muts.getMuts().add(appMut);
+						}
 					}
 				}
 				«ENDIF»
+				k++;
 			}
 		}
 		}

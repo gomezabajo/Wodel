@@ -153,7 +153,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 			return null;
 		}
 
-		object = EcoreUtil.copy(container);
+		object = container;
 
 		if (!ref.getEType().getName().equals(newTarget.eClass().getName())) {
 			result = null;

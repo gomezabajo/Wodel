@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.InformationChangedImpl#getObject <em>Object</em>}</li>
  *   <li>{@link appliedMutations.impl.InformationChangedImpl#getAttChanges <em>Att Changes</em>}</li>
  *   <li>{@link appliedMutations.impl.InformationChangedImpl#getRefChanges <em>Ref Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

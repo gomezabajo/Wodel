@@ -103,6 +103,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.ATTRIBUTE_REVERSE: return createAttributeReverse();
 			case MutatorenvironmentPackage.REFERENCE_SET: return createReferenceSet();
 			case MutatorenvironmentPackage.REFERENCE_INIT: return createReferenceInit();
+			case MutatorenvironmentPackage.REFERENCE_ATT: return createReferenceAtt();
 			case MutatorenvironmentPackage.REFERENCE_EVALUATION: return createReferenceEvaluation();
 			case MutatorenvironmentPackage.EXPRESSION: return createExpression();
 			case MutatorenvironmentPackage.REFERENCE_SWAP: return createReferenceSwap();
@@ -110,6 +111,17 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.BLOCK: return createBlock();
 			case MutatorenvironmentPackage.CONSTRAINT: return createConstraint();
 			case MutatorenvironmentPackage.RANDOM_TYPE: return createRandomType();
+			case MutatorenvironmentPackage.CLONE_OBJECT_MUTATOR: return createCloneObjectMutator();
+			case MutatorenvironmentPackage.LIST_TYPE: return createListType();
+			case MutatorenvironmentPackage.OBJECT_ATTRIBUTE_TYPE: return createObjectAttributeType();
+			case MutatorenvironmentPackage.MIN_VALUE_TYPE: return createMinValueType();
+			case MutatorenvironmentPackage.MAX_VALUE_TYPE: return createMaxValueType();
+			case MutatorenvironmentPackage.ATTRIBUTE_OPERATION: return createAttributeOperation();
+			case MutatorenvironmentPackage.RANDOM_DOUBLE_NUMBER_TYPE: return createRandomDoubleNumberType();
+			case MutatorenvironmentPackage.RANDOM_INTEGER_NUMBER_TYPE: return createRandomIntegerNumberType();
+			case MutatorenvironmentPackage.SPECIFIC_CLOSURE_SELECTION: return createSpecificClosureSelection();
+			case MutatorenvironmentPackage.SUBSET_SELECTION: return createSubsetSelection();
+			case MutatorenvironmentPackage.EACH_TYPE_SELECTION: return createEachTypeSelection();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -129,6 +141,8 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 				return createOperatorFromString(eDataType, initialValue);
 			case MutatorenvironmentPackage.REPEAT:
 				return createRepeatFromString(eDataType, initialValue);
+			case MutatorenvironmentPackage.ARITHMETIC_OPERATOR:
+				return createArithmeticOperatorFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -148,6 +162,8 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 				return convertOperatorToString(eDataType, instanceValue);
 			case MutatorenvironmentPackage.REPEAT:
 				return convertRepeatToString(eDataType, instanceValue);
+			case MutatorenvironmentPackage.ARITHMETIC_OPERATOR:
+				return convertArithmeticOperatorToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -618,6 +634,16 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ReferenceAtt createReferenceAtt() {
+		ReferenceAttImpl referenceAtt = new ReferenceAttImpl();
+		return referenceAtt;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ReferenceEvaluation createReferenceEvaluation() {
 		ReferenceEvaluationImpl referenceEvaluation = new ReferenceEvaluationImpl();
 		return referenceEvaluation;
@@ -688,6 +714,116 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CloneObjectMutator createCloneObjectMutator() {
+		CloneObjectMutatorImpl cloneObjectMutator = new CloneObjectMutatorImpl();
+		return cloneObjectMutator;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ListType createListType() {
+		ListTypeImpl listType = new ListTypeImpl();
+		return listType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObjectAttributeType createObjectAttributeType() {
+		ObjectAttributeTypeImpl objectAttributeType = new ObjectAttributeTypeImpl();
+		return objectAttributeType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MinValueType createMinValueType() {
+		MinValueTypeImpl minValueType = new MinValueTypeImpl();
+		return minValueType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MaxValueType createMaxValueType() {
+		MaxValueTypeImpl maxValueType = new MaxValueTypeImpl();
+		return maxValueType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeOperation createAttributeOperation() {
+		AttributeOperationImpl attributeOperation = new AttributeOperationImpl();
+		return attributeOperation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RandomDoubleNumberType createRandomDoubleNumberType() {
+		RandomDoubleNumberTypeImpl randomDoubleNumberType = new RandomDoubleNumberTypeImpl();
+		return randomDoubleNumberType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RandomIntegerNumberType createRandomIntegerNumberType() {
+		RandomIntegerNumberTypeImpl randomIntegerNumberType = new RandomIntegerNumberTypeImpl();
+		return randomIntegerNumberType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SpecificClosureSelection createSpecificClosureSelection() {
+		SpecificClosureSelectionImpl specificClosureSelection = new SpecificClosureSelectionImpl();
+		return specificClosureSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SubsetSelection createSubsetSelection() {
+		SubsetSelectionImpl subsetSelection = new SubsetSelectionImpl();
+		return subsetSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EachTypeSelection createEachTypeSelection() {
+		EachTypeSelectionImpl eachTypeSelection = new EachTypeSelectionImpl();
+		return eachTypeSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public LogicOperator createLogicOperatorFromString(EDataType eDataType, String initialValue) {
 		LogicOperator result = LogicOperator.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -740,6 +876,26 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * @generated
 	 */
 	public String convertRepeatToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ArithmeticOperator createArithmeticOperatorFromString(EDataType eDataType, String initialValue) {
+		ArithmeticOperator result = ArithmeticOperator.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertArithmeticOperatorToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

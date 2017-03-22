@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link appliedMutations.impl.ReferenceSwapImpl#getRefObject <em>Ref Object</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceSwapImpl#getFirstName <em>First Name</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link appliedMutations.impl.ReferenceSwapImpl#getOtherTo <em>Other To</em>}</li>
  *   <li>{@link appliedMutations.impl.ReferenceSwapImpl#getOtherToName <em>Other To Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

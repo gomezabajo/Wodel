@@ -116,12 +116,20 @@ public class AppliedMutationsAdapterFactory extends AdapterFactoryImpl {
 				return createReferenceSwapAdapter();
 			}
 			@Override
+			public Adapter caseReferenceAtt(ReferenceAtt object) {
+				return createReferenceAttAdapter();
+			}
+			@Override
 			public Adapter caseAttributeSwap(AttributeSwap object) {
 				return createAttributeSwapAdapter();
 			}
 			@Override
 			public Adapter caseCompositeMutation(CompositeMutation object) {
 				return createCompositeMutationAdapter();
+			}
+			@Override
+			public Adapter caseObjectCloned(ObjectCloned object) {
+				return createObjectClonedAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -312,6 +320,20 @@ public class AppliedMutationsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link appliedMutations.ReferenceAtt <em>Reference Att</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see appliedMutations.ReferenceAtt
+	 * @generated
+	 */
+	public Adapter createReferenceAttAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link appliedMutations.AttributeSwap <em>Attribute Swap</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -336,6 +358,20 @@ public class AppliedMutationsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCompositeMutationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link appliedMutations.ObjectCloned <em>Object Cloned</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see appliedMutations.ObjectCloned
+	 * @generated
+	 */
+	public Adapter createObjectClonedAdapter() {
 		return null;
 	}
 

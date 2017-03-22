@@ -180,8 +180,12 @@ public class WodelWizard extends Wizard implements INewWizard {
 				folders, referencedProjects, requiredBundles, importPackages,
 				exportedPackages, monitor, this.getShell());
 
-		monitor.beginTask("Creating config folder", 7);
-		final IFolder configFolder = project.getFolder(new Path("config"));
+		monitor.beginTask("Creating data folder", 9);
+		final IFolder dataFolder = project.getFolder(new Path("data"));
+		dataFolder.create(true, true, monitor);
+		
+		monitor.beginTask("Creating config folder", 8);
+		final IFolder configFolder = dataFolder.getFolder(new Path("config"));
 		configFolder.create(true, true, monitor);
 
 		final IFile config = configFolder.getFile(new Path("config.txt"));
@@ -196,47 +200,119 @@ public class WodelWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		monitor.beginTask("Creating resources folder", 7);
-		final IFolder resourcesFolder = project.getFolder(new Path("resources"));
-		resourcesFolder.create(true, true, monitor);
+//		monitor.beginTask("Creating resources folder", 8);
+//		final IFolder resourcesFolder = project.getFolder(new Path("resources"));
+//		resourcesFolder.create(true, true, monitor);
+//		
+//		try {
+//			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+//			String srcName = "";
+//			if (jarFile.isFile()) {
+//				final JarFile jar = new JarFile(jarFile);
+//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+//				while(entries.hasMoreElements()) {
+//					JarEntry entry = entries.nextElement();
+//					if (! entry.isDirectory()) {
+//						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutatorEnvironment.ecore")) {
+//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+//							InputStream input = jar.getInputStream(entry);
+//							FileOutputStream output = new FileOutputStream(dest);
+//							while (input.available() > 0) {
+//								output.write(input.read());
+//							}
+//							output.close();
+//							input.close();
+//						}
+//					}
+//				}
+//				jar.close();
+//		    }
+//			else {
+//				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutatorEnvironment.ecore";
+//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutatorEnvironment.ecore";
+//				final File src = new Path(srcName).toFile();
+//				final File dest = new Path(tarName).toFile();
+//				if ((src != null) && (dest != null)) {
+//					ModelManager.copyFile(src, dest);
+//				}
+//			}
+//		} catch (IOException e) {
+//		}
+//		
+//		try {
+//			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+//			String srcName = "";
+//			if (jarFile.isFile()) {
+//				final JarFile jar = new JarFile(jarFile);
+//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+//				while(entries.hasMoreElements()) {
+//					JarEntry entry = entries.nextElement();
+//					if (! entry.isDirectory()) {
+//						if (entry.getName().startsWith("models") && entry.getName().endsWith("AppliedMutations.ecore")) {
+//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+//							InputStream input = jar.getInputStream(entry);
+//							FileOutputStream output = new FileOutputStream(dest);
+//							while (input.available() > 0) {
+//								output.write(input.read());
+//							}
+//							output.close();
+//							input.close();
+//						}
+//					}
+//				}
+//				jar.close();
+//		    }
+//			else {
+//				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/AppliedMutations.ecore";
+//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/AppliedMutations.ecore";
+//				final File src = new Path(srcName).toFile();
+//				final File dest = new Path(tarName).toFile();
+//				if ((src != null) && (dest != null)) {
+//					ModelManager.copyFile(src, dest);
+//				}
+//			}
+//		} catch (IOException e) {
+//		}
+//		
+//		try {
+//			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+//			String srcName = "";
+//			if (jarFile.isFile()) {
+//				final JarFile jar = new JarFile(jarFile);
+//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+//				while(entries.hasMoreElements()) {
+//					JarEntry entry = entries.nextElement();
+//					if (! entry.isDirectory()) {
+//						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutatorMetrics.ecore")) {
+//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
+//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
+//							InputStream input = jar.getInputStream(entry);
+//							FileOutputStream output = new FileOutputStream(dest);
+//							while (input.available() > 0) {
+//								output.write(input.read());
+//							}
+//							output.close();
+//							input.close();
+//						}
+//					}
+//				}
+//				jar.close();
+//		    }
+//			else {
+//				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutatorMetrics.ecore";
+//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutatorMetrics.ecore";
+//				final File src = new Path(srcName).toFile();
+//				final File dest = new Path(tarName).toFile();
+//				if ((src != null) && (dest != null)) {
+//					ModelManager.copyFile(src, dest);
+//				}
+//			}
+//		} catch (IOException e) {
+//		}
 		
-		try {
-			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-			String srcName = "";
-			if (jarFile.isFile()) {
-				final JarFile jar = new JarFile(jarFile);
-				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-				while(entries.hasMoreElements()) {
-					JarEntry entry = entries.nextElement();
-					if (! entry.isDirectory()) {
-						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutatorEnvironment.ecore")) {
-							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-							InputStream input = jar.getInputStream(entry);
-							FileOutputStream output = new FileOutputStream(dest);
-							while (input.available() > 0) {
-								output.write(input.read());
-							}
-							output.close();
-							input.close();
-						}
-					}
-				}
-				jar.close();
-		    }
-			else {
-				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutatorEnvironment.ecore";
-				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutatorEnvironment.ecore";
-				final File src = new Path(srcName).toFile();
-				final File dest = new Path(tarName).toFile();
-				if ((src != null) && (dest != null)) {
-					ModelManager.copyFile(src, dest);
-				}
-			}
-		} catch (IOException e) {
-		}
-		
-		monitor.beginTask("Creating model folder", 7);
+		monitor.beginTask("Creating model folder", 8);
 		final IFolder modelFolder = project.getFolder(new Path(modelName));
 		modelFolder.create(true, true, monitor);
 		String metamodel = null;
@@ -264,7 +340,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 		}
 
-		monitor.beginTask("Creating mutant folder", 7);
+		monitor.beginTask("Creating mutant folder", 8);
 		final IFolder mutantFolder = project.getFolder(new Path(mutantName));
 		mutantFolder.create(true, true, monitor);
 		// create a sample file
@@ -340,7 +416,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 		}
 
-		monitor.beginTask("Creating tests folder", 7);
+		monitor.beginTask("Creating tests folder", 8);
 		final IFile test = configFolder.getFile(new Path("test.txt"));
 		try {
 			InputStream stream = openTestStream();
@@ -350,6 +426,57 @@ public class WodelWizard extends Wizard implements INewWizard {
 				test.create(stream, true, monitor);
 			}
 			stream.close();
+		} catch (IOException e) {
+		}
+		
+		final IFolder iconsFolder = dataFolder.getFolder(new Path("icons"));
+		iconsFolder.create(true, true, monitor);
+
+		monitor.beginTask("Creating icons folder", 8);
+		try {
+			iconsFolder.create(true, true, monitor);
+		} catch (CoreException e) {
+		}
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+		    	if (! entry.isDirectory()) {
+		    		if (entry.getName().startsWith("icons/metrics")) {
+		    			final File f = iconsFolder.getRawLocation().makeAbsolute().toFile();
+		    			File path = new File(f.getPath() + '/' + entry.getName().replace("icons/metrics/", "").split("/")[0]);
+		    			if (!path.exists()) {
+		    				path.mkdir();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("icons/metrics/", ""));
+		    			InputStream input = jar.getInputStream(entry);
+		    			FileOutputStream output = new FileOutputStream(dest);
+		    			while (input.available() > 0) {
+		    				output.write(input.read());
+		    			}
+		    			output.close();
+		    			input.close();
+		    		}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "icons/metrics";
+			//String srcName = FileLocator.resolve(fileURL).getFile();
+			//System.out.println("srcNameOtro" + srcNameOtro);
+			final File src = new Path(srcName).toFile();
+			final File dest = iconsFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				ModelManager.copyFolder(src, dest);
+			}
+		}
 		} catch (IOException e) {
 		}
 

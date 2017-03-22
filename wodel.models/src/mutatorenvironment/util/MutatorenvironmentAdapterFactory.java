@@ -300,6 +300,10 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 				return createReferenceInitAdapter();
 			}
 			@Override
+			public Adapter caseReferenceAtt(ReferenceAtt object) {
+				return createReferenceAttAdapter();
+			}
+			@Override
 			public Adapter caseReferenceEvaluation(ReferenceEvaluation object) {
 				return createReferenceEvaluationAdapter();
 			}
@@ -330,6 +334,62 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseRandomType(RandomType object) {
 				return createRandomTypeAdapter();
+			}
+			@Override
+			public Adapter caseCloneObjectMutator(CloneObjectMutator object) {
+				return createCloneObjectMutatorAdapter();
+			}
+			@Override
+			public Adapter caseListType(ListType object) {
+				return createListTypeAdapter();
+			}
+			@Override
+			public Adapter caseObjectAttributeType(ObjectAttributeType object) {
+				return createObjectAttributeTypeAdapter();
+			}
+			@Override
+			public Adapter caseAttributeEvaluationType(AttributeEvaluationType object) {
+				return createAttributeEvaluationTypeAdapter();
+			}
+			@Override
+			public Adapter caseMinValueType(MinValueType object) {
+				return createMinValueTypeAdapter();
+			}
+			@Override
+			public Adapter caseMaxValueType(MaxValueType object) {
+				return createMaxValueTypeAdapter();
+			}
+			@Override
+			public Adapter caseNumberType(NumberType object) {
+				return createNumberTypeAdapter();
+			}
+			@Override
+			public Adapter caseAttributeOperation(AttributeOperation object) {
+				return createAttributeOperationAdapter();
+			}
+			@Override
+			public Adapter caseRandomNumberType(RandomNumberType object) {
+				return createRandomNumberTypeAdapter();
+			}
+			@Override
+			public Adapter caseRandomDoubleNumberType(RandomDoubleNumberType object) {
+				return createRandomDoubleNumberTypeAdapter();
+			}
+			@Override
+			public Adapter caseRandomIntegerNumberType(RandomIntegerNumberType object) {
+				return createRandomIntegerNumberTypeAdapter();
+			}
+			@Override
+			public Adapter caseSpecificClosureSelection(SpecificClosureSelection object) {
+				return createSpecificClosureSelectionAdapter();
+			}
+			@Override
+			public Adapter caseSubsetSelection(SubsetSelection object) {
+				return createSubsetSelectionAdapter();
+			}
+			@Override
+			public Adapter caseEachTypeSelection(EachTypeSelection object) {
+				return createEachTypeSelectionAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -1164,6 +1224,20 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ReferenceAtt <em>Reference Att</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.ReferenceAtt
+	 * @generated
+	 */
+	public Adapter createReferenceAttAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ReferenceEvaluation <em>Reference Evaluation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1272,6 +1346,202 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRandomTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.CloneObjectMutator <em>Clone Object Mutator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.CloneObjectMutator
+	 * @generated
+	 */
+	public Adapter createCloneObjectMutatorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ListType <em>List Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.ListType
+	 * @generated
+	 */
+	public Adapter createListTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.ObjectAttributeType <em>Object Attribute Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.ObjectAttributeType
+	 * @generated
+	 */
+	public Adapter createObjectAttributeTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.AttributeEvaluationType <em>Attribute Evaluation Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.AttributeEvaluationType
+	 * @generated
+	 */
+	public Adapter createAttributeEvaluationTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.MinValueType <em>Min Value Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.MinValueType
+	 * @generated
+	 */
+	public Adapter createMinValueTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.MaxValueType <em>Max Value Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.MaxValueType
+	 * @generated
+	 */
+	public Adapter createMaxValueTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.NumberType <em>Number Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.NumberType
+	 * @generated
+	 */
+	public Adapter createNumberTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.AttributeOperation <em>Attribute Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.AttributeOperation
+	 * @generated
+	 */
+	public Adapter createAttributeOperationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.RandomNumberType <em>Random Number Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.RandomNumberType
+	 * @generated
+	 */
+	public Adapter createRandomNumberTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.RandomDoubleNumberType <em>Random Double Number Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.RandomDoubleNumberType
+	 * @generated
+	 */
+	public Adapter createRandomDoubleNumberTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.RandomIntegerNumberType <em>Random Integer Number Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.RandomIntegerNumberType
+	 * @generated
+	 */
+	public Adapter createRandomIntegerNumberTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.SpecificClosureSelection <em>Specific Closure Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.SpecificClosureSelection
+	 * @generated
+	 */
+	public Adapter createSpecificClosureSelectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.SubsetSelection <em>Subset Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.SubsetSelection
+	 * @generated
+	 */
+	public Adapter createSubsetSelectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.EachTypeSelection <em>Each Type Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.EachTypeSelection
+	 * @generated
+	 */
+	public Adapter createEachTypeSelectionAdapter() {
 		return null;
 	}
 

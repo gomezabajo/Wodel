@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class IntegerTypeImpl extends AttributeTypeImpl implements IntegerType {
+public abstract class IntegerTypeImpl extends NumberTypeImpl implements IntegerType {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

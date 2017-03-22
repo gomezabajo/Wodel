@@ -26,7 +26,7 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	EQUALS(0, "equals", "="),
+	EQUALS(0, "equals", "equals"),
 
 	/**
 	 * The '<em><b>Different</b></em>' literal object.
@@ -36,7 +36,7 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DIFFERENT(1, "different", "<>"),
+	DIFFERENT(1, "different", "different"),
 
 	/**
 	 * The '<em><b>In</b></em>' literal object.
@@ -57,7 +57,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EQUALS
-	 * @model name="equals" literal="="
+	 * @model name="equals"
 	 * @generated
 	 * @ordered
 	 */
@@ -72,7 +72,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DIFFERENT
-	 * @model name="different" literal="<>"
+	 * @model name="different"
 	 * @generated
 	 * @ordered
 	 */

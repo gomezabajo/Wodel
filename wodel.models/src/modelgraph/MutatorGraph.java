@@ -14,7 +14,8 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link modelgraph.MutatorGraph#getType <em>Type</em>}</li>
  *   <li>{@link modelgraph.MutatorGraph#getNodes <em>Nodes</em>}</li>
- *   <li>{@link modelgraph.MutatorGraph#getEdges <em>Edges</em>}</li>
+ *   <li>{@link modelgraph.MutatorGraph#getRelations <em>Relations</em>}</li>
+ *   <li>{@link modelgraph.MutatorGraph#getContents <em>Contents</em>}</li>
  *   <li>{@link modelgraph.MutatorGraph#getMetamodel <em>Metamodel</em>}</li>
  * </ul>
  * </p>
@@ -70,20 +71,36 @@ public interface MutatorGraph extends Item {
 	EList<Node> getNodes();
 
 	/**
-	 * Returns the value of the '<em><b>Edges</b></em>' containment reference list.
-	 * The list contents are of type {@link modelgraph.Edge}.
+	 * Returns the value of the '<em><b>Relations</b></em>' containment reference list.
+	 * The list contents are of type {@link modelgraph.Relation}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Edges</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Relations</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Edges</em>' containment reference list.
-	 * @see modelgraph.ModelgraphPackage#getMutatorGraph_Edges()
+	 * @return the value of the '<em>Relations</em>' containment reference list.
+	 * @see modelgraph.ModelgraphPackage#getMutatorGraph_Relations()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Edge> getEdges();
+	EList<Relation> getRelations();
+
+	/**
+	 * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
+	 * The list contents are of type {@link modelgraph.Content}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Contents</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Contents</em>' containment reference list.
+	 * @see modelgraph.ModelgraphPackage#getMutatorGraph_Contents()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Content> getContents();
 
 	/**
 	 * Returns the value of the '<em><b>Metamodel</b></em>' attribute.

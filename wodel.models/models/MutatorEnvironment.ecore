@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mutatorenvironment" nsURI="http://mutatorenvironment/1.0" nsPrefix="mutatorenvironment">
   <eAnnotations source="http://www.eclipse.org/OCL/Import">
-    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="MutatorEnvironment">
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
@@ -47,12 +47,12 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//AttributeSet" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
         eType="#//ReferenceSet" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObSelectionStrategy" abstract="true"
       eSuperTypes="#//ObjectEmitter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression"
         containment="true"/>
   </eClassifiers>
@@ -66,7 +66,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//AttributeType"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AttributeType" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeType" abstract="true" eSuperTypes="#//AttributeEvaluationType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
         eType="#//Operator"/>
   </eClassifiers>
@@ -88,7 +88,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowsNull" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IntegerType" abstract="true" eSuperTypes="#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerType" abstract="true" eSuperTypes="#//NumberType"/>
   <eClassifiers xsi:type="ecore:EClass" name="SpecificIntegerType" eSuperTypes="#//IntegerType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
@@ -98,7 +98,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowsNull" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DoubleType" abstract="true" eSuperTypes="#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleType" abstract="true" eSuperTypes="#//NumberType"/>
   <eClassifiers xsi:type="ecore:EClass" name="SpecificDoubleType" eSuperTypes="#//DoubleType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
@@ -117,9 +117,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpecificSelection" abstract="true" eSuperTypes="#//ObSelectionStrategy"/>
   <eClassifiers xsi:type="ecore:EClass" name="SpecificReferenceSelection" eSuperTypes="#//SpecificSelection">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectEmitter" eType="#//ObjectEmitter"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objSel" lowerBound="1"
+        eType="#//ObjectEmitter"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModifyTargetReferenceMutator" eSuperTypes="#//Mutator">
     <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
@@ -137,6 +136,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RemoveObjectMutator" eSuperTypes="#//Mutator">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//ObSelectionStrategy"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RemoveReferenceMutator" abstract="true"
@@ -203,13 +204,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="SelectObjectMutator" eSuperTypes="#//Mutator">
     <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//ObSelectionStrategy"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeEvaluation" eSuperTypes="#//Evaluation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="name" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//AttributeType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//AttributeEvaluationType"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeReverse" eSuperTypes="#//AttributeSet"/>
@@ -218,11 +218,17 @@
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceInit" eSuperTypes="#//ReferenceSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceAtt" eSuperTypes="#//ReferenceSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//AttributeType"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceEvaluation" eSuperTypes="#//Evaluation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refName" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//Operator"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//ObSelectionStrategy"
         containment="true"/>
@@ -243,8 +249,8 @@
     <eLiterals name="or" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Operator">
-    <eLiterals name="equals" literal="="/>
-    <eLiterals name="different" value="1" literal="&lt;>"/>
+    <eLiterals name="equals"/>
+    <eLiterals name="different" value="1"/>
     <eLiterals name="in" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BinaryOperator">
@@ -267,8 +273,73 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rule" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Repeat">
-    <eLiterals name="yes" literal="yes"/>
+    <eLiterals name="yes"/>
     <eLiterals name="no" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RandomType" eSuperTypes="#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CloneObjectMutator" eSuperTypes="#//Mutator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contents" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//ObSelectionStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//AttributeSet" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//ReferenceSet" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListType" eSuperTypes="#//AttributeType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectAttributeType" eSuperTypes="#//AttributeEvaluationType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objSel" lowerBound="1"
+        eType="#//ObjectEmitter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//Operator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeEvaluationType" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MinValueType" eSuperTypes="#//NumberType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaxValueType" eSuperTypes="#//NumberType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NumberType" abstract="true" eSuperTypes="#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeOperation" eSuperTypes="#//AttributeSet">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//ArithmeticOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//AttributeEvaluationType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ArithmeticOperator">
+    <eLiterals name="add" literal="add"/>
+    <eLiterals name="subtract" value="1" literal="subtract"/>
+    <eLiterals name="multiply" value="2" literal="multiply"/>
+    <eLiterals name="divide" value="3" literal="divide"/>
+    <eLiterals name="module" value="4" literal="module"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RandomNumberType" abstract="true" eSuperTypes="#//NumberType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="max" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RandomDoubleNumberType" eSuperTypes="#//RandomNumberType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RandomIntegerNumberType" eSuperTypes="#//RandomNumberType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificClosureSelection" eSuperTypes="#//SpecificSelection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objSel" lowerBound="1"
+        eType="#//ObjectEmitter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubsetSelection" eSuperTypes="#//ObSelectionStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EachTypeSelection" eSuperTypes="#//SubsetSelection"/>
 </ecore:EPackage>

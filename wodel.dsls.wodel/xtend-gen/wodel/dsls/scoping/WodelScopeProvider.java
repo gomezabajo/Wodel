@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
 import manager.WodelContext;
+import mutatorenvironment.AttributeEvaluation;
+import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.Block;
+import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.Constraint;
@@ -18,16 +21,21 @@ import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Definition;
 import mutatorenvironment.Evaluation;
 import mutatorenvironment.Expression;
+import mutatorenvironment.MaxValueType;
+import mutatorenvironment.MinValueType;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.ObSelectionStrategy;
+import mutatorenvironment.ObjectAttributeType;
 import mutatorenvironment.ObjectEmitter;
 import mutatorenvironment.OtherTypeSelection;
 import mutatorenvironment.Program;
+import mutatorenvironment.RandomNumberType;
 import mutatorenvironment.RandomTypeSelection;
+import mutatorenvironment.ReferenceAtt;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.ReferenceSet;
@@ -38,11 +46,14 @@ import mutatorenvironment.RemoveRandomReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.Source;
+import mutatorenvironment.SpecificClosureSelection;
 import mutatorenvironment.SpecificObjectSelection;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -125,7 +136,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         if (!_and_2) {
           _and_1 = false;
         } else {
-          _and_1 = (((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator));
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator));
         }
         if (!_and_1) {
           _and = false;
@@ -182,7 +193,130 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         if (!_and_2) {
           _and_1 = false;
         } else {
-          _and_1 = (mutator instanceof SelectObjectMutator);
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator));
+        }
+        if (!_and_1) {
+          _and = false;
+        } else {
+          EClass _type_1 = mutator.getType();
+          String _name_3 = _type_1.getName();
+          boolean _contains = scontainers.contains(_name_3);
+          _and = _contains;
+        }
+        if (_and) {
+          scope.add(mutator);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a specific object is used as a container,
+   * can contain any previous object whose type is a container for the created object.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final CreateObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("2c.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      String _metamodel = definition.getMetamodel();
+      EClass _type = com.getType();
+      String _name = _type.getName();
+      final List<EClass> containers = this.getEContainers(_metamodel, _name);
+      final List<String> scontainers = new ArrayList<String>();
+      for (final EClassifier cl : containers) {
+        String _name_1 = cl.getName();
+        scontainers.add(_name_1);
+      }
+      String _metamodel_1 = definition.getMetamodel();
+      EClass _type_1 = com.getType();
+      String _name_2 = _type_1.getName();
+      final List<EReference> references = this.getEReferences(_metamodel_1, _name_2);
+      for (final EReference eref : references) {
+        EClassifier _eType = eref.getEType();
+        String _name_3 = _eType.getName();
+        scontainers.add(_name_3);
+      }
+      final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+      for (final Mutator mutator : commands) {
+        boolean _and = false;
+        boolean _and_1 = false;
+        boolean _and_2 = false;
+        String _name_4 = mutator.getName();
+        boolean _notEquals = (!Objects.equal(_name_4, null));
+        if (!_notEquals) {
+          _and_2 = false;
+        } else {
+          int _indexOf = commands.indexOf(mutator);
+          int _indexOf_1 = commands.indexOf(com);
+          boolean _lessThan = (_indexOf < _indexOf_1);
+          _and_2 = _lessThan;
+        }
+        if (!_and_2) {
+          _and_1 = false;
+        } else {
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator));
+        }
+        if (!_and_1) {
+          _and = false;
+        } else {
+          EClass _type_2 = mutator.getType();
+          String _name_5 = _type_2.getName();
+          boolean _contains = scontainers.contains(_name_5);
+          _and = _contains;
+        }
+        if (_and) {
+          scope.add(mutator);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectObjectMutator.container, when a specific object is used as a container,
+   * can contain any previous object whose type is a container for the created object.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final SelectObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("2d.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      String _metamodel = definition.getMetamodel();
+      EClass _type = com.getType();
+      String _name = _type.getName();
+      final List<EClass> containers = this.getEContainers(_metamodel, _name);
+      final List<String> scontainers = new ArrayList<String>();
+      for (final EClassifier cl : containers) {
+        String _name_1 = cl.getName();
+        scontainers.add(_name_1);
+      }
+      final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+      for (final Mutator mutator : commands) {
+        boolean _and = false;
+        boolean _and_1 = false;
+        boolean _and_2 = false;
+        String _name_2 = mutator.getName();
+        boolean _notEquals = (!Objects.equal(_name_2, null));
+        if (!_notEquals) {
+          _and_2 = false;
+        } else {
+          int _indexOf = commands.indexOf(mutator);
+          int _indexOf_1 = commands.indexOf(com);
+          boolean _lessThan = (_indexOf < _indexOf_1);
+          _and_2 = _lessThan;
+        }
+        if (!_and_2) {
+          _and_1 = false;
+        } else {
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator));
         }
         if (!_and_1) {
           _and = false;
@@ -296,18 +430,25 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         } else {
           boolean _or = false;
           boolean _or_1 = false;
+          boolean _or_2 = false;
           EObject _eContainer_4 = com.eContainer();
           if ((_eContainer_4 instanceof MutatorEnvironment)) {
-            _or_1 = true;
+            _or_2 = true;
           } else {
             EObject _eContainer_5 = com.eContainer();
-            _or_1 = (_eContainer_5 instanceof CreateObjectMutator);
+            _or_2 = (_eContainer_5 instanceof CreateObjectMutator);
+          }
+          if (_or_2) {
+            _or_1 = true;
+          } else {
+            EObject _eContainer_6 = com.eContainer();
+            _or_1 = (_eContainer_6 instanceof SelectObjectMutator);
           }
           if (_or_1) {
             _or = true;
           } else {
-            EObject _eContainer_6 = com.eContainer();
-            _or = (_eContainer_6 instanceof SelectObjectMutator);
+            EObject _eContainer_7 = com.eContainer();
+            _or = (_eContainer_7 instanceof CloneObjectMutator);
           }
           if (_or) {
             String _metamodel_4 = definition.getMetamodel();
@@ -371,7 +512,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if (!_and_2) {
                   _and_1 = false;
                 } else {
-                  _and_1 = ((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator));
+                  _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
                 }
                 if (!_and_1) {
                   _and = false;
@@ -421,7 +562,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   if (!_and_2) {
                     _and_1 = false;
                   } else {
-                    _and_1 = ((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator));
+                    _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
                   }
                   if (!_and_1) {
                     _and = false;
@@ -485,7 +626,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   if (!_and_2) {
                     _and_1 = false;
                   } else {
-                    _and_1 = ((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator));
+                    _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
                   }
                   if (!_and_1) {
                     _and = false;
@@ -535,7 +676,252 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                     if (!_and_2) {
                       _and_1 = false;
                     } else {
-                      _and_1 = ((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator));
+                      _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+                    }
+                    if (!_and_1) {
+                      _and = false;
+                    } else {
+                      EClass _type = c.getType();
+                      String _name_3 = _type.getName();
+                      boolean _contains = scontainments.contains(_name_3);
+                      _and = _contains;
+                    }
+                    if (_and) {
+                      scope.add(c);
+                    }
+                  }
+                  _xblockexpression_4 = Scopes.scopeFor(scope);
+                }
+                _xifexpression_3 = _xblockexpression_4;
+              }
+              _xifexpression_2 = _xifexpression_3;
+            }
+            _xblockexpression_2 = _xifexpression_2;
+          }
+          _xifexpression_1 = _xblockexpression_2;
+        }
+        _xifexpression = _xifexpression_1;
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SpecificObjectSelection.objSel can contain any EClass from the input meta-model.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final SpecificClosureSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("5b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      final List<Mutator> scope = new ArrayList<Mutator>();
+      IScope _xifexpression = null;
+      EObject _eContainer = com.eContainer();
+      if ((_eContainer instanceof ModifyTargetReferenceMutator)) {
+        IScope _xblockexpression_1 = null;
+        {
+          EObject _eContainer_1 = com.eContainer();
+          final ModifyTargetReferenceMutator mutator = ((ModifyTargetReferenceMutator) _eContainer_1);
+          final List<Mutator> commands = this.getCommands(mutator);
+          IScope _xifexpression_1 = null;
+          ObSelectionStrategy _source = mutator.getSource();
+          boolean _equals = Objects.equal(_source, com);
+          if (_equals) {
+            IScope _xblockexpression_2 = null;
+            {
+              String _metamodel = definition.getMetamodel();
+              EReference _refType = mutator.getRefType();
+              String _name = _refType.getName();
+              final List<EClass> containers = this.getESources(_metamodel, _name);
+              final List<String> scontainers = new ArrayList<String>();
+              for (final EClassifier cl : containers) {
+                String _name_1 = cl.getName();
+                scontainers.add(_name_1);
+              }
+              for (final Mutator c : commands) {
+                boolean _and = false;
+                boolean _and_1 = false;
+                boolean _and_2 = false;
+                String _name_2 = c.getName();
+                boolean _notEquals = (!Objects.equal(_name_2, null));
+                if (!_notEquals) {
+                  _and_2 = false;
+                } else {
+                  int _indexOf = commands.indexOf(c);
+                  int _indexOf_1 = commands.indexOf(mutator);
+                  boolean _lessThan = (_indexOf < _indexOf_1);
+                  _and_2 = _lessThan;
+                }
+                if (!_and_2) {
+                  _and_1 = false;
+                } else {
+                  _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+                }
+                if (!_and_1) {
+                  _and = false;
+                } else {
+                  EClass _type = c.getType();
+                  String _name_3 = _type.getName();
+                  boolean _contains = scontainers.contains(_name_3);
+                  _and = _contains;
+                }
+                if (_and) {
+                  scope.add(c);
+                }
+              }
+              _xblockexpression_2 = Scopes.scopeFor(scope);
+            }
+            _xifexpression_1 = _xblockexpression_2;
+          } else {
+            IScope _xifexpression_2 = null;
+            ObSelectionStrategy _newTarget = mutator.getNewTarget();
+            boolean _equals_1 = Objects.equal(_newTarget, com);
+            if (_equals_1) {
+              IScope _xblockexpression_3 = null;
+              {
+                String _metamodel = definition.getMetamodel();
+                EReference _refType = mutator.getRefType();
+                String _name = _refType.getName();
+                final List<EClass> containments = this.getETargets(_metamodel, _name);
+                final List<String> scontainments = new ArrayList<String>();
+                for (final EClassifier cl : containments) {
+                  String _name_1 = cl.getName();
+                  scontainments.add(_name_1);
+                }
+                for (final Mutator c : commands) {
+                  boolean _and = false;
+                  boolean _and_1 = false;
+                  boolean _and_2 = false;
+                  String _name_2 = c.getName();
+                  boolean _notEquals = (!Objects.equal(_name_2, null));
+                  if (!_notEquals) {
+                    _and_2 = false;
+                  } else {
+                    int _indexOf = commands.indexOf(c);
+                    int _indexOf_1 = commands.indexOf(mutator);
+                    boolean _lessThan = (_indexOf < _indexOf_1);
+                    _and_2 = _lessThan;
+                  }
+                  if (!_and_2) {
+                    _and_1 = false;
+                  } else {
+                    _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+                  }
+                  if (!_and_1) {
+                    _and = false;
+                  } else {
+                    EClass _type = c.getType();
+                    String _name_3 = _type.getName();
+                    boolean _contains = scontainments.contains(_name_3);
+                    _and = _contains;
+                  }
+                  if (_and) {
+                    scope.add(c);
+                  }
+                }
+                _xblockexpression_3 = Scopes.scopeFor(scope);
+              }
+              _xifexpression_2 = _xblockexpression_3;
+            }
+            _xifexpression_1 = _xifexpression_2;
+          }
+          _xblockexpression_1 = _xifexpression_1;
+        }
+        _xifexpression = _xblockexpression_1;
+      } else {
+        IScope _xifexpression_1 = null;
+        EObject _eContainer_1 = com.eContainer();
+        if ((_eContainer_1 instanceof CreateReferenceMutator)) {
+          IScope _xblockexpression_2 = null;
+          {
+            EObject _eContainer_2 = com.eContainer();
+            final CreateReferenceMutator mutator = ((CreateReferenceMutator) _eContainer_2);
+            final List<Mutator> commands = this.getCommands(mutator);
+            IScope _xifexpression_2 = null;
+            ObSelectionStrategy _source = mutator.getSource();
+            boolean _equals = Objects.equal(_source, com);
+            if (_equals) {
+              IScope _xblockexpression_3 = null;
+              {
+                String _metamodel = definition.getMetamodel();
+                EReference _refType = mutator.getRefType();
+                String _name = _refType.getName();
+                final List<EClass> containers = this.getESources(_metamodel, _name);
+                final List<String> scontainers = new ArrayList<String>();
+                for (final EClassifier cl : containers) {
+                  String _name_1 = cl.getName();
+                  scontainers.add(_name_1);
+                }
+                for (final Mutator c : commands) {
+                  boolean _and = false;
+                  boolean _and_1 = false;
+                  boolean _and_2 = false;
+                  String _name_2 = c.getName();
+                  boolean _notEquals = (!Objects.equal(_name_2, null));
+                  if (!_notEquals) {
+                    _and_2 = false;
+                  } else {
+                    int _indexOf = commands.indexOf(c);
+                    int _indexOf_1 = commands.indexOf(mutator);
+                    boolean _lessThan = (_indexOf < _indexOf_1);
+                    _and_2 = _lessThan;
+                  }
+                  if (!_and_2) {
+                    _and_1 = false;
+                  } else {
+                    _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+                  }
+                  if (!_and_1) {
+                    _and = false;
+                  } else {
+                    EClass _type = c.getType();
+                    String _name_3 = _type.getName();
+                    boolean _contains = scontainers.contains(_name_3);
+                    _and = _contains;
+                  }
+                  if (_and) {
+                    scope.add(c);
+                  }
+                }
+                _xblockexpression_3 = Scopes.scopeFor(scope);
+              }
+              _xifexpression_2 = _xblockexpression_3;
+            } else {
+              IScope _xifexpression_3 = null;
+              ObSelectionStrategy _target = mutator.getTarget();
+              boolean _equals_1 = Objects.equal(_target, com);
+              if (_equals_1) {
+                IScope _xblockexpression_4 = null;
+                {
+                  String _metamodel = definition.getMetamodel();
+                  EReference _refType = mutator.getRefType();
+                  String _name = _refType.getName();
+                  final List<EClass> containments = this.getETargets(_metamodel, _name);
+                  final List<String> scontainments = new ArrayList<String>();
+                  for (final EClassifier cl : containments) {
+                    String _name_1 = cl.getName();
+                    scontainments.add(_name_1);
+                  }
+                  for (final Mutator c : commands) {
+                    boolean _and = false;
+                    boolean _and_1 = false;
+                    boolean _and_2 = false;
+                    String _name_2 = c.getName();
+                    boolean _notEquals = (!Objects.equal(_name_2, null));
+                    if (!_notEquals) {
+                      _and_2 = false;
+                    } else {
+                      int _indexOf = commands.indexOf(c);
+                      int _indexOf_1 = commands.indexOf(mutator);
+                      boolean _lessThan = (_indexOf < _indexOf_1);
+                      _and_2 = _lessThan;
+                    }
+                    if (!_and_2) {
+                      _and_1 = false;
+                    } else {
+                      _and_1 = ((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
                     }
                     if (!_and_1) {
                       _and = false;
@@ -605,10 +991,29 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
-   * CreateObjetMutator.refType can contain any EReference defined by the
-   * CreateObjectMutator.container whose type is CreateObjetMutator.type.
+   * CloneObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the created object.
    */
-  public IScope scope_CreateObjectMutator_refType(final CreateObjectMutator com, final EReference ref) {
+  public IScope scope_RandomTypeSelection_type(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("6c.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      String _metamodel = definition.getMetamodel();
+      EClass _type = com.getType();
+      String _name = _type.getName();
+      List<EClass> _eContainers = this.getEContainers(_metamodel, _name);
+      _xblockexpression = Scopes.scopeFor(_eContainers);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RandomTypeSelection.refType can contain any EReference defined by the
+   * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+   */
+  public IScope scope_ObSelectionStrategy_refType(final CreateObjectMutator com, final EReference ref) {
     IScope _xblockexpression = null;
     {
       System.out.println("7.");
@@ -616,44 +1021,262 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       final Definition definition = env.getDefinition();
       final List<EReference> scope = new ArrayList<EReference>();
       ObSelectionStrategy _container = com.getContainer();
-      if ((_container instanceof RandomTypeSelection)) {
+      if ((_container instanceof ObSelectionStrategy)) {
+        String sourceClassName = null;
         ObSelectionStrategy _container_1 = com.getContainer();
-        final EClass container = ((RandomTypeSelection) _container_1).getType();
-        String _metamodel = definition.getMetamodel();
-        String _name = container.getName();
-        EClass _type = com.getType();
-        String _name_1 = _type.getName();
-        List<EReference> _eContainmentReferences = this.getEContainmentReferences(_metamodel, _name, _name_1);
-        scope.addAll(_eContainmentReferences);
-      }
-      ObSelectionStrategy _container_2 = com.getContainer();
-      if ((_container_2 instanceof SpecificObjectSelection)) {
+        if ((_container_1 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _container_2 = com.getContainer();
+          EClass _type = _container_2.getType();
+          String _name = _type.getName();
+          sourceClassName = _name;
+        }
         ObSelectionStrategy _container_3 = com.getContainer();
-        ObjectEmitter _objSel = ((SpecificObjectSelection) _container_3).getObjSel();
-        if ((_objSel instanceof SelectObjectMutator)) {
+        if ((_container_3 instanceof CompleteTypeSelection)) {
           ObSelectionStrategy _container_4 = com.getContainer();
-          ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _container_4).getObjSel();
-          ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_1).getObject();
-          if ((_object instanceof RandomTypeSelection)) {
-            ObSelectionStrategy _container_5 = com.getContainer();
-            ObjectEmitter _objSel_2 = ((SpecificObjectSelection) _container_5).getObjSel();
-            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_2).getObject();
-            final EClass container_1 = ((RandomTypeSelection) _object_1).getType();
-            String _metamodel_1 = definition.getMetamodel();
-            String _name_2 = container_1.getName();
-            List<EReference> _eReferences = this.getEReferences(_metamodel_1, _name_2);
-            scope.addAll(_eReferences);
+          EClass _type_1 = _container_4.getType();
+          String _name_1 = _type_1.getName();
+          sourceClassName = _name_1;
+        }
+        ObSelectionStrategy _container_5 = com.getContainer();
+        if ((_container_5 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _container_6 = com.getContainer();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _container_6);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type_2 = _objSel_1.getType();
+            String _name_2 = _type_2.getName();
+            sourceClassName = _name_2;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_3 = _object.getType();
+            String _name_3 = _type_3.getName();
+            sourceClassName = _name_3;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_4 = _objSel_5.getType();
+            String _name_4 = _type_4.getName();
+            sourceClassName = _name_4;
           }
         }
-        ObSelectionStrategy _container_6 = com.getContainer();
-        ObjectEmitter _objSel_3 = ((SpecificObjectSelection) _container_6).getObjSel();
-        if ((_objSel_3 instanceof CreateObjectMutator)) {
-          ObSelectionStrategy _container_7 = com.getContainer();
-          ObjectEmitter _objSel_4 = ((SpecificObjectSelection) _container_7).getObjSel();
-          final EClass container_2 = ((CreateObjectMutator) _objSel_4).getType();
-          String _metamodel_2 = definition.getMetamodel();
-          String _name_3 = container_2.getName();
-          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_2, _name_3);
+        ObSelectionStrategy _container_7 = com.getContainer();
+        if ((_container_7 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _container_8 = com.getContainer();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _container_8);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_7.getType();
+            String _name_5 = _type_5.getName();
+            sourceClassName = _name_5;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_6 = _object_1.getType();
+            String _name_6 = _type_6.getName();
+            sourceClassName = _name_6;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_7 = _objSel_11.getType();
+            String _name_7 = _type_7.getName();
+            sourceClassName = _name_7;
+          }
+        }
+        String _metamodel = definition.getMetamodel();
+        EClass _type_8 = com.getType();
+        String _name_8 = _type_8.getName();
+        List<EReference> _eReferences = this.getEReferences(_metamodel, sourceClassName, _name_8);
+        scope.addAll(_eReferences);
+      } else {
+        EClass _type_9 = com.getType();
+        String className = _type_9.getName();
+        String _metamodel_1 = definition.getMetamodel();
+        List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, className);
+        scope.addAll(_eReferences_1);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RandomTypeSelection.refType can contain any EReference defined by the
+   * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+   */
+  public IScope scope_ObSelectionStrategy_refType(final ReferenceInit com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("7b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      final List<EReference> scope = new ArrayList<EReference>();
+      ObSelectionStrategy _object = com.getObject();
+      if ((_object instanceof ObSelectionStrategy)) {
+        String className = null;
+        ObSelectionStrategy _object_1 = com.getObject();
+        if ((_object_1 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_2 = com.getObject();
+          EClass _type = _object_2.getType();
+          String _name = _type.getName();
+          className = _name;
+        }
+        ObSelectionStrategy _object_3 = com.getObject();
+        if ((_object_3 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_4 = com.getObject();
+          EClass _type_1 = _object_4.getType();
+          String _name_1 = _type_1.getName();
+          className = _name_1;
+        }
+        ObSelectionStrategy _object_5 = com.getObject();
+        if ((_object_5 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_6 = com.getObject();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _object_6);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type_2 = _objSel_1.getType();
+            String _name_2 = _type_2.getName();
+            className = _name_2;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object_7 = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_3 = _object_7.getType();
+            String _name_3 = _type_3.getName();
+            className = _name_3;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_4 = _objSel_5.getType();
+            String _name_4 = _type_4.getName();
+            className = _name_4;
+          }
+        }
+        ObSelectionStrategy _object_8 = com.getObject();
+        if ((_object_8 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_9 = com.getObject();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _object_9);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_7.getType();
+            String _name_5 = _type_5.getName();
+            className = _name_5;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_10 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_6 = _object_10.getType();
+            String _name_6 = _type_6.getName();
+            className = _name_6;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_7 = _objSel_11.getType();
+            String _name_7 = _type_7.getName();
+            className = _name_7;
+          }
+        }
+        String _metamodel = definition.getMetamodel();
+        List<EReference> _eReferences = this.getEReferences(_metamodel, className);
+        scope.addAll(_eReferences);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RandomTypeSelection.refType can contain any EReference defined by the
+   * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+   */
+  public IScope scope_ObSelectionStrategy_refType(final ReferenceEvaluation refEv, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("7a.");
+      final List<EReference> scope = new ArrayList<EReference>();
+      EObject container = refEv.eContainer();
+      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+        EObject _eContainer = container.eContainer();
+        container = _eContainer;
+      }
+      boolean _notEquals = (!Objects.equal(container, null));
+      if (_notEquals) {
+        final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
+        final Definition definition = env.getDefinition();
+        ObSelectionStrategy _value = refEv.getValue();
+        if ((_value instanceof SpecificObjectSelection)) {
+          String className = null;
+          ObSelectionStrategy _value_1 = refEv.getValue();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _value_1);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type = _objSel_1.getType();
+            String _name = _type.getName();
+            className = _name;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_1 = _object.getType();
+            String _name_1 = _type_1.getName();
+            className = _name_1;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_2 = _objSel_5.getType();
+            String _name_2 = _type_2.getName();
+            className = _name_2;
+          }
+          String _metamodel = definition.getMetamodel();
+          List<EReference> _eReferences = this.getEReferences(_metamodel, className);
+          scope.addAll(_eReferences);
+        }
+        ObSelectionStrategy _value_2 = refEv.getValue();
+        if ((_value_2 instanceof SpecificClosureSelection)) {
+          String className_1 = null;
+          ObSelectionStrategy _value_3 = refEv.getValue();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _value_3);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_3 = _objSel_7.getType();
+            String _name_3 = _type_3.getName();
+            className_1 = _name_3;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_4 = _object_1.getType();
+            String _name_4 = _type_4.getName();
+            className_1 = _name_4;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_11.getType();
+            String _name_5 = _type_5.getName();
+            className_1 = _name_5;
+          }
+          String _metamodel_1 = definition.getMetamodel();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, className_1);
           scope.addAll(_eReferences_1);
         }
       }
@@ -663,32 +1286,613 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
-   * CreateObjetMutator.refType can contain any EReference defined by the
-   * CreateObjectMutator.container whose type is CreateObjetMutator.type.
+   * RandomTypeSelection.refType can contain any EReference defined by the
+   * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
    */
-  public IScope scope_SelectObjectMutator_refType(final SelectObjectMutator com, final EReference ref) {
+  public IScope scope_ObSelectionStrategy_refType(final SelectObjectMutator com, final EReference ref) {
     IScope _xblockexpression = null;
     {
       System.out.println("7b.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      IScope _xifexpression = null;
+      final List<EReference> scope = new ArrayList<EReference>();
       ObSelectionStrategy _container = com.getContainer();
-      if ((_container instanceof RandomTypeSelection)) {
-        IScope _xblockexpression_1 = null;
-        {
-          ObSelectionStrategy _container_1 = com.getContainer();
-          final EClass container = ((RandomTypeSelection) _container_1).getType();
-          String _metamodel = definition.getMetamodel();
-          String _name = container.getName();
-          EClass _type = com.getType();
-          String _name_1 = _type.getName();
-          List<EReference> _eContainmentReferences = this.getEContainmentReferences(_metamodel, _name, _name_1);
-          _xblockexpression_1 = Scopes.scopeFor(_eContainmentReferences);
+      if ((_container instanceof ObSelectionStrategy)) {
+        String sourceClassName = null;
+        ObSelectionStrategy _container_1 = com.getContainer();
+        if ((_container_1 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _container_2 = com.getContainer();
+          EClass _type = _container_2.getType();
+          String _name = _type.getName();
+          sourceClassName = _name;
         }
-        _xifexpression = _xblockexpression_1;
+        ObSelectionStrategy _container_3 = com.getContainer();
+        if ((_container_3 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _container_4 = com.getContainer();
+          EClass _type_1 = _container_4.getType();
+          String _name_1 = _type_1.getName();
+          sourceClassName = _name_1;
+        }
+        ObSelectionStrategy _container_5 = com.getContainer();
+        if ((_container_5 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _container_6 = com.getContainer();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _container_6);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type_2 = _objSel_1.getType();
+            String _name_2 = _type_2.getName();
+            sourceClassName = _name_2;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_3 = _object.getType();
+            String _name_3 = _type_3.getName();
+            sourceClassName = _name_3;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_4 = _objSel_5.getType();
+            String _name_4 = _type_4.getName();
+            sourceClassName = _name_4;
+          }
+        }
+        ObSelectionStrategy _container_7 = com.getContainer();
+        if ((_container_7 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _container_8 = com.getContainer();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _container_8);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_7.getType();
+            String _name_5 = _type_5.getName();
+            sourceClassName = _name_5;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_6 = _object_1.getType();
+            String _name_6 = _type_6.getName();
+            sourceClassName = _name_6;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_7 = _objSel_11.getType();
+            String _name_7 = _type_7.getName();
+            sourceClassName = _name_7;
+          }
+        }
+        String targetClassName = null;
+        ObSelectionStrategy _object_2 = com.getObject();
+        if ((_object_2 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_3 = com.getObject();
+          EClass _type_8 = _object_3.getType();
+          String _name_8 = _type_8.getName();
+          targetClassName = _name_8;
+        }
+        ObSelectionStrategy _object_4 = com.getObject();
+        if ((_object_4 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_5 = com.getObject();
+          EClass _type_9 = _object_5.getType();
+          String _name_9 = _type_9.getName();
+          targetClassName = _name_9;
+        }
+        ObSelectionStrategy _object_6 = com.getObject();
+        if ((_object_6 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_7 = com.getObject();
+          final SpecificObjectSelection selection_2 = ((SpecificObjectSelection) _object_7);
+          EReference _refType = selection_2.getRefType();
+          boolean _equals = Objects.equal(_refType, null);
+          if (_equals) {
+            ObjectEmitter _objSel_12 = selection_2.getObjSel();
+            if ((_objSel_12 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_13 = selection_2.getObjSel();
+              ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_13).getObject();
+              EClass _type_10 = _object_8.getType();
+              String _name_10 = _type_10.getName();
+              targetClassName = _name_10;
+            }
+          } else {
+            EReference _refType_1 = selection_2.getRefType();
+            EClassifier _eType = _refType_1.getEType();
+            String _name_11 = _eType.getName();
+            targetClassName = _name_11;
+          }
+        }
+        ObSelectionStrategy _object_9 = com.getObject();
+        if ((_object_9 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_10 = com.getObject();
+          final SpecificClosureSelection selection_3 = ((SpecificClosureSelection) _object_10);
+          EReference _refType_2 = selection_3.getRefType();
+          boolean _equals_1 = Objects.equal(_refType_2, null);
+          if (_equals_1) {
+            ObjectEmitter _objSel_14 = selection_3.getObjSel();
+            if ((_objSel_14 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_15 = selection_3.getObjSel();
+              ObSelectionStrategy _object_11 = ((SelectObjectMutator) _objSel_15).getObject();
+              EClass _type_11 = _object_11.getType();
+              String _name_12 = _type_11.getName();
+              targetClassName = _name_12;
+            }
+          } else {
+            EReference _refType_3 = selection_3.getRefType();
+            EClassifier _eType_1 = _refType_3.getEType();
+            String _name_13 = _eType_1.getName();
+            targetClassName = _name_13;
+          }
+        }
+        String _metamodel = definition.getMetamodel();
+        List<EReference> _eReferences = this.getEReferences(_metamodel, sourceClassName, targetClassName);
+        scope.addAll(_eReferences);
+      } else {
+        String className = null;
+        ObSelectionStrategy _object_12 = com.getObject();
+        if ((_object_12 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_13 = com.getObject();
+          EClass _type_12 = _object_13.getType();
+          String _name_14 = _type_12.getName();
+          className = _name_14;
+        }
+        ObSelectionStrategy _object_14 = com.getObject();
+        if ((_object_14 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_15 = com.getObject();
+          EClass _type_13 = _object_15.getType();
+          String _name_15 = _type_13.getName();
+          className = _name_15;
+        }
+        ObSelectionStrategy _object_16 = com.getObject();
+        if ((_object_16 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_17 = com.getObject();
+          final SpecificObjectSelection selection_4 = ((SpecificObjectSelection) _object_17);
+          ObjectEmitter _objSel_16 = selection_4.getObjSel();
+          if ((_objSel_16 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_17 = selection_4.getObjSel();
+            EClass _type_14 = _objSel_17.getType();
+            String _name_16 = _type_14.getName();
+            className = _name_16;
+          }
+          ObjectEmitter _objSel_18 = selection_4.getObjSel();
+          if ((_objSel_18 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_19 = selection_4.getObjSel();
+            ObSelectionStrategy _object_18 = ((SelectObjectMutator) _objSel_19).getObject();
+            EClass _type_15 = _object_18.getType();
+            String _name_17 = _type_15.getName();
+            className = _name_17;
+          }
+          ObjectEmitter _objSel_20 = selection_4.getObjSel();
+          if ((_objSel_20 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_21 = selection_4.getObjSel();
+            EClass _type_16 = _objSel_21.getType();
+            String _name_18 = _type_16.getName();
+            className = _name_18;
+          }
+        }
+        ObSelectionStrategy _object_19 = com.getObject();
+        if ((_object_19 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_20 = com.getObject();
+          final SpecificClosureSelection selection_5 = ((SpecificClosureSelection) _object_20);
+          ObjectEmitter _objSel_22 = selection_5.getObjSel();
+          if ((_objSel_22 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_23 = selection_5.getObjSel();
+            EClass _type_17 = _objSel_23.getType();
+            String _name_19 = _type_17.getName();
+            className = _name_19;
+          }
+          ObjectEmitter _objSel_24 = selection_5.getObjSel();
+          if ((_objSel_24 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_25 = selection_5.getObjSel();
+            ObSelectionStrategy _object_21 = ((SelectObjectMutator) _objSel_25).getObject();
+            EClass _type_18 = _object_21.getType();
+            String _name_20 = _type_18.getName();
+            className = _name_20;
+          }
+          ObjectEmitter _objSel_26 = selection_5.getObjSel();
+          if ((_objSel_26 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_27 = selection_5.getObjSel();
+            EClass _type_19 = _objSel_27.getType();
+            String _name_21 = _type_19.getName();
+            className = _name_21;
+          }
+        }
+        String _metamodel_1 = definition.getMetamodel();
+        List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, className);
+        scope.addAll(_eReferences_1);
       }
-      _xblockexpression = _xifexpression;
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RandomTypeSelection.refType can contain any EReference defined by the
+   * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+   */
+  public IScope scope_ObSelectionStrategy_refType(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("7c.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      final List<EReference> scope = new ArrayList<EReference>();
+      ObSelectionStrategy _container = com.getContainer();
+      if ((_container instanceof ObSelectionStrategy)) {
+        String sourceClassName = null;
+        ObSelectionStrategy _container_1 = com.getContainer();
+        if ((_container_1 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _container_2 = com.getContainer();
+          EClass _type = _container_2.getType();
+          String _name = _type.getName();
+          sourceClassName = _name;
+        }
+        ObSelectionStrategy _container_3 = com.getContainer();
+        if ((_container_3 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _container_4 = com.getContainer();
+          EClass _type_1 = _container_4.getType();
+          String _name_1 = _type_1.getName();
+          sourceClassName = _name_1;
+        }
+        ObSelectionStrategy _container_5 = com.getContainer();
+        if ((_container_5 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _container_6 = com.getContainer();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _container_6);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type_2 = _objSel_1.getType();
+            String _name_2 = _type_2.getName();
+            sourceClassName = _name_2;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_3 = _object.getType();
+            String _name_3 = _type_3.getName();
+            sourceClassName = _name_3;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_4 = _objSel_5.getType();
+            String _name_4 = _type_4.getName();
+            sourceClassName = _name_4;
+          }
+        }
+        ObSelectionStrategy _container_7 = com.getContainer();
+        if ((_container_7 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _container_8 = com.getContainer();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _container_8);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_7.getType();
+            String _name_5 = _type_5.getName();
+            sourceClassName = _name_5;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_6 = _object_1.getType();
+            String _name_6 = _type_6.getName();
+            sourceClassName = _name_6;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_7 = _objSel_11.getType();
+            String _name_7 = _type_7.getName();
+            sourceClassName = _name_7;
+          }
+        }
+        String _metamodel = definition.getMetamodel();
+        EClass _type_8 = com.getType();
+        String _name_8 = _type_8.getName();
+        List<EReference> _eContainmentReferences = this.getEContainmentReferences(_metamodel, sourceClassName, _name_8);
+        scope.addAll(_eContainmentReferences);
+      } else {
+        String className = null;
+        ObSelectionStrategy _object_2 = com.getObject();
+        if ((_object_2 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_3 = com.getObject();
+          EClass _type_9 = _object_3.getType();
+          String _name_9 = _type_9.getName();
+          className = _name_9;
+        }
+        ObSelectionStrategy _object_4 = com.getObject();
+        if ((_object_4 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_5 = com.getObject();
+          EClass _type_10 = _object_5.getType();
+          String _name_10 = _type_10.getName();
+          className = _name_10;
+        }
+        ObSelectionStrategy _object_6 = com.getObject();
+        if ((_object_6 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_7 = com.getObject();
+          final SpecificObjectSelection selection_2 = ((SpecificObjectSelection) _object_7);
+          ObjectEmitter _objSel_12 = selection_2.getObjSel();
+          if ((_objSel_12 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_13 = selection_2.getObjSel();
+            EClass _type_11 = _objSel_13.getType();
+            String _name_11 = _type_11.getName();
+            className = _name_11;
+          }
+          ObjectEmitter _objSel_14 = selection_2.getObjSel();
+          if ((_objSel_14 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_15 = selection_2.getObjSel();
+            ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_15).getObject();
+            EClass _type_12 = _object_8.getType();
+            String _name_12 = _type_12.getName();
+            className = _name_12;
+          }
+          ObjectEmitter _objSel_16 = selection_2.getObjSel();
+          if ((_objSel_16 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_17 = selection_2.getObjSel();
+            EClass _type_13 = _objSel_17.getType();
+            String _name_13 = _type_13.getName();
+            className = _name_13;
+          }
+        }
+        ObSelectionStrategy _object_9 = com.getObject();
+        if ((_object_9 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_10 = com.getObject();
+          final SpecificClosureSelection selection_3 = ((SpecificClosureSelection) _object_10);
+          ObjectEmitter _objSel_18 = selection_3.getObjSel();
+          if ((_objSel_18 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_19 = selection_3.getObjSel();
+            EClass _type_14 = _objSel_19.getType();
+            String _name_14 = _type_14.getName();
+            className = _name_14;
+          }
+          ObjectEmitter _objSel_20 = selection_3.getObjSel();
+          if ((_objSel_20 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_21 = selection_3.getObjSel();
+            ObSelectionStrategy _object_11 = ((SelectObjectMutator) _objSel_21).getObject();
+            EClass _type_15 = _object_11.getType();
+            String _name_15 = _type_15.getName();
+            className = _name_15;
+          }
+          ObjectEmitter _objSel_22 = selection_3.getObjSel();
+          if ((_objSel_22 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_23 = selection_3.getObjSel();
+            EClass _type_16 = _objSel_23.getType();
+            String _name_16 = _type_16.getName();
+            className = _name_16;
+          }
+        }
+        String _metamodel_1 = definition.getMetamodel();
+        List<EReference> _eReferences = this.getEReferences(_metamodel_1, className);
+        scope.addAll(_eReferences);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RandomTypeSelection.refType can contain any EReference defined by the
+   * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+   */
+  public IScope scope_ObSelectionStrategy_refType(final RemoveObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("7d.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      final List<EReference> scope = new ArrayList<EReference>();
+      ObSelectionStrategy _container = com.getContainer();
+      if ((_container instanceof ObSelectionStrategy)) {
+        String sourceClassName = null;
+        ObSelectionStrategy _container_1 = com.getContainer();
+        if ((_container_1 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _container_2 = com.getContainer();
+          EClass _type = _container_2.getType();
+          String _name = _type.getName();
+          sourceClassName = _name;
+        }
+        ObSelectionStrategy _container_3 = com.getContainer();
+        if ((_container_3 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _container_4 = com.getContainer();
+          EClass _type_1 = _container_4.getType();
+          String _name_1 = _type_1.getName();
+          sourceClassName = _name_1;
+        }
+        ObSelectionStrategy _container_5 = com.getContainer();
+        if ((_container_5 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _container_6 = com.getContainer();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _container_6);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type_2 = _objSel_1.getType();
+            String _name_2 = _type_2.getName();
+            sourceClassName = _name_2;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_3 = _object.getType();
+            String _name_3 = _type_3.getName();
+            sourceClassName = _name_3;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_4 = _objSel_5.getType();
+            String _name_4 = _type_4.getName();
+            sourceClassName = _name_4;
+          }
+        }
+        ObSelectionStrategy _container_7 = com.getContainer();
+        if ((_container_7 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _container_8 = com.getContainer();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _container_8);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_7.getType();
+            String _name_5 = _type_5.getName();
+            sourceClassName = _name_5;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_1 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_6 = _object_1.getType();
+            String _name_6 = _type_6.getName();
+            sourceClassName = _name_6;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_7 = _objSel_11.getType();
+            String _name_7 = _type_7.getName();
+            sourceClassName = _name_7;
+          }
+        }
+        String targetClassName = null;
+        ObSelectionStrategy _object_2 = com.getObject();
+        if ((_object_2 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_3 = com.getObject();
+          EClass _type_8 = _object_3.getType();
+          String _name_8 = _type_8.getName();
+          targetClassName = _name_8;
+        }
+        ObSelectionStrategy _object_4 = com.getObject();
+        if ((_object_4 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_5 = com.getObject();
+          EClass _type_9 = _object_5.getType();
+          String _name_9 = _type_9.getName();
+          targetClassName = _name_9;
+        }
+        ObSelectionStrategy _object_6 = com.getObject();
+        if ((_object_6 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_7 = com.getObject();
+          final SpecificObjectSelection selection_2 = ((SpecificObjectSelection) _object_7);
+          EReference _refType = selection_2.getRefType();
+          boolean _equals = Objects.equal(_refType, null);
+          if (_equals) {
+            ObjectEmitter _objSel_12 = selection_2.getObjSel();
+            if ((_objSel_12 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_13 = selection_2.getObjSel();
+              ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_13).getObject();
+              EClass _type_10 = _object_8.getType();
+              String _name_10 = _type_10.getName();
+              targetClassName = _name_10;
+            }
+          } else {
+            EReference _refType_1 = selection_2.getRefType();
+            EClassifier _eType = _refType_1.getEType();
+            String _name_11 = _eType.getName();
+            targetClassName = _name_11;
+          }
+        }
+        ObSelectionStrategy _object_9 = com.getObject();
+        if ((_object_9 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_10 = com.getObject();
+          final SpecificClosureSelection selection_3 = ((SpecificClosureSelection) _object_10);
+          EReference _refType_2 = selection_3.getRefType();
+          boolean _equals_1 = Objects.equal(_refType_2, null);
+          if (_equals_1) {
+            ObjectEmitter _objSel_14 = selection_3.getObjSel();
+            if ((_objSel_14 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_15 = selection_3.getObjSel();
+              ObSelectionStrategy _object_11 = ((SelectObjectMutator) _objSel_15).getObject();
+              EClass _type_11 = _object_11.getType();
+              String _name_12 = _type_11.getName();
+              targetClassName = _name_12;
+            }
+          } else {
+            EReference _refType_3 = selection_3.getRefType();
+            EClassifier _eType_1 = _refType_3.getEType();
+            String _name_13 = _eType_1.getName();
+            targetClassName = _name_13;
+          }
+        }
+        String _metamodel = definition.getMetamodel();
+        List<EReference> _eReferences = this.getEReferences(_metamodel, sourceClassName, targetClassName);
+        scope.addAll(_eReferences);
+      } else {
+        String className = null;
+        ObSelectionStrategy _object_12 = com.getObject();
+        if ((_object_12 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_13 = com.getObject();
+          EClass _type_12 = _object_13.getType();
+          String _name_14 = _type_12.getName();
+          className = _name_14;
+        }
+        ObSelectionStrategy _object_14 = com.getObject();
+        if ((_object_14 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_15 = com.getObject();
+          EClass _type_13 = _object_15.getType();
+          String _name_15 = _type_13.getName();
+          className = _name_15;
+        }
+        ObSelectionStrategy _object_16 = com.getObject();
+        if ((_object_16 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_17 = com.getObject();
+          final SpecificObjectSelection selection_4 = ((SpecificObjectSelection) _object_17);
+          ObjectEmitter _objSel_16 = selection_4.getObjSel();
+          if ((_objSel_16 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_17 = selection_4.getObjSel();
+            EClass _type_14 = _objSel_17.getType();
+            String _name_16 = _type_14.getName();
+            className = _name_16;
+          }
+          ObjectEmitter _objSel_18 = selection_4.getObjSel();
+          if ((_objSel_18 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_19 = selection_4.getObjSel();
+            ObSelectionStrategy _object_18 = ((SelectObjectMutator) _objSel_19).getObject();
+            EClass _type_15 = _object_18.getType();
+            String _name_17 = _type_15.getName();
+            className = _name_17;
+          }
+          ObjectEmitter _objSel_20 = selection_4.getObjSel();
+          if ((_objSel_20 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_21 = selection_4.getObjSel();
+            EClass _type_16 = _objSel_21.getType();
+            String _name_18 = _type_16.getName();
+            className = _name_18;
+          }
+        }
+        ObSelectionStrategy _object_19 = com.getObject();
+        if ((_object_19 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_20 = com.getObject();
+          final SpecificClosureSelection selection_5 = ((SpecificClosureSelection) _object_20);
+          ObjectEmitter _objSel_22 = selection_5.getObjSel();
+          if ((_objSel_22 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_23 = selection_5.getObjSel();
+            EClass _type_17 = _objSel_23.getType();
+            String _name_19 = _type_17.getName();
+            className = _name_19;
+          }
+          ObjectEmitter _objSel_24 = selection_5.getObjSel();
+          if ((_objSel_24 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_25 = selection_5.getObjSel();
+            ObSelectionStrategy _object_21 = ((SelectObjectMutator) _objSel_25).getObject();
+            EClass _type_18 = _object_21.getType();
+            String _name_20 = _type_18.getName();
+            className = _name_20;
+          }
+          ObjectEmitter _objSel_26 = selection_5.getObjSel();
+          if ((_objSel_26 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_27 = selection_5.getObjSel();
+            EClass _type_19 = _objSel_27.getType();
+            String _name_21 = _type_19.getName();
+            className = _name_21;
+          }
+        }
+        String _metamodel_1 = definition.getMetamodel();
+        List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, className);
+        scope.addAll(_eReferences_1);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
   }
@@ -703,9 +1907,39 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       System.out.println("AQUI 1.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      String _metamodel = definition.getMetamodel();
-      List<EReference> _eReferences = this.getEReferences(_metamodel);
-      _xblockexpression = Scopes.scopeFor(_eReferences);
+      final List<EReference> scope = new ArrayList<EReference>();
+      final ObSelectionStrategy source = com.getSource();
+      boolean _notEquals = (!Objects.equal(source, null));
+      if (_notEquals) {
+        if ((source instanceof RandomTypeSelection)) {
+          String _metamodel = definition.getMetamodel();
+          EClass _type = ((RandomTypeSelection) source).getType();
+          String _name = _type.getName();
+          List<EReference> _eReferences = this.getEReferences(_metamodel, _name);
+          scope.addAll(_eReferences);
+        }
+        if ((source instanceof SpecificObjectSelection)) {
+          String _metamodel_1 = definition.getMetamodel();
+          ObjectEmitter _objSel = ((SpecificObjectSelection) source).getObjSel();
+          EClass _type_1 = _objSel.getType();
+          String _name_1 = _type_1.getName();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _name_1);
+          scope.addAll(_eReferences_1);
+        }
+        if ((source instanceof SpecificClosureSelection)) {
+          String _metamodel_2 = definition.getMetamodel();
+          ObjectEmitter _objSel_1 = ((SpecificClosureSelection) source).getObjSel();
+          EClass _type_2 = _objSel_1.getType();
+          String _name_2 = _type_2.getName();
+          List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, _name_2);
+          scope.addAll(_eReferences_2);
+        }
+      } else {
+        String _metamodel_3 = definition.getMetamodel();
+        List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3);
+        scope.addAll(_eReferences_3);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
   }
@@ -719,9 +1953,39 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       System.out.println("9.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      String _metamodel = definition.getMetamodel();
-      List<EReference> _eReferences = this.getEReferences(_metamodel);
-      _xblockexpression = Scopes.scopeFor(_eReferences);
+      final List<EReference> scope = new ArrayList<EReference>();
+      final ObSelectionStrategy source = com.getSource();
+      boolean _notEquals = (!Objects.equal(source, null));
+      if (_notEquals) {
+        if ((source instanceof RandomTypeSelection)) {
+          String _metamodel = definition.getMetamodel();
+          EClass _type = ((RandomTypeSelection) source).getType();
+          String _name = _type.getName();
+          List<EReference> _eReferences = this.getEReferences(_metamodel, _name);
+          scope.addAll(_eReferences);
+        }
+        if ((source instanceof SpecificObjectSelection)) {
+          String _metamodel_1 = definition.getMetamodel();
+          ObjectEmitter _objSel = ((SpecificObjectSelection) source).getObjSel();
+          EClass _type_1 = _objSel.getType();
+          String _name_1 = _type_1.getName();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _name_1);
+          scope.addAll(_eReferences_1);
+        }
+        if ((source instanceof SpecificClosureSelection)) {
+          String _metamodel_2 = definition.getMetamodel();
+          ObjectEmitter _objSel_1 = ((SpecificClosureSelection) source).getObjSel();
+          EClass _type_2 = _objSel_1.getType();
+          String _name_2 = _type_2.getName();
+          List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, _name_2);
+          scope.addAll(_eReferences_2);
+        }
+      } else {
+        String _metamodel_3 = definition.getMetamodel();
+        List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3);
+        scope.addAll(_eReferences_3);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
   }
@@ -735,9 +1999,39 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       System.out.println("10.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
-      String _metamodel = definition.getMetamodel();
-      List<EReference> _eReferences = this.getEReferences(_metamodel);
-      _xblockexpression = Scopes.scopeFor(_eReferences);
+      final List<EReference> scope = new ArrayList<EReference>();
+      final ObSelectionStrategy source = com.getSource();
+      boolean _notEquals = (!Objects.equal(source, null));
+      if (_notEquals) {
+        if ((source instanceof RandomTypeSelection)) {
+          String _metamodel = definition.getMetamodel();
+          EClass _type = ((RandomTypeSelection) source).getType();
+          String _name = _type.getName();
+          List<EReference> _eReferences = this.getEReferences(_metamodel, _name);
+          scope.addAll(_eReferences);
+        }
+        if ((source instanceof SpecificObjectSelection)) {
+          String _metamodel_1 = definition.getMetamodel();
+          ObjectEmitter _objSel = ((SpecificObjectSelection) source).getObjSel();
+          EClass _type_1 = _objSel.getType();
+          String _name_1 = _type_1.getName();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _name_1);
+          scope.addAll(_eReferences_1);
+        }
+        if ((source instanceof SpecificClosureSelection)) {
+          String _metamodel_2 = definition.getMetamodel();
+          ObjectEmitter _objSel_1 = ((SpecificClosureSelection) source).getObjSel();
+          EClass _type_2 = _objSel_1.getType();
+          String _name_2 = _type_2.getName();
+          List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, _name_2);
+          scope.addAll(_eReferences_2);
+        }
+      } else {
+        String _metamodel_3 = definition.getMetamodel();
+        List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3);
+        scope.addAll(_eReferences_3);
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
     }
     return _xblockexpression;
   }
@@ -781,7 +2075,65 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         if (!_and_2) {
           _and_1 = false;
         } else {
-          _and_1 = ((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator));
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+        }
+        if (!_and_1) {
+          _and = false;
+        } else {
+          EClass _type = mutator.getType();
+          String _name_3 = _type.getName();
+          boolean _contains = scontainers.contains(_name_3);
+          _and = _contains;
+        }
+        if (_and) {
+          scope.add(mutator);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ModifySourceReferenceMutator.from and ModifySourceReferenceMutator.newSource, when a specific
+   * object is used as from/to, can contain any previous object defining the modified reference.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final ModifySourceReferenceMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("11b.");
+      System.out.println("AQUI 2b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+      String _metamodel = definition.getMetamodel();
+      EReference _refType = com.getRefType();
+      String _name = _refType.getName();
+      final List<EClass> containers = this.getESources(_metamodel, _name);
+      final List<String> scontainers = new ArrayList<String>();
+      for (final EClassifier cl : containers) {
+        String _name_1 = cl.getName();
+        scontainers.add(_name_1);
+      }
+      for (final Mutator mutator : commands) {
+        boolean _and = false;
+        boolean _and_1 = false;
+        boolean _and_2 = false;
+        String _name_2 = mutator.getName();
+        boolean _notEquals = (!Objects.equal(_name_2, null));
+        if (!_notEquals) {
+          _and_2 = false;
+        } else {
+          int _indexOf = commands.indexOf(mutator);
+          int _indexOf_1 = commands.indexOf(com);
+          boolean _lessThan = (_indexOf < _indexOf_1);
+          _and_2 = _lessThan;
+        }
+        if (!_and_2) {
+          _and_1 = false;
+        } else {
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
         }
         if (!_and_1) {
           _and = false;
@@ -911,6 +2263,25 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
+   * RemoveObjectMutator.object, when a specific selection strategy is used.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final RemoveObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("14b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      IScope _xifexpression = null;
+      if ((definition instanceof Program)) {
+        _xifexpression = Scopes.scopeFor(commands);
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
    * RemoveObjectMutator.object, when a complete type is used.
    */
   public IScope scope_CompleteTypeSelection_type(final RemoveObjectMutator com, final EReference ref) {
@@ -942,6 +2313,27 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       System.out.println("16.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      IScope _xifexpression = null;
+      if ((definition instanceof Program)) {
+        String _metamodel = ((Program)definition).getMetamodel();
+        List<EClass> _eClasses = this.getEClasses(_metamodel);
+        _xifexpression = Scopes.scopeFor(_eClasses);
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ModifyInformationMutator.object, when a specific
+   * object is used, can contain any previous object defining the modified reference.
+   */
+  public IScope scope_ObjectEmitter_type(final SpecificClosureSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("16b.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       final Definition definition = env.getDefinition();
       IScope _xifexpression = null;
@@ -1010,7 +2402,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if (!_and_2) {
                   _and_1 = false;
                 } else {
-                  _and_1 = ((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator));
+                  _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
                 }
                 if (!_and_1) {
                   _and = false;
@@ -1085,7 +2477,163 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if (!_and_2) {
                   _and_1 = false;
                 } else {
-                  _and_1 = (((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator));
+                  _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+                }
+                if (!_and_1) {
+                  _and = false;
+                } else {
+                  EClass _type = mutator.getType();
+                  String _name_3 = _type.getName();
+                  boolean _contains = sclasses_1.contains(_name_3);
+                  _and = _contains;
+                }
+                if (_and) {
+                  objects.add(mutator);
+                }
+              }
+              scope.addAll(objects);
+            }
+          }
+          _xblockexpression_1 = Scopes.scopeFor(scope);
+        }
+        _xifexpression = _xblockexpression_1;
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ModifyInformationMutator.object, when a specific
+   * object is used, can contain any previous object defining the modified reference.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final ModifyInformationMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("17b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      IScope _xifexpression = null;
+      if ((definition instanceof Program)) {
+        IScope _xblockexpression_1 = null;
+        {
+          final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+          Source _source = ((Program)definition).getSource();
+          String _path = _source.getPath();
+          boolean _endsWith = _path.endsWith("/");
+          boolean _not = (!_endsWith);
+          if (_not) {
+            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+            String _plus = (_workspaceAbsolutePath + "/");
+            String _project = WodelContext.getProject();
+            String _plus_1 = (_plus + _project);
+            String _plus_2 = (_plus_1 + "/");
+            Source _source_1 = ((Program)definition).getSource();
+            String _path_1 = _source_1.getPath();
+            final String model = (_plus_2 + _path_1);
+            String _metamodel = ((Program)definition).getMetamodel();
+            final List<EClass> classes = this.getModelEClasses(_metamodel, model);
+            final List<String> sclasses = new ArrayList<String>();
+            for (final EClassifier cl : classes) {
+              String _name = cl.getName();
+              sclasses.add(_name);
+            }
+            {
+              final List<Mutator> objects = new ArrayList<Mutator>();
+              for (final Mutator mutator : commands) {
+                boolean _and = false;
+                boolean _and_1 = false;
+                boolean _and_2 = false;
+                String _name_1 = mutator.getName();
+                boolean _notEquals = (!Objects.equal(_name_1, null));
+                if (!_notEquals) {
+                  _and_2 = false;
+                } else {
+                  int _indexOf = commands.indexOf(mutator);
+                  int _indexOf_1 = commands.indexOf(com);
+                  boolean _lessThan = (_indexOf < _indexOf_1);
+                  _and_2 = _lessThan;
+                }
+                if (!_and_2) {
+                  _and_1 = false;
+                } else {
+                  _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+                }
+                if (!_and_1) {
+                  _and = false;
+                } else {
+                  EClass _type = mutator.getType();
+                  String _name_2 = _type.getName();
+                  boolean _contains = sclasses.contains(_name_2);
+                  _and = _contains;
+                }
+                if (_and) {
+                  objects.add(mutator);
+                }
+              }
+              scope.addAll(objects);
+            }
+          }
+          Source _source_2 = ((Program)definition).getSource();
+          String _path_2 = _source_2.getPath();
+          boolean _endsWith_1 = _path_2.endsWith("/");
+          if (_endsWith_1) {
+            final ArrayList<String> models = new ArrayList<String>();
+            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
+            String _project_1 = WodelContext.getProject();
+            String _plus_4 = (_plus_3 + _project_1);
+            String _plus_5 = (_plus_4 + "/");
+            Source _source_3 = ((Program)definition).getSource();
+            String _path_3 = _source_3.getPath();
+            String _plus_6 = (_plus_5 + _path_3);
+            File _file = new File(_plus_6);
+            final File[] files = _file.listFiles();
+            for (final File file : files) {
+              boolean _isFile = file.isFile();
+              boolean _equals = (_isFile == true);
+              if (_equals) {
+                String _path_4 = file.getPath();
+                boolean _endsWith_2 = _path_4.endsWith(".model");
+                boolean _equals_1 = (_endsWith_2 == true);
+                if (_equals_1) {
+                  String _path_5 = file.getPath();
+                  models.add(_path_5);
+                }
+              }
+            }
+            final List<EClass> classes_1 = new ArrayList<EClass>();
+            for (final String model_1 : models) {
+              String _metamodel_1 = ((Program)definition).getMetamodel();
+              List<EClass> _modelEClasses = this.getModelEClasses(_metamodel_1, model_1);
+              classes_1.addAll(_modelEClasses);
+            }
+            final List<String> sclasses_1 = new ArrayList<String>();
+            for (final EClassifier cl_1 : classes_1) {
+              String _name_1 = cl_1.getName();
+              sclasses_1.add(_name_1);
+            }
+            {
+              final List<Mutator> objects = new ArrayList<Mutator>();
+              for (final Mutator mutator : commands) {
+                boolean _and = false;
+                boolean _and_1 = false;
+                boolean _and_2 = false;
+                String _name_2 = mutator.getName();
+                boolean _notEquals = (!Objects.equal(_name_2, null));
+                if (!_notEquals) {
+                  _and_2 = false;
+                } else {
+                  int _indexOf = commands.indexOf(mutator);
+                  int _indexOf_1 = commands.indexOf(com);
+                  boolean _lessThan = (_indexOf < _indexOf_1);
+                  _and_2 = _lessThan;
+                }
+                if (!_and_2) {
+                  _and_1 = false;
+                } else {
+                  _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
                 }
                 if (!_and_1) {
                   _and = false;
@@ -1414,7 +2962,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
               if (!_and_2) {
                 _and_1 = false;
               } else {
-                _and_1 = ((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator));
+                _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
               }
               if (!_and_1) {
                 _and = false;
@@ -1489,7 +3037,163 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
               if (!_and_5) {
                 _and_4 = false;
               } else {
-                _and_4 = ((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator));
+                _and_4 = ((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator));
+              }
+              if (!_and_4) {
+                _and_3 = false;
+              } else {
+                EClass _type_1 = mutator_1.getType();
+                String _name_7 = _type_1.getName();
+                boolean _contains_1 = scontainers_1.contains(_name_7);
+                _and_3 = _contains_1;
+              }
+              if (_and_3) {
+                objects_1.add(mutator_1);
+              }
+            }
+            scope.addAll(objects_1);
+          }
+          _xblockexpression_1 = Scopes.scopeFor(scope);
+        }
+        _xifexpression = _xblockexpression_1;
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RemoveReferenceMutator.container, when a specific
+   * object is used, can contain any previous object defining the modified reference.
+   */
+  public IScope scope_SpecificClosureSelection_objSel(final RemoveSpecificReferenceMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("27b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      IScope _xifexpression = null;
+      if ((definition instanceof Program)) {
+        IScope _xblockexpression_1 = null;
+        {
+          final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+          Source _source = ((Program)definition).getSource();
+          String _path = _source.getPath();
+          boolean _endsWith = _path.endsWith("/");
+          boolean _not = (!_endsWith);
+          if (_not) {
+            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+            String _plus = (_workspaceAbsolutePath + "/");
+            String _project = WodelContext.getProject();
+            String _plus_1 = (_plus + _project);
+            String _plus_2 = (_plus_1 + "/");
+            Source _source_1 = ((Program)definition).getSource();
+            String _path_1 = _source_1.getPath();
+            final String model = (_plus_2 + _path_1);
+            String _metamodel = ((Program)definition).getMetamodel();
+            EReference _refType = com.getRefType();
+            String _name = _refType.getName();
+            final List<EClass> containers = this.getModelESources(_metamodel, model, _name);
+            final List<String> scontainers = new ArrayList<String>();
+            for (final EClassifier cl : containers) {
+              String _name_1 = cl.getName();
+              scontainers.add(_name_1);
+            }
+            final List<Mutator> objects = new ArrayList<Mutator>();
+            for (final Mutator mutator : commands) {
+              boolean _and = false;
+              boolean _and_1 = false;
+              boolean _and_2 = false;
+              String _name_2 = mutator.getName();
+              boolean _notEquals = (!Objects.equal(_name_2, null));
+              if (!_notEquals) {
+                _and_2 = false;
+              } else {
+                int _indexOf = commands.indexOf(mutator);
+                int _indexOf_1 = commands.indexOf(com);
+                boolean _lessThan = (_indexOf < _indexOf_1);
+                _and_2 = _lessThan;
+              }
+              if (!_and_2) {
+                _and_1 = false;
+              } else {
+                _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator));
+              }
+              if (!_and_1) {
+                _and = false;
+              } else {
+                EClass _type = mutator.getType();
+                String _name_3 = _type.getName();
+                boolean _contains = scontainers.contains(_name_3);
+                _and = _contains;
+              }
+              if (_and) {
+                objects.add(mutator);
+              }
+            }
+            scope.addAll(objects);
+          }
+          Source _source_2 = ((Program)definition).getSource();
+          String _path_2 = _source_2.getPath();
+          boolean _endsWith_1 = _path_2.endsWith("/");
+          if (_endsWith_1) {
+            final ArrayList<String> models = new ArrayList<String>();
+            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+            String _plus_3 = (_workspaceAbsolutePath_1 + "/");
+            String _project_1 = WodelContext.getProject();
+            String _plus_4 = (_plus_3 + _project_1);
+            String _plus_5 = (_plus_4 + "/");
+            Source _source_3 = ((Program)definition).getSource();
+            String _path_3 = _source_3.getPath();
+            String _plus_6 = (_plus_5 + _path_3);
+            File _file = new File(_plus_6);
+            final File[] files = _file.listFiles();
+            for (final File file : files) {
+              boolean _isFile = file.isFile();
+              boolean _equals = (_isFile == true);
+              if (_equals) {
+                String _path_4 = file.getPath();
+                boolean _endsWith_2 = _path_4.endsWith(".model");
+                boolean _equals_1 = (_endsWith_2 == true);
+                if (_equals_1) {
+                  String _path_5 = file.getPath();
+                  models.add(_path_5);
+                }
+              }
+            }
+            final List<EClass> containers_1 = new ArrayList<EClass>();
+            for (final String model_1 : models) {
+              String _metamodel_1 = ((Program)definition).getMetamodel();
+              EReference _refType_1 = com.getRefType();
+              String _name_4 = _refType_1.getName();
+              List<EClass> _modelESources = this.getModelESources(_metamodel_1, model_1, _name_4);
+              containers_1.addAll(_modelESources);
+            }
+            final List<String> scontainers_1 = new ArrayList<String>();
+            for (final EClassifier cl_1 : containers_1) {
+              String _name_5 = cl_1.getName();
+              scontainers_1.add(_name_5);
+            }
+            final List<Mutator> objects_1 = new ArrayList<Mutator>();
+            for (final Mutator mutator_1 : commands) {
+              boolean _and_3 = false;
+              boolean _and_4 = false;
+              boolean _and_5 = false;
+              String _name_6 = mutator_1.getName();
+              boolean _notEquals_1 = (!Objects.equal(_name_6, null));
+              if (!_notEquals_1) {
+                _and_5 = false;
+              } else {
+                int _indexOf_2 = commands.indexOf(mutator_1);
+                int _indexOf_3 = commands.indexOf(com);
+                boolean _lessThan_1 = (_indexOf_2 < _indexOf_3);
+                _and_5 = _lessThan_1;
+              }
+              if (!_and_5) {
+                _and_4 = false;
+              } else {
+                _and_4 = ((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator));
               }
               if (!_and_4) {
                 _and_3 = false;
@@ -1580,36 +3284,55 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       } else {
         ObSelectionStrategy _object_2 = com.getObject();
-        if ((_object_2 instanceof CompleteTypeSelection)) {
+        if ((_object_2 instanceof SpecificClosureSelection)) {
           ObSelectionStrategy _object_3 = com.getObject();
-          EClass _type_1 = ((CompleteTypeSelection) _object_3).getType();
-          final String name_1 = _type_1.getName();
-          String _metamodel_1 = definition.getMetamodel();
-          List<EAttribute> _eAttributes_1 = this.getEAttributes(_metamodel_1, name_1);
-          for (final EAttribute eatt : _eAttributes_1) {
-            String _name = eatt.getName();
-            String _plus = ("attribute: " + _name);
-            System.out.println(_plus);
+          ObjectEmitter _objSel_1 = ((SpecificClosureSelection) _object_3).getObjSel();
+          final String name_1 = _objSel_1.getName();
+          int _indexOf_1 = commands.indexOf(com);
+          Mutator command_1 = this.getCommand(name_1, commands, _indexOf_1);
+          boolean _notEquals_1 = (!Objects.equal(command_1, null));
+          if (_notEquals_1) {
+            String _metamodel_1 = null;
+            if (definition!=null) {
+              _metamodel_1=definition.getMetamodel();
+            }
+            String _type_1 = this.getType(command_1);
+            List<EAttribute> _eAttributes_1 = this.getEAttributes(_metamodel_1, _type_1);
+            scope.addAll(_eAttributes_1);
           }
-          String _metamodel_2 = definition.getMetamodel();
-          List<EAttribute> _eAttributes_2 = this.getEAttributes(_metamodel_2, name_1);
-          scope.addAll(_eAttributes_2);
         } else {
           ObSelectionStrategy _object_4 = com.getObject();
-          if ((_object_4 instanceof RandomTypeSelection)) {
+          if ((_object_4 instanceof CompleteTypeSelection)) {
             ObSelectionStrategy _object_5 = com.getObject();
-            EClass _type_2 = ((RandomTypeSelection) _object_5).getType();
+            EClass _type_2 = ((CompleteTypeSelection) _object_5).getType();
             final String name_2 = _type_2.getName();
+            String _metamodel_2 = definition.getMetamodel();
+            List<EAttribute> _eAttributes_2 = this.getEAttributes(_metamodel_2, name_2);
+            for (final EAttribute eatt : _eAttributes_2) {
+              String _name = eatt.getName();
+              String _plus = ("attribute: " + _name);
+              System.out.println(_plus);
+            }
             String _metamodel_3 = definition.getMetamodel();
             List<EAttribute> _eAttributes_3 = this.getEAttributes(_metamodel_3, name_2);
-            for (final EAttribute eatt_1 : _eAttributes_3) {
-              String _name_1 = eatt_1.getName();
-              String _plus_1 = ("attribute: " + _name_1);
-              System.out.println(_plus_1);
+            scope.addAll(_eAttributes_3);
+          } else {
+            ObSelectionStrategy _object_6 = com.getObject();
+            if ((_object_6 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_7 = com.getObject();
+              EClass _type_3 = ((RandomTypeSelection) _object_7).getType();
+              final String name_3 = _type_3.getName();
+              String _metamodel_4 = definition.getMetamodel();
+              List<EAttribute> _eAttributes_4 = this.getEAttributes(_metamodel_4, name_3);
+              for (final EAttribute eatt_1 : _eAttributes_4) {
+                String _name_1 = eatt_1.getName();
+                String _plus_1 = ("attribute: " + _name_1);
+                System.out.println(_plus_1);
+              }
+              String _metamodel_5 = definition.getMetamodel();
+              List<EAttribute> _eAttributes_5 = this.getEAttributes(_metamodel_5, name_3);
+              scope.addAll(_eAttributes_5);
             }
-            String _metamodel_4 = definition.getMetamodel();
-            List<EAttribute> _eAttributes_4 = this.getEAttributes(_metamodel_4, name_2);
-            scope.addAll(_eAttributes_4);
           }
         }
       }
@@ -1648,36 +3371,229 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       } else {
         ObSelectionStrategy _object_2 = com.getObject();
-        if ((_object_2 instanceof CompleteTypeSelection)) {
+        if ((_object_2 instanceof SpecificClosureSelection)) {
           ObSelectionStrategy _object_3 = com.getObject();
-          EClass _type_1 = ((CompleteTypeSelection) _object_3).getType();
-          final String name_1 = _type_1.getName();
-          String _metamodel_1 = definition.getMetamodel();
-          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, name_1);
-          for (final EReference eref : _eReferences_1) {
-            String _name = eref.getName();
-            String _plus = ("reference: " + _name);
-            System.out.println(_plus);
+          ObjectEmitter _objSel_1 = ((SpecificClosureSelection) _object_3).getObjSel();
+          final String name_1 = _objSel_1.getName();
+          int _indexOf_1 = commands.indexOf(com);
+          Mutator command_1 = this.getCommand(name_1, commands, _indexOf_1);
+          boolean _notEquals_1 = (!Objects.equal(command_1, null));
+          if (_notEquals_1) {
+            String _metamodel_1 = null;
+            if (definition!=null) {
+              _metamodel_1=definition.getMetamodel();
+            }
+            String _type_1 = this.getType(command_1);
+            List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _type_1);
+            scope.addAll(_eReferences_1);
           }
-          String _metamodel_2 = definition.getMetamodel();
-          List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, name_1);
-          scope.addAll(_eReferences_2);
         } else {
           ObSelectionStrategy _object_4 = com.getObject();
-          if ((_object_4 instanceof RandomTypeSelection)) {
+          if ((_object_4 instanceof CompleteTypeSelection)) {
             ObSelectionStrategy _object_5 = com.getObject();
-            EClass _type_2 = ((RandomTypeSelection) _object_5).getType();
+            EClass _type_2 = ((CompleteTypeSelection) _object_5).getType();
             final String name_2 = _type_2.getName();
+            String _metamodel_2 = definition.getMetamodel();
+            List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, name_2);
+            for (final EReference eref : _eReferences_2) {
+              String _name = eref.getName();
+              String _plus = ("reference: " + _name);
+              System.out.println(_plus);
+            }
             String _metamodel_3 = definition.getMetamodel();
             List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3, name_2);
-            for (final EReference eref_1 : _eReferences_3) {
-              String _name_1 = eref_1.getName();
-              String _plus_1 = ("reference: " + _name_1);
-              System.out.println(_plus_1);
+            scope.addAll(_eReferences_3);
+          } else {
+            ObSelectionStrategy _object_6 = com.getObject();
+            if ((_object_6 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_7 = com.getObject();
+              EClass _type_3 = ((RandomTypeSelection) _object_7).getType();
+              final String name_3 = _type_3.getName();
+              String _metamodel_4 = definition.getMetamodel();
+              List<EReference> _eReferences_4 = this.getEReferences(_metamodel_4, name_3);
+              for (final EReference eref_1 : _eReferences_4) {
+                String _name_1 = eref_1.getName();
+                String _plus_1 = ("reference: " + _name_1);
+                System.out.println(_plus_1);
+              }
+              String _metamodel_5 = definition.getMetamodel();
+              List<EReference> _eReferences_5 = this.getEReferences(_metamodel_5, name_3);
+              scope.addAll(_eReferences_5);
             }
-            String _metamodel_4 = definition.getMetamodel();
-            List<EReference> _eReferences_4 = this.getEReferences(_metamodel_4, name_2);
-            scope.addAll(_eReferences_4);
+          }
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type.
+   */
+  public IScope scope_AttributeSet_attribute(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("29c.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
+      ObSelectionStrategy _object = com.getObject();
+      if ((_object instanceof SpecificObjectSelection)) {
+        ObSelectionStrategy _object_1 = com.getObject();
+        ObjectEmitter _objSel = ((SpecificObjectSelection) _object_1).getObjSel();
+        final String name = _objSel.getName();
+        int _indexOf = commands.indexOf(com);
+        Mutator command = this.getCommand(name, commands, _indexOf);
+        boolean _notEquals = (!Objects.equal(command, null));
+        if (_notEquals) {
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String _type = this.getType(command);
+          List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, _type);
+          scope.addAll(_eAttributes);
+        }
+      } else {
+        ObSelectionStrategy _object_2 = com.getObject();
+        if ((_object_2 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_3 = com.getObject();
+          ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _object_3).getObjSel();
+          final String name_1 = _objSel_1.getName();
+          int _indexOf_1 = commands.indexOf(com);
+          Mutator command_1 = this.getCommand(name_1, commands, _indexOf_1);
+          boolean _notEquals_1 = (!Objects.equal(command_1, null));
+          if (_notEquals_1) {
+            String _metamodel_1 = null;
+            if (definition!=null) {
+              _metamodel_1=definition.getMetamodel();
+            }
+            String _type_1 = this.getType(command_1);
+            List<EAttribute> _eAttributes_1 = this.getEAttributes(_metamodel_1, _type_1);
+            scope.addAll(_eAttributes_1);
+          }
+        } else {
+          ObSelectionStrategy _object_4 = com.getObject();
+          if ((_object_4 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_5 = com.getObject();
+            EClass _type_2 = ((CompleteTypeSelection) _object_5).getType();
+            final String name_2 = _type_2.getName();
+            String _metamodel_2 = definition.getMetamodel();
+            List<EAttribute> _eAttributes_2 = this.getEAttributes(_metamodel_2, name_2);
+            for (final EAttribute eatt : _eAttributes_2) {
+              String _name = eatt.getName();
+              String _plus = ("attribute: " + _name);
+              System.out.println(_plus);
+            }
+            String _metamodel_3 = definition.getMetamodel();
+            List<EAttribute> _eAttributes_3 = this.getEAttributes(_metamodel_3, name_2);
+            scope.addAll(_eAttributes_3);
+          } else {
+            ObSelectionStrategy _object_6 = com.getObject();
+            if ((_object_6 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_7 = com.getObject();
+              EClass _type_3 = ((RandomTypeSelection) _object_7).getType();
+              final String name_3 = _type_3.getName();
+              String _metamodel_4 = definition.getMetamodel();
+              List<EAttribute> _eAttributes_4 = this.getEAttributes(_metamodel_4, name_3);
+              for (final EAttribute eatt_1 : _eAttributes_4) {
+                String _name_1 = eatt_1.getName();
+                String _plus_1 = ("attribute: " + _name_1);
+                System.out.println(_plus_1);
+              }
+              String _metamodel_5 = definition.getMetamodel();
+              List<EAttribute> _eAttributes_5 = this.getEAttributes(_metamodel_5, name_3);
+              scope.addAll(_eAttributes_5);
+            }
+          }
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type.
+   */
+  public IScope scope_ReferenceSet_reference(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("29d.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      ObSelectionStrategy _object = com.getObject();
+      if ((_object instanceof SpecificObjectSelection)) {
+        ObSelectionStrategy _object_1 = com.getObject();
+        ObjectEmitter _objSel = ((SpecificObjectSelection) _object_1).getObjSel();
+        final String name = _objSel.getName();
+        int _indexOf = commands.indexOf(com);
+        Mutator command = this.getCommand(name, commands, _indexOf);
+        boolean _notEquals = (!Objects.equal(command, null));
+        if (_notEquals) {
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          String _type = this.getType(command);
+          List<EReference> _eReferences = this.getEReferences(_metamodel, _type);
+          scope.addAll(_eReferences);
+        }
+      } else {
+        ObSelectionStrategy _object_2 = com.getObject();
+        if ((_object_2 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_3 = com.getObject();
+          ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _object_3).getObjSel();
+          final String name_1 = _objSel_1.getName();
+          int _indexOf_1 = commands.indexOf(com);
+          Mutator command_1 = this.getCommand(name_1, commands, _indexOf_1);
+          boolean _notEquals_1 = (!Objects.equal(command_1, null));
+          if (_notEquals_1) {
+            String _metamodel_1 = null;
+            if (definition!=null) {
+              _metamodel_1=definition.getMetamodel();
+            }
+            String _type_1 = this.getType(command_1);
+            List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _type_1);
+            scope.addAll(_eReferences_1);
+          }
+        } else {
+          ObSelectionStrategy _object_4 = com.getObject();
+          if ((_object_4 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_5 = com.getObject();
+            EClass _type_2 = ((CompleteTypeSelection) _object_5).getType();
+            final String name_2 = _type_2.getName();
+            String _metamodel_2 = definition.getMetamodel();
+            List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, name_2);
+            for (final EReference eref : _eReferences_2) {
+              String _name = eref.getName();
+              String _plus = ("reference: " + _name);
+              System.out.println(_plus);
+            }
+            String _metamodel_3 = definition.getMetamodel();
+            List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3, name_2);
+            scope.addAll(_eReferences_3);
+          } else {
+            ObSelectionStrategy _object_6 = com.getObject();
+            if ((_object_6 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_7 = com.getObject();
+              EClass _type_3 = ((RandomTypeSelection) _object_7).getType();
+              final String name_3 = _type_3.getName();
+              String _metamodel_4 = definition.getMetamodel();
+              List<EReference> _eReferences_4 = this.getEReferences(_metamodel_4, name_3);
+              for (final EReference eref_1 : _eReferences_4) {
+                String _name_1 = eref_1.getName();
+                String _plus_1 = ("reference: " + _name_1);
+                System.out.println(_plus_1);
+              }
+              String _metamodel_5 = definition.getMetamodel();
+              List<EReference> _eReferences_5 = this.getEReferences(_metamodel_5, name_3);
+              scope.addAll(_eReferences_5);
+            }
           }
         }
       }
@@ -1721,6 +3637,19 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             _name_1=_objSel.getName();
           }
           objectName = _name_1;
+        }
+        ObSelectionStrategy _object_3 = com.getObject();
+        if ((_object_3 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_4 = com.getObject();
+          ObjectEmitter _objSel_1 = null;
+          if (((SpecificClosureSelection) _object_4)!=null) {
+            _objSel_1=((SpecificClosureSelection) _object_4).getObjSel();
+          }
+          String _name_2 = null;
+          if (_objSel_1!=null) {
+            _name_2=_objSel_1.getName();
+          }
+          objectName = _name_2;
         }
         int _indexOf = commands.indexOf(currentMutator);
         Mutator command = this.getCommand(objectName, commands, _indexOf);
@@ -1789,6 +3718,19 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           }
           objectName = _name_1;
         }
+        ObSelectionStrategy _object_4 = com.getObject();
+        if ((_object_4 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_5 = com.getObject();
+          ObjectEmitter _objSel_1 = null;
+          if (((SpecificClosureSelection) _object_5)!=null) {
+            _objSel_1=((SpecificClosureSelection) _object_5).getObjSel();
+          }
+          String _name_2 = null;
+          if (_objSel_1!=null) {
+            _name_2=_objSel_1.getName();
+          }
+          objectName = _name_2;
+        }
         int _indexOf = commands.indexOf(currentMutator);
         Mutator command = this.getCommand(objectName, commands, _indexOf);
         boolean _notEquals_1 = (!Objects.equal(command, null));
@@ -1804,6 +3746,34 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
       _xblockexpression = Scopes.scopeFor(_arrayList);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceInit.attType must contain references of the type of ReferenceInit.reference.
+   */
+  public IScope scope_ReferenceAtt_attribute(final ReferenceAtt com, final EReference container) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("30c.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      ArrayList<EAttribute> atts = new ArrayList<EAttribute>();
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        final Definition definition = env.getDefinition();
+        EList<EReference> _reference = com.getReference();
+        EReference _get = _reference.get(0);
+        EClassifier _eType = _get.getEType();
+        String className = _eType.getName();
+        String _metamodel = null;
+        if (definition!=null) {
+          _metamodel=definition.getMetamodel();
+        }
+        List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, className);
+        atts.addAll(_eAttributes);
+      }
+      _xblockexpression = Scopes.scopeFor(atts);
     }
     return _xblockexpression;
   }
@@ -1895,23 +3865,89 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         final Definition definition = env.getDefinition();
         final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
         final List<Mutator> commands = this.getCommands(currentMutator);
-        ObjectEmitter _objSel = com.getObjSel();
-        String _name = null;
-        if (_objSel!=null) {
-          _name=_objSel.getName();
-        }
-        final String objectName = _name;
-        int _indexOf = commands.indexOf(currentMutator);
-        Mutator command = this.getCommand(objectName, commands, _indexOf);
-        boolean _notEquals_1 = (!Objects.equal(command, null));
-        if (_notEquals_1) {
-          String _metamodel = null;
-          if (definition!=null) {
-            _metamodel=definition.getMetamodel();
+        EReference _refType = com.getRefType();
+        boolean _equals = Objects.equal(_refType, null);
+        if (_equals) {
+          ObjectEmitter _objSel = com.getObjSel();
+          String _name = null;
+          if (_objSel!=null) {
+            _name=_objSel.getName();
           }
-          String _type = this.getType(command);
-          List<EReference> _eReferences = this.getEReferences(_metamodel, _type);
-          return Scopes.scopeFor(_eReferences);
+          final String objectName = _name;
+          int _indexOf = commands.indexOf(currentMutator);
+          Mutator command = this.getCommand(objectName, commands, _indexOf);
+          boolean _notEquals_1 = (!Objects.equal(command, null));
+          if (_notEquals_1) {
+            String _metamodel = null;
+            if (definition!=null) {
+              _metamodel=definition.getMetamodel();
+            }
+            String _type = this.getType(command);
+            List<EReference> _eReferences = this.getEReferences(_metamodel, _type);
+            return Scopes.scopeFor(_eReferences);
+          }
+        } else {
+          String _metamodel_1 = null;
+          if (definition!=null) {
+            _metamodel_1=definition.getMetamodel();
+          }
+          EReference _refType_1 = com.getRefType();
+          EClassifier _eType = _refType_1.getEType();
+          String _name_1 = _eType.getName();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _name_1);
+          return Scopes.scopeFor(_eReferences_1);
+        }
+      }
+      ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+      _xblockexpression = Scopes.scopeFor(_arrayList);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by ...
+   */
+  public IScope scope_ReferenceEvaluation_name(final SpecificClosureSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("31d.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        final Definition definition = env.getDefinition();
+        final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
+        final List<Mutator> commands = this.getCommands(currentMutator);
+        EReference _refType = com.getRefType();
+        boolean _equals = Objects.equal(_refType, null);
+        if (_equals) {
+          ObjectEmitter _objSel = com.getObjSel();
+          String _name = null;
+          if (_objSel!=null) {
+            _name=_objSel.getName();
+          }
+          final String objectName = _name;
+          int _indexOf = commands.indexOf(currentMutator);
+          Mutator command = this.getCommand(objectName, commands, _indexOf);
+          boolean _notEquals_1 = (!Objects.equal(command, null));
+          if (_notEquals_1) {
+            String _metamodel = null;
+            if (definition!=null) {
+              _metamodel=definition.getMetamodel();
+            }
+            String _type = this.getType(command);
+            List<EReference> _eReferences = this.getEReferences(_metamodel, _type);
+            return Scopes.scopeFor(_eReferences);
+          }
+        } else {
+          String _metamodel_1 = null;
+          if (definition!=null) {
+            _metamodel_1=definition.getMetamodel();
+          }
+          EReference _refType_1 = com.getRefType();
+          EClassifier _eType = _refType_1.getEType();
+          String _name_1 = _eType.getName();
+          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _name_1);
+          return Scopes.scopeFor(_eReferences_1);
         }
       }
       ArrayList<EObject> _arrayList = new ArrayList<EObject>();
@@ -2033,73 +4069,39 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
-   * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type.
+   * AttributeEvaluation.name must contain the attributes defined by ...
    */
-  public IScope scope_ReferenceEvaluation_refType(final SelectObjectMutator com, final EReference ref) {
+  public IScope scope_AttributeEvaluation_name(final SpecificClosureSelection com, final EReference ref) {
     IScope _xblockexpression = null;
     {
-      System.out.println("33.");
+      System.out.println("32d.");
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      final List<Mutator> commands = this.getCommands(com);
-      final Definition definition = env.getDefinition();
-      String name = "";
-      final ArrayList<EReference> scope = new ArrayList<EReference>();
-      ObSelectionStrategy _object = com.getObject();
-      if ((_object instanceof SpecificObjectSelection)) {
-        ObSelectionStrategy _object_1 = com.getObject();
-        ObjectEmitter _objSel = ((SpecificObjectSelection) _object_1).getObjSel();
-        String _name = _objSel.getName();
-        name = _name;
-        int _indexOf = commands.indexOf(com);
-        Mutator command = this.getCommand(name, commands, _indexOf);
-        boolean _notEquals = (!Objects.equal(command, null));
-        if (_notEquals) {
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        final Definition definition = env.getDefinition();
+        final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
+        final List<Mutator> commands = this.getCommands(currentMutator);
+        ObjectEmitter _objSel = com.getObjSel();
+        String _name = null;
+        if (_objSel!=null) {
+          _name=_objSel.getName();
+        }
+        final String objectName = _name;
+        int _indexOf = commands.indexOf(currentMutator);
+        Mutator command = this.getCommand(objectName, commands, _indexOf);
+        boolean _notEquals_1 = (!Objects.equal(command, null));
+        if (_notEquals_1) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
           String _type = this.getType(command);
-          List<EReference> _eReferences = this.getEReferences(_metamodel, _type);
-          scope.addAll(_eReferences);
-        }
-      } else {
-        ObSelectionStrategy _object_2 = com.getObject();
-        if ((_object_2 instanceof CompleteTypeSelection)) {
-          ObSelectionStrategy _object_3 = com.getObject();
-          EClass _type_1 = ((CompleteTypeSelection) _object_3).getType();
-          String _name_1 = _type_1.getName();
-          name = _name_1;
-          String _metamodel_1 = definition.getMetamodel();
-          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, name);
-          for (final EReference eref : _eReferences_1) {
-            String _name_2 = eref.getName();
-            String _plus = ("reference: " + _name_2);
-            System.out.println(_plus);
-          }
-          String _metamodel_2 = definition.getMetamodel();
-          List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, name);
-          scope.addAll(_eReferences_2);
-        } else {
-          ObSelectionStrategy _object_4 = com.getObject();
-          if ((_object_4 instanceof RandomTypeSelection)) {
-            ObSelectionStrategy _object_5 = com.getObject();
-            EClass _type_2 = ((RandomTypeSelection) _object_5).getType();
-            String _name_3 = _type_2.getName();
-            name = _name_3;
-            String _metamodel_3 = definition.getMetamodel();
-            List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3, name);
-            for (final EReference eref_1 : _eReferences_3) {
-              String _name_4 = eref_1.getName();
-              String _plus_1 = ("reference: " + _name_4);
-              System.out.println(_plus_1);
-            }
-            String _metamodel_4 = definition.getMetamodel();
-            List<EReference> _eReferences_4 = this.getEReferences(_metamodel_4, name);
-            scope.addAll(_eReferences_4);
-          }
+          List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, _type);
+          return Scopes.scopeFor(_eAttributes);
         }
       }
-      _xblockexpression = Scopes.scopeFor(scope);
+      ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+      _xblockexpression = Scopes.scopeFor(_arrayList);
     }
     return _xblockexpression;
   }
@@ -2107,7 +4109,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   /**
    * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type.
    */
-  public IScope scope_ReferenceEvaluation_refType(final ModifyInformationMutator com, final EReference ref) {
+  public IScope scope_ObSelectionStrategy_refType(final ModifyInformationMutator com, final EReference ref) {
     IScope _xblockexpression = null;
     {
       System.out.println("33b.");
@@ -2134,36 +4136,55 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       } else {
         ObSelectionStrategy _object_2 = com.getObject();
-        if ((_object_2 instanceof CompleteTypeSelection)) {
+        if ((_object_2 instanceof SpecificClosureSelection)) {
           ObSelectionStrategy _object_3 = com.getObject();
-          EClass _type_1 = ((CompleteTypeSelection) _object_3).getType();
-          final String name_1 = _type_1.getName();
-          String _metamodel_1 = definition.getMetamodel();
-          List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, name_1);
-          for (final EReference eref : _eReferences_1) {
-            String _name = eref.getName();
-            String _plus = ("reference: " + _name);
-            System.out.println(_plus);
+          ObjectEmitter _objSel_1 = ((SpecificClosureSelection) _object_3).getObjSel();
+          final String name_1 = _objSel_1.getName();
+          int _indexOf_1 = commands.indexOf(com);
+          Mutator command_1 = this.getCommand(name_1, commands, _indexOf_1);
+          boolean _notEquals_1 = (!Objects.equal(command_1, null));
+          if (_notEquals_1) {
+            String _metamodel_1 = null;
+            if (definition!=null) {
+              _metamodel_1=definition.getMetamodel();
+            }
+            String _type_1 = this.getType(command_1);
+            List<EReference> _eReferences_1 = this.getEReferences(_metamodel_1, _type_1);
+            scope.addAll(_eReferences_1);
           }
-          String _metamodel_2 = definition.getMetamodel();
-          List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, name_1);
-          scope.addAll(_eReferences_2);
         } else {
           ObSelectionStrategy _object_4 = com.getObject();
-          if ((_object_4 instanceof RandomTypeSelection)) {
+          if ((_object_4 instanceof CompleteTypeSelection)) {
             ObSelectionStrategy _object_5 = com.getObject();
-            EClass _type_2 = ((RandomTypeSelection) _object_5).getType();
+            EClass _type_2 = ((CompleteTypeSelection) _object_5).getType();
             final String name_2 = _type_2.getName();
+            String _metamodel_2 = definition.getMetamodel();
+            List<EReference> _eReferences_2 = this.getEReferences(_metamodel_2, name_2);
+            for (final EReference eref : _eReferences_2) {
+              String _name = eref.getName();
+              String _plus = ("reference: " + _name);
+              System.out.println(_plus);
+            }
             String _metamodel_3 = definition.getMetamodel();
             List<EReference> _eReferences_3 = this.getEReferences(_metamodel_3, name_2);
-            for (final EReference eref_1 : _eReferences_3) {
-              String _name_1 = eref_1.getName();
-              String _plus_1 = ("reference: " + _name_1);
-              System.out.println(_plus_1);
+            scope.addAll(_eReferences_3);
+          } else {
+            ObSelectionStrategy _object_6 = com.getObject();
+            if ((_object_6 instanceof RandomTypeSelection)) {
+              ObSelectionStrategy _object_7 = com.getObject();
+              EClass _type_3 = ((RandomTypeSelection) _object_7).getType();
+              final String name_3 = _type_3.getName();
+              String _metamodel_4 = definition.getMetamodel();
+              List<EReference> _eReferences_4 = this.getEReferences(_metamodel_4, name_3);
+              for (final EReference eref_1 : _eReferences_4) {
+                String _name_1 = eref_1.getName();
+                String _plus_1 = ("reference: " + _name_1);
+                System.out.println(_plus_1);
+              }
+              String _metamodel_5 = definition.getMetamodel();
+              List<EReference> _eReferences_5 = this.getEReferences(_metamodel_5, name_3);
+              scope.addAll(_eReferences_5);
             }
-            String _metamodel_4 = definition.getMetamodel();
-            List<EReference> _eReferences_4 = this.getEReferences(_metamodel_4, name_2);
-            scope.addAll(_eReferences_4);
           }
         }
       }
@@ -2301,6 +4322,148 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
+   * ReferenceEvaluation.name must contain the references defined by com.type
+   */
+  public IScope scope_ReferenceEvaluation_refName(final RandomTypeSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("33d.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      IScope _xifexpression = null;
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        IScope _xblockexpression_1 = null;
+        {
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
+          }
+          final EReference reference = ((ReferenceEvaluation) _first).getName();
+          EClassifier _eType = reference.getEType();
+          final String className = _eType.getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          List<EReference> _eReferences = this.getEReferences(_metamodel, className);
+          _xblockexpression_1 = Scopes.scopeFor(_eReferences);
+        }
+        _xifexpression = _xblockexpression_1;
+      } else {
+        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+        _xifexpression = Scopes.scopeFor(_arrayList);
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by com.type
+   */
+  public IScope scope_ReferenceEvaluation_refName(final CompleteTypeSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("33e.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      IScope _xifexpression = null;
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        IScope _xblockexpression_1 = null;
+        {
+          final Definition definition = env.getDefinition();
+          Expression _expression = com.getExpression();
+          Evaluation _first = null;
+          if (_expression!=null) {
+            _first=_expression.getFirst();
+          }
+          final EReference reference = ((ReferenceEvaluation) _first).getName();
+          EClassifier _eType = reference.getEType();
+          final String className = _eType.getName();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          List<EReference> _eReferences = this.getEReferences(_metamodel, className);
+          _xblockexpression_1 = Scopes.scopeFor(_eReferences);
+        }
+        _xifexpression = _xblockexpression_1;
+      } else {
+        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+        _xifexpression = Scopes.scopeFor(_arrayList);
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by ...
+   */
+  public IScope scope_ReferenceEvaluation_refName(final SpecificObjectSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("33f.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        final Definition definition = env.getDefinition();
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        final EReference reference = ((ReferenceEvaluation) _first).getName();
+        EClassifier _eType = reference.getEType();
+        final String className = _eType.getName();
+        String _metamodel = null;
+        if (definition!=null) {
+          _metamodel=definition.getMetamodel();
+        }
+        List<EReference> _eReferences = this.getEReferences(_metamodel, className);
+        Scopes.scopeFor(_eReferences);
+      }
+      ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+      _xblockexpression = Scopes.scopeFor(_arrayList);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by ...
+   */
+  public IScope scope_ReferenceEvaluation_refName(final SpecificClosureSelection com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("33g.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      boolean _notEquals = (!Objects.equal(env, null));
+      if (_notEquals) {
+        final Definition definition = env.getDefinition();
+        Expression _expression = com.getExpression();
+        Evaluation _first = null;
+        if (_expression!=null) {
+          _first=_expression.getFirst();
+        }
+        final EReference reference = ((ReferenceEvaluation) _first).getName();
+        EClassifier _eType = reference.getEType();
+        final String className = _eType.getName();
+        String _metamodel = null;
+        if (definition!=null) {
+          _metamodel=definition.getMetamodel();
+        }
+        List<EReference> _eReferences = this.getEReferences(_metamodel, className);
+        Scopes.scopeFor(_eReferences);
+      }
+      ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+      _xblockexpression = Scopes.scopeFor(_arrayList);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
    * Constraint.type can contain any EClass from the input meta-model.
    */
   public IScope scope_Constraint_type(final Constraint c, final EReference ref) {
@@ -2312,6 +4475,883 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       String _metamodel = definition.getMetamodel();
       List<EClass> _eClasses = this.getEClasses(_metamodel);
       _xblockexpression = Scopes.scopeFor(_eClasses);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ListType.value can contain any EEnumLiteral from the input EEnum.
+   */
+  public IScope scope_ListType_value(final ReferenceAtt refAtt, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("35a.");
+      ArrayList<EObject> values = new ArrayList<EObject>();
+      EAttribute attribute = refAtt.getAttribute();
+      EClassifier _eType = attribute.getEType();
+      if ((_eType instanceof EEnum)) {
+        EClassifier _eType_1 = attribute.getEType();
+        final EEnum en = ((EEnum) _eType_1);
+        EList<EEnumLiteral> _eLiterals = en.getELiterals();
+        values.addAll(_eLiterals);
+      }
+      _xblockexpression = Scopes.scopeFor(values);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ListType.value can contain any EEnumLiteral from the input EEnum.
+   */
+  public IScope scope_ListType_value(final AttributeEvaluation attEv, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("35b.");
+      ArrayList<EObject> values = new ArrayList<EObject>();
+      EAttribute attribute = attEv.getName();
+      EClassifier _eType = attribute.getEType();
+      if ((_eType instanceof EEnum)) {
+        EClassifier _eType_1 = attribute.getEType();
+        final EEnum en = ((EEnum) _eType_1);
+        EList<EEnumLiteral> _eLiterals = en.getELiterals();
+        values.addAll(_eLiterals);
+      }
+      _xblockexpression = Scopes.scopeFor(values);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ListType.value can contain any EEnumLiteral from the input EEnum.
+   */
+  public IScope scope_ListType_value(final AttributeScalar attScal, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("35c.");
+      ArrayList<EObject> values = new ArrayList<EObject>();
+      EList<EAttribute> _attribute = attScal.getAttribute();
+      EAttribute attribute = _attribute.get(0);
+      EClassifier _eType = attribute.getEType();
+      if ((_eType instanceof EEnum)) {
+        EClassifier _eType_1 = attribute.getEType();
+        final EEnum en = ((EEnum) _eType_1);
+        EList<EEnumLiteral> _eLiterals = en.getELiterals();
+        values.addAll(_eLiterals);
+      }
+      _xblockexpression = Scopes.scopeFor(values);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a specific object is used as a container,
+   * can contain any previous object whose type is a container for the created object.
+   */
+  public IScope scope_ObjectAttributeType_objSel(final SelectObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("36.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      String _metamodel = definition.getMetamodel();
+      EClass _type = com.getType();
+      String _name = _type.getName();
+      final List<EClass> containers = this.getEContainers(_metamodel, _name);
+      final List<String> scontainers = new ArrayList<String>();
+      for (final EClassifier cl : containers) {
+        String _name_1 = cl.getName();
+        scontainers.add(_name_1);
+      }
+      String _metamodel_1 = definition.getMetamodel();
+      EClass _type_1 = com.getType();
+      String _name_2 = _type_1.getName();
+      final List<EReference> references = this.getEReferences(_metamodel_1, _name_2);
+      for (final EReference eref : references) {
+        EClassifier _eType = eref.getEType();
+        String _name_3 = _eType.getName();
+        scontainers.add(_name_3);
+      }
+      final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+      for (final Mutator mutator : commands) {
+        boolean _and = false;
+        boolean _and_1 = false;
+        boolean _and_2 = false;
+        String _name_4 = mutator.getName();
+        boolean _notEquals = (!Objects.equal(_name_4, null));
+        if (!_notEquals) {
+          _and_2 = false;
+        } else {
+          int _indexOf = commands.indexOf(mutator);
+          int _indexOf_1 = commands.indexOf(com);
+          boolean _lessThan = (_indexOf < _indexOf_1);
+          _and_2 = _lessThan;
+        }
+        if (!_and_2) {
+          _and_1 = false;
+        } else {
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator));
+        }
+        if (!_and_1) {
+          _and = false;
+        } else {
+          EClass _type_2 = mutator.getType();
+          String _name_5 = _type_2.getName();
+          boolean _contains = scontainers.contains(_name_5);
+          _and = _contains;
+        }
+        if (_and) {
+          scope.add(mutator);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a specific object is used as a container,
+   * can contain any previous object whose type is a container for the created object.
+   */
+  public IScope scope_ObjectAttributeType_objSel(final ModifyInformationMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("36b.");
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final List<Mutator> commands = this.getCommands(com);
+      final Definition definition = env.getDefinition();
+      String _metamodel = definition.getMetamodel();
+      EClass _type = com.getType();
+      String _name = _type.getName();
+      final List<EClass> containers = this.getEContainers(_metamodel, _name);
+      final List<String> scontainers = new ArrayList<String>();
+      for (final EClassifier cl : containers) {
+        String _name_1 = cl.getName();
+        scontainers.add(_name_1);
+      }
+      String _metamodel_1 = definition.getMetamodel();
+      EClass _type_1 = com.getType();
+      String _name_2 = _type_1.getName();
+      final List<EReference> references = this.getEReferences(_metamodel_1, _name_2);
+      for (final EReference eref : references) {
+        EClassifier _eType = eref.getEType();
+        String _name_3 = _eType.getName();
+        scontainers.add(_name_3);
+      }
+      final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+      for (final Mutator mutator : commands) {
+        boolean _and = false;
+        boolean _and_1 = false;
+        boolean _and_2 = false;
+        String _name_4 = mutator.getName();
+        boolean _notEquals = (!Objects.equal(_name_4, null));
+        if (!_notEquals) {
+          _and_2 = false;
+        } else {
+          int _indexOf = commands.indexOf(mutator);
+          int _indexOf_1 = commands.indexOf(com);
+          boolean _lessThan = (_indexOf < _indexOf_1);
+          _and_2 = _lessThan;
+        }
+        if (!_and_2) {
+          _and_1 = false;
+        } else {
+          _and_1 = ((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator));
+        }
+        if (!_and_1) {
+          _and = false;
+        } else {
+          EClass _type_2 = mutator.getType();
+          String _name_5 = _type_2.getName();
+          boolean _contains = scontainers.contains(_name_5);
+          _and = _contains;
+        }
+        if (_and) {
+          scope.add(mutator);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by com.type
+   */
+  public IScope scope_ObjectAttributeType_attribute(final ObjectAttributeType com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("37.");
+      ObjectEmitter _objSel = com.getObjSel();
+      final MutatorEnvironment env = this.getMutatorEnvironment(_objSel);
+      Mutator mut = null;
+      EObject container = com.eContainer();
+      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+        EObject _eContainer = container.eContainer();
+        container = _eContainer;
+      }
+      mut = ((Mutator) container);
+      final List<Mutator> commands = this.getCommands(mut);
+      String className = null;
+      for (final Mutator command : commands) {
+        String _name = command.getName();
+        boolean _notEquals = (!Objects.equal(_name, null));
+        if (_notEquals) {
+          String _name_1 = command.getName();
+          ObjectEmitter _objSel_1 = com.getObjSel();
+          String _name_2 = _objSel_1.getName();
+          boolean _equals = _name_1.equals(_name_2);
+          if (_equals) {
+            String _type = this.getType(command);
+            className = _type;
+          }
+        }
+      }
+      IScope _xifexpression = null;
+      boolean _and = false;
+      boolean _notEquals_1 = (!Objects.equal(env, null));
+      if (!_notEquals_1) {
+        _and = false;
+      } else {
+        boolean _notEquals_2 = (!Objects.equal(className, null));
+        _and = _notEquals_2;
+      }
+      if (_and) {
+        IScope _xblockexpression_1 = null;
+        {
+          final Definition definition = env.getDefinition();
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, className);
+          _xblockexpression_1 = Scopes.scopeFor(_eAttributes);
+        }
+        _xifexpression = _xblockexpression_1;
+      } else {
+        ArrayList<EObject> _arrayList = new ArrayList<EObject>();
+        _xifexpression = Scopes.scopeFor(_arrayList);
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by com.type
+   */
+  public IScope scope_MinValueType_attribute(final MinValueType com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("38.");
+      ArrayList<EAttribute> scopes = new ArrayList<EAttribute>();
+      Mutator mut = null;
+      EObject container = com.eContainer();
+      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+        EObject _eContainer = container.eContainer();
+        container = _eContainer;
+      }
+      boolean _notEquals = (!Objects.equal(container, null));
+      if (_notEquals) {
+        mut = ((Mutator) container);
+        final MutatorEnvironment env = this.getMutatorEnvironment(mut);
+        final Definition definition = env.getDefinition();
+        String className = null;
+        if ((mut instanceof CreateObjectMutator)) {
+          EClass _type = ((CreateObjectMutator)mut).getType();
+          String _name = _type.getName();
+          className = _name;
+        }
+        if ((mut instanceof CloneObjectMutator)) {
+          ObSelectionStrategy _object = ((CloneObjectMutator)mut).getObject();
+          if ((_object instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _object_1 = ((CloneObjectMutator)mut).getObject();
+            final SpecificObjectSelection selection = ((SpecificObjectSelection) _object_1);
+            ObjectEmitter _objSel = selection.getObjSel();
+            if ((_objSel instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_1 = selection.getObjSel();
+              EClass _type_1 = _objSel_1.getType();
+              String _name_1 = _type_1.getName();
+              className = _name_1;
+            }
+            ObjectEmitter _objSel_2 = selection.getObjSel();
+            if ((_objSel_2 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_3 = selection.getObjSel();
+              ObSelectionStrategy _object_2 = ((SelectObjectMutator) _objSel_3).getObject();
+              EClass _type_2 = _object_2.getType();
+              String _name_2 = _type_2.getName();
+              className = _name_2;
+            }
+            ObjectEmitter _objSel_4 = selection.getObjSel();
+            if ((_objSel_4 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_5 = selection.getObjSel();
+              EClass _type_3 = _objSel_5.getType();
+              String _name_3 = _type_3.getName();
+              className = _name_3;
+            }
+          }
+          ObSelectionStrategy _object_3 = ((CloneObjectMutator)mut).getObject();
+          if ((_object_3 instanceof SpecificClosureSelection)) {
+            ObSelectionStrategy _object_4 = ((CloneObjectMutator)mut).getObject();
+            final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _object_4);
+            ObjectEmitter _objSel_6 = selection_1.getObjSel();
+            if ((_objSel_6 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_7 = selection_1.getObjSel();
+              EClass _type_4 = _objSel_7.getType();
+              String _name_4 = _type_4.getName();
+              className = _name_4;
+            }
+            ObjectEmitter _objSel_8 = selection_1.getObjSel();
+            if ((_objSel_8 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_9 = selection_1.getObjSel();
+              ObSelectionStrategy _object_5 = ((SelectObjectMutator) _objSel_9).getObject();
+              EClass _type_5 = _object_5.getType();
+              String _name_5 = _type_5.getName();
+              className = _name_5;
+            }
+            ObjectEmitter _objSel_10 = selection_1.getObjSel();
+            if ((_objSel_10 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_11 = selection_1.getObjSel();
+              EClass _type_6 = _objSel_11.getType();
+              String _name_6 = _type_6.getName();
+              className = _name_6;
+            }
+          }
+          ObSelectionStrategy _object_6 = ((CloneObjectMutator)mut).getObject();
+          if ((_object_6 instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _object_7 = ((CloneObjectMutator)mut).getObject();
+            final RandomTypeSelection selection_2 = ((RandomTypeSelection) _object_7);
+            EClass _type_7 = selection_2.getType();
+            String _name_7 = _type_7.getName();
+            className = _name_7;
+          }
+          ObSelectionStrategy _object_8 = ((CloneObjectMutator)mut).getObject();
+          if ((_object_8 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_9 = ((CloneObjectMutator)mut).getObject();
+            final CompleteTypeSelection selection_3 = ((CompleteTypeSelection) _object_9);
+            EClass _type_8 = selection_3.getType();
+            String _name_8 = _type_8.getName();
+            className = _name_8;
+          }
+        }
+        if ((mut instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _object_10 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_10 instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _object_11 = ((SelectObjectMutator)mut).getObject();
+            final SpecificObjectSelection selection_4 = ((SpecificObjectSelection) _object_11);
+            ObjectEmitter _objSel_12 = selection_4.getObjSel();
+            if ((_objSel_12 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_13 = selection_4.getObjSel();
+              EClass _type_9 = _objSel_13.getType();
+              String _name_9 = _type_9.getName();
+              className = _name_9;
+            }
+            ObjectEmitter _objSel_14 = selection_4.getObjSel();
+            if ((_objSel_14 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_15 = selection_4.getObjSel();
+              ObSelectionStrategy _object_12 = ((SelectObjectMutator) _objSel_15).getObject();
+              EClass _type_10 = _object_12.getType();
+              String _name_10 = _type_10.getName();
+              className = _name_10;
+            }
+            ObjectEmitter _objSel_16 = selection_4.getObjSel();
+            if ((_objSel_16 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_17 = selection_4.getObjSel();
+              EClass _type_11 = _objSel_17.getType();
+              String _name_11 = _type_11.getName();
+              className = _name_11;
+            }
+          }
+          ObSelectionStrategy _object_13 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_13 instanceof SpecificClosureSelection)) {
+            ObSelectionStrategy _object_14 = ((SelectObjectMutator)mut).getObject();
+            final SpecificClosureSelection selection_5 = ((SpecificClosureSelection) _object_14);
+            ObjectEmitter _objSel_18 = selection_5.getObjSel();
+            if ((_objSel_18 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_19 = selection_5.getObjSel();
+              EClass _type_12 = _objSel_19.getType();
+              String _name_12 = _type_12.getName();
+              className = _name_12;
+            }
+            ObjectEmitter _objSel_20 = selection_5.getObjSel();
+            if ((_objSel_20 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_21 = selection_5.getObjSel();
+              ObSelectionStrategy _object_15 = ((SelectObjectMutator) _objSel_21).getObject();
+              EClass _type_13 = _object_15.getType();
+              String _name_13 = _type_13.getName();
+              className = _name_13;
+            }
+            ObjectEmitter _objSel_22 = selection_5.getObjSel();
+            if ((_objSel_22 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_23 = selection_5.getObjSel();
+              EClass _type_14 = _objSel_23.getType();
+              String _name_14 = _type_14.getName();
+              className = _name_14;
+            }
+          }
+          ObSelectionStrategy _object_16 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_16 instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _object_17 = ((SelectObjectMutator)mut).getObject();
+            final RandomTypeSelection selection_6 = ((RandomTypeSelection) _object_17);
+            EClass _type_15 = selection_6.getType();
+            String _name_15 = _type_15.getName();
+            className = _name_15;
+          }
+          ObSelectionStrategy _object_18 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_18 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_19 = ((SelectObjectMutator)mut).getObject();
+            final CompleteTypeSelection selection_7 = ((CompleteTypeSelection) _object_19);
+            EClass _type_16 = selection_7.getType();
+            String _name_16 = _type_16.getName();
+            className = _name_16;
+          }
+        }
+        if ((mut instanceof ModifyInformationMutator)) {
+          ObSelectionStrategy _object_20 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_20 instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _object_21 = ((ModifyInformationMutator)mut).getObject();
+            final SpecificObjectSelection selection_8 = ((SpecificObjectSelection) _object_21);
+            ObjectEmitter _objSel_24 = selection_8.getObjSel();
+            if ((_objSel_24 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_25 = selection_8.getObjSel();
+              EClass _type_17 = _objSel_25.getType();
+              String _name_17 = _type_17.getName();
+              className = _name_17;
+            }
+            ObjectEmitter _objSel_26 = selection_8.getObjSel();
+            if ((_objSel_26 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_27 = selection_8.getObjSel();
+              ObSelectionStrategy _object_22 = ((SelectObjectMutator) _objSel_27).getObject();
+              EClass _type_18 = _object_22.getType();
+              String _name_18 = _type_18.getName();
+              className = _name_18;
+            }
+            ObjectEmitter _objSel_28 = selection_8.getObjSel();
+            if ((_objSel_28 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_29 = selection_8.getObjSel();
+              EClass _type_19 = _objSel_29.getType();
+              String _name_19 = _type_19.getName();
+              className = _name_19;
+            }
+          }
+          ObSelectionStrategy _object_23 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_23 instanceof SpecificClosureSelection)) {
+            ObSelectionStrategy _object_24 = ((ModifyInformationMutator)mut).getObject();
+            final SpecificClosureSelection selection_9 = ((SpecificClosureSelection) _object_24);
+            ObjectEmitter _objSel_30 = selection_9.getObjSel();
+            if ((_objSel_30 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_31 = selection_9.getObjSel();
+              EClass _type_20 = _objSel_31.getType();
+              String _name_20 = _type_20.getName();
+              className = _name_20;
+            }
+            ObjectEmitter _objSel_32 = selection_9.getObjSel();
+            if ((_objSel_32 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_33 = selection_9.getObjSel();
+              ObSelectionStrategy _object_25 = ((SelectObjectMutator) _objSel_33).getObject();
+              EClass _type_21 = _object_25.getType();
+              String _name_21 = _type_21.getName();
+              className = _name_21;
+            }
+            ObjectEmitter _objSel_34 = selection_9.getObjSel();
+            if ((_objSel_34 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_35 = selection_9.getObjSel();
+              EClass _type_22 = _objSel_35.getType();
+              String _name_22 = _type_22.getName();
+              className = _name_22;
+            }
+          }
+          ObSelectionStrategy _object_26 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_26 instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _object_27 = ((ModifyInformationMutator)mut).getObject();
+            final RandomTypeSelection selection_10 = ((RandomTypeSelection) _object_27);
+            EClass _type_23 = selection_10.getType();
+            String _name_23 = _type_23.getName();
+            className = _name_23;
+          }
+          ObSelectionStrategy _object_28 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_28 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_29 = ((ModifyInformationMutator)mut).getObject();
+            final CompleteTypeSelection selection_11 = ((CompleteTypeSelection) _object_29);
+            EClass _type_24 = selection_11.getType();
+            String _name_24 = _type_24.getName();
+            className = _name_24;
+          }
+        }
+        boolean _notEquals_1 = (!Objects.equal(className, null));
+        if (_notEquals_1) {
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, className);
+          scopes.addAll(_eAttributes);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scopes);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by com.type
+   */
+  public IScope scope_MaxValueType_attribute(final MaxValueType com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("38b.");
+      ArrayList<EAttribute> scopes = new ArrayList<EAttribute>();
+      Mutator mut = null;
+      EObject container = com.eContainer();
+      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+        EObject _eContainer = container.eContainer();
+        container = _eContainer;
+      }
+      boolean _notEquals = (!Objects.equal(container, null));
+      if (_notEquals) {
+        mut = ((Mutator) container);
+        final MutatorEnvironment env = this.getMutatorEnvironment(mut);
+        final Definition definition = env.getDefinition();
+        String className = null;
+        if ((mut instanceof CreateObjectMutator)) {
+          EClass _type = ((CreateObjectMutator)mut).getType();
+          String _name = _type.getName();
+          className = _name;
+        }
+        if ((mut instanceof CloneObjectMutator)) {
+          ObSelectionStrategy _object = ((CloneObjectMutator)mut).getObject();
+          if ((_object instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _object_1 = ((CloneObjectMutator)mut).getObject();
+            final SpecificObjectSelection selection = ((SpecificObjectSelection) _object_1);
+            ObjectEmitter _objSel = selection.getObjSel();
+            if ((_objSel instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_1 = selection.getObjSel();
+              EClass _type_1 = _objSel_1.getType();
+              String _name_1 = _type_1.getName();
+              className = _name_1;
+            }
+            ObjectEmitter _objSel_2 = selection.getObjSel();
+            if ((_objSel_2 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_3 = selection.getObjSel();
+              ObSelectionStrategy _object_2 = ((SelectObjectMutator) _objSel_3).getObject();
+              EClass _type_2 = _object_2.getType();
+              String _name_2 = _type_2.getName();
+              className = _name_2;
+            }
+            ObjectEmitter _objSel_4 = selection.getObjSel();
+            if ((_objSel_4 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_5 = selection.getObjSel();
+              EClass _type_3 = _objSel_5.getType();
+              String _name_3 = _type_3.getName();
+              className = _name_3;
+            }
+          }
+          ObSelectionStrategy _object_3 = ((CloneObjectMutator)mut).getObject();
+          if ((_object_3 instanceof SpecificClosureSelection)) {
+            ObSelectionStrategy _object_4 = ((CloneObjectMutator)mut).getObject();
+            final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _object_4);
+            ObjectEmitter _objSel_6 = selection_1.getObjSel();
+            if ((_objSel_6 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_7 = selection_1.getObjSel();
+              EClass _type_4 = _objSel_7.getType();
+              String _name_4 = _type_4.getName();
+              className = _name_4;
+            }
+            ObjectEmitter _objSel_8 = selection_1.getObjSel();
+            if ((_objSel_8 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_9 = selection_1.getObjSel();
+              ObSelectionStrategy _object_5 = ((SelectObjectMutator) _objSel_9).getObject();
+              EClass _type_5 = _object_5.getType();
+              String _name_5 = _type_5.getName();
+              className = _name_5;
+            }
+            ObjectEmitter _objSel_10 = selection_1.getObjSel();
+            if ((_objSel_10 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_11 = selection_1.getObjSel();
+              EClass _type_6 = _objSel_11.getType();
+              String _name_6 = _type_6.getName();
+              className = _name_6;
+            }
+          }
+          ObSelectionStrategy _object_6 = ((CloneObjectMutator)mut).getObject();
+          if ((_object_6 instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _object_7 = ((CloneObjectMutator)mut).getObject();
+            final RandomTypeSelection selection_2 = ((RandomTypeSelection) _object_7);
+            EClass _type_7 = selection_2.getType();
+            String _name_7 = _type_7.getName();
+            className = _name_7;
+          }
+          ObSelectionStrategy _object_8 = ((CloneObjectMutator)mut).getObject();
+          if ((_object_8 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_9 = ((CloneObjectMutator)mut).getObject();
+            final CompleteTypeSelection selection_3 = ((CompleteTypeSelection) _object_9);
+            EClass _type_8 = selection_3.getType();
+            String _name_8 = _type_8.getName();
+            className = _name_8;
+          }
+        }
+        if ((mut instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _object_10 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_10 instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _object_11 = ((SelectObjectMutator)mut).getObject();
+            final SpecificObjectSelection selection_4 = ((SpecificObjectSelection) _object_11);
+            ObjectEmitter _objSel_12 = selection_4.getObjSel();
+            if ((_objSel_12 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_13 = selection_4.getObjSel();
+              EClass _type_9 = _objSel_13.getType();
+              String _name_9 = _type_9.getName();
+              className = _name_9;
+            }
+            ObjectEmitter _objSel_14 = selection_4.getObjSel();
+            if ((_objSel_14 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_15 = selection_4.getObjSel();
+              ObSelectionStrategy _object_12 = ((SelectObjectMutator) _objSel_15).getObject();
+              EClass _type_10 = _object_12.getType();
+              String _name_10 = _type_10.getName();
+              className = _name_10;
+            }
+            ObjectEmitter _objSel_16 = selection_4.getObjSel();
+            if ((_objSel_16 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_17 = selection_4.getObjSel();
+              EClass _type_11 = _objSel_17.getType();
+              String _name_11 = _type_11.getName();
+              className = _name_11;
+            }
+          }
+          ObSelectionStrategy _object_13 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_13 instanceof SpecificClosureSelection)) {
+            ObSelectionStrategy _object_14 = ((SelectObjectMutator)mut).getObject();
+            final SpecificClosureSelection selection_5 = ((SpecificClosureSelection) _object_14);
+            ObjectEmitter _objSel_18 = selection_5.getObjSel();
+            if ((_objSel_18 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_19 = selection_5.getObjSel();
+              EClass _type_12 = _objSel_19.getType();
+              String _name_12 = _type_12.getName();
+              className = _name_12;
+            }
+            ObjectEmitter _objSel_20 = selection_5.getObjSel();
+            if ((_objSel_20 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_21 = selection_5.getObjSel();
+              ObSelectionStrategy _object_15 = ((SelectObjectMutator) _objSel_21).getObject();
+              EClass _type_13 = _object_15.getType();
+              String _name_13 = _type_13.getName();
+              className = _name_13;
+            }
+            ObjectEmitter _objSel_22 = selection_5.getObjSel();
+            if ((_objSel_22 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_23 = selection_5.getObjSel();
+              EClass _type_14 = _objSel_23.getType();
+              String _name_14 = _type_14.getName();
+              className = _name_14;
+            }
+          }
+          ObSelectionStrategy _object_16 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_16 instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _object_17 = ((SelectObjectMutator)mut).getObject();
+            final RandomTypeSelection selection_6 = ((RandomTypeSelection) _object_17);
+            EClass _type_15 = selection_6.getType();
+            String _name_15 = _type_15.getName();
+            className = _name_15;
+          }
+          ObSelectionStrategy _object_18 = ((SelectObjectMutator)mut).getObject();
+          if ((_object_18 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_19 = ((SelectObjectMutator)mut).getObject();
+            final CompleteTypeSelection selection_7 = ((CompleteTypeSelection) _object_19);
+            EClass _type_16 = selection_7.getType();
+            String _name_16 = _type_16.getName();
+            className = _name_16;
+          }
+        }
+        if ((mut instanceof ModifyInformationMutator)) {
+          ObSelectionStrategy _object_20 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_20 instanceof SpecificObjectSelection)) {
+            ObSelectionStrategy _object_21 = ((ModifyInformationMutator)mut).getObject();
+            final SpecificObjectSelection selection_8 = ((SpecificObjectSelection) _object_21);
+            ObjectEmitter _objSel_24 = selection_8.getObjSel();
+            if ((_objSel_24 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_25 = selection_8.getObjSel();
+              EClass _type_17 = _objSel_25.getType();
+              String _name_17 = _type_17.getName();
+              className = _name_17;
+            }
+            ObjectEmitter _objSel_26 = selection_8.getObjSel();
+            if ((_objSel_26 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_27 = selection_8.getObjSel();
+              ObSelectionStrategy _object_22 = ((SelectObjectMutator) _objSel_27).getObject();
+              EClass _type_18 = _object_22.getType();
+              String _name_18 = _type_18.getName();
+              className = _name_18;
+            }
+            ObjectEmitter _objSel_28 = selection_8.getObjSel();
+            if ((_objSel_28 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_29 = selection_8.getObjSel();
+              EClass _type_19 = _objSel_29.getType();
+              String _name_19 = _type_19.getName();
+              className = _name_19;
+            }
+          }
+          ObSelectionStrategy _object_23 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_23 instanceof SpecificClosureSelection)) {
+            ObSelectionStrategy _object_24 = ((ModifyInformationMutator)mut).getObject();
+            final SpecificClosureSelection selection_9 = ((SpecificClosureSelection) _object_24);
+            ObjectEmitter _objSel_30 = selection_9.getObjSel();
+            if ((_objSel_30 instanceof CreateObjectMutator)) {
+              ObjectEmitter _objSel_31 = selection_9.getObjSel();
+              EClass _type_20 = _objSel_31.getType();
+              String _name_20 = _type_20.getName();
+              className = _name_20;
+            }
+            ObjectEmitter _objSel_32 = selection_9.getObjSel();
+            if ((_objSel_32 instanceof SelectObjectMutator)) {
+              ObjectEmitter _objSel_33 = selection_9.getObjSel();
+              ObSelectionStrategy _object_25 = ((SelectObjectMutator) _objSel_33).getObject();
+              EClass _type_21 = _object_25.getType();
+              String _name_21 = _type_21.getName();
+              className = _name_21;
+            }
+            ObjectEmitter _objSel_34 = selection_9.getObjSel();
+            if ((_objSel_34 instanceof CloneObjectMutator)) {
+              ObjectEmitter _objSel_35 = selection_9.getObjSel();
+              EClass _type_22 = _objSel_35.getType();
+              String _name_22 = _type_22.getName();
+              className = _name_22;
+            }
+          }
+          ObSelectionStrategy _object_26 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_26 instanceof RandomTypeSelection)) {
+            ObSelectionStrategy _object_27 = ((ModifyInformationMutator)mut).getObject();
+            final RandomTypeSelection selection_10 = ((RandomTypeSelection) _object_27);
+            EClass _type_23 = selection_10.getType();
+            String _name_23 = _type_23.getName();
+            className = _name_23;
+          }
+          ObSelectionStrategy _object_28 = ((ModifyInformationMutator)mut).getObject();
+          if ((_object_28 instanceof CompleteTypeSelection)) {
+            ObSelectionStrategy _object_29 = ((ModifyInformationMutator)mut).getObject();
+            final CompleteTypeSelection selection_11 = ((CompleteTypeSelection) _object_29);
+            EClass _type_24 = selection_11.getType();
+            String _name_24 = _type_24.getName();
+            className = _name_24;
+          }
+        }
+        boolean _notEquals_1 = (!Objects.equal(className, null));
+        if (_notEquals_1) {
+          String _metamodel = null;
+          if (definition!=null) {
+            _metamodel=definition.getMetamodel();
+          }
+          List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, className);
+          scopes.addAll(_eAttributes);
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scopes);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * ReferenceEvaluation.name must contain the references defined by com.type
+   */
+  public IScope scope_RandomNumberType_max(final RandomNumberType com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      System.out.println("39.");
+      ArrayList<EAttribute> scopes = new ArrayList<EAttribute>();
+      String className = null;
+      Definition definition = null;
+      Mutator mut = null;
+      EObject container = com.eContainer();
+      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+        {
+          EObject _eContainer = container.eContainer();
+          container = _eContainer;
+          mut = ((Mutator) container);
+          final MutatorEnvironment env = this.getMutatorEnvironment(mut);
+          Definition _definition = env.getDefinition();
+          definition = _definition;
+        }
+      }
+      ObSelectionStrategy _object = com.getObject();
+      boolean _notEquals = (!Objects.equal(_object, null));
+      if (_notEquals) {
+        ObSelectionStrategy _object_1 = com.getObject();
+        if ((_object_1 instanceof SpecificObjectSelection)) {
+          ObSelectionStrategy _object_2 = com.getObject();
+          final SpecificObjectSelection selection = ((SpecificObjectSelection) _object_2);
+          ObjectEmitter _objSel = selection.getObjSel();
+          if ((_objSel instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_1 = selection.getObjSel();
+            EClass _type = _objSel_1.getType();
+            String _name = _type.getName();
+            className = _name;
+          }
+          ObjectEmitter _objSel_2 = selection.getObjSel();
+          if ((_objSel_2 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_3 = selection.getObjSel();
+            ObSelectionStrategy _object_3 = ((SelectObjectMutator) _objSel_3).getObject();
+            EClass _type_1 = _object_3.getType();
+            String _name_1 = _type_1.getName();
+            className = _name_1;
+          }
+          ObjectEmitter _objSel_4 = selection.getObjSel();
+          if ((_objSel_4 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_5 = selection.getObjSel();
+            EClass _type_2 = _objSel_5.getType();
+            String _name_2 = _type_2.getName();
+            className = _name_2;
+          }
+        }
+        ObSelectionStrategy _object_4 = com.getObject();
+        if ((_object_4 instanceof SpecificClosureSelection)) {
+          ObSelectionStrategy _object_5 = com.getObject();
+          final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _object_5);
+          ObjectEmitter _objSel_6 = selection_1.getObjSel();
+          if ((_objSel_6 instanceof CreateObjectMutator)) {
+            ObjectEmitter _objSel_7 = selection_1.getObjSel();
+            EClass _type_3 = _objSel_7.getType();
+            String _name_3 = _type_3.getName();
+            className = _name_3;
+          }
+          ObjectEmitter _objSel_8 = selection_1.getObjSel();
+          if ((_objSel_8 instanceof SelectObjectMutator)) {
+            ObjectEmitter _objSel_9 = selection_1.getObjSel();
+            ObSelectionStrategy _object_6 = ((SelectObjectMutator) _objSel_9).getObject();
+            EClass _type_4 = _object_6.getType();
+            String _name_4 = _type_4.getName();
+            className = _name_4;
+          }
+          ObjectEmitter _objSel_10 = selection_1.getObjSel();
+          if ((_objSel_10 instanceof CloneObjectMutator)) {
+            ObjectEmitter _objSel_11 = selection_1.getObjSel();
+            EClass _type_5 = _objSel_11.getType();
+            String _name_5 = _type_5.getName();
+            className = _name_5;
+          }
+        }
+        ObSelectionStrategy _object_7 = com.getObject();
+        if ((_object_7 instanceof RandomTypeSelection)) {
+          ObSelectionStrategy _object_8 = com.getObject();
+          final RandomTypeSelection selection_2 = ((RandomTypeSelection) _object_8);
+          EClass _type_6 = selection_2.getType();
+          String _name_6 = _type_6.getName();
+          className = _name_6;
+        }
+        ObSelectionStrategy _object_9 = com.getObject();
+        if ((_object_9 instanceof CompleteTypeSelection)) {
+          ObSelectionStrategy _object_10 = com.getObject();
+          final CompleteTypeSelection selection_3 = ((CompleteTypeSelection) _object_10);
+          EClass _type_7 = selection_3.getType();
+          String _name_7 = _type_7.getName();
+          className = _name_7;
+        }
+        String _metamodel = null;
+        if (definition!=null) {
+          _metamodel=definition.getMetamodel();
+        }
+        List<EAttribute> _eAttributes = this.getEAttributes(_metamodel, className);
+        scopes.addAll(_eAttributes);
+      }
+      _xblockexpression = Scopes.scopeFor(scopes);
     }
     return _xblockexpression;
   }
@@ -2374,22 +5414,99 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     if ((mutator instanceof ModifyInformationMutator)) {
       ObSelectionStrategy _object_1 = ((ModifyInformationMutator) mutator).getObject();
-      EClass _type_1 = null;
-      if (_object_1!=null) {
-        _type_1=_object_1.getType();
+      if ((_object_1 instanceof RandomTypeSelection)) {
+        ObSelectionStrategy _object_2 = ((ModifyInformationMutator) mutator).getObject();
+        EClass _type_1 = null;
+        if (_object_2!=null) {
+          _type_1=_object_2.getType();
+        }
+        String _name_1 = null;
+        if (_type_1!=null) {
+          _name_1=_type_1.getName();
+        }
+        return _name_1;
       }
-      String _name_1 = null;
-      if (_type_1!=null) {
-        _name_1=_type_1.getName();
+      ObSelectionStrategy _object_3 = ((ModifyInformationMutator) mutator).getObject();
+      if ((_object_3 instanceof SpecificObjectSelection)) {
+        ObSelectionStrategy _object_4 = ((ModifyInformationMutator) mutator).getObject();
+        final ObjectEmitter o = ((SpecificObjectSelection) _object_4).getObjSel();
+        if ((o instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _object_5 = ((SelectObjectMutator) o).getObject();
+          EClass _type_2 = null;
+          if (_object_5!=null) {
+            _type_2=_object_5.getType();
+          }
+          String _name_2 = null;
+          if (_type_2!=null) {
+            _name_2=_type_2.getName();
+          }
+          return _name_2;
+        }
+        if ((o instanceof CreateObjectMutator)) {
+          EClass _type_3 = ((CreateObjectMutator) o).getType();
+          String _name_3 = null;
+          if (_type_3!=null) {
+            _name_3=_type_3.getName();
+          }
+          return _name_3;
+        }
+        if ((o instanceof CloneObjectMutator)) {
+          ObSelectionStrategy _object_6 = ((CloneObjectMutator) o).getObject();
+          EClass _type_4 = null;
+          if (_object_6!=null) {
+            _type_4=_object_6.getType();
+          }
+          String _name_4 = null;
+          if (_type_4!=null) {
+            _name_4=_type_4.getName();
+          }
+          return _name_4;
+        }
       }
-      return _name_1;
+      ObSelectionStrategy _object_7 = ((ModifyInformationMutator) mutator).getObject();
+      if ((_object_7 instanceof SpecificClosureSelection)) {
+        ObSelectionStrategy _object_8 = ((ModifyInformationMutator) mutator).getObject();
+        final ObjectEmitter o_1 = ((SpecificClosureSelection) _object_8).getObjSel();
+        if ((o_1 instanceof SelectObjectMutator)) {
+          ObSelectionStrategy _object_9 = ((SelectObjectMutator) o_1).getObject();
+          EClass _type_5 = null;
+          if (_object_9!=null) {
+            _type_5=_object_9.getType();
+          }
+          String _name_5 = null;
+          if (_type_5!=null) {
+            _name_5=_type_5.getName();
+          }
+          return _name_5;
+        }
+        if ((o_1 instanceof CreateObjectMutator)) {
+          EClass _type_6 = ((CreateObjectMutator) o_1).getType();
+          String _name_6 = null;
+          if (_type_6!=null) {
+            _name_6=_type_6.getName();
+          }
+          return _name_6;
+        }
+        if ((o_1 instanceof CloneObjectMutator)) {
+          ObSelectionStrategy _object_10 = ((CloneObjectMutator) o_1).getObject();
+          EClass _type_7 = null;
+          if (_object_10!=null) {
+            _type_7=_object_10.getType();
+          }
+          String _name_7 = null;
+          if (_type_7!=null) {
+            _name_7=_type_7.getName();
+          }
+          return _name_7;
+        }
+      }
     }
-    EClass _type_2 = mutator.getType();
-    String _name_2 = null;
-    if (_type_2!=null) {
-      _name_2=_type_2.getName();
+    EClass _type_8 = mutator.getType();
+    String _name_8 = null;
+    if (_type_8!=null) {
+      _name_8=_type_8.getName();
     }
-    return _name_2;
+    return _name_8;
   }
   
   /**
@@ -2622,6 +5739,35 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           _and = _isChangeable;
         }
         if (_and) {
+          references.add(ref);
+        }
+      }
+      return references;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  /**
+   * It returns the list of containment references from a source class to a target class.
+   * @param String file containing the metamodel
+   * @param String source class name
+   * @param String target class name
+   * @return List<EReference> list of references
+   */
+  private List<EReference> getEReferences(final String metamodelFile, final String esourceclassName, final String etargetclassName) {
+    try {
+      final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
+      EObject _objectOfType = ModelManager.getObjectOfType(esourceclassName, metamodel);
+      final EClass sourceclass = ((EClass) _objectOfType);
+      EObject _objectOfType_1 = ModelManager.getObjectOfType(etargetclassName, metamodel);
+      final EClass targetclass = ((EClass) _objectOfType_1);
+      final List<EReference> references = new ArrayList<EReference>();
+      EList<EReference> _eAllReferences = sourceclass.getEAllReferences();
+      for (final EReference ref : _eAllReferences) {
+        EClass _eReferenceType = ref.getEReferenceType();
+        boolean _isSuperTypeOf = _eReferenceType.isSuperTypeOf(targetclass);
+        if (_isSuperTypeOf) {
           references.add(ref);
         }
       }

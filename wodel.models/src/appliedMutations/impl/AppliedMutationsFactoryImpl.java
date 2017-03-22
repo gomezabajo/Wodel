@@ -68,8 +68,10 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 			case AppliedMutationsPackage.INFORMATION_CHANGED: return createInformationChanged();
 			case AppliedMutationsPackage.ATTRIBUTE_CHANGED: return createAttributeChanged();
 			case AppliedMutationsPackage.REFERENCE_SWAP: return createReferenceSwap();
+			case AppliedMutationsPackage.REFERENCE_ATT: return createReferenceAtt();
 			case AppliedMutationsPackage.ATTRIBUTE_SWAP: return createAttributeSwap();
 			case AppliedMutationsPackage.COMPOSITE_MUTATION: return createCompositeMutation();
+			case AppliedMutationsPackage.OBJECT_CLONED: return createObjectCloned();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -200,6 +202,16 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ReferenceAtt createReferenceAtt() {
+		ReferenceAttImpl referenceAtt = new ReferenceAttImpl();
+		return referenceAtt;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AttributeSwap createAttributeSwap() {
 		AttributeSwapImpl attributeSwap = new AttributeSwapImpl();
 		return attributeSwap;
@@ -213,6 +225,16 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	public CompositeMutation createCompositeMutation() {
 		CompositeMutationImpl compositeMutation = new CompositeMutationImpl();
 		return compositeMutation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObjectCloned createObjectCloned() {
+		ObjectClonedImpl objectCloned = new ObjectClonedImpl();
+		return objectCloned;
 	}
 
 	/**

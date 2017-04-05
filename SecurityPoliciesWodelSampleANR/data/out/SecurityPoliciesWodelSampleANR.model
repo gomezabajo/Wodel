@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
   <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/data/model/SecurityPolicy.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
@@ -21,20 +21,9 @@
       </expression>
     </object>
   </commands>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
-    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1">
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/data/model/SecurityPolicy.ecore#//Parameter/type"/>
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-            <refType href="file:/c:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/data/model/SecurityPolicy.ecore#//RuleType/parameters"/>
-          </value>
-        </first>
-      </expression>
-    </container>
-    <object xsi:type="mutatorenvironment:EachTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/data/model/SecurityPolicy.ecore#//Parameter"/>
-    </object>
+  <commands xsi:type="mutatorenvironment:SelectSampleMutator" name="p" clause="distinct">
+    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    <features xsi:type="ecore:EReference" href="file:/c:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/data/model/SecurityPolicy.ecore#//Parameter/type"/>
   </commands>
   <commands xsi:type="mutatorenvironment:CreateObjectMutator">
     <type href="file:/c:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/data/model/SecurityPolicy.ecore#//Rule"/>

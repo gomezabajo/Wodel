@@ -6,6 +6,6 @@ metamodel "C:/eclipse/runtime-EclipseApplication/SecurityPoliciesWodelSampleANR/
 with commands {
 	t = select one RuleType
 	setp = select all Parameter where {type in t->parameters}
-	p = select each Parameter in setp where {type = t->parameters}
+	p = select sample from setp with distinct {type}
 	create Rule with {type = t, parameters = p}
 }

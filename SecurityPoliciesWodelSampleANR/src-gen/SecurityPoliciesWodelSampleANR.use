@@ -1,0 +1,14 @@
+model SecurityPoliciesWodelSampleANR
+
+-- 
+-- 
+-- true
+-- 
+-- true
+-- 
+
+class RuleType
+end
+class Parameter
+end
+

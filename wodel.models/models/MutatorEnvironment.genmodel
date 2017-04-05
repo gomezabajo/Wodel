@@ -26,6 +26,10 @@
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/divide"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//ArithmeticOperator/module"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//SampleClause">
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//SampleClause/equals"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//SampleClause/distinct"/>
+    </genEnums>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//MutatorEnvironment">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/definition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/commands"/>
@@ -277,7 +281,10 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//SpecificClosureSelection">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SpecificClosureSelection/objSel"/>
     </genClasses>
-    <genClasses ecoreClass="MutatorEnvironment.ecore#//SubsetSelection"/>
-    <genClasses ecoreClass="MutatorEnvironment.ecore#//EachTypeSelection"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//SelectSampleMutator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SelectSampleMutator/object"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//SelectSampleMutator/clause"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SelectSampleMutator/features"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

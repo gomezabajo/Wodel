@@ -589,22 +589,13 @@ public interface MutatorenvironmentFactory extends EFactory {
 	SpecificClosureSelection createSpecificClosureSelection();
 
 	/**
-	 * Returns a new object of class '<em>Subset Selection</em>'.
+	 * Returns a new object of class '<em>Select Sample Mutator</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Subset Selection</em>'.
+	 * @return a new object of class '<em>Select Sample Mutator</em>'.
 	 * @generated
 	 */
-	SubsetSelection createSubsetSelection();
-
-	/**
-	 * Returns a new object of class '<em>Each Type Selection</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Each Type Selection</em>'.
-	 * @generated
-	 */
-	EachTypeSelection createEachTypeSelection();
+	SelectSampleMutator createSelectSampleMutator();
 
 	/**
 	 * Returns the package supported by this factory.

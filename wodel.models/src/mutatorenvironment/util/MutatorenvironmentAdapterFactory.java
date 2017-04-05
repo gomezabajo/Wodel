@@ -384,12 +384,8 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 				return createSpecificClosureSelectionAdapter();
 			}
 			@Override
-			public Adapter caseSubsetSelection(SubsetSelection object) {
-				return createSubsetSelectionAdapter();
-			}
-			@Override
-			public Adapter caseEachTypeSelection(EachTypeSelection object) {
-				return createEachTypeSelectionAdapter();
+			public Adapter caseSelectSampleMutator(SelectSampleMutator object) {
+				return createSelectSampleMutatorAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -1518,30 +1514,16 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.SubsetSelection <em>Subset Selection</em>}'.
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.SelectSampleMutator <em>Select Sample Mutator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see mutatorenvironment.SubsetSelection
+	 * @see mutatorenvironment.SelectSampleMutator
 	 * @generated
 	 */
-	public Adapter createSubsetSelectionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link mutatorenvironment.EachTypeSelection <em>Each Type Selection</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see mutatorenvironment.EachTypeSelection
-	 * @generated
-	 */
-	public Adapter createEachTypeSelectionAdapter() {
+	public Adapter createSelectSampleMutatorAdapter() {
 		return null;
 	}
 

@@ -43,11 +43,11 @@ Constraint returns Constraint:
 ;
 
 Mutator returns Mutator:
-	CreateObjectMutator | SelectObjectMutator | CompositeMutator | ModifySourceReferenceMutator | ModifyTargetReferenceMutator
+	CreateObjectMutator | SelectObjectMutator | SelectSampleMutator | CompositeMutator | ModifySourceReferenceMutator | ModifyTargetReferenceMutator
 	 | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator | ModifyInformationMutator | CloneObjectMutator;
 
 ObSelectionStrategy returns ObSelectionStrategy:
-	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | SubsetSelection;
+	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection;
 	
 RandomSelection returns RandomSelection:
 	RandomTypeSelection;
@@ -60,10 +60,6 @@ CompleteSelection returns CompleteSelection:
 	
 OtherSelection returns OtherSelection:
 	OtherTypeSelection;
-	
-SubsetSelection returns SubsetSelection:
-	EachTypeSelection
-;
 
 AttributeEvaluationType returns AttributeEvaluationType:
 	AttributeType | ObjectAttributeType
@@ -111,6 +107,10 @@ enum ArithmeticOperator returns ArithmeticOperator:
 
 enum Repeat returns Repeat:
 	yes = 'yes' | no = 'no'	
+;
+
+enum SampleClause returns SampleClause:
+	equals = 'equals' | distinct = 'distinct'
 ;
 	
 BinaryOperator returns BinaryOperator:
@@ -191,6 +191,14 @@ SelectObjectMutator returns SelectObjectMutator:
 	name=ID '=' 'select' object=ObSelectionStrategy
 	('in' container=ObSelectionStrategy)?
 	;
+	
+SelectSampleMutator returns SelectSampleMutator:
+	name=ID '=' 'select' 'sample'
+	'from' object=ObSelectionStrategy
+	('with' clause=SampleClause
+	'{' (features+=[ecore::EStructuralFeature|ID])? ("," features+=[ecore::EStructuralFeature|ID])* '}' )?
+;
+
 ModifyInformationMutator returns ModifyInformationMutator:
 	(name=ID '=')? 'modify' object=ObSelectionStrategy	
 	('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ( "," (attributes+=AttributeSet | references+=ReferenceSet))* '}' )?
@@ -306,12 +314,6 @@ CompleteTypeSelection returns CompleteTypeSelection:
 OtherTypeSelection returns OtherTypeSelection:
 	{OtherTypeSelection}
 	'other' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID])?
-	('where' '{' expression=Expression '}')?
-;
-
-EachTypeSelection returns EachTypeSelection:
-	{EachTypeSelection}
-	'each' type=[ecore::EClass|ID]
 	('where' '{' expression=Expression '}')?
 ;
 

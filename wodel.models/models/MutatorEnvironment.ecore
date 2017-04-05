@@ -340,6 +340,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="objSel" lowerBound="1"
         eType="#//ObjectEmitter"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SubsetSelection" eSuperTypes="#//ObSelectionStrategy"/>
-  <eClassifiers xsi:type="ecore:EClass" name="EachTypeSelection" eSuperTypes="#//SubsetSelection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectSampleMutator" eSuperTypes="#//Mutator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="#//ObSelectionStrategy" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clause" eType="#//SampleClause"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SampleClause">
+    <eLiterals name="equals"/>
+    <eLiterals name="distinct" value="1"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -4674,14 +4674,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SPECIFIC_CLOSURE_SELECTION_OPERATION_COUNT = SPECIFIC_SELECTION_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link mutatorenvironment.impl.SubsetSelectionImpl <em>Subset Selection</em>}' class.
+	 * The meta object id for the '{@link mutatorenvironment.impl.SelectSampleMutatorImpl <em>Select Sample Mutator</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see mutatorenvironment.impl.SubsetSelectionImpl
-	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSubsetSelection()
+	 * @see mutatorenvironment.impl.SelectSampleMutatorImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSelectSampleMutator()
 	 * @generated
 	 */
-	int SUBSET_SELECTION = 79;
+	int SELECT_SAMPLE_MUTATOR = 79;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -4690,7 +4690,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBSET_SELECTION__TYPE = OB_SELECTION_STRATEGY__TYPE;
+	int SELECT_SAMPLE_MUTATOR__TYPE = MUTATOR__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4699,107 +4699,79 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBSET_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
+	int SELECT_SAMPLE_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBSET_SELECTION__REF_TYPE = OB_SELECTION_STRATEGY__REF_TYPE;
+	int SELECT_SAMPLE_MUTATOR__MIN = MUTATOR__MIN;
 
 	/**
-	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
+	 * The feature id for the '<em><b>Max</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBSET_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
+	int SELECT_SAMPLE_MUTATOR__MAX = MUTATOR__MAX;
 
 	/**
-	 * The number of structural features of the '<em>Subset Selection</em>' class.
+	 * The feature id for the '<em><b>Fixed</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBSET_SELECTION_FEATURE_COUNT = OB_SELECTION_STRATEGY_FEATURE_COUNT + 0;
+	int SELECT_SAMPLE_MUTATOR__FIXED = MUTATOR__FIXED;
 
 	/**
-	 * The number of operations of the '<em>Subset Selection</em>' class.
+	 * The feature id for the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBSET_SELECTION_OPERATION_COUNT = OB_SELECTION_STRATEGY_OPERATION_COUNT + 0;
+	int SELECT_SAMPLE_MUTATOR__OBJECT = MUTATOR_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link mutatorenvironment.impl.EachTypeSelectionImpl <em>Each Type Selection</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see mutatorenvironment.impl.EachTypeSelectionImpl
-	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getEachTypeSelection()
-	 * @generated
-	 */
-	int EACH_TYPE_SELECTION = 80;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * The feature id for the '<em><b>Clause</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EACH_TYPE_SELECTION__TYPE = SUBSET_SELECTION__TYPE;
+	int SELECT_SAMPLE_MUTATOR__CLAUSE = MUTATOR_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Features</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EACH_TYPE_SELECTION__NAME = SUBSET_SELECTION__NAME;
+	int SELECT_SAMPLE_MUTATOR__FEATURES = MUTATOR_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * The number of structural features of the '<em>Select Sample Mutator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EACH_TYPE_SELECTION__REF_TYPE = SUBSET_SELECTION__REF_TYPE;
+	int SELECT_SAMPLE_MUTATOR_FEATURE_COUNT = MUTATOR_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
+	 * The number of operations of the '<em>Select Sample Mutator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EACH_TYPE_SELECTION__EXPRESSION = SUBSET_SELECTION__EXPRESSION;
-
-	/**
-	 * The number of structural features of the '<em>Each Type Selection</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EACH_TYPE_SELECTION_FEATURE_COUNT = SUBSET_SELECTION_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Each Type Selection</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EACH_TYPE_SELECTION_OPERATION_COUNT = SUBSET_SELECTION_OPERATION_COUNT + 0;
+	int SELECT_SAMPLE_MUTATOR_OPERATION_COUNT = MUTATOR_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
@@ -4809,7 +4781,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getLogicOperator()
 	 * @generated
 	 */
-	int LOGIC_OPERATOR = 81;
+	int LOGIC_OPERATOR = 80;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Operator <em>Operator</em>}' enum.
@@ -4819,7 +4791,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 82;
+	int OPERATOR = 81;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Repeat <em>Repeat</em>}' enum.
@@ -4829,7 +4801,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRepeat()
 	 * @generated
 	 */
-	int REPEAT = 83;
+	int REPEAT = 82;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.ArithmeticOperator <em>Arithmetic Operator</em>}' enum.
@@ -4839,7 +4811,17 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getArithmeticOperator()
 	 * @generated
 	 */
-	int ARITHMETIC_OPERATOR = 84;
+	int ARITHMETIC_OPERATOR = 83;
+
+	/**
+	 * The meta object id for the '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.SampleClause
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSampleClause()
+	 * @generated
+	 */
+	int SAMPLE_CLAUSE = 84;
 
 
 	/**
@@ -6887,24 +6869,47 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getSpecificClosureSelection_ObjSel();
 
 	/**
-	 * Returns the meta object for class '{@link mutatorenvironment.SubsetSelection <em>Subset Selection</em>}'.
+	 * Returns the meta object for class '{@link mutatorenvironment.SelectSampleMutator <em>Select Sample Mutator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Subset Selection</em>'.
-	 * @see mutatorenvironment.SubsetSelection
+	 * @return the meta object for class '<em>Select Sample Mutator</em>'.
+	 * @see mutatorenvironment.SelectSampleMutator
 	 * @generated
 	 */
-	EClass getSubsetSelection();
+	EClass getSelectSampleMutator();
 
 	/**
-	 * Returns the meta object for class '{@link mutatorenvironment.EachTypeSelection <em>Each Type Selection</em>}'.
+	 * Returns the meta object for the containment reference '{@link mutatorenvironment.SelectSampleMutator#getObject <em>Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Each Type Selection</em>'.
-	 * @see mutatorenvironment.EachTypeSelection
+	 * @return the meta object for the containment reference '<em>Object</em>'.
+	 * @see mutatorenvironment.SelectSampleMutator#getObject()
+	 * @see #getSelectSampleMutator()
 	 * @generated
 	 */
-	EClass getEachTypeSelection();
+	EReference getSelectSampleMutator_Object();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.SelectSampleMutator#getClause <em>Clause</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Clause</em>'.
+	 * @see mutatorenvironment.SelectSampleMutator#getClause()
+	 * @see #getSelectSampleMutator()
+	 * @generated
+	 */
+	EAttribute getSelectSampleMutator_Clause();
+
+	/**
+	 * Returns the meta object for the reference list '{@link mutatorenvironment.SelectSampleMutator#getFeatures <em>Features</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Features</em>'.
+	 * @see mutatorenvironment.SelectSampleMutator#getFeatures()
+	 * @see #getSelectSampleMutator()
+	 * @generated
+	 */
+	EReference getSelectSampleMutator_Features();
 
 	/**
 	 * Returns the meta object for enum '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}'.
@@ -6945,6 +6950,16 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getArithmeticOperator();
+
+	/**
+	 * Returns the meta object for enum '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Sample Clause</em>'.
+	 * @see mutatorenvironment.SampleClause
+	 * @generated
+	 */
+	EEnum getSampleClause();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -8672,24 +8687,38 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EReference SPECIFIC_CLOSURE_SELECTION__OBJ_SEL = eINSTANCE.getSpecificClosureSelection_ObjSel();
 
 		/**
-		 * The meta object literal for the '{@link mutatorenvironment.impl.SubsetSelectionImpl <em>Subset Selection</em>}' class.
+		 * The meta object literal for the '{@link mutatorenvironment.impl.SelectSampleMutatorImpl <em>Select Sample Mutator</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see mutatorenvironment.impl.SubsetSelectionImpl
-		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSubsetSelection()
+		 * @see mutatorenvironment.impl.SelectSampleMutatorImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSelectSampleMutator()
 		 * @generated
 		 */
-		EClass SUBSET_SELECTION = eINSTANCE.getSubsetSelection();
+		EClass SELECT_SAMPLE_MUTATOR = eINSTANCE.getSelectSampleMutator();
 
 		/**
-		 * The meta object literal for the '{@link mutatorenvironment.impl.EachTypeSelectionImpl <em>Each Type Selection</em>}' class.
+		 * The meta object literal for the '<em><b>Object</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see mutatorenvironment.impl.EachTypeSelectionImpl
-		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getEachTypeSelection()
 		 * @generated
 		 */
-		EClass EACH_TYPE_SELECTION = eINSTANCE.getEachTypeSelection();
+		EReference SELECT_SAMPLE_MUTATOR__OBJECT = eINSTANCE.getSelectSampleMutator_Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Clause</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SELECT_SAMPLE_MUTATOR__CLAUSE = eINSTANCE.getSelectSampleMutator_Clause();
+
+		/**
+		 * The meta object literal for the '<em><b>Features</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SELECT_SAMPLE_MUTATOR__FEATURES = eINSTANCE.getSelectSampleMutator_Features();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
@@ -8730,6 +8759,16 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum ARITHMETIC_OPERATOR = eINSTANCE.getArithmeticOperator();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.SampleClause
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSampleClause()
+		 * @generated
+		 */
+		EEnum SAMPLE_CLAUSE = eINSTANCE.getSampleClause();
 
 	}
 

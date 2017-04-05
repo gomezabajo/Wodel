@@ -507,22 +507,23 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cCreateObjectMutatorParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cSelectObjectMutatorParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cCompositeMutatorParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cModifySourceReferenceMutatorParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
-		private final RuleCall cModifyTargetReferenceMutatorParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
-		private final RuleCall cCreateReferenceMutatorParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
-		private final RuleCall cRemoveObjectMutatorParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
-		private final RuleCall cRemoveReferenceMutatorParserRuleCall_7 = (RuleCall)cAlternatives.eContents().get(7);
-		private final RuleCall cModifyInformationMutatorParserRuleCall_8 = (RuleCall)cAlternatives.eContents().get(8);
-		private final RuleCall cCloneObjectMutatorParserRuleCall_9 = (RuleCall)cAlternatives.eContents().get(9);
+		private final RuleCall cSelectSampleMutatorParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cCompositeMutatorParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final RuleCall cModifySourceReferenceMutatorParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cModifyTargetReferenceMutatorParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
+		private final RuleCall cCreateReferenceMutatorParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
+		private final RuleCall cRemoveObjectMutatorParserRuleCall_7 = (RuleCall)cAlternatives.eContents().get(7);
+		private final RuleCall cRemoveReferenceMutatorParserRuleCall_8 = (RuleCall)cAlternatives.eContents().get(8);
+		private final RuleCall cModifyInformationMutatorParserRuleCall_9 = (RuleCall)cAlternatives.eContents().get(9);
+		private final RuleCall cCloneObjectMutatorParserRuleCall_10 = (RuleCall)cAlternatives.eContents().get(10);
 		
 		//Mutator:
-		//	CreateObjectMutator | SelectObjectMutator | CompositeMutator | ModifySourceReferenceMutator |
+		//	CreateObjectMutator | SelectObjectMutator | SelectSampleMutator | CompositeMutator | ModifySourceReferenceMutator |
 		//	ModifyTargetReferenceMutator | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator |
 		//	ModifyInformationMutator | CloneObjectMutator;
 		@Override public ParserRule getRule() { return rule; }
 
-		//CreateObjectMutator | SelectObjectMutator | CompositeMutator | ModifySourceReferenceMutator |
+		//CreateObjectMutator | SelectObjectMutator | SelectSampleMutator | CompositeMutator | ModifySourceReferenceMutator |
 		//ModifyTargetReferenceMutator | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator |
 		//ModifyInformationMutator | CloneObjectMutator
 		public Alternatives getAlternatives() { return cAlternatives; }
@@ -533,29 +534,32 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//SelectObjectMutator
 		public RuleCall getSelectObjectMutatorParserRuleCall_1() { return cSelectObjectMutatorParserRuleCall_1; }
 
+		//SelectSampleMutator
+		public RuleCall getSelectSampleMutatorParserRuleCall_2() { return cSelectSampleMutatorParserRuleCall_2; }
+
 		//CompositeMutator
-		public RuleCall getCompositeMutatorParserRuleCall_2() { return cCompositeMutatorParserRuleCall_2; }
+		public RuleCall getCompositeMutatorParserRuleCall_3() { return cCompositeMutatorParserRuleCall_3; }
 
 		//ModifySourceReferenceMutator
-		public RuleCall getModifySourceReferenceMutatorParserRuleCall_3() { return cModifySourceReferenceMutatorParserRuleCall_3; }
+		public RuleCall getModifySourceReferenceMutatorParserRuleCall_4() { return cModifySourceReferenceMutatorParserRuleCall_4; }
 
 		//ModifyTargetReferenceMutator
-		public RuleCall getModifyTargetReferenceMutatorParserRuleCall_4() { return cModifyTargetReferenceMutatorParserRuleCall_4; }
+		public RuleCall getModifyTargetReferenceMutatorParserRuleCall_5() { return cModifyTargetReferenceMutatorParserRuleCall_5; }
 
 		//CreateReferenceMutator
-		public RuleCall getCreateReferenceMutatorParserRuleCall_5() { return cCreateReferenceMutatorParserRuleCall_5; }
+		public RuleCall getCreateReferenceMutatorParserRuleCall_6() { return cCreateReferenceMutatorParserRuleCall_6; }
 
 		//RemoveObjectMutator
-		public RuleCall getRemoveObjectMutatorParserRuleCall_6() { return cRemoveObjectMutatorParserRuleCall_6; }
+		public RuleCall getRemoveObjectMutatorParserRuleCall_7() { return cRemoveObjectMutatorParserRuleCall_7; }
 
 		//RemoveReferenceMutator
-		public RuleCall getRemoveReferenceMutatorParserRuleCall_7() { return cRemoveReferenceMutatorParserRuleCall_7; }
+		public RuleCall getRemoveReferenceMutatorParserRuleCall_8() { return cRemoveReferenceMutatorParserRuleCall_8; }
 
 		//ModifyInformationMutator
-		public RuleCall getModifyInformationMutatorParserRuleCall_8() { return cModifyInformationMutatorParserRuleCall_8; }
+		public RuleCall getModifyInformationMutatorParserRuleCall_9() { return cModifyInformationMutatorParserRuleCall_9; }
 
 		//CloneObjectMutator
-		public RuleCall getCloneObjectMutatorParserRuleCall_9() { return cCloneObjectMutatorParserRuleCall_9; }
+		public RuleCall getCloneObjectMutatorParserRuleCall_10() { return cCloneObjectMutatorParserRuleCall_10; }
 	}
 
 	public class ObSelectionStrategyElements extends AbstractParserRuleElementFinder {
@@ -565,13 +569,12 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSpecificSelectionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cCompleteSelectionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cOtherSelectionParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
-		private final RuleCall cSubsetSelectionParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		
 		//ObSelectionStrategy:
-		//	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | SubsetSelection;
+		//	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection;
 		@Override public ParserRule getRule() { return rule; }
 
-		//RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | SubsetSelection
+		//RandomSelection | SpecificSelection | CompleteSelection | OtherSelection
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//RandomSelection
@@ -585,9 +588,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//OtherSelection
 		public RuleCall getOtherSelectionParserRuleCall_3() { return cOtherSelectionParserRuleCall_3; }
-
-		//SubsetSelection
-		public RuleCall getSubsetSelectionParserRuleCall_4() { return cSubsetSelectionParserRuleCall_4; }
 	}
 
 	public class RandomSelectionElements extends AbstractParserRuleElementFinder {
@@ -644,18 +644,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//OtherTypeSelection
 		public RuleCall getOtherTypeSelectionParserRuleCall() { return cOtherTypeSelectionParserRuleCall; }
-	}
-
-	public class SubsetSelectionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SubsetSelection");
-		private final RuleCall cEachTypeSelectionParserRuleCall = (RuleCall)rule.eContents().get(1);
-		
-		//SubsetSelection:
-		//	EachTypeSelection;
-		@Override public ParserRule getRule() { return rule; }
-
-		//EachTypeSelection
-		public RuleCall getEachTypeSelectionParserRuleCall() { return cEachTypeSelectionParserRuleCall; }
 	}
 
 	public class AttributeEvaluationTypeElements extends AbstractParserRuleElementFinder {
@@ -1680,6 +1668,109 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ObSelectionStrategy
 		public RuleCall getContainerObSelectionStrategyParserRuleCall_4_1_0() { return cContainerObSelectionStrategyParserRuleCall_4_1_0; }
+	}
+
+	public class SelectSampleMutatorElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SelectSampleMutator");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cSelectKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cSampleKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cFromKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cObjectAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cObjectObSelectionStrategyParserRuleCall_5_0 = (RuleCall)cObjectAssignment_5.eContents().get(0);
+		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
+		private final Keyword cWithKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
+		private final Assignment cClauseAssignment_6_1 = (Assignment)cGroup_6.eContents().get(1);
+		private final RuleCall cClauseSampleClauseEnumRuleCall_6_1_0 = (RuleCall)cClauseAssignment_6_1.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_6_2 = (Keyword)cGroup_6.eContents().get(2);
+		private final Assignment cFeaturesAssignment_6_3 = (Assignment)cGroup_6.eContents().get(3);
+		private final CrossReference cFeaturesEStructuralFeatureCrossReference_6_3_0 = (CrossReference)cFeaturesAssignment_6_3.eContents().get(0);
+		private final RuleCall cFeaturesEStructuralFeatureIDTerminalRuleCall_6_3_0_1 = (RuleCall)cFeaturesEStructuralFeatureCrossReference_6_3_0.eContents().get(1);
+		private final Group cGroup_6_4 = (Group)cGroup_6.eContents().get(4);
+		private final Keyword cCommaKeyword_6_4_0 = (Keyword)cGroup_6_4.eContents().get(0);
+		private final Assignment cFeaturesAssignment_6_4_1 = (Assignment)cGroup_6_4.eContents().get(1);
+		private final CrossReference cFeaturesEStructuralFeatureCrossReference_6_4_1_0 = (CrossReference)cFeaturesAssignment_6_4_1.eContents().get(0);
+		private final RuleCall cFeaturesEStructuralFeatureIDTerminalRuleCall_6_4_1_0_1 = (RuleCall)cFeaturesEStructuralFeatureCrossReference_6_4_1_0.eContents().get(1);
+		private final Keyword cRightCurlyBracketKeyword_6_5 = (Keyword)cGroup_6.eContents().get(5);
+		
+		//SelectSampleMutator:
+		//	name=ID "=" "select" "sample" "from" object=ObSelectionStrategy ("with" clause=SampleClause "{"
+		//	features+=[ecore::EStructuralFeature]? ("," features+=[ecore::EStructuralFeature])* "}")?;
+		@Override public ParserRule getRule() { return rule; }
+
+		//name=ID "=" "select" "sample" "from" object=ObSelectionStrategy ("with" clause=SampleClause "{"
+		//features+=[ecore::EStructuralFeature]? ("," features+=[ecore::EStructuralFeature])* "}")?
+		public Group getGroup() { return cGroup; }
+
+		//name=ID
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
+
+		//"select"
+		public Keyword getSelectKeyword_2() { return cSelectKeyword_2; }
+
+		//"sample"
+		public Keyword getSampleKeyword_3() { return cSampleKeyword_3; }
+
+		//"from"
+		public Keyword getFromKeyword_4() { return cFromKeyword_4; }
+
+		//object=ObSelectionStrategy
+		public Assignment getObjectAssignment_5() { return cObjectAssignment_5; }
+
+		//ObSelectionStrategy
+		public RuleCall getObjectObSelectionStrategyParserRuleCall_5_0() { return cObjectObSelectionStrategyParserRuleCall_5_0; }
+
+		//("with" clause=SampleClause "{" features+=[ecore::EStructuralFeature]? ("," features+=[ecore::EStructuralFeature])*
+		//"}")?
+		public Group getGroup_6() { return cGroup_6; }
+
+		//"with"
+		public Keyword getWithKeyword_6_0() { return cWithKeyword_6_0; }
+
+		//clause=SampleClause
+		public Assignment getClauseAssignment_6_1() { return cClauseAssignment_6_1; }
+
+		//SampleClause
+		public RuleCall getClauseSampleClauseEnumRuleCall_6_1_0() { return cClauseSampleClauseEnumRuleCall_6_1_0; }
+
+		//"{"
+		public Keyword getLeftCurlyBracketKeyword_6_2() { return cLeftCurlyBracketKeyword_6_2; }
+
+		//features+=[ecore::EStructuralFeature]?
+		public Assignment getFeaturesAssignment_6_3() { return cFeaturesAssignment_6_3; }
+
+		//[ecore::EStructuralFeature]
+		public CrossReference getFeaturesEStructuralFeatureCrossReference_6_3_0() { return cFeaturesEStructuralFeatureCrossReference_6_3_0; }
+
+		//ID
+		public RuleCall getFeaturesEStructuralFeatureIDTerminalRuleCall_6_3_0_1() { return cFeaturesEStructuralFeatureIDTerminalRuleCall_6_3_0_1; }
+
+		//("," features+=[ecore::EStructuralFeature])*
+		public Group getGroup_6_4() { return cGroup_6_4; }
+
+		//","
+		public Keyword getCommaKeyword_6_4_0() { return cCommaKeyword_6_4_0; }
+
+		//features+=[ecore::EStructuralFeature]
+		public Assignment getFeaturesAssignment_6_4_1() { return cFeaturesAssignment_6_4_1; }
+
+		//[ecore::EStructuralFeature]
+		public CrossReference getFeaturesEStructuralFeatureCrossReference_6_4_1_0() { return cFeaturesEStructuralFeatureCrossReference_6_4_1_0; }
+
+		//ID
+		public RuleCall getFeaturesEStructuralFeatureIDTerminalRuleCall_6_4_1_0_1() { return cFeaturesEStructuralFeatureIDTerminalRuleCall_6_4_1_0_1; }
+
+		//"}"
+		public Keyword getRightCurlyBracketKeyword_6_5() { return cRightCurlyBracketKeyword_6_5; }
 	}
 
 	public class ModifyInformationMutatorElements extends AbstractParserRuleElementFinder {
@@ -3304,62 +3395,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getRightCurlyBracketKeyword_4_3() { return cRightCurlyBracketKeyword_4_3; }
 	}
 
-	public class EachTypeSelectionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "EachTypeSelection");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cEachTypeSelectionAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cEachKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
-		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cWhereKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
-		private final Assignment cExpressionAssignment_3_2 = (Assignment)cGroup_3.eContents().get(2);
-		private final RuleCall cExpressionExpressionParserRuleCall_3_2_0 = (RuleCall)cExpressionAssignment_3_2.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_3_3 = (Keyword)cGroup_3.eContents().get(3);
-		
-		//EachTypeSelection:
-		//	{EachTypeSelection} "each" type=[ecore::EClass] ("where" "{" expression=Expression "}")?;
-		@Override public ParserRule getRule() { return rule; }
-
-		//{EachTypeSelection} "each" type=[ecore::EClass] ("where" "{" expression=Expression "}")?
-		public Group getGroup() { return cGroup; }
-
-		//{EachTypeSelection}
-		public Action getEachTypeSelectionAction_0() { return cEachTypeSelectionAction_0; }
-
-		//"each"
-		public Keyword getEachKeyword_1() { return cEachKeyword_1; }
-
-		//type=[ecore::EClass]
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
-
-		//[ecore::EClass]
-		public CrossReference getTypeEClassCrossReference_2_0() { return cTypeEClassCrossReference_2_0; }
-
-		//ID
-		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_1; }
-
-		//("where" "{" expression=Expression "}")?
-		public Group getGroup_3() { return cGroup_3; }
-
-		//"where"
-		public Keyword getWhereKeyword_3_0() { return cWhereKeyword_3_0; }
-
-		//"{"
-		public Keyword getLeftCurlyBracketKeyword_3_1() { return cLeftCurlyBracketKeyword_3_1; }
-
-		//expression=Expression
-		public Assignment getExpressionAssignment_3_2() { return cExpressionAssignment_3_2; }
-
-		//Expression
-		public RuleCall getExpressionExpressionParserRuleCall_3_2_0() { return cExpressionExpressionParserRuleCall_3_2_0; }
-
-		//"}"
-		public Keyword getRightCurlyBracketKeyword_3_3() { return cRightCurlyBracketKeyword_3_3; }
-	}
-
 	public class BooleanTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "BooleanType");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -4590,6 +4625,34 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//"no"
 		public Keyword getNoNoKeyword_1_0() { return cNoNoKeyword_1_0; }
 	}
+
+	public class SampleClauseElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "SampleClause");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cEqualsEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cEqualsEqualsKeyword_0_0 = (Keyword)cEqualsEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cDistinctEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cDistinctDistinctKeyword_1_0 = (Keyword)cDistinctEnumLiteralDeclaration_1.eContents().get(0);
+		
+		//enum SampleClause:
+		//	equals | distinct;
+		public EnumRule getRule() { return rule; }
+
+		//equals | distinct
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//equals
+		public EnumLiteralDeclaration getEqualsEnumLiteralDeclaration_0() { return cEqualsEnumLiteralDeclaration_0; }
+
+		//"equals"
+		public Keyword getEqualsEqualsKeyword_0_0() { return cEqualsEqualsKeyword_0_0; }
+
+		//distinct
+		public EnumLiteralDeclaration getDistinctEnumLiteralDeclaration_1() { return cDistinctEnumLiteralDeclaration_1; }
+
+		//"distinct"
+		public Keyword getDistinctDistinctKeyword_1_0() { return cDistinctDistinctKeyword_1_0; }
+	}
 	
 	private final MutatorEnvironmentElements pMutatorEnvironment;
 	private final DefinitionElements pDefinition;
@@ -4604,7 +4667,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final SpecificSelectionElements pSpecificSelection;
 	private final CompleteSelectionElements pCompleteSelection;
 	private final OtherSelectionElements pOtherSelection;
-	private final SubsetSelectionElements pSubsetSelection;
 	private final AttributeEvaluationTypeElements pAttributeEvaluationType;
 	private final AttributeTypeElements pAttributeType;
 	private final NumberTypeElements pNumberType;
@@ -4618,6 +4680,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final OperatorElements unknownRuleOperator;
 	private final ArithmeticOperatorElements unknownRuleArithmeticOperator;
 	private final RepeatElements unknownRuleRepeat;
+	private final SampleClauseElements unknownRuleSampleClause;
 	private final BinaryOperatorElements pBinaryOperator;
 	private final AttributeEvaluationElements pAttributeEvaluation;
 	private final ReferenceEvaluationElements pReferenceEvaluation;
@@ -4630,6 +4693,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final RemoveCompleteReferenceMutatorElements pRemoveCompleteReferenceMutator;
 	private final CreateObjectMutatorElements pCreateObjectMutator;
 	private final SelectObjectMutatorElements pSelectObjectMutator;
+	private final SelectSampleMutatorElements pSelectSampleMutator;
 	private final ModifyInformationMutatorElements pModifyInformationMutator;
 	private final CreateReferenceMutatorElements pCreateReferenceMutator;
 	private final ModifySourceReferenceMutatorElements pModifySourceReferenceMutator;
@@ -4652,7 +4716,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final SpecificClosureSelectionElements pSpecificClosureSelection;
 	private final CompleteTypeSelectionElements pCompleteTypeSelection;
 	private final OtherTypeSelectionElements pOtherTypeSelection;
-	private final EachTypeSelectionElements pEachTypeSelection;
 	private final BooleanTypeElements pBooleanType;
 	private final RandomBooleanTypeElements pRandomBooleanType;
 	private final SpecificBooleanTypeElements pSpecificBooleanType;
@@ -4702,7 +4765,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.pSpecificSelection = new SpecificSelectionElements();
 		this.pCompleteSelection = new CompleteSelectionElements();
 		this.pOtherSelection = new OtherSelectionElements();
-		this.pSubsetSelection = new SubsetSelectionElements();
 		this.pAttributeEvaluationType = new AttributeEvaluationTypeElements();
 		this.pAttributeType = new AttributeTypeElements();
 		this.pNumberType = new NumberTypeElements();
@@ -4716,6 +4778,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.unknownRuleOperator = new OperatorElements();
 		this.unknownRuleArithmeticOperator = new ArithmeticOperatorElements();
 		this.unknownRuleRepeat = new RepeatElements();
+		this.unknownRuleSampleClause = new SampleClauseElements();
 		this.pBinaryOperator = new BinaryOperatorElements();
 		this.pAttributeEvaluation = new AttributeEvaluationElements();
 		this.pReferenceEvaluation = new ReferenceEvaluationElements();
@@ -4728,6 +4791,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.pRemoveCompleteReferenceMutator = new RemoveCompleteReferenceMutatorElements();
 		this.pCreateObjectMutator = new CreateObjectMutatorElements();
 		this.pSelectObjectMutator = new SelectObjectMutatorElements();
+		this.pSelectSampleMutator = new SelectSampleMutatorElements();
 		this.pModifyInformationMutator = new ModifyInformationMutatorElements();
 		this.pCreateReferenceMutator = new CreateReferenceMutatorElements();
 		this.pModifySourceReferenceMutator = new ModifySourceReferenceMutatorElements();
@@ -4750,7 +4814,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.pSpecificClosureSelection = new SpecificClosureSelectionElements();
 		this.pCompleteTypeSelection = new CompleteTypeSelectionElements();
 		this.pOtherTypeSelection = new OtherTypeSelectionElements();
-		this.pEachTypeSelection = new EachTypeSelectionElements();
 		this.pBooleanType = new BooleanTypeElements();
 		this.pRandomBooleanType = new RandomBooleanTypeElements();
 		this.pSpecificBooleanType = new SpecificBooleanTypeElements();
@@ -4879,7 +4942,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Mutator:
-	//	CreateObjectMutator | SelectObjectMutator | CompositeMutator | ModifySourceReferenceMutator |
+	//	CreateObjectMutator | SelectObjectMutator | SelectSampleMutator | CompositeMutator | ModifySourceReferenceMutator |
 	//	ModifyTargetReferenceMutator | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator |
 	//	ModifyInformationMutator | CloneObjectMutator;
 	public MutatorElements getMutatorAccess() {
@@ -4891,7 +4954,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ObSelectionStrategy:
-	//	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | SubsetSelection;
+	//	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection;
 	public ObSelectionStrategyElements getObSelectionStrategyAccess() {
 		return pObSelectionStrategy;
 	}
@@ -4938,16 +5001,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getOtherSelectionRule() {
 		return getOtherSelectionAccess().getRule();
-	}
-
-	//SubsetSelection:
-	//	EachTypeSelection;
-	public SubsetSelectionElements getSubsetSelectionAccess() {
-		return pSubsetSelection;
-	}
-	
-	public ParserRule getSubsetSelectionRule() {
-		return getSubsetSelectionAccess().getRule();
 	}
 
 	//AttributeEvaluationType:
@@ -5078,6 +5131,16 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public EnumRule getRepeatRule() {
 		return getRepeatAccess().getRule();
+	}
+
+	//enum SampleClause:
+	//	equals | distinct;
+	public SampleClauseElements getSampleClauseAccess() {
+		return unknownRuleSampleClause;
+	}
+	
+	public EnumRule getSampleClauseRule() {
+		return getSampleClauseAccess().getRule();
 	}
 
 	//BinaryOperator:
@@ -5215,6 +5278,17 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getSelectObjectMutatorRule() {
 		return getSelectObjectMutatorAccess().getRule();
+	}
+
+	//SelectSampleMutator:
+	//	name=ID "=" "select" "sample" "from" object=ObSelectionStrategy ("with" clause=SampleClause "{"
+	//	features+=[ecore::EStructuralFeature]? ("," features+=[ecore::EStructuralFeature])* "}")?;
+	public SelectSampleMutatorElements getSelectSampleMutatorAccess() {
+		return pSelectSampleMutator;
+	}
+	
+	public ParserRule getSelectSampleMutatorRule() {
+		return getSelectSampleMutatorAccess().getRule();
 	}
 
 	//ModifyInformationMutator:
@@ -5448,16 +5522,6 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getOtherTypeSelectionRule() {
 		return getOtherTypeSelectionAccess().getRule();
-	}
-
-	//EachTypeSelection:
-	//	{EachTypeSelection} "each" type=[ecore::EClass] ("where" "{" expression=Expression "}")?;
-	public EachTypeSelectionElements getEachTypeSelectionAccess() {
-		return pEachTypeSelection;
-	}
-	
-	public ParserRule getEachTypeSelectionRule() {
-		return getEachTypeSelectionAccess().getRule();
 	}
 
 	//BooleanType:

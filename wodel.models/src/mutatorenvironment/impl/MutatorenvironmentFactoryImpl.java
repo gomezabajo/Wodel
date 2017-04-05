@@ -120,8 +120,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.RANDOM_DOUBLE_NUMBER_TYPE: return createRandomDoubleNumberType();
 			case MutatorenvironmentPackage.RANDOM_INTEGER_NUMBER_TYPE: return createRandomIntegerNumberType();
 			case MutatorenvironmentPackage.SPECIFIC_CLOSURE_SELECTION: return createSpecificClosureSelection();
-			case MutatorenvironmentPackage.SUBSET_SELECTION: return createSubsetSelection();
-			case MutatorenvironmentPackage.EACH_TYPE_SELECTION: return createEachTypeSelection();
+			case MutatorenvironmentPackage.SELECT_SAMPLE_MUTATOR: return createSelectSampleMutator();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -143,6 +142,8 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 				return createRepeatFromString(eDataType, initialValue);
 			case MutatorenvironmentPackage.ARITHMETIC_OPERATOR:
 				return createArithmeticOperatorFromString(eDataType, initialValue);
+			case MutatorenvironmentPackage.SAMPLE_CLAUSE:
+				return createSampleClauseFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -164,6 +165,8 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 				return convertRepeatToString(eDataType, instanceValue);
 			case MutatorenvironmentPackage.ARITHMETIC_OPERATOR:
 				return convertArithmeticOperatorToString(eDataType, instanceValue);
+			case MutatorenvironmentPackage.SAMPLE_CLAUSE:
+				return convertSampleClauseToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -804,19 +807,9 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SubsetSelection createSubsetSelection() {
-		SubsetSelectionImpl subsetSelection = new SubsetSelectionImpl();
-		return subsetSelection;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EachTypeSelection createEachTypeSelection() {
-		EachTypeSelectionImpl eachTypeSelection = new EachTypeSelectionImpl();
-		return eachTypeSelection;
+	public SelectSampleMutator createSelectSampleMutator() {
+		SelectSampleMutatorImpl selectSampleMutator = new SelectSampleMutatorImpl();
+		return selectSampleMutator;
 	}
 
 	/**
@@ -896,6 +889,26 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * @generated
 	 */
 	public String convertArithmeticOperatorToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SampleClause createSampleClauseFromString(EDataType eDataType, String initialValue) {
+		SampleClause result = SampleClause.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSampleClauseToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

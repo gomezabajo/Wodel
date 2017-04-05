@@ -855,81 +855,91 @@ ruleMutator returns [EObject current=null]
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getCompositeMutatorParserRuleCall_2()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getSelectSampleMutatorParserRuleCall_2()); 
     }
-    this_CompositeMutator_2=ruleCompositeMutator
+    this_SelectSampleMutator_2=ruleSelectSampleMutator
     { 
-        $current = $this_CompositeMutator_2.current; 
+        $current = $this_SelectSampleMutator_2.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getModifySourceReferenceMutatorParserRuleCall_3()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getCompositeMutatorParserRuleCall_3()); 
     }
-    this_ModifySourceReferenceMutator_3=ruleModifySourceReferenceMutator
+    this_CompositeMutator_3=ruleCompositeMutator
     { 
-        $current = $this_ModifySourceReferenceMutator_3.current; 
+        $current = $this_CompositeMutator_3.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getModifyTargetReferenceMutatorParserRuleCall_4()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getModifySourceReferenceMutatorParserRuleCall_4()); 
     }
-    this_ModifyTargetReferenceMutator_4=ruleModifyTargetReferenceMutator
+    this_ModifySourceReferenceMutator_4=ruleModifySourceReferenceMutator
     { 
-        $current = $this_ModifyTargetReferenceMutator_4.current; 
+        $current = $this_ModifySourceReferenceMutator_4.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getCreateReferenceMutatorParserRuleCall_5()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getModifyTargetReferenceMutatorParserRuleCall_5()); 
     }
-    this_CreateReferenceMutator_5=ruleCreateReferenceMutator
+    this_ModifyTargetReferenceMutator_5=ruleModifyTargetReferenceMutator
     { 
-        $current = $this_CreateReferenceMutator_5.current; 
+        $current = $this_ModifyTargetReferenceMutator_5.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getRemoveObjectMutatorParserRuleCall_6()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getCreateReferenceMutatorParserRuleCall_6()); 
     }
-    this_RemoveObjectMutator_6=ruleRemoveObjectMutator
+    this_CreateReferenceMutator_6=ruleCreateReferenceMutator
     { 
-        $current = $this_RemoveObjectMutator_6.current; 
+        $current = $this_CreateReferenceMutator_6.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getRemoveReferenceMutatorParserRuleCall_7()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getRemoveObjectMutatorParserRuleCall_7()); 
     }
-    this_RemoveReferenceMutator_7=ruleRemoveReferenceMutator
+    this_RemoveObjectMutator_7=ruleRemoveObjectMutator
     { 
-        $current = $this_RemoveReferenceMutator_7.current; 
+        $current = $this_RemoveObjectMutator_7.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getModifyInformationMutatorParserRuleCall_8()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getRemoveReferenceMutatorParserRuleCall_8()); 
     }
-    this_ModifyInformationMutator_8=ruleModifyInformationMutator
+    this_RemoveReferenceMutator_8=ruleRemoveReferenceMutator
     { 
-        $current = $this_ModifyInformationMutator_8.current; 
+        $current = $this_RemoveReferenceMutator_8.current; 
         afterParserOrEnumRuleCall();
     }
 
     |
     { 
-        newCompositeNode(grammarAccess.getMutatorAccess().getCloneObjectMutatorParserRuleCall_9()); 
+        newCompositeNode(grammarAccess.getMutatorAccess().getModifyInformationMutatorParserRuleCall_9()); 
     }
-    this_CloneObjectMutator_9=ruleCloneObjectMutator
+    this_ModifyInformationMutator_9=ruleModifyInformationMutator
     { 
-        $current = $this_CloneObjectMutator_9.current; 
+        $current = $this_ModifyInformationMutator_9.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getMutatorAccess().getCloneObjectMutatorParserRuleCall_10()); 
+    }
+    this_CloneObjectMutator_10=ruleCloneObjectMutator
+    { 
+        $current = $this_CloneObjectMutator_10.current; 
         afterParserOrEnumRuleCall();
     }
 )
@@ -990,16 +1000,6 @@ ruleObSelectionStrategy returns [EObject current=null]
     this_OtherSelection_3=ruleOtherSelection
     { 
         $current = $this_OtherSelection_3.current; 
-        afterParserOrEnumRuleCall();
-    }
-
-    |
-    { 
-        newCompositeNode(grammarAccess.getObSelectionStrategyAccess().getSubsetSelectionParserRuleCall_4()); 
-    }
-    this_SubsetSelection_4=ruleSubsetSelection
-    { 
-        $current = $this_SubsetSelection_4.current; 
         afterParserOrEnumRuleCall();
     }
 )
@@ -1130,36 +1130,6 @@ ruleOtherSelection returns [EObject current=null]
     this_OtherTypeSelection_0=ruleOtherTypeSelection
     { 
         $current = $this_OtherTypeSelection_0.current; 
-        afterParserOrEnumRuleCall();
-    }
-
-;
-
-
-
-
-
-// Entry rule entryRuleSubsetSelection
-entryRuleSubsetSelection returns [EObject current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getSubsetSelectionRule()); }
-	 iv_ruleSubsetSelection=ruleSubsetSelection 
-	 { $current=$iv_ruleSubsetSelection.current; } 
-	 EOF 
-;
-
-// Rule SubsetSelection
-ruleSubsetSelection returns [EObject current=null] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-
-    { 
-        newCompositeNode(grammarAccess.getSubsetSelectionAccess().getEachTypeSelectionParserRuleCall()); 
-    }
-    this_EachTypeSelection_0=ruleEachTypeSelection
-    { 
-        $current = $this_EachTypeSelection_0.current; 
         afterParserOrEnumRuleCall();
     }
 
@@ -2726,6 +2696,139 @@ ruleSelectObjectMutator returns [EObject current=null]
 
 )
 ))?)
+;
+
+
+
+
+
+// Entry rule entryRuleSelectSampleMutator
+entryRuleSelectSampleMutator returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getSelectSampleMutatorRule()); }
+	 iv_ruleSelectSampleMutator=ruleSelectSampleMutator 
+	 { $current=$iv_ruleSelectSampleMutator.current; } 
+	 EOF 
+;
+
+// Rule SelectSampleMutator
+ruleSelectSampleMutator returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+(
+		lv_name_0_0=RULE_ID
+		{
+			newLeafNode(lv_name_0_0, grammarAccess.getSelectSampleMutatorAccess().getNameIDTerminalRuleCall_0_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getSelectSampleMutatorRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"name",
+        		lv_name_0_0, 
+        		"ID");
+	    }
+
+)
+)	otherlv_1='=' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getSelectSampleMutatorAccess().getEqualsSignKeyword_1());
+    }
+	otherlv_2='select' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getSelectSampleMutatorAccess().getSelectKeyword_2());
+    }
+	otherlv_3='sample' 
+    {
+    	newLeafNode(otherlv_3, grammarAccess.getSelectSampleMutatorAccess().getSampleKeyword_3());
+    }
+	otherlv_4='from' 
+    {
+    	newLeafNode(otherlv_4, grammarAccess.getSelectSampleMutatorAccess().getFromKeyword_4());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getSelectSampleMutatorAccess().getObjectObSelectionStrategyParserRuleCall_5_0()); 
+	    }
+		lv_object_5_0=ruleObSelectionStrategy		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getSelectSampleMutatorRule());
+	        }
+       		set(
+       			$current, 
+       			"object",
+        		lv_object_5_0, 
+        		"ObSelectionStrategy");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)(	otherlv_6='with' 
+    {
+    	newLeafNode(otherlv_6, grammarAccess.getSelectSampleMutatorAccess().getWithKeyword_6_0());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getSelectSampleMutatorAccess().getClauseSampleClauseEnumRuleCall_6_1_0()); 
+	    }
+		lv_clause_7_0=ruleSampleClause		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getSelectSampleMutatorRule());
+	        }
+       		set(
+       			$current, 
+       			"clause",
+        		lv_clause_7_0, 
+        		"SampleClause");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)	otherlv_8='{' 
+    {
+    	newLeafNode(otherlv_8, grammarAccess.getSelectSampleMutatorAccess().getLeftCurlyBracketKeyword_6_2());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getSelectSampleMutatorRule());
+	        }
+        }
+	otherlv_9=RULE_ID
+	{
+		newLeafNode(otherlv_9, grammarAccess.getSelectSampleMutatorAccess().getFeaturesEStructuralFeatureCrossReference_6_3_0()); 
+	}
+
+)
+)?(	otherlv_10=',' 
+    {
+    	newLeafNode(otherlv_10, grammarAccess.getSelectSampleMutatorAccess().getCommaKeyword_6_4_0());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getSelectSampleMutatorRule());
+	        }
+        }
+	otherlv_11=RULE_ID
+	{
+		newLeafNode(otherlv_11, grammarAccess.getSelectSampleMutatorAccess().getFeaturesEStructuralFeatureCrossReference_6_4_1_0()); 
+	}
+
+)
+))*	otherlv_12='}' 
+    {
+    	newLeafNode(otherlv_12, grammarAccess.getSelectSampleMutatorAccess().getRightCurlyBracketKeyword_6_5());
+    }
+)?)
 ;
 
 
@@ -4936,80 +5039,6 @@ ruleOtherTypeSelection returns [EObject current=null]
 
 
 
-// Entry rule entryRuleEachTypeSelection
-entryRuleEachTypeSelection returns [EObject current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getEachTypeSelectionRule()); }
-	 iv_ruleEachTypeSelection=ruleEachTypeSelection 
-	 { $current=$iv_ruleEachTypeSelection.current; } 
-	 EOF 
-;
-
-// Rule EachTypeSelection
-ruleEachTypeSelection returns [EObject current=null] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-((
-    {
-        $current = forceCreateModelElement(
-            grammarAccess.getEachTypeSelectionAccess().getEachTypeSelectionAction_0(),
-            $current);
-    }
-)	otherlv_1='each' 
-    {
-    	newLeafNode(otherlv_1, grammarAccess.getEachTypeSelectionAccess().getEachKeyword_1());
-    }
-(
-(
-		{
-			if ($current==null) {
-	            $current = createModelElement(grammarAccess.getEachTypeSelectionRule());
-	        }
-        }
-	otherlv_2=RULE_ID
-	{
-		newLeafNode(otherlv_2, grammarAccess.getEachTypeSelectionAccess().getTypeEClassCrossReference_2_0()); 
-	}
-
-)
-)(	otherlv_3='where' 
-    {
-    	newLeafNode(otherlv_3, grammarAccess.getEachTypeSelectionAccess().getWhereKeyword_3_0());
-    }
-	otherlv_4='{' 
-    {
-    	newLeafNode(otherlv_4, grammarAccess.getEachTypeSelectionAccess().getLeftCurlyBracketKeyword_3_1());
-    }
-(
-(
-		{ 
-	        newCompositeNode(grammarAccess.getEachTypeSelectionAccess().getExpressionExpressionParserRuleCall_3_2_0()); 
-	    }
-		lv_expression_5_0=ruleExpression		{
-	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getEachTypeSelectionRule());
-	        }
-       		set(
-       			$current, 
-       			"expression",
-        		lv_expression_5_0, 
-        		"Expression");
-	        afterParserOrEnumRuleCall();
-	    }
-
-)
-)	otherlv_6='}' 
-    {
-    	newLeafNode(otherlv_6, grammarAccess.getEachTypeSelectionAccess().getRightCurlyBracketKeyword_3_3());
-    }
-)?)
-;
-
-
-
-
-
 // Entry rule entryRuleBooleanType
 entryRuleBooleanType returns [EObject current=null] 
 	:
@@ -6935,6 +6964,25 @@ ruleRepeat returns [Enumerator current=null]
 	{
         $current = grammarAccess.getRepeatAccess().getNoEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
         newLeafNode(enumLiteral_1, grammarAccess.getRepeatAccess().getNoEnumLiteralDeclaration_1()); 
+    }
+));
+
+
+
+// Rule SampleClause
+ruleSampleClause returns [Enumerator current=null] 
+    @init { enterRule(); }
+    @after { leaveRule(); }:
+((	enumLiteral_0='equals' 
+	{
+        $current = grammarAccess.getSampleClauseAccess().getEqualsEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_0, grammarAccess.getSampleClauseAccess().getEqualsEnumLiteralDeclaration_0()); 
+    }
+)
+    |(	enumLiteral_1='distinct' 
+	{
+        $current = grammarAccess.getSampleClauseAccess().getDistinctEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_1, grammarAccess.getSampleClauseAccess().getDistinctEnumLiteralDeclaration_1()); 
     }
 ));
 

@@ -102,7 +102,9 @@ import mutatorenvironment.ArithmeticOperator
 import mutatorenvironment.RandomIntegerNumberType
 import mutatorenvironment.RandomDoubleNumberType
 import mutatorenvironment.SpecificClosureSelection
-import mutatorenvironment.EachTypeSelection
+import mutatorenvironment.SelectSampleMutator
+import mutatorenvironment.SampleClause
+import mutatorenvironment.ObjectEmitter
 
 /**
  * Generates code from your model files on save.
@@ -135,6 +137,7 @@ class WodelGenerator implements IGenerator {
 	private boolean executeMutation = true;
 	private String fileName;
 	private String className;
+	private String useName;
 	private String path;
 	private String xmiFileName;
 	private int nMut;
@@ -181,9 +184,11 @@ class WodelGenerator implements IGenerator {
 			WodelUtils.serialize(xTextFileName, xmiFileName)
 			/* Write the EObject into a file */
 					
-			fileName = fileName.replaceAll("mutator", "java")
+			fileName = fileName.replaceAll(".mutator", ".java")
 			className = fileName.replaceAll(".java", "")
+			useName = fileName.replaceAll(".java", ".use") 
      		fsa.generateFile(fileName, e.compile)
+     		fsa.generateFile(useName, e.generate)
 		}
 	}
 	
@@ -253,17 +258,6 @@ class WodelGenerator implements IGenerator {
 				return mutations;
 			}
 			«ENDIF»
-		«ELSEIF mut.object instanceof EachTypeSelection»
-			CompleteTypeSelection cts = new CompleteTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
-			List<EObject> objects = cts.getObjects();
-			«IF mut.name!= null»
-				hmList.put("«mut.name»", objects);
-			«ENDIF»
-			List<ObSelectionStrategy> listSelection = new ArrayList<ObSelectionStrategy>();
-			for (EObject obj : objects) {
-				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
-				listSelection.add(objectSelection);
-			}
 		«ENDIF»
 				
 		HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
@@ -504,15 +498,6 @@ class WodelGenerator implements IGenerator {
 				mutations.add(mut);
 			}
 	   	}
-	   	«ELSEIF mut.object instanceof EachTypeSelection»
-	   	for (ObSelectionStrategy objectSelection : listSelection) {
-	   		ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs, objsAttRef, attsRef);
-	   		//INC COUNTER: «nMutation++»
-	   		if (mut != null) {
-	   			mut.setId("m«nMutation»");
-				mutations.add(mut);
-			}
-	   	}
 	   	«ELSE»
 	   	if (objectSelection != null) {
 	   		ModifyInformationMutator mut = new ModifyInformationMutator(model, packages, objectSelection, atts, refs, objsAttRef, attsRef);
@@ -546,17 +531,6 @@ class WodelGenerator implements IGenerator {
 			«IF mut.container instanceof CompleteTypeSelection»
 				«/* THE SAME AS RANDOM */»
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
-				EObject container = rts.getObject();
-				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
-				«IF mut.container.refType != null»
-					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
-				«ELSE»
-					SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-				«ENDIF»
-			«ENDIF»
-			«IF mut.container instanceof EachTypeSelection»
-				«/* THE SAME AS RANDOM */»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
 				EObject container = rts.getObject();
 				ObSelectionStrategy containerSelection = new SpecificObjectSelection(packages, model, container);
 				«IF mut.container.refType != null»
@@ -613,16 +587,13 @@ class WodelGenerator implements IGenerator {
 	//SELECT OBJECT «methodName»
 		ObSelectionStrategy containerSelection = null;
 		SpecificReferenceSelection referenceSelection = null;
-		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection || mut.object instanceof EachTypeSelection»
+		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
 			«IF mut.container == null»
 			«IF mut.object instanceof RandomTypeSelection»
 			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
 			«ENDIF»
 			«IF mut.object instanceof CompleteTypeSelection»
 			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
-			«ENDIF»
-			«IF mut.object instanceof EachTypeSelection»
-			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
 			«ENDIF»
 			«ELSE»
 				«IF mut.container instanceof RandomTypeSelection»
@@ -637,16 +608,6 @@ class WodelGenerator implements IGenerator {
 				«ELSEIF mut.container instanceof CompleteTypeSelection»
 					«/* THE SAME AS RANDOM */»
 					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
-					EObject container = rts.getObject();
-					containerSelection = new SpecificObjectSelection(packages, model, container);
-					«IF mut.container.refType != null»
-						referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
-					«ELSE»
-						referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-					«ENDIF»
-				«ELSEIF mut.container instanceof EachTypeSelection»
-					«/* THE SAME AS RANDOM */»
-					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
 					EObject container = rts.getObject();
 					containerSelection = new SpecificObjectSelection(packages, model, container);
 					«IF mut.container.refType != null»
@@ -717,9 +678,6 @@ class WodelGenerator implements IGenerator {
 				«IF mut.object instanceof CompleteTypeSelection»
 				objects = selectedObjects;
 				«ENDIF»
-				«IF mut.object instanceof EachTypeSelection»
-				«mut.object.expression.each»
-				«ENDIF»
 				«ELSEIF (mut.container.expression == null)»
 				List<EObject> objects = rts.getObjects();
 				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
@@ -736,9 +694,6 @@ class WodelGenerator implements IGenerator {
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
 				objects = selectedObjects;
-				«ENDIF»
-				«IF mut.object instanceof EachTypeSelection»
-				«mut.object.expression.each»
 				«ENDIF»
 				«ENDIF»
 			«ENDIF»
@@ -760,9 +715,6 @@ class WodelGenerator implements IGenerator {
 				«IF mut.object instanceof CompleteTypeSelection»
 				objects = selectedObjects;
 				«ENDIF»
-				«IF mut.object instanceof EachTypeSelection»
-				«mut.container.expression.each»
-				«ENDIF»
 				«ENDIF»
 			«ENDIF»
 			«IF mut.object instanceof RandomTypeSelection»
@@ -773,10 +725,6 @@ class WodelGenerator implements IGenerator {
 			«ENDIF»
 			«ELSEIF mut.object instanceof CompleteTypeSelection»
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
-				EObject object = rts.getObject();
-				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
-			«ELSEIF mut.object instanceof EachTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
 				EObject object = rts.getObject();
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
 			«ELSEIF mut.object instanceof SpecificObjectSelection»
@@ -793,25 +741,12 @@ class WodelGenerator implements IGenerator {
 	   			} else {
 					return mutations;
 				}
-			«ELSEIF mut.object instanceof EachTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
-				EObject object = rts.getObject();
-				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
 			«ELSE»
 				ArrayList<EObject> objects = ModelManager.getParentObjects(packages, model, "«mut.type.name»");
 				EObject container = containers.get(ModelManager.getRandomIndex(objects));
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
 			«ENDIF»
 			«IF mut.object instanceof CompleteTypeSelection»
-			for (EObject obj : objects) {
-				SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, obj);
-			   	//INC COUNTER: «nMutation++»
-			   	if (mut != null) {
-			   		mut.setId("m«nMutation»");
-					mutations.add(mut);
-				}
-			}
-			«ELSEIF mut.object instanceof EachTypeSelection»
 			for (EObject obj : objects) {
 				SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, obj);
 			   	//INC COUNTER: «nMutation++»
@@ -829,6 +764,93 @@ class WodelGenerator implements IGenerator {
 			}
 			«ENDIF»
 			//END SELECT OBJECT «methodName»
+		«ENDIF»
+		«IF mut instanceof SelectSampleMutator»
+		//SELECT SAMPLE OBJECT «methodName»
+		SpecificReferenceSelection referenceSelection = null;
+		«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
+			«IF mut.object instanceof RandomTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
+			«ENDIF»
+			«IF mut.object instanceof CompleteTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+			«ENDIF»
+			«IF (mut.object.expression == null)»
+				EObject object = rts.getObject();
+			«ELSE»
+				List<EObject> objects = rts.getObjects();
+				//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
+				//EXPRESSION LEVEL: «nExpression = 0»
+				//EXPRESSION LEVEL: «expressionList.add(0)»
+				Expression exp«expressionList.get(0)» = new Expression();
+				«mut.object.expression.method»
+				List<EObject> selectedObjects = evaluate(objects, exp«expressionList.get(0)»);
+				«IF mut.object instanceof RandomTypeSelection»
+				EObject object = null;
+				if (selectedObjects.size() > 0) {
+					object = selectedObjects.get(ModelManager.getRandomIndex(selectedObjects));
+				}
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+				objects = selectedObjects;
+				«ENDIF»
+			«ENDIF»
+		«IF mut.object instanceof RandomTypeSelection»
+		ObSelectionStrategy objectSelection = null; 
+		if (object != null) {
+			objectSelection = new SpecificObjectSelection(packages, model, object);
+		}
+		«ENDIF»
+		«ELSEIF mut.object instanceof CompleteTypeSelection»
+			RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+			EObject object = rts.getObject();
+			ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+		«ELSEIF mut.object instanceof SpecificObjectSelection»
+			ObSelectionStrategy objectSelection = null;
+			if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+				objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+   			} else {
+   				if (hmList.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+   					objectSelection = new SpecificObjectSelection(packages, model, hmList.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+   				}
+   				else {
+					return mutations;
+				}
+			}
+		«ELSEIF mut.object instanceof SpecificClosureSelection»
+			ObSelectionStrategy objectSelection = null;
+			if (hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»") != null) {
+				objectSelection = new SpecificClosureSelection(packages, model, hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»"), "«(mut.object as SpecificClosureSelection).refType.name»");
+   			} else {
+				return mutations;
+			}
+		«ELSE»
+			ArrayList<EObject> objects = ModelManager.getParentObjects(packages, model, "«mut.type.name»");
+			EObject container = containers.get(ModelManager.getRandomIndex(objects));
+			ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object);
+		«ENDIF»
+		«IF mut.object.refType != null»
+			referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.object.refType.name»", objectSelection.getObject());
+		«ELSE»
+			referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
+		«ENDIF»
+		«IF mut.clause == SampleClause.EQUALS»
+			boolean equals = true;
+		«ENDIF»
+		«IF mut.clause == SampleClause.DISTINCT»
+			boolean equals = false;
+		«ENDIF»
+		List<String> features = new ArrayList<String>();
+		«FOR EStructuralFeature feature : mut.features»
+			features.add("«feature.name»");	
+		«ENDFOR»
+		SelectSampleMutator mut = new SelectSampleMutator(model, packages, referenceSelection, objectSelection, equals, features);
+		//INC COUNTER: «nMutation++»
+		if (mut != null) {
+			mut.setId("m«nMutation»");
+			mutations.add(mut);
+		}
+		//END SELECT SAMPLE OBJECT «methodName»
 		«ENDIF»
 		«IF mut instanceof CloneObjectMutator»
 			//CLONE OBJECT «methodName»
@@ -857,16 +879,17 @@ class WodelGenerator implements IGenerator {
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
 				EObject object = rts.getObject();
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object»);
-			«ELSEIF mut.object instanceof EachTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
-				EObject object = rts.getObject();
-				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object»);
 			«ELSEIF mut.object instanceof SpecificObjectSelection»
 				ObSelectionStrategy objectSelection = null;
 				if (hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
 					objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
 	   			} else {
-					return mutations;
+					if (hmList.get("«(mut.object as SpecificObjectSelection).objSel.name»") != null) {
+   						objectSelection = new SpecificObjectSelection(packages, model, hmList.get("«(mut.object as SpecificObjectSelection).objSel.name»"));
+   					}
+   					else {
+						return mutations;
+					}
 				}
 			«ELSEIF mut.object instanceof SpecificClosureSelection»
 				ObSelectionStrategy objectSelection = null;
@@ -891,12 +914,6 @@ class WodelGenerator implements IGenerator {
 				«IF mut.container instanceof CompleteTypeSelection»
 					«/* THE SAME AS RANDOM */»
 					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
-					container = rts.getObject();
-					containerSelection = new SpecificObjectSelection(packages, model, container);
-				«ENDIF»
-				«IF mut.container instanceof EachTypeSelection»
-					«/* THE SAME AS RANDOM */»
-					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
 					container = rts.getObject();
 					containerSelection = new SpecificObjectSelection(packages, model, container);
 				«ENDIF»
@@ -983,13 +1000,6 @@ class WodelGenerator implements IGenerator {
 					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
 					listSourceSelection.add(objectSelection);
 				}
-			«ELSEIF mut.source instanceof EachTypeSelection»
-				List<EObject> objects = hmList.get("«(mut.source as EachTypeSelection).type.name»");
-				List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
-				for (EObject obj : objects) {
-					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
-					listSourceSelection.add(objectSelection);
-				}
 			«ELSEIF mut.source instanceof SpecificObjectSelection»
 				ObSelectionStrategy sourceSelection = null;
 				if (hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»") != null) {
@@ -1009,11 +1019,6 @@ class WodelGenerator implements IGenerator {
 				«ELSE»
 					otherSourceSelection = sourceSelection.getObject();
 				«ENDIF»
-				«IF mut.source instanceof EachTypeSelection»
-					otherSourceSelection = sourceSelection.get(0).getObject();
-				«ELSE»
-					otherSourceSelection = sourceSelection.getObject();
-				«ENDIF»
 				Object otherRef = null;
 				if (otherSourceSelection != null) {
 					for (EReference ref : otherSourceSelection.eClass().getEAllReferences()) {
@@ -1027,9 +1032,6 @@ class WodelGenerator implements IGenerator {
 			«ELSEIF mut.newSource instanceof CompleteTypeSelection»
 				«/*THE SAME AS RANDOM*/»
 				RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as CompleteTypeSelection).type.name»");
-			«ELSEIF mut.newSource instanceof EachTypeSelection»
-				«/*THE SAME AS RANDOM*/»
-				RandomTypeSelection newSourceSelection = new RandomTypeSelection(packages, model, "«(mut.newSource as EachTypeSelection).type.name»");						
 			«ELSEIF mut.newSource instanceof SpecificObjectSelection»
 				ObSelectionStrategy newSourceSelection = null;
 				if (hmObjects.get("«(mut.newSource as SpecificObjectSelection).objSel.name»") != null) {
@@ -1041,15 +1043,6 @@ class WodelGenerator implements IGenerator {
 				ObSelectionStrategy newSourceSelection = new SpecificObjectSelection(packages, model, (EObject) null);
 			«ENDIF»
 			«IF mut.source instanceof CompleteTypeSelection»
-   				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
-					ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
-				   	//INC COUNTER: «nMutation++»
-				   	if (mut != null) {
-				   		mut.setId("m«nMutation»");
-						mutations.add(mut);
-					}
-				}
-			«ELSEIF mut.source instanceof EachTypeSelection»
    				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
 					ModifySourceReferenceMutator mut = new ModifySourceReferenceMutator(model, packages, sourceSelection, newSourceSelection, "«mut.refType.name»");
 				   	//INC COUNTER: «nMutation++»
@@ -1079,13 +1072,6 @@ class WodelGenerator implements IGenerator {
 					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
 					listSourceSelection.add(objectSelection);
 				}
-			«ELSEIF mut.source instanceof EachTypeSelection»
-				List<EObject> objects = hmList.get("«(mut.source as EachTypeSelection).type.name»");
-				List<ObSelectionStrategy> listSourceSelection = new ArrayList<ObSelectionStrategy>();
-				for (EObject obj : objects) {
-					ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, obj);
-					listSourceSelection.add(objectSelection);
-				}
 			«ELSEIF mut.source instanceof SpecificObjectSelection»
 				ObSelectionStrategy sourceSelection = null;
 				if (hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»") != null) { 
@@ -1102,8 +1088,6 @@ class WodelGenerator implements IGenerator {
 				EObject otherSourceSelection = null; 
 				«IF mut.source instanceof CompleteTypeSelection»
 					otherSourceSelection = sourceSelection.get(0).getObject();
-				«ELSEIF mut.source instanceof EachTypeSelection»
-					otherSourceSelection = sourceSelection.get(0).getObject();
 				«ELSE»
 					otherSourceSelection = sourceSelection.getObject();
 				«ENDIF»
@@ -1119,8 +1103,6 @@ class WodelGenerator implements IGenerator {
 				OtherTypeSelection newTargetSelection = new OtherTypeSelection(packages, model, "«(mut.newTarget as OtherTypeSelection).type.name»", otherRef);
 			«ELSEIF mut.newTarget instanceof CompleteTypeSelection»
 				RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as CompleteTypeSelection).type.name»");			
-			«ELSEIF mut.newTarget instanceof EachTypeSelection»
-				RandomTypeSelection newTargetSelection = new RandomTypeSelection(packages, model, "«(mut.newTarget as EachTypeSelection).type.name»");			
 			«ELSEIF mut.newTarget instanceof SpecificObjectSelection»
 				ObSelectionStrategy newTargetSelection = null;
 				if (hmObjects.get("«(mut.newTarget as SpecificObjectSelection).objSel.name»") != null) {
@@ -1132,10 +1114,6 @@ class WodelGenerator implements IGenerator {
 				ObSelectionStrategy newTargetSelection = new SpecificObjectSelection(packages, model, (EObject) null);
 			«ENDIF»
 			«IF mut.source instanceof CompleteTypeSelection»
-   				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
-   					mutations.add(ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»"));
-	   			}
-	   		«ELSEIF mut.source instanceof EachTypeSelection»
    				for (ObSelectionStrategy sourceSelection : listSourceSelection) {
    					mutations.add(ModifyTargetReferenceMutator(model, packages, sourceSelection, newTargetSelection, "«mut.refType.name»"));
 	   			}
@@ -1155,8 +1133,6 @@ class WodelGenerator implements IGenerator {
 				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as RandomTypeSelection).type.name»");			
 			«ELSEIF mut.source instanceof CompleteTypeSelection»
 				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as CompleteTypeSelection).type.name»");
-			«ELSEIF mut.source instanceof EachTypeSelection»
-				RandomTypeSelection sourceSelection = new RandomTypeSelection(packages, model, "«(mut.source as EachTypeSelection).type.name»");		
 			«ELSEIF mut.source instanceof SpecificObjectSelection»
 				ObSelectionStrategy sourceSelection = null;
 				if (hmObjects.get("«(mut.source as SpecificObjectSelection).objSel.name»") != null) {
@@ -1171,8 +1147,6 @@ class WodelGenerator implements IGenerator {
 				RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as RandomTypeSelection).type.name»");			
 			«ELSEIF mut.target instanceof CompleteTypeSelection»
 				RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as CompleteTypeSelection).type.name»");
-			«ELSEIF mut.target instanceof EachTypeSelection»
-				RandomTypeSelection targetSelection = new RandomTypeSelection(packages, model, "«(mut.target as EachTypeSelection).type.name»");						
 			«ELSEIF mut.target instanceof SpecificObjectSelection»
 				ObSelectionStrategy targetSelection = null;
 				if (hmObjects.get("«(mut.target as SpecificObjectSelection).objSel.name»") != null) {
@@ -1195,16 +1169,13 @@ class WodelGenerator implements IGenerator {
 		// REMOVE OBJECT «methodName»
 			ObSelectionStrategy containerSelection = null;
 			SpecificReferenceSelection referenceSelection = null;
-			«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection || mut.object instanceof EachTypeSelection»
+			«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
 				«IF mut.container == null»
 				«IF mut.object instanceof RandomTypeSelection»
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
 				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
-				«ENDIF»
-				«IF mut.object instanceof EachTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
 				«ENDIF»
 				«ELSE»
 					«IF mut.container instanceof RandomTypeSelection»
@@ -1219,16 +1190,6 @@ class WodelGenerator implements IGenerator {
 					«ELSEIF mut.container instanceof CompleteTypeSelection»
 						«/* THE SAME AS RANDOM */»
 						RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
-						EObject container = rts.getObject();
-						containerSelection = new SpecificObjectSelection(packages, model, container);
-						«IF mut.container.refType != null»
-							referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
-						«ELSE»
-							referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-						«ENDIF»
-					«ELSEIF mut.container instanceof EachTypeSelection»
-						«/* THE SAME AS RANDOM */»
-						RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
 						EObject container = rts.getObject();
 						containerSelection = new SpecificObjectSelection(packages, model, container);
 						«IF mut.container.refType != null»
@@ -1278,9 +1239,6 @@ class WodelGenerator implements IGenerator {
 					«IF mut.object instanceof CompleteTypeSelection»
 					objects = selectedObjects;
 					«ENDIF»
-					«IF mut.object instanceof EachTypeSelection»
-					objects = selectedObjects;
-					«ENDIF»
 					«ELSEIF mut.container.expression == null»
 					List<EObject> objects = rts.getObjects();
 					//EXPRESSION LIST: «expressionList = new ArrayList<Integer>()»
@@ -1296,9 +1254,6 @@ class WodelGenerator implements IGenerator {
 					}
 					«ENDIF»
 					«IF mut.object instanceof CompleteTypeSelection»
-					objects = selectedObjects;
-					«ENDIF»
-					«IF mut.object instanceof EachTypeSelection»
 					objects = selectedObjects;
 					«ENDIF»
 					«ENDIF»
@@ -1319,9 +1274,6 @@ class WodelGenerator implements IGenerator {
 					}
 					«ENDIF»
 					«IF mut.object instanceof CompleteTypeSelection»
-					objects = selectedObjects;
-					«ENDIF»
-					«IF mut.object instanceof EachTypeSelection»
 					objects = selectedObjects;
 					«ENDIF»
 					«ENDIF»
@@ -1353,16 +1305,6 @@ class WodelGenerator implements IGenerator {
 				«ELSEIF mut.container instanceof CompleteTypeSelection»
 					«/* THE SAME AS RANDOM */»
 					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as CompleteTypeSelection).type.name»");
-					EObject container = rts.getObject();
-					containerSelection = new SpecificObjectSelection(packages, model, container);
-				«IF mut.container.refType != null»
-					referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", containerSelection);
-				«ELSE»
-					referenceSelection = new SpecificReferenceSelection(packages, model, null, null);
-				«ENDIF»
-				«ELSEIF mut.container instanceof EachTypeSelection»
-					«/* THE SAME AS RANDOM */»
-					RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.container as EachTypeSelection).type.name»");
 					EObject container = rts.getObject();
 					containerSelection = new SpecificObjectSelection(packages, model, container);
 				«IF mut.container.refType != null»
@@ -1415,24 +1357,8 @@ class WodelGenerator implements IGenerator {
 					«ELSE»
 						List<EObject> objects = selectedObjects;
 					«ENDIF»
-				«ELSEIF mut.object instanceof EachTypeSelection»
-					«IF mut.object.expression == null»
-						CompleteTypeSelection objectsSelection = new CompleteTypeSelection(packages, model, "«(mut.object as EachTypeSelection).type.name»");
-						List<EObject> objects = objectsSelection.getObjects();
-					«ELSE»
-						List<EObject> objects = selectedObjects;
-					«ENDIF»
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
-					for (EObject obj : objects) {
-						RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
-					   	//INC COUNTER: «nMutation++»
-					   	if (mut != null) {
-					   		mut.setId("m«nMutation»");
-							mutations.add(mut);
-						}
-					}
-				«ELSEIF mut.object instanceof EachTypeSelection»
 					for (EObject obj : objects) {
 						RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
 					   	//INC COUNTER: «nMutation++»
@@ -1481,12 +1407,6 @@ class WodelGenerator implements IGenerator {
 			«ELSEIF mut.container instanceof CompleteTypeSelection»
 				if (hmObjects.get("«(mut.container as CompleteTypeSelection).type.name»") != null) {
 					containerSelection = new CompleteTypeSelection(packages, model, hmObjects.get("«(mut.container as CompleteTypeSelection).type.name»"));
-				} else {
-					return mutations;
-				}
-			«ELSEIF mut.container instanceof EachTypeSelection»
-				if (hmObjects.get("«(mut.container as EachTypeSelection).type.name»") != null) {
-					containerSelection = new CompleteTypeSelection(packages, model, hmObjects.get("«(mut.container as EachTypeSelection).type.name»"));
 				} else {
 					return mutations;
 				}
@@ -2515,10 +2435,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as CompleteTypeSelection).type.name»");
 			EObject refObject«nReference» = refRts«nReference».getObject();
 			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model,	refObject«nReference»);
-		«ELSEIF e instanceof EachTypeSelection»
-			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as EachTypeSelection).type.name»");
-			EObject refObject«nReference» = refRts«nReference».getObject();
-			ObSelectionStrategy refSelection«nReference» = new SpecificObjectSelection(packages, model,	refObject«nReference»);
 		«ELSEIF e instanceof SpecificObjectSelection»
 			ObSelectionStrategy refSelection«nReference» = null;
 			if (hmObjects.get("«(e as SpecificObjectSelection).objSel.name»") != null) {
@@ -3030,45 +2946,65 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			for (Mutator mut : l«commandName») {
 				«IF executeMutation == true»
 				if (mut != null) {
-					EObject mutated = (EObject) mut.mutate();
+					Object mutated = mut.mutate();
 					if (mutated != null) {
-					«IF e.name != null»
-					«IF e instanceof CreateObjectMutator»
-						hashmapEObject.put("«e.name»", mut.getObject());
-					«ENDIF»
-					«IF e instanceof SelectObjectMutator»
-						«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
-						hashmapEObject.put("«e.name»", mut.getObject());
+						«IF e instanceof CreateObjectMutator || e instanceof SelectObjectMutator || e instanceof CloneObjectMutator»
+						if (mutated instanceof EObject) {
+						«IF e.name != null»
+						«IF e instanceof CreateObjectMutator»
+							hashmapEObject.put("«e.name»", mut.getObject());
 						«ENDIF»
-						«IF e.object instanceof CompleteTypeSelection || e.object instanceof EachTypeSelection»
-						List<EObject> listEObjects = null;
-						if (hashmapList.get("«e.name»") != null) {
-							listEObjects = hashmapList.get("«e.name»");
-						}
-						else {
-							listEObjects = new ArrayList<EObject>();
-						}
-						listEObjects.add(mut.getObject());
-						hashmapList.put("«e.name»", listEObjects);
+						«IF e instanceof SelectObjectMutator»
+							«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+							hashmapEObject.put("«e.name»", mut.getObject());
+							«ENDIF»
+							«IF e.object instanceof CompleteTypeSelection»
+							List<EObject> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<EObject>();
+							}
+							listEObjects.add(mut.getObject());
+							hashmapList.put("«e.name»", listEObjects);
+							«ENDIF»
 						«ENDIF»
-					«ENDIF»
-					«IF e instanceof CloneObjectMutator»
-						«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
-						hashmapEObject.put("«e.name»", mut.getObject());
+						«IF e instanceof CloneObjectMutator»
+							«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+							hashmapEObject.put("«e.name»", mut.getObject());
+							«ENDIF»
+							«IF e.object instanceof CompleteTypeSelection»
+							List<EObject> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<EObject>();
+							}
+							listEObjects.add(mut.getObject());
+							hashmapList.put("«e.name»", listEObjects);
+							«ENDIF»
 						«ENDIF»
-						«IF e.object instanceof CompleteTypeSelection || e.object instanceof EachTypeSelection»
-						List<EObject> listEObjects = null;
-						if (hashmapList.get("«e.name»") != null) {
-							listEObjects = hashmapList.get("«e.name»");
-						}
-						else {
-							listEObjects = new ArrayList<EObject>();
-						}
-						listEObjects.add(mut.getObject());
-						hashmapList.put("«e.name»", listEObjects);
 						«ENDIF»
-					«ENDIF»
-					«ENDIF»
+						}
+						«ENDIF»
+						«IF e.name != null»
+						«IF e instanceof SelectSampleMutator»
+						if (mutated instanceof List<?>) {
+							List<EObject> mutObjects = ((SelectSampleMutator) mut).getObjects();
+							List<EObject> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<EObject>();
+							}
+							listEObjects.addAll(mutObjects);
+							hashmapList.put("«e.name»", listEObjects);
+						}
+						«ENDIF»
+						«ENDIF»
 						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
 						ModelManager.saveOutModel(model, mutatorPath);
 						if (mutPaths.contains(mutatorPath) == false) {
@@ -3089,4 +3025,116 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	'''
    //END COMMANDS
    //*************
+   
+   def generate(Mutator mut, List<String> classNames) '''
+   		«IF mut instanceof RemoveObjectMutator»
+   		«IF mut.object != null»
+		-- «var String name = MutatorUtils.getTypeName(mut.object)»
+		«IF !classNames.contains(name)»
+		-- «classNames.add(name)»
+		«ENDIF»
+		«ENDIF»
+		«ENDIF»
+		«IF mut instanceof CreateReferenceMutator»
+			«IF mut.target != null»
+			-- «var String name = MutatorUtils.getTypeName(mut.target)»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+			«IF mut.source != null»
+			-- «var String name = MutatorUtils.getTypeName(mut.source)»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+		«ENDIF»
+		«IF mut instanceof ModifySourceReferenceMutator»
+			«IF mut.source != null»
+			-- «var String name = MutatorUtils.getTypeName(mut.source)»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+			«IF mut.newSource != null»
+			-- «var String name = MutatorUtils.getTypeName(mut.newSource)»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+		«ENDIF»
+		«IF mut instanceof ModifyTargetReferenceMutator»
+			«IF mut.source != null»
+			-- «var String name = MutatorUtils.getTypeName(mut.source)»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+			«IF mut.newTarget != null»
+			-- «var String name = MutatorUtils.getTypeName(mut.newTarget)»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+		«ENDIF»
+		«IF mut instanceof RemoveCompleteReferenceMutator»
+			«IF mut.type != null»
+			-- «var String name = mut.type.name»
+			«IF !classNames.contains(name)»
+			-- «classNames.add(name)»
+			«ENDIF»
+			«ENDIF»
+		«ENDIF»
+		«IF mut instanceof SelectObjectMutator»
+		«IF mut.object != null»
+		-- «var String name = MutatorUtils.getTypeName(mut.object)»
+		«IF !classNames.contains(name)»
+		-- «classNames.add(name)»
+		«ENDIF»
+		«ENDIF»
+		«ENDIF»
+		«IF mut instanceof SelectSampleMutator»
+		«IF mut.object != null»
+		-- «var String name = MutatorUtils.getTypeName(mut.object)»
+		«IF !classNames.contains(name)»
+		-- «classNames.add(name)»
+		«ENDIF»
+		«ENDIF»
+		«ENDIF»
+		«IF mut instanceof CloneObjectMutator»
+		«IF mut.object != null»
+		-- «var String name = MutatorUtils.getTypeName(mut.object)»
+		«IF !classNames.contains(name)»
+		-- «classNames.add(name)»
+		«ENDIF»
+		«ENDIF»
+		«ENDIF»
+		«IF mut instanceof ModifyInformationMutator»
+		«IF mut.object != null»
+		-- «var String name = MutatorUtils.getTypeName(mut.object)»
+		«IF !classNames.contains(name)»
+		-- «classNames.add(name)»
+		«ENDIF»
+		«ENDIF»
+		«ENDIF»
+   '''
+   def generate(MutatorEnvironment e) ''' 
+		model «className»
+		
+		-- «var List<String> classNames = new ArrayList<String>()»
+		«FOR mut : e.commands»
+			«mut.generate(classNames)»
+		«ENDFOR»
+		«FOR b : e.blocks»
+		«FOR mut : b.commands»
+			«mut.generate(classNames)»
+		«ENDFOR»
+		«ENDFOR»
+		
+		«FOR name : classNames»
+			class «name»
+			end
+		«ENDFOR»
+
+	'''
 }

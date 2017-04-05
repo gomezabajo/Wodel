@@ -25,6 +25,7 @@ import mutatorenvironment.MinValueType;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.ObSelectionStrategy;
+import mutatorenvironment.ObjectEmitter;
 //import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SpecificObjectSelection;
 import mutatorenvironment.SpecificReferenceSelection;
@@ -2466,7 +2467,6 @@ public class MutatorUtils {
 			if (name.equals("CreateObjectMutator")
 					|| name.equals("RemoveObjectMutator")
 					|| name.equals("CreateReferenceMutator")
-					|| name.equals("CreateReferenceMutator")
 					|| name.equals("ModifySourceReferenceMutator")
 					|| name.equals("ModifyTargetReferenceMutator")
 					|| name.equals("RemoveRandomReferenceMutator")
@@ -2474,6 +2474,7 @@ public class MutatorUtils {
 					|| name.equals("RemoveCompleteReferenceMutator")
 					|| name.equals("ModifyInformationMutator")
 					|| name.equals("SelectObjectMutator")
+					|| name.equals("SelectSampleMutator")
 					|| name.equals("CloneObjectMutator")) {
 				Mutator mut = (Mutator) obj;
 				if (mut.getName() != null) {
@@ -2505,7 +2506,6 @@ public class MutatorUtils {
 			if (name.equals("CreateObjectMutator")
 					|| name.equals("RemoveObjectMutator")
 					|| name.equals("CreateReferenceMutator")
-					|| name.equals("CreateReferenceMutator")
 					|| name.equals("ModifySourceReferenceMutator")
 					|| name.equals("ModifyTargetReferenceMutator")
 					|| name.equals("RemoveRandomReferenceMutator")
@@ -2513,6 +2513,7 @@ public class MutatorUtils {
 					|| name.equals("RemoveCompleteReferenceMutator")
 					|| name.equals("ModifyInformationMutator")
 					|| name.equals("SelectObjectMutator")
+					|| name.equals("SelectSampleMutator")
 					|| name.equals("CloneObjectMutator")) {
 				counter++;
 				mutators.put("m" + counter, obj);
@@ -3511,5 +3512,30 @@ public class MutatorUtils {
 			}
 		}
 		return result;
+	}
+	
+	public static String getTypeName(ObjectEmitter oe) {
+		String type = null;
+		if (oe instanceof ObjectEmitter) {
+			if (oe instanceof SpecificObjectSelection) {
+				type = getTypeName(((SpecificObjectSelection) oe).getObjSel());
+			}
+			if (oe instanceof mutatorenvironment.RandomTypeSelection) {
+				type = ((mutatorenvironment.RandomTypeSelection) oe).getType().getName();
+			}
+			if (oe instanceof mutatorenvironment.CompleteTypeSelection) {
+				type = ((mutatorenvironment.CompleteTypeSelection) oe).getType().getName();
+			}
+			if (oe instanceof mutatorenvironment.OtherTypeSelection) {
+				type = ((mutatorenvironment.OtherTypeSelection) oe).getType().getName();
+			}
+			if (oe instanceof mutatorenvironment.SpecificClosureSelection) {
+				type = ((mutatorenvironment.SpecificClosureSelection) oe).getRefType().getEType().getName();
+			}
+			if (oe instanceof mutatorenvironment.SelectObjectMutator) {
+				type = getTypeName((ObjectEmitter) ((mutatorenvironment.SelectObjectMutator) oe).getObject());
+			}
+		}
+		return type;
 	}
 }

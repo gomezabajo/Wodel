@@ -72,6 +72,7 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getOperatorAccess().getAlternatives(), "rule__Operator__Alternatives");
 					put(grammarAccess.getArithmeticOperatorAccess().getAlternatives(), "rule__ArithmeticOperator__Alternatives");
 					put(grammarAccess.getRepeatAccess().getAlternatives(), "rule__Repeat__Alternatives");
+					put(grammarAccess.getSampleClauseAccess().getAlternatives(), "rule__SampleClause__Alternatives");
 					put(grammarAccess.getMutatorEnvironmentAccess().getGroup(), "rule__MutatorEnvironment__Group__0");
 					put(grammarAccess.getMutatorEnvironmentAccess().getGroup_3_0(), "rule__MutatorEnvironment__Group_3_0__0");
 					put(grammarAccess.getMutatorEnvironmentAccess().getGroup_3_1(), "rule__MutatorEnvironment__Group_3_1__0");
@@ -116,6 +117,9 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getCreateObjectMutatorAccess().getGroup_5_1(), "rule__CreateObjectMutator__Group_5_1__0");
 					put(grammarAccess.getSelectObjectMutatorAccess().getGroup(), "rule__SelectObjectMutator__Group__0");
 					put(grammarAccess.getSelectObjectMutatorAccess().getGroup_4(), "rule__SelectObjectMutator__Group_4__0");
+					put(grammarAccess.getSelectSampleMutatorAccess().getGroup(), "rule__SelectSampleMutator__Group__0");
+					put(grammarAccess.getSelectSampleMutatorAccess().getGroup_6(), "rule__SelectSampleMutator__Group_6__0");
+					put(grammarAccess.getSelectSampleMutatorAccess().getGroup_6_4(), "rule__SelectSampleMutator__Group_6_4__0");
 					put(grammarAccess.getModifyInformationMutatorAccess().getGroup(), "rule__ModifyInformationMutator__Group__0");
 					put(grammarAccess.getModifyInformationMutatorAccess().getGroup_0(), "rule__ModifyInformationMutator__Group_0__0");
 					put(grammarAccess.getModifyInformationMutatorAccess().getGroup_3(), "rule__ModifyInformationMutator__Group_3__0");
@@ -176,8 +180,6 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getOtherTypeSelectionAccess().getGroup(), "rule__OtherTypeSelection__Group__0");
 					put(grammarAccess.getOtherTypeSelectionAccess().getGroup_3(), "rule__OtherTypeSelection__Group_3__0");
 					put(grammarAccess.getOtherTypeSelectionAccess().getGroup_4(), "rule__OtherTypeSelection__Group_4__0");
-					put(grammarAccess.getEachTypeSelectionAccess().getGroup(), "rule__EachTypeSelection__Group__0");
-					put(grammarAccess.getEachTypeSelectionAccess().getGroup_3(), "rule__EachTypeSelection__Group_3__0");
 					put(grammarAccess.getRandomBooleanTypeAccess().getGroup(), "rule__RandomBooleanType__Group__0");
 					put(grammarAccess.getSpecificBooleanTypeAccess().getGroup(), "rule__SpecificBooleanType__Group__0");
 					put(grammarAccess.getRandomStringTypeAccess().getGroup(), "rule__RandomStringType__Group__0");
@@ -268,6 +270,11 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getSelectObjectMutatorAccess().getNameAssignment_0(), "rule__SelectObjectMutator__NameAssignment_0");
 					put(grammarAccess.getSelectObjectMutatorAccess().getObjectAssignment_3(), "rule__SelectObjectMutator__ObjectAssignment_3");
 					put(grammarAccess.getSelectObjectMutatorAccess().getContainerAssignment_4_1(), "rule__SelectObjectMutator__ContainerAssignment_4_1");
+					put(grammarAccess.getSelectSampleMutatorAccess().getNameAssignment_0(), "rule__SelectSampleMutator__NameAssignment_0");
+					put(grammarAccess.getSelectSampleMutatorAccess().getObjectAssignment_5(), "rule__SelectSampleMutator__ObjectAssignment_5");
+					put(grammarAccess.getSelectSampleMutatorAccess().getClauseAssignment_6_1(), "rule__SelectSampleMutator__ClauseAssignment_6_1");
+					put(grammarAccess.getSelectSampleMutatorAccess().getFeaturesAssignment_6_3(), "rule__SelectSampleMutator__FeaturesAssignment_6_3");
+					put(grammarAccess.getSelectSampleMutatorAccess().getFeaturesAssignment_6_4_1(), "rule__SelectSampleMutator__FeaturesAssignment_6_4_1");
 					put(grammarAccess.getModifyInformationMutatorAccess().getNameAssignment_0_0(), "rule__ModifyInformationMutator__NameAssignment_0_0");
 					put(grammarAccess.getModifyInformationMutatorAccess().getObjectAssignment_2(), "rule__ModifyInformationMutator__ObjectAssignment_2");
 					put(grammarAccess.getModifyInformationMutatorAccess().getAttributesAssignment_3_2_0(), "rule__ModifyInformationMutator__AttributesAssignment_3_2_0");
@@ -344,8 +351,6 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getOtherTypeSelectionAccess().getTypeAssignment_2(), "rule__OtherTypeSelection__TypeAssignment_2");
 					put(grammarAccess.getOtherTypeSelectionAccess().getRefTypeAssignment_3_1(), "rule__OtherTypeSelection__RefTypeAssignment_3_1");
 					put(grammarAccess.getOtherTypeSelectionAccess().getExpressionAssignment_4_2(), "rule__OtherTypeSelection__ExpressionAssignment_4_2");
-					put(grammarAccess.getEachTypeSelectionAccess().getTypeAssignment_2(), "rule__EachTypeSelection__TypeAssignment_2");
-					put(grammarAccess.getEachTypeSelectionAccess().getExpressionAssignment_3_2(), "rule__EachTypeSelection__ExpressionAssignment_3_2");
 					put(grammarAccess.getRandomBooleanTypeAccess().getOperatorAssignment_1(), "rule__RandomBooleanType__OperatorAssignment_1");
 					put(grammarAccess.getSpecificBooleanTypeAccess().getOperatorAssignment_1(), "rule__SpecificBooleanType__OperatorAssignment_1");
 					put(grammarAccess.getSpecificBooleanTypeAccess().getValueAssignment_2(), "rule__SpecificBooleanType__ValueAssignment_2");

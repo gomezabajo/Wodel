@@ -27,7 +27,6 @@ import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
 import mutatorenvironment.Definition;
 import mutatorenvironment.DoubleType;
-import mutatorenvironment.EachTypeSelection;
 import mutatorenvironment.Evaluation;
 import mutatorenvironment.Expression;
 import mutatorenvironment.IntegerType;
@@ -76,7 +75,9 @@ import mutatorenvironment.RemoveReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
 import mutatorenvironment.Repeat;
 import mutatorenvironment.ReplaceStringType;
+import mutatorenvironment.SampleClause;
 import mutatorenvironment.SelectObjectMutator;
+import mutatorenvironment.SelectSampleMutator;
 import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
 import mutatorenvironment.SpecificClosureSelection;
@@ -87,7 +88,6 @@ import mutatorenvironment.SpecificReferenceSelection;
 import mutatorenvironment.SpecificSelection;
 import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.StringType;
-import mutatorenvironment.SubsetSelection;
 import mutatorenvironment.UpperStringType;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -663,14 +663,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass subsetSelectionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass eachTypeSelectionEClass = null;
+	private EClass selectSampleMutatorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -699,6 +692,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	private EEnum arithmeticOperatorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum sampleClauseEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -2503,8 +2503,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSubsetSelection() {
-		return subsetSelectionEClass;
+	public EClass getSelectSampleMutator() {
+		return selectSampleMutatorEClass;
 	}
 
 	/**
@@ -2512,8 +2512,26 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEachTypeSelection() {
-		return eachTypeSelectionEClass;
+	public EReference getSelectSampleMutator_Object() {
+		return (EReference)selectSampleMutatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSelectSampleMutator_Clause() {
+		return (EAttribute)selectSampleMutatorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSelectSampleMutator_Features() {
+		return (EReference)selectSampleMutatorEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2550,6 +2568,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 */
 	public EEnum getArithmeticOperator() {
 		return arithmeticOperatorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSampleClause() {
+		return sampleClauseEEnum;
 	}
 
 	/**
@@ -2852,15 +2879,17 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		specificClosureSelectionEClass = createEClass(SPECIFIC_CLOSURE_SELECTION);
 		createEReference(specificClosureSelectionEClass, SPECIFIC_CLOSURE_SELECTION__OBJ_SEL);
 
-		subsetSelectionEClass = createEClass(SUBSET_SELECTION);
-
-		eachTypeSelectionEClass = createEClass(EACH_TYPE_SELECTION);
+		selectSampleMutatorEClass = createEClass(SELECT_SAMPLE_MUTATOR);
+		createEReference(selectSampleMutatorEClass, SELECT_SAMPLE_MUTATOR__OBJECT);
+		createEAttribute(selectSampleMutatorEClass, SELECT_SAMPLE_MUTATOR__CLAUSE);
+		createEReference(selectSampleMutatorEClass, SELECT_SAMPLE_MUTATOR__FEATURES);
 
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
 		operatorEEnum = createEEnum(OPERATOR);
 		repeatEEnum = createEEnum(REPEAT);
 		arithmeticOperatorEEnum = createEEnum(ARITHMETIC_OPERATOR);
+		sampleClauseEEnum = createEEnum(SAMPLE_CLAUSE);
 	}
 
 	/**
@@ -2957,8 +2986,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		randomDoubleNumberTypeEClass.getESuperTypes().add(this.getRandomNumberType());
 		randomIntegerNumberTypeEClass.getESuperTypes().add(this.getRandomNumberType());
 		specificClosureSelectionEClass.getESuperTypes().add(this.getSpecificSelection());
-		subsetSelectionEClass.getESuperTypes().add(this.getObSelectionStrategy());
-		eachTypeSelectionEClass.getESuperTypes().add(this.getSubsetSelection());
+		selectSampleMutatorEClass.getESuperTypes().add(this.getMutator());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3233,9 +3261,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(specificClosureSelectionEClass, SpecificClosureSelection.class, "SpecificClosureSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSpecificClosureSelection_ObjSel(), this.getObjectEmitter(), null, "objSel", null, 1, 1, SpecificClosureSelection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(subsetSelectionEClass, SubsetSelection.class, "SubsetSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(eachTypeSelectionEClass, EachTypeSelection.class, "EachTypeSelection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(selectSampleMutatorEClass, SelectSampleMutator.class, "SelectSampleMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSelectSampleMutator_Object(), this.getObSelectionStrategy(), null, "object", null, 1, 1, SelectSampleMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSelectSampleMutator_Clause(), this.getSampleClause(), "clause", null, 0, 1, SelectSampleMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSelectSampleMutator_Features(), ecorePackage.getEStructuralFeature(), null, "features", null, 0, -1, SelectSampleMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");
@@ -3257,6 +3286,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.MULTIPLY);
 		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.DIVIDE);
 		addEEnumLiteral(arithmeticOperatorEEnum, ArithmeticOperator.MODULE);
+
+		initEEnum(sampleClauseEEnum, SampleClause.class, "SampleClause");
+		addEEnumLiteral(sampleClauseEEnum, SampleClause.EQUALS);
+		addEEnumLiteral(sampleClauseEEnum, SampleClause.DISTINCT);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -22,7 +22,6 @@ import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.CreateReferenceMutator;
-import mutatorenvironment.EachTypeSelection;
 import mutatorenvironment.Expression;
 import mutatorenvironment.Library;
 import mutatorenvironment.ListStringType;
@@ -57,6 +56,7 @@ import mutatorenvironment.RemoveRandomReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
 import mutatorenvironment.ReplaceStringType;
 import mutatorenvironment.SelectObjectMutator;
+import mutatorenvironment.SelectSampleMutator;
 import mutatorenvironment.Source;
 import mutatorenvironment.SpecificBooleanType;
 import mutatorenvironment.SpecificClosureSelection;
@@ -137,9 +137,6 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 				return; 
 			case MutatorenvironmentPackage.CREATE_REFERENCE_MUTATOR:
 				sequence_CreateReferenceMutator(context, (CreateReferenceMutator) semanticObject); 
-				return; 
-			case MutatorenvironmentPackage.EACH_TYPE_SELECTION:
-				sequence_EachTypeSelection(context, (EachTypeSelection) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.EXPRESSION:
 				sequence_Expression(context, (Expression) semanticObject); 
@@ -239,6 +236,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 				return; 
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR:
 				sequence_SelectObjectMutator(context, (SelectObjectMutator) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.SELECT_SAMPLE_MUTATOR:
+				sequence_SelectSampleMutator(context, (SelectSampleMutator) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.SOURCE:
 				sequence_Source(context, (Source) semanticObject); 
@@ -487,15 +487,6 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 *     (name=ID? refType=[EReference|ID] target=ObSelectionStrategy? source=ObSelectionStrategy? (min=EInt? max=MaxCardinality)?)
 	 */
 	protected void sequence_CreateReferenceMutator(EObject context, CreateReferenceMutator semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (type=[EClass|ID] expression=Expression?)
-	 */
-	protected void sequence_EachTypeSelection(EObject context, EachTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -870,6 +861,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 *     (name=ID object=ObSelectionStrategy container=ObSelectionStrategy?)
 	 */
 	protected void sequence_SelectObjectMutator(EObject context, SelectObjectMutator semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name=ID object=ObSelectionStrategy (clause=SampleClause features+=[EStructuralFeature|ID]? features+=[EStructuralFeature|ID]*)?)
+	 */
+	protected void sequence_SelectSampleMutator(EObject context, SelectSampleMutator semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

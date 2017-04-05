@@ -690,20 +690,11 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MutatorenvironmentPackage.SUBSET_SELECTION: {
-				SubsetSelection subsetSelection = (SubsetSelection)theEObject;
-				T result = caseSubsetSelection(subsetSelection);
-				if (result == null) result = caseObSelectionStrategy(subsetSelection);
-				if (result == null) result = caseObjectEmitter(subsetSelection);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case MutatorenvironmentPackage.EACH_TYPE_SELECTION: {
-				EachTypeSelection eachTypeSelection = (EachTypeSelection)theEObject;
-				T result = caseEachTypeSelection(eachTypeSelection);
-				if (result == null) result = caseSubsetSelection(eachTypeSelection);
-				if (result == null) result = caseObSelectionStrategy(eachTypeSelection);
-				if (result == null) result = caseObjectEmitter(eachTypeSelection);
+			case MutatorenvironmentPackage.SELECT_SAMPLE_MUTATOR: {
+				SelectSampleMutator selectSampleMutator = (SelectSampleMutator)theEObject;
+				T result = caseSelectSampleMutator(selectSampleMutator);
+				if (result == null) result = caseMutator(selectSampleMutator);
+				if (result == null) result = caseObjectEmitter(selectSampleMutator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1897,32 +1888,17 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Subset Selection</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Select Sample Mutator</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Subset Selection</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Select Sample Mutator</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSubsetSelection(SubsetSelection object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Each Type Selection</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Each Type Selection</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseEachTypeSelection(EachTypeSelection object) {
+	public T caseSelectSampleMutator(SelectSampleMutator object) {
 		return null;
 	}
 

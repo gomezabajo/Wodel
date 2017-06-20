@@ -2830,12 +2830,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cReferenceInitParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cReferenceSwapParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cReferenceAttParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cReferenceAddParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final RuleCall cReferenceRemoveParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		
 		//ReferenceSet:
-		//	ReferenceInit | ReferenceSwap | ReferenceAtt;
+		//	ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove;
 		@Override public ParserRule getRule() { return rule; }
 
-		//ReferenceInit | ReferenceSwap | ReferenceAtt
+		//ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ReferenceInit
@@ -2846,6 +2848,12 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ReferenceAtt
 		public RuleCall getReferenceAttParserRuleCall_2() { return cReferenceAttParserRuleCall_2; }
+
+		//ReferenceAdd
+		public RuleCall getReferenceAddParserRuleCall_3() { return cReferenceAddParserRuleCall_3; }
+
+		//ReferenceRemove
+		public RuleCall getReferenceRemoveParserRuleCall_4() { return cReferenceRemoveParserRuleCall_4; }
 	}
 
 	public class ReferenceInitElements extends AbstractParserRuleElementFinder {
@@ -2882,6 +2890,86 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ObSelectionStrategy
 		public RuleCall getObjectObSelectionStrategyParserRuleCall_2_0() { return cObjectObSelectionStrategyParserRuleCall_2_0; }
+	}
+
+	public class ReferenceAddElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ReferenceAdd");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cReferenceAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final CrossReference cReferenceEReferenceCrossReference_0_0 = (CrossReference)cReferenceAssignment_0.eContents().get(0);
+		private final RuleCall cReferenceEReferenceIDTerminalRuleCall_0_0_1 = (RuleCall)cReferenceEReferenceCrossReference_0_0.eContents().get(1);
+		private final Keyword cPlusSignKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cObjectAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cObjectObSelectionStrategyParserRuleCall_3_0 = (RuleCall)cObjectAssignment_3.eContents().get(0);
+		
+		//ReferenceAdd:
+		//	reference+=[ecore::EReference] "+" "=" object=ObSelectionStrategy;
+		@Override public ParserRule getRule() { return rule; }
+
+		//reference+=[ecore::EReference] "+" "=" object=ObSelectionStrategy
+		public Group getGroup() { return cGroup; }
+
+		//reference+=[ecore::EReference]
+		public Assignment getReferenceAssignment_0() { return cReferenceAssignment_0; }
+
+		//[ecore::EReference]
+		public CrossReference getReferenceEReferenceCrossReference_0_0() { return cReferenceEReferenceCrossReference_0_0; }
+
+		//ID
+		public RuleCall getReferenceEReferenceIDTerminalRuleCall_0_0_1() { return cReferenceEReferenceIDTerminalRuleCall_0_0_1; }
+
+		//"+"
+		public Keyword getPlusSignKeyword_1() { return cPlusSignKeyword_1; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+
+		//object=ObSelectionStrategy
+		public Assignment getObjectAssignment_3() { return cObjectAssignment_3; }
+
+		//ObSelectionStrategy
+		public RuleCall getObjectObSelectionStrategyParserRuleCall_3_0() { return cObjectObSelectionStrategyParserRuleCall_3_0; }
+	}
+
+	public class ReferenceRemoveElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ReferenceRemove");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cReferenceAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final CrossReference cReferenceEReferenceCrossReference_0_0 = (CrossReference)cReferenceAssignment_0.eContents().get(0);
+		private final RuleCall cReferenceEReferenceIDTerminalRuleCall_0_0_1 = (RuleCall)cReferenceEReferenceCrossReference_0_0.eContents().get(1);
+		private final Keyword cHyphenMinusKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cObjectAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cObjectObSelectionStrategyParserRuleCall_3_0 = (RuleCall)cObjectAssignment_3.eContents().get(0);
+		
+		//ReferenceRemove:
+		//	reference+=[ecore::EReference] "-" "=" object=ObSelectionStrategy;
+		@Override public ParserRule getRule() { return rule; }
+
+		//reference+=[ecore::EReference] "-" "=" object=ObSelectionStrategy
+		public Group getGroup() { return cGroup; }
+
+		//reference+=[ecore::EReference]
+		public Assignment getReferenceAssignment_0() { return cReferenceAssignment_0; }
+
+		//[ecore::EReference]
+		public CrossReference getReferenceEReferenceCrossReference_0_0() { return cReferenceEReferenceCrossReference_0_0; }
+
+		//ID
+		public RuleCall getReferenceEReferenceIDTerminalRuleCall_0_0_1() { return cReferenceEReferenceIDTerminalRuleCall_0_0_1; }
+
+		//"-"
+		public Keyword getHyphenMinusKeyword_1() { return cHyphenMinusKeyword_1; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+
+		//object=ObSelectionStrategy
+		public Assignment getObjectAssignment_3() { return cObjectAssignment_3; }
+
+		//ObSelectionStrategy
+		public RuleCall getObjectObSelectionStrategyParserRuleCall_3_0() { return cObjectObSelectionStrategyParserRuleCall_3_0; }
 	}
 
 	public class ReferenceSwapElements extends AbstractParserRuleElementFinder {
@@ -4709,6 +4797,8 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final AttributeOperationElements pAttributeOperation;
 	private final ReferenceSetElements pReferenceSet;
 	private final ReferenceInitElements pReferenceInit;
+	private final ReferenceAddElements pReferenceAdd;
+	private final ReferenceRemoveElements pReferenceRemove;
 	private final ReferenceSwapElements pReferenceSwap;
 	private final ReferenceAttElements pReferenceAtt;
 	private final RandomTypeSelectionElements pRandomTypeSelection;
@@ -4807,6 +4897,8 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.pAttributeOperation = new AttributeOperationElements();
 		this.pReferenceSet = new ReferenceSetElements();
 		this.pReferenceInit = new ReferenceInitElements();
+		this.pReferenceAdd = new ReferenceAddElements();
+		this.pReferenceRemove = new ReferenceRemoveElements();
 		this.pReferenceSwap = new ReferenceSwapElements();
 		this.pReferenceAtt = new ReferenceAttElements();
 		this.pRandomTypeSelection = new RandomTypeSelectionElements();
@@ -5429,7 +5521,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ReferenceSet:
-	//	ReferenceInit | ReferenceSwap | ReferenceAtt;
+	//	ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove;
 	public ReferenceSetElements getReferenceSetAccess() {
 		return pReferenceSet;
 	}
@@ -5446,6 +5538,26 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getReferenceInitRule() {
 		return getReferenceInitAccess().getRule();
+	}
+
+	//ReferenceAdd:
+	//	reference+=[ecore::EReference] "+" "=" object=ObSelectionStrategy;
+	public ReferenceAddElements getReferenceAddAccess() {
+		return pReferenceAdd;
+	}
+	
+	public ParserRule getReferenceAddRule() {
+		return getReferenceAddAccess().getRule();
+	}
+
+	//ReferenceRemove:
+	//	reference+=[ecore::EReference] "-" "=" object=ObSelectionStrategy;
+	public ReferenceRemoveElements getReferenceRemoveAccess() {
+		return pReferenceRemove;
+	}
+	
+	public ParserRule getReferenceRemoveRule() {
+		return getReferenceRemoveAccess().getRule();
 	}
 
 	//ReferenceSwap:

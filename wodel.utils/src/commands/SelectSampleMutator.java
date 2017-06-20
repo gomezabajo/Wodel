@@ -267,7 +267,7 @@ public class SelectSampleMutator extends Mutator {
 						}
 					}
 				}
-				HashMap<EObject, List<EObject>> hmEObjects = new HashMap<EObject, List<EObject>>();
+				HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects = new HashMap<EObject, HashMap<Object, List<EObject>>>();
 				//distinct
 				if (equals == false) {
 					List<String> otherFeatures = null;
@@ -282,31 +282,38 @@ public class SelectSampleMutator extends Mutator {
 									others.remove(key);
 									List<EObject> lo = classify.get(feat).get(key);
 									for (EObject o1 : lo) {
-										List<EObject> sel = new ArrayList<EObject>();
+										//List<EObject> sel = new ArrayList<EObject>();
+										//List<EObject> rej = new ArrayList<EObject>();
+										//List<EObject> lo1 = new ArrayList<EObject>();
+										HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
 										List<EObject> rej = new ArrayList<EObject>();
 										List<EObject> lo1 = new ArrayList<EObject>();
 										lo1.addAll(lo);
 										lo1.remove(o1);
 										rej.addAll(lo1);
 										for (Object key1 : others.keySet()) {
+											List<EObject> keySelected = new ArrayList<EObject>();
 											List<EObject> lo2 = others.get(key1);
 											if (lo2.size() > 0) {
-												EObject o2 = lo2.get(ModelManager.getRandomIndex(lo2));
-												if (rej.contains(o2) != true) {
-													for (String of : otherFeatures) {
-														for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
-															if (f2.getName().equals(of)) {
-																if (o2.eGet(f2).equals(o1.eGet(f2))) {
-																	rej.add(o2);
+												for (EObject o2 : lo2) {
+													//EObject o2 = lo2.get(ModelManager.getRandomIndex(lo2));
+													if (rej.contains(o2) != true) {
+														for (String of : otherFeatures) {
+															for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
+																if (f2.getName().equals(of)) {
+																	if (o2.eGet(f2).equals(o1.eGet(f2))) {
+																		rej.add(o2);
+																	}
 																}
 															}
 														}
-													}
-													if (sel.contains(o2) != true) {
-														sel.add(o2);
+														if (keySelected.contains(o2) != true) {
+															keySelected.add(o2);
+														}
 													}
 												}
 											}
+											sel.put(key1, keySelected);
 										}
 										hmEObjects.put(o1, sel);
 									}
@@ -317,52 +324,62 @@ public class SelectSampleMutator extends Mutator {
 				}
 				//equals
 				if (equals == true) {
-					for (String feature : features) {
-						for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
-							if (feat.getName().equals(feature)) {
-								Iterator<List<EObject>> iterator = classify.get(feat).values().iterator();
-								while (iterator.hasNext()) {
-									List<EObject> lo = iterator.next();
-									List<EObject> sel = new ArrayList<EObject>();
-									EObject o = lo.get(0);
-									List<EObject> lo1 = new ArrayList<EObject>();
-									lo1.addAll(lo);
-									lo1.remove(o);
-									hmEObjects.put(o, sel);
+					if (features.size() > 0) {
+						for (String feature : features) {
+							for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
+								if (feat.getName().equals(feature)) {
+									Iterator<List<EObject>> iterator = classify.get(feat).values().iterator();
+									while (iterator.hasNext()) {
+										List<EObject> lo = iterator.next();
+										//List<EObject> sel = new ArrayList<EObject>();
+										HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
+										EObject o = lo.get(0);
+										List<EObject> lo1 = new ArrayList<EObject>();
+										lo1.addAll(lo);
+										lo1.remove(o);
+										hmEObjects.put(o, sel);
+									}
 								}
 							}
 						}
 					}
-				}
-				Map<EObject, List<EObject>> sorted = hmEObjects.entrySet().stream()
-				        .sorted(comparingInt(e->e.getValue().size()))
-				        .collect(toMap(
-				                Map.Entry::getKey,
-				                Map.Entry::getValue,
-				                (a,b) -> {throw new AssertionError();},
-				                LinkedHashMap::new
-				        )); 
-
-				List<List<EObject>> candidates = new ArrayList<List<EObject>>();
-				ListIterator<EObject> iter = new ArrayList<>(sorted.keySet()).listIterator(sorted.size());
-
-				int max = Integer.MIN_VALUE;
-				while (iter.hasPrevious()) {
-					if (max == Integer.MIN_VALUE) {
-						EObject previous = iter.previous();
-						max = sorted.get(previous).size();
-						List<EObject> candidate = new ArrayList<EObject>();
-						candidate.add(previous);
-						candidate.addAll(sorted.get(previous));
-						candidates.add(candidate);
-					}
 					else {
-						EObject previous = iter.previous();
-						if (sorted.get(previous).size() == max) {
+						HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
+						sel.put(null, objects.subList(1, objects.size() -1));
+						hmEObjects.put(objects.get(0), sel);
+					}
+				}
+				int max = Integer.MIN_VALUE;
+				List<List<EObject>> candidates = new ArrayList<List<EObject>>();
+				for (EObject key : hmEObjects.keySet()) {
+					Map<Object, List<EObject>> sorted = hmEObjects.get(key).entrySet().stream()
+							.sorted(comparingInt(e->e.getValue().size()))
+							.collect(toMap(
+									Map.Entry::getKey,
+									Map.Entry::getValue,
+									(a,b) -> {throw new AssertionError();},
+									LinkedHashMap::new
+									)); 
+
+					ListIterator<Object> iter = new ArrayList<>(sorted.keySet()).listIterator(sorted.size());
+
+					while (iter.hasPrevious()) {
+						if (max == Integer.MIN_VALUE) {
+							Object previous = iter.previous();
+							max = sorted.get(previous).size();
 							List<EObject> candidate = new ArrayList<EObject>();
-							candidate.add(previous);
+							candidate.add(key);
 							candidate.addAll(sorted.get(previous));
 							candidates.add(candidate);
+						}
+						else {
+							Object previous = iter.previous();
+							if (sorted.get(previous).size() == max) {
+								List<EObject> candidate = new ArrayList<EObject>();
+								candidate.add(key);
+								candidate.addAll(sorted.get(previous));
+								candidates.add(candidate);
+							}
 						}
 					}
 				}

@@ -63,9 +63,11 @@ import mutatorenvironment.RandomSelection;
 import mutatorenvironment.RandomStringType;
 import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
+import mutatorenvironment.ReferenceAdd;
 import mutatorenvironment.ReferenceAtt;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
+import mutatorenvironment.ReferenceRemove;
 import mutatorenvironment.ReferenceSet;
 import mutatorenvironment.ReferenceSwap;
 import mutatorenvironment.RemoveCompleteReferenceMutator;
@@ -664,6 +666,20 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * @generated
 	 */
 	private EClass selectSampleMutatorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referenceAddEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referenceRemoveEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2539,6 +2555,24 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getReferenceAdd() {
+		return referenceAddEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReferenceRemove() {
+		return referenceRemoveEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getLogicOperator() {
 		return logicOperatorEEnum;
 	}
@@ -2884,6 +2918,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEAttribute(selectSampleMutatorEClass, SELECT_SAMPLE_MUTATOR__CLAUSE);
 		createEReference(selectSampleMutatorEClass, SELECT_SAMPLE_MUTATOR__FEATURES);
 
+		referenceAddEClass = createEClass(REFERENCE_ADD);
+
+		referenceRemoveEClass = createEClass(REFERENCE_REMOVE);
+
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
 		operatorEEnum = createEEnum(OPERATOR);
@@ -2987,6 +3025,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		randomIntegerNumberTypeEClass.getESuperTypes().add(this.getRandomNumberType());
 		specificClosureSelectionEClass.getESuperTypes().add(this.getSpecificSelection());
 		selectSampleMutatorEClass.getESuperTypes().add(this.getMutator());
+		referenceAddEClass.getESuperTypes().add(this.getReferenceSet());
+		referenceRemoveEClass.getESuperTypes().add(this.getReferenceSet());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3265,6 +3305,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEReference(getSelectSampleMutator_Object(), this.getObSelectionStrategy(), null, "object", null, 1, 1, SelectSampleMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSelectSampleMutator_Clause(), this.getSampleClause(), "clause", null, 0, 1, SelectSampleMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSelectSampleMutator_Features(), ecorePackage.getEStructuralFeature(), null, "features", null, 0, -1, SelectSampleMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(referenceAddEClass, ReferenceAdd.class, "ReferenceAdd", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(referenceRemoveEClass, ReferenceRemove.class, "ReferenceRemove", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");

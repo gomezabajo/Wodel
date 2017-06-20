@@ -286,5 +286,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//SelectSampleMutator/clause"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//SelectSampleMutator/features"/>
     </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceAdd"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceRemove"/>
   </genPackages>
 </genmodel:GenModel>

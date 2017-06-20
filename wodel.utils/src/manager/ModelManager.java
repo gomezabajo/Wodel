@@ -728,7 +728,7 @@ public class ModelManager {
 		return containers;
 
 	}
-
+	
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -1145,7 +1145,7 @@ public class ModelManager {
 			}
 		}
 	}
-
+	
 	/**
 	 * @param att
 	 *            Name of the attribute
@@ -1254,6 +1254,26 @@ public class ModelManager {
 		}
 		return null;
 	}
+	
+	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
+	 * @param newValue
+	 *            Value of the new attribute
+	 */
+	public static void setBooleanAttribute(String att, EObject object,
+			boolean newValue) {
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+			if (sf.getName().equals(att)) {
+				object.eSet(sf, newValue);
+			}
+		}
+	}
 
 	/**
 	 * @param att
@@ -1343,6 +1363,29 @@ public class ModelManager {
 		}
 
 		return contRefs;
+	}
+ 	
+ 	public static EReference getContainingReference(EClass container, EClass containing)
+			throws ReferenceNonExistingException {
+		EReference contRef = null;
+		List<EReference> refs = container.getEAllReferences();
+
+		for (EReference r : refs) {
+			if (r.isChangeable()) {
+				System.out.println("\nref:" + r.getName() + " type:"
+						+ r.getEType().getName());
+				System.out.println("obj.allSupers: ");
+				for (EClass c : containing.getEAllSuperTypes())
+					System.out.print(c.getName() + ", ");
+				if (r.getEType().getName().equals(containing.getName())
+						|| containing.getEAllSuperTypes().contains(r.getEType())) {
+					contRef = r;
+					break;
+				}
+			}
+		}
+
+		return contRef;
 	}
 
 	/**
@@ -1499,6 +1542,32 @@ public class ModelManager {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * @param model
+	 *            Model one wants to output
+	 * @param outputURI
+	 *            URI of the new created Model
+	 */
+	public static Resource createAndLoadModel(EObject eobj, String outputURI) {
+		ResourceSet rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put("*", new XMLResourceFactoryImpl());
+		URI uri = URI.createFileURI(outputURI);
+		Resource resource = rs.createResource(uri);
+		Map<Object, Object> saveOptions = ((XMLResource) resource)
+				.getDefaultSaveOptions();
+		saveOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
+		saveOptions.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE,
+				new ArrayList());
+		resource.getContents().add(eobj);
+		try {
+			resource.save(saveOptions);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return resource;
+	}
 
 
 	/**
@@ -1532,7 +1601,7 @@ public class ModelManager {
 			model.setURI(uri);
 		}
 	}
-
+	
 	// ESTHER -----------------------------
 
 	/**

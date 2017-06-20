@@ -69,7 +69,7 @@ public class RunWodel implements IObjectActionDelegate {
 			cls = Class.forName(classname);
 		} catch (ClassNotFoundException e) {
 		}
-
+		
 		if (cls == null) {
 			try {
 				IProject project = file.getProject();

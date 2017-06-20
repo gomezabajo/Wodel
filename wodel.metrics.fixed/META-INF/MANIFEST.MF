@@ -22,5 +22,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.sirius.business.api.session;version="3.0.0",
+Import-Package: org.eclipse.sirius.business.api.session,
  org.eclipse.ui.internal.views

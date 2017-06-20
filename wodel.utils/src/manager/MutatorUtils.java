@@ -1,58 +1,34 @@
 package manager;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import mutatorenvironment.AttributeOperation;
-import mutatorenvironment.Block;
 import mutatorenvironment.CloneObjectMutator;
-import mutatorenvironment.Constraint;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.MaxValueType;
 import mutatorenvironment.MinValueType;
+import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.Mutator;
-import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ObjectEmitter;
+import mutatorenvironment.SelectObjectMutator;
+import mutatorenvironment.SelectSampleMutator;
 //import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SpecificObjectSelection;
-import mutatorenvironment.SpecificReferenceSelection;
 
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.operations.OperationHistoryFactory;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -62,48 +38,25 @@ import org.eclipse.ocl.Query;
 import org.eclipse.ocl.common.OCLConstants;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
-import org.osgi.framework.Bundle;
 
-import commands.ModifyInformationMutator;
-import commands.RemoveObjectMutator;
-import commands.SelectObjectMutator;
 import commands.selection.strategies.RandomTypeSelection;
-import commands.strategies.AttributeConfigurationStrategy;
 import commands.strategies.RandomBooleanConfigurationStrategy;
 import commands.strategies.RandomDoubleConfigurationStrategy;
 import commands.strategies.RandomIntegerConfigurationStrategy;
 import commands.strategies.RandomStringConfigurationStrategy;
-import commands.strategies.ReferenceConfigurationStrategy;
-import commands.strategies.SpecificBooleanConfigurationStrategy;
-import commands.strategies.SwapAttributeConfigurationStrategy;
-import commands.strategies.SwapReferenceConfigurationStrategy;
-import exceptions.AbstractCreationException;
-import exceptions.MaxSmallerThanMinException;
-import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
-import exceptions.ObjectNoTargetableException;
-import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 import appliedMutations.AppMutation;
 import appliedMutations.AppliedMutationsFactory;
-import appliedMutations.AttributeChanged;
-import appliedMutations.AttributeSwap;
 import appliedMutations.InformationChanged;
 import appliedMutations.Mutations;
 import appliedMutations.ObjectCloned;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
-import appliedMutations.ReferenceAtt;
-import appliedMutations.ReferenceChanged;
-import appliedMutations.ReferenceCreated;
-import appliedMutations.ReferenceRemoved;
-import appliedMutations.ReferenceSwap;
-import appliedMutations.SourceReferenceChanged;
-import appliedMutations.TargetReferenceChanged;
 
 public class MutatorUtils {
-
+	
 	protected class Operator {
 		public String type;
 
@@ -2459,9 +2412,8 @@ public class MutatorUtils {
 
 		return value;
 	}
-	protected static HashMap<String, EObject> getMutatorVariables(ArrayList<EObject> objects) {
+	protected static HashMap<String, EObject> getMutatorNames(ArrayList<EObject> objects) {
 		HashMap<String, EObject> mutators = new HashMap<String, EObject>();
-		int counter = 0;
 		for (EObject obj : objects) {
 			String name = obj.eClass().getName();
 			if (name.equals("CreateObjectMutator")
@@ -2496,7 +2448,74 @@ public class MutatorUtils {
 
 		return mutators;
 	}
+	
+	protected static HashMap<String, Mutator> getMutatorNames(List<Mutator> mutators) {
+		HashMap<String, Mutator> ret = new HashMap<String, Mutator>();
+		int counter = 0;
+		for (Mutator mut : mutators) {
+			String name = mut.eClass().getName();
+			if (name.equals("CreateObjectMutator")
+					|| name.equals("RemoveObjectMutator")
+					|| name.equals("CreateReferenceMutator")
+					|| name.equals("ModifySourceReferenceMutator")
+					|| name.equals("ModifyTargetReferenceMutator")
+					|| name.equals("RemoveRandomReferenceMutator")
+					|| name.equals("RemoveSpecificReferenceMutator")
+					|| name.equals("RemoveCompleteReferenceMutator")
+					|| name.equals("ModifyInformationMutator")
+					|| name.equals("SelectObjectMutator")
+					|| name.equals("SelectSampleMutator")
+					|| name.equals("CloneObjectMutator")) {
+				if (mut.getName() != null) {
+					ret.put(mut.getName(), mut);
+				}
+			}
+			if (mut.eContainer() != null) {
+				if (mut.eContainer().eClass().getName()
+						.equals("MutatorEnvironment")) {
+					if (name.equals("CompositeMutator")) {
+						if (mut.getName() != null) {
+							ret.put(mut.getName(), mut);
+						}
+					}
+				}
+			}
+		}
 
+		return ret;
+	}
+
+	public static String getMutatorName(Mutator mut) {
+		String name = mut.eClass().getName();
+		if (name.equals("CreateObjectMutator")
+				|| name.equals("RemoveObjectMutator")
+				|| name.equals("CreateReferenceMutator")
+				|| name.equals("ModifySourceReferenceMutator")
+				|| name.equals("ModifyTargetReferenceMutator")
+				|| name.equals("RemoveRandomReferenceMutator")
+				|| name.equals("RemoveSpecificReferenceMutator")
+				|| name.equals("RemoveCompleteReferenceMutator")
+				|| name.equals("ModifyInformationMutator")
+				|| name.equals("SelectObjectMutator")
+				|| name.equals("SelectSampleMutator")
+				|| name.equals("CloneObjectMutator")) {
+			if (mut.getName() != null) {
+				return mut.getName();
+			}
+		}
+		if (mut.eContainer() != null) {
+			if (mut.eContainer().eClass().getName()
+					.equals("MutatorEnvironment")) {
+				if (name.equals("CompositeMutator")) {
+					if (mut.getName() != null) {
+						return mut.getName();
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	protected static HashMap<String, EObject> getMutators(ArrayList<EObject> objects) {
 		HashMap<String, EObject> mutators = new HashMap<String, EObject>();
 		int counter = 0;
@@ -2534,6 +2553,56 @@ public class MutatorUtils {
 		}
 
 		return mutators;
+	}
+	
+	protected static List<EObject> getMutatorList(ArrayList<EObject> objects) {
+		List<EObject> mutators = new ArrayList<EObject>();
+		int counter = 0;
+		for (EObject obj : objects) {
+			String name = obj.eClass().getName();
+			System.out.println("name: " + name);
+			if (name.equals("CreateObjectMutator")
+					|| name.equals("RemoveObjectMutator")
+					|| name.equals("CreateReferenceMutator")
+					|| name.equals("ModifySourceReferenceMutator")
+					|| name.equals("ModifyTargetReferenceMutator")
+					|| name.equals("RemoveRandomReferenceMutator")
+					|| name.equals("RemoveSpecificReferenceMutator")
+					|| name.equals("RemoveCompleteReferenceMutator")
+					|| name.equals("ModifyInformationMutator")
+					|| name.equals("SelectObjectMutator")
+					|| name.equals("SelectSampleMutator")
+					|| name.equals("CloneObjectMutator")) {
+				counter++;
+				mutators.add(obj);
+			}
+			if (obj.eContainer() != null) {
+				if (obj.eContainer().eClass().getName()
+						.equals("MutatorEnvironment")) {
+					if (name.equals("CompositeMutator")) {
+						counter++;
+						mutators.add(obj);
+					}
+				}
+			}
+		}
+
+		return mutators;
+	}
+
+	protected static EObject getLastMutatorOfBlock(Resource resource, String blockName) {
+		List<EObject> commands = null;
+		try {
+			EObject block = MutatorUtils.getBlock(resource, blockName);
+			commands = ModelManager.getReferences("commands", block);
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (commands != null) {
+			return commands.get(commands.size() - 1);
+		}
+		return null;
 	}
 
 	public static void generateModelPaths(String fromName, File mutFile, String folderName,
@@ -2630,6 +2699,57 @@ public class MutatorUtils {
 		}
 	}
 	
+	private void createMutantVersionRegistry(ArrayList<EPackage> packages, Resource seed, Resource model, String versionPath, AppMutation mut) {
+		File outputFolder = new File(versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry");
+		System.out.println(versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry");
+		if (outputFolder.exists() != true) {
+			outputFolder.mkdir();
+		}
+		if (mut instanceof ObjectCreated) {
+			List<EObject> emuts = ((ObjectCreated) mut).getObject();
+			if (emuts.size() > 0) {
+				EObject emutated = emuts.get(0);
+				emuts.remove(0);
+				if (ModelManager.getObject(model, emutated) != null) {
+					emuts.add(ModelManager.getObject(model, emutated));
+				}
+			}
+		}
+		if (mut instanceof ObjectCloned) {
+			List<EObject> emuts = ((ObjectCloned) mut).getObject();
+			if (emuts.size() > 0) {
+				EObject emutated = emuts.get(0);
+				emuts.remove(0);
+				if (ModelManager.getObject(model, emutated) != null) {
+					emuts.add(ModelManager.getObject(model, emutated));
+				}
+			}
+		}
+		if (mut instanceof ObjectRemoved) {
+			List<EObject> emuts = ((ObjectRemoved) mut).getObject();
+			if (emuts.size() > 0) {
+				EObject emutated = emuts.get(0);
+				emuts.remove(0);
+				if (ModelManager.getObject(seed, emutated) != null) {
+					emuts.add(ModelManager.getObject(seed, emutated));
+				}
+			}
+		}
+		if (mut instanceof InformationChanged) {
+			EObject emutated = ((InformationChanged) mut).getObject();
+			if (ModelManager.getObject(model, emutated) == null) {
+				EObject object = ModelManager.getObject(model, emutated);
+				if (object != null) {
+					((InformationChanged) mut).setObject(object);
+				}
+			}
+		}
+		String registryFilename = versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry/" + versionPath.substring(versionPath.lastIndexOf("/") + 1, versionPath.length()).replace(".model", "Registry.model");
+		Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+		muts.getMuts().add(EcoreUtil.copy(mut));
+		ModelManager.createModel(muts, registryFilename);
+	}
+	
 	public boolean registryMutant(ArrayList<EPackage> packages,
 			Resource seed, Resource model, HashMap<String, ArrayList<String>> rules,
 			Mutations muts, String modelFilename, String mutFilename, 
@@ -2653,6 +2773,17 @@ public class MutatorUtils {
 					ModelManager.saveOutModel(model, mutFilename);
 					hashsetMutants.add(mutFilename);
 					if (registry == true) {
+						List<String> mutVersions = null;
+						if (hashmapMutVersions.containsKey(mutFilename) == true) {
+							mutVersions = hashmapMutVersions.get(mutFilename);
+						}
+						else {
+							mutVersions = new ArrayList<String>();
+						}
+						mutVersions.addAll(mutPaths);
+						hashmapMutVersions.put(mutFilename, mutVersions);
+						Resource lastVersion = seed;
+						int i = 0;
 						for (AppMutation mut : muts.getMuts()) {
 							if (mut instanceof ObjectCreated) {
 								List<EObject> emuts = ((ObjectCreated) mut).getObject();
@@ -2751,15 +2882,22 @@ public class MutatorUtils {
 									}
 								}
 							}
+							String mutVersion = "";
+							if (mutVersions.size() > i) {
+								mutVersion = mutVersions.get(i);
+								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
+								createMutantVersionRegistry(packages, lastVersion, activeVersion, mutVersion, mut);
+								lastVersion = activeVersion;
+							}
+							i++;
 						}
-						List<String> mutVersions = null;
-						if (hashmapMutVersions.containsKey(mutFilename) == true) {
-							mutVersions = hashmapMutVersions.get(mutFilename);
-						}
-						else {
-							mutVersions = new ArrayList<String>();
-						}
-						mutVersions.addAll(mutPaths);
+						String mutLastVersion = mutVersions.get(mutVersions.size() - 1);
+						System.out.println("mutLastVersion: " + mutLastVersion);
+						int index = Integer.parseInt(mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 1, mutLastVersion.lastIndexOf("."))) + 1;
+						mutLastVersion = mutLastVersion.substring(0, mutLastVersion.lastIndexOf("_") + 1) + index + mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 2, mutLastVersion.length());
+						System.out.println(mutLastVersion);
+						ModelManager.saveOutModel(model, mutLastVersion);
+						mutVersions.add(mutLastVersion);
 						hashmapMutVersions.put(mutFilename, mutVersions);
 						File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
 						if (registryFolder.exists() != true) {
@@ -2767,6 +2905,7 @@ public class MutatorUtils {
 						}
 						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
 						ModelManager.createModel(muts, registryFilename);
+						
 					}
 				}
 				else {
@@ -2813,6 +2952,17 @@ public class MutatorUtils {
 					ModelManager.saveOutModel(model, mutFilename);
 					hashsetMutantsBlock.add(mutFilename);
 					if (registry == true) {
+						List<String> mutVersions = null;
+						if (hashmapMutVersions.containsKey(mutFilename) == true) {
+							mutVersions = hashmapMutVersions.get(mutFilename);
+						}
+						else {
+							mutVersions = new ArrayList<String>();
+						}
+						mutVersions.addAll(mutPaths);
+						hashmapMutVersions.put(mutFilename, mutVersions);
+						Resource lastVersion = seed;
+						int i = 0;
 						for (AppMutation mut : muts.getMuts()) {
 							if (mut instanceof ObjectCreated) {
 								List<EObject> emuts = ((ObjectCreated) mut).getObject();
@@ -2911,17 +3061,27 @@ public class MutatorUtils {
 									}
 								}
 							}
+							String mutVersion = "";
+							if (mutVersions.size() > i) {
+								mutVersion = mutVersions.get(i);
+								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
+								createMutantVersionRegistry(packages, lastVersion, activeVersion, mutVersion, mut);
+								lastVersion = activeVersion;
+							}
+							i++;
 						}
-						List<String> mutVersions = null;
-						if (hashmapMutVersions.containsKey(mutFilename) == true) {
-							mutVersions = hashmapMutVersions.get(mutFilename);
-						}
-						else {
-							mutVersions = new ArrayList<String>();
-						}
-						mutVersions.addAll(mutPaths);
+						String mutLastVersion = mutVersions.get(mutVersions.size() - 1);
+						System.out.println("mutLastVersion: " + mutLastVersion);
+						int index = Integer.parseInt(mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 1, mutLastVersion.lastIndexOf("."))) + 1;
+						mutLastVersion = mutLastVersion.substring(0, mutLastVersion.lastIndexOf("_") + 1) + index + mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 2, mutLastVersion.length());
+						System.out.println(mutLastVersion);
+						ModelManager.saveOutModel(model, mutLastVersion);
+						mutVersions.add(mutLastVersion);
 						hashmapMutVersions.put(mutFilename, mutVersions);
-
+						//if (mutVersions.size() > muts.getMuts().size() - 1) {
+							//createMutantVersionRegistry(packages, lastVersion, model, mutLastVersion, muts.getMuts().get(muts.getMuts().size() - 1));
+						//}
+						//createMutantVersionRegistry(packages, lastVersion, model, mutLastVersion, muts.getMuts().get(muts.getMuts().size() - 1));
 						File registryFolder = null;
 						if (fromBlocks.size() == 0) {
 							registryFolder = new File(
@@ -2939,6 +3099,7 @@ public class MutatorUtils {
 							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
 						}
 						ModelManager.createModel(muts, registryFilename);
+						i++;
 					}
 				}
 				else {
@@ -3081,7 +3242,7 @@ public class MutatorUtils {
 		return block;
 	}
 
-	public static EClass getMutatorContainerClass(Resource model, String name) {
+	public static EClass getMutatorContainerType(Resource model, String name) {
 		EClass eClass = null;
 		ArrayList<EObject> objects = ModelManager.getAllObjects(model);
 		HashMap<String, EObject> mutators = getMutators(objects);
@@ -3095,7 +3256,7 @@ public class MutatorUtils {
 						if (container != null) {
 							if (container instanceof SpecificObjectSelection) {
 								SpecificObjectSelection selection = (SpecificObjectSelection) container;
-								eClass = MutatorUtils.getMutatorClass(model, selection.getObjSel().getName());
+								eClass = MutatorUtils.getMutatorType(model, selection.getObjSel().getName());
 							}
 							else {
 								eClass = container.getType();
@@ -3113,7 +3274,7 @@ public class MutatorUtils {
 						if (container != null) {
 							if (container instanceof SpecificObjectSelection) {
 								SpecificObjectSelection selection = (SpecificObjectSelection) container;
-								eClass = MutatorUtils.getMutatorClass(model, selection.getObjSel().getName());
+								eClass = MutatorUtils.getMutatorType(model, selection.getObjSel().getName());
 							}
 							else {
 								eClass = container.getType();
@@ -3131,7 +3292,7 @@ public class MutatorUtils {
 						if (container != null) {
 							if (container instanceof SpecificObjectSelection) {
 								SpecificObjectSelection selection = (SpecificObjectSelection) container;
-								eClass = MutatorUtils.getMutatorClass(model, selection.getObjSel().getName());
+								eClass = MutatorUtils.getMutatorType(model, selection.getObjSel().getName());
 							}
 							else {
 								eClass = container.getType();
@@ -3145,10 +3306,10 @@ public class MutatorUtils {
 		return eClass;
 	}
 
-	public static EClass getMutatorClass(Resource model, String name) {
+	public static EClass getMutatorType(Resource model, String name) {
 		EClass eClass = null;
 		ArrayList<EObject> objects = ModelManager.getAllObjects(model);
-		HashMap<String, EObject> mutators = getMutatorVariables(objects);
+		HashMap<String, EObject> mutators = getMutatorNames(objects);
 		for (String mutatorClassName : mutators.keySet()) {
 			EObject mutator = mutators.get(mutatorClassName);
 			if (mutator instanceof CreateObjectMutator) {
@@ -3176,7 +3337,7 @@ public class MutatorUtils {
 							mutatorenvironment.ObSelectionStrategy object = mut.getObject();
 							if (object instanceof mutatorenvironment.SpecificObjectSelection) {
 								mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
-								eClass = getMutatorClass(model, selection.getObjSel().getName());
+								eClass = getMutatorType(model, selection.getObjSel().getName());
 							}
 							if (object instanceof mutatorenvironment.RandomTypeSelection) {
 								mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
@@ -3199,7 +3360,7 @@ public class MutatorUtils {
 								mutatorenvironment.ObSelectionStrategy container = mut.getContainer();
 								if (container instanceof mutatorenvironment.SpecificObjectSelection) {
 									mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) container;
-									eClass = getMutatorClass(model, selection.getObjSel().getName());
+									eClass = getMutatorType(model, selection.getObjSel().getName());
 								}
 								if (container instanceof mutatorenvironment.RandomTypeSelection) {
 									mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) container;
@@ -3222,11 +3383,132 @@ public class MutatorUtils {
 					break;
 				}
 			}
+			if (mutator instanceof mutatorenvironment.SelectSampleMutator) {
+				mutatorenvironment.SelectSampleMutator mut = (mutatorenvironment.SelectSampleMutator) mutator;
+				if (mut.getName().equals(name)) {
+					if (mut.getType() != null) {
+						eClass = mut.getType();
+					}
+					else {
+						if (mut.getObject() != null) {
+							mutatorenvironment.ObSelectionStrategy object = mut.getObject();
+							if (object instanceof mutatorenvironment.SpecificObjectSelection) {
+								mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
+								eClass = getMutatorType(model, selection.getObjSel().getName());
+							}
+							if (object instanceof mutatorenvironment.RandomTypeSelection) {
+								mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
+								eClass = selection.getType();
+								
+							}
+							if (object instanceof mutatorenvironment.CompleteTypeSelection) {
+								mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
+								eClass = selection.getType();
+								
+							}
+							if (object instanceof mutatorenvironment.OtherTypeSelection) {
+								mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
+								eClass = selection.getType();
+								
+							}
+						}
+					}
+					break;
+				}
+			}
 		}
 		return eClass;
 	}
 	
-	public static String getClassName(MinValueType e) {
+	public static EClass getMutatorType(Mutator mutator) {
+		EClass eClass = null;
+		if (mutator instanceof CreateObjectMutator) {
+			CreateObjectMutator mut = (CreateObjectMutator) mutator;
+			eClass = mut.getType();
+		}
+		if (mutator instanceof CloneObjectMutator) {
+			CloneObjectMutator mut = (CloneObjectMutator) mutator;
+			eClass = mut.getType();
+		}
+		if (mutator instanceof mutatorenvironment.SelectObjectMutator) {
+			mutatorenvironment.SelectObjectMutator mut = (mutatorenvironment.SelectObjectMutator) mutator;
+			if (mut.getType() != null) {
+				eClass = mut.getType();
+			}
+			else {
+				if (mut.getObject() != null) {
+					mutatorenvironment.ObSelectionStrategy object = mut.getObject();
+					if (object instanceof mutatorenvironment.SpecificObjectSelection) {
+						mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
+						return getMutatorType((Mutator) selection.getObjSel());
+					}
+					if (object instanceof mutatorenvironment.RandomTypeSelection) {
+						mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
+						eClass = selection.getType();
+					}
+					if (object instanceof mutatorenvironment.CompleteTypeSelection) {
+						mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
+						eClass = selection.getType();
+					}
+					if (object instanceof mutatorenvironment.OtherTypeSelection) {
+						mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
+						eClass = selection.getType();
+					}
+				}
+				else {
+					if (mut.getContainer() != null) {
+						mutatorenvironment.ObSelectionStrategy container = mut.getContainer();
+						if (container instanceof mutatorenvironment.SpecificObjectSelection) {
+							mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) container;
+							eClass = getMutatorType((Mutator) selection.getObjSel());
+						}
+						if (container instanceof mutatorenvironment.RandomTypeSelection) {
+							mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) container;
+							eClass = selection.getType();
+						}
+						if (container instanceof mutatorenvironment.CompleteTypeSelection) {
+							mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) container;
+							eClass = selection.getType();
+						}
+						if (container instanceof mutatorenvironment.OtherTypeSelection) {
+							mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) container;
+							eClass = selection.getType();
+						}
+					}
+				}
+			}
+		}
+		if (mutator instanceof mutatorenvironment.SelectSampleMutator) {
+			mutatorenvironment.SelectSampleMutator mut = (mutatorenvironment.SelectSampleMutator) mutator;
+			if (mut.getType() != null) {
+				eClass = mut.getType();
+			}
+			else {
+				if (mut.getObject() != null) {
+					mutatorenvironment.ObSelectionStrategy object = mut.getObject();
+					if (object instanceof mutatorenvironment.SpecificObjectSelection) {
+						mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
+						eClass = getMutatorType((Mutator) selection.getObjSel());
+					}
+					if (object instanceof mutatorenvironment.RandomTypeSelection) {
+						mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
+						eClass = selection.getType();
+					}
+					if (object instanceof mutatorenvironment.CompleteTypeSelection) {
+						mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
+						eClass = selection.getType();
+					}
+					if (object instanceof mutatorenvironment.OtherTypeSelection) {
+						mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
+						eClass = selection.getType();
+					}
+				}
+			}
+		}
+		return eClass;
+	}
+
+	public static String getTypeName(MinValueType e) {
 		String className = null;
 		Mutator mut = null;
 		EObject container = e.eContainer();
@@ -3271,6 +3553,35 @@ public class MutatorUtils {
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof CloneObjectMutator) {
+						className = selection.getObjSel().getType().getName();
+					}
+				}
+				if (mutSel.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+					mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) mutSel.getObject();
+       				className = selection.getType().getName();
+       			}
+       			if (mutSel.getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+       				mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) mutSel.getObject();
+       				className = selection.getType().getName();
+       			}
+			}
+			if (mut instanceof mutatorenvironment.SelectSampleMutator) {
+				mutatorenvironment.SelectSampleMutator mutSel = (mutatorenvironment.SelectSampleMutator) mut;
+				if (mutSel.getObject() instanceof SpecificObjectSelection) {
+					SpecificObjectSelection selection = (SpecificObjectSelection) mutSel.getObject();
+					if (selection.getObjSel() instanceof CreateObjectMutator) {
+						className = selection.getObjSel().getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
 					}
@@ -3293,6 +3604,9 @@ public class MutatorUtils {
 					}
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
@@ -3311,7 +3625,7 @@ public class MutatorUtils {
 		return className;
 	}
 	
-	public static String getClassName(MaxValueType e) {
+	public static String getTypeName(MaxValueType e) {
 		String className = null;
 		Mutator mut = null;
 		EObject container = e.eContainer();
@@ -3332,6 +3646,9 @@ public class MutatorUtils {
 					}
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
@@ -3356,6 +3673,35 @@ public class MutatorUtils {
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof CloneObjectMutator) {
+						className = selection.getObjSel().getType().getName();
+					}
+				}
+				if (mutSel.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+					mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) mutSel.getObject();
+       				className = selection.getType().getName();
+       			}
+       			if (mutSel.getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+       				mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) mutSel.getObject();
+       				className = selection.getType().getName();
+       			}
+			}
+			if (mut instanceof mutatorenvironment.SelectSampleMutator) {
+				mutatorenvironment.SelectSampleMutator mutSel = (mutatorenvironment.SelectSampleMutator) mut;
+				if (mutSel.getObject() instanceof SpecificObjectSelection) {
+					SpecificObjectSelection selection = (SpecificObjectSelection) mutSel.getObject();
+					if (selection.getObjSel() instanceof CreateObjectMutator) {
+						className = selection.getObjSel().getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
 					}
@@ -3379,6 +3725,9 @@ public class MutatorUtils {
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
 					}
@@ -3397,7 +3746,7 @@ public class MutatorUtils {
 	}
 
 
-	public static String getClassName(AttributeOperation op) {
+	public static String getTypeName(AttributeOperation op) {
 		String className = null;
 		Mutator mut = null;
 		EObject container = op.eContainer();
@@ -3419,6 +3768,9 @@ public class MutatorUtils {
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
 					}
@@ -3442,6 +3794,35 @@ public class MutatorUtils {
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof CloneObjectMutator) {
+						className = selection.getObjSel().getType().getName();
+					}
+				}
+				if (mutSel.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+					mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) mutSel.getObject();
+       				className = selection.getType().getName();
+       			}
+       			if (mutSel.getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+       				mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) mutSel.getObject();
+       				className = selection.getType().getName();
+       			}
+			}
+			if (mut instanceof mutatorenvironment.SelectSampleMutator) {
+				mutatorenvironment.SelectSampleMutator mutSel = (mutatorenvironment.SelectSampleMutator) mut;
+				if (mutSel.getObject() instanceof SpecificObjectSelection) {
+					SpecificObjectSelection selection = (SpecificObjectSelection) mutSel.getObject();
+					if (selection.getObjSel() instanceof CreateObjectMutator) {
+						className = selection.getObjSel().getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
 					}
@@ -3464,6 +3845,9 @@ public class MutatorUtils {
 					}
 					if (selection.getObjSel() instanceof mutatorenvironment.SelectObjectMutator) {
 						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectObjectMutator) selection.getObjSel()).getObject()).getType().getName();
+					}
+					if (selection.getObjSel() instanceof mutatorenvironment.SelectSampleMutator) {
+						className = ((ObSelectionStrategy) ((mutatorenvironment.SelectSampleMutator) selection.getObjSel()).getObject()).getType().getName();
 					}
 					if (selection.getObjSel() instanceof CloneObjectMutator) {
 						className = selection.getObjSel().getType().getName();
@@ -3535,7 +3919,141 @@ public class MutatorUtils {
 			if (oe instanceof mutatorenvironment.SelectObjectMutator) {
 				type = getTypeName((ObjectEmitter) ((mutatorenvironment.SelectObjectMutator) oe).getObject());
 			}
+			if (oe instanceof mutatorenvironment.SelectSampleMutator) {
+				type = getTypeName((ObjectEmitter) ((mutatorenvironment.SelectSampleMutator) oe).getObject());
+			}
 		}
+		return type;
+	}
+	
+	public static EClass getType(ObjectEmitter oe) {
+		EClass type = null;
+		if (oe instanceof CreateObjectMutator) {
+			type = ((CreateObjectMutator) oe).getType();
+		}
+		if (oe instanceof SelectObjectMutator) {
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.SpecificObjectSelection) {
+				type = getType(((SpecificObjectSelection) ((SelectObjectMutator) oe).getObject()).getObjSel());
+			}
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+				type = ((SelectObjectMutator) oe).getObject().getType();
+			}
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+				type = ((SelectObjectMutator) oe).getObject().getType();
+			}
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.OtherTypeSelection) {
+				type = ((SelectObjectMutator) oe).getObject().getType();
+			}
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.SpecificClosureSelection) {
+				type = (EClass) ((SelectObjectMutator) oe).getObject().getRefType().getEType();
+			}
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.SelectObjectMutator) {
+				type = getType((ObjectEmitter) ((mutatorenvironment.SelectObjectMutator) oe).getObject());
+			}
+			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.SelectSampleMutator) {
+				type = getType((ObjectEmitter) ((SelectObjectMutator) oe).getObject());
+			}
+		}
+		if (oe instanceof ModifyInformationMutator) {
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.SpecificObjectSelection) {
+				type = ((SpecificObjectSelection) ((ModifyInformationMutator) oe).getObject()).getType();
+			}
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+				type = ((ModifyInformationMutator) oe).getObject().getType();
+			}
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+				type = ((ModifyInformationMutator) oe).getObject().getType();
+			}
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.OtherTypeSelection) {
+				type = ((ModifyInformationMutator) oe).getObject().getType();
+			}
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.SpecificClosureSelection) {
+				type = (EClass) ((ModifyInformationMutator) oe).getObject().getRefType().getEType();
+			}
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.SelectObjectMutator) {
+				type = getType((ObjectEmitter) ((mutatorenvironment.ModifyInformationMutator) oe).getObject());
+			}
+			if (((ModifyInformationMutator) oe).getObject() instanceof mutatorenvironment.SelectSampleMutator) {
+				type = getType((ObjectEmitter) ((ModifyInformationMutator) oe).getObject());
+			}
+		}
+		if (oe instanceof SelectSampleMutator) {
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.SpecificObjectSelection) {
+				type = getType(((SpecificObjectSelection) ((SelectSampleMutator) oe).getObject()).getObjSel());
+			}
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+				type = ((SelectObjectMutator) oe).getObject().getType();
+			}
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+				type = ((SelectSampleMutator) oe).getObject().getType();
+			}
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.OtherTypeSelection) {
+				type = ((SelectSampleMutator) oe).getObject().getType();
+			}
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.SpecificClosureSelection) {
+				type = (EClass) ((SelectSampleMutator) oe).getObject().getRefType().getEType();
+			}
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.SelectObjectMutator) {
+				type = getType((ObjectEmitter) ((mutatorenvironment.SelectSampleMutator) oe).getObject());
+			}
+			if (((SelectSampleMutator) oe).getObject() instanceof mutatorenvironment.SelectSampleMutator) {
+				type = getType((ObjectEmitter) ((SelectSampleMutator) oe).getObject());
+			}
+		}
+		if (oe instanceof CloneObjectMutator) {
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.SpecificObjectSelection) {
+				type = getType(((SpecificObjectSelection) ((CloneObjectMutator) oe).getObject()).getObjSel());
+			}
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+				type = ((CloneObjectMutator) oe).getObject().getType();
+			}
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+				type = ((CloneObjectMutator) oe).getObject().getType();
+			}
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.OtherTypeSelection) {
+				type = ((CloneObjectMutator) oe).getObject().getType();
+			}
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.SpecificClosureSelection) {
+				type = (EClass) ((CloneObjectMutator) oe).getObject().getRefType().getEType();
+			}
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.SelectObjectMutator) {
+				type = getType((ObjectEmitter) ((mutatorenvironment.CloneObjectMutator) oe).getObject());
+			}
+			if (((CloneObjectMutator) oe).getObject() instanceof mutatorenvironment.SelectSampleMutator) {
+				type = getType((ObjectEmitter) ((CloneObjectMutator) oe).getObject());
+			}
+		}
+		return type;
+	}
+	
+	private static CloneObjectMutator SpecificObjectSelection(
+			SelectObjectMutator oe) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static EClass getStrategyType(ObSelectionStrategy strategy) {
+		EClass type = null;
+		
+		if (strategy instanceof mutatorenvironment.SpecificObjectSelection) {
+			mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) strategy;
+			type = getType(selection.getObjSel());
+		}
+		if (strategy instanceof mutatorenvironment.RandomTypeSelection) {
+			mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) strategy;
+			type = selection.getType();
+			
+		}
+		if (strategy instanceof mutatorenvironment.CompleteTypeSelection) {
+			mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) strategy;
+			type = selection.getType();
+			
+		}
+		if (strategy instanceof mutatorenvironment.OtherTypeSelection) {
+			mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) strategy;
+			type = selection.getType();
+		}
+		
 		return type;
 	}
 }

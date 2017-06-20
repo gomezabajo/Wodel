@@ -598,6 +598,24 @@ public interface MutatorenvironmentFactory extends EFactory {
 	SelectSampleMutator createSelectSampleMutator();
 
 	/**
+	 * Returns a new object of class '<em>Reference Add</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Add</em>'.
+	 * @generated
+	 */
+	ReferenceAdd createReferenceAdd();
+
+	/**
+	 * Returns a new object of class '<em>Reference Remove</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Remove</em>'.
+	 * @generated
+	 */
+	ReferenceRemove createReferenceRemove();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

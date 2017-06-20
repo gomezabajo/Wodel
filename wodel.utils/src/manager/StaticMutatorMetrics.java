@@ -12,6 +12,7 @@ import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.RandomTypeSelection;
 import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.SelectObjectMutator;
+import mutatorenvironment.SelectSampleMutator;
 import mutatorenvironment.SpecificObjectSelection;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -278,6 +279,7 @@ public class StaticMutatorMetrics {
 				WodelMetricClass metricClass = classMetrics.get(mutatedClass.getName());
 				WodelMetricAttribute[] metricatt = metricClass.getAttributes();
 				int counter = 0;
+				int counterInline = 0;
 				if (atts != null) {
 					if (command.eClass().getName().equals("ModifyInformationMutator")) {
 						List<EObject> attributes = ModelManager.getReferences(atts, command);
@@ -367,6 +369,34 @@ public class StaticMutatorMetrics {
 											if (wmref.getName().equals(ref.get(0).getName())) {
 												wmref.modification++;
 												counter++;
+											}
+										}
+									}
+								}
+							}
+							if (o.eClass().getName().equals("ReferenceAdd")) {
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										List<EReference> ref = (List<EReference>) o.eGet(refref);
+										for (WodelMetricReference wmref : metricref) {
+											if (wmref.getName().equals(ref.get(0).getName())) {
+												wmref.modification++;
+												counter++;
+												counterInline++;
+											}
+										}
+									}
+								}
+							}
+							if (o.eClass().getName().equals("ReferenceRemove")) {
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										List<EReference> ref = (List<EReference>) o.eGet(refref);
+										for (WodelMetricReference wmref : metricref) {
+											if (wmref.getName().equals(ref.get(0).getName())) {
+												wmref.modification++;
+												counter++;
+												counterInline++;
 											}
 										}
 									}
@@ -645,6 +675,9 @@ public class StaticMutatorMetrics {
 				}
 				if (operation == 1) {
 					metricClass.modification+= counter;
+					if (counterInline > 0) {
+						metricClass.mmodification += counterInline - 1;
+					}
 					metricClass.mmodification++;
 				}
 				if (operation == 2) {
@@ -888,11 +921,11 @@ public class StaticMutatorMetrics {
 																className = ModelManager.getStringAttribute("name", cl4);
 															}
 														}
-														if (cl3.eClass().getName().equals("SelectObjectMutator")) {
+														if (cl3.eClass().getName().equals("SelectObjectMutator") || cl3.eClass().getName().equals("SelectSampleMutator")) {
 															String mutator = ModelManager.getStringAttribute("name", cl3);
-															EClass cl4 = MutatorUtils.getMutatorClass(model, mutator);
+															EClass cl4 = MutatorUtils.getMutatorType(model, mutator);
 															if (cl4 != null) {
-																EClass cl5 = MutatorUtils.getMutatorContainerClass(model, mutator);
+																EClass cl5 = MutatorUtils.getMutatorContainerType(model, mutator);
 																if (cl5 != null) {
 																	if (cl5.getName().equals(eclass)) {
 																		if (mutatorName.equals("RemoveObjectMutator")) {
@@ -930,6 +963,7 @@ public class StaticMutatorMetrics {
 										WodelMetricClass metric = metrics.get(eclass);
 										WodelMetricAttribute[] metricatt = metric.getAttributes();
 										int counter = 0;
+										int counterInline = 0;
 										if (atts != null) {
 											if (obj.eClass().getName().equals("ModifyInformationMutator")) {
 												List<EObject> attributes = ModelManager.getReferences(atts, obj);
@@ -1019,6 +1053,34 @@ public class StaticMutatorMetrics {
 																	if (wmref.getName().equals(ref.get(0).getName())) {
 																		wmref.modification++;
 																		counter++;
+																	}
+																}
+															}
+														}
+													}
+													if (o.eClass().getName().equals("ReferenceAdd")) {
+														for (EReference refref : o.eClass().getEAllReferences()) {
+															if (refref.getName().equals("reference")) {
+																List<EReference> ref = (List<EReference>) o.eGet(refref);
+																for (WodelMetricReference wmref : metricref) {
+																	if (wmref.getName().equals(ref.get(0).getName())) {
+																		wmref.modification++;
+																		counter++;
+																		counterInline++;
+																	}
+																}
+															}
+														}
+													}
+													if (o.eClass().getName().equals("ReferenceRemove")) {
+														for (EReference refref : o.eClass().getEAllReferences()) {
+															if (refref.getName().equals("reference")) {
+																List<EReference> ref = (List<EReference>) o.eGet(refref);
+																for (WodelMetricReference wmref : metricref) {
+																	if (wmref.getName().equals(ref.get(0).getName())) {
+																		wmref.modification++;
+																		counter++;
+																		counterInline++;
 																	}
 																}
 															}
@@ -1305,6 +1367,9 @@ public class StaticMutatorMetrics {
 														if (selection.getObjSel() instanceof SelectObjectMutator) {
 															cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
 														}
+														if (selection.getObjSel() instanceof SelectSampleMutator) {
+															cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+														}
 														if (selection.getObjSel() instanceof CreateObjectMutator) {
 															cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
 														}
@@ -1342,6 +1407,9 @@ public class StaticMutatorMetrics {
 										}
 										if (operation == 1) {
 											metric.modification += counter;
+											if (counterInline > 0) {
+												metric.mmodification+=counterInline - 1;
+											}
 											metric.mmodification++;
 										}
 										if (operation == 2) {
@@ -1466,6 +1534,9 @@ public class StaticMutatorMetrics {
 														EClass cl5 = null;
 														if (selection.getObjSel() instanceof SelectObjectMutator) {
 															cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+														}
+														if (selection.getObjSel() instanceof SelectSampleMutator) {
+															cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
 														}
 														if (selection.getObjSel() instanceof CreateObjectMutator) {
 															cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();

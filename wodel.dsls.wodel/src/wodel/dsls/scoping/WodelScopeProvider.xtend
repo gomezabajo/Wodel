@@ -63,6 +63,8 @@ import mutatorenvironment.MinValueType
 import mutatorenvironment.RandomNumberType
 import mutatorenvironment.SpecificClosureSelection
 import mutatorenvironment.SelectSampleMutator
+import mutatorenvironment.ReferenceAdd
+import mutatorenvironment.ReferenceRemove
 
 /**
  * This class contains custom scoping description.
@@ -509,7 +511,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         Scopes.scopeFor( getEContainers(definition.metamodel, com.type.name) )              
 	}
 	
-	private def String selectSampleMutatorHelper(SelectSampleMutator com) {
+	public static def String selectSampleMutatorHelper(SelectSampleMutator com) {
 		var String className = null
 		if (com.object instanceof ObSelectionStrategy) {
         	if (com.object instanceof RandomTypeSelection) {
@@ -615,12 +617,122 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    		Scopes.scopeFor( scope )  
     }
     
-    	/**
+   /**
 	 * RandomTypeSelection.refType can contain any EReference defined by the 
 	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(ReferenceInit com, EReference ref) {
 		System.out.println("7b.")
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        val List<EReference> scope = new ArrayList<EReference>()
+        
+        if (com.object instanceof ObSelectionStrategy) {
+        	var String className = null
+        	if (com.object instanceof RandomTypeSelection) {
+       			className = com.object.type.name
+       		}
+       		if (com.object instanceof CompleteTypeSelection) {
+       			className = com.object.type.name
+       		}
+       		if (com.object instanceof SpecificObjectSelection) {
+       			val SpecificObjectSelection selection = com.object as SpecificObjectSelection
+     			if (selection.objSel instanceof CreateObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof SelectObjectMutator) {
+       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       			}
+       			if (selection.objSel instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+				}
+       			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       		}
+       		if (com.object instanceof SpecificClosureSelection) {
+       			val SpecificClosureSelection selection = com.object as SpecificClosureSelection
+     			if (selection.objSel instanceof CreateObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof SelectObjectMutator) {
+       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       			}
+       			if (selection.objSel instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+				}
+       			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       		}
+        	
+	       	// 	add references to scope
+   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   		}
+   		Scopes.scopeFor( scope )  
+    }
+    
+    /**
+	 * RandomTypeSelection.refType can contain any EReference defined by the 
+	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 */
+    def IScope scope_ObSelectionStrategy_refType(ReferenceAdd com, EReference ref) {
+		System.out.println("7c.")
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        val List<EReference> scope = new ArrayList<EReference>()
+        
+        if (com.object instanceof ObSelectionStrategy) {
+        	var String className = null
+        	if (com.object instanceof RandomTypeSelection) {
+       			className = com.object.type.name
+       		}
+       		if (com.object instanceof CompleteTypeSelection) {
+       			className = com.object.type.name
+       		}
+       		if (com.object instanceof SpecificObjectSelection) {
+       			val SpecificObjectSelection selection = com.object as SpecificObjectSelection
+     			if (selection.objSel instanceof CreateObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof SelectObjectMutator) {
+       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       			}
+       			if (selection.objSel instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+				}
+       			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       		}
+       		if (com.object instanceof SpecificClosureSelection) {
+       			val SpecificClosureSelection selection = com.object as SpecificClosureSelection
+     			if (selection.objSel instanceof CreateObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof SelectObjectMutator) {
+       				className = (selection.objSel as SelectObjectMutator).object.type.name
+       			}
+       			if (selection.objSel instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+				}
+       			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       		}
+        	
+	       	// 	add references to scope
+   	   		scope.addAll(getEReferences(definition.metamodel, className))
+   		}
+   		Scopes.scopeFor( scope )  
+    }
+    
+    /**
+	 * RandomTypeSelection.refType can contain any EReference defined by the 
+	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 */
+    def IScope scope_ObSelectionStrategy_refType(ReferenceRemove com, EReference ref) {
+		System.out.println("7c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -1131,7 +1243,19 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		scope.addAll(getEReferences(definition.metamodel, (source as RandomTypeSelection).type.name))
         	}
         	if (source instanceof SpecificObjectSelection) {
-        		scope.addAll(getEReferences(definition.metamodel, (source as SpecificObjectSelection).objSel.type.name))
+        		val ObSelectionStrategy selected = (source as SpecificObjectSelection).objSel as ObSelectionStrategy
+        		if (selected instanceof CreateObjectMutator) {
+       				scope.addAll(getEReferences(definition.metamodel, selected.type.name))
+       			}
+       			if (selected instanceof SelectObjectMutator) {
+       				scope.addAll(getEReferences(definition.metamodel, selected.object.type.name))
+       			}
+       			if (selected instanceof SelectSampleMutator) {
+       				scope.addAll(getEReferences(definition.metamodel, selected.object.type.name))
+       			}
+       			if (selected instanceof CloneObjectMutator) {
+					scope.addAll(getEReferences(definition.metamodel, selected.type.name))
+        		}
         	}
         	if (source instanceof SpecificClosureSelection) {
         		scope.addAll(getEReferences(definition.metamodel, (source as SpecificClosureSelection).objSel.type.name))
@@ -1989,6 +2113,56 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	}
        	Scopes.scopeFor(atts)
     }
+    
+    /**
+     * ReferenceInit.refType must contain references of the type of ReferenceInit.object. 
+     */
+    def IScope scope_ReferenceSet_refType (ReferenceAdd com, EReference container) {
+    	System.out.println("30d.")    	
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		if (env!=null) {
+			val Definition  definition = env.definition
+			
+			// obtain mutator that contains the specific object selection
+			val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
+			val List<Mutator> commands = getCommands(currentMutator)
+			var String      objectName = com.object?.type?.name
+			if (com.object instanceof SpecificObjectSelection) 
+				objectName = (com.object as SpecificObjectSelection)?.objSel?.name
+			if (com.object instanceof SpecificClosureSelection) 
+				objectName = (com.object as SpecificClosureSelection)?.objSel?.name
+			
+			// search specific selected object among the previous commands
+			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
+			if (command!=null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )			
+       	}
+       	Scopes.scopeFor(new ArrayList())
+    }
+    
+    /**
+     * ReferenceInit.refType must contain references of the type of ReferenceInit.object. 
+     */
+    def IScope scope_ReferenceSet_refType (ReferenceRemove com, EReference container) {
+    	System.out.println("30e.")    	
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+		if (env!=null) {
+			val Definition  definition = env.definition
+			
+			// obtain mutator that contains the specific object selection
+			val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
+			val List<Mutator> commands = getCommands(currentMutator)
+			var String      objectName = com.object?.type?.name
+			if (com.object instanceof SpecificObjectSelection) 
+				objectName = (com.object as SpecificObjectSelection)?.objSel?.name
+			if (com.object instanceof SpecificClosureSelection) 
+				objectName = (com.object as SpecificClosureSelection)?.objSel?.name
+			
+			// search specific selected object among the previous commands
+			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
+			if (command!=null) return Scopes.scopeFor( getEReferences(definition?.metamodel, getType(command)) )			
+       	}
+       	Scopes.scopeFor(new ArrayList())
+    }
 
   	/**
      * ReferenceEvaluation.name must contain the references defined by com.type 
@@ -2214,7 +2388,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    		val scope = new ArrayList()
       	
       	var EObject mut = null
-       	if ( com.eContainer instanceof ReferenceInit &&
+       	if ( (com.eContainer instanceof ReferenceInit ||
+       		com.eContainer instanceof ReferenceAdd ||
+       		com.eContainer instanceof ReferenceRemove) &&
        		(com.eContainer.eContainer instanceof CreateObjectMutator ||
        		 com.eContainer.eContainer instanceof SelectObjectMutator)) {
     	   		mut = com.eContainer.eContainer

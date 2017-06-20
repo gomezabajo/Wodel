@@ -121,6 +121,8 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.RANDOM_INTEGER_NUMBER_TYPE: return createRandomIntegerNumberType();
 			case MutatorenvironmentPackage.SPECIFIC_CLOSURE_SELECTION: return createSpecificClosureSelection();
 			case MutatorenvironmentPackage.SELECT_SAMPLE_MUTATOR: return createSelectSampleMutator();
+			case MutatorenvironmentPackage.REFERENCE_ADD: return createReferenceAdd();
+			case MutatorenvironmentPackage.REFERENCE_REMOVE: return createReferenceRemove();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -810,6 +812,26 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	public SelectSampleMutator createSelectSampleMutator() {
 		SelectSampleMutatorImpl selectSampleMutator = new SelectSampleMutatorImpl();
 		return selectSampleMutator;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReferenceAdd createReferenceAdd() {
+		ReferenceAddImpl referenceAdd = new ReferenceAddImpl();
+		return referenceAdd;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReferenceRemove createReferenceRemove() {
+		ReferenceRemoveImpl referenceRemove = new ReferenceRemoveImpl();
+		return referenceRemove;
 	}
 
 	/**

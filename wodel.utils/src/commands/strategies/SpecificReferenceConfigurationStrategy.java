@@ -29,6 +29,7 @@ public class SpecificReferenceConfigurationStrategy extends
 	protected EObject target;
 	protected EObject obj;
 	protected List<EObject> o;
+	protected boolean removal = false;
 	/**
 	 * Source reference name of the relation
 	 */
@@ -66,8 +67,43 @@ public class SpecificReferenceConfigurationStrategy extends
 					this.obj = EcoreUtil.copy(this.object);
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.target = target;
-					if (this.o.size() > 0) {
+					this.o.add(this.target);
+				}
+			}
+			this.srcRefType = this.reference.getName();
+		}
+	}
+	
+	public SpecificReferenceConfigurationStrategy(Resource model, EObject object, EObject target, String refType, boolean removal) {
+		super("");
+		this.object = object;
+		this.removal = removal;
+		if (object != null) {
+			for (EReference ref : object.eClass().getEAllReferences()) {
+				if (ref.getName().equals(refType) == true) {
+					this.reference = ref;
+					break;
+				}
+			}
+			if (this.reference != null) {
+				//monovalued
+				if (this.object.eGet(reference) instanceof EObject) {
+					this.obj = EcoreUtil.copy(this.object);
+					this.target = target;
+					this.object.eSet(reference, this.target);
+				}
+				//multivalued
+				if (this.object.eGet(reference) instanceof List<?>) {
+					this.obj = EcoreUtil.copy(this.object);
+					this.o = (List<EObject>) this.object.eGet(reference, true);
+					this.target = target;
+					if (this.removal == false) {
 						this.o.add(this.target);
+					}
+					else {
+						if (this.o.size() > 0) {
+							this.o.remove(this.target);
+						}
 					}
 				}
 			}
@@ -108,5 +144,10 @@ public class SpecificReferenceConfigurationStrategy extends
 	
 	public String getSrcRefType() {
 		return srcRefType;
+	}
+	
+	@Override
+	public boolean isRemoval() {
+		return this.removal;
 	}
 }

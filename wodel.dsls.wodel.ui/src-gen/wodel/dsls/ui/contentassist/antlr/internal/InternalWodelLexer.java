@@ -1716,10 +1716,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23065:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23065:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23455:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23455:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23065:11: ( '^' )?
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23455:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -1728,7 +1728,7 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23065:11: '^'
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23455:11: '^'
                     {
                     match('^'); 
 
@@ -1746,7 +1746,7 @@ public class InternalWodelLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23065:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23455:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -1795,10 +1795,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23067:10: ( ( '0' .. '9' )+ )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23067:12: ( '0' .. '9' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23457:10: ( ( '0' .. '9' )+ )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23457:12: ( '0' .. '9' )+
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23067:12: ( '0' .. '9' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23457:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -1812,7 +1812,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23067:13: '0' .. '9'
+            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23457:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1844,10 +1844,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1865,10 +1865,10 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -1884,7 +1884,7 @@ public class InternalWodelLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:21: '\\\\' .
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1892,7 +1892,7 @@ public class InternalWodelLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1917,10 +1917,10 @@ public class InternalWodelLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -1936,7 +1936,7 @@ public class InternalWodelLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:54: '\\\\' .
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1944,7 +1944,7 @@ public class InternalWodelLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23069:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23459:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1987,12 +1987,12 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23071:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23071:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23461:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23461:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23071:24: ( options {greedy=false; } : . )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23461:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -2017,7 +2017,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23071:52: .
+            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23461:52: .
             	    {
             	    matchAny(); 
 
@@ -2047,12 +2047,12 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -2065,7 +2065,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -2085,7 +2085,7 @@ public class InternalWodelLexer extends Lexer {
                 }
             } while (true);
 
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:40: ( ( '\\r' )? '\\n' )?
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -2094,9 +2094,9 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:41: ( '\\r' )? '\\n'
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:41: ( '\\r' )? '\\n'
                     {
-                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:41: ( '\\r' )?
+                    // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -2105,7 +2105,7 @@ public class InternalWodelLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23073:41: '\\r'
+                            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23463:41: '\\r'
                             {
                             match('\r'); 
 
@@ -2137,10 +2137,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23075:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23075:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23465:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23465:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23075:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23465:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -2194,8 +2194,8 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23077:16: ( . )
-            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23077:18: .
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23467:16: ( . )
+            // ../wodel.dsls.wodel.ui/src-gen/wodel/dsls/ui/contentassist/antlr/internal/InternalWodel.g:23467:18: .
             {
             matchAny(); 
 

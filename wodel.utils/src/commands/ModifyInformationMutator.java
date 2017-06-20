@@ -40,11 +40,11 @@ public class ModifyInformationMutator extends Mutator {
 	/**
 	 * New configuration settings
 	 */
-	private HashMap<String, AttributeConfigurationStrategy> newAttributeConfig;
+	private HashMap<String, List<AttributeConfigurationStrategy>> newAttributeConfig;
 	/**
 	 * New configuration settings
 	 */
-	private HashMap<String, ReferenceConfigurationStrategy> newReferenceConfig;
+	private HashMap<String, List<ReferenceConfigurationStrategy>> newReferenceConfig;
 	/**
 	 * Modified object
 	 */
@@ -71,7 +71,7 @@ public class ModifyInformationMutator extends Mutator {
 	private String othereobjtarname;
 	
 	private ArrayList<EObject> objsAttRef;
-	private HashMap<String, AttributeConfigurationStrategy> attsRef;
+	private HashMap<String, List<AttributeConfigurationStrategy>> attsRef;
 	
 	private EObject objRefAttOld;
 	private EObject objRefAttNew;
@@ -87,8 +87,8 @@ public class ModifyInformationMutator extends Mutator {
 	 */
 	public ModifyInformationMutator(Resource model,
 			ArrayList<EPackage> metaModel, ObSelectionStrategy object,
-			HashMap<String, AttributeConfigurationStrategy> newAttributeConfig,
-			HashMap<String, ReferenceConfigurationStrategy> newReferenceConfig) {
+			HashMap<String, List<AttributeConfigurationStrategy>> newAttributeConfig,
+			HashMap<String, List<ReferenceConfigurationStrategy>> newReferenceConfig) {
 		super(model, metaModel, "InformationChanged");
 		this.object = object;
 		this.newAttributeConfig = newAttributeConfig;
@@ -104,10 +104,10 @@ public class ModifyInformationMutator extends Mutator {
 	 */
 	public ModifyInformationMutator(Resource model,
 			ArrayList<EPackage> metaModel, ObSelectionStrategy object,
-			HashMap<String, AttributeConfigurationStrategy> newAttributeConfig,
-			HashMap<String, ReferenceConfigurationStrategy> newReferenceConfig,
+			HashMap<String, List<AttributeConfigurationStrategy>> newAttributeConfig,
+			HashMap<String, List<ReferenceConfigurationStrategy>> newReferenceConfig,
 			ArrayList<EObject> objsAttRef,
-			HashMap<String, AttributeConfigurationStrategy> attsRef) {
+			HashMap<String, List<AttributeConfigurationStrategy>> attsRef) {
 		super(model, metaModel, "InformationChanged");
 		this.object = object;
 		this.newAttributeConfig = newAttributeConfig;
@@ -129,32 +129,34 @@ public class ModifyInformationMutator extends Mutator {
 			if (this.newAttributeConfig != null) {
 				Iterator it = this.newAttributeConfig.entrySet().iterator();
 				while (it.hasNext()) {
-					Map.Entry<String, AttributeConfigurationStrategy> e = (Map.Entry<String, AttributeConfigurationStrategy>) it
+					Map.Entry<String, List<AttributeConfigurationStrategy>> e = (Map.Entry<String, List<AttributeConfigurationStrategy>>) it
 							.next();
-					if (e.getValue() instanceof SwapAttributeConfigurationStrategy) {
-						SwapAttributeConfigurationStrategy sacs = (SwapAttributeConfigurationStrategy) e.getValue();
-						eobjatt = sacs.getAttObject();
-						eobjother = sacs.getOtherObject();
+					for (AttributeConfigurationStrategy attConfig : e.getValue()) {
+						if (attConfig instanceof SwapAttributeConfigurationStrategy) {
+							SwapAttributeConfigurationStrategy sacs = (SwapAttributeConfigurationStrategy) attConfig;
+							eobjatt = sacs.getAttObject();
+							eobjother = sacs.getOtherObject();
 
-						//oldAttValue = sacs.getPrevious(object);
-					}
-					else {
-						if (e.getValue() instanceof CopyAttributeConfigurationStrategy) {
-							CopyAttributeConfigurationStrategy cacs = (CopyAttributeConfigurationStrategy) e.getValue();
-							eobjatt = cacs.getAttObject();
-							//oldAttValue = cacs.getPrevious(object);
+							//oldAttValue = sacs.getPrevious(object);
 						}
 						else {
-							eobjatt = EcoreUtil.copy(object);
-							//oldAttValue = ModelManager.getAttribute(e.getKey(), object);
+							if (attConfig instanceof CopyAttributeConfigurationStrategy) {
+								CopyAttributeConfigurationStrategy cacs = (CopyAttributeConfigurationStrategy) attConfig;
+								eobjatt = cacs.getAttObject();
+								//oldAttValue = cacs.getPrevious(object);
+							}
+							else {
+								eobjatt = EcoreUtil.copy(object);
+								//oldAttValue = ModelManager.getAttribute(e.getKey(), object);
+							}
 						}
-					}
-					if (e.getValue() == null) {
-						ModelManager.unsetAttribute(e.getKey(), object);
-						//newAttValue = null;
-					} else {
-						ModelManager.setAttribute(e.getKey(), object, e.getValue());
-						//newAttValue = ModelManager.getAttribute(e.getKey(), object);
+						if (e.getValue() == null) {
+							ModelManager.unsetAttribute(e.getKey(), object);
+							//newAttValue = null;
+						} else {
+							ModelManager.setAttribute(e.getKey(), object, attConfig);
+							//newAttValue = ModelManager.getAttribute(e.getKey(), object);
+						}
 					}
 				}
 				result = object;
@@ -163,62 +165,64 @@ public class ModifyInformationMutator extends Mutator {
 				// References setting
 				Iterator it = this.newReferenceConfig.entrySet().iterator();
 				while (it.hasNext()) {
-					Map.Entry<String, ReferenceConfigurationStrategy> e = (Map.Entry<String, ReferenceConfigurationStrategy>) it
+					Map.Entry<String, List<ReferenceConfigurationStrategy>> e = (Map.Entry<String, List<ReferenceConfigurationStrategy>>) it
 							.next();
-					if (e.getValue() instanceof SwapReferenceConfigurationStrategy) {
-						SwapReferenceConfigurationStrategy srcf = (SwapReferenceConfigurationStrategy) e.getValue();
-						eobjref = EcoreUtil.copy(srcf.getRefObject());
-						previous = (EObject) srcf.getPrevious(eobjref);
-						next = (EObject) srcf.getNext(eobjref);
-						othereobjsrc = srcf.getOtherSource();
-						othereobjsrcname = srcf.getOtherSourceName();
-						othereobjtar = srcf.getOtherTarget();
-						othereobjtarname = srcf.getOtherTargetName();
-					}
-					else {
-						if (e.getValue() instanceof CopyReferenceConfigurationStrategy) {
-							CopyReferenceConfigurationStrategy crcf = (CopyReferenceConfigurationStrategy) e.getValue();
-							eobjref = EcoreUtil.copy(crcf.getRefObject());
-							previous = (EObject) crcf.getPrevious(eobjref);
-							next = (EObject) crcf.getNext(eobjref);
+					for (ReferenceConfigurationStrategy refConfig : e.getValue()) {
+						if (refConfig instanceof SwapReferenceConfigurationStrategy) {
+							SwapReferenceConfigurationStrategy srcf = (SwapReferenceConfigurationStrategy) refConfig;
+							eobjref = EcoreUtil.copy(srcf.getRefObject());
+							previous = (EObject) srcf.getPrevious(eobjref);
+							next = (EObject) srcf.getNext(eobjref);
+							othereobjsrc = srcf.getOtherSource();
+							othereobjsrcname = srcf.getOtherSourceName();
+							othereobjtar = srcf.getOtherTarget();
+							othereobjtarname = srcf.getOtherTargetName();
 						}
 						else {
-							if (e.getValue() instanceof RandomReferenceConfigurationStrategy) {
-								RandomReferenceConfigurationStrategy rrcf = (RandomReferenceConfigurationStrategy) e.getValue();
-								if (rrcf.getPrevious() instanceof List<?>) {
-									List<EObject> prev = (List<EObject>) rrcf.getPrevious();
-									if (prev != null) {
-										if (prev.size() > 0) {
-											previous = prev.get(0);
-										}
-									}
-								}
-								if (rrcf.getPrevious() instanceof EObject) {
-									previous = (EObject) rrcf.getPrevious();
-								}
-								if (rrcf.getNext() instanceof List<?>) {
-									List<EObject> nxt = (List<EObject>) rrcf.getNext();
-									if (nxt != null) {
-										if (nxt.size() > 0) {
-											next = nxt.get(0);
-										}
-									}
-								}
-								if (rrcf.getNext() instanceof EObject) {
-									next = (EObject) rrcf.getNext();
-								}
-								srcRefType = rrcf.getSrcRefType(); 
+							if (refConfig instanceof CopyReferenceConfigurationStrategy) {
+								CopyReferenceConfigurationStrategy crcf = (CopyReferenceConfigurationStrategy) refConfig;
+								eobjref = EcoreUtil.copy(crcf.getRefObject());
+								previous = (EObject) crcf.getPrevious(eobjref);
+								next = (EObject) crcf.getNext(eobjref);
 							}
-							eobjref = EcoreUtil.copy(object);
-							//previous = ModelManager.getReference(e.getKey(), object);
+							else {
+								if (refConfig instanceof RandomReferenceConfigurationStrategy) {
+									RandomReferenceConfigurationStrategy rrcf = (RandomReferenceConfigurationStrategy) refConfig;
+									if (rrcf.getPrevious() instanceof List<?>) {
+										List<EObject> prev = (List<EObject>) rrcf.getPrevious();
+										if (prev != null) {
+											if (prev.size() > 0) {
+												previous = prev.get(0);
+											}
+										}
+									}
+									if (rrcf.getPrevious() instanceof EObject) {
+										previous = (EObject) rrcf.getPrevious();
+									}
+									if (rrcf.getNext() instanceof List<?>) {
+										List<EObject> nxt = (List<EObject>) rrcf.getNext();
+										if (nxt != null) {
+											if (nxt.size() > 0) {
+												next = nxt.get(0);
+											}
+										}
+									}
+									if (rrcf.getNext() instanceof EObject) {
+										next = (EObject) rrcf.getNext();
+									}
+									srcRefType = rrcf.getSrcRefType(); 
+								}
+								eobjref = EcoreUtil.copy(object);
+								//previous = ModelManager.getReference(e.getKey(), object);
+							}
 						}
-					}
-					if (e.getValue() == null) {
-						ModelManager.unsetReference(e.getKey(), object);
-						//next = null;
-					} else {
-						ModelManager.setReference(e.getKey(), object, e.getValue());
-						//next = ModelManager.getReference(e.getKey(), object);
+						if (refConfig == null) {
+							ModelManager.unsetReference(e.getKey(), object);
+							//next = null;
+						} else {
+							ModelManager.setReference(e.getKey(), object, refConfig);
+							//next = ModelManager.getReference(e.getKey(), object);
+						}
 					}
 				}
 				result = object;
@@ -230,14 +234,16 @@ public class ModifyInformationMutator extends Mutator {
 						objRefAttOld = EcoreUtil.copy(obj);
 						Iterator it = this.attsRef.entrySet().iterator();
 						while (it.hasNext()) {
-							Map.Entry<String, AttributeConfigurationStrategy> e = (Map.Entry<String, AttributeConfigurationStrategy>) it
+							Map.Entry<String, List<AttributeConfigurationStrategy>> e = (Map.Entry<String, List<AttributeConfigurationStrategy>>) it
 									.next();
-							if (e.getValue() == null) {
-								ModelManager.unsetAttribute(e.getKey(), obj);
-								//newAttValue = null;
-							} else {
-								ModelManager.setAttribute(e.getKey(), obj, e.getValue());
-								//newAttValue = ModelManager.getAttribute(e.getKey(), object);
+							for (AttributeConfigurationStrategy attConfig : e.getValue()) {
+								if (attConfig == null) {
+									ModelManager.unsetAttribute(e.getKey(), obj);
+									//newAttValue = null;
+								} else {
+									ModelManager.setAttribute(e.getKey(), obj, attConfig);
+									//newAttValue = ModelManager.getAttribute(e.getKey(), object);
+								}
 							}
 						}
 						objRefAttNew = obj;

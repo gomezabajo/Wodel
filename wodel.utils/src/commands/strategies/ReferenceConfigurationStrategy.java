@@ -18,5 +18,9 @@ public abstract class ReferenceConfigurationStrategy {
 	
 	public Object getValue(EObject o){
 		return null;
-	}	
+	}
+	
+	public boolean isRemoval() {
+		return false;
+	}
 }

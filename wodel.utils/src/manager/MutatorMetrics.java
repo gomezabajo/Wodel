@@ -335,10 +335,10 @@ public class MutatorMetrics {
 					mutationData.mutator = ((ObjectRemoved) regObject).getDef();
 				}
 				String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
-				//objectURI = objectURI.substring(objectURI.indexOf("#"));
+				objectURI = objectURI.substring(objectURI.indexOf("#"));
 				if (mutantObject != null) {
 					String mutantObjectURI = EcoreUtil.getURI(mutantObject).toString().replace("//", "/");
-					//mutantObjectURI = mutantObjectURI.substring(mutantObjectURI.indexOf("#"));
+					mutantObjectURI = mutantObjectURI.substring(mutantObjectURI.indexOf("#"));
 					if (mutantObjectURI.equals(objectURI) == true) {
 						return mutationData;
 					}
@@ -1479,6 +1479,11 @@ public class MutatorMetrics {
 								ArrayList<EObject> mutantObjects = ModelManager.getAllObjects(mutantResource);
 								ArrayList<EObject> regObjects = ModelManager.getAllObjects(registryResource);
 								mutantMetrics = new LinkedHashMap<String, WodelMutantMetric>();
+
+								for (EClass eclass : ModelManager.getEClasses(packages)) {
+									WodelMutantMetric metric = new WodelMutantMetric();
+									mutantMetrics.put(eclass.getName(), metric);
+								}
 								//Created, removed and modified objects
 								for (EObject object : seedObjects) {
 									WodelMutantMetric metric = null;
@@ -2109,6 +2114,11 @@ public class MutatorMetrics {
 								ArrayList<EObject> regObjects = ModelManager.getAllObjects(registryResource);
 								mutantMetrics = new LinkedHashMap<String, WodelMutantDebugMetric>();
 
+								for (EClass eclass : ModelManager.getEClasses(packages)) {
+									WodelMutantDebugMetric metric = new WodelMutantDebugMetric();
+									mutantMetrics.put(eclass.getName(), metric);
+								}
+								
 								//Seed & mutant objects
 								for (EObject object : seedObjects) {
 									WodelMutantDebugMetric metric = null;
@@ -2196,64 +2206,60 @@ public class MutatorMetrics {
 										Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
 										ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
 										for (EObject object : mutVersionObjects) {
-											//String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
-											//objectURI = objectURI.substring(objectURI.indexOf("#"));
-											boolean exists = false;
-											for (EObject mutantObject : tmpMutantObjects) {
-												if (object.eClass().getName().equals(mutantObject.eClass().getName())) {
-													//String seedObjectURI = EcoreUtil.getURI(seedObject).toString().replace("//", "/");
-													//seedObjectURI = seedObjectURI.substring(seedObjectURI.indexOf("#"));
-													//if (seedObjectURI.equals(objectURI)) {
-													if (EcoreUtil.equals(object, mutantObject)) {
-														exists = true;
-														break;
-													}
-												}
-											}
-											if ((exists == false) && (tmpMutantObjects.contains(object) != true)) {
+											if (tmpMutantObjects.contains(object) != true) {
 												tmpMutantObjects.add(object);
 											}
 										}
 									}
 								}
-
-								// GETS CREATION EXPLICIT AND IMPLICIT DEBUG MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
-								getMutantDebugCreationMetrics(regObjects, tmpMutantObjects, mutantMetrics, program);
-
-								// GETS MODIFICATION DEBUG MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
-								getMutantDebugMetrics(regObjects, seedObjects, mutantMetrics, program);
-								
+								ArrayList<EObject> tmpRegObjects = new ArrayList<EObject>();
+								tmpRegObjects.addAll(regObjects);
 								if (hashmapMutVersions.containsKey(mutantPath) == true) {
 									List<String> listMutVersions = hashmapMutVersions.get(mutantPath);
-									if (listMutVersions.size() > 1) {
-										listMutVersions.remove(listMutVersions.size() - 1);
-										for (String mutVersionPath : listMutVersions) {
-											Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
-											ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
-											for (EObject object : mutVersionObjects) {
-												//String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
-												//objectURI = objectURI.substring(objectURI.indexOf("#"));
+									for (String versionPath : listMutVersions) {
+										String versionRegistryPath = versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry/" + versionPath.substring(versionPath.lastIndexOf("/") + 1, versionPath.length()).replace(".model", "Registry.model");
+										if (new File(versionRegistryPath).exists()) {
+											Resource versionRegistry = ModelManager.loadModel(registry, versionRegistryPath);
+											ArrayList<EObject> versionRegistryObjects = ModelManager.getAllObjects(versionRegistry);
+											for (EObject object : versionRegistryObjects) {
 												boolean exists = false;
-												for (EObject mutantObject : mutantObjects) {
-													if (object.eClass().getName().equals(mutantObject.eClass().getName())) {
-														//String mutantObjectURI = EcoreUtil.getURI(mutantObject).toString().replace("//", "/");
-														//mutantObjectURI = mutantObjectURI.substring(mutantObjectURI.indexOf("#"));
-														//if (mutantObjectURI.equals(objectURI)) {
-														if (EcoreUtil.equals(object, mutantObject)) {
+												for (EObject registryObject : tmpRegObjects) {
+													if (object.eClass().getName().equals(registryObject.eClass().getName())) {
+														if (EcoreUtil.equals(object, registryObject)) {
 															exists = true;
 															break;
 														}
 													}
 												}
-												if ((exists == false) && (tmpSeedObjects.contains(object) != true)) {
-													tmpSeedObjects.add(object);
+												if ((exists == false) && (tmpRegObjects.contains(object) != true)) {
+													tmpRegObjects.add(object);
 												}
 											}
 										}
 									}
 								}
+								
+
+								// GETS CREATION EXPLICIT AND IMPLICIT DEBUG MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
+								getMutantDebugCreationMetrics(tmpRegObjects, tmpMutantObjects, mutantMetrics, program);
+
+								// GETS MODIFICATION DEBUG MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
+								getMutantDebugMetrics(tmpRegObjects, seedObjects, mutantMetrics, program);
+								
+								if (hashmapMutVersions.containsKey(mutantPath) == true) {
+									List<String> listMutVersions = hashmapMutVersions.get(mutantPath);
+									for (String mutVersionPath : listMutVersions) {
+										Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
+										ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
+										for (EObject object : mutVersionObjects) {
+											if (tmpSeedObjects.contains(object) != true) {
+												tmpSeedObjects.add(object);
+											}
+										}
+									}
+								}
 								// GETS DELETION IMPLICIT MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
-								getMutantDebugDeletionMetrics(regObjects, tmpSeedObjects, mutantMetrics, program);
+								getMutantDebugDeletionMetrics(tmpRegObjects, tmpSeedObjects, mutantMetrics, program);
 								
 								List<EObject> classes = ModelManager.getReferences("classes", met);
 								List<EObject> mutantClasses = ModelManager.getReferences("classes", mutant);

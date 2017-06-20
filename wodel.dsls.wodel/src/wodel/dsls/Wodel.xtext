@@ -270,12 +270,22 @@ AttributeOperation returns AttributeOperation:
 ;
 
 ReferenceSet returns ReferenceSet:
-	ReferenceInit | ReferenceSwap | ReferenceAtt
+	ReferenceInit | ReferenceSwap | ReferenceAtt | ReferenceAdd | ReferenceRemove
 ;
 
 ReferenceInit returns ReferenceInit:
 	reference+=[ecore::EReference|ID]
 	'=' object=ObSelectionStrategy
+;
+
+ReferenceAdd returns ReferenceAdd:
+	reference+=[ecore::EReference|ID]
+	'+' '=' object=ObSelectionStrategy
+;
+
+ReferenceRemove returns ReferenceRemove:
+	reference+=[ecore::EReference|ID]
+	'-' '=' object=ObSelectionStrategy
 ;
 
 ReferenceSwap returns ReferenceSwap:

@@ -698,6 +698,20 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MutatorenvironmentPackage.REFERENCE_ADD: {
+				ReferenceAdd referenceAdd = (ReferenceAdd)theEObject;
+				T result = caseReferenceAdd(referenceAdd);
+				if (result == null) result = caseReferenceSet(referenceAdd);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.REFERENCE_REMOVE: {
+				ReferenceRemove referenceRemove = (ReferenceRemove)theEObject;
+				T result = caseReferenceRemove(referenceRemove);
+				if (result == null) result = caseReferenceSet(referenceRemove);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -1899,6 +1913,36 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSelectSampleMutator(SelectSampleMutator object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Add</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Add</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferenceAdd(ReferenceAdd object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Remove</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Remove</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferenceRemove(ReferenceRemove object) {
 		return null;
 	}
 

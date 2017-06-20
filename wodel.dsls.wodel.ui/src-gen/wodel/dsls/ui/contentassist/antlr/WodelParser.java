@@ -162,6 +162,8 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getAttributeReverseAccess().getGroup(), "rule__AttributeReverse__Group__0");
 					put(grammarAccess.getAttributeOperationAccess().getGroup(), "rule__AttributeOperation__Group__0");
 					put(grammarAccess.getReferenceInitAccess().getGroup(), "rule__ReferenceInit__Group__0");
+					put(grammarAccess.getReferenceAddAccess().getGroup(), "rule__ReferenceAdd__Group__0");
+					put(grammarAccess.getReferenceRemoveAccess().getGroup(), "rule__ReferenceRemove__Group__0");
 					put(grammarAccess.getReferenceSwapAccess().getGroup(), "rule__ReferenceSwap__Group__0");
 					put(grammarAccess.getReferenceSwapAccess().getGroup_4(), "rule__ReferenceSwap__Group_4__0");
 					put(grammarAccess.getReferenceAttAccess().getGroup(), "rule__ReferenceAtt__Group__0");
@@ -330,6 +332,10 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getAttributeOperationAccess().getValueAssignment_2(), "rule__AttributeOperation__ValueAssignment_2");
 					put(grammarAccess.getReferenceInitAccess().getReferenceAssignment_0(), "rule__ReferenceInit__ReferenceAssignment_0");
 					put(grammarAccess.getReferenceInitAccess().getObjectAssignment_2(), "rule__ReferenceInit__ObjectAssignment_2");
+					put(grammarAccess.getReferenceAddAccess().getReferenceAssignment_0(), "rule__ReferenceAdd__ReferenceAssignment_0");
+					put(grammarAccess.getReferenceAddAccess().getObjectAssignment_3(), "rule__ReferenceAdd__ObjectAssignment_3");
+					put(grammarAccess.getReferenceRemoveAccess().getReferenceAssignment_0(), "rule__ReferenceRemove__ReferenceAssignment_0");
+					put(grammarAccess.getReferenceRemoveAccess().getObjectAssignment_3(), "rule__ReferenceRemove__ObjectAssignment_3");
 					put(grammarAccess.getReferenceSwapAccess().getReferenceAssignment_2(), "rule__ReferenceSwap__ReferenceAssignment_2");
 					put(grammarAccess.getReferenceSwapAccess().getObjectAssignment_4_0(), "rule__ReferenceSwap__ObjectAssignment_4_0");
 					put(grammarAccess.getReferenceSwapAccess().getReferenceAssignment_5(), "rule__ReferenceSwap__ReferenceAssignment_5");

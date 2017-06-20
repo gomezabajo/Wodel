@@ -4363,6 +4363,26 @@ ruleReferenceSet returns [EObject current=null]
         $current = $this_ReferenceAtt_2.current; 
         afterParserOrEnumRuleCall();
     }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getReferenceSetAccess().getReferenceAddParserRuleCall_3()); 
+    }
+    this_ReferenceAdd_3=ruleReferenceAdd
+    { 
+        $current = $this_ReferenceAdd_3.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getReferenceSetAccess().getReferenceRemoveParserRuleCall_4()); 
+    }
+    this_ReferenceRemove_4=ruleReferenceRemove
+    { 
+        $current = $this_ReferenceRemove_4.current; 
+        afterParserOrEnumRuleCall();
+    }
 )
 ;
 
@@ -4414,6 +4434,126 @@ ruleReferenceInit returns [EObject current=null]
        			$current, 
        			"object",
         		lv_object_2_0, 
+        		"ObSelectionStrategy");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleReferenceAdd
+entryRuleReferenceAdd returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getReferenceAddRule()); }
+	 iv_ruleReferenceAdd=ruleReferenceAdd 
+	 { $current=$iv_ruleReferenceAdd.current; } 
+	 EOF 
+;
+
+// Rule ReferenceAdd
+ruleReferenceAdd returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getReferenceAddRule());
+	        }
+        }
+	otherlv_0=RULE_ID
+	{
+		newLeafNode(otherlv_0, grammarAccess.getReferenceAddAccess().getReferenceEReferenceCrossReference_0_0()); 
+	}
+
+)
+)	otherlv_1='+' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getReferenceAddAccess().getPlusSignKeyword_1());
+    }
+	otherlv_2='=' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getReferenceAddAccess().getEqualsSignKeyword_2());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getReferenceAddAccess().getObjectObSelectionStrategyParserRuleCall_3_0()); 
+	    }
+		lv_object_3_0=ruleObSelectionStrategy		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getReferenceAddRule());
+	        }
+       		set(
+       			$current, 
+       			"object",
+        		lv_object_3_0, 
+        		"ObSelectionStrategy");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleReferenceRemove
+entryRuleReferenceRemove returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getReferenceRemoveRule()); }
+	 iv_ruleReferenceRemove=ruleReferenceRemove 
+	 { $current=$iv_ruleReferenceRemove.current; } 
+	 EOF 
+;
+
+// Rule ReferenceRemove
+ruleReferenceRemove returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getReferenceRemoveRule());
+	        }
+        }
+	otherlv_0=RULE_ID
+	{
+		newLeafNode(otherlv_0, grammarAccess.getReferenceRemoveAccess().getReferenceEReferenceCrossReference_0_0()); 
+	}
+
+)
+)	otherlv_1='-' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getReferenceRemoveAccess().getHyphenMinusKeyword_1());
+    }
+	otherlv_2='=' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getReferenceRemoveAccess().getEqualsSignKeyword_2());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getReferenceRemoveAccess().getObjectObSelectionStrategyParserRuleCall_3_0()); 
+	    }
+		lv_object_3_0=ruleObSelectionStrategy		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getReferenceRemoveRule());
+	        }
+       		set(
+       			$current, 
+       			"object",
+        		lv_object_3_0, 
         		"ObSelectionStrategy");
 	        afterParserOrEnumRuleCall();
 	    }

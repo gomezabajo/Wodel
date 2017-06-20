@@ -24,6 +24,13 @@
                enablesFor="1"
                id="RunWodel.newAction1">
          </action>
+         <action
+               label="Generate seed models"
+               class="runwodel.popup.actions.GenerateWodel"
+               menubarPath="RunWodel.menu1/group1"
+               enablesFor="1"
+               id="RunWodel.newAction2">
+         </action>
       </objectContribution>
    </extension>
 

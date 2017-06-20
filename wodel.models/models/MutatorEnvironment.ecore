@@ -351,4 +351,6 @@
     <eLiterals name="equals"/>
     <eLiterals name="distinct" value="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceAdd" eSuperTypes="#//ReferenceSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceRemove" eSuperTypes="#//ReferenceSet"/>
 </ecore:EPackage>

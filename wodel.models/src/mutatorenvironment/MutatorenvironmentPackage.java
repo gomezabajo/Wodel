@@ -4774,6 +4774,98 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SELECT_SAMPLE_MUTATOR_OPERATION_COUNT = MUTATOR_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.ReferenceAddImpl <em>Reference Add</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.ReferenceAddImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReferenceAdd()
+	 * @generated
+	 */
+	int REFERENCE_ADD = 80;
+
+	/**
+	 * The feature id for the '<em><b>Reference</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ADD__REFERENCE = REFERENCE_SET__REFERENCE;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ADD__OBJECT = REFERENCE_SET__OBJECT;
+
+	/**
+	 * The number of structural features of the '<em>Reference Add</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ADD_FEATURE_COUNT = REFERENCE_SET_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Reference Add</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_ADD_OPERATION_COUNT = REFERENCE_SET_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.ReferenceRemoveImpl <em>Reference Remove</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.ReferenceRemoveImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReferenceRemove()
+	 * @generated
+	 */
+	int REFERENCE_REMOVE = 81;
+
+	/**
+	 * The feature id for the '<em><b>Reference</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_REMOVE__REFERENCE = REFERENCE_SET__REFERENCE;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_REMOVE__OBJECT = REFERENCE_SET__OBJECT;
+
+	/**
+	 * The number of structural features of the '<em>Reference Remove</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_REMOVE_FEATURE_COUNT = REFERENCE_SET_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Reference Remove</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_REMOVE_OPERATION_COUNT = REFERENCE_SET_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4781,7 +4873,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getLogicOperator()
 	 * @generated
 	 */
-	int LOGIC_OPERATOR = 80;
+	int LOGIC_OPERATOR = 82;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Operator <em>Operator</em>}' enum.
@@ -4791,7 +4883,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 81;
+	int OPERATOR = 83;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Repeat <em>Repeat</em>}' enum.
@@ -4801,7 +4893,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRepeat()
 	 * @generated
 	 */
-	int REPEAT = 82;
+	int REPEAT = 84;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.ArithmeticOperator <em>Arithmetic Operator</em>}' enum.
@@ -4811,7 +4903,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getArithmeticOperator()
 	 * @generated
 	 */
-	int ARITHMETIC_OPERATOR = 83;
+	int ARITHMETIC_OPERATOR = 85;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}' enum.
@@ -4821,7 +4913,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSampleClause()
 	 * @generated
 	 */
-	int SAMPLE_CLAUSE = 84;
+	int SAMPLE_CLAUSE = 86;
 
 
 	/**
@@ -6912,6 +7004,26 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getSelectSampleMutator_Features();
 
 	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.ReferenceAdd <em>Reference Add</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reference Add</em>'.
+	 * @see mutatorenvironment.ReferenceAdd
+	 * @generated
+	 */
+	EClass getReferenceAdd();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.ReferenceRemove <em>Reference Remove</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reference Remove</em>'.
+	 * @see mutatorenvironment.ReferenceRemove
+	 * @generated
+	 */
+	EClass getReferenceRemove();
+
+	/**
 	 * Returns the meta object for enum '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8719,6 +8831,26 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SELECT_SAMPLE_MUTATOR__FEATURES = eINSTANCE.getSelectSampleMutator_Features();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.ReferenceAddImpl <em>Reference Add</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.ReferenceAddImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReferenceAdd()
+		 * @generated
+		 */
+		EClass REFERENCE_ADD = eINSTANCE.getReferenceAdd();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.ReferenceRemoveImpl <em>Reference Remove</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.ReferenceRemoveImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReferenceRemove()
+		 * @generated
+		 */
+		EClass REFERENCE_REMOVE = eINSTANCE.getReferenceRemove();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.

@@ -15,6 +15,7 @@ import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.RandomTypeSelection;
 import mutatorenvironment.ReferenceInit;
 import mutatorenvironment.SelectObjectMutator;
+import mutatorenvironment.SelectSampleMutator;
 import mutatorenvironment.SpecificObjectSelection;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -379,11 +380,11 @@ public class CommandMutatorMetrics {
 												name = ModelManager.getStringAttribute("name", cl4);
 											}
 										}
-										if (cl3.eClass().getName().equals("SelectObjectMutator")) {
+										if (cl3.eClass().getName().equals("SelectObjectMutator") || cl3.eClass().getName().equals("SelectSampleMutator")) {
 											String mutatorName = ModelManager.getStringAttribute("name", cl3);
-											EClass cl4 = MutatorUtils.getMutatorClass(model, mutatorName);
+											EClass cl4 = MutatorUtils.getMutatorType(model, mutatorName);
 											if (cl4 != null) {
-												EClass cl5 = MutatorUtils.getMutatorContainerClass(model, mutatorName);
+												EClass cl5 = MutatorUtils.getMutatorContainerType(model, mutatorName);
 												if (cl5 != null) {
 													if (cl5.getName().equals(mutatedClass.getName())) {
 														if (command.eClass().getName().equals("RemoveObjectMutator")) {
@@ -420,6 +421,7 @@ public class CommandMutatorMetrics {
 					WodelMetricClass metricClass = classMetrics.get(name);
 					WodelMetricAttribute[] metricatt = metricClass.getAttributes();
 					int counter = 0;
+					int counterInline = 0;
 					if (atts != null) {
 						if (command.eClass().getName().equals("ModifyInformationMutator")) {
 							List<EObject> attributes = ModelManager.getReferences(atts, command);
@@ -509,6 +511,34 @@ public class CommandMutatorMetrics {
 												if (wmref.getName().equals(ref.get(0).getName())) {
 													wmref.modification++;
 													counter++;
+												}
+											}
+										}
+									}
+								}
+								if (o.eClass().getName().equals("ReferenceAdd")) {
+									for (EReference refref : o.eClass().getEAllReferences()) {
+										if (refref.getName().equals("reference")) {
+											List<EReference> ref = (List<EReference>) o.eGet(refref);
+											for (WodelMetricReference wmref : metricref) {
+												if (wmref.getName().equals(ref.get(0).getName())) {
+													wmref.modification++;
+													counter++;
+													counterInline++;
+												}
+											}
+										}
+									}
+								}
+								if (o.eClass().getName().equals("ReferenceRemove")) {
+									for (EReference refref : o.eClass().getEAllReferences()) {
+										if (refref.getName().equals("reference")) {
+											List<EReference> ref = (List<EReference>) o.eGet(refref);
+											for (WodelMetricReference wmref : metricref) {
+												if (wmref.getName().equals(ref.get(0).getName())) {
+													wmref.modification++;
+													counter++;
+													counterInline++;
 												}
 											}
 										}
@@ -805,6 +835,9 @@ public class CommandMutatorMetrics {
 									if (selection.getObjSel() instanceof SelectObjectMutator) {
 										cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
 									}
+									if (selection.getObjSel() instanceof SelectSampleMutator) {
+										cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+									}
 									if (selection.getObjSel() instanceof CreateObjectMutator) {
 										cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
 									}
@@ -843,6 +876,10 @@ public class CommandMutatorMetrics {
 					if (operation == 1) {
 						metricClass.modification+= counter;
 						metricCommand.modification+= counter;
+						if (counterInline > 0) {
+							metricClass.mmodification += counterInline - 1;
+							metricCommand.mmodification += counterInline - 1;
+						}
 						metricClass.mmodification++;
 						metricCommand.mmodification++;
 						metricCommand.addClass(metricClass);
@@ -978,6 +1015,9 @@ public class CommandMutatorMetrics {
 									EClass cl5 = null;
 									if (selection.getObjSel() instanceof SelectObjectMutator) {
 										cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+									}
+									if (selection.getObjSel() instanceof SelectSampleMutator) {
+										cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
 									}
 									if (selection.getObjSel() instanceof CreateObjectMutator) {
 										cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();

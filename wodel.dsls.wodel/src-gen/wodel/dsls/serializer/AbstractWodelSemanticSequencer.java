@@ -46,9 +46,11 @@ import mutatorenvironment.RandomIntegerType;
 import mutatorenvironment.RandomStringType;
 import mutatorenvironment.RandomType;
 import mutatorenvironment.RandomTypeSelection;
+import mutatorenvironment.ReferenceAdd;
 import mutatorenvironment.ReferenceAtt;
 import mutatorenvironment.ReferenceEvaluation;
 import mutatorenvironment.ReferenceInit;
+import mutatorenvironment.ReferenceRemove;
 import mutatorenvironment.ReferenceSwap;
 import mutatorenvironment.RemoveCompleteReferenceMutator;
 import mutatorenvironment.RemoveObjectMutator;
@@ -207,6 +209,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.RANDOM_TYPE_SELECTION:
 				sequence_RandomTypeSelection(context, (RandomTypeSelection) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.REFERENCE_ADD:
+				sequence_ReferenceAdd(context, (ReferenceAdd) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.REFERENCE_ATT:
 				sequence_ReferenceAtt(context, (ReferenceAtt) semanticObject); 
 				return; 
@@ -215,6 +220,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 				return; 
 			case MutatorenvironmentPackage.REFERENCE_INIT:
 				sequence_ReferenceInit(context, (ReferenceInit) semanticObject); 
+				return; 
+			case MutatorenvironmentPackage.REFERENCE_REMOVE:
+				sequence_ReferenceRemove(context, (ReferenceRemove) semanticObject); 
 				return; 
 			case MutatorenvironmentPackage.REFERENCE_SWAP:
 				sequence_ReferenceSwap(context, (ReferenceSwap) semanticObject); 
@@ -764,6 +772,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (reference+=[EReference|ID] object=ObSelectionStrategy)
+	 */
+	protected void sequence_ReferenceAdd(EObject context, ReferenceAdd semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (reference+=[EReference|ID] attribute=[EAttribute|ID] value=AttributeType)
 	 */
 	protected void sequence_ReferenceAtt(EObject context, ReferenceAtt semanticObject) {
@@ -785,6 +802,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 *     (reference+=[EReference|ID] object=ObSelectionStrategy)
 	 */
 	protected void sequence_ReferenceInit(EObject context, ReferenceInit semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (reference+=[EReference|ID] object=ObSelectionStrategy)
+	 */
+	protected void sequence_ReferenceRemove(EObject context, ReferenceRemove semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

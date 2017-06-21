@@ -1809,6 +1809,9 @@ class WodelMutatorGenerator implements IGenerator {
 					if (object != null) {
 						rMut.getObject().add(object);
 					}
+					else {
+						rMut.getObject().add(mut.getObject());
+					}
 				} catch (ModelNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

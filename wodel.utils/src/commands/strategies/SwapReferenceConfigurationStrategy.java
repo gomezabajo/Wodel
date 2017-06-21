@@ -30,8 +30,15 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		Object src = eobjsrc.eGet(source);
 		Object tar = eobjsrc.eGet(target);
 		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
-		if (src.getClass().getSimpleName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase())) {
-			return true;
+		if (src != null && tar != null) {
+			if (src.getClass().getSimpleName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase())) {
+				return true;
+			}
+		}
+		if (source != null && target != null) {
+			if (source.getEType().getName().equals(target.getEType().getName())) {
+				return true;
+			}
 		}
 		//System.out.println("c: " + c.getInstanceClass().toString() + ", source: " + src.getClass().toString() + ", target:" + tar.getClass().toString());
 		//if ((c.getInstanceClass() == src.getClass()) && (c.getInstanceClass() == tar.getClass())) {
@@ -106,9 +113,11 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 			if (r.getName().equals(source)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
-				othereobjsrc = (EObject) obj_src.eGet(r, true);
-				othereobjsrcname = r.getName();
+			if (obj_src.eGet(this.source) != null) {
+				if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
+					othereobjsrc = (EObject) obj_src.eGet(r, true);
+					othereobjsrcname = r.getName();
+				}
 			}
 		}
 				
@@ -116,9 +125,11 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 			if (r.getName().equals(target)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
-				othereobjtar = (EObject) obj_tar.eGet(r, true);
-				othereobjtarname = r.getName();
+			if (obj_tar.eGet(this.target) != null) {
+				if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
+					othereobjtar = (EObject) obj_tar.eGet(r, true);
+					othereobjtarname = r.getName();
+				}
 			}
 		}
 
@@ -151,9 +162,11 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 				continue;
 			}
 			System.out.println("obj_src.eGet(r): " + obj_src.eGet(r));
-			if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
-				othereobjsrc = (EObject) obj_src.eGet(r, true);
-				othereobjsrcname = r.getName();
+			if (obj_src.eGet(this.source) != null) {
+				if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
+					othereobjsrc = (EObject) obj_src.eGet(r, true);
+					othereobjsrcname = r.getName();
+				}
 			}
 		}
 				
@@ -161,9 +174,11 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 			if (r.getName().equals(target)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
-				othereobjtar = (EObject) obj_tar.eGet(r, true);
-				othereobjtarname = r.getName();
+			if (obj_tar.eGet(this.target) != null) {
+				if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
+					othereobjtar = (EObject) obj_tar.eGet(r, true);
+					othereobjtarname = r.getName();
+				}
 			}
 		}
 		

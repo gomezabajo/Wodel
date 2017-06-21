@@ -7068,6 +7068,15 @@ public class WodelMutatorGenerator implements IGenerator {
         _builder.append("\t\t\t");
         _builder.append("}");
         _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t\t\t\t");
+        _builder.append("rMut.getObject().add(mut.getObject());");
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
         _builder.append("\t\t");
         _builder.append("} catch (ModelNotFoundException e) {");
         _builder.newLine();

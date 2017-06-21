@@ -151,7 +151,7 @@ public class RemoveObjectMutator extends Mutator {
 					else {
 						EObject auxObj = (EObject) o.eGet(r, true);
 						if (auxObj == null) {
-							return null;
+							continue;
 						}
 
 						// If the object pointed is the selected

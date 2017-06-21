@@ -1,6 +1,7 @@
 package manager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,7 +45,12 @@ import commands.strategies.RandomBooleanConfigurationStrategy;
 import commands.strategies.RandomDoubleConfigurationStrategy;
 import commands.strategies.RandomIntegerConfigurationStrategy;
 import commands.strategies.RandomStringConfigurationStrategy;
+import exceptions.AbstractCreationException;
+import exceptions.MaxSmallerThanMinException;
+import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
+import exceptions.ObjectNoTargetableException;
+import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 import appliedMutations.AppMutation;
@@ -2699,7 +2705,7 @@ public class MutatorUtils {
 		}
 	}
 	
-	private void createMutantVersionRegistry(ArrayList<EPackage> packages, Resource seed, Resource model, String versionPath, AppMutation mut) {
+	private void createMutantVersionRegistry(ArrayList<EPackage> packages, List<Resource> seeds, Resource model, String versionPath, AppMutation mut) {
 		File outputFolder = new File(versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry");
 		System.out.println(versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry");
 		if (outputFolder.exists() != true) {
@@ -2730,8 +2736,11 @@ public class MutatorUtils {
 			if (emuts.size() > 0) {
 				EObject emutated = emuts.get(0);
 				emuts.remove(0);
-				if (ModelManager.getObject(seed, emutated) != null) {
-					emuts.add(ModelManager.getObject(seed, emutated));
+				for (Resource seed : seeds) {
+					if (ModelManager.getObject(seed, emutated) != null) {
+						emuts.add(ModelManager.getObject(seed, emutated));
+						break;
+					}
 				}
 			}
 		}
@@ -2782,6 +2791,8 @@ public class MutatorUtils {
 						}
 						mutVersions.addAll(mutPaths);
 						hashmapMutVersions.put(mutFilename, mutVersions);
+						List<Resource> pastVersions = new ArrayList<Resource>();
+						pastVersions.add(seed);
 						Resource lastVersion = seed;
 						int i = 0;
 						for (AppMutation mut : muts.getMuts()) {
@@ -2886,19 +2897,12 @@ public class MutatorUtils {
 							if (mutVersions.size() > i) {
 								mutVersion = mutVersions.get(i);
 								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
-								createMutantVersionRegistry(packages, lastVersion, activeVersion, mutVersion, mut);
+								createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
+								pastVersions.add(activeVersion);
 								lastVersion = activeVersion;
 							}
 							i++;
 						}
-						String mutLastVersion = mutVersions.get(mutVersions.size() - 1);
-						System.out.println("mutLastVersion: " + mutLastVersion);
-						int index = Integer.parseInt(mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 1, mutLastVersion.lastIndexOf("."))) + 1;
-						mutLastVersion = mutLastVersion.substring(0, mutLastVersion.lastIndexOf("_") + 1) + index + mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 2, mutLastVersion.length());
-						System.out.println(mutLastVersion);
-						ModelManager.saveOutModel(model, mutLastVersion);
-						mutVersions.add(mutLastVersion);
-						hashmapMutVersions.put(mutFilename, mutVersions);
 						File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
 						if (registryFolder.exists() != true) {
 							registryFolder.mkdir();
@@ -2961,6 +2965,8 @@ public class MutatorUtils {
 						}
 						mutVersions.addAll(mutPaths);
 						hashmapMutVersions.put(mutFilename, mutVersions);
+						List<Resource> pastVersions = new ArrayList<Resource>();
+						pastVersions.add(seed);
 						Resource lastVersion = seed;
 						int i = 0;
 						for (AppMutation mut : muts.getMuts()) {
@@ -3065,23 +3071,12 @@ public class MutatorUtils {
 							if (mutVersions.size() > i) {
 								mutVersion = mutVersions.get(i);
 								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
-								createMutantVersionRegistry(packages, lastVersion, activeVersion, mutVersion, mut);
+								createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
+								pastVersions.add(activeVersion);
 								lastVersion = activeVersion;
 							}
 							i++;
 						}
-						String mutLastVersion = mutVersions.get(mutVersions.size() - 1);
-						System.out.println("mutLastVersion: " + mutLastVersion);
-						int index = Integer.parseInt(mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 1, mutLastVersion.lastIndexOf("."))) + 1;
-						mutLastVersion = mutLastVersion.substring(0, mutLastVersion.lastIndexOf("_") + 1) + index + mutLastVersion.substring(mutLastVersion.lastIndexOf("_") + 2, mutLastVersion.length());
-						System.out.println(mutLastVersion);
-						ModelManager.saveOutModel(model, mutLastVersion);
-						mutVersions.add(mutLastVersion);
-						hashmapMutVersions.put(mutFilename, mutVersions);
-						//if (mutVersions.size() > muts.getMuts().size() - 1) {
-							//createMutantVersionRegistry(packages, lastVersion, model, mutLastVersion, muts.getMuts().get(muts.getMuts().size() - 1));
-						//}
-						//createMutantVersionRegistry(packages, lastVersion, model, mutLastVersion, muts.getMuts().get(muts.getMuts().size() - 1));
 						File registryFolder = null;
 						if (fromBlocks.size() == 0) {
 							registryFolder = new File(

@@ -1550,83 +1550,21 @@ public class MutatorMetrics {
 								ArrayList<EObject> tmpMutantObjects = new ArrayList<EObject>();
 								tmpMutantObjects.addAll(mutantObjects);
 								for (EObject object : seedObjects) {
-									EObject mutObject = null;
-									for (EObject mutantObject : tmpMutantObjects) {
+									String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
+									objectURI = objectURI.substring(objectURI.indexOf("#"));
+									for (EObject mutantObject : mutantObjects) {
 										if (object.eClass().getName().equals(mutantObject.eClass().getName())) {
-											if (EcoreUtil.equals(object,  mutantObject)) {
-												WodelMutantMetric metric = null;
-												if (mutantMetrics.get(object.eClass().getName()) == null) {
-													metric = new WodelMutantMetric();
-												}
-												else {
-													metric = mutantMetrics.get(object.eClass().getName());
-												}
-												for (EAttribute attribute : object.eClass().getEAllAttributes()) {
-													MutantMetric attmetric = null;
-													if (metric.attributes.get(attribute.getName()) == null) {
-														attmetric = new MutantMetric();
-													}
-													else {
-														attmetric = metric.attributes.get(attribute.getName());
-													}
-													metric.attributes.put(attribute.getName(), attmetric);
-												}
-												for (EReference reference : object.eClass().getEAllReferences()) {
-													MutantMetric refmetric = null;
-													if (metric.references.get(reference.getName()) == null) {
-														refmetric = new MutantMetric();
-													}
-													else {
-														refmetric = metric.references.get(reference.getName());
-													}
-													metric.references.put(reference.getName(), refmetric);
-												}
-												mutantMetrics.put(object.eClass().getName(), metric);
+											String mutantObjectURI = EcoreUtil.getURI(mutantObject).toString().replace("//", "/");
+											mutantObjectURI = mutantObjectURI.substring(mutantObjectURI.indexOf("#"));
+											if (mutantObjectURI.equals(objectURI)) {
+											//if (EcoreUtil.equals(object,  mutantObject)) {
+												tmpMutantObjects.remove(mutantObject);
 												tmpSeedObjects.remove(object);
-												mutObject = mutantObject;
 												break;
 											}
 										}
 									}
-									if (mutObject != null) {
-										tmpMutantObjects.remove(mutObject);
-									}
 								}
-//								String mutantPath = mutantFile.getPath().replaceAll("\\\\", "/");
-//								if (hashmapMutVersions.containsKey(mutantPath) == true) {
-//									List<String> mutVersionPaths = hashmapMutVersions.get(mutantPath);
-//									String mutVersionPath = mutVersionPaths.get(mutVersionPaths.size() - 1);
-//									Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
-//									ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
-//									for (EObject object : mutVersionObjects) {
-//										//String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
-//										boolean exists = false;
-//										EObject newObject = object;
-//										for (EObject mutantObject : mutantObjects) {
-//											if (object.eClass().getName().equals(mutantObject.eClass().getName())) {
-//												//String mutantObjectURI = EcoreUtil.getURI(mutantObject).toString().replace("//", "/");
-//												//if (mutantObjectURI.equals(objectURI)) {
-//												if (EcoreUtil.equals(object, mutantObject)) {
-//													exists = true;
-//													break;
-//												}
-//											}
-//										}
-//										if ((exists == false) && (tmpMutantObjects.contains(newObject) != true)) {
-//											tmpMutantObjects.add(newObject);
-//										}
-//									}
-//								}
-								
-//								// GETS CREATION EXPLICIT AND IMPLICIT MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
-//								getMutantCreationMetrics(regObjects, tmpMutantObjects, mutantMetrics, program);
-//								
-//								// GETS MODIFICATION MUTANT METRICS FROM REGISTRY RESOURCE
-//								getMutantMetrics(regObjects, tmpSeedObjects, mutantMetrics);
-//								
-//								// GETS DELETION IMPLICIT MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
-//								getMutantDeletionMetrics(regObjects, tmpSeedObjects, mutantMetrics, program);
-								
 								// GETS CREATION EXPLICIT AND IMPLICIT MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
 								getMutantCreationMetrics(regObjects, tmpMutantObjects, mutantMetrics, program);
 								

@@ -489,7 +489,8 @@ class WodelUseGenerator implements IGenerator {
    
    def compile(List<Mutator> commands, EClass rootClass, List<EPackage> packages, List<String> classNames, List<Constraint> constraints, String blockName) {
 		for (mut : commands) {
-			if (mutatorDependencies.needsOCLConstraints(mut)) {
+			var Integer times = mutatorDependencies.needsOCLConstraints(mut);
+			if (times != null && times > 0) {
 				var String mutName = MutatorUtils.getMutatorName(mut)
 				if (mut instanceof CreateObjectMutator) {
 					if (mut.type != null) {
@@ -517,7 +518,9 @@ class WodelUseGenerator implements IGenerator {
 					if (mut.object != null) {
 						var String name = MutatorUtils.getTypeName(mut.object)
 						if (classNames.contains(name)) {
-							getSizeConstraints(rootClass, ModelManager.getEClassByName(packages, name), packages, constraints, false, null, blockName, false)
+							for (var int i = 0; i < times; i++) {
+								getSizeConstraints(rootClass, ModelManager.getEClassByName(packages, name), packages, constraints, false, null, blockName, false)
+							}
 						}
 						if (mut.object.expression != null) {
 							mut.object.expression.compile(name, constraints, blockName, mutName)

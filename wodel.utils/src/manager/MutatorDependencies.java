@@ -42,9 +42,9 @@ public class MutatorDependencies {
 		"ModifySourceReferenceMutator", "ModifyTargetReferenceMutator", "CloneObjectMutator"
 	};
 	
-	protected Boolean[] initialVector = { null, true, true, true, null, true, false, true, true, true, true, true };
+	protected Integer[] initialVector = { null, 1, 1, 1, null, 1, 0, 1, 1, 1, 1, 1 };
 	
-	protected HashMap<Mutator, List<Boolean>> dependenciesMatrix = null;
+	protected HashMap<Mutator, List<Integer>> dependenciesMatrix = null;
 	
 	protected List<Mutator> mutators = null;
 	
@@ -52,9 +52,10 @@ public class MutatorDependencies {
 		public int index = 0;
 		public EClass type = null;
 		public Mutator mutator = null;
+		public int max = 0;
 	}
 	
-	protected HashMap<Mutator, Boolean> dependencies = new HashMap<Mutator, Boolean>();
+	protected HashMap<Mutator, Integer> dependencies = new HashMap<Mutator, Integer>();
 	
 	protected HashMap<String, MutatorData> mutatorData = new HashMap<String, MutatorData>();
 	
@@ -77,12 +78,16 @@ public class MutatorDependencies {
 		if (mutators != null) {
 			for (int i = 0; i < mutators.size(); i++) {
 				Mutator mut = mutators.get(i);
+				MutatorData mutData = new MutatorData();
+				mutData.index = i;
+				mutData.type = MutatorUtils.getMutatorType(mut);
+				mutData.mutator = mut;
+				mutData.max = mut.getMax();
 				if (mut.getName() != null) {
-					MutatorData mutData = new MutatorData();
-					mutData.index = i;
-					mutData.type = MutatorUtils.getMutatorType(mut);
-					mutData.mutator = mut;
 					mutatorData.put(mut.getName(), mutData);
+				}
+				else {
+					mutatorData.put("mut_" + i, mutData);
 				}
 			}
 		}
@@ -98,20 +103,29 @@ public class MutatorDependencies {
 		return null;
 	}
 	
-	protected static List<Boolean> transform(List<Boolean> vector, boolean value) {
-		List<Boolean> ret = new ArrayList<Boolean>();
-		for (Boolean v : vector) {
-			if (value == true) {
+	protected MutatorData getByMutator(Mutator mut) {
+		for (MutatorData value : mutatorData.values()) {
+			if (value.mutator.equals(mut)) {
+				return value;
+			}
+		}
+		return null;
+	}
+	
+	protected static List<Integer> transform(List<Integer> vector, Integer value) {
+		List<Integer> ret = new ArrayList<Integer>();
+		for (Integer v : vector) {
+			if (value == 1) {
 				if (v == null) {
-					ret.add(true);
+					ret.add(1);
 					continue;
 				}
-				if (v == true) {
-					ret.add(true);
+				if (v == 1) {
+					ret.add(1);
 					continue;
 				}
-				if (v == false) {
-					ret.add(false);
+				if (v == 0) {
+					ret.add(0);
 					continue;
 				}
 			}
@@ -120,12 +134,12 @@ public class MutatorDependencies {
 					ret.add(null);
 					continue;
 				}
-				if (v == true) {
+				if (v == 1) {
 					ret.add(null);
 					continue;
 				}
-				if (v == false) {
-					ret.add(false);
+				if (v == 0) {
+					ret.add(0);
 					continue;
 				}
 			}
@@ -137,14 +151,14 @@ public class MutatorDependencies {
 	protected void findDependencies() {
 		if (mutators != null) {
 			int com = 0;
-			boolean lastValue = true;
-			List<Boolean> lastVector = null;
+			int lastValue = 1;
+			List<Integer> lastVector = null;
 			List<Mutator> previousMutators = new ArrayList<Mutator>();
 			for (Mutator mut : mutators) {
-				boolean value = true;
-				List<Boolean> activeVector = null;
+				int value = 1;
+				List<Integer> activeVector = null;
 				if (dependenciesMatrix == null) {
-					dependenciesMatrix = new HashMap<Mutator, List<Boolean>>();
+					dependenciesMatrix = new HashMap<Mutator, List<Integer>>();
 					activeVector = Arrays.asList(initialVector);
 				}
 				else {
@@ -156,13 +170,29 @@ public class MutatorDependencies {
 						if (mutatorData.get(selection.getObjSel().getName()) != null) {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
-							if (md != null && md.index < com) {
-								value = true;
+							if (md != null && md.index < com && md.max < mut.getMax()) {
+								value = 1;
 							}
 						}
 					}
 					if (((RemoveObjectMutator) mut).getObject() instanceof RandomTypeSelection) {
-						value = true;
+						int max = 0;
+						for (Mutator prevMut : previousMutators) {
+							if (prevMut instanceof CreateObjectMutator) {
+								if (((CreateObjectMutator) prevMut).getType().getName().equals(((RemoveObjectMutator) mut).getObject().getType().getName())) {
+									MutatorData md = getByMutator(prevMut);
+									if (md != null && md.index < com) {
+										max += md.max;
+									}
+								}
+							}
+						}
+						if (max >= mut.getMax()) {
+							value = 0;
+						}
+						else {
+							value = mut.getMax() - max;
+						}
 					}
 					if (((RemoveObjectMutator) mut).getObject() instanceof CompleteTypeSelection) {
 						CompleteTypeSelection selection = (CompleteTypeSelection) ((RemoveObjectMutator) mut).getObject();
@@ -181,7 +211,7 @@ public class MutatorDependencies {
 														EClass prevType = sel.getObjSel().getType();
 														for (EReference ref : type.getEAllReferences()) {
 															if (ref.getEType().getName().equals(prevType.getName())) {
-																value = false;
+																value = 0;
 																break;
 															}
 														}
@@ -192,13 +222,13 @@ public class MutatorDependencies {
 													EClass prevType = sel.getType();
 													for (EReference ref : type.getEAllReferences()) {
 														if (ref.getEType().getName().equals(prevType.getName())) {
-															value = false;
+															value = 0;
 															break;
 														}
 													}
 												}
 											}
-											if (value == false) {
+											if (value == 0) {
 												break;
 											}
 										}
@@ -212,7 +242,7 @@ public class MutatorDependencies {
 					EClass type = ((RemoveRandomReferenceMutator) mut).getType();
 					MutatorData md = getMutatorDataByType(type);
 					if (md != null && md.index < com) {
-						value = false;
+						value = 0;
 					}
 				}
 				if (mut instanceof RemoveSpecificReferenceMutator) {
@@ -222,7 +252,7 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
@@ -231,21 +261,21 @@ public class MutatorDependencies {
 					EClass type = ((RemoveCompleteReferenceMutator) mut).getType();
 					MutatorData md = getMutatorDataByType(type);
 					if (md != null && md.index < com) {
-						value = false;
+						value = 0;
 					}
 				}
 				if (mut instanceof CreateObjectMutator) {
 					if (((CreateObjectMutator) mut).getReferences() != null) {
 						List<ReferenceSet> references = ((CreateObjectMutator) mut).getReferences();
 						if (references.size() > 0) {
-							boolean refValue = false;
+							int refValue = 0;
 							for (ReferenceSet refSet : references) {
 								if (refSet instanceof ReferenceInit) {
 									ObSelectionStrategy strategy = refSet.getObject();
 									EClass mutType = MutatorUtils.getMutatorType(mut);
 									EClass refType = MutatorUtils.getStrategyType(strategy);
 									if (!mutType.getName().equals(refType.getName())) {
-										refValue = true;
+										refValue = 1;
 									}
 								}
 								if (refSet instanceof ReferenceAdd) {
@@ -253,7 +283,7 @@ public class MutatorDependencies {
 									EClass mutType = MutatorUtils.getMutatorType(mut);
 									EClass refType = MutatorUtils.getStrategyType(strategy);
 									if (!mutType.getName().equals(refType.getName())) {
-										refValue = true;
+										refValue = 1;
 									}
 								}
 								if (refSet instanceof ReferenceRemove) {
@@ -261,7 +291,7 @@ public class MutatorDependencies {
 									EClass mutType = MutatorUtils.getMutatorType(mut);
 									EClass refType = MutatorUtils.getStrategyType(strategy);
 									if (!mutType.getName().equals(refType.getName())) {
-										refValue = true;
+										refValue = 1;
 									}
 								}
 								if (refSet instanceof ReferenceSwap) {
@@ -269,7 +299,7 @@ public class MutatorDependencies {
 									EClass mutType = MutatorUtils.getMutatorType(mut);
 									EClass refType = MutatorUtils.getStrategyType(strategy);
 									if (!mutType.getName().equals(refType.getName())) {
-										refValue = true;
+										refValue = 1;
 									}
 								}
 							}
@@ -277,7 +307,7 @@ public class MutatorDependencies {
 						}
 					}
 					else {
-						value = false;
+						value = 0;
 					}
 				}
 				if (mut instanceof SelectObjectMutator) {
@@ -287,13 +317,13 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
 				}
 				if (mut instanceof SelectSampleMutator) {
-					value = false;
+					value = 0;
 				}
 				if (mut instanceof ModifyInformationMutator) {
 					if (((ModifyInformationMutator) mut).getObject() instanceof SpecificObjectSelection) {
@@ -302,7 +332,7 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
@@ -314,7 +344,7 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
@@ -326,7 +356,7 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
@@ -338,7 +368,7 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
@@ -350,7 +380,7 @@ public class MutatorDependencies {
 							String mutatorName = selection.getObjSel().getName();
 							MutatorData md = mutatorData.get(mutatorName);
 							if (md != null && md.index < com) {
-								value = false;
+								value = 0;
 							}
 						}
 					}
@@ -365,7 +395,7 @@ public class MutatorDependencies {
 		}
 	}
 	
-	public Boolean needsOCLConstraints(Mutator mutator) {
+	public Integer needsOCLConstraints(Mutator mutator) {
 		return dependencies.get(mutator); 
 	}
 }

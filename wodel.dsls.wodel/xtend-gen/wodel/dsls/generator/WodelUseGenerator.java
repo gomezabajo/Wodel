@@ -864,305 +864,316 @@ public class WodelUseGenerator implements IGenerator {
   
   public void compile(final List<Mutator> commands, final EClass rootClass, final List<EPackage> packages, final List<String> classNames, final List<WodelUseGenerator.Constraint> constraints, final String blockName) {
     for (final Mutator mut : commands) {
-      Boolean _needsOCLConstraints = this.mutatorDependencies.needsOCLConstraints(mut);
-      if ((_needsOCLConstraints).booleanValue()) {
-        String mutName = MutatorUtils.getMutatorName(mut);
-        if ((mut instanceof CreateObjectMutator)) {
-          EClass _type = ((CreateObjectMutator)mut).getType();
-          boolean _notEquals = (!Objects.equal(_type, null));
-          if (_notEquals) {
-            EClass _type_1 = ((CreateObjectMutator)mut).getType();
-            String name = _type_1.getName();
-            List<EClassifier> containers = ModelManager.getContainerTypes(packages, name);
-            for (final EClassifier container : containers) {
-              {
-                EReference containerReference = null;
-                EList<EReference> _eAllReferences = ((EClass) container).getEAllReferences();
-                for (final EReference ref : _eAllReferences) {
-                  boolean _and = false;
-                  EClassifier _eType = ref.getEType();
-                  String _name = _eType.getName();
-                  boolean _equals = _name.equals(name);
-                  if (!_equals) {
-                    _and = false;
-                  } else {
-                    boolean _isContainment = ref.isContainment();
-                    _and = _isContainment;
+      {
+        Integer times = this.mutatorDependencies.needsOCLConstraints(mut);
+        boolean _and = false;
+        boolean _notEquals = (!Objects.equal(times, null));
+        if (!_notEquals) {
+          _and = false;
+        } else {
+          _and = ((times).intValue() > 0);
+        }
+        if (_and) {
+          String mutName = MutatorUtils.getMutatorName(mut);
+          if ((mut instanceof CreateObjectMutator)) {
+            EClass _type = ((CreateObjectMutator)mut).getType();
+            boolean _notEquals_1 = (!Objects.equal(_type, null));
+            if (_notEquals_1) {
+              EClass _type_1 = ((CreateObjectMutator)mut).getType();
+              String name = _type_1.getName();
+              List<EClassifier> containers = ModelManager.getContainerTypes(packages, name);
+              for (final EClassifier container : containers) {
+                {
+                  EReference containerReference = null;
+                  EList<EReference> _eAllReferences = ((EClass) container).getEAllReferences();
+                  for (final EReference ref : _eAllReferences) {
+                    boolean _and_1 = false;
+                    EClassifier _eType = ref.getEType();
+                    String _name = _eType.getName();
+                    boolean _equals = _name.equals(name);
+                    if (!_equals) {
+                      _and_1 = false;
+                    } else {
+                      boolean _isContainment = ref.isContainment();
+                      _and_1 = _isContainment;
+                    }
+                    if (_and_1) {
+                      containerReference = ref;
+                    }
                   }
-                  if (_and) {
-                    containerReference = ref;
-                  }
-                }
-                boolean _notEquals_1 = (!Objects.equal(containerReference, null));
-                if (_notEquals_1) {
-                  String _name_1 = container.getName();
-                  boolean _contains = classNames.contains(_name_1);
-                  if (_contains) {
-                    this.getSizeConstraints(rootClass, ((EClass) container), packages, constraints, false, null, blockName, false);
+                  boolean _notEquals_2 = (!Objects.equal(containerReference, null));
+                  if (_notEquals_2) {
+                    String _name_1 = container.getName();
+                    boolean _contains = classNames.contains(_name_1);
+                    if (_contains) {
+                      this.getSizeConstraints(rootClass, ((EClass) container), packages, constraints, false, null, blockName, false);
+                    }
                   }
                 }
               }
-            }
-            EList<ReferenceSet> _references = ((CreateObjectMutator)mut).getReferences();
-            boolean _notEquals_1 = (!Objects.equal(_references, null));
-            if (_notEquals_1) {
-              EList<ReferenceSet> _references_1 = ((CreateObjectMutator)mut).getReferences();
-              this.compile(_references_1, constraints, blockName, mutName);
+              EList<ReferenceSet> _references = ((CreateObjectMutator)mut).getReferences();
+              boolean _notEquals_2 = (!Objects.equal(_references, null));
+              if (_notEquals_2) {
+                EList<ReferenceSet> _references_1 = ((CreateObjectMutator)mut).getReferences();
+                this.compile(_references_1, constraints, blockName, mutName);
+              }
             }
           }
-        }
-        if ((mut instanceof RemoveObjectMutator)) {
-          ObSelectionStrategy _object = ((RemoveObjectMutator)mut).getObject();
-          boolean _notEquals_2 = (!Objects.equal(_object, null));
-          if (_notEquals_2) {
-            ObSelectionStrategy _object_1 = ((RemoveObjectMutator)mut).getObject();
-            String name_1 = MutatorUtils.getTypeName(_object_1);
-            boolean _contains = classNames.contains(name_1);
-            if (_contains) {
-              EClass _eClassByName = ModelManager.getEClassByName(packages, name_1);
-              this.getSizeConstraints(rootClass, _eClassByName, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _object_2 = ((RemoveObjectMutator)mut).getObject();
-            Expression _expression = _object_2.getExpression();
-            boolean _notEquals_3 = (!Objects.equal(_expression, null));
+          if ((mut instanceof RemoveObjectMutator)) {
+            ObSelectionStrategy _object = ((RemoveObjectMutator)mut).getObject();
+            boolean _notEquals_3 = (!Objects.equal(_object, null));
             if (_notEquals_3) {
-              ObSelectionStrategy _object_3 = ((RemoveObjectMutator)mut).getObject();
-              Expression _expression_1 = _object_3.getExpression();
-              this.compile(_expression_1, name_1, constraints, blockName, mutName);
+              ObSelectionStrategy _object_1 = ((RemoveObjectMutator)mut).getObject();
+              String name_1 = MutatorUtils.getTypeName(_object_1);
+              boolean _contains = classNames.contains(name_1);
+              if (_contains) {
+                for (int i = 0; (i < (times).intValue()); i++) {
+                  EClass _eClassByName = ModelManager.getEClassByName(packages, name_1);
+                  this.getSizeConstraints(rootClass, _eClassByName, packages, constraints, false, null, blockName, false);
+                }
+              }
+              ObSelectionStrategy _object_2 = ((RemoveObjectMutator)mut).getObject();
+              Expression _expression = _object_2.getExpression();
+              boolean _notEquals_4 = (!Objects.equal(_expression, null));
+              if (_notEquals_4) {
+                ObSelectionStrategy _object_3 = ((RemoveObjectMutator)mut).getObject();
+                Expression _expression_1 = _object_3.getExpression();
+                this.compile(_expression_1, name_1, constraints, blockName, mutName);
+              }
             }
           }
-        }
-        if ((mut instanceof CreateReferenceMutator)) {
-          ObSelectionStrategy _target = ((CreateReferenceMutator)mut).getTarget();
-          boolean _notEquals_4 = (!Objects.equal(_target, null));
-          if (_notEquals_4) {
-            ObSelectionStrategy _target_1 = ((CreateReferenceMutator)mut).getTarget();
-            String name_2 = MutatorUtils.getTypeName(_target_1);
-            boolean _contains_1 = classNames.contains(name_2);
-            if (_contains_1) {
-              EClass _eClassByName_1 = ModelManager.getEClassByName(packages, name_2);
-              this.getSizeConstraints(rootClass, _eClassByName_1, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _target_2 = ((CreateReferenceMutator)mut).getTarget();
-            Expression _expression_2 = _target_2.getExpression();
-            boolean _notEquals_5 = (!Objects.equal(_expression_2, null));
+          if ((mut instanceof CreateReferenceMutator)) {
+            ObSelectionStrategy _target = ((CreateReferenceMutator)mut).getTarget();
+            boolean _notEquals_5 = (!Objects.equal(_target, null));
             if (_notEquals_5) {
-              ObSelectionStrategy _target_3 = ((CreateReferenceMutator)mut).getTarget();
-              Expression _expression_3 = _target_3.getExpression();
-              this.compile(_expression_3, name_2, constraints, blockName, mutName);
+              ObSelectionStrategy _target_1 = ((CreateReferenceMutator)mut).getTarget();
+              String name_2 = MutatorUtils.getTypeName(_target_1);
+              boolean _contains_1 = classNames.contains(name_2);
+              if (_contains_1) {
+                EClass _eClassByName = ModelManager.getEClassByName(packages, name_2);
+                this.getSizeConstraints(rootClass, _eClassByName, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _target_2 = ((CreateReferenceMutator)mut).getTarget();
+              Expression _expression_2 = _target_2.getExpression();
+              boolean _notEquals_6 = (!Objects.equal(_expression_2, null));
+              if (_notEquals_6) {
+                ObSelectionStrategy _target_3 = ((CreateReferenceMutator)mut).getTarget();
+                Expression _expression_3 = _target_3.getExpression();
+                this.compile(_expression_3, name_2, constraints, blockName, mutName);
+              }
             }
-          }
-          ObSelectionStrategy _source = ((CreateReferenceMutator)mut).getSource();
-          boolean _notEquals_6 = (!Objects.equal(_source, null));
-          if (_notEquals_6) {
-            ObSelectionStrategy _source_1 = ((CreateReferenceMutator)mut).getSource();
-            String name_3 = MutatorUtils.getTypeName(_source_1);
-            boolean _contains_2 = classNames.contains(name_3);
-            if (_contains_2) {
-              EClass _eClassByName_2 = ModelManager.getEClassByName(packages, name_3);
-              this.getSizeConstraints(rootClass, _eClassByName_2, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _source_2 = ((CreateReferenceMutator)mut).getSource();
-            Expression _expression_4 = _source_2.getExpression();
-            boolean _notEquals_7 = (!Objects.equal(_expression_4, null));
+            ObSelectionStrategy _source = ((CreateReferenceMutator)mut).getSource();
+            boolean _notEquals_7 = (!Objects.equal(_source, null));
             if (_notEquals_7) {
-              ObSelectionStrategy _source_3 = ((CreateReferenceMutator)mut).getSource();
-              Expression _expression_5 = _source_3.getExpression();
-              this.compile(_expression_5, name_3, constraints, blockName, mutName);
+              ObSelectionStrategy _source_1 = ((CreateReferenceMutator)mut).getSource();
+              String name_3 = MutatorUtils.getTypeName(_source_1);
+              boolean _contains_2 = classNames.contains(name_3);
+              if (_contains_2) {
+                EClass _eClassByName_1 = ModelManager.getEClassByName(packages, name_3);
+                this.getSizeConstraints(rootClass, _eClassByName_1, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _source_2 = ((CreateReferenceMutator)mut).getSource();
+              Expression _expression_4 = _source_2.getExpression();
+              boolean _notEquals_8 = (!Objects.equal(_expression_4, null));
+              if (_notEquals_8) {
+                ObSelectionStrategy _source_3 = ((CreateReferenceMutator)mut).getSource();
+                Expression _expression_5 = _source_3.getExpression();
+                this.compile(_expression_5, name_3, constraints, blockName, mutName);
+              }
             }
           }
-        }
-        if ((mut instanceof ModifySourceReferenceMutator)) {
-          ObSelectionStrategy _source_4 = ((ModifySourceReferenceMutator)mut).getSource();
-          boolean _notEquals_8 = (!Objects.equal(_source_4, null));
-          if (_notEquals_8) {
-            ObSelectionStrategy _source_5 = ((ModifySourceReferenceMutator)mut).getSource();
-            String name_4 = MutatorUtils.getTypeName(_source_5);
-            boolean _contains_3 = classNames.contains(name_4);
-            if (_contains_3) {
-              EClass _eClassByName_3 = ModelManager.getEClassByName(packages, name_4);
-              this.getSizeConstraints(rootClass, _eClassByName_3, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _source_6 = ((ModifySourceReferenceMutator)mut).getSource();
-            Expression _expression_6 = _source_6.getExpression();
-            boolean _notEquals_9 = (!Objects.equal(_expression_6, null));
+          if ((mut instanceof ModifySourceReferenceMutator)) {
+            ObSelectionStrategy _source_4 = ((ModifySourceReferenceMutator)mut).getSource();
+            boolean _notEquals_9 = (!Objects.equal(_source_4, null));
             if (_notEquals_9) {
-              ObSelectionStrategy _source_7 = ((ModifySourceReferenceMutator)mut).getSource();
-              Expression _expression_7 = _source_7.getExpression();
-              this.compile(_expression_7, name_4, constraints, blockName, mutName);
+              ObSelectionStrategy _source_5 = ((ModifySourceReferenceMutator)mut).getSource();
+              String name_4 = MutatorUtils.getTypeName(_source_5);
+              boolean _contains_3 = classNames.contains(name_4);
+              if (_contains_3) {
+                EClass _eClassByName_2 = ModelManager.getEClassByName(packages, name_4);
+                this.getSizeConstraints(rootClass, _eClassByName_2, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _source_6 = ((ModifySourceReferenceMutator)mut).getSource();
+              Expression _expression_6 = _source_6.getExpression();
+              boolean _notEquals_10 = (!Objects.equal(_expression_6, null));
+              if (_notEquals_10) {
+                ObSelectionStrategy _source_7 = ((ModifySourceReferenceMutator)mut).getSource();
+                Expression _expression_7 = _source_7.getExpression();
+                this.compile(_expression_7, name_4, constraints, blockName, mutName);
+              }
             }
-          }
-          ObSelectionStrategy _newSource = ((ModifySourceReferenceMutator)mut).getNewSource();
-          boolean _notEquals_10 = (!Objects.equal(_newSource, null));
-          if (_notEquals_10) {
-            ObSelectionStrategy _newSource_1 = ((ModifySourceReferenceMutator)mut).getNewSource();
-            String name_5 = MutatorUtils.getTypeName(_newSource_1);
-            boolean _contains_4 = classNames.contains(name_5);
-            if (_contains_4) {
-              EClass _eClassByName_4 = ModelManager.getEClassByName(packages, name_5);
-              this.getSizeConstraints(rootClass, _eClassByName_4, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _newSource_2 = ((ModifySourceReferenceMutator)mut).getNewSource();
-            Expression _expression_8 = _newSource_2.getExpression();
-            boolean _notEquals_11 = (!Objects.equal(_expression_8, null));
+            ObSelectionStrategy _newSource = ((ModifySourceReferenceMutator)mut).getNewSource();
+            boolean _notEquals_11 = (!Objects.equal(_newSource, null));
             if (_notEquals_11) {
-              ObSelectionStrategy _newSource_3 = ((ModifySourceReferenceMutator)mut).getNewSource();
-              Expression _expression_9 = _newSource_3.getExpression();
-              this.compile(_expression_9, name_5, constraints, blockName, mutName);
+              ObSelectionStrategy _newSource_1 = ((ModifySourceReferenceMutator)mut).getNewSource();
+              String name_5 = MutatorUtils.getTypeName(_newSource_1);
+              boolean _contains_4 = classNames.contains(name_5);
+              if (_contains_4) {
+                EClass _eClassByName_3 = ModelManager.getEClassByName(packages, name_5);
+                this.getSizeConstraints(rootClass, _eClassByName_3, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _newSource_2 = ((ModifySourceReferenceMutator)mut).getNewSource();
+              Expression _expression_8 = _newSource_2.getExpression();
+              boolean _notEquals_12 = (!Objects.equal(_expression_8, null));
+              if (_notEquals_12) {
+                ObSelectionStrategy _newSource_3 = ((ModifySourceReferenceMutator)mut).getNewSource();
+                Expression _expression_9 = _newSource_3.getExpression();
+                this.compile(_expression_9, name_5, constraints, blockName, mutName);
+              }
             }
           }
-        }
-        if ((mut instanceof ModifyTargetReferenceMutator)) {
-          ObSelectionStrategy _source_8 = ((ModifyTargetReferenceMutator)mut).getSource();
-          boolean _notEquals_12 = (!Objects.equal(_source_8, null));
-          if (_notEquals_12) {
-            ObSelectionStrategy _source_9 = ((ModifyTargetReferenceMutator)mut).getSource();
-            String name_6 = MutatorUtils.getTypeName(_source_9);
-            boolean _contains_5 = classNames.contains(name_6);
-            if (_contains_5) {
-              EClass _eClassByName_5 = ModelManager.getEClassByName(packages, name_6);
-              this.getSizeConstraints(rootClass, _eClassByName_5, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _source_10 = ((ModifyTargetReferenceMutator)mut).getSource();
-            Expression _expression_10 = _source_10.getExpression();
-            boolean _notEquals_13 = (!Objects.equal(_expression_10, null));
+          if ((mut instanceof ModifyTargetReferenceMutator)) {
+            ObSelectionStrategy _source_8 = ((ModifyTargetReferenceMutator)mut).getSource();
+            boolean _notEquals_13 = (!Objects.equal(_source_8, null));
             if (_notEquals_13) {
-              ObSelectionStrategy _source_11 = ((ModifyTargetReferenceMutator)mut).getSource();
-              Expression _expression_11 = _source_11.getExpression();
-              this.compile(_expression_11, name_6, constraints, blockName, mutName);
+              ObSelectionStrategy _source_9 = ((ModifyTargetReferenceMutator)mut).getSource();
+              String name_6 = MutatorUtils.getTypeName(_source_9);
+              boolean _contains_5 = classNames.contains(name_6);
+              if (_contains_5) {
+                EClass _eClassByName_4 = ModelManager.getEClassByName(packages, name_6);
+                this.getSizeConstraints(rootClass, _eClassByName_4, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _source_10 = ((ModifyTargetReferenceMutator)mut).getSource();
+              Expression _expression_10 = _source_10.getExpression();
+              boolean _notEquals_14 = (!Objects.equal(_expression_10, null));
+              if (_notEquals_14) {
+                ObSelectionStrategy _source_11 = ((ModifyTargetReferenceMutator)mut).getSource();
+                Expression _expression_11 = _source_11.getExpression();
+                this.compile(_expression_11, name_6, constraints, blockName, mutName);
+              }
+            }
+            ObSelectionStrategy _newTarget = ((ModifyTargetReferenceMutator)mut).getNewTarget();
+            boolean _notEquals_15 = (!Objects.equal(_newTarget, null));
+            if (_notEquals_15) {
+              ObSelectionStrategy _newTarget_1 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
+              String name_7 = MutatorUtils.getTypeName(_newTarget_1);
+              boolean _contains_6 = classNames.contains(name_7);
+              if (_contains_6) {
+                ObSelectionStrategy _newTarget_2 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
+                if ((_newTarget_2 instanceof OtherTypeSelection)) {
+                  EClass _eClassByName_5 = ModelManager.getEClassByName(packages, name_7);
+                  this.getSizeConstraints(rootClass, _eClassByName_5, packages, constraints, true, null, blockName, false);
+                } else {
+                  EClass _eClassByName_6 = ModelManager.getEClassByName(packages, name_7);
+                  this.getSizeConstraints(rootClass, _eClassByName_6, packages, constraints, false, null, blockName, false);
+                }
+              }
+              ObSelectionStrategy _newTarget_3 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
+              Expression _expression_12 = _newTarget_3.getExpression();
+              boolean _notEquals_16 = (!Objects.equal(_expression_12, null));
+              if (_notEquals_16) {
+                ObSelectionStrategy _newTarget_4 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
+                Expression _expression_13 = _newTarget_4.getExpression();
+                this.compile(_expression_13, name_7, constraints, blockName, mutName);
+              }
             }
           }
-          ObSelectionStrategy _newTarget = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-          boolean _notEquals_14 = (!Objects.equal(_newTarget, null));
-          if (_notEquals_14) {
-            ObSelectionStrategy _newTarget_1 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-            String name_7 = MutatorUtils.getTypeName(_newTarget_1);
-            boolean _contains_6 = classNames.contains(name_7);
-            if (_contains_6) {
-              ObSelectionStrategy _newTarget_2 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-              if ((_newTarget_2 instanceof OtherTypeSelection)) {
-                EClass _eClassByName_6 = ModelManager.getEClassByName(packages, name_7);
-                this.getSizeConstraints(rootClass, _eClassByName_6, packages, constraints, true, null, blockName, false);
-              } else {
-                EClass _eClassByName_7 = ModelManager.getEClassByName(packages, name_7);
+          if ((mut instanceof RemoveCompleteReferenceMutator)) {
+            EClass _type_2 = ((RemoveCompleteReferenceMutator)mut).getType();
+            boolean _notEquals_17 = (!Objects.equal(_type_2, null));
+            if (_notEquals_17) {
+              EClass _type_3 = ((RemoveCompleteReferenceMutator)mut).getType();
+              String name_8 = _type_3.getName();
+              boolean _contains_7 = classNames.contains(name_8);
+              if (_contains_7) {
+                EClass _eClassByName_7 = ModelManager.getEClassByName(packages, name_8);
                 this.getSizeConstraints(rootClass, _eClassByName_7, packages, constraints, false, null, blockName, false);
               }
             }
-            ObSelectionStrategy _newTarget_3 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-            Expression _expression_12 = _newTarget_3.getExpression();
-            boolean _notEquals_15 = (!Objects.equal(_expression_12, null));
-            if (_notEquals_15) {
-              ObSelectionStrategy _newTarget_4 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-              Expression _expression_13 = _newTarget_4.getExpression();
-              this.compile(_expression_13, name_7, constraints, blockName, mutName);
-            }
           }
-        }
-        if ((mut instanceof RemoveCompleteReferenceMutator)) {
-          EClass _type_2 = ((RemoveCompleteReferenceMutator)mut).getType();
-          boolean _notEquals_16 = (!Objects.equal(_type_2, null));
-          if (_notEquals_16) {
-            EClass _type_3 = ((RemoveCompleteReferenceMutator)mut).getType();
-            String name_8 = _type_3.getName();
-            boolean _contains_7 = classNames.contains(name_8);
-            if (_contains_7) {
-              EClass _eClassByName_8 = ModelManager.getEClassByName(packages, name_8);
-              this.getSizeConstraints(rootClass, _eClassByName_8, packages, constraints, false, null, blockName, false);
-            }
-          }
-        }
-        if ((mut instanceof SelectObjectMutator)) {
-          ObSelectionStrategy _object_4 = ((SelectObjectMutator)mut).getObject();
-          boolean _notEquals_17 = (!Objects.equal(_object_4, null));
-          if (_notEquals_17) {
-            ObSelectionStrategy _object_5 = ((SelectObjectMutator)mut).getObject();
-            String name_9 = MutatorUtils.getTypeName(_object_5);
-            boolean _contains_8 = classNames.contains(name_9);
-            if (_contains_8) {
-              EClass _eClassByName_9 = ModelManager.getEClassByName(packages, name_9);
-              this.getSizeConstraints(rootClass, _eClassByName_9, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _object_6 = ((SelectObjectMutator)mut).getObject();
-            Expression _expression_14 = _object_6.getExpression();
-            boolean _notEquals_18 = (!Objects.equal(_expression_14, null));
+          if ((mut instanceof SelectObjectMutator)) {
+            ObSelectionStrategy _object_4 = ((SelectObjectMutator)mut).getObject();
+            boolean _notEquals_18 = (!Objects.equal(_object_4, null));
             if (_notEquals_18) {
-              ObSelectionStrategy _object_7 = ((SelectObjectMutator)mut).getObject();
-              Expression _expression_15 = _object_7.getExpression();
-              this.compile(_expression_15, name_9, constraints, blockName, mutName);
-            }
-            ObSelectionStrategy _container = ((SelectObjectMutator)mut).getContainer();
-            boolean _notEquals_19 = (!Objects.equal(_container, null));
-            if (_notEquals_19) {
-              ObSelectionStrategy _container_1 = ((SelectObjectMutator)mut).getContainer();
-              if ((_container_1 instanceof SpecificClosureSelection)) {
-                this.closures.put(name_9, Boolean.valueOf(true));
+              ObSelectionStrategy _object_5 = ((SelectObjectMutator)mut).getObject();
+              String name_9 = MutatorUtils.getTypeName(_object_5);
+              boolean _contains_8 = classNames.contains(name_9);
+              if (_contains_8) {
+                EClass _eClassByName_8 = ModelManager.getEClassByName(packages, name_9);
+                this.getSizeConstraints(rootClass, _eClassByName_8, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _object_6 = ((SelectObjectMutator)mut).getObject();
+              Expression _expression_14 = _object_6.getExpression();
+              boolean _notEquals_19 = (!Objects.equal(_expression_14, null));
+              if (_notEquals_19) {
+                ObSelectionStrategy _object_7 = ((SelectObjectMutator)mut).getObject();
+                Expression _expression_15 = _object_7.getExpression();
+                this.compile(_expression_15, name_9, constraints, blockName, mutName);
+              }
+              ObSelectionStrategy _container = ((SelectObjectMutator)mut).getContainer();
+              boolean _notEquals_20 = (!Objects.equal(_container, null));
+              if (_notEquals_20) {
+                ObSelectionStrategy _container_1 = ((SelectObjectMutator)mut).getContainer();
+                if ((_container_1 instanceof SpecificClosureSelection)) {
+                  this.closures.put(name_9, Boolean.valueOf(true));
+                }
               }
             }
           }
-        }
-        if ((mut instanceof SelectSampleMutator)) {
-          ObSelectionStrategy _object_8 = ((SelectSampleMutator)mut).getObject();
-          boolean _notEquals_20 = (!Objects.equal(_object_8, null));
-          if (_notEquals_20) {
-            ObSelectionStrategy _object_9 = ((SelectSampleMutator)mut).getObject();
-            String name_10 = MutatorUtils.getTypeName(_object_9);
-            boolean _contains_9 = classNames.contains(name_10);
-            if (_contains_9) {
-              EClass _eClassByName_10 = ModelManager.getEClassByName(packages, name_10);
-              this.getSizeConstraints(rootClass, _eClassByName_10, packages, constraints, false, null, blockName, false);
+          if ((mut instanceof SelectSampleMutator)) {
+            ObSelectionStrategy _object_8 = ((SelectSampleMutator)mut).getObject();
+            boolean _notEquals_21 = (!Objects.equal(_object_8, null));
+            if (_notEquals_21) {
+              ObSelectionStrategy _object_9 = ((SelectSampleMutator)mut).getObject();
+              String name_10 = MutatorUtils.getTypeName(_object_9);
+              boolean _contains_9 = classNames.contains(name_10);
+              if (_contains_9) {
+                EClass _eClassByName_9 = ModelManager.getEClassByName(packages, name_10);
+                this.getSizeConstraints(rootClass, _eClassByName_9, packages, constraints, false, null, blockName, false);
+              }
             }
           }
-        }
-        if ((mut instanceof CloneObjectMutator)) {
-          ObSelectionStrategy _object_10 = ((CloneObjectMutator)mut).getObject();
-          boolean _notEquals_21 = (!Objects.equal(_object_10, null));
-          if (_notEquals_21) {
-            ObSelectionStrategy _object_11 = ((CloneObjectMutator)mut).getObject();
-            String name_11 = MutatorUtils.getTypeName(_object_11);
-            boolean _contains_10 = classNames.contains(name_11);
-            if (_contains_10) {
-              EClass _eClassByName_11 = ModelManager.getEClassByName(packages, name_11);
-              this.getSizeConstraints(rootClass, _eClassByName_11, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _object_12 = ((CloneObjectMutator)mut).getObject();
-            Expression _expression_16 = _object_12.getExpression();
-            boolean _notEquals_22 = (!Objects.equal(_expression_16, null));
+          if ((mut instanceof CloneObjectMutator)) {
+            ObSelectionStrategy _object_10 = ((CloneObjectMutator)mut).getObject();
+            boolean _notEquals_22 = (!Objects.equal(_object_10, null));
             if (_notEquals_22) {
-              ObSelectionStrategy _object_13 = ((CloneObjectMutator)mut).getObject();
-              Expression _expression_17 = _object_13.getExpression();
-              EList<AttributeSet> _attributes = ((CloneObjectMutator)mut).getAttributes();
-              this.compile(_expression_17, name_11, _attributes, constraints, blockName, mutName);
+              ObSelectionStrategy _object_11 = ((CloneObjectMutator)mut).getObject();
+              String name_11 = MutatorUtils.getTypeName(_object_11);
+              boolean _contains_10 = classNames.contains(name_11);
+              if (_contains_10) {
+                EClass _eClassByName_10 = ModelManager.getEClassByName(packages, name_11);
+                this.getSizeConstraints(rootClass, _eClassByName_10, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _object_12 = ((CloneObjectMutator)mut).getObject();
+              Expression _expression_16 = _object_12.getExpression();
+              boolean _notEquals_23 = (!Objects.equal(_expression_16, null));
+              if (_notEquals_23) {
+                ObSelectionStrategy _object_13 = ((CloneObjectMutator)mut).getObject();
+                Expression _expression_17 = _object_13.getExpression();
+                EList<AttributeSet> _attributes = ((CloneObjectMutator)mut).getAttributes();
+                this.compile(_expression_17, name_11, _attributes, constraints, blockName, mutName);
+              }
             }
           }
-        }
-        if ((mut instanceof ModifyInformationMutator)) {
-          ObSelectionStrategy _object_14 = ((ModifyInformationMutator)mut).getObject();
-          boolean _notEquals_23 = (!Objects.equal(_object_14, null));
-          if (_notEquals_23) {
-            ObSelectionStrategy _object_15 = ((ModifyInformationMutator)mut).getObject();
-            String name_12 = MutatorUtils.getTypeName(_object_15);
-            boolean _contains_11 = classNames.contains(name_12);
-            if (_contains_11) {
-              EClass _eClassByName_12 = ModelManager.getEClassByName(packages, name_12);
-              this.getSizeConstraints(rootClass, _eClassByName_12, packages, constraints, false, null, blockName, false);
-            }
-            ObSelectionStrategy _object_16 = ((ModifyInformationMutator)mut).getObject();
-            Expression _expression_18 = _object_16.getExpression();
-            boolean _notEquals_24 = (!Objects.equal(_expression_18, null));
+          if ((mut instanceof ModifyInformationMutator)) {
+            ObSelectionStrategy _object_14 = ((ModifyInformationMutator)mut).getObject();
+            boolean _notEquals_24 = (!Objects.equal(_object_14, null));
             if (_notEquals_24) {
-              ObSelectionStrategy _object_17 = ((ModifyInformationMutator)mut).getObject();
-              Expression _expression_19 = _object_17.getExpression();
-              this.compile(_expression_19, name_12, constraints, blockName, mutName);
-              ObSelectionStrategy _object_18 = ((ModifyInformationMutator)mut).getObject();
-              Expression _expression_20 = _object_18.getExpression();
-              EList<AttributeSet> _attributes_1 = ((ModifyInformationMutator)mut).getAttributes();
-              this.compile(_expression_20, name_12, _attributes_1, constraints, blockName, mutName);
-            }
-            EList<ReferenceSet> _references_2 = ((ModifyInformationMutator)mut).getReferences();
-            boolean _notEquals_25 = (!Objects.equal(_references_2, null));
-            if (_notEquals_25) {
-              EList<ReferenceSet> _references_3 = ((ModifyInformationMutator)mut).getReferences();
-              this.compile(_references_3, constraints, blockName, mutName);
+              ObSelectionStrategy _object_15 = ((ModifyInformationMutator)mut).getObject();
+              String name_12 = MutatorUtils.getTypeName(_object_15);
+              boolean _contains_11 = classNames.contains(name_12);
+              if (_contains_11) {
+                EClass _eClassByName_11 = ModelManager.getEClassByName(packages, name_12);
+                this.getSizeConstraints(rootClass, _eClassByName_11, packages, constraints, false, null, blockName, false);
+              }
+              ObSelectionStrategy _object_16 = ((ModifyInformationMutator)mut).getObject();
+              Expression _expression_18 = _object_16.getExpression();
+              boolean _notEquals_25 = (!Objects.equal(_expression_18, null));
+              if (_notEquals_25) {
+                ObSelectionStrategy _object_17 = ((ModifyInformationMutator)mut).getObject();
+                Expression _expression_19 = _object_17.getExpression();
+                this.compile(_expression_19, name_12, constraints, blockName, mutName);
+                ObSelectionStrategy _object_18 = ((ModifyInformationMutator)mut).getObject();
+                Expression _expression_20 = _object_18.getExpression();
+                EList<AttributeSet> _attributes_1 = ((ModifyInformationMutator)mut).getAttributes();
+                this.compile(_expression_20, name_12, _attributes_1, constraints, blockName, mutName);
+              }
+              EList<ReferenceSet> _references_2 = ((ModifyInformationMutator)mut).getReferences();
+              boolean _notEquals_26 = (!Objects.equal(_references_2, null));
+              if (_notEquals_26) {
+                EList<ReferenceSet> _references_3 = ((ModifyInformationMutator)mut).getReferences();
+                this.compile(_references_3, constraints, blockName, mutName);
+              }
             }
           }
         }

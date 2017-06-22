@@ -2712,6 +2712,65 @@ public class WodelUseGenerator implements IGenerator {
             System.out.println(constraint.text);
             return constraint;
           }
+          boolean _and_5 = false;
+          boolean _and_6 = false;
+          boolean _and_7 = false;
+          boolean _notEquals_3 = (!Objects.equal(c.variables, null));
+          if (!_notEquals_3) {
+            _and_7 = false;
+          } else {
+            int _size_2 = c.variables.size();
+            boolean _greaterThan_2 = (_size_2 > 0);
+            _and_7 = _greaterThan_2;
+          }
+          if (!_and_7) {
+            _and_6 = false;
+          } else {
+            boolean _notEquals_4 = (!Objects.equal(constraint.variables, null));
+            _and_6 = _notEquals_4;
+          }
+          if (!_and_6) {
+            _and_5 = false;
+          } else {
+            int _size_3 = constraint.variables.size();
+            boolean _greaterThan_3 = (_size_3 > 1);
+            _and_5 = _greaterThan_3;
+          }
+          if (_and_5) {
+            String v1_1 = c.variables.get(0);
+            String v2_1 = constraint.variables.get(0);
+            String v3_1 = constraint.variables.get(1);
+            int _length_2 = constraint.text.length();
+            int _minus_1 = (_length_2 - 1);
+            String _substring_5 = constraint.text.substring(0, _minus_1);
+            String _plus_7 = ("| " + _substring_5);
+            String _plus_8 = (_plus_7 + " and ");
+            String _replace_4 = clause1.replace("| ", _plus_8);
+            String newClause_1 = (_replace_4 + ")");
+            int _indexOf_5 = newClause_1.indexOf("|");
+            int _plus_9 = (_indexOf_5 + 1);
+            String _substring_6 = newClause_1.substring(0, _plus_9);
+            System.out.println(_substring_6);
+            int _indexOf_6 = clause1.indexOf("|");
+            int _plus_10 = (_indexOf_6 + 1);
+            String _substring_7 = clause1.substring(0, _plus_10);
+            System.out.println(_substring_7);
+            int _indexOf_7 = newClause_1.indexOf("|");
+            int _plus_11 = (_indexOf_7 + 1);
+            String _substring_8 = newClause_1.substring(0, _plus_11);
+            int _indexOf_8 = clause1.indexOf("|");
+            int _plus_12 = (_indexOf_8 + 1);
+            String _substring_9 = clause1.substring(0, _plus_12);
+            String _replace_5 = newClause_1.replace(_substring_8, _substring_9);
+            newClause_1 = _replace_5;
+            String _replace_6 = newClause_1.replace(v3_1, v1_1);
+            newClause_1 = _replace_6;
+            System.out.println(newClause_1);
+            String _replace_7 = c.text.replace(clause1, newClause_1);
+            constraint.text = _replace_7;
+            System.out.println(constraint.text);
+            return constraint;
+          }
         }
       }
     }

@@ -1187,6 +1187,21 @@ class WodelUseGenerator implements IGenerator {
 						System.out.println(constraint.text)
 						return constraint
 					}
+					if (c.variables != null && c.variables.size() > 0 && constraint.variables != null && constraint.variables.size() > 1) {
+						var v1 = c.variables.get(0)
+						var v2 = constraint.variables.get(0)
+						var v3 = constraint.variables.get(1)
+						var String newClause = clause1.replace("| ", "| " + constraint.text.substring(0, constraint.text.length - 1) + " and ") + ")"
+						System.out.println(newClause.substring(0, newClause.indexOf("|") + 1))
+						System.out.println(clause1.substring(0, clause1.indexOf("|") + 1))
+						newClause = newClause.replace(newClause.substring(0, newClause.indexOf("|") + 1), clause1.substring(0, clause1.indexOf("|") + 1))
+						//newClause = newClause.replace(newClause.substring(newClause.indexOf(","), newClause.indexOf("|")), "")
+						newClause = newClause.replace(v3, v1)
+						System.out.println(newClause)
+						constraint.text = c.text.replace(clause1, newClause)
+						System.out.println(constraint.text)
+						return constraint
+					}
 				}
 			}
 		}

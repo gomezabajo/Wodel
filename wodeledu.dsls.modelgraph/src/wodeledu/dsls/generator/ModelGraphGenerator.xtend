@@ -64,7 +64,7 @@ class ModelGraphGenerator implements IGenerator {
 		dotcode.add("digraph «graph.name.name» {\n");
 		for (EObject dotnode : dotnodes.keySet()) {
 			if (dotnodes.get(dotnode) != null) {
-				dotcode.add(dotnodes.get(dotnode).name + " [" + dotnodes.get(dotnode).label + "];\n");
+				dotcode.add(dotnodes.get(dotnode).name.replaceAll("'", "") + " [" + dotnodes.get(dotnode).label.replaceAll("'", "") + "];\n");
 			}
 		}
 		for (String dott : dottext.keySet()) {
@@ -77,7 +77,7 @@ class ModelGraphGenerator implements IGenerator {
 				}
 				else {
 					for (String text : dottext.get(dott)) {
-						dotcode.add(dott + " [" + text + "];\n");
+						dotcode.add(dott.replaceAll("'", "") + " [" + text.replaceAll("'", "") + "];\n");
 					}
 				}
 			}
@@ -536,22 +536,24 @@ class ModelGraphGenerator implements IGenerator {
 				for (EReference ref : edge.eClass().getEAllReferences()) {
 					if (ref.getName().equals("«edge.reference.name»")) {
 						EObject obj = (EObject) edge.eGet(ref);
-						for (EAttribute att : obj.eClass().getEAllAttributes()) {
-						«IF edge.label != null»
-							if (att.getName().equals("«edge.label.name»")) {
-								label = "\"" + (String) obj.eGet(att) + "\"";
+						if (obj != null) {
+							for (EAttribute att : obj.eClass().getEAllAttributes()) {
+							«IF edge.label != null»
+								if (att.getName().equals("«edge.label.name»")) {
+									label = "\"" + (String) obj.eGet(att) + "\"";
+								}
+							«ENDIF»
+							«IF edge.src_label != null»
+								if (att.getName().equals("«edge.src_label.name»")) {
+									src_label = "\"" + (String) obj.eGet(att) + "\"";
+								}
+							«ENDIF»
+							«IF edge.tar_label != null»
+								if (att.getName().equals("«edge.tar_label.name»")) {
+									tar_label = "\"" + (String) obj.eGet(att) + "\"";
+								}
+							«ENDIF»
 							}
-						«ENDIF»
-						«IF edge.src_label != null»
-							if (att.getName().equals("«edge.src_label.name»")) {
-								src_label = "\"" + (String) obj.eGet(att) + "\"";
-							}
-						«ENDIF»
-						«IF edge.tar_label != null»
-							if (att.getName().equals("«edge.tar_label.name»")) {
-								tar_label = "\"" + (String) obj.eGet(att) + "\"";
-							}
-						«ENDIF»
 						}
 					}
 				}
@@ -786,7 +788,7 @@ class ModelGraphGenerator implements IGenerator {
 			String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
 			ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			// GENERATES PNG FILES FROM SOURCE MODELS
-			File folder = new File("«folder»/model");
+			File folder = new File("«folder»/data/model");
 			for (File file : folder.listFiles()) {
 				if (file.isFile()) {
 					String pathfile = file.getPath();
@@ -836,7 +838,7 @@ class ModelGraphGenerator implements IGenerator {
 			}
 
 			// GENERATES PNG FILES FROM MUTANTS
-			folder = new File("«folder»/out");
+			folder = new File("«folder»/data/out");
 			for (File exercise : folder.listFiles()) {
 				if (exercise.isDirectory()) {
 					for (File file : exercise.listFiles()) {

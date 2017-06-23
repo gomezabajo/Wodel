@@ -2190,7 +2190,21 @@ public class MutatorMetrics {
 										Resource mutVersion = ModelManager.loadModel(packages, mutVersionPath);
 										ArrayList<EObject> mutVersionObjects = ModelManager.getAllObjects(mutVersion);
 										for (EObject object : mutVersionObjects) {
-											if (tmpSeedObjects.contains(object) != true) {
+											boolean exists = false;
+											String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
+											objectURI = objectURI.substring(objectURI.indexOf("#"));
+											for (EObject seedObject: tmpSeedObjects) {
+												if (object.eClass().getName().equals(seedObject.eClass().getName())) {
+													String seedObjectURI = EcoreUtil.getURI(seedObject).toString().replace("//", "/");
+													seedObjectURI = seedObjectURI.substring(seedObjectURI.indexOf("#"));
+													//if (EcoreUtil.equals(object, seedObject)) {
+													if (seedObjectURI.equals(objectURI)) {
+														exists = true;
+														break;
+													}
+												}
+											}
+											if ((exists == false) && (tmpSeedObjects.contains(object) != true)) {
 												tmpSeedObjects.add(object);
 											}
 										}

@@ -168,10 +168,10 @@ public class MutatorMetrics {
 					}
 				}
 				String objectURI = EcoreUtil.getURI(object).toString().replace("//", "/");
-				objectURI = objectURI.substring(objectURI.indexOf("#"));
+				//objectURI = objectURI.substring(objectURI.indexOf("#"));
 				if (mutantObject != null) {
 					String mutantObjectURI = EcoreUtil.getURI(mutantObject).toString().replace("//", "/");
-					mutantObjectURI = mutantObjectURI.substring(mutantObjectURI.indexOf("#"));
+					//mutantObjectURI = mutantObjectURI.substring(mutantObjectURI.indexOf("#"));
 					if (mutantObjectURI.equals(objectURI) == true) {
 						return mutationData;
 					}
@@ -1545,8 +1545,8 @@ public class MutatorMetrics {
 									}
 									mutantMetrics.put(object.eClass().getName(), metric);
 								}
-								ArrayList<EObject> tmpSeedObjects = new ArrayList<EObject>();
-								tmpSeedObjects.addAll(seedObjects);
+								//ArrayList<EObject> tmpSeedObjects = new ArrayList<EObject>();
+								//tmpSeedObjects.addAll(seedObjects);
 								ArrayList<EObject> tmpMutantObjects = new ArrayList<EObject>();
 								tmpMutantObjects.addAll(mutantObjects);
 								for (EObject object : seedObjects) {
@@ -1559,7 +1559,7 @@ public class MutatorMetrics {
 											if (mutantObjectURI.equals(objectURI)) {
 											//if (EcoreUtil.equals(object,  mutantObject)) {
 												tmpMutantObjects.remove(mutantObject);
-												tmpSeedObjects.remove(object);
+												//tmpSeedObjects.remove(object);
 												break;
 											}
 										}
@@ -1572,7 +1572,7 @@ public class MutatorMetrics {
 								getMutantMetrics(regObjects, seedObjects, mutantMetrics);
 								
 								// GETS DELETION IMPLICIT MUTANT METRICS FROM REGISTRY RESOURCE AND WODEL PROGRAM
-								getMutantDeletionMetrics(regObjects, tmpSeedObjects, mutantMetrics, program);
+								getMutantDeletionMetrics(regObjects, seedObjects/*tmpSeedObjects*/, mutantMetrics, program);
 
 								List<EObject> classes = ModelManager.getReferences("classes", met);
 								List<EObject> mutantClasses = ModelManager.getReferences("classes", mutant);

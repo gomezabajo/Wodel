@@ -213,7 +213,9 @@ public class CreateObjectMutator extends Mutator {
 				}
 			}
 			else {
-				ModelManager.setReference(e.getKey(), newObj, e.getValue());
+				if (e.getValue() != null) {
+					ModelManager.setReference(e.getKey(), newObj, e.getValue());
+				}
 			}
 		}
 		//Multivalued

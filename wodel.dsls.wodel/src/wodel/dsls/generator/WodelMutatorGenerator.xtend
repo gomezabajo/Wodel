@@ -1572,12 +1572,14 @@ class WodelMutatorGenerator implements IGenerator {
 					«ENDIF»
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
-					for (EObject obj : objects) {
-						RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
-					   	//INC COUNTER: «nMutation++»
-					   	if (mut != null) {
-					   		mut.setId("m«nMutation»");
-							mutations.add(mut);
+					if (objects != null) {
+						for (EObject obj : objects) {
+							RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, obj, referenceSelection, containerSelection);
+					   		//INC COUNTER: «nMutation++»
+					   		if (mut != null) {
+					   			mut.setId("m«nMutation»");
+								mutations.add(mut);
+							}
 						}
 					}
 				«ELSE»
@@ -3252,11 +3254,13 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 						}
 						«ENDIF»
 						«ENDIF»
+						«IF (e instanceof SelectObjectMutator == false) && (e instanceof SelectSampleMutator == false)»
 						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
 						ModelManager.saveOutModel(model, mutatorPath);
 						if (mutPaths.contains(mutatorPath) == false) {
 							mutPaths.add(mutatorPath);
 						}
+						«ENDIF»
 						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
 						if (appMut != null) {
 							muts.getMuts().add(appMut);

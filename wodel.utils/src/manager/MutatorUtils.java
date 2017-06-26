@@ -108,6 +108,9 @@ public class MutatorUtils {
 		HashSet<EObject> selected = new HashSet<EObject>();
 		HashSet<EObject> selected_tmp = null;
 
+		if (candidates == null) {
+			return null;
+		}
 		if (exp.first instanceof AttributeEvaluation) {
 			AttributeEvaluation attev = (AttributeEvaluation) exp.first;
 			for (EObject candidate : candidates) {
@@ -2794,8 +2797,8 @@ public class MutatorUtils {
 						List<Resource> pastVersions = new ArrayList<Resource>();
 						pastVersions.add(seed);
 						Resource lastVersion = seed;
-						int i = 0;
 						for (AppMutation mut : muts.getMuts()) {
+							String mutVersion = "";
 							if (mut instanceof ObjectCreated) {
 								List<EObject> emuts = ((ObjectCreated) mut).getObject();
 								if (emuts.size() > 0) {
@@ -2803,6 +2806,7 @@ public class MutatorUtils {
 									emuts.remove(0);
 									if (ModelManager.getObject(model, emutated) != null) {
 										emuts.add(ModelManager.getObject(model, emutated));
+										mutVersion = mutFilename;
 									}
 									else {
 										if ((mutPaths != null) && (packages != null)) {
@@ -2812,6 +2816,7 @@ public class MutatorUtils {
 												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
 													System.out.println("FOUND!!!");
+													mutVersion = mutatorPath;
 													break;
 												}
 											}
@@ -2829,6 +2834,7 @@ public class MutatorUtils {
 									emuts.remove(0);
 									if (ModelManager.getObject(model, emutated) != null) {
 										emuts.add(ModelManager.getObject(model, emutated));
+										mutVersion = mutFilename;
 									}
 									else {
 										if ((mutPaths != null) && (packages != null)) {
@@ -2838,6 +2844,7 @@ public class MutatorUtils {
 												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
 													System.out.println("FOUND!!!");
+													mutVersion = mutatorPath;
 													break;
 												}
 											}
@@ -2855,6 +2862,7 @@ public class MutatorUtils {
 									emuts.remove(0);
 									if (ModelManager.getObject(seed, emutated) != null) {
 										emuts.add(ModelManager.getObject(seed, emutated));
+										mutVersion = mutFilename;
 									}
 									else {
 										if ((mutPaths != null) && (packages != null)) {
@@ -2864,6 +2872,7 @@ public class MutatorUtils {
 												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
 													System.out.println("FOUND!!!");
+													mutVersion = mutatorPath;
 													break;
 												}
 											}
@@ -2884,6 +2893,7 @@ public class MutatorUtils {
 											object = ModelManager.getObject(mutantvs, emutated);
 											if (object != null) {
 												System.out.println("FOUND!!!");
+												mutVersion = mutatorPath;
 												break;
 											}
 										}
@@ -2893,15 +2903,12 @@ public class MutatorUtils {
 									}
 								}
 							}
-							String mutVersion = "";
-							if (mutVersions.size() > i) {
-								mutVersion = mutVersions.get(i);
+							if (mutVersion.length() > 0) {
 								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
 								createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
 								pastVersions.add(activeVersion);
 								lastVersion = activeVersion;
 							}
-							i++;
 						}
 						File registryFolder = new File(hashmapModelFilenames.get(modelFilename) + "/registry");
 						if (registryFolder.exists() != true) {
@@ -2968,8 +2975,8 @@ public class MutatorUtils {
 						List<Resource> pastVersions = new ArrayList<Resource>();
 						pastVersions.add(seed);
 						Resource lastVersion = seed;
-						int i = 0;
 						for (AppMutation mut : muts.getMuts()) {
+							String mutVersion = "";
 							if (mut instanceof ObjectCreated) {
 								List<EObject> emuts = ((ObjectCreated) mut).getObject();
 								if (emuts.size() > 0) {
@@ -2977,6 +2984,7 @@ public class MutatorUtils {
 									emuts.remove(0);
 									if (ModelManager.getObject(model, emutated) != null) {
 										emuts.add(ModelManager.getObject(model, emutated));
+										mutVersion = mutFilename;
 									}
 									else {
 										if ((mutPaths != null) && (packages != null)) {
@@ -2986,6 +2994,7 @@ public class MutatorUtils {
 												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
 													System.out.println("FOUND!!!");
+													mutVersion = mutatorPath;
 													break;
 												}
 											}
@@ -3003,6 +3012,7 @@ public class MutatorUtils {
 									emuts.remove(0);
 									if (ModelManager.getObject(model, emutated) != null) {
 										emuts.add(ModelManager.getObject(model, emutated));
+										mutVersion = mutFilename;
 									}
 									else {
 										if ((mutPaths != null) && (packages != null)) {
@@ -3012,6 +3022,7 @@ public class MutatorUtils {
 												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
 													System.out.println("FOUND!!!");
+													mutVersion = mutatorPath;
 													break;
 												}
 											}
@@ -3029,6 +3040,7 @@ public class MutatorUtils {
 									emuts.remove(0);
 									if (ModelManager.getObject(seed, emutated) != null) {
 										emuts.add(ModelManager.getObject(seed, emutated));
+										mutVersion = mutFilename;
 									}
 									else {
 										if ((mutPaths != null) && (packages != null)) {
@@ -3038,6 +3050,7 @@ public class MutatorUtils {
 												object = ModelManager.getObject(mutantvs, emutated);
 												if (object != null) {
 													System.out.println("FOUND!!!");
+													mutVersion = mutatorPath;
 													break;
 												}
 											}
@@ -3058,6 +3071,7 @@ public class MutatorUtils {
 											object = ModelManager.getObject(mutantvs, emutated);
 											if (object != null) {
 												System.out.println("FOUND!!!");
+												mutVersion = mutatorPath;
 												break;
 											}
 										}
@@ -3067,15 +3081,12 @@ public class MutatorUtils {
 									}
 								}
 							}
-							String mutVersion = "";
-							if (mutVersions.size() > i) {
-								mutVersion = mutVersions.get(i);
+							if (mutVersion.length() > 0) {
 								Resource activeVersion = ModelManager.loadModel(packages, mutVersion);
 								createMutantVersionRegistry(packages, pastVersions, activeVersion, mutVersion, mut);
 								pastVersions.add(activeVersion);
 								lastVersion = activeVersion;
 							}
-							i++;
 						}
 						File registryFolder = null;
 						if (fromBlocks.size() == 0) {
@@ -3094,7 +3105,6 @@ public class MutatorUtils {
 							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
 						}
 						ModelManager.createModel(muts, registryFilename);
-						i++;
 					}
 				}
 				else {

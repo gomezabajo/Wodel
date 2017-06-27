@@ -383,7 +383,9 @@ public class SelectSampleMutator extends Mutator {
 						}
 					}
 				}
-				result = candidates.get(ModelManager.getRandomIndex(candidates));
+				if (candidates.size() > 0) {
+					result = candidates.get(ModelManager.getRandomIndex(candidates));
+				}
 			}
 		}
 		

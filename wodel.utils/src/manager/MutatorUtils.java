@@ -2739,12 +2739,20 @@ public class MutatorUtils {
 			if (emuts.size() > 0) {
 				EObject emutated = emuts.get(0);
 				emuts.remove(0);
+				boolean found = false;
 				for (Resource seed : seeds) {
 					if (ModelManager.getObject(seed, emutated) != null) {
+						found = true;
 						emuts.add(ModelManager.getObject(seed, emutated));
 						break;
 					}
 				}
+				if (found == false) {
+					if (ModelManager.getObject(model, emutated) != null) {
+						emuts.add(ModelManager.getObject(model, emutated));
+					}
+				}
+				
 			}
 		}
 		if (mut instanceof InformationChanged) {

@@ -61,12 +61,9 @@ import mutatorenvironment.ReferenceSwap
 import mutatorenvironment.AttributeEvaluation
 import mutatorenvironment.ReferenceEvaluation
 import org.eclipse.emf.ecore.EStructuralFeature
-import java.util.List
 import mutatorenvironment.Block
-import java.util.HashMap
 import java.io.File
 import mutatorenvironment.Repeat
-import org.eclipse.emf.ecore.EPackage
 import manager.ModelManager
 import wodel.dsls.WodelUtils
 import mutatorenvironment.RandomType
@@ -84,13 +81,8 @@ import mutatorenvironment.RandomDoubleNumberType
 import mutatorenvironment.SpecificClosureSelection
 import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.SampleClause
-import org.eclipse.emf.ecore.EClass
 import mutatorenvironment.ReferenceAdd
 import mutatorenvironment.ReferenceRemove
-import org.eclipse.emf.ecore.EClassifier
-import org.eclipse.emf.ecore.EAnnotation
-import org.eclipse.emf.common.util.EMap
-import java.util.Set
 
 /**
  * Generates code from your model files on save.
@@ -2100,7 +2092,7 @@ class WodelMutatorGenerator implements IGenerator {
 			«c.generateMethods»
 			«c.generateRegistryMethods»
 		«ENDFOR»
-		public void block_«b.name»(int maxAttempts, int numMutants, boolean registry, ArrayList<String> fromNames, HashMap<String, HashSet<String>> hashmapMutants, HashMap<String, List<String>> hashmapMutVersions) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+		public void block_«b.name»(int maxAttempts, int numMutants, boolean registry, ArrayList<String> fromNames, HashMap<String, HashSet<String>> hashmapMutants, HashMap<String, List<String>> hashmapMutVersions, IProgressMonitor monitor) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		if (maxAttempts <= 0) {
@@ -2151,6 +2143,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.EList;
 import org.osgi.framework.Bundle;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 public class «className» extends manager.MutatorUtils implements manager.IMutatorExecutor {
 	
 	«IF e.definition instanceof Program»
@@ -2166,14 +2160,14 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«c.generateMethods»
 		«c.generateRegistryMethods»
 	«ENDFOR»
-	public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, IProgressMonitor monitor) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
 		if (maxAttempts <= 0) {
 			maxAttempts = 1;
 		}
-		
+		monitor.beginTask("Generating mutants", numMutants);
 		HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
 		
 		«IF e.definition instanceof Program»
@@ -2203,10 +2197,11 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	«FOR b : e.blocks»
 		«b.generateBlock(nMethod, nCompositeMethod, nMutation, nRegistryMutation, nRegistryMethod, nCompositeRegistryMethod, nCompositeCommands)»
 	«ENDFOR»
-	public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics) throws ReferenceNonExistingException, WrongAttributeTypeException, 
+	public void execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, IProgressMonitor monitor) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
+		monitor.beginTask("Generating mutants", numMutants * «e.blocks.size()»);
  		if (maxAttempts <= 0) {
 			maxAttempts = 1;
 		}
@@ -2220,7 +2215,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		«FOR from : b.from»
 		fromNames.add("«from.name»");
 		«ENDFOR»
-		block_«b.name»(maxAttempts, numMutants, registry, fromNames, hashmapMutants, hashmapMutVersions);
+		block_«b.name»(maxAttempts, numMutants, registry, fromNames, hashmapMutants, hashmapMutVersions, monitor);
 		«ENDFOR»
    		//Generate metrics model
 		Bundle bundle = Platform.getBundle("wodel.models");
@@ -3038,6 +3033,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 					model.load(null); 
 				} catch (Exception e) {}
    			}
+			monitor.worked(1);
    		}
 	'''
 	
@@ -3112,6 +3108,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 					model.load(null); 
 				} catch (Exception e) {}
    			}
+			monitor.worked(1);
    		}
    		«IF b.repeat == Repeat.YES»
    		hashmapMutants.put(modelFilename, hashsetMutantsBlock);
@@ -3276,484 +3273,4 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	'''
    //END COMMANDS
    //*************
-   
-
-   def boolean isRequired(HashMap<String, List<Integer>> classes, String name) {
-   		if (classes.containsKey(name)) {
-   			if (classes.get(name).get(0) > 0 && classes.get(name).get(1) > 0) {
-   				return true
-   			}
-   		}
-   		return false
-   }
-   
-   def void incContainers(EClass eclass, HashMap<String, List<Integer>> classes, ArrayList<EPackage> packages, EClass root) {
-   		var List<EClassifier> containers = ModelManager.getContainerTypes(packages, eclass.name)
-   		for (EClassifier container : containers) {
-   			if (!container.name.equals(root.name) && !container.name.equals(eclass.name)) {
-   				var List<Integer> cardinality = classes.get(container.name)
-   				var int min = cardinality.get(0) + 1
-   				var int max = cardinality.get(1) + 1
-   				cardinality = new ArrayList<Integer>()
-   				cardinality.add(min)
-   				cardinality.add(max)
-   				classes.put(container.name, cardinality)
-   				incContainers(container as EClass, classes, packages, root)
-   			}
-   		}
-   }
-
-   def String increase(HashMap<String, List<Integer>> classes, String name, ArrayList<EPackage> packages, EClass root) '''
-		# «var List<Integer> cardinality = classes.get(name)»
-		# «var int min = cardinality.get(0) + 1»
-		# «var int max = cardinality.get(1) + 1»
-		# «cardinality = new ArrayList<Integer>()»
-		# «cardinality.add(min)»
-		# «cardinality.add(max)»
-		# «classes.put(name, cardinality)»
-		# «var EClass eclass = ModelManager.getEClassByName(packages, name)»
-		«incContainers(eclass, classes, packages, root)»
-		«FOR ref : eclass.EReferences»
-		«IF ref.lowerBound > 0»
-		# «var int[] l = newIntArrayOfSize(ref.lowerBound)»
-		«FOR i : l»
-		«classes.increase(ref.EType.name, packages, root)»
-		«ENDFOR»
-		«ENDIF»
-		«ENDFOR»
-   '''
-   
-   def properties(MutatorEnvironment e) '''
-		[default]
-		
-		Integer_min = -100
-		Integer_max = 100
-		# «var ArrayList<EPackage> packages = ModelManager.loadMetaModel(e.definition.metamodel)»
-		# «var ArrayList<EClass> eclasses = ModelManager.getEClasses(packages)»
-		# «var EClass root = null»
-		«FOR eclass : eclasses»
-			#«var List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, eclass.name)»
-			«IF containerTypes.size == 0»
-			#«root = eclass»
-			«ENDIF»
-		«ENDFOR»
-		# «eclasses.remove(root)»
-		# «var HashMap<String, List<Integer>> classes = new HashMap<String, List<Integer>>()»
-		«FOR eclass : eclasses»
-		# «var List<Integer> cardinality = new ArrayList<Integer>()»
-		# «cardinality.add(0)»
-		# «cardinality.add(0)»
-		# «classes.put(eclass.name, cardinality)»
-		«ENDFOR»
-
-		«IF e.commands.size > 0»
-		«FOR mut : e.commands»
-		«IF mut instanceof CreateObjectMutator»
-		«IF mut.type != null»
-		# «var String name = mut.type.name»
-		# «var List<EClassifier> containers = ModelManager.getContainerTypes(packages, name)»
-		«FOR EClassifier container : containers»
-		«IF classes.containsKey(container.name)»
-		«classes.increase(container.name, packages, root)»
-		«ENDIF»
-		«ENDFOR»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof RemoveObjectMutator»
-   		«IF mut.object != null»
-		# «var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof CreateReferenceMutator»
-		«IF mut.target != null»
-		# «var String name = MutatorUtils.getTypeName(mut.target)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«IF mut.source != null»
-		#«var String name = MutatorUtils.getTypeName(mut.source)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof ModifySourceReferenceMutator»
-		«IF mut.source != null»
-		#«var String name = MutatorUtils.getTypeName(mut.source)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«IF mut.newSource != null»
-		#«var String name = MutatorUtils.getTypeName(mut.newSource)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof ModifyTargetReferenceMutator»
-		«IF mut.source != null»
-		#«var String name = MutatorUtils.getTypeName(mut.source)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«IF mut.newTarget != null»
-		#«var String name = MutatorUtils.getTypeName(mut.newTarget)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof RemoveCompleteReferenceMutator»
-		«IF mut.type != null»
-		#«var String name = mut.type.name»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof SelectObjectMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof SelectSampleMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof CloneObjectMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof ModifyInformationMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«ENDFOR»
-		«ENDIF»
-		
-		«IF e.blocks.size > 0»
-		«FOR b : e.blocks»
-		«FOR mut : b.commands»
-		«IF mut instanceof CreateObjectMutator»
-		«IF mut.type != null»
-		# «var String name = mut.type.name»
-		# «var List<EClassifier> containers = ModelManager.getContainerTypes(packages, name)»
-		«FOR EClassifier container : containers»
-		«IF classes.containsKey(container.name)»
-		«classes.increase(container.name, packages, root)»
-		«ENDIF»
-		«ENDFOR»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof RemoveObjectMutator»
-   		«IF mut.object != null»
-		# «var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof CreateReferenceMutator»
-		«IF mut.target != null»
-		# «var String name = MutatorUtils.getTypeName(mut.target)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«IF mut.source != null»
-		#«var String name = MutatorUtils.getTypeName(mut.source)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof ModifySourceReferenceMutator»
-		«IF mut.source != null»
-		#«var String name = MutatorUtils.getTypeName(mut.source)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«IF mut.newSource != null»
-		#«var String name = MutatorUtils.getTypeName(mut.newSource)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof ModifyTargetReferenceMutator»
-		«IF mut.source != null»
-		#«var String name = MutatorUtils.getTypeName(mut.source)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«IF mut.newTarget != null»
-		#«var String name = MutatorUtils.getTypeName(mut.newTarget)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof RemoveCompleteReferenceMutator»
-		«IF mut.type != null»
-		#«var String name = mut.type.name»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof SelectObjectMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof SelectSampleMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof CloneObjectMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«IF mut instanceof ModifyInformationMutator»
-		«IF mut.object != null»
-		#«var String name = MutatorUtils.getTypeName(mut.object)»
-		«IF classes.containsKey(name)»
-		«classes.increase(name, packages, root)»
-		«ENDIF»
-		«ENDIF»
-		«ENDIF»
-		«ENDFOR»
-		«ENDFOR»
-		«ENDIF»
-
-		«root.name»_min = 1
-		«root.name»_max = 1
-		«FOR att : root.EAttributes»
-		«IF att.EType.name.equals("EString")»
-		# «var size = 1»
-		# «var String setText = ""»
-		«IF size > 0»
-		# «var ArrayList<String> set = new ArrayList<String>()»
-		# «var String id = root.name.substring(0, 1)»
-		# «set.add(id + "1")»
-		# «setText = "'" + set.get(0) + "'"»
-		«IF size > 1»
-		# «var int[] list = newIntArrayOfSize(size - 1)»
-		# «var int i = 1»
-		«FOR l : list»
-		# «i++»
-		# «set.add(id + i)»
-		# «setText += ", '" + set.get(i - 1) + "'"»
-		«ENDFOR»
-		«ENDIF»
-		«ENDIF»
-		«root.name»_«att.name» = Set{«setText»}
-		«ENDIF»
-		«ENDFOR»
-
-		«FOR eclass : eclasses»
-		«IF isRequired(classes, eclass.name)»
-		«eclass.name»_min = «classes.get(eclass.name).get(0)»
-		«eclass.name»_max = «classes.get(eclass.name).get(1)»
-		«FOR att : eclass.EAttributes»
-		«IF att.EType.name.equals("EString")»
-		# «var size = classes.get(eclass.name).get(1)»
-		# «var String setText = ""»
-		«IF size > 0»
-		# «var ArrayList<String> set = new ArrayList<String>()»
-		# «var String id = eclass.name.substring(0, 1)»
-		# «set.add(id + "1")»
-		# «setText = "'" + set.get(0) + "'"»
-		«IF size > 1»
-		# «var int[] list = newIntArrayOfSize(size - 1)»
-		# «var int i = 1»
-		«FOR l : list»
-		# «i++»
-		# «set.add(id + i)»
-		# «setText += ", '" + set.get(i - 1) + "'"»
-		«ENDFOR»
-		«ENDIF»
-		«ENDIF»
-		«eclass.name»_«att.name» = Set{«setText»}
-		«ENDIF»
-		«ENDFOR»
-		«ENDIF»
-		«ENDFOR»
-
-		# Associations
-		# «var HashMap<String, Integer> associationNames = new HashMap<String, Integer>()»
-		# «var List<EReference> rootRefs = root.getEReferences()»
-		«IF rootRefs.size > 0»
-		«FOR ref : rootRefs»
-		# «var String associationName = root.name + ref.EType.name»
-		«IF associationNames.get(associationName) != null»
-		# «associationNames.put(associationName, associationNames.get(associationName) + 1)»
-		# «associationName += associationNames.get(associationName)»
-		«ELSE»
-		# «associationNames.put(associationName, 0)»
-		«ENDIF»
-		«associationName»_min = «classes.get(ref.EType.name).get(0)»
-		«associationName»_max = «classes.get(ref.EType.name).get(1)»
-		«ENDFOR»
-		«ENDIF»
-		«FOR eclass : eclasses»
-		# «var List<EReference> refs = eclass.getEReferences()»
-		«IF refs.size > 0»
-		«FOR ref : refs»
-		# «var String associationName = eclass.name + ref.EType.name»
-		«IF associationNames.get(associationName) != null»
-		# «associationNames.put(associationName, associationNames.get(associationName) + 1)»
-		# «associationName += associationNames.get(associationName)»
-		«ELSE»
-		# «associationNames.put(associationName, 0)»
-		«ENDIF»
-		«associationName»_min = «classes.get(eclass.name).get(0)»
-		«associationName»_max = «classes.get(eclass.name).get(1)»
-		«ENDFOR»
-		«ENDIF»
-		«ENDFOR»
-   '''
-   def use(MutatorEnvironment e) ''' 
-		model «className»
-		
-		-- «var ArrayList<EPackage> packages = ModelManager.loadMetaModel(e.definition.metamodel)»
-		-- «var ArrayList<EClass> eclasses = ModelManager.getEClasses(packages)»
-		«FOR eclass : eclasses»
-			--«var ArrayList<String> superclasses = new ArrayList<String>()»
-			«FOR superclass : eclass.ESuperTypes»
-			--«superclasses.add(superclass.name)»
-			«ENDFOR»
-			--«var superclassestext = ""»
-			«IF superclasses.size > 0»
-			--«superclassestext = superclasses.get(0)»
-			«IF superclasses.size > 1»
-			«FOR superclassname : superclasses.subList(1, superclasses.size() - 1)»
-			--«superclassestext = superclassestext + ", " + superclassname»
-			«ENDFOR»
-			«ENDIF»
-			class «eclass.name» < «superclassestext»
-			«ELSE»
-			class «eclass.name»
-			«ENDIF»
-				-- «var List<EAttribute> atts = eclass.getEAttributes()»
-				«IF atts.size > 0»
-				attributes
-					«FOR att : atts»
-					«IF att.EType.name.equals("EString")»
-					«att.name» : String
-					«ENDIF»
-					«IF att.EType.name.equals("EBoolean")»
-					«att.name» : Boolean
-					«ENDIF»
-					«IF att.EType.name.equals("EInt")»
-					«att.name» : Integer
-					«ENDIF»
-					«IF att.EType.name.equals("EDouble")»
-					«att.name» : Double
-					«ENDIF»
-					«ENDFOR»
-				«ENDIF»
-				-- «var List<EAnnotation> annotations = eclass.getEAnnotations()»
-				«IF annotations.size > 0»
-					«FOR EAnnotation a : annotations»
-					«IF a.source.equals("http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot")»
-				-- «var EMap<String, String> constraints = a.details»
-				-- «var Set<String> keys = constraints.keySet»
-					«IF keys.size > 0»
-				constraints
-					«FOR String key : keys»
-					inv «key» : «constraints.get(key)»
-					«ENDFOR»
-					«ENDIF»
-					«ENDIF»
-					«ENDFOR»
-				«ENDIF»
-			end
-		«ENDFOR»
-		
-		
-		-- Associations
-		-- «var HashMap<String, Integer> associationNames = new HashMap<String, Integer>()»
-		-- «var HashMap<String, Integer> roleNames = new HashMap<String, Integer>()»
-		«FOR eclass : eclasses»
-		-- «var List<EReference> refs = eclass.getEReferences()»
-		«IF refs.size > 0»
-		«FOR ref : refs»
-			-- «var String associationName = eclass.name + ref.EType.name»
-			«IF associationNames.get(associationName) != null»
-			-- «associationNames.put(associationName, associationNames.get(associationName) + 1)»
-			-- «associationName += associationNames.get(associationName)»
-			«ELSE»
-			-- «associationNames.put(associationName, 0)»
-			«ENDIF»
-			-- «var String srcRoleName = eclass.name.toLowerCase + ref.EType.name.toLowerCase»
-			«IF roleNames.get(srcRoleName) != null»
-			-- «roleNames.put(srcRoleName, roleNames.get(srcRoleName) + 1)»
-			-- «srcRoleName += roleNames.get(srcRoleName)»
-			«ELSE»
-			-- «roleNames.put(srcRoleName, 0)»
-			«ENDIF»
-			-- «var String tarRoleName = ref.name»
-			«IF roleNames.get(tarRoleName) != null»
-			-- «roleNames.put(tarRoleName, roleNames.get(tarRoleName) + 1)»
-			-- «tarRoleName += roleNames.get(tarRoleName)»
-			«ELSE»
-			-- «roleNames.put(tarRoleName, 0)»
-			«ENDIF»
-			«IF ref.container == false»
-			association «associationName» between
-			«ENDIF»
-			«IF ref.container == true && !ref.EType.name.equals(eclass.name)»
-			composition «associationName» between
-			«ENDIF»
-				«eclass.name»[*] role «srcRoleName»
-			«IF ref.lowerBound == 0 && ref.upperBound == -1»
-				«ref.EType.name»[*] role «tarRoleName»
-			«ELSEIF ref.upperBound == -1»
-				«ref.EType.name»[«ref.lowerBound»..*] role «tarRoleName»
-			«ELSEIF ref.lowerBound != ref.upperBound»
-				«ref.EType.name»[«ref.lowerBound»..«ref.upperBound»] role «tarRoleName»
-			«ELSEIF ref.lowerBound == ref.upperBound»
-				«ref.EType.name»[«ref.lowerBound»] role «tarRoleName»
-			«ENDIF»
-			end
-		«ENDFOR»
-		«ENDIF»
-		«ENDFOR»
-
-	'''
 }

@@ -1336,7 +1336,12 @@ class WodelUseGenerator implements IGenerator {
 						else {
 							var String v3 = refev.refName.EType.name.substring(0, 1).toLowerCase() + "2"
 							var String innerRefName = UseUtils.getUseReference(refev.refName, useReferences)
-							refConstraint.text = UseUtils.encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + UseUtils.encodeWord(refName) + "->exists(" + v3 + " | " + v3 + "." + UseUtils.encodeWord(innerRefName) + " " + operator + " null))"
+							if (refev.refName.upperBound > 1 || refev.refName.upperBound == -1) {
+								refConstraint.text = UseUtils.encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + UseUtils.encodeWord(refName) + "->exists(" + v3 + " | " + v3 + "." + UseUtils.encodeWord(innerRefName) + "->size() > 0))"
+							}
+							else {
+								refConstraint.text = UseUtils.encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + UseUtils.encodeWord(refName) + "->exists(" + v3 + " | " + v3 + "." + UseUtils.encodeWord(innerRefName) + " " + operator + " null))"
+							}
 							refConstraint.variables.add(v1)
 							refConstraint.variables.add(v3)
 						}
@@ -1624,7 +1629,12 @@ class WodelUseGenerator implements IGenerator {
 								else {
 									var String v3 = refev.refName.EType.name.substring(0, 1).toLowerCase() + "2"
 									var String innerRefName = UseUtils.getUseReference(refev.refName, useReferences)
-									refConstraint.text = UseUtils.encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + UseUtils.encodeWord(refName) + "->exists(" + v3 + " | " + v3 + "." + UseUtils.encodeWord(innerRefName) + " " + operator + " null))"
+									if (refev.refName.upperBound > 1 || refev.refName.upperBound == -1) {
+										refConstraint.text = UseUtils.encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + UseUtils.encodeWord(refName) + "->exists(" + v3 + " | " + v3 + "." + UseUtils.encodeWord(innerRefName) + "->size() > 0))"
+									}
+									else {
+										refConstraint.text = UseUtils.encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + UseUtils.encodeWord(refName) + "->exists(" + v3 + " | " + v3 + "." + UseUtils.encodeWord(innerRefName) + " " + operator + " null))"
+									}
 									refConstraint.variables.add(v1)
 									refConstraint.variables.add(v3)
 								}

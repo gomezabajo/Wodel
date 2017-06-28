@@ -3220,45 +3220,77 @@ public class WodelUseGenerator implements IGenerator {
               String v3 = (_lowerCase_14 + "2");
               EReference _refName_2 = refev.getRefName();
               String innerRefName = UseUtils.getUseReference(_refName_2, this.useReferences);
-              String _encodeWord_11 = UseUtils.encodeWord(className);
-              String _plus_72 = (_encodeWord_11 + ".allInstances()->exists(");
-              String _plus_73 = (_plus_72 + v1);
-              String _plus_74 = (_plus_73 + " | ");
-              String _plus_75 = (_plus_74 + v1);
-              String _plus_76 = (_plus_75 + ".");
-              String _encodeWord_12 = UseUtils.encodeWord(refName);
-              String _plus_77 = (_plus_76 + _encodeWord_12);
-              String _plus_78 = (_plus_77 + "->exists(");
-              String _plus_79 = (_plus_78 + v3);
-              String _plus_80 = (_plus_79 + " | ");
-              String _plus_81 = (_plus_80 + v3);
-              String _plus_82 = (_plus_81 + ".");
-              String _encodeWord_13 = UseUtils.encodeWord(innerRefName);
-              String _plus_83 = (_plus_82 + _encodeWord_13);
-              String _plus_84 = (_plus_83 + " ");
-              String _plus_85 = (_plus_84 + operator_1);
-              String _plus_86 = (_plus_85 + " null))");
-              refConstraint_1.text = _plus_86;
+              boolean _or_1 = false;
+              EReference _refName_3 = refev.getRefName();
+              int _upperBound_2 = _refName_3.getUpperBound();
+              boolean _greaterThan_4 = (_upperBound_2 > 1);
+              if (_greaterThan_4) {
+                _or_1 = true;
+              } else {
+                EReference _refName_4 = refev.getRefName();
+                int _upperBound_3 = _refName_4.getUpperBound();
+                boolean _equals_20 = (_upperBound_3 == (-1));
+                _or_1 = _equals_20;
+              }
+              if (_or_1) {
+                String _encodeWord_11 = UseUtils.encodeWord(className);
+                String _plus_72 = (_encodeWord_11 + ".allInstances()->exists(");
+                String _plus_73 = (_plus_72 + v1);
+                String _plus_74 = (_plus_73 + " | ");
+                String _plus_75 = (_plus_74 + v1);
+                String _plus_76 = (_plus_75 + ".");
+                String _encodeWord_12 = UseUtils.encodeWord(refName);
+                String _plus_77 = (_plus_76 + _encodeWord_12);
+                String _plus_78 = (_plus_77 + "->exists(");
+                String _plus_79 = (_plus_78 + v3);
+                String _plus_80 = (_plus_79 + " | ");
+                String _plus_81 = (_plus_80 + v3);
+                String _plus_82 = (_plus_81 + ".");
+                String _encodeWord_13 = UseUtils.encodeWord(innerRefName);
+                String _plus_83 = (_plus_82 + _encodeWord_13);
+                String _plus_84 = (_plus_83 + "->size() > 0))");
+                refConstraint_1.text = _plus_84;
+              } else {
+                String _encodeWord_14 = UseUtils.encodeWord(className);
+                String _plus_85 = (_encodeWord_14 + ".allInstances()->exists(");
+                String _plus_86 = (_plus_85 + v1);
+                String _plus_87 = (_plus_86 + " | ");
+                String _plus_88 = (_plus_87 + v1);
+                String _plus_89 = (_plus_88 + ".");
+                String _encodeWord_15 = UseUtils.encodeWord(refName);
+                String _plus_90 = (_plus_89 + _encodeWord_15);
+                String _plus_91 = (_plus_90 + "->exists(");
+                String _plus_92 = (_plus_91 + v3);
+                String _plus_93 = (_plus_92 + " | ");
+                String _plus_94 = (_plus_93 + v3);
+                String _plus_95 = (_plus_94 + ".");
+                String _encodeWord_16 = UseUtils.encodeWord(innerRefName);
+                String _plus_96 = (_plus_95 + _encodeWord_16);
+                String _plus_97 = (_plus_96 + " ");
+                String _plus_98 = (_plus_97 + operator_1);
+                String _plus_99 = (_plus_98 + " null))");
+                refConstraint_1.text = _plus_99;
+              }
               refConstraint_1.variables.add(v1);
               refConstraint_1.variables.add(v3);
             }
             boolean _and_9 = false;
             boolean _and_10 = false;
             WodelUseGenerator.Constraint _constraint_8 = this.getConstraint(constraints, refConstraint_1);
-            boolean _equals_20 = Objects.equal(_constraint_8, null);
-            if (!_equals_20) {
+            boolean _equals_21 = Objects.equal(_constraint_8, null);
+            if (!_equals_21) {
               _and_10 = false;
             } else {
               int _length_4 = refConstraint_1.text.length();
-              boolean _greaterThan_4 = (_length_4 > 0);
-              _and_10 = _greaterThan_4;
+              boolean _greaterThan_5 = (_length_4 > 0);
+              _and_10 = _greaterThan_5;
             }
             if (!_and_10) {
               _and_9 = false;
             } else {
               WodelUseGenerator.Constraint _constraint_9 = this.getConstraint(expConstraints, refConstraint_1);
-              boolean _equals_21 = Objects.equal(_constraint_9, null);
-              _and_9 = _equals_21;
+              boolean _equals_22 = Objects.equal(_constraint_9, null);
+              _and_9 = _equals_22;
             }
             if (_and_9) {
               expConstraints.add(refConstraint_1);
@@ -3267,8 +3299,8 @@ public class WodelUseGenerator implements IGenerator {
         } else {
           ObSelectionStrategy selection_1 = refev.getValue();
           refConstraint_1.type = "exists";
-          boolean _equals_22 = operator_1.equals("IN");
-          if (_equals_22) {
+          boolean _equals_23 = operator_1.equals("IN");
+          if (_equals_23) {
             if ((selection_1 instanceof SpecificObjectSelection)) {
               String _substring_16 = className.substring(0, 1);
               String _lowerCase_15 = _substring_16.toLowerCase();
@@ -3282,8 +3314,8 @@ public class WodelUseGenerator implements IGenerator {
                 ObSelectionStrategy _object = ((SelectObjectMutator) _objSel_3).getObject();
                 EClass _type = _object.getType();
                 String _name_15 = _type.getName();
-                boolean _equals_23 = _name_15.equals(className);
-                boolean _not = (!_equals_23);
+                boolean _equals_24 = _name_15.equals(className);
+                boolean _not = (!_equals_24);
                 _and_11 = _not;
               }
               if (_and_11) {
@@ -3305,30 +3337,30 @@ public class WodelUseGenerator implements IGenerator {
                   String _substring_18 = _name_16.substring(0, 1);
                   String _lowerCase_17 = _substring_18.toLowerCase();
                   String v5 = (_lowerCase_17 + "4");
-                  String _encodeWord_14 = UseUtils.encodeWord(className);
-                  String _plus_87 = (_encodeWord_14 + ".allInstances()->exists(");
-                  String _plus_88 = (_plus_87 + v3_1);
-                  String _plus_89 = (_plus_88 + " | ");
-                  String _encodeWord_15 = UseUtils.encodeWord(refClassName);
-                  String _plus_90 = (_plus_89 + _encodeWord_15);
-                  String _plus_91 = (_plus_90 + ".allInstances()->exists(");
-                  String _plus_92 = (_plus_91 + v4);
-                  String _plus_93 = (_plus_92 + " | ");
-                  String _plus_94 = (_plus_93 + v4);
-                  String _plus_95 = (_plus_94 + ".");
-                  String _encodeWord_16 = UseUtils.encodeWord(obRefTypeName);
-                  String _plus_96 = (_plus_95 + _encodeWord_16);
-                  String _plus_97 = (_plus_96 + "->exists(");
-                  String _plus_98 = (_plus_97 + v5);
-                  String _plus_99 = (_plus_98 + " | ");
-                  String _plus_100 = (_plus_99 + v5);
-                  String _plus_101 = (_plus_100 + " = ");
-                  String _plus_102 = (_plus_101 + v3_1);
-                  String _plus_103 = (_plus_102 + ".");
-                  String _encodeWord_17 = UseUtils.encodeWord(refName);
-                  String _plus_104 = (_plus_103 + _encodeWord_17);
-                  String _plus_105 = (_plus_104 + ")))");
-                  refConstraint_1.text = _plus_105;
+                  String _encodeWord_17 = UseUtils.encodeWord(className);
+                  String _plus_100 = (_encodeWord_17 + ".allInstances()->exists(");
+                  String _plus_101 = (_plus_100 + v3_1);
+                  String _plus_102 = (_plus_101 + " | ");
+                  String _encodeWord_18 = UseUtils.encodeWord(refClassName);
+                  String _plus_103 = (_plus_102 + _encodeWord_18);
+                  String _plus_104 = (_plus_103 + ".allInstances()->exists(");
+                  String _plus_105 = (_plus_104 + v4);
+                  String _plus_106 = (_plus_105 + " | ");
+                  String _plus_107 = (_plus_106 + v4);
+                  String _plus_108 = (_plus_107 + ".");
+                  String _encodeWord_19 = UseUtils.encodeWord(obRefTypeName);
+                  String _plus_109 = (_plus_108 + _encodeWord_19);
+                  String _plus_110 = (_plus_109 + "->exists(");
+                  String _plus_111 = (_plus_110 + v5);
+                  String _plus_112 = (_plus_111 + " | ");
+                  String _plus_113 = (_plus_112 + v5);
+                  String _plus_114 = (_plus_113 + " = ");
+                  String _plus_115 = (_plus_114 + v3_1);
+                  String _plus_116 = (_plus_115 + ".");
+                  String _encodeWord_20 = UseUtils.encodeWord(refName);
+                  String _plus_117 = (_plus_116 + _encodeWord_20);
+                  String _plus_118 = (_plus_117 + ")))");
+                  refConstraint_1.text = _plus_118;
                   System.out.println(refConstraint_1.text);
                   refConstraint_1.variables.add(v3_1);
                   refConstraint_1.variables.add(v4);
@@ -3347,69 +3379,69 @@ public class WodelUseGenerator implements IGenerator {
               String _lowerCase_18 = _substring_19.toLowerCase();
               String v3_2 = (_lowerCase_18 + "2");
               if ((multiple == false)) {
-                String _encodeWord_18 = UseUtils.encodeWord(className);
-                String _plus_106 = (_encodeWord_18 + ".allInstances()->exists(");
-                String _plus_107 = (_plus_106 + v1);
-                String _plus_108 = (_plus_107 + " | ");
-                String _encodeWord_19 = UseUtils.encodeWord(targetClassName);
-                String _plus_109 = (_plus_108 + _encodeWord_19);
-                String _plus_110 = (_plus_109 + ".allInstances()->exists(");
-                String _plus_111 = (_plus_110 + v3_2);
-                String _plus_112 = (_plus_111 + " | ");
-                String _plus_113 = (_plus_112 + v1);
-                String _plus_114 = (_plus_113 + ".");
-                String _encodeWord_20 = UseUtils.encodeWord(refName);
-                String _plus_115 = (_plus_114 + _encodeWord_20);
-                String _plus_116 = (_plus_115 + " ");
-                String _plus_117 = (_plus_116 + operator_1);
-                String _plus_118 = (_plus_117 + " ");
-                String _plus_119 = (_plus_118 + v3_2);
-                String _plus_120 = (_plus_119 + "))");
-                refConstraint_1.text = _plus_120;
+                String _encodeWord_21 = UseUtils.encodeWord(className);
+                String _plus_119 = (_encodeWord_21 + ".allInstances()->exists(");
+                String _plus_120 = (_plus_119 + v1);
+                String _plus_121 = (_plus_120 + " | ");
+                String _encodeWord_22 = UseUtils.encodeWord(targetClassName);
+                String _plus_122 = (_plus_121 + _encodeWord_22);
+                String _plus_123 = (_plus_122 + ".allInstances()->exists(");
+                String _plus_124 = (_plus_123 + v3_2);
+                String _plus_125 = (_plus_124 + " | ");
+                String _plus_126 = (_plus_125 + v1);
+                String _plus_127 = (_plus_126 + ".");
+                String _encodeWord_23 = UseUtils.encodeWord(refName);
+                String _plus_128 = (_plus_127 + _encodeWord_23);
+                String _plus_129 = (_plus_128 + " ");
+                String _plus_130 = (_plus_129 + operator_1);
+                String _plus_131 = (_plus_130 + " ");
+                String _plus_132 = (_plus_131 + v3_2);
+                String _plus_133 = (_plus_132 + "))");
+                refConstraint_1.text = _plus_133;
                 refConstraint_1.variables.add(v1);
                 refConstraint_1.variables.add(v3_2);
               } else {
                 String _substring_20 = targetClassName.substring(0, 1);
                 String _lowerCase_19 = _substring_20.toLowerCase();
                 String v4_1 = (_lowerCase_19 + "3");
-                String _encodeWord_21 = UseUtils.encodeWord(className);
-                String _plus_121 = (_encodeWord_21 + ".allInstances()->exists(");
-                String _plus_122 = (_plus_121 + v1);
-                String _plus_123 = (_plus_122 + " | ");
-                String _encodeWord_22 = UseUtils.encodeWord(targetClassName);
-                String _plus_124 = (_plus_123 + _encodeWord_22);
-                String _plus_125 = (_plus_124 + ".allInstances()->exists(");
-                String _plus_126 = (_plus_125 + v3_2);
-                String _plus_127 = (_plus_126 + " | ");
-                String _plus_128 = (_plus_127 + v1);
-                String _plus_129 = (_plus_128 + ".");
-                String _encodeWord_23 = UseUtils.encodeWord(refName);
-                String _plus_130 = (_plus_129 + _encodeWord_23);
-                String _plus_131 = (_plus_130 + "->exists(");
-                String _plus_132 = (_plus_131 + v4_1);
-                String _plus_133 = (_plus_132 + " | ");
-                String _plus_134 = (_plus_133 + v3_2);
-                String _plus_135 = (_plus_134 + " ");
-                String _plus_136 = (_plus_135 + operator_1);
-                String _plus_137 = (_plus_136 + " ");
-                String _plus_138 = (_plus_137 + v4_1);
-                String _plus_139 = (_plus_138 + "))");
-                refConstraint_1.text = _plus_139;
+                String _encodeWord_24 = UseUtils.encodeWord(className);
+                String _plus_134 = (_encodeWord_24 + ".allInstances()->exists(");
+                String _plus_135 = (_plus_134 + v1);
+                String _plus_136 = (_plus_135 + " | ");
+                String _encodeWord_25 = UseUtils.encodeWord(targetClassName);
+                String _plus_137 = (_plus_136 + _encodeWord_25);
+                String _plus_138 = (_plus_137 + ".allInstances()->exists(");
+                String _plus_139 = (_plus_138 + v3_2);
+                String _plus_140 = (_plus_139 + " | ");
+                String _plus_141 = (_plus_140 + v1);
+                String _plus_142 = (_plus_141 + ".");
+                String _encodeWord_26 = UseUtils.encodeWord(refName);
+                String _plus_143 = (_plus_142 + _encodeWord_26);
+                String _plus_144 = (_plus_143 + "->exists(");
+                String _plus_145 = (_plus_144 + v4_1);
+                String _plus_146 = (_plus_145 + " | ");
+                String _plus_147 = (_plus_146 + v3_2);
+                String _plus_148 = (_plus_147 + " ");
+                String _plus_149 = (_plus_148 + operator_1);
+                String _plus_150 = (_plus_149 + " ");
+                String _plus_151 = (_plus_150 + v4_1);
+                String _plus_152 = (_plus_151 + "))");
+                refConstraint_1.text = _plus_152;
                 refConstraint_1.variables.add(v1);
                 refConstraint_1.variables.add(v3_2);
                 refConstraint_1.variables.add(v4_1);
               }
             }
             if ((selection_1 instanceof SpecificObjectSelection)) {
-              EReference _refName_3 = refev.getRefName();
-              boolean _equals_24 = Objects.equal(_refName_3, null);
-              if (_equals_24) {
+              EReference _refName_5 = refev.getRefName();
+              boolean _equals_25 = Objects.equal(_refName_5, null);
+              if (_equals_25) {
                 String _substring_21 = className.substring(0, 1);
                 String _lowerCase_20 = _substring_21.toLowerCase();
                 String v3_3 = (_lowerCase_20 + "2");
                 EReference _refType_3 = ((SpecificObjectSelection)selection_1).getRefType();
-                boolean _equals_25 = Objects.equal(_refType_3, null);
-                if (_equals_25) {
+                boolean _equals_26 = Objects.equal(_refType_3, null);
+                if (_equals_26) {
                   boolean _and_12 = false;
                   ObjectEmitter _objSel_5 = ((SpecificObjectSelection)selection_1).getObjSel();
                   if (!(_objSel_5 instanceof SelectObjectMutator)) {
@@ -3419,8 +3451,8 @@ public class WodelUseGenerator implements IGenerator {
                     ObSelectionStrategy _object_2 = ((SelectObjectMutator) _objSel_6).getObject();
                     EClass _type_3 = _object_2.getType();
                     String _name_18 = _type_3.getName();
-                    boolean _equals_26 = _name_18.equals(className);
-                    boolean _not_1 = (!_equals_26);
+                    boolean _equals_27 = _name_18.equals(className);
+                    boolean _not_1 = (!_equals_27);
                     _and_12 = _not_1;
                   }
                   if (_and_12) {
@@ -3432,20 +3464,20 @@ public class WodelUseGenerator implements IGenerator {
                     String _lowerCase_21 = _substring_22.toLowerCase();
                     String v4_2 = (_lowerCase_21 + "3");
                     if ((multiple == false)) {
-                      String _encodeWord_24 = UseUtils.encodeWord(className);
-                      String _plus_140 = (_encodeWord_24 + ".allInstances()->exists(");
-                      String _plus_141 = (_plus_140 + v3_3);
-                      String _plus_142 = (_plus_141 + " | ");
-                      String _plus_143 = (_plus_142 + v3_3);
-                      String _plus_144 = (_plus_143 + ".");
-                      String _encodeWord_25 = UseUtils.encodeWord(refName);
-                      String _plus_145 = (_plus_144 + _encodeWord_25);
-                      String _plus_146 = (_plus_145 + " ");
-                      String _plus_147 = (_plus_146 + operator_1);
-                      String _plus_148 = (_plus_147 + " ");
-                      String _plus_149 = (_plus_148 + v4_2);
-                      String _plus_150 = (_plus_149 + ")");
-                      refConstraint_1.text = _plus_150;
+                      String _encodeWord_27 = UseUtils.encodeWord(className);
+                      String _plus_153 = (_encodeWord_27 + ".allInstances()->exists(");
+                      String _plus_154 = (_plus_153 + v3_3);
+                      String _plus_155 = (_plus_154 + " | ");
+                      String _plus_156 = (_plus_155 + v3_3);
+                      String _plus_157 = (_plus_156 + ".");
+                      String _encodeWord_28 = UseUtils.encodeWord(refName);
+                      String _plus_158 = (_plus_157 + _encodeWord_28);
+                      String _plus_159 = (_plus_158 + " ");
+                      String _plus_160 = (_plus_159 + operator_1);
+                      String _plus_161 = (_plus_160 + " ");
+                      String _plus_162 = (_plus_161 + v4_2);
+                      String _plus_163 = (_plus_162 + ")");
+                      refConstraint_1.text = _plus_163;
                       System.out.println(refConstraint_1.text);
                       refConstraint_1.variables.add(v3_3);
                       refConstraint_1.variables.add(v4_2);
@@ -3455,24 +3487,24 @@ public class WodelUseGenerator implements IGenerator {
                       String _substring_23 = refClassName_1.substring(0, 1);
                       String _lowerCase_22 = _substring_23.toLowerCase();
                       String v5_1 = (_lowerCase_22 + "4");
-                      String _encodeWord_26 = UseUtils.encodeWord(className);
-                      String _plus_151 = (_encodeWord_26 + ".allInstances()->exists(");
-                      String _plus_152 = (_plus_151 + v3_3);
-                      String _plus_153 = (_plus_152 + " | ");
-                      String _plus_154 = (_plus_153 + v3_3);
-                      String _plus_155 = (_plus_154 + ".");
-                      String _encodeWord_27 = UseUtils.encodeWord(refName);
-                      String _plus_156 = (_plus_155 + _encodeWord_27);
-                      String _plus_157 = (_plus_156 + "->exists(");
-                      String _plus_158 = (_plus_157 + v5_1);
-                      String _plus_159 = (_plus_158 + " | ");
-                      String _plus_160 = (_plus_159 + v4_2);
-                      String _plus_161 = (_plus_160 + " ");
-                      String _plus_162 = (_plus_161 + operator_1);
-                      String _plus_163 = (_plus_162 + " ");
-                      String _plus_164 = (_plus_163 + v5_1);
-                      String _plus_165 = (_plus_164 + "))");
-                      refConstraint_1.text = _plus_165;
+                      String _encodeWord_29 = UseUtils.encodeWord(className);
+                      String _plus_164 = (_encodeWord_29 + ".allInstances()->exists(");
+                      String _plus_165 = (_plus_164 + v3_3);
+                      String _plus_166 = (_plus_165 + " | ");
+                      String _plus_167 = (_plus_166 + v3_3);
+                      String _plus_168 = (_plus_167 + ".");
+                      String _encodeWord_30 = UseUtils.encodeWord(refName);
+                      String _plus_169 = (_plus_168 + _encodeWord_30);
+                      String _plus_170 = (_plus_169 + "->exists(");
+                      String _plus_171 = (_plus_170 + v5_1);
+                      String _plus_172 = (_plus_171 + " | ");
+                      String _plus_173 = (_plus_172 + v4_2);
+                      String _plus_174 = (_plus_173 + " ");
+                      String _plus_175 = (_plus_174 + operator_1);
+                      String _plus_176 = (_plus_175 + " ");
+                      String _plus_177 = (_plus_176 + v5_1);
+                      String _plus_178 = (_plus_177 + "))");
+                      refConstraint_1.text = _plus_178;
                       System.out.println(refConstraint_1.text);
                       refConstraint_1.variables.add(v3_3);
                       refConstraint_1.variables.add(v4_2);
@@ -3482,44 +3514,44 @@ public class WodelUseGenerator implements IGenerator {
                     }
                   } else {
                     if ((multiple == false)) {
-                      String _encodeWord_28 = UseUtils.encodeWord(className);
-                      String _plus_166 = (_encodeWord_28 + ".allInstances()->exists(");
-                      String _plus_167 = (_plus_166 + v1);
-                      String _plus_168 = (_plus_167 + ", ");
-                      refConstraint_1.text = _plus_168;
-                      String _encodeWord_29 = UseUtils.encodeWord(refName);
-                      String _plus_169 = ((((v3_3 + " | ") + v1) + ".") + _encodeWord_29);
-                      String _plus_170 = (_plus_169 + " ");
-                      String _plus_171 = (_plus_170 + operator_1);
-                      String _plus_172 = (_plus_171 + " ");
-                      String _plus_173 = (_plus_172 + v3_3);
-                      /* (_plus_173 + ")"); */
+                      String _encodeWord_31 = UseUtils.encodeWord(className);
+                      String _plus_179 = (_encodeWord_31 + ".allInstances()->exists(");
+                      String _plus_180 = (_plus_179 + v1);
+                      String _plus_181 = (_plus_180 + ", ");
+                      refConstraint_1.text = _plus_181;
+                      String _encodeWord_32 = UseUtils.encodeWord(refName);
+                      String _plus_182 = ((((v3_3 + " | ") + v1) + ".") + _encodeWord_32);
+                      String _plus_183 = (_plus_182 + " ");
+                      String _plus_184 = (_plus_183 + operator_1);
+                      String _plus_185 = (_plus_184 + " ");
+                      String _plus_186 = (_plus_185 + v3_3);
+                      /* (_plus_186 + ")"); */
                       refConstraint_1.variables.add(v1);
                       refConstraint_1.variables.add(v3_3);
                     } else {
                       String _substring_24 = className.substring(0, 1);
                       String _lowerCase_23 = _substring_24.toLowerCase();
                       String v4_3 = (_lowerCase_23 + "3");
-                      String _encodeWord_30 = UseUtils.encodeWord(className);
-                      String _plus_174 = (_encodeWord_30 + ".allInstances()->exists(");
-                      String _plus_175 = (_plus_174 + v1);
-                      String _plus_176 = (_plus_175 + ", ");
-                      String _plus_177 = (_plus_176 + v3_3);
-                      String _plus_178 = (_plus_177 + " | ");
-                      String _plus_179 = (_plus_178 + v1);
-                      String _plus_180 = (_plus_179 + ".");
-                      String _encodeWord_31 = UseUtils.encodeWord(refName);
-                      String _plus_181 = (_plus_180 + _encodeWord_31);
-                      String _plus_182 = (_plus_181 + "->exists(");
-                      String _plus_183 = (_plus_182 + v4_3);
-                      String _plus_184 = (_plus_183 + " | ");
-                      String _plus_185 = (_plus_184 + v3_3);
-                      String _plus_186 = (_plus_185 + " ");
-                      String _plus_187 = (_plus_186 + operator_1);
-                      String _plus_188 = (_plus_187 + " ");
-                      String _plus_189 = (_plus_188 + v4_3);
-                      String _plus_190 = (_plus_189 + "))");
-                      refConstraint_1.text = _plus_190;
+                      String _encodeWord_33 = UseUtils.encodeWord(className);
+                      String _plus_187 = (_encodeWord_33 + ".allInstances()->exists(");
+                      String _plus_188 = (_plus_187 + v1);
+                      String _plus_189 = (_plus_188 + ", ");
+                      String _plus_190 = (_plus_189 + v3_3);
+                      String _plus_191 = (_plus_190 + " | ");
+                      String _plus_192 = (_plus_191 + v1);
+                      String _plus_193 = (_plus_192 + ".");
+                      String _encodeWord_34 = UseUtils.encodeWord(refName);
+                      String _plus_194 = (_plus_193 + _encodeWord_34);
+                      String _plus_195 = (_plus_194 + "->exists(");
+                      String _plus_196 = (_plus_195 + v4_3);
+                      String _plus_197 = (_plus_196 + " | ");
+                      String _plus_198 = (_plus_197 + v3_3);
+                      String _plus_199 = (_plus_198 + " ");
+                      String _plus_200 = (_plus_199 + operator_1);
+                      String _plus_201 = (_plus_200 + " ");
+                      String _plus_202 = (_plus_201 + v4_3);
+                      String _plus_203 = (_plus_202 + "))");
+                      refConstraint_1.text = _plus_203;
                       refConstraint_1.variables.add(v1);
                       refConstraint_1.variables.add(v3_3);
                       refConstraint_1.variables.add(v4_3);
@@ -3535,8 +3567,8 @@ public class WodelUseGenerator implements IGenerator {
                     ObSelectionStrategy _object_4 = ((SelectObjectMutator) _objSel_9).getObject();
                     EClass _type_5 = _object_4.getType();
                     String _name_19 = _type_5.getName();
-                    boolean _equals_27 = _name_19.equals(className);
-                    boolean _not_2 = (!_equals_27);
+                    boolean _equals_28 = _name_19.equals(className);
+                    boolean _not_2 = (!_equals_28);
                     _and_13 = _not_2;
                   }
                   if (_and_13) {
@@ -3548,54 +3580,54 @@ public class WodelUseGenerator implements IGenerator {
                     String _lowerCase_24 = _substring_25.toLowerCase();
                     String v4_4 = (_lowerCase_24 + "3");
                     if ((multiple == false)) {
-                      String _encodeWord_32 = UseUtils.encodeWord(className);
-                      String _plus_191 = (_encodeWord_32 + ".allInstances()->exists(");
-                      String _plus_192 = (_plus_191 + v3_3);
-                      String _plus_193 = (_plus_192 + " | ");
-                      String _encodeWord_33 = UseUtils.encodeWord(refClassName_2);
-                      String _plus_194 = (_plus_193 + _encodeWord_33);
-                      String _plus_195 = (_plus_194 + ".allInstances()->exists(");
-                      String _plus_196 = (_plus_195 + v4_4);
-                      String _plus_197 = (_plus_196 + " | ");
-                      String _plus_198 = (_plus_197 + v3_3);
-                      String _plus_199 = (_plus_198 + ".");
-                      String _encodeWord_34 = UseUtils.encodeWord(refName);
-                      String _plus_200 = (_plus_199 + _encodeWord_34);
-                      String _plus_201 = (_plus_200 + " ");
-                      String _plus_202 = (_plus_201 + operator_1);
-                      String _plus_203 = (_plus_202 + " ");
-                      String _plus_204 = (_plus_203 + v4_4);
-                      String _plus_205 = (_plus_204 + "))");
-                      refConstraint_1.text = _plus_205;
+                      String _encodeWord_35 = UseUtils.encodeWord(className);
+                      String _plus_204 = (_encodeWord_35 + ".allInstances()->exists(");
+                      String _plus_205 = (_plus_204 + v3_3);
+                      String _plus_206 = (_plus_205 + " | ");
+                      String _encodeWord_36 = UseUtils.encodeWord(refClassName_2);
+                      String _plus_207 = (_plus_206 + _encodeWord_36);
+                      String _plus_208 = (_plus_207 + ".allInstances()->exists(");
+                      String _plus_209 = (_plus_208 + v4_4);
+                      String _plus_210 = (_plus_209 + " | ");
+                      String _plus_211 = (_plus_210 + v3_3);
+                      String _plus_212 = (_plus_211 + ".");
+                      String _encodeWord_37 = UseUtils.encodeWord(refName);
+                      String _plus_213 = (_plus_212 + _encodeWord_37);
+                      String _plus_214 = (_plus_213 + " ");
+                      String _plus_215 = (_plus_214 + operator_1);
+                      String _plus_216 = (_plus_215 + " ");
+                      String _plus_217 = (_plus_216 + v4_4);
+                      String _plus_218 = (_plus_217 + "))");
+                      refConstraint_1.text = _plus_218;
                       refConstraint_1.variables.add(v3_3);
                       refConstraint_1.variables.add(v4_4);
                     } else {
                       String _substring_26 = refClassName_2.substring(0, 1);
                       String _lowerCase_25 = _substring_26.toLowerCase();
                       String v5_2 = (_lowerCase_25 + "4");
-                      String _encodeWord_35 = UseUtils.encodeWord(className);
-                      String _plus_206 = (_encodeWord_35 + ".allInstances()->exists(");
-                      String _plus_207 = (_plus_206 + v3_3);
-                      String _plus_208 = (_plus_207 + " | ");
-                      String _encodeWord_36 = UseUtils.encodeWord(refClassName_2);
-                      String _plus_209 = (_plus_208 + _encodeWord_36);
-                      String _plus_210 = (_plus_209 + ".allInstances()->exists(");
-                      String _plus_211 = (_plus_210 + v4_4);
-                      String _plus_212 = (_plus_211 + " | ");
-                      String _plus_213 = (_plus_212 + v3_3);
-                      String _plus_214 = (_plus_213 + ".");
-                      String _encodeWord_37 = UseUtils.encodeWord(refName);
-                      String _plus_215 = (_plus_214 + _encodeWord_37);
-                      String _plus_216 = (_plus_215 + "->exists(");
-                      String _plus_217 = (_plus_216 + v5_2);
-                      String _plus_218 = (_plus_217 + " | ");
-                      String _plus_219 = (_plus_218 + v4_4);
-                      String _plus_220 = (_plus_219 + " ");
-                      String _plus_221 = (_plus_220 + operator_1);
-                      String _plus_222 = (_plus_221 + " ");
-                      String _plus_223 = (_plus_222 + v5_2);
-                      String _plus_224 = (_plus_223 + ")))");
-                      refConstraint_1.text = _plus_224;
+                      String _encodeWord_38 = UseUtils.encodeWord(className);
+                      String _plus_219 = (_encodeWord_38 + ".allInstances()->exists(");
+                      String _plus_220 = (_plus_219 + v3_3);
+                      String _plus_221 = (_plus_220 + " | ");
+                      String _encodeWord_39 = UseUtils.encodeWord(refClassName_2);
+                      String _plus_222 = (_plus_221 + _encodeWord_39);
+                      String _plus_223 = (_plus_222 + ".allInstances()->exists(");
+                      String _plus_224 = (_plus_223 + v4_4);
+                      String _plus_225 = (_plus_224 + " | ");
+                      String _plus_226 = (_plus_225 + v3_3);
+                      String _plus_227 = (_plus_226 + ".");
+                      String _encodeWord_40 = UseUtils.encodeWord(refName);
+                      String _plus_228 = (_plus_227 + _encodeWord_40);
+                      String _plus_229 = (_plus_228 + "->exists(");
+                      String _plus_230 = (_plus_229 + v5_2);
+                      String _plus_231 = (_plus_230 + " | ");
+                      String _plus_232 = (_plus_231 + v4_4);
+                      String _plus_233 = (_plus_232 + " ");
+                      String _plus_234 = (_plus_233 + operator_1);
+                      String _plus_235 = (_plus_234 + " ");
+                      String _plus_236 = (_plus_235 + v5_2);
+                      String _plus_237 = (_plus_236 + ")))");
+                      refConstraint_1.text = _plus_237;
                       refConstraint_1.variables.add(v3_3);
                       refConstraint_1.variables.add(v4_4);
                       refConstraint_1.variables.add(v5_2);
@@ -3603,39 +3635,39 @@ public class WodelUseGenerator implements IGenerator {
                   } else {
                     EReference _refType_4 = ((SpecificObjectSelection)selection_1).getRefType();
                     String selectionRefName = UseUtils.getUseReference(_refType_4, this.useReferences);
-                    boolean _or_1 = false;
+                    boolean _or_2 = false;
                     EReference _refType_5 = ((SpecificObjectSelection)selection_1).getRefType();
-                    int _upperBound_2 = _refType_5.getUpperBound();
-                    boolean _greaterThan_5 = (_upperBound_2 > 1);
-                    if (_greaterThan_5) {
-                      _or_1 = true;
+                    int _upperBound_4 = _refType_5.getUpperBound();
+                    boolean _greaterThan_6 = (_upperBound_4 > 1);
+                    if (_greaterThan_6) {
+                      _or_2 = true;
                     } else {
                       EReference _refType_6 = ((SpecificObjectSelection)selection_1).getRefType();
-                      int _upperBound_3 = _refType_6.getUpperBound();
-                      boolean _equals_28 = (_upperBound_3 == (-1));
-                      _or_1 = _equals_28;
+                      int _upperBound_5 = _refType_6.getUpperBound();
+                      boolean _equals_29 = (_upperBound_5 == (-1));
+                      _or_2 = _equals_29;
                     }
-                    boolean mult = _or_1;
+                    boolean mult = _or_2;
                     if (((multiple == false) || ((multiple == true) && (mult == true)))) {
-                      String _encodeWord_38 = UseUtils.encodeWord(className);
-                      String _plus_225 = (_encodeWord_38 + ".allInstances()->exists(");
-                      String _plus_226 = (_plus_225 + v1);
-                      String _plus_227 = (_plus_226 + ", ");
-                      String _plus_228 = (_plus_227 + v3_3);
-                      String _plus_229 = (_plus_228 + " | ");
-                      String _plus_230 = (_plus_229 + v1);
-                      String _plus_231 = (_plus_230 + ".");
-                      String _encodeWord_39 = UseUtils.encodeWord(refName);
-                      String _plus_232 = (_plus_231 + _encodeWord_39);
-                      String _plus_233 = (_plus_232 + " ");
-                      String _plus_234 = (_plus_233 + operator_1);
-                      String _plus_235 = (_plus_234 + " ");
-                      String _plus_236 = (_plus_235 + v3_3);
-                      String _plus_237 = (_plus_236 + ".");
-                      String _encodeWord_40 = UseUtils.encodeWord(selectionRefName);
-                      String _plus_238 = (_plus_237 + _encodeWord_40);
-                      String _plus_239 = (_plus_238 + ")");
-                      refConstraint_1.text = _plus_239;
+                      String _encodeWord_41 = UseUtils.encodeWord(className);
+                      String _plus_238 = (_encodeWord_41 + ".allInstances()->exists(");
+                      String _plus_239 = (_plus_238 + v1);
+                      String _plus_240 = (_plus_239 + ", ");
+                      String _plus_241 = (_plus_240 + v3_3);
+                      String _plus_242 = (_plus_241 + " | ");
+                      String _plus_243 = (_plus_242 + v1);
+                      String _plus_244 = (_plus_243 + ".");
+                      String _encodeWord_42 = UseUtils.encodeWord(refName);
+                      String _plus_245 = (_plus_244 + _encodeWord_42);
+                      String _plus_246 = (_plus_245 + " ");
+                      String _plus_247 = (_plus_246 + operator_1);
+                      String _plus_248 = (_plus_247 + " ");
+                      String _plus_249 = (_plus_248 + v3_3);
+                      String _plus_250 = (_plus_249 + ".");
+                      String _encodeWord_43 = UseUtils.encodeWord(selectionRefName);
+                      String _plus_251 = (_plus_250 + _encodeWord_43);
+                      String _plus_252 = (_plus_251 + ")");
+                      refConstraint_1.text = _plus_252;
                       System.out.println(refConstraint_1.text);
                       refConstraint_1.variables.add(v1);
                       refConstraint_1.variables.add(v3_3);
@@ -3643,29 +3675,29 @@ public class WodelUseGenerator implements IGenerator {
                       String _substring_27 = className.substring(0, 1);
                       String _lowerCase_26 = _substring_27.toLowerCase();
                       String v4_5 = (_lowerCase_26 + "3");
-                      String _encodeWord_41 = UseUtils.encodeWord(className);
-                      String _plus_240 = (_encodeWord_41 + ".allInstances()->exists(");
-                      String _plus_241 = (_plus_240 + v1);
-                      String _plus_242 = (_plus_241 + ", ");
-                      String _plus_243 = (_plus_242 + v3_3);
-                      String _plus_244 = (_plus_243 + " | ");
-                      String _plus_245 = (_plus_244 + v1);
-                      String _plus_246 = (_plus_245 + ".");
-                      String _encodeWord_42 = UseUtils.encodeWord(refName);
-                      String _plus_247 = (_plus_246 + _encodeWord_42);
-                      String _plus_248 = (_plus_247 + "->exists(");
-                      String _plus_249 = (_plus_248 + v4_5);
-                      String _plus_250 = (_plus_249 + " | ");
-                      String _plus_251 = (_plus_250 + v3_3);
-                      String _plus_252 = (_plus_251 + ".");
-                      String _encodeWord_43 = UseUtils.encodeWord(selectionRefName);
-                      String _plus_253 = (_plus_252 + _encodeWord_43);
-                      String _plus_254 = (_plus_253 + " ");
-                      String _plus_255 = (_plus_254 + operator_1);
-                      String _plus_256 = (_plus_255 + " ");
-                      String _plus_257 = (_plus_256 + v4_5);
-                      String _plus_258 = (_plus_257 + "))");
-                      refConstraint_1.text = _plus_258;
+                      String _encodeWord_44 = UseUtils.encodeWord(className);
+                      String _plus_253 = (_encodeWord_44 + ".allInstances()->exists(");
+                      String _plus_254 = (_plus_253 + v1);
+                      String _plus_255 = (_plus_254 + ", ");
+                      String _plus_256 = (_plus_255 + v3_3);
+                      String _plus_257 = (_plus_256 + " | ");
+                      String _plus_258 = (_plus_257 + v1);
+                      String _plus_259 = (_plus_258 + ".");
+                      String _encodeWord_45 = UseUtils.encodeWord(refName);
+                      String _plus_260 = (_plus_259 + _encodeWord_45);
+                      String _plus_261 = (_plus_260 + "->exists(");
+                      String _plus_262 = (_plus_261 + v4_5);
+                      String _plus_263 = (_plus_262 + " | ");
+                      String _plus_264 = (_plus_263 + v3_3);
+                      String _plus_265 = (_plus_264 + ".");
+                      String _encodeWord_46 = UseUtils.encodeWord(selectionRefName);
+                      String _plus_266 = (_plus_265 + _encodeWord_46);
+                      String _plus_267 = (_plus_266 + " ");
+                      String _plus_268 = (_plus_267 + operator_1);
+                      String _plus_269 = (_plus_268 + " ");
+                      String _plus_270 = (_plus_269 + v4_5);
+                      String _plus_271 = (_plus_270 + "))");
+                      refConstraint_1.text = _plus_271;
                       refConstraint_1.variables.add(v1);
                       refConstraint_1.variables.add(v3_3);
                       refConstraint_1.variables.add(v4_5);
@@ -3673,8 +3705,8 @@ public class WodelUseGenerator implements IGenerator {
                   }
                 }
               } else {
-                EReference _refName_4 = refev.getRefName();
-                String ref1Name = UseUtils.getUseReference(_refName_4, this.useReferences);
+                EReference _refName_6 = refev.getRefName();
+                String ref1Name = UseUtils.getUseReference(_refName_6, this.useReferences);
                 EReference _refType_7 = ((SpecificObjectSelection)selection_1).getRefType();
                 String ref2Name = UseUtils.getUseReference(_refType_7, this.useReferences);
                 String _substring_28 = className.substring(0, 1);
@@ -3689,8 +3721,8 @@ public class WodelUseGenerator implements IGenerator {
                   ObSelectionStrategy _object_6 = ((SelectObjectMutator) _objSel_12).getObject();
                   EClass _type_7 = _object_6.getType();
                   String _name_20 = _type_7.getName();
-                  boolean _equals_29 = _name_20.equals(className);
-                  boolean _not_3 = (!_equals_29);
+                  boolean _equals_30 = _name_20.equals(className);
+                  boolean _not_3 = (!_equals_30);
                   _and_14 = _not_3;
                 }
                 if (_and_14) {
@@ -3702,108 +3734,108 @@ public class WodelUseGenerator implements IGenerator {
                   String _lowerCase_28 = _substring_29.toLowerCase();
                   String v4_6 = (_lowerCase_28 + "3");
                   if ((multiple == false)) {
-                    String _encodeWord_44 = UseUtils.encodeWord(className);
-                    String _plus_259 = (_encodeWord_44 + ".allInstances()->exists(");
-                    String _plus_260 = (_plus_259 + v3_4);
-                    String _plus_261 = (_plus_260 + " | ");
-                    String _encodeWord_45 = UseUtils.encodeWord(refClassName_3);
-                    String _plus_262 = (_plus_261 + _encodeWord_45);
-                    String _plus_263 = (_plus_262 + ".allInstances()->exists(");
-                    String _plus_264 = (_plus_263 + v4_6);
-                    String _plus_265 = (_plus_264 + " | ");
-                    String _plus_266 = (_plus_265 + v3_4);
-                    String _plus_267 = (_plus_266 + ".");
-                    String _encodeWord_46 = UseUtils.encodeWord(refName);
-                    String _plus_268 = (_plus_267 + _encodeWord_46);
-                    String _plus_269 = (_plus_268 + " ");
-                    String _plus_270 = (_plus_269 + operator_1);
-                    String _plus_271 = (_plus_270 + " ");
-                    String _plus_272 = (_plus_271 + v4_6);
-                    String _plus_273 = (_plus_272 + "))");
-                    refConstraint_1.text = _plus_273;
+                    String _encodeWord_47 = UseUtils.encodeWord(className);
+                    String _plus_272 = (_encodeWord_47 + ".allInstances()->exists(");
+                    String _plus_273 = (_plus_272 + v3_4);
+                    String _plus_274 = (_plus_273 + " | ");
+                    String _encodeWord_48 = UseUtils.encodeWord(refClassName_3);
+                    String _plus_275 = (_plus_274 + _encodeWord_48);
+                    String _plus_276 = (_plus_275 + ".allInstances()->exists(");
+                    String _plus_277 = (_plus_276 + v4_6);
+                    String _plus_278 = (_plus_277 + " | ");
+                    String _plus_279 = (_plus_278 + v3_4);
+                    String _plus_280 = (_plus_279 + ".");
+                    String _encodeWord_49 = UseUtils.encodeWord(refName);
+                    String _plus_281 = (_plus_280 + _encodeWord_49);
+                    String _plus_282 = (_plus_281 + " ");
+                    String _plus_283 = (_plus_282 + operator_1);
+                    String _plus_284 = (_plus_283 + " ");
+                    String _plus_285 = (_plus_284 + v4_6);
+                    String _plus_286 = (_plus_285 + "))");
+                    refConstraint_1.text = _plus_286;
                     refConstraint_1.variables.add(v3_4);
                     refConstraint_1.variables.add(v4_6);
                   } else {
                     String _substring_30 = refClassName_3.substring(0, 1);
                     String _lowerCase_29 = _substring_30.toLowerCase();
                     String v5_3 = (_lowerCase_29 + "4");
-                    String _encodeWord_47 = UseUtils.encodeWord(className);
-                    String _plus_274 = (_encodeWord_47 + ".allInstances()->exists(");
-                    String _plus_275 = (_plus_274 + v3_4);
-                    String _plus_276 = (_plus_275 + " | ");
-                    String _encodeWord_48 = UseUtils.encodeWord(refClassName_3);
-                    String _plus_277 = (_plus_276 + _encodeWord_48);
-                    String _plus_278 = (_plus_277 + ".allInstances()->exists(");
-                    String _plus_279 = (_plus_278 + v4_6);
-                    String _plus_280 = (_plus_279 + " | ");
-                    String _plus_281 = (_plus_280 + v3_4);
-                    String _plus_282 = (_plus_281 + ".");
-                    String _encodeWord_49 = UseUtils.encodeWord(refName);
-                    String _plus_283 = (_plus_282 + _encodeWord_49);
-                    String _plus_284 = (_plus_283 + "->exists(");
-                    String _plus_285 = (_plus_284 + v5_3);
-                    String _plus_286 = (_plus_285 + " | ");
-                    String _plus_287 = (_plus_286 + v4_6);
-                    String _plus_288 = (_plus_287 + " ");
-                    String _plus_289 = (_plus_288 + operator_1);
-                    String _plus_290 = (_plus_289 + " ");
-                    String _plus_291 = (_plus_290 + v5_3);
-                    String _plus_292 = (_plus_291 + ")))");
-                    refConstraint_1.text = _plus_292;
+                    String _encodeWord_50 = UseUtils.encodeWord(className);
+                    String _plus_287 = (_encodeWord_50 + ".allInstances()->exists(");
+                    String _plus_288 = (_plus_287 + v3_4);
+                    String _plus_289 = (_plus_288 + " | ");
+                    String _encodeWord_51 = UseUtils.encodeWord(refClassName_3);
+                    String _plus_290 = (_plus_289 + _encodeWord_51);
+                    String _plus_291 = (_plus_290 + ".allInstances()->exists(");
+                    String _plus_292 = (_plus_291 + v4_6);
+                    String _plus_293 = (_plus_292 + " | ");
+                    String _plus_294 = (_plus_293 + v3_4);
+                    String _plus_295 = (_plus_294 + ".");
+                    String _encodeWord_52 = UseUtils.encodeWord(refName);
+                    String _plus_296 = (_plus_295 + _encodeWord_52);
+                    String _plus_297 = (_plus_296 + "->exists(");
+                    String _plus_298 = (_plus_297 + v5_3);
+                    String _plus_299 = (_plus_298 + " | ");
+                    String _plus_300 = (_plus_299 + v4_6);
+                    String _plus_301 = (_plus_300 + " ");
+                    String _plus_302 = (_plus_301 + operator_1);
+                    String _plus_303 = (_plus_302 + " ");
+                    String _plus_304 = (_plus_303 + v5_3);
+                    String _plus_305 = (_plus_304 + ")))");
+                    refConstraint_1.text = _plus_305;
                     refConstraint_1.variables.add(v3_4);
                     refConstraint_1.variables.add(v4_6);
                     refConstraint_1.variables.add(v5_3);
                   }
                 } else {
                   if ((multiple == false)) {
-                    String _encodeWord_50 = UseUtils.encodeWord(className);
-                    String _plus_293 = (_encodeWord_50 + ".allInstances()->exists(");
-                    String _plus_294 = (_plus_293 + v1);
-                    String _plus_295 = (_plus_294 + ", ");
-                    String _plus_296 = (_plus_295 + v3_4);
-                    String _plus_297 = (_plus_296 + " | ");
-                    String _plus_298 = (_plus_297 + v1);
-                    String _plus_299 = (_plus_298 + ".");
-                    String _encodeWord_51 = UseUtils.encodeWord(ref1Name);
-                    String _plus_300 = (_plus_299 + _encodeWord_51);
-                    String _plus_301 = (_plus_300 + " ");
-                    String _plus_302 = (_plus_301 + operator_1);
-                    String _plus_303 = (_plus_302 + " ");
-                    String _plus_304 = (_plus_303 + v3_4);
-                    String _plus_305 = (_plus_304 + ".");
-                    String _encodeWord_52 = UseUtils.encodeWord(ref2Name);
-                    String _plus_306 = (_plus_305 + _encodeWord_52);
-                    String _plus_307 = (_plus_306 + ")");
-                    refConstraint_1.text = _plus_307;
+                    String _encodeWord_53 = UseUtils.encodeWord(className);
+                    String _plus_306 = (_encodeWord_53 + ".allInstances()->exists(");
+                    String _plus_307 = (_plus_306 + v1);
+                    String _plus_308 = (_plus_307 + ", ");
+                    String _plus_309 = (_plus_308 + v3_4);
+                    String _plus_310 = (_plus_309 + " | ");
+                    String _plus_311 = (_plus_310 + v1);
+                    String _plus_312 = (_plus_311 + ".");
+                    String _encodeWord_54 = UseUtils.encodeWord(ref1Name);
+                    String _plus_313 = (_plus_312 + _encodeWord_54);
+                    String _plus_314 = (_plus_313 + " ");
+                    String _plus_315 = (_plus_314 + operator_1);
+                    String _plus_316 = (_plus_315 + " ");
+                    String _plus_317 = (_plus_316 + v3_4);
+                    String _plus_318 = (_plus_317 + ".");
+                    String _encodeWord_55 = UseUtils.encodeWord(ref2Name);
+                    String _plus_319 = (_plus_318 + _encodeWord_55);
+                    String _plus_320 = (_plus_319 + ")");
+                    refConstraint_1.text = _plus_320;
                     refConstraint_1.variables.add(v1);
                     refConstraint_1.variables.add(v3_4);
                   } else {
                     String _substring_31 = className.substring(0, 1);
                     String _lowerCase_30 = _substring_31.toLowerCase();
                     String v4_7 = (_lowerCase_30 + "3");
-                    String _encodeWord_53 = UseUtils.encodeWord(className);
-                    String _plus_308 = (_encodeWord_53 + ".allInstances()->exists(");
-                    String _plus_309 = (_plus_308 + v1);
-                    String _plus_310 = (_plus_309 + ", ");
-                    String _plus_311 = (_plus_310 + v3_4);
-                    String _plus_312 = (_plus_311 + " | ");
-                    String _plus_313 = (_plus_312 + v1);
-                    String _plus_314 = (_plus_313 + ".");
-                    String _encodeWord_54 = UseUtils.encodeWord(ref1Name);
-                    String _plus_315 = (_plus_314 + _encodeWord_54);
-                    String _plus_316 = (_plus_315 + "->exists(");
-                    String _plus_317 = (_plus_316 + v4_7);
-                    String _plus_318 = (_plus_317 + " | ");
-                    String _plus_319 = (_plus_318 + v3_4);
-                    String _plus_320 = (_plus_319 + ".");
-                    String _encodeWord_55 = UseUtils.encodeWord(ref2Name);
-                    String _plus_321 = (_plus_320 + _encodeWord_55);
-                    String _plus_322 = (_plus_321 + " ");
-                    String _plus_323 = (_plus_322 + operator_1);
-                    String _plus_324 = (_plus_323 + " ");
-                    String _plus_325 = (_plus_324 + v4_7);
-                    String _plus_326 = (_plus_325 + "))");
-                    refConstraint_1.text = _plus_326;
+                    String _encodeWord_56 = UseUtils.encodeWord(className);
+                    String _plus_321 = (_encodeWord_56 + ".allInstances()->exists(");
+                    String _plus_322 = (_plus_321 + v1);
+                    String _plus_323 = (_plus_322 + ", ");
+                    String _plus_324 = (_plus_323 + v3_4);
+                    String _plus_325 = (_plus_324 + " | ");
+                    String _plus_326 = (_plus_325 + v1);
+                    String _plus_327 = (_plus_326 + ".");
+                    String _encodeWord_57 = UseUtils.encodeWord(ref1Name);
+                    String _plus_328 = (_plus_327 + _encodeWord_57);
+                    String _plus_329 = (_plus_328 + "->exists(");
+                    String _plus_330 = (_plus_329 + v4_7);
+                    String _plus_331 = (_plus_330 + " | ");
+                    String _plus_332 = (_plus_331 + v3_4);
+                    String _plus_333 = (_plus_332 + ".");
+                    String _encodeWord_58 = UseUtils.encodeWord(ref2Name);
+                    String _plus_334 = (_plus_333 + _encodeWord_58);
+                    String _plus_335 = (_plus_334 + " ");
+                    String _plus_336 = (_plus_335 + operator_1);
+                    String _plus_337 = (_plus_336 + " ");
+                    String _plus_338 = (_plus_337 + v4_7);
+                    String _plus_339 = (_plus_338 + "))");
+                    refConstraint_1.text = _plus_339;
                     refConstraint_1.variables.add(v1);
                     refConstraint_1.variables.add(v3_4);
                     refConstraint_1.variables.add(v4_7);
@@ -3819,20 +3851,20 @@ public class WodelUseGenerator implements IGenerator {
           boolean _and_15 = false;
           boolean _and_16 = false;
           WodelUseGenerator.Constraint _constraint_10 = this.getConstraint(constraints, refConstraint_1);
-          boolean _equals_30 = Objects.equal(_constraint_10, null);
-          if (!_equals_30) {
+          boolean _equals_31 = Objects.equal(_constraint_10, null);
+          if (!_equals_31) {
             _and_16 = false;
           } else {
             int _length_5 = refConstraint_1.text.length();
-            boolean _greaterThan_6 = (_length_5 > 0);
-            _and_16 = _greaterThan_6;
+            boolean _greaterThan_7 = (_length_5 > 0);
+            _and_16 = _greaterThan_7;
           }
           if (!_and_16) {
             _and_15 = false;
           } else {
             WodelUseGenerator.Constraint _constraint_11 = this.getConstraint(expConstraints, refConstraint_1);
-            boolean _equals_31 = Objects.equal(_constraint_11, null);
-            _and_15 = _equals_31;
+            boolean _equals_32 = Objects.equal(_constraint_11, null);
+            _and_15 = _equals_32;
           }
           if (_and_15) {
             expConstraints.add(refConstraint_1);
@@ -3856,139 +3888,139 @@ public class WodelUseGenerator implements IGenerator {
             Operator _operator_5 = ((AttributeType) _value_19).getOperator();
             String _literal_10 = _operator_5.getLiteral();
             String _literal_11 = Operator.EQUALS.getLiteral();
-            boolean _equals_32 = _literal_10.equals(_literal_11);
-            if (_equals_32) {
+            boolean _equals_33 = _literal_10.equals(_literal_11);
+            if (_equals_33) {
               operator_2 = "=";
             }
             AttributeEvaluationType _value_20 = attev_1.getValue();
             Operator _operator_6 = ((AttributeType) _value_20).getOperator();
             String _literal_12 = _operator_6.getLiteral();
             String _literal_13 = Operator.DIFFERENT.getLiteral();
-            boolean _equals_33 = _literal_12.equals(_literal_13);
-            if (_equals_33) {
+            boolean _equals_34 = _literal_12.equals(_literal_13);
+            if (_equals_34) {
               operator_2 = "<>";
             }
             AttributeEvaluationType _value_21 = attev_1.getValue();
             if ((_value_21 instanceof StringType)) {
-              String _encodeWord_56 = UseUtils.encodeWord(className);
-              String _plus_327 = (_encodeWord_56 + ".allInstances()->exists(");
+              String _encodeWord_59 = UseUtils.encodeWord(className);
+              String _plus_340 = (_encodeWord_59 + ".allInstances()->exists(");
               String _substring_32 = className.substring(0, 1);
               String _lowerCase_31 = _substring_32.toLowerCase();
-              String _plus_328 = (_plus_327 + _lowerCase_31);
-              String _plus_329 = (_plus_328 + " | ");
+              String _plus_341 = (_plus_340 + _lowerCase_31);
+              String _plus_342 = (_plus_341 + " | ");
               String _substring_33 = className.substring(0, 1);
               String _lowerCase_32 = _substring_33.toLowerCase();
-              String _plus_330 = (_plus_329 + _lowerCase_32);
-              String _plus_331 = (_plus_330 + ".");
+              String _plus_343 = (_plus_342 + _lowerCase_32);
+              String _plus_344 = (_plus_343 + ".");
               EAttribute _name_21 = attev_1.getName();
               String _name_22 = _name_21.getName();
-              String _encodeWord_57 = UseUtils.encodeWord(_name_22);
-              String _plus_332 = (_plus_331 + _encodeWord_57);
-              String _plus_333 = (_plus_332 + " ");
-              String _plus_334 = (_plus_333 + operator_2);
-              String _plus_335 = (_plus_334 + " \'");
+              String _encodeWord_60 = UseUtils.encodeWord(_name_22);
+              String _plus_345 = (_plus_344 + _encodeWord_60);
+              String _plus_346 = (_plus_345 + " ");
+              String _plus_347 = (_plus_346 + operator_2);
+              String _plus_348 = (_plus_347 + " \'");
               AttributeEvaluationType _value_22 = attev_1.getValue();
               String _value_23 = ((SpecificStringType) _value_22).getValue();
-              String _plus_336 = (_plus_335 + _value_23);
-              String _plus_337 = (_plus_336 + "\')");
-              attConstraint_1.text = _plus_337;
+              String _plus_349 = (_plus_348 + _value_23);
+              String _plus_350 = (_plus_349 + "\')");
+              attConstraint_1.text = _plus_350;
               String _substring_34 = className.substring(0, 1);
               String _lowerCase_33 = _substring_34.toLowerCase();
               attConstraint_1.variables.add(_lowerCase_33);
             }
             AttributeEvaluationType _value_24 = attev_1.getValue();
             if ((_value_24 instanceof DoubleType)) {
-              String _encodeWord_58 = UseUtils.encodeWord(className);
-              String _plus_338 = (_encodeWord_58 + ".allInstances()->exists(");
+              String _encodeWord_61 = UseUtils.encodeWord(className);
+              String _plus_351 = (_encodeWord_61 + ".allInstances()->exists(");
               String _substring_35 = className.substring(0, 1);
               String _lowerCase_34 = _substring_35.toLowerCase();
-              String _plus_339 = (_plus_338 + _lowerCase_34);
-              String _plus_340 = (_plus_339 + " | ");
+              String _plus_352 = (_plus_351 + _lowerCase_34);
+              String _plus_353 = (_plus_352 + " | ");
               String _substring_36 = className.substring(0, 1);
               String _lowerCase_35 = _substring_36.toLowerCase();
-              String _plus_341 = (_plus_340 + _lowerCase_35);
-              String _plus_342 = (_plus_341 + ".");
+              String _plus_354 = (_plus_353 + _lowerCase_35);
+              String _plus_355 = (_plus_354 + ".");
               EAttribute _name_23 = attev_1.getName();
               String _name_24 = _name_23.getName();
-              String _encodeWord_59 = UseUtils.encodeWord(_name_24);
-              String _plus_343 = (_plus_342 + _encodeWord_59);
-              String _plus_344 = (_plus_343 + " ");
-              String _plus_345 = (_plus_344 + operator_2);
-              String _plus_346 = (_plus_345 + " ");
+              String _encodeWord_62 = UseUtils.encodeWord(_name_24);
+              String _plus_356 = (_plus_355 + _encodeWord_62);
+              String _plus_357 = (_plus_356 + " ");
+              String _plus_358 = (_plus_357 + operator_2);
+              String _plus_359 = (_plus_358 + " ");
               AttributeEvaluationType _value_25 = attev_1.getValue();
               double _value_26 = ((SpecificDoubleType) _value_25).getValue();
-              String _plus_347 = (_plus_346 + Double.valueOf(_value_26));
-              String _plus_348 = (_plus_347 + ")");
-              attConstraint_1.text = _plus_348;
+              String _plus_360 = (_plus_359 + Double.valueOf(_value_26));
+              String _plus_361 = (_plus_360 + ")");
+              attConstraint_1.text = _plus_361;
               String _substring_37 = className.substring(0, 1);
               String _lowerCase_36 = _substring_37.toLowerCase();
               attConstraint_1.variables.add(_lowerCase_36);
             }
             AttributeEvaluationType _value_27 = attev_1.getValue();
             if ((_value_27 instanceof BooleanType)) {
-              String _encodeWord_60 = UseUtils.encodeWord(className);
-              String _plus_349 = (_encodeWord_60 + ".allInstances()->exists(");
+              String _encodeWord_63 = UseUtils.encodeWord(className);
+              String _plus_362 = (_encodeWord_63 + ".allInstances()->exists(");
               String _substring_38 = className.substring(0, 1);
               String _lowerCase_37 = _substring_38.toLowerCase();
-              String _plus_350 = (_plus_349 + _lowerCase_37);
-              String _plus_351 = (_plus_350 + " | ");
+              String _plus_363 = (_plus_362 + _lowerCase_37);
+              String _plus_364 = (_plus_363 + " | ");
               String _substring_39 = className.substring(0, 1);
               String _lowerCase_38 = _substring_39.toLowerCase();
-              String _plus_352 = (_plus_351 + _lowerCase_38);
-              String _plus_353 = (_plus_352 + ".");
+              String _plus_365 = (_plus_364 + _lowerCase_38);
+              String _plus_366 = (_plus_365 + ".");
               EAttribute _name_25 = attev_1.getName();
               String _name_26 = _name_25.getName();
-              String _encodeWord_61 = UseUtils.encodeWord(_name_26);
-              String _plus_354 = (_plus_353 + _encodeWord_61);
-              String _plus_355 = (_plus_354 + " ");
-              String _plus_356 = (_plus_355 + operator_2);
-              String _plus_357 = (_plus_356 + " ");
+              String _encodeWord_64 = UseUtils.encodeWord(_name_26);
+              String _plus_367 = (_plus_366 + _encodeWord_64);
+              String _plus_368 = (_plus_367 + " ");
+              String _plus_369 = (_plus_368 + operator_2);
+              String _plus_370 = (_plus_369 + " ");
               AttributeEvaluationType _value_28 = attev_1.getValue();
               boolean _isValue_1 = ((SpecificBooleanType) _value_28).isValue();
-              String _plus_358 = (_plus_357 + Boolean.valueOf(_isValue_1));
-              String _plus_359 = (_plus_358 + ")");
-              attConstraint_1.text = _plus_359;
+              String _plus_371 = (_plus_370 + Boolean.valueOf(_isValue_1));
+              String _plus_372 = (_plus_371 + ")");
+              attConstraint_1.text = _plus_372;
               String _substring_40 = className.substring(0, 1);
               String _lowerCase_39 = _substring_40.toLowerCase();
               attConstraint_1.variables.add(_lowerCase_39);
             }
             AttributeEvaluationType _value_29 = attev_1.getValue();
             if ((_value_29 instanceof IntegerType)) {
-              String _encodeWord_62 = UseUtils.encodeWord(className);
-              String _plus_360 = (_encodeWord_62 + ".allInstances()->exists(");
+              String _encodeWord_65 = UseUtils.encodeWord(className);
+              String _plus_373 = (_encodeWord_65 + ".allInstances()->exists(");
               String _substring_41 = className.substring(0, 1);
               String _lowerCase_40 = _substring_41.toLowerCase();
-              String _plus_361 = (_plus_360 + _lowerCase_40);
-              String _plus_362 = (_plus_361 + " | ");
+              String _plus_374 = (_plus_373 + _lowerCase_40);
+              String _plus_375 = (_plus_374 + " | ");
               String _substring_42 = className.substring(0, 1);
               String _lowerCase_41 = _substring_42.toLowerCase();
-              String _plus_363 = (_plus_362 + _lowerCase_41);
-              String _plus_364 = (_plus_363 + ".");
+              String _plus_376 = (_plus_375 + _lowerCase_41);
+              String _plus_377 = (_plus_376 + ".");
               EAttribute _name_27 = attev_1.getName();
               String _name_28 = _name_27.getName();
-              String _encodeWord_63 = UseUtils.encodeWord(_name_28);
-              String _plus_365 = (_plus_364 + _encodeWord_63);
-              String _plus_366 = (_plus_365 + " ");
-              String _plus_367 = (_plus_366 + operator_2);
-              String _plus_368 = (_plus_367 + " ");
+              String _encodeWord_66 = UseUtils.encodeWord(_name_28);
+              String _plus_378 = (_plus_377 + _encodeWord_66);
+              String _plus_379 = (_plus_378 + " ");
+              String _plus_380 = (_plus_379 + operator_2);
+              String _plus_381 = (_plus_380 + " ");
               AttributeEvaluationType _value_30 = attev_1.getValue();
               int _value_31 = ((SpecificIntegerType) _value_30).getValue();
-              String _plus_369 = (_plus_368 + Integer.valueOf(_value_31));
-              String _plus_370 = (_plus_369 + ")");
-              attConstraint_1.text = _plus_370;
+              String _plus_382 = (_plus_381 + Integer.valueOf(_value_31));
+              String _plus_383 = (_plus_382 + ")");
+              attConstraint_1.text = _plus_383;
               String _substring_43 = className.substring(0, 1);
               String _lowerCase_42 = _substring_43.toLowerCase();
               attConstraint_1.variables.add(_lowerCase_42);
             }
             boolean _and_17 = false;
             WodelUseGenerator.Constraint _constraint_12 = this.getConstraint(constraints, attConstraint_1);
-            boolean _equals_34 = Objects.equal(_constraint_12, null);
-            if (!_equals_34) {
+            boolean _equals_35 = Objects.equal(_constraint_12, null);
+            if (!_equals_35) {
               _and_17 = false;
             } else {
               WodelUseGenerator.Constraint _constraint_13 = this.getConstraint(expConstraints, attConstraint_1);
-              boolean _equals_35 = Objects.equal(_constraint_13, null);
-              _and_17 = _equals_35;
+              boolean _equals_36 = Objects.equal(_constraint_13, null);
+              _and_17 = _equals_36;
             }
             if (_and_17) {
               expConstraints.add(attConstraint_1);
@@ -4006,27 +4038,27 @@ public class WodelUseGenerator implements IGenerator {
             Operator _operator_7 = refev_1.getOperator();
             String _literal_14 = _operator_7.getLiteral();
             String _literal_15 = Operator.EQUALS.getLiteral();
-            boolean _equals_36 = _literal_14.equals(_literal_15);
-            if (_equals_36) {
+            boolean _equals_37 = _literal_14.equals(_literal_15);
+            if (_equals_37) {
               operator_3 = "=";
             }
             Operator _operator_8 = refev_1.getOperator();
             String _literal_16 = _operator_8.getLiteral();
             String _literal_17 = Operator.DIFFERENT.getLiteral();
-            boolean _equals_37 = _literal_16.equals(_literal_17);
-            if (_equals_37) {
+            boolean _equals_38 = _literal_16.equals(_literal_17);
+            if (_equals_38) {
               operator_3 = "<>";
             }
             Operator _operator_9 = refev_1.getOperator();
             String _literal_18 = _operator_9.getLiteral();
             String _literal_19 = Operator.IN.getLiteral();
-            boolean _equals_38 = _literal_18.equals(_literal_19);
-            if (_equals_38) {
+            boolean _equals_39 = _literal_18.equals(_literal_19);
+            if (_equals_39) {
               operator_3 = "=";
             }
             EReference _name_29 = refev_1.getName();
-            boolean _equals_39 = Objects.equal(_name_29, null);
-            if (_equals_39) {
+            boolean _equals_40 = Objects.equal(_name_29, null);
+            if (_equals_40) {
               WodelUseGenerator.Constraint refConstraint_2 = new WodelUseGenerator.Constraint();
               refConstraint_2.type = "exists";
               refConstraint_2.className = className;
@@ -4054,12 +4086,12 @@ public class WodelUseGenerator implements IGenerator {
                   List<WodelUseGenerator.Constraint> referedConstraints_1 = _get_7.get(_name_31);
                   for (final WodelUseGenerator.Constraint referedConstraint_1 : referedConstraints_1) {
                     boolean _and_19 = false;
-                    boolean _equals_40 = referedConstraint_1.type.equals("exists");
-                    if (!_equals_40) {
+                    boolean _equals_41 = referedConstraint_1.type.equals("exists");
+                    if (!_equals_41) {
                       _and_19 = false;
                     } else {
-                      boolean _equals_41 = referedConstraint_1.className.equals(className);
-                      _and_19 = _equals_41;
+                      boolean _equals_42 = referedConstraint_1.className.equals(className);
+                      _and_19 = _equals_42;
                     }
                     if (_and_19) {
                       String vref_1 = referedConstraint_1.variables.get(0);
@@ -4069,34 +4101,34 @@ public class WodelUseGenerator implements IGenerator {
                       int _length_6 = constraintText_1.length();
                       int _minus_1 = (_length_6 - 1);
                       String _substring_46 = constraintText_1.substring(0, _minus_1);
-                      String _plus_371 = ((((className + ".allInstances()->exists(") + v1_1) + " | ") + _substring_46);
-                      String _plus_372 = (_plus_371 + " and ");
-                      String _plus_373 = (_plus_372 + v1_1);
-                      String _plus_374 = (_plus_373 + " ");
-                      String _plus_375 = (_plus_374 + operator_3);
-                      String _plus_376 = (_plus_375 + " ");
-                      String _plus_377 = (_plus_376 + v2_1);
-                      String _plus_378 = (_plus_377 + "))");
-                      refConstraint_2.text = _plus_378;
+                      String _plus_384 = ((((className + ".allInstances()->exists(") + v1_1) + " | ") + _substring_46);
+                      String _plus_385 = (_plus_384 + " and ");
+                      String _plus_386 = (_plus_385 + v1_1);
+                      String _plus_387 = (_plus_386 + " ");
+                      String _plus_388 = (_plus_387 + operator_3);
+                      String _plus_389 = (_plus_388 + " ");
+                      String _plus_390 = (_plus_389 + v2_1);
+                      String _plus_391 = (_plus_390 + "))");
+                      refConstraint_2.text = _plus_391;
                       refConstraint_2.variables.add(v1_1);
                       refConstraint_2.variables.add(v2_1);
                       boolean _and_20 = false;
                       boolean _and_21 = false;
                       WodelUseGenerator.Constraint _constraint_14 = this.getConstraint(constraints, refConstraint_2);
-                      boolean _equals_42 = Objects.equal(_constraint_14, null);
-                      if (!_equals_42) {
+                      boolean _equals_43 = Objects.equal(_constraint_14, null);
+                      if (!_equals_43) {
                         _and_21 = false;
                       } else {
                         int _length_7 = refConstraint_2.text.length();
-                        boolean _greaterThan_7 = (_length_7 > 0);
-                        _and_21 = _greaterThan_7;
+                        boolean _greaterThan_8 = (_length_7 > 0);
+                        _and_21 = _greaterThan_8;
                       }
                       if (!_and_21) {
                         _and_20 = false;
                       } else {
                         WodelUseGenerator.Constraint _constraint_15 = this.getConstraint(expConstraints, refConstraint_2);
-                        boolean _equals_43 = Objects.equal(_constraint_15, null);
-                        _and_20 = _equals_43;
+                        boolean _equals_44 = Objects.equal(_constraint_15, null);
+                        _and_20 = _equals_44;
                       }
                       if (_and_20) {
                         expConstraints.add(refConstraint_2);
@@ -4104,39 +4136,39 @@ public class WodelUseGenerator implements IGenerator {
                     }
                   }
                 } else {
-                  String _encodeWord_64 = UseUtils.encodeWord(className);
-                  String _plus_379 = (_encodeWord_64 + ".allInstances()->exists(");
-                  String _plus_380 = (_plus_379 + v1_1);
-                  String _plus_381 = (_plus_380 + ", ");
-                  String _plus_382 = (_plus_381 + v2_1);
-                  String _plus_383 = (_plus_382 + " | ");
-                  String _plus_384 = (_plus_383 + v1_1);
-                  String _plus_385 = (_plus_384 + " ");
-                  String _plus_386 = (_plus_385 + operator_3);
-                  String _plus_387 = (_plus_386 + " ");
-                  String _plus_388 = (_plus_387 + v2_1);
-                  String _plus_389 = (_plus_388 + ")");
-                  refConstraint_2.text = _plus_389;
+                  String _encodeWord_67 = UseUtils.encodeWord(className);
+                  String _plus_392 = (_encodeWord_67 + ".allInstances()->exists(");
+                  String _plus_393 = (_plus_392 + v1_1);
+                  String _plus_394 = (_plus_393 + ", ");
+                  String _plus_395 = (_plus_394 + v2_1);
+                  String _plus_396 = (_plus_395 + " | ");
+                  String _plus_397 = (_plus_396 + v1_1);
+                  String _plus_398 = (_plus_397 + " ");
+                  String _plus_399 = (_plus_398 + operator_3);
+                  String _plus_400 = (_plus_399 + " ");
+                  String _plus_401 = (_plus_400 + v2_1);
+                  String _plus_402 = (_plus_401 + ")");
+                  refConstraint_2.text = _plus_402;
                   refConstraint_2.variables.add(v1_1);
                   refConstraint_2.variables.add(v2_1);
                   System.out.println(refConstraint_2.text);
                   boolean _and_22 = false;
                   boolean _and_23 = false;
                   WodelUseGenerator.Constraint _constraint_16 = this.getConstraint(constraints, refConstraint_2);
-                  boolean _equals_44 = Objects.equal(_constraint_16, null);
-                  if (!_equals_44) {
+                  boolean _equals_45 = Objects.equal(_constraint_16, null);
+                  if (!_equals_45) {
                     _and_23 = false;
                   } else {
                     int _length_8 = refConstraint_2.text.length();
-                    boolean _greaterThan_8 = (_length_8 > 0);
-                    _and_23 = _greaterThan_8;
+                    boolean _greaterThan_9 = (_length_8 > 0);
+                    _and_23 = _greaterThan_9;
                   }
                   if (!_and_23) {
                     _and_22 = false;
                   } else {
                     WodelUseGenerator.Constraint _constraint_17 = this.getConstraint(expConstraints, refConstraint_2);
-                    boolean _equals_45 = Objects.equal(_constraint_17, null);
-                    _and_22 = _equals_45;
+                    boolean _equals_46 = Objects.equal(_constraint_17, null);
+                    _and_22 = _equals_46;
                   }
                   if (_and_22) {
                     this.include(expConstraints, refConstraint_2);
@@ -4149,20 +4181,20 @@ public class WodelUseGenerator implements IGenerator {
                 boolean _and_24 = false;
                 boolean _and_25 = false;
                 WodelUseGenerator.Constraint _constraint_18 = this.getConstraint(constraints, refConstraint_2);
-                boolean _equals_46 = Objects.equal(_constraint_18, null);
-                if (!_equals_46) {
+                boolean _equals_47 = Objects.equal(_constraint_18, null);
+                if (!_equals_47) {
                   _and_25 = false;
                 } else {
                   int _length_9 = refConstraint_2.text.length();
-                  boolean _greaterThan_9 = (_length_9 > 0);
-                  _and_25 = _greaterThan_9;
+                  boolean _greaterThan_10 = (_length_9 > 0);
+                  _and_25 = _greaterThan_10;
                 }
                 if (!_and_25) {
                   _and_24 = false;
                 } else {
                   WodelUseGenerator.Constraint _constraint_19 = this.getConstraint(expConstraints, refConstraint_2);
-                  boolean _equals_47 = Objects.equal(_constraint_19, null);
-                  _and_24 = _equals_47;
+                  boolean _equals_48 = Objects.equal(_constraint_19, null);
+                  _and_24 = _equals_48;
                 }
                 if (_and_24) {
                   expConstraints.add(refConstraint_2);
@@ -4171,91 +4203,123 @@ public class WodelUseGenerator implements IGenerator {
             } else {
               EReference _name_32 = refev_1.getName();
               String refName_1 = UseUtils.getUseReference(_name_32, this.useReferences);
-              boolean _or_2 = false;
+              boolean _or_3 = false;
               EReference _name_33 = refev_1.getName();
-              int _upperBound_4 = _name_33.getUpperBound();
-              boolean _greaterThan_10 = (_upperBound_4 > 1);
-              if (_greaterThan_10) {
-                _or_2 = true;
+              int _upperBound_6 = _name_33.getUpperBound();
+              boolean _greaterThan_11 = (_upperBound_6 > 1);
+              if (_greaterThan_11) {
+                _or_3 = true;
               } else {
                 EReference _name_34 = refev_1.getName();
-                int _upperBound_5 = _name_34.getUpperBound();
-                boolean _equals_48 = (_upperBound_5 == (-1));
-                _or_2 = _equals_48;
+                int _upperBound_7 = _name_34.getUpperBound();
+                boolean _equals_49 = (_upperBound_7 == (-1));
+                _or_3 = _equals_49;
               }
-              boolean multiple_1 = _or_2;
+              boolean multiple_1 = _or_3;
               WodelUseGenerator.Constraint refConstraint_3 = new WodelUseGenerator.Constraint();
               refConstraint_3.className = className;
               ObSelectionStrategy _value_34 = refev_1.getValue();
-              boolean _equals_49 = Objects.equal(_value_34, null);
-              if (_equals_49) {
-                boolean _equals_50 = operator_3.equals("<>");
-                if (_equals_50) {
+              boolean _equals_50 = Objects.equal(_value_34, null);
+              if (_equals_50) {
+                boolean _equals_51 = operator_3.equals("<>");
+                if (_equals_51) {
                   refConstraint_3.type = "exists";
-                  EReference _refName_5 = refev_1.getRefName();
-                  boolean _equals_51 = Objects.equal(_refName_5, null);
-                  if (_equals_51) {
-                    String _encodeWord_65 = UseUtils.encodeWord(className);
-                    String _plus_390 = (_encodeWord_65 + ".allInstances()->exists(");
-                    String _plus_391 = (_plus_390 + v1_1);
-                    String _plus_392 = (_plus_391 + " | ");
-                    String _plus_393 = (_plus_392 + v1_1);
-                    String _plus_394 = (_plus_393 + ".");
-                    String _encodeWord_66 = UseUtils.encodeWord(refName_1);
-                    String _plus_395 = (_plus_394 + _encodeWord_66);
-                    String _plus_396 = (_plus_395 + " ");
-                    String _plus_397 = (_plus_396 + operator_3);
-                    String _plus_398 = (_plus_397 + " null)");
-                    refConstraint_3.text = _plus_398;
+                  EReference _refName_7 = refev_1.getRefName();
+                  boolean _equals_52 = Objects.equal(_refName_7, null);
+                  if (_equals_52) {
+                    String _encodeWord_68 = UseUtils.encodeWord(className);
+                    String _plus_403 = (_encodeWord_68 + ".allInstances()->exists(");
+                    String _plus_404 = (_plus_403 + v1_1);
+                    String _plus_405 = (_plus_404 + " | ");
+                    String _plus_406 = (_plus_405 + v1_1);
+                    String _plus_407 = (_plus_406 + ".");
+                    String _encodeWord_69 = UseUtils.encodeWord(refName_1);
+                    String _plus_408 = (_plus_407 + _encodeWord_69);
+                    String _plus_409 = (_plus_408 + " ");
+                    String _plus_410 = (_plus_409 + operator_3);
+                    String _plus_411 = (_plus_410 + " null)");
+                    refConstraint_3.text = _plus_411;
                     refConstraint_3.variables.add(v1_1);
                   } else {
-                    EReference _refName_6 = refev_1.getRefName();
-                    EClassifier _eType_2 = _refName_6.getEType();
+                    EReference _refName_8 = refev_1.getRefName();
+                    EClassifier _eType_2 = _refName_8.getEType();
                     String _name_35 = _eType_2.getName();
                     String _substring_47 = _name_35.substring(0, 1);
                     String _lowerCase_45 = _substring_47.toLowerCase();
                     String v3_5 = (_lowerCase_45 + "2");
-                    EReference _refName_7 = refev_1.getRefName();
-                    String innerRefName_1 = UseUtils.getUseReference(_refName_7, this.useReferences);
-                    String _encodeWord_67 = UseUtils.encodeWord(className);
-                    String _plus_399 = (_encodeWord_67 + ".allInstances()->exists(");
-                    String _plus_400 = (_plus_399 + v1_1);
-                    String _plus_401 = (_plus_400 + " | ");
-                    String _plus_402 = (_plus_401 + v1_1);
-                    String _plus_403 = (_plus_402 + ".");
-                    String _encodeWord_68 = UseUtils.encodeWord(refName_1);
-                    String _plus_404 = (_plus_403 + _encodeWord_68);
-                    String _plus_405 = (_plus_404 + "->exists(");
-                    String _plus_406 = (_plus_405 + v3_5);
-                    String _plus_407 = (_plus_406 + " | ");
-                    String _plus_408 = (_plus_407 + v3_5);
-                    String _plus_409 = (_plus_408 + ".");
-                    String _encodeWord_69 = UseUtils.encodeWord(innerRefName_1);
-                    String _plus_410 = (_plus_409 + _encodeWord_69);
-                    String _plus_411 = (_plus_410 + " ");
-                    String _plus_412 = (_plus_411 + operator_3);
-                    String _plus_413 = (_plus_412 + " null))");
-                    refConstraint_3.text = _plus_413;
+                    EReference _refName_9 = refev_1.getRefName();
+                    String innerRefName_1 = UseUtils.getUseReference(_refName_9, this.useReferences);
+                    boolean _or_4 = false;
+                    EReference _refName_10 = refev_1.getRefName();
+                    int _upperBound_8 = _refName_10.getUpperBound();
+                    boolean _greaterThan_12 = (_upperBound_8 > 1);
+                    if (_greaterThan_12) {
+                      _or_4 = true;
+                    } else {
+                      EReference _refName_11 = refev_1.getRefName();
+                      int _upperBound_9 = _refName_11.getUpperBound();
+                      boolean _equals_53 = (_upperBound_9 == (-1));
+                      _or_4 = _equals_53;
+                    }
+                    if (_or_4) {
+                      String _encodeWord_70 = UseUtils.encodeWord(className);
+                      String _plus_412 = (_encodeWord_70 + ".allInstances()->exists(");
+                      String _plus_413 = (_plus_412 + v1_1);
+                      String _plus_414 = (_plus_413 + " | ");
+                      String _plus_415 = (_plus_414 + v1_1);
+                      String _plus_416 = (_plus_415 + ".");
+                      String _encodeWord_71 = UseUtils.encodeWord(refName_1);
+                      String _plus_417 = (_plus_416 + _encodeWord_71);
+                      String _plus_418 = (_plus_417 + "->exists(");
+                      String _plus_419 = (_plus_418 + v3_5);
+                      String _plus_420 = (_plus_419 + " | ");
+                      String _plus_421 = (_plus_420 + v3_5);
+                      String _plus_422 = (_plus_421 + ".");
+                      String _encodeWord_72 = UseUtils.encodeWord(innerRefName_1);
+                      String _plus_423 = (_plus_422 + _encodeWord_72);
+                      String _plus_424 = (_plus_423 + "->size() > 0))");
+                      refConstraint_3.text = _plus_424;
+                    } else {
+                      String _encodeWord_73 = UseUtils.encodeWord(className);
+                      String _plus_425 = (_encodeWord_73 + ".allInstances()->exists(");
+                      String _plus_426 = (_plus_425 + v1_1);
+                      String _plus_427 = (_plus_426 + " | ");
+                      String _plus_428 = (_plus_427 + v1_1);
+                      String _plus_429 = (_plus_428 + ".");
+                      String _encodeWord_74 = UseUtils.encodeWord(refName_1);
+                      String _plus_430 = (_plus_429 + _encodeWord_74);
+                      String _plus_431 = (_plus_430 + "->exists(");
+                      String _plus_432 = (_plus_431 + v3_5);
+                      String _plus_433 = (_plus_432 + " | ");
+                      String _plus_434 = (_plus_433 + v3_5);
+                      String _plus_435 = (_plus_434 + ".");
+                      String _encodeWord_75 = UseUtils.encodeWord(innerRefName_1);
+                      String _plus_436 = (_plus_435 + _encodeWord_75);
+                      String _plus_437 = (_plus_436 + " ");
+                      String _plus_438 = (_plus_437 + operator_3);
+                      String _plus_439 = (_plus_438 + " null))");
+                      refConstraint_3.text = _plus_439;
+                    }
                     refConstraint_3.variables.add(v1_1);
                     refConstraint_3.variables.add(v3_5);
                   }
                   boolean _and_26 = false;
                   boolean _and_27 = false;
                   WodelUseGenerator.Constraint _constraint_20 = this.getConstraint(constraints, refConstraint_3);
-                  boolean _equals_52 = Objects.equal(_constraint_20, null);
-                  if (!_equals_52) {
+                  boolean _equals_54 = Objects.equal(_constraint_20, null);
+                  if (!_equals_54) {
                     _and_27 = false;
                   } else {
                     int _length_10 = refConstraint_3.text.length();
-                    boolean _greaterThan_11 = (_length_10 > 0);
-                    _and_27 = _greaterThan_11;
+                    boolean _greaterThan_13 = (_length_10 > 0);
+                    _and_27 = _greaterThan_13;
                   }
                   if (!_and_27) {
                     _and_26 = false;
                   } else {
                     WodelUseGenerator.Constraint _constraint_21 = this.getConstraint(expConstraints, refConstraint_3);
-                    boolean _equals_53 = Objects.equal(_constraint_21, null);
-                    _and_26 = _equals_53;
+                    boolean _equals_55 = Objects.equal(_constraint_21, null);
+                    _and_26 = _equals_55;
                   }
                   if (_and_26) {
                     expConstraints.add(refConstraint_3);
@@ -4264,8 +4328,8 @@ public class WodelUseGenerator implements IGenerator {
               } else {
                 ObSelectionStrategy selection_3 = refev_1.getValue();
                 refConstraint_3.type = "exists";
-                boolean _equals_54 = operator_3.equals("IN");
-                if (_equals_54) {
+                boolean _equals_56 = operator_3.equals("IN");
+                if (_equals_56) {
                   if ((selection_3 instanceof SpecificObjectSelection)) {
                     String _substring_48 = className.substring(0, 1);
                     String _lowerCase_46 = _substring_48.toLowerCase();
@@ -4279,8 +4343,8 @@ public class WodelUseGenerator implements IGenerator {
                       ObSelectionStrategy _object_8 = ((SelectObjectMutator) _objSel_17).getObject();
                       EClass _type_9 = _object_8.getType();
                       String _name_36 = _type_9.getName();
-                      boolean _equals_55 = _name_36.equals(className);
-                      boolean _not_4 = (!_equals_55);
+                      boolean _equals_57 = _name_36.equals(className);
+                      boolean _not_4 = (!_equals_57);
                       _and_28 = _not_4;
                     }
                     if (_and_28) {
@@ -4302,30 +4366,30 @@ public class WodelUseGenerator implements IGenerator {
                         String _substring_50 = _name_37.substring(0, 1);
                         String _lowerCase_48 = _substring_50.toLowerCase();
                         String v5_4 = (_lowerCase_48 + "4");
-                        String _encodeWord_70 = UseUtils.encodeWord(className);
-                        String _plus_414 = (_encodeWord_70 + ".allInstances()->exists(");
-                        String _plus_415 = (_plus_414 + v3_6);
-                        String _plus_416 = (_plus_415 + " | ");
-                        String _encodeWord_71 = UseUtils.encodeWord(refClassName_4);
-                        String _plus_417 = (_plus_416 + _encodeWord_71);
-                        String _plus_418 = (_plus_417 + ".allInstances()->exists(");
-                        String _plus_419 = (_plus_418 + v4_8);
-                        String _plus_420 = (_plus_419 + " | ");
-                        String _plus_421 = (_plus_420 + v4_8);
-                        String _plus_422 = (_plus_421 + ".");
-                        String _encodeWord_72 = UseUtils.encodeWord(obRefTypeName_1);
-                        String _plus_423 = (_plus_422 + _encodeWord_72);
-                        String _plus_424 = (_plus_423 + "->exists(");
-                        String _plus_425 = (_plus_424 + v5_4);
-                        String _plus_426 = (_plus_425 + " | ");
-                        String _plus_427 = (_plus_426 + v5_4);
-                        String _plus_428 = (_plus_427 + " = ");
-                        String _plus_429 = (_plus_428 + v3_6);
-                        String _plus_430 = (_plus_429 + ".");
-                        String _encodeWord_73 = UseUtils.encodeWord(refName_1);
-                        String _plus_431 = (_plus_430 + _encodeWord_73);
-                        String _plus_432 = (_plus_431 + ")))");
-                        refConstraint_3.text = _plus_432;
+                        String _encodeWord_76 = UseUtils.encodeWord(className);
+                        String _plus_440 = (_encodeWord_76 + ".allInstances()->exists(");
+                        String _plus_441 = (_plus_440 + v3_6);
+                        String _plus_442 = (_plus_441 + " | ");
+                        String _encodeWord_77 = UseUtils.encodeWord(refClassName_4);
+                        String _plus_443 = (_plus_442 + _encodeWord_77);
+                        String _plus_444 = (_plus_443 + ".allInstances()->exists(");
+                        String _plus_445 = (_plus_444 + v4_8);
+                        String _plus_446 = (_plus_445 + " | ");
+                        String _plus_447 = (_plus_446 + v4_8);
+                        String _plus_448 = (_plus_447 + ".");
+                        String _encodeWord_78 = UseUtils.encodeWord(obRefTypeName_1);
+                        String _plus_449 = (_plus_448 + _encodeWord_78);
+                        String _plus_450 = (_plus_449 + "->exists(");
+                        String _plus_451 = (_plus_450 + v5_4);
+                        String _plus_452 = (_plus_451 + " | ");
+                        String _plus_453 = (_plus_452 + v5_4);
+                        String _plus_454 = (_plus_453 + " = ");
+                        String _plus_455 = (_plus_454 + v3_6);
+                        String _plus_456 = (_plus_455 + ".");
+                        String _encodeWord_79 = UseUtils.encodeWord(refName_1);
+                        String _plus_457 = (_plus_456 + _encodeWord_79);
+                        String _plus_458 = (_plus_457 + ")))");
+                        refConstraint_3.text = _plus_458;
                         refConstraint_3.variables.add(v3_6);
                         refConstraint_3.variables.add(v4_8);
                         refConstraint_3.variables.add(v5_4);
@@ -4343,69 +4407,69 @@ public class WodelUseGenerator implements IGenerator {
                     String _lowerCase_49 = _substring_51.toLowerCase();
                     String v3_7 = (_lowerCase_49 + "2");
                     if ((multiple_1 == false)) {
-                      String _encodeWord_74 = UseUtils.encodeWord(className);
-                      String _plus_433 = (_encodeWord_74 + ".allInstances()->exists(");
-                      String _plus_434 = (_plus_433 + v1_1);
-                      String _plus_435 = (_plus_434 + " | ");
-                      String _encodeWord_75 = UseUtils.encodeWord(targetClassName_1);
-                      String _plus_436 = (_plus_435 + _encodeWord_75);
-                      String _plus_437 = (_plus_436 + ".allInstances()->exists(");
-                      String _plus_438 = (_plus_437 + v3_7);
-                      String _plus_439 = (_plus_438 + " | ");
-                      String _plus_440 = (_plus_439 + v1_1);
-                      String _plus_441 = (_plus_440 + ".");
-                      String _encodeWord_76 = UseUtils.encodeWord(refName_1);
-                      String _plus_442 = (_plus_441 + _encodeWord_76);
-                      String _plus_443 = (_plus_442 + " ");
-                      String _plus_444 = (_plus_443 + operator_3);
-                      String _plus_445 = (_plus_444 + " ");
-                      String _plus_446 = (_plus_445 + v3_7);
-                      String _plus_447 = (_plus_446 + "))");
-                      refConstraint_3.text = _plus_447;
+                      String _encodeWord_80 = UseUtils.encodeWord(className);
+                      String _plus_459 = (_encodeWord_80 + ".allInstances()->exists(");
+                      String _plus_460 = (_plus_459 + v1_1);
+                      String _plus_461 = (_plus_460 + " | ");
+                      String _encodeWord_81 = UseUtils.encodeWord(targetClassName_1);
+                      String _plus_462 = (_plus_461 + _encodeWord_81);
+                      String _plus_463 = (_plus_462 + ".allInstances()->exists(");
+                      String _plus_464 = (_plus_463 + v3_7);
+                      String _plus_465 = (_plus_464 + " | ");
+                      String _plus_466 = (_plus_465 + v1_1);
+                      String _plus_467 = (_plus_466 + ".");
+                      String _encodeWord_82 = UseUtils.encodeWord(refName_1);
+                      String _plus_468 = (_plus_467 + _encodeWord_82);
+                      String _plus_469 = (_plus_468 + " ");
+                      String _plus_470 = (_plus_469 + operator_3);
+                      String _plus_471 = (_plus_470 + " ");
+                      String _plus_472 = (_plus_471 + v3_7);
+                      String _plus_473 = (_plus_472 + "))");
+                      refConstraint_3.text = _plus_473;
                       refConstraint_3.variables.add(v1_1);
                       refConstraint_3.variables.add(v3_7);
                     } else {
                       String _substring_52 = targetClassName_1.substring(0, 1);
                       String _lowerCase_50 = _substring_52.toLowerCase();
                       String v4_9 = (_lowerCase_50 + "3");
-                      String _encodeWord_77 = UseUtils.encodeWord(className);
-                      String _plus_448 = (_encodeWord_77 + ".allInstances()->exists(");
-                      String _plus_449 = (_plus_448 + v1_1);
-                      String _plus_450 = (_plus_449 + " | ");
-                      String _encodeWord_78 = UseUtils.encodeWord(targetClassName_1);
-                      String _plus_451 = (_plus_450 + _encodeWord_78);
-                      String _plus_452 = (_plus_451 + ".allInstances()->exists(");
-                      String _plus_453 = (_plus_452 + v3_7);
-                      String _plus_454 = (_plus_453 + " | ");
-                      String _plus_455 = (_plus_454 + v1_1);
-                      String _plus_456 = (_plus_455 + ".");
-                      String _encodeWord_79 = UseUtils.encodeWord(refName_1);
-                      String _plus_457 = (_plus_456 + _encodeWord_79);
-                      String _plus_458 = (_plus_457 + "->exists(");
-                      String _plus_459 = (_plus_458 + v4_9);
-                      String _plus_460 = (_plus_459 + " | ");
-                      String _plus_461 = (_plus_460 + v3_7);
-                      String _plus_462 = (_plus_461 + " ");
-                      String _plus_463 = (_plus_462 + operator_3);
-                      String _plus_464 = (_plus_463 + " ");
-                      String _plus_465 = (_plus_464 + v4_9);
-                      String _plus_466 = (_plus_465 + "))");
-                      refConstraint_3.text = _plus_466;
+                      String _encodeWord_83 = UseUtils.encodeWord(className);
+                      String _plus_474 = (_encodeWord_83 + ".allInstances()->exists(");
+                      String _plus_475 = (_plus_474 + v1_1);
+                      String _plus_476 = (_plus_475 + " | ");
+                      String _encodeWord_84 = UseUtils.encodeWord(targetClassName_1);
+                      String _plus_477 = (_plus_476 + _encodeWord_84);
+                      String _plus_478 = (_plus_477 + ".allInstances()->exists(");
+                      String _plus_479 = (_plus_478 + v3_7);
+                      String _plus_480 = (_plus_479 + " | ");
+                      String _plus_481 = (_plus_480 + v1_1);
+                      String _plus_482 = (_plus_481 + ".");
+                      String _encodeWord_85 = UseUtils.encodeWord(refName_1);
+                      String _plus_483 = (_plus_482 + _encodeWord_85);
+                      String _plus_484 = (_plus_483 + "->exists(");
+                      String _plus_485 = (_plus_484 + v4_9);
+                      String _plus_486 = (_plus_485 + " | ");
+                      String _plus_487 = (_plus_486 + v3_7);
+                      String _plus_488 = (_plus_487 + " ");
+                      String _plus_489 = (_plus_488 + operator_3);
+                      String _plus_490 = (_plus_489 + " ");
+                      String _plus_491 = (_plus_490 + v4_9);
+                      String _plus_492 = (_plus_491 + "))");
+                      refConstraint_3.text = _plus_492;
                       refConstraint_3.variables.add(v1_1);
                       refConstraint_3.variables.add(v3_7);
                       refConstraint_3.variables.add(v4_9);
                     }
                   }
                   if ((selection_3 instanceof SpecificObjectSelection)) {
-                    EReference _refName_8 = refev_1.getRefName();
-                    boolean _equals_56 = Objects.equal(_refName_8, null);
-                    if (_equals_56) {
+                    EReference _refName_12 = refev_1.getRefName();
+                    boolean _equals_58 = Objects.equal(_refName_12, null);
+                    if (_equals_58) {
                       String _substring_53 = className.substring(0, 1);
                       String _lowerCase_51 = _substring_53.toLowerCase();
                       String v3_8 = (_lowerCase_51 + "2");
                       EReference _refType_11 = ((SpecificObjectSelection)selection_3).getRefType();
-                      boolean _equals_57 = Objects.equal(_refType_11, null);
-                      if (_equals_57) {
+                      boolean _equals_59 = Objects.equal(_refType_11, null);
+                      if (_equals_59) {
                         boolean _and_29 = false;
                         ObjectEmitter _objSel_19 = ((SpecificObjectSelection)selection_3).getObjSel();
                         if (!(_objSel_19 instanceof SelectObjectMutator)) {
@@ -4415,8 +4479,8 @@ public class WodelUseGenerator implements IGenerator {
                           ObSelectionStrategy _object_10 = ((SelectObjectMutator) _objSel_20).getObject();
                           EClass _type_12 = _object_10.getType();
                           String _name_39 = _type_12.getName();
-                          boolean _equals_58 = _name_39.equals(className);
-                          boolean _not_5 = (!_equals_58);
+                          boolean _equals_60 = _name_39.equals(className);
+                          boolean _not_5 = (!_equals_60);
                           _and_29 = _not_5;
                         }
                         if (_and_29) {
@@ -4428,20 +4492,20 @@ public class WodelUseGenerator implements IGenerator {
                           String _lowerCase_52 = _substring_54.toLowerCase();
                           String v4_10 = (_lowerCase_52 + "3");
                           if ((multiple_1 == false)) {
-                            String _encodeWord_80 = UseUtils.encodeWord(className);
-                            String _plus_467 = (_encodeWord_80 + ".allInstances()->exists(");
-                            String _plus_468 = (_plus_467 + v3_8);
-                            String _plus_469 = (_plus_468 + " | ");
-                            String _plus_470 = (_plus_469 + v3_8);
-                            String _plus_471 = (_plus_470 + ".");
-                            String _encodeWord_81 = UseUtils.encodeWord(refName_1);
-                            String _plus_472 = (_plus_471 + _encodeWord_81);
-                            String _plus_473 = (_plus_472 + " ");
-                            String _plus_474 = (_plus_473 + operator_3);
-                            String _plus_475 = (_plus_474 + " ");
-                            String _plus_476 = (_plus_475 + v4_10);
-                            String _plus_477 = (_plus_476 + ")");
-                            refConstraint_3.text = _plus_477;
+                            String _encodeWord_86 = UseUtils.encodeWord(className);
+                            String _plus_493 = (_encodeWord_86 + ".allInstances()->exists(");
+                            String _plus_494 = (_plus_493 + v3_8);
+                            String _plus_495 = (_plus_494 + " | ");
+                            String _plus_496 = (_plus_495 + v3_8);
+                            String _plus_497 = (_plus_496 + ".");
+                            String _encodeWord_87 = UseUtils.encodeWord(refName_1);
+                            String _plus_498 = (_plus_497 + _encodeWord_87);
+                            String _plus_499 = (_plus_498 + " ");
+                            String _plus_500 = (_plus_499 + operator_3);
+                            String _plus_501 = (_plus_500 + " ");
+                            String _plus_502 = (_plus_501 + v4_10);
+                            String _plus_503 = (_plus_502 + ")");
+                            refConstraint_3.text = _plus_503;
                             refConstraint_3.variables.add(v3_8);
                             refConstraint_3.variables.add(v4_10);
                             WodelUseGenerator.Constraint _join_2 = this.join(constraints, refConstraint_3, refClassName_5);
@@ -4450,24 +4514,24 @@ public class WodelUseGenerator implements IGenerator {
                             String _substring_55 = refClassName_5.substring(0, 1);
                             String _lowerCase_53 = _substring_55.toLowerCase();
                             String v5_5 = (_lowerCase_53 + "4");
-                            String _encodeWord_82 = UseUtils.encodeWord(className);
-                            String _plus_478 = (_encodeWord_82 + ".allInstances()->exists(");
-                            String _plus_479 = (_plus_478 + v3_8);
-                            String _plus_480 = (_plus_479 + " | ");
-                            String _plus_481 = (_plus_480 + v3_8);
-                            String _plus_482 = (_plus_481 + ".");
-                            String _encodeWord_83 = UseUtils.encodeWord(refName_1);
-                            String _plus_483 = (_plus_482 + _encodeWord_83);
-                            String _plus_484 = (_plus_483 + "->exists(");
-                            String _plus_485 = (_plus_484 + v5_5);
-                            String _plus_486 = (_plus_485 + " | ");
-                            String _plus_487 = (_plus_486 + v4_10);
-                            String _plus_488 = (_plus_487 + " ");
-                            String _plus_489 = (_plus_488 + operator_3);
-                            String _plus_490 = (_plus_489 + " ");
-                            String _plus_491 = (_plus_490 + v5_5);
-                            String _plus_492 = (_plus_491 + "))");
-                            refConstraint_3.text = _plus_492;
+                            String _encodeWord_88 = UseUtils.encodeWord(className);
+                            String _plus_504 = (_encodeWord_88 + ".allInstances()->exists(");
+                            String _plus_505 = (_plus_504 + v3_8);
+                            String _plus_506 = (_plus_505 + " | ");
+                            String _plus_507 = (_plus_506 + v3_8);
+                            String _plus_508 = (_plus_507 + ".");
+                            String _encodeWord_89 = UseUtils.encodeWord(refName_1);
+                            String _plus_509 = (_plus_508 + _encodeWord_89);
+                            String _plus_510 = (_plus_509 + "->exists(");
+                            String _plus_511 = (_plus_510 + v5_5);
+                            String _plus_512 = (_plus_511 + " | ");
+                            String _plus_513 = (_plus_512 + v4_10);
+                            String _plus_514 = (_plus_513 + " ");
+                            String _plus_515 = (_plus_514 + operator_3);
+                            String _plus_516 = (_plus_515 + " ");
+                            String _plus_517 = (_plus_516 + v5_5);
+                            String _plus_518 = (_plus_517 + "))");
+                            refConstraint_3.text = _plus_518;
                             refConstraint_3.variables.add(v3_8);
                             refConstraint_3.variables.add(v4_10);
                             refConstraint_3.variables.add(v5_5);
@@ -4476,44 +4540,44 @@ public class WodelUseGenerator implements IGenerator {
                           }
                         } else {
                           if ((multiple_1 == false)) {
-                            String _encodeWord_84 = UseUtils.encodeWord(className);
-                            String _plus_493 = (_encodeWord_84 + ".allInstances()->exists(");
-                            String _plus_494 = (_plus_493 + v1_1);
-                            String _plus_495 = (_plus_494 + ", ");
-                            refConstraint_3.text = _plus_495;
-                            String _encodeWord_85 = UseUtils.encodeWord(refName_1);
-                            String _plus_496 = ((((v3_8 + " | ") + v1_1) + ".") + _encodeWord_85);
-                            String _plus_497 = (_plus_496 + " ");
-                            String _plus_498 = (_plus_497 + operator_3);
-                            String _plus_499 = (_plus_498 + " ");
-                            String _plus_500 = (_plus_499 + v3_8);
-                            /* (_plus_500 + ")"); */
+                            String _encodeWord_90 = UseUtils.encodeWord(className);
+                            String _plus_519 = (_encodeWord_90 + ".allInstances()->exists(");
+                            String _plus_520 = (_plus_519 + v1_1);
+                            String _plus_521 = (_plus_520 + ", ");
+                            refConstraint_3.text = _plus_521;
+                            String _encodeWord_91 = UseUtils.encodeWord(refName_1);
+                            String _plus_522 = ((((v3_8 + " | ") + v1_1) + ".") + _encodeWord_91);
+                            String _plus_523 = (_plus_522 + " ");
+                            String _plus_524 = (_plus_523 + operator_3);
+                            String _plus_525 = (_plus_524 + " ");
+                            String _plus_526 = (_plus_525 + v3_8);
+                            /* (_plus_526 + ")"); */
                             refConstraint_3.variables.add(v1_1);
                             refConstraint_3.variables.add(v3_8);
                           } else {
                             String _substring_56 = className.substring(0, 1);
                             String _lowerCase_54 = _substring_56.toLowerCase();
                             String v4_11 = (_lowerCase_54 + "3");
-                            String _encodeWord_86 = UseUtils.encodeWord(className);
-                            String _plus_501 = (_encodeWord_86 + ".allInstances()->exists(");
-                            String _plus_502 = (_plus_501 + v1_1);
-                            String _plus_503 = (_plus_502 + ", ");
-                            String _plus_504 = (_plus_503 + v3_8);
-                            String _plus_505 = (_plus_504 + " | ");
-                            String _plus_506 = (_plus_505 + v1_1);
-                            String _plus_507 = (_plus_506 + ".");
-                            String _encodeWord_87 = UseUtils.encodeWord(refName_1);
-                            String _plus_508 = (_plus_507 + _encodeWord_87);
-                            String _plus_509 = (_plus_508 + "->exists(");
-                            String _plus_510 = (_plus_509 + v4_11);
-                            String _plus_511 = (_plus_510 + " | ");
-                            String _plus_512 = (_plus_511 + v3_8);
-                            String _plus_513 = (_plus_512 + " ");
-                            String _plus_514 = (_plus_513 + operator_3);
-                            String _plus_515 = (_plus_514 + " ");
-                            String _plus_516 = (_plus_515 + v4_11);
-                            String _plus_517 = (_plus_516 + "))");
-                            refConstraint_3.text = _plus_517;
+                            String _encodeWord_92 = UseUtils.encodeWord(className);
+                            String _plus_527 = (_encodeWord_92 + ".allInstances()->exists(");
+                            String _plus_528 = (_plus_527 + v1_1);
+                            String _plus_529 = (_plus_528 + ", ");
+                            String _plus_530 = (_plus_529 + v3_8);
+                            String _plus_531 = (_plus_530 + " | ");
+                            String _plus_532 = (_plus_531 + v1_1);
+                            String _plus_533 = (_plus_532 + ".");
+                            String _encodeWord_93 = UseUtils.encodeWord(refName_1);
+                            String _plus_534 = (_plus_533 + _encodeWord_93);
+                            String _plus_535 = (_plus_534 + "->exists(");
+                            String _plus_536 = (_plus_535 + v4_11);
+                            String _plus_537 = (_plus_536 + " | ");
+                            String _plus_538 = (_plus_537 + v3_8);
+                            String _plus_539 = (_plus_538 + " ");
+                            String _plus_540 = (_plus_539 + operator_3);
+                            String _plus_541 = (_plus_540 + " ");
+                            String _plus_542 = (_plus_541 + v4_11);
+                            String _plus_543 = (_plus_542 + "))");
+                            refConstraint_3.text = _plus_543;
                             refConstraint_3.variables.add(v1_1);
                             refConstraint_3.variables.add(v3_8);
                             refConstraint_3.variables.add(v4_11);
@@ -4529,8 +4593,8 @@ public class WodelUseGenerator implements IGenerator {
                           ObSelectionStrategy _object_12 = ((SelectObjectMutator) _objSel_23).getObject();
                           EClass _type_14 = _object_12.getType();
                           String _name_40 = _type_14.getName();
-                          boolean _equals_59 = _name_40.equals(className);
-                          boolean _not_6 = (!_equals_59);
+                          boolean _equals_61 = _name_40.equals(className);
+                          boolean _not_6 = (!_equals_61);
                           _and_30 = _not_6;
                         }
                         if (_and_30) {
@@ -4542,54 +4606,54 @@ public class WodelUseGenerator implements IGenerator {
                           String _lowerCase_55 = _substring_57.toLowerCase();
                           String v4_12 = (_lowerCase_55 + "3");
                           if ((multiple_1 == false)) {
-                            String _encodeWord_88 = UseUtils.encodeWord(className);
-                            String _plus_518 = (_encodeWord_88 + ".allInstances()->exists(");
-                            String _plus_519 = (_plus_518 + v3_8);
-                            String _plus_520 = (_plus_519 + " | ");
-                            String _encodeWord_89 = UseUtils.encodeWord(refClassName_6);
-                            String _plus_521 = (_plus_520 + _encodeWord_89);
-                            String _plus_522 = (_plus_521 + ".allInstances()->exists(");
-                            String _plus_523 = (_plus_522 + v4_12);
-                            String _plus_524 = (_plus_523 + " | ");
-                            String _plus_525 = (_plus_524 + v3_8);
-                            String _plus_526 = (_plus_525 + ".");
-                            String _encodeWord_90 = UseUtils.encodeWord(refName_1);
-                            String _plus_527 = (_plus_526 + _encodeWord_90);
-                            String _plus_528 = (_plus_527 + " ");
-                            String _plus_529 = (_plus_528 + operator_3);
-                            String _plus_530 = (_plus_529 + " ");
-                            String _plus_531 = (_plus_530 + v4_12);
-                            String _plus_532 = (_plus_531 + "))");
-                            refConstraint_3.text = _plus_532;
+                            String _encodeWord_94 = UseUtils.encodeWord(className);
+                            String _plus_544 = (_encodeWord_94 + ".allInstances()->exists(");
+                            String _plus_545 = (_plus_544 + v3_8);
+                            String _plus_546 = (_plus_545 + " | ");
+                            String _encodeWord_95 = UseUtils.encodeWord(refClassName_6);
+                            String _plus_547 = (_plus_546 + _encodeWord_95);
+                            String _plus_548 = (_plus_547 + ".allInstances()->exists(");
+                            String _plus_549 = (_plus_548 + v4_12);
+                            String _plus_550 = (_plus_549 + " | ");
+                            String _plus_551 = (_plus_550 + v3_8);
+                            String _plus_552 = (_plus_551 + ".");
+                            String _encodeWord_96 = UseUtils.encodeWord(refName_1);
+                            String _plus_553 = (_plus_552 + _encodeWord_96);
+                            String _plus_554 = (_plus_553 + " ");
+                            String _plus_555 = (_plus_554 + operator_3);
+                            String _plus_556 = (_plus_555 + " ");
+                            String _plus_557 = (_plus_556 + v4_12);
+                            String _plus_558 = (_plus_557 + "))");
+                            refConstraint_3.text = _plus_558;
                             refConstraint_3.variables.add(v3_8);
                             refConstraint_3.variables.add(v4_12);
                           } else {
                             String _substring_58 = refClassName_6.substring(0, 1);
                             String _lowerCase_56 = _substring_58.toLowerCase();
                             String v5_6 = (_lowerCase_56 + "4");
-                            String _encodeWord_91 = UseUtils.encodeWord(className);
-                            String _plus_533 = (_encodeWord_91 + ".allInstances()->exists(");
-                            String _plus_534 = (_plus_533 + v3_8);
-                            String _plus_535 = (_plus_534 + " | ");
-                            String _encodeWord_92 = UseUtils.encodeWord(refClassName_6);
-                            String _plus_536 = (_plus_535 + _encodeWord_92);
-                            String _plus_537 = (_plus_536 + ".allInstances()->exists(");
-                            String _plus_538 = (_plus_537 + v4_12);
-                            String _plus_539 = (_plus_538 + " | ");
-                            String _plus_540 = (_plus_539 + v3_8);
-                            String _plus_541 = (_plus_540 + ".");
-                            String _encodeWord_93 = UseUtils.encodeWord(refName_1);
-                            String _plus_542 = (_plus_541 + _encodeWord_93);
-                            String _plus_543 = (_plus_542 + "->exists(");
-                            String _plus_544 = (_plus_543 + v5_6);
-                            String _plus_545 = (_plus_544 + " | ");
-                            String _plus_546 = (_plus_545 + v4_12);
-                            String _plus_547 = (_plus_546 + " ");
-                            String _plus_548 = (_plus_547 + operator_3);
-                            String _plus_549 = (_plus_548 + " ");
-                            String _plus_550 = (_plus_549 + v5_6);
-                            String _plus_551 = (_plus_550 + ")))");
-                            refConstraint_3.text = _plus_551;
+                            String _encodeWord_97 = UseUtils.encodeWord(className);
+                            String _plus_559 = (_encodeWord_97 + ".allInstances()->exists(");
+                            String _plus_560 = (_plus_559 + v3_8);
+                            String _plus_561 = (_plus_560 + " | ");
+                            String _encodeWord_98 = UseUtils.encodeWord(refClassName_6);
+                            String _plus_562 = (_plus_561 + _encodeWord_98);
+                            String _plus_563 = (_plus_562 + ".allInstances()->exists(");
+                            String _plus_564 = (_plus_563 + v4_12);
+                            String _plus_565 = (_plus_564 + " | ");
+                            String _plus_566 = (_plus_565 + v3_8);
+                            String _plus_567 = (_plus_566 + ".");
+                            String _encodeWord_99 = UseUtils.encodeWord(refName_1);
+                            String _plus_568 = (_plus_567 + _encodeWord_99);
+                            String _plus_569 = (_plus_568 + "->exists(");
+                            String _plus_570 = (_plus_569 + v5_6);
+                            String _plus_571 = (_plus_570 + " | ");
+                            String _plus_572 = (_plus_571 + v4_12);
+                            String _plus_573 = (_plus_572 + " ");
+                            String _plus_574 = (_plus_573 + operator_3);
+                            String _plus_575 = (_plus_574 + " ");
+                            String _plus_576 = (_plus_575 + v5_6);
+                            String _plus_577 = (_plus_576 + ")))");
+                            refConstraint_3.text = _plus_577;
                             refConstraint_3.variables.add(v3_8);
                             refConstraint_3.variables.add(v4_12);
                             refConstraint_3.variables.add(v5_6);
@@ -4597,39 +4661,39 @@ public class WodelUseGenerator implements IGenerator {
                         } else {
                           EReference _refType_12 = ((SpecificObjectSelection)selection_3).getRefType();
                           String selectionRefName_1 = UseUtils.getUseReference(_refType_12, this.useReferences);
-                          boolean _or_3 = false;
+                          boolean _or_5 = false;
                           EReference _refType_13 = ((SpecificObjectSelection)selection_3).getRefType();
-                          int _upperBound_6 = _refType_13.getUpperBound();
-                          boolean _greaterThan_12 = (_upperBound_6 > 1);
-                          if (_greaterThan_12) {
-                            _or_3 = true;
+                          int _upperBound_10 = _refType_13.getUpperBound();
+                          boolean _greaterThan_14 = (_upperBound_10 > 1);
+                          if (_greaterThan_14) {
+                            _or_5 = true;
                           } else {
                             EReference _refType_14 = ((SpecificObjectSelection)selection_3).getRefType();
-                            int _upperBound_7 = _refType_14.getUpperBound();
-                            boolean _equals_60 = (_upperBound_7 == (-1));
-                            _or_3 = _equals_60;
+                            int _upperBound_11 = _refType_14.getUpperBound();
+                            boolean _equals_62 = (_upperBound_11 == (-1));
+                            _or_5 = _equals_62;
                           }
-                          boolean mult_1 = _or_3;
+                          boolean mult_1 = _or_5;
                           if (((multiple_1 == false) || ((multiple_1 == true) && (mult_1 == true)))) {
-                            String _encodeWord_94 = UseUtils.encodeWord(className);
-                            String _plus_552 = (_encodeWord_94 + ".allInstances()->exists(");
-                            String _plus_553 = (_plus_552 + v1_1);
-                            String _plus_554 = (_plus_553 + ", ");
-                            String _plus_555 = (_plus_554 + v3_8);
-                            String _plus_556 = (_plus_555 + " | ");
-                            String _plus_557 = (_plus_556 + v1_1);
-                            String _plus_558 = (_plus_557 + ".");
-                            String _encodeWord_95 = UseUtils.encodeWord(refName_1);
-                            String _plus_559 = (_plus_558 + _encodeWord_95);
-                            String _plus_560 = (_plus_559 + " ");
-                            String _plus_561 = (_plus_560 + operator_3);
-                            String _plus_562 = (_plus_561 + " ");
-                            String _plus_563 = (_plus_562 + v3_8);
-                            String _plus_564 = (_plus_563 + ".");
-                            String _encodeWord_96 = UseUtils.encodeWord(selectionRefName_1);
-                            String _plus_565 = (_plus_564 + _encodeWord_96);
-                            String _plus_566 = (_plus_565 + ")");
-                            refConstraint_3.text = _plus_566;
+                            String _encodeWord_100 = UseUtils.encodeWord(className);
+                            String _plus_578 = (_encodeWord_100 + ".allInstances()->exists(");
+                            String _plus_579 = (_plus_578 + v1_1);
+                            String _plus_580 = (_plus_579 + ", ");
+                            String _plus_581 = (_plus_580 + v3_8);
+                            String _plus_582 = (_plus_581 + " | ");
+                            String _plus_583 = (_plus_582 + v1_1);
+                            String _plus_584 = (_plus_583 + ".");
+                            String _encodeWord_101 = UseUtils.encodeWord(refName_1);
+                            String _plus_585 = (_plus_584 + _encodeWord_101);
+                            String _plus_586 = (_plus_585 + " ");
+                            String _plus_587 = (_plus_586 + operator_3);
+                            String _plus_588 = (_plus_587 + " ");
+                            String _plus_589 = (_plus_588 + v3_8);
+                            String _plus_590 = (_plus_589 + ".");
+                            String _encodeWord_102 = UseUtils.encodeWord(selectionRefName_1);
+                            String _plus_591 = (_plus_590 + _encodeWord_102);
+                            String _plus_592 = (_plus_591 + ")");
+                            refConstraint_3.text = _plus_592;
                             System.out.println(refConstraint_3.text);
                             refConstraint_3.variables.add(v1_1);
                             refConstraint_3.variables.add(v3_8);
@@ -4637,29 +4701,29 @@ public class WodelUseGenerator implements IGenerator {
                             String _substring_59 = className.substring(0, 1);
                             String _lowerCase_57 = _substring_59.toLowerCase();
                             String v4_13 = (_lowerCase_57 + "3");
-                            String _encodeWord_97 = UseUtils.encodeWord(className);
-                            String _plus_567 = (_encodeWord_97 + ".allInstances()->exists(");
-                            String _plus_568 = (_plus_567 + v1_1);
-                            String _plus_569 = (_plus_568 + ", ");
-                            String _plus_570 = (_plus_569 + v3_8);
-                            String _plus_571 = (_plus_570 + " | ");
-                            String _plus_572 = (_plus_571 + v1_1);
-                            String _plus_573 = (_plus_572 + ".");
-                            String _encodeWord_98 = UseUtils.encodeWord(refName_1);
-                            String _plus_574 = (_plus_573 + _encodeWord_98);
-                            String _plus_575 = (_plus_574 + "->exists(");
-                            String _plus_576 = (_plus_575 + v4_13);
-                            String _plus_577 = (_plus_576 + " | ");
-                            String _plus_578 = (_plus_577 + v3_8);
-                            String _plus_579 = (_plus_578 + ".");
-                            String _encodeWord_99 = UseUtils.encodeWord(selectionRefName_1);
-                            String _plus_580 = (_plus_579 + _encodeWord_99);
-                            String _plus_581 = (_plus_580 + " ");
-                            String _plus_582 = (_plus_581 + operator_3);
-                            String _plus_583 = (_plus_582 + " ");
-                            String _plus_584 = (_plus_583 + v4_13);
-                            String _plus_585 = (_plus_584 + "))");
-                            refConstraint_3.text = _plus_585;
+                            String _encodeWord_103 = UseUtils.encodeWord(className);
+                            String _plus_593 = (_encodeWord_103 + ".allInstances()->exists(");
+                            String _plus_594 = (_plus_593 + v1_1);
+                            String _plus_595 = (_plus_594 + ", ");
+                            String _plus_596 = (_plus_595 + v3_8);
+                            String _plus_597 = (_plus_596 + " | ");
+                            String _plus_598 = (_plus_597 + v1_1);
+                            String _plus_599 = (_plus_598 + ".");
+                            String _encodeWord_104 = UseUtils.encodeWord(refName_1);
+                            String _plus_600 = (_plus_599 + _encodeWord_104);
+                            String _plus_601 = (_plus_600 + "->exists(");
+                            String _plus_602 = (_plus_601 + v4_13);
+                            String _plus_603 = (_plus_602 + " | ");
+                            String _plus_604 = (_plus_603 + v3_8);
+                            String _plus_605 = (_plus_604 + ".");
+                            String _encodeWord_105 = UseUtils.encodeWord(selectionRefName_1);
+                            String _plus_606 = (_plus_605 + _encodeWord_105);
+                            String _plus_607 = (_plus_606 + " ");
+                            String _plus_608 = (_plus_607 + operator_3);
+                            String _plus_609 = (_plus_608 + " ");
+                            String _plus_610 = (_plus_609 + v4_13);
+                            String _plus_611 = (_plus_610 + "))");
+                            refConstraint_3.text = _plus_611;
                             refConstraint_3.variables.add(v1_1);
                             refConstraint_3.variables.add(v3_8);
                             refConstraint_3.variables.add(v4_13);
@@ -4667,8 +4731,8 @@ public class WodelUseGenerator implements IGenerator {
                         }
                       }
                     } else {
-                      EReference _refName_9 = refev_1.getRefName();
-                      String ref1Name_1 = UseUtils.getUseReference(_refName_9, this.useReferences);
+                      EReference _refName_13 = refev_1.getRefName();
+                      String ref1Name_1 = UseUtils.getUseReference(_refName_13, this.useReferences);
                       EReference _refType_15 = ((SpecificObjectSelection)selection_3).getRefType();
                       String ref2Name_1 = UseUtils.getUseReference(_refType_15, this.useReferences);
                       String _substring_60 = className.substring(0, 1);
@@ -4683,8 +4747,8 @@ public class WodelUseGenerator implements IGenerator {
                         ObSelectionStrategy _object_14 = ((SelectObjectMutator) _objSel_26).getObject();
                         EClass _type_16 = _object_14.getType();
                         String _name_41 = _type_16.getName();
-                        boolean _equals_61 = _name_41.equals(className);
-                        boolean _not_7 = (!_equals_61);
+                        boolean _equals_63 = _name_41.equals(className);
+                        boolean _not_7 = (!_equals_63);
                         _and_31 = _not_7;
                       }
                       if (_and_31) {
@@ -4696,108 +4760,108 @@ public class WodelUseGenerator implements IGenerator {
                         String _lowerCase_59 = _substring_61.toLowerCase();
                         String v4_14 = (_lowerCase_59 + "3");
                         if ((multiple_1 == false)) {
-                          String _encodeWord_100 = UseUtils.encodeWord(className);
-                          String _plus_586 = (_encodeWord_100 + ".allInstances()->exists(");
-                          String _plus_587 = (_plus_586 + v3_9);
-                          String _plus_588 = (_plus_587 + " | ");
-                          String _encodeWord_101 = UseUtils.encodeWord(refClassName_7);
-                          String _plus_589 = (_plus_588 + _encodeWord_101);
-                          String _plus_590 = (_plus_589 + ".allInstances()->exists(");
-                          String _plus_591 = (_plus_590 + v4_14);
-                          String _plus_592 = (_plus_591 + " | ");
-                          String _plus_593 = (_plus_592 + v3_9);
-                          String _plus_594 = (_plus_593 + ".");
-                          String _encodeWord_102 = UseUtils.encodeWord(refName_1);
-                          String _plus_595 = (_plus_594 + _encodeWord_102);
-                          String _plus_596 = (_plus_595 + " ");
-                          String _plus_597 = (_plus_596 + operator_3);
-                          String _plus_598 = (_plus_597 + " ");
-                          String _plus_599 = (_plus_598 + v4_14);
-                          String _plus_600 = (_plus_599 + "))");
-                          refConstraint_3.text = _plus_600;
+                          String _encodeWord_106 = UseUtils.encodeWord(className);
+                          String _plus_612 = (_encodeWord_106 + ".allInstances()->exists(");
+                          String _plus_613 = (_plus_612 + v3_9);
+                          String _plus_614 = (_plus_613 + " | ");
+                          String _encodeWord_107 = UseUtils.encodeWord(refClassName_7);
+                          String _plus_615 = (_plus_614 + _encodeWord_107);
+                          String _plus_616 = (_plus_615 + ".allInstances()->exists(");
+                          String _plus_617 = (_plus_616 + v4_14);
+                          String _plus_618 = (_plus_617 + " | ");
+                          String _plus_619 = (_plus_618 + v3_9);
+                          String _plus_620 = (_plus_619 + ".");
+                          String _encodeWord_108 = UseUtils.encodeWord(refName_1);
+                          String _plus_621 = (_plus_620 + _encodeWord_108);
+                          String _plus_622 = (_plus_621 + " ");
+                          String _plus_623 = (_plus_622 + operator_3);
+                          String _plus_624 = (_plus_623 + " ");
+                          String _plus_625 = (_plus_624 + v4_14);
+                          String _plus_626 = (_plus_625 + "))");
+                          refConstraint_3.text = _plus_626;
                           refConstraint_3.variables.add(v3_9);
                           refConstraint_3.variables.add(v4_14);
                         } else {
                           String _substring_62 = refClassName_7.substring(0, 1);
                           String _lowerCase_60 = _substring_62.toLowerCase();
                           String v5_7 = (_lowerCase_60 + "4");
-                          String _encodeWord_103 = UseUtils.encodeWord(className);
-                          String _plus_601 = (_encodeWord_103 + ".allInstances()->exists(");
-                          String _plus_602 = (_plus_601 + v3_9);
-                          String _plus_603 = (_plus_602 + " | ");
-                          String _encodeWord_104 = UseUtils.encodeWord(refClassName_7);
-                          String _plus_604 = (_plus_603 + _encodeWord_104);
-                          String _plus_605 = (_plus_604 + ".allInstances()->exists(");
-                          String _plus_606 = (_plus_605 + v4_14);
-                          String _plus_607 = (_plus_606 + " | ");
-                          String _plus_608 = (_plus_607 + v3_9);
-                          String _plus_609 = (_plus_608 + ".");
-                          String _encodeWord_105 = UseUtils.encodeWord(refName_1);
-                          String _plus_610 = (_plus_609 + _encodeWord_105);
-                          String _plus_611 = (_plus_610 + "->exists(");
-                          String _plus_612 = (_plus_611 + v5_7);
-                          String _plus_613 = (_plus_612 + " | ");
-                          String _plus_614 = (_plus_613 + v4_14);
-                          String _plus_615 = (_plus_614 + " ");
-                          String _plus_616 = (_plus_615 + operator_3);
-                          String _plus_617 = (_plus_616 + " ");
-                          String _plus_618 = (_plus_617 + v5_7);
-                          String _plus_619 = (_plus_618 + ")))");
-                          refConstraint_3.text = _plus_619;
+                          String _encodeWord_109 = UseUtils.encodeWord(className);
+                          String _plus_627 = (_encodeWord_109 + ".allInstances()->exists(");
+                          String _plus_628 = (_plus_627 + v3_9);
+                          String _plus_629 = (_plus_628 + " | ");
+                          String _encodeWord_110 = UseUtils.encodeWord(refClassName_7);
+                          String _plus_630 = (_plus_629 + _encodeWord_110);
+                          String _plus_631 = (_plus_630 + ".allInstances()->exists(");
+                          String _plus_632 = (_plus_631 + v4_14);
+                          String _plus_633 = (_plus_632 + " | ");
+                          String _plus_634 = (_plus_633 + v3_9);
+                          String _plus_635 = (_plus_634 + ".");
+                          String _encodeWord_111 = UseUtils.encodeWord(refName_1);
+                          String _plus_636 = (_plus_635 + _encodeWord_111);
+                          String _plus_637 = (_plus_636 + "->exists(");
+                          String _plus_638 = (_plus_637 + v5_7);
+                          String _plus_639 = (_plus_638 + " | ");
+                          String _plus_640 = (_plus_639 + v4_14);
+                          String _plus_641 = (_plus_640 + " ");
+                          String _plus_642 = (_plus_641 + operator_3);
+                          String _plus_643 = (_plus_642 + " ");
+                          String _plus_644 = (_plus_643 + v5_7);
+                          String _plus_645 = (_plus_644 + ")))");
+                          refConstraint_3.text = _plus_645;
                           refConstraint_3.variables.add(v3_9);
                           refConstraint_3.variables.add(v4_14);
                           refConstraint_3.variables.add(v5_7);
                         }
                       } else {
                         if ((multiple_1 == false)) {
-                          String _encodeWord_106 = UseUtils.encodeWord(className);
-                          String _plus_620 = (_encodeWord_106 + ".allInstances()->exists(");
-                          String _plus_621 = (_plus_620 + v1_1);
-                          String _plus_622 = (_plus_621 + ", ");
-                          String _plus_623 = (_plus_622 + v3_9);
-                          String _plus_624 = (_plus_623 + " | ");
-                          String _plus_625 = (_plus_624 + v1_1);
-                          String _plus_626 = (_plus_625 + ".");
-                          String _encodeWord_107 = UseUtils.encodeWord(ref1Name_1);
-                          String _plus_627 = (_plus_626 + _encodeWord_107);
-                          String _plus_628 = (_plus_627 + " ");
-                          String _plus_629 = (_plus_628 + operator_3);
-                          String _plus_630 = (_plus_629 + " ");
-                          String _plus_631 = (_plus_630 + v3_9);
-                          String _plus_632 = (_plus_631 + ".");
-                          String _encodeWord_108 = UseUtils.encodeWord(ref2Name_1);
-                          String _plus_633 = (_plus_632 + _encodeWord_108);
-                          String _plus_634 = (_plus_633 + ")");
-                          refConstraint_3.text = _plus_634;
+                          String _encodeWord_112 = UseUtils.encodeWord(className);
+                          String _plus_646 = (_encodeWord_112 + ".allInstances()->exists(");
+                          String _plus_647 = (_plus_646 + v1_1);
+                          String _plus_648 = (_plus_647 + ", ");
+                          String _plus_649 = (_plus_648 + v3_9);
+                          String _plus_650 = (_plus_649 + " | ");
+                          String _plus_651 = (_plus_650 + v1_1);
+                          String _plus_652 = (_plus_651 + ".");
+                          String _encodeWord_113 = UseUtils.encodeWord(ref1Name_1);
+                          String _plus_653 = (_plus_652 + _encodeWord_113);
+                          String _plus_654 = (_plus_653 + " ");
+                          String _plus_655 = (_plus_654 + operator_3);
+                          String _plus_656 = (_plus_655 + " ");
+                          String _plus_657 = (_plus_656 + v3_9);
+                          String _plus_658 = (_plus_657 + ".");
+                          String _encodeWord_114 = UseUtils.encodeWord(ref2Name_1);
+                          String _plus_659 = (_plus_658 + _encodeWord_114);
+                          String _plus_660 = (_plus_659 + ")");
+                          refConstraint_3.text = _plus_660;
                           refConstraint_3.variables.add(v1_1);
                           refConstraint_3.variables.add(v3_9);
                         } else {
                           String _substring_63 = className.substring(0, 1);
                           String _lowerCase_61 = _substring_63.toLowerCase();
                           String v4_15 = (_lowerCase_61 + "3");
-                          String _encodeWord_109 = UseUtils.encodeWord(className);
-                          String _plus_635 = (_encodeWord_109 + ".allInstances()->exists(");
-                          String _plus_636 = (_plus_635 + v1_1);
-                          String _plus_637 = (_plus_636 + ", ");
-                          String _plus_638 = (_plus_637 + v3_9);
-                          String _plus_639 = (_plus_638 + " | ");
-                          String _plus_640 = (_plus_639 + v1_1);
-                          String _plus_641 = (_plus_640 + ".");
-                          String _encodeWord_110 = UseUtils.encodeWord(ref1Name_1);
-                          String _plus_642 = (_plus_641 + _encodeWord_110);
-                          String _plus_643 = (_plus_642 + "->exists(");
-                          String _plus_644 = (_plus_643 + v4_15);
-                          String _plus_645 = (_plus_644 + " | ");
-                          String _plus_646 = (_plus_645 + v3_9);
-                          String _plus_647 = (_plus_646 + ".");
-                          String _encodeWord_111 = UseUtils.encodeWord(ref2Name_1);
-                          String _plus_648 = (_plus_647 + _encodeWord_111);
-                          String _plus_649 = (_plus_648 + " ");
-                          String _plus_650 = (_plus_649 + operator_3);
-                          String _plus_651 = (_plus_650 + " ");
-                          String _plus_652 = (_plus_651 + v4_15);
-                          String _plus_653 = (_plus_652 + "))");
-                          refConstraint_3.text = _plus_653;
+                          String _encodeWord_115 = UseUtils.encodeWord(className);
+                          String _plus_661 = (_encodeWord_115 + ".allInstances()->exists(");
+                          String _plus_662 = (_plus_661 + v1_1);
+                          String _plus_663 = (_plus_662 + ", ");
+                          String _plus_664 = (_plus_663 + v3_9);
+                          String _plus_665 = (_plus_664 + " | ");
+                          String _plus_666 = (_plus_665 + v1_1);
+                          String _plus_667 = (_plus_666 + ".");
+                          String _encodeWord_116 = UseUtils.encodeWord(ref1Name_1);
+                          String _plus_668 = (_plus_667 + _encodeWord_116);
+                          String _plus_669 = (_plus_668 + "->exists(");
+                          String _plus_670 = (_plus_669 + v4_15);
+                          String _plus_671 = (_plus_670 + " | ");
+                          String _plus_672 = (_plus_671 + v3_9);
+                          String _plus_673 = (_plus_672 + ".");
+                          String _encodeWord_117 = UseUtils.encodeWord(ref2Name_1);
+                          String _plus_674 = (_plus_673 + _encodeWord_117);
+                          String _plus_675 = (_plus_674 + " ");
+                          String _plus_676 = (_plus_675 + operator_3);
+                          String _plus_677 = (_plus_676 + " ");
+                          String _plus_678 = (_plus_677 + v4_15);
+                          String _plus_679 = (_plus_678 + "))");
+                          refConstraint_3.text = _plus_679;
                           refConstraint_3.variables.add(v1_1);
                           refConstraint_3.variables.add(v3_9);
                           refConstraint_3.variables.add(v4_15);
@@ -4813,20 +4877,20 @@ public class WodelUseGenerator implements IGenerator {
                 boolean _and_32 = false;
                 boolean _and_33 = false;
                 WodelUseGenerator.Constraint _constraint_22 = this.getConstraint(constraints, refConstraint_3);
-                boolean _equals_62 = Objects.equal(_constraint_22, null);
-                if (!_equals_62) {
+                boolean _equals_64 = Objects.equal(_constraint_22, null);
+                if (!_equals_64) {
                   _and_33 = false;
                 } else {
                   int _length_11 = refConstraint_3.text.length();
-                  boolean _greaterThan_13 = (_length_11 > 0);
-                  _and_33 = _greaterThan_13;
+                  boolean _greaterThan_15 = (_length_11 > 0);
+                  _and_33 = _greaterThan_15;
                 }
                 if (!_and_33) {
                   _and_32 = false;
                 } else {
                   WodelUseGenerator.Constraint _constraint_23 = this.getConstraint(expConstraints, refConstraint_3);
-                  boolean _equals_63 = Objects.equal(_constraint_23, null);
-                  _and_32 = _equals_63;
+                  boolean _equals_65 = Objects.equal(_constraint_23, null);
+                  _and_32 = _equals_65;
                 }
                 if (_and_32) {
                   this.subsume(expConstraints, refConstraint_3);

@@ -219,6 +219,7 @@ public class GenerateWodel implements IObjectActionDelegate {
 								ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 								String xmiFileName = fileName.replaceAll(".mutator", i + ".model");
 								String seedPath = ModelManager.getMetaModelPath() + "/" + xmiFileName;
+								progressMonitor.subTask("Seed " + (i + 1) + "/" + numModels + ": " + seedPath);
 								List<EClass> classes = ModelManager.getEClasses(packages);
 								EClass rootClass = null;
 								for (EClass cl : classes) {

@@ -1,7 +1,6 @@
 package manager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,12 +44,7 @@ import commands.strategies.RandomBooleanConfigurationStrategy;
 import commands.strategies.RandomDoubleConfigurationStrategy;
 import commands.strategies.RandomIntegerConfigurationStrategy;
 import commands.strategies.RandomStringConfigurationStrategy;
-import exceptions.AbstractCreationException;
-import exceptions.MaxSmallerThanMinException;
-import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
-import exceptions.ObjectNoTargetableException;
-import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 import appliedMutations.AppMutation;

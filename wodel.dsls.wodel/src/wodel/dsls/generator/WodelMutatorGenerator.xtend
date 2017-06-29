@@ -83,6 +83,10 @@ import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.SampleClause
 import mutatorenvironment.ReferenceAdd
 import mutatorenvironment.ReferenceRemove
+import java.io.IOException
+import java.util.List
+import exceptions.ModelNotFoundException
+import exceptions.MetaModelNotFoundException
 
 /**
  * Generates code from your model files on save.
@@ -137,6 +141,43 @@ class WodelMutatorGenerator implements IGenerator {
 		}
 		return mutatorPath
 	}
+	
+	def int getNumberOfSeedModels(MutatorEnvironment e) {
+		var int total = 0;
+	   	try {
+		
+			var String modelURI = path + '/' + (e.definition as Program).source.path
+			var List<File> files = new ArrayList<File>()
+			var File folder = new File(modelURI)
+			if (modelURI.endsWith('/')) {
+				for (File file : folder.listFiles) {
+					files.add(file)
+				}
+			}
+			else {
+				files.add(folder)
+			}
+			for (var int i = 0; i < files.length; i++) {
+				if (files.get(i).isFile== true) {
+					var String pathfile = files.get(i).path;
+					if (pathfile.endsWith(".model") == true) {
+						total++;
+					}
+				}
+			}
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		} catch (MetaModelNotFoundException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		} catch (ModelNotFoundException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return total;
+	}
+	
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		manager.WodelContext.setProject(null)
@@ -2167,7 +2208,21 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		if (maxAttempts <= 0) {
 			maxAttempts = 1;
 		}
-		monitor.beginTask("Generating mutants", numMutants);
+		int totalTasks = 0;
+		if (metrics == true) {
+			totalTasks++;
+		}
+		if (debugMetrics == true) {
+			totalTasks++;
+		}
+		//«nMut = (e.definition as Program).num»
+	   	«IF nMut != 0»
+	   	numMutants = «nMut»;
+	   	«ENDIF»
+	   	
+	   	int totalMutants = numMutants * «e.getNumberOfSeedModels»;
+		totalTasks += totalMutants;
+		monitor.beginTask("Generating mutants", totalTasks);
 		HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
 		
 		«IF e.definition instanceof Program»
@@ -2183,11 +2238,15 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		
    		if (metrics == true) {
    			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			monitor.subTask("Generating dynamic net metrics");
    			MutatorMetrics.generateMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   			monitor.worked(1);
    		}
    		if (debugMetrics == true) {
 			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
-   			MutatorMetrics.generateDebugMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);   			
+   			monitor.subTask("Generating dynamic debug metrics");
+   			MutatorMetrics.generateDebugMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   			monitor.worked(1);   			
    		}
    	}
 }
@@ -2201,21 +2260,31 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
  												  ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
  		
-		monitor.beginTask("Generating mutants", numMutants * «e.blocks.size()»);
  		if (maxAttempts <= 0) {
 			maxAttempts = 1;
 		}
-		
+		int totalTasks = «e.blocks.size»;
+		if (metrics == true) {
+			totalTasks++;
+		}
+		if (debugMetrics == true) {
+			totalTasks++;
+		}
+		monitor.beginTask("Generating mutants", totalTasks);
  		HashMap<String, HashSet<String>> hashmapMutants = new HashMap<String, HashSet<String>>();
  		HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
  		
 		ArrayList<String> fromNames = null;
+		//«var int i = 0»
 		«FOR b : e.blocks»
 		fromNames = new ArrayList<String>();
 		«FOR from : b.from»
 		fromNames.add("«from.name»");
 		«ENDFOR»
+		monitor.subTask("Generating mutants for block «b.name» («i+1»/«e.blocks.size»)"); 
 		block_«b.name»(maxAttempts, numMutants, registry, fromNames, hashmapMutants, hashmapMutVersions, monitor);
+		monitor.worked(1);
+		//«i++»
 		«ENDFOR»
    		//Generate metrics model
 		Bundle bundle = Platform.getBundle("wodel.models");
@@ -2225,11 +2294,15 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    		
    		if (metrics == true) {
    			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			monitor.subTask("Generating dynamic net metrics");
    			MutatorMetrics.generateMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   			monitor.worked(1);
    		}
    		if (debugMetrics == true) {
 			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
+   			monitor.subTask("Generating dynamic debug metrics");
    			MutatorMetrics.generateDebugMetrics(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject+ '/' + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+'/'+((e as MutatorEnvironment).definition as Program).source.path»", "«manager.WodelContext.getProject»", "«ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject»", hashmapMutVersions);
+   			monitor.worked(1);   			
    		}
 	}
 }
@@ -2239,11 +2312,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	def multiple(MutatorEnvironment e) '''
 	
 	    «e.definition.multipleCompile»
-	    //«nMut = (e.definition as Program).num»
-	   	«IF nMut != 0»
-	   	numMutants = «nMut»;
-	   	«ENDIF»
-	   	
 	   	«e.execute»
 
 	}
@@ -2325,6 +2393,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		
 		//Load Model
 		Set<String> modelFilenames = hashmapModelFilenames.keySet();
+		int count = 0;
 		for (String modelFilename : modelFilenames) {
 			HashSet<String> hashsetMutants = new HashSet<String>();
 			hashsetMutants.add(modelFilename);
@@ -2991,6 +3060,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    	   		HashMap<String, EObject> hashmapEObject = new HashMap<String, EObject>();
 			HashMap<String, List<EObject>> hashmapList = new HashMap<String, List<EObject>>();
    	   		String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + ".model";
+   	   		monitor.subTask("Mutant " + (count * numMutants + i + 1) + "/" + totalMutants + ": " + mutFilename);
    	   		String mutPath = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + i + "vs";
    	   		boolean isRepeated = true;
    			int attempts = 0;
@@ -3035,6 +3105,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    			}
 			monitor.worked(1);
    		}
+		count++;
 	'''
 	
 	def executeBlock(MutatorEnvironment e,
@@ -3108,7 +3179,6 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 					model.load(null); 
 				} catch (Exception e) {}
    			}
-			monitor.worked(1);
    		}
    		«IF b.repeat == Repeat.YES»
    		hashmapMutants.put(modelFilename, hashsetMutantsBlock);

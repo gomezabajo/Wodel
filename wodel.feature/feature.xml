@@ -190,4 +190,18 @@
          install-size="0"
          version="0.0.0"/>
 
+   <plugin
+         id="wodel.metrics.info"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wodel.synthesizer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

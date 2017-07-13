@@ -45,7 +45,6 @@ public class WodelWizardMetamodelPage extends WizardPage {
 	private Label fileLabel;
 	private Label descriptionLabel;
 	private Button button;
-	private Button validate;
 	private Label separator;
 	private Composite container;
 	private ScrolledComposite scrolledComposite;

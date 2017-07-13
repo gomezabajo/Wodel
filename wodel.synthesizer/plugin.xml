@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.mutator"
+            id="GenerateWodel.contribution1">
+         <menu
+               icon="icons/wodel4.jpg"
+               id="Wodel.menu1"
+               label="Wodel..."
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Generate Seed Models"
+               class="wodel.synthesizer.popup.actions.GenerateWodel"
+               menubarPath="Wodel.menu1/group1"
+               enablesFor="1"
+               id="GenerateWodel.newAction1">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

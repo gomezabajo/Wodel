@@ -445,6 +445,18 @@ public class ModelManager {
 		}
 		return true;
 	}
+	
+	public static boolean validateModel(String metamodel, String model)
+			throws MetaModelNotFoundException, ModelNotFoundException {
+		ArrayList<EPackage> packages = loadMetaModel(metamodel);
+		Resource rs = loadModel(packages, model);
+		
+		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(rs.getContents().get(0));
+		if (diagnostic.getSeverity() != Diagnostic.OK) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Checks whether a certain model exists or not
@@ -1766,6 +1778,7 @@ public class ModelManager {
 			String name = obj.eClass().getName();
 			if (name.equals("ObjectCreated")
 					|| name.equals("ObjectRemoved")
+					|| name.equals("ObjectCloned")
 					|| name.equals("SourceReferenceChanged")
 					|| name.equals("TargetReferenceChanged")
 					|| name.equals("ReferenceCreated")

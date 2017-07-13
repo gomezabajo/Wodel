@@ -5,10 +5,7 @@ package wodel.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
-import exceptions.MetaModelNotFoundException;
-import exceptions.ModelNotFoundException;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
@@ -105,7 +102,6 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.Conversions;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.dsls.WodelUtils;
 
@@ -203,55 +199,6 @@ public class WodelMutatorGenerator implements IGenerator {
       }
     }
     return mutatorPath;
-  }
-  
-  public int getNumberOfSeedModels(final MutatorEnvironment e) {
-    int total = 0;
-    try {
-      Definition _definition = e.getDefinition();
-      Source _source = ((Program) _definition).getSource();
-      String _path = _source.getPath();
-      String modelURI = ((this.path + "/") + _path);
-      List<File> files = new ArrayList<File>();
-      File folder = new File(modelURI);
-      boolean _endsWith = modelURI.endsWith("/");
-      if (_endsWith) {
-        File[] _listFiles = folder.listFiles();
-        for (final File file : _listFiles) {
-          files.add(file);
-        }
-      } else {
-        files.add(folder);
-      }
-      for (int i = 0; (i < ((Object[])Conversions.unwrapArray(files, Object.class)).length); i++) {
-        File _get = files.get(i);
-        boolean _isFile = _get.isFile();
-        boolean _equals = (_isFile == true);
-        if (_equals) {
-          File _get_1 = files.get(i);
-          String pathfile = _get_1.getPath();
-          boolean _endsWith_1 = pathfile.endsWith(".model");
-          boolean _equals_1 = (_endsWith_1 == true);
-          if (_equals_1) {
-            total++;
-          }
-        }
-      }
-    } catch (final Throwable _t) {
-      if (_t instanceof IOException) {
-        final IOException ex = (IOException)_t;
-        ex.printStackTrace();
-      } else if (_t instanceof MetaModelNotFoundException) {
-        final MetaModelNotFoundException ex_1 = (MetaModelNotFoundException)_t;
-        ex_1.printStackTrace();
-      } else if (_t instanceof ModelNotFoundException) {
-        final ModelNotFoundException ex_2 = (ModelNotFoundException)_t;
-        ex_2.printStackTrace();
-      } else {
-        throw Exceptions.sneakyThrow(_t);
-      }
-    }
-    return total;
   }
   
   @Override
@@ -7863,6 +7810,16 @@ public class WodelMutatorGenerator implements IGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
+    {
+      if ((mut instanceof SelectSampleMutator)) {
+        _builder.append("appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();");
+        _builder.newLine();
+        _builder.append("appMut.setDef(hmMutator.get(\"m");
+        _builder.append(this.nRegistryMutation, "");
+        _builder.append("\"));");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.append("\t");
     _builder.append("return appMut;");
     _builder.newLine();
@@ -8127,6 +8084,8 @@ public class WodelMutatorGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.resource.Resource;");
     _builder.newLine();
+    _builder.append("import org.eclipse.emf.ecore.util.EcoreUtil;");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("import commands.*;");
     _builder.newLine();
@@ -8262,11 +8221,10 @@ public class WodelMutatorGenerator implements IGenerator {
                 _builder.newLineIfNotEmpty();
               }
             }
-            _builder.append("   \t");
             _builder.newLine();
             _builder.append("   \t");
             _builder.append("int totalMutants = numMutants * ");
-            int _numberOfSeedModels = this.getNumberOfSeedModels(e);
+            int _numberOfSeedModels = MutatorUtils.getNumberOfSeedModels(e, this.path);
             _builder.append(_numberOfSeedModels, "   \t");
             _builder.append(";");
             _builder.newLineIfNotEmpty();
@@ -8284,10 +8242,6 @@ public class WodelMutatorGenerator implements IGenerator {
             {
               Definition _definition_2 = e.getDefinition();
               if ((_definition_2 instanceof Program)) {
-                _builder.append("\t");
-                Definition _definition_3 = e.getDefinition();
-                final Program program = ((Program) _definition_3);
-                _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 CharSequence _multiple = this.multiple(e);
                 _builder.append(_multiple, "\t");
@@ -8330,17 +8284,17 @@ public class WodelMutatorGenerator implements IGenerator {
             String _project = WodelContext.getProject();
             String _plus_1 = (_plus + _project);
             String _plus_2 = (_plus_1 + "/");
-            Definition _definition_4 = ((MutatorEnvironment) e).getDefinition();
-            String _output = ((Program) _definition_4).getOutput();
+            Definition _definition_3 = ((MutatorEnvironment) e).getDefinition();
+            String _output = ((Program) _definition_3).getOutput();
             String _plus_3 = (_plus_2 + _output);
             _builder.append(_plus_3, "   \t\t\t");
             _builder.append("\", \"");
-            Definition _definition_5 = ((MutatorEnvironment) e).getDefinition();
-            String _metamodel = ((Program) _definition_5).getMetamodel();
+            Definition _definition_4 = ((MutatorEnvironment) e).getDefinition();
+            String _metamodel = ((Program) _definition_4).getMetamodel();
             _builder.append(_metamodel, "   \t\t\t");
             _builder.append("\", \"");
-            Definition _definition_6 = ((MutatorEnvironment) e).getDefinition();
-            Source _source = ((Program) _definition_6).getSource();
+            Definition _definition_5 = ((MutatorEnvironment) e).getDefinition();
+            Source _source = ((Program) _definition_5).getSource();
             String _path = _source.getPath();
             String _plus_4 = ((this.path + "/") + _path);
             _builder.append(_plus_4, "   \t\t\t");
@@ -8377,17 +8331,17 @@ public class WodelMutatorGenerator implements IGenerator {
             String _project_3 = WodelContext.getProject();
             String _plus_8 = (_plus_7 + _project_3);
             String _plus_9 = (_plus_8 + "/");
-            Definition _definition_7 = ((MutatorEnvironment) e).getDefinition();
-            String _output_1 = ((Program) _definition_7).getOutput();
+            Definition _definition_6 = ((MutatorEnvironment) e).getDefinition();
+            String _output_1 = ((Program) _definition_6).getOutput();
             String _plus_10 = (_plus_9 + _output_1);
             _builder.append(_plus_10, "   \t\t\t");
             _builder.append("\", \"");
-            Definition _definition_8 = ((MutatorEnvironment) e).getDefinition();
-            String _metamodel_1 = ((Program) _definition_8).getMetamodel();
+            Definition _definition_7 = ((MutatorEnvironment) e).getDefinition();
+            String _metamodel_1 = ((Program) _definition_7).getMetamodel();
             _builder.append(_metamodel_1, "   \t\t\t");
             _builder.append("\", \"");
-            Definition _definition_9 = ((MutatorEnvironment) e).getDefinition();
-            Source _source_1 = ((Program) _definition_9).getSource();
+            Definition _definition_8 = ((MutatorEnvironment) e).getDefinition();
+            Source _source_1 = ((Program) _definition_8).getSource();
             String _path_1 = _source_1.getPath();
             String _plus_11 = ((this.path + "/") + _path_1);
             _builder.append(_plus_11, "   \t\t\t");
@@ -8558,6 +8512,9 @@ public class WodelMutatorGenerator implements IGenerator {
             _builder.newLineIfNotEmpty();
           }
         }
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.newLine();
         _builder.append("   \t\t");
         _builder.append("//Generate metrics model");
         _builder.newLine();
@@ -8596,17 +8553,17 @@ public class WodelMutatorGenerator implements IGenerator {
         String _project_6 = WodelContext.getProject();
         String _plus_15 = (_plus_14 + _project_6);
         String _plus_16 = (_plus_15 + "/");
-        Definition _definition_10 = ((MutatorEnvironment) e).getDefinition();
-        String _output_2 = ((Program) _definition_10).getOutput();
+        Definition _definition_9 = ((MutatorEnvironment) e).getDefinition();
+        String _output_2 = ((Program) _definition_9).getOutput();
         String _plus_17 = (_plus_16 + _output_2);
         _builder.append(_plus_17, "   \t\t\t");
         _builder.append("\", \"");
-        Definition _definition_11 = ((MutatorEnvironment) e).getDefinition();
-        String _metamodel_2 = ((Program) _definition_11).getMetamodel();
+        Definition _definition_10 = ((MutatorEnvironment) e).getDefinition();
+        String _metamodel_2 = ((Program) _definition_10).getMetamodel();
         _builder.append(_metamodel_2, "   \t\t\t");
         _builder.append("\", \"");
-        Definition _definition_12 = ((MutatorEnvironment) e).getDefinition();
-        Source _source_2 = ((Program) _definition_12).getSource();
+        Definition _definition_11 = ((MutatorEnvironment) e).getDefinition();
+        Source _source_2 = ((Program) _definition_11).getSource();
         String _path_2 = _source_2.getPath();
         String _plus_18 = ((this.path + "/") + _path_2);
         _builder.append(_plus_18, "   \t\t\t");
@@ -8644,17 +8601,17 @@ public class WodelMutatorGenerator implements IGenerator {
         String _project_9 = WodelContext.getProject();
         String _plus_22 = (_plus_21 + _project_9);
         String _plus_23 = (_plus_22 + "/");
-        Definition _definition_13 = ((MutatorEnvironment) e).getDefinition();
-        String _output_3 = ((Program) _definition_13).getOutput();
+        Definition _definition_12 = ((MutatorEnvironment) e).getDefinition();
+        String _output_3 = ((Program) _definition_12).getOutput();
         String _plus_24 = (_plus_23 + _output_3);
         _builder.append(_plus_24, "   \t\t\t");
         _builder.append("\", \"");
-        Definition _definition_14 = ((MutatorEnvironment) e).getDefinition();
-        String _metamodel_3 = ((Program) _definition_14).getMetamodel();
+        Definition _definition_13 = ((MutatorEnvironment) e).getDefinition();
+        String _metamodel_3 = ((Program) _definition_13).getMetamodel();
         _builder.append(_metamodel_3, "   \t\t\t");
         _builder.append("\", \"");
-        Definition _definition_15 = ((MutatorEnvironment) e).getDefinition();
-        Source _source_3 = ((Program) _definition_15).getSource();
+        Definition _definition_14 = ((MutatorEnvironment) e).getDefinition();
+        Source _source_3 = ((Program) _definition_14).getSource();
         String _path_3 = _source_3.getPath();
         String _plus_25 = ((this.path + "/") + _path_3);
         _builder.append(_plus_25, "   \t\t\t");
@@ -12060,7 +12017,7 @@ public class WodelMutatorGenerator implements IGenerator {
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("\t");
-            _builder.append("mut.mutate();");
+            _builder.append("Object mutated = mut.mutate();");
             _builder.newLine();
             _builder.append("\t\t");
             _builder.append("}");

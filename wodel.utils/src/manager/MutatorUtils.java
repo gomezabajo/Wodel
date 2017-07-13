@@ -1,6 +1,8 @@
 package manager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,15 +10,19 @@ import java.util.List;
 
 import mutatorenvironment.AttributeOperation;
 import mutatorenvironment.CloneObjectMutator;
+import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CreateObjectMutator;
 import mutatorenvironment.MaxValueType;
 import mutatorenvironment.MinValueType;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.Mutator;
+import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ObjectEmitter;
+import mutatorenvironment.Program;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SelectSampleMutator;
+import mutatorenvironment.SpecificClosureSelection;
 //import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SpecificObjectSelection;
 
@@ -2701,6 +2707,47 @@ public class MutatorUtils {
 			}
 		}
 	}
+
+	public static void getRegistryModels(File folder, ArrayList<EPackage> packages, HashMap<String, Resource> registryModels) throws ModelNotFoundException {
+		File[] files = folder.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isDirectory() == true) {
+				if (files[i].getName().equals("registry") == true) {
+					File[] regfiles = files[i].listFiles();
+					for (int j = 0; j < regfiles.length; j++) {
+						String pathfile = regfiles[j].getPath();
+						if (pathfile.endsWith(".model") == true) {
+							Resource registrymodel = ModelManager.loadModel(packages, pathfile);
+							registryModels.put(pathfile, registrymodel);
+						}
+					}
+				} else {
+					if (!files[i].getName().endsWith("vs")) {
+						getRegistryModels(files[i], packages, registryModels);
+					}
+				}
+			}
+		}
+	}
+
+	public static String getSeedFromRegistry(String registryFilename) {
+		int start = registryFilename.indexOf("out\\") + "out\\".length();
+		int end = start + registryFilename.substring(start, registryFilename.length()).indexOf("\\"); 
+		return ModelManager.getMetaModelPath() + "/" + registryFilename.substring(start, end) + ".model";
+	}
+
+	public static List<String> getMutantsFromRegistry(String registryFilename) {
+		int end = registryFilename.indexOf("registry\\") + "registry\\".length();
+		String path = registryFilename.substring(0, registryFilename.indexOf("registry\\"));
+		File folder = new File(path);
+		List<String> mutantFilenames = new ArrayList<String>();
+		for (File file : folder.listFiles()) {
+			if (file.isFile() && file.getName().endsWith(".model")) {
+				mutantFilenames.add(file.getPath().replaceAll("\\\\", "/"));
+			}
+		}
+		return mutantFilenames;
+	}
 	
 	private void createMutantVersionRegistry(ArrayList<EPackage> packages, List<Resource> seeds, Resource model, String versionPath, AppMutation mut) {
 		File outputFolder = new File(versionPath.substring(0, versionPath.lastIndexOf("/")) + "/registry");
@@ -2918,7 +2965,6 @@ public class MutatorUtils {
 						}
 						String registryFilename = hashmapModelFilenames.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
 						ModelManager.createModel(muts, registryFilename);
-						
 					}
 				}
 				else {
@@ -4062,5 +4108,72 @@ public class MutatorUtils {
 		}
 		
 		return type;
+	}
+	
+	public static int getNumberOfSeedModels(MutatorEnvironment e, String path) {
+		int total = 0;
+	   	String modelURI = path + '/' + ((Program) e.getDefinition()).getSource().getPath();
+		List<File> files = new ArrayList<File>();
+		File folder = new File(modelURI);
+		if (modelURI.endsWith("/")) {
+			for (File file : folder.listFiles()) {
+				files.add(file);
+			}
+		}
+		else {
+			files.add(folder);
+		}
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).isFile()== true) {
+				String pathfile = files.get(i).getPath();
+				if (pathfile.endsWith(".model") == true) {
+					total++;
+				}
+			}
+		}
+		return total;
+	}
+	
+	public static String selectSampleMutatorHelper(SelectSampleMutator com) {
+		String className = null;
+		if (com.getObject() instanceof ObSelectionStrategy) {
+        	if (com.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+       			className = ((mutatorenvironment.RandomTypeSelection) com.getObject()).getType().getName();
+       		}
+       		if (com.getObject() instanceof CompleteTypeSelection) {
+       			className = ((CompleteTypeSelection) com.getObject()).getType().getName();
+       		}
+			if (com.getObject() instanceof SpecificObjectSelection) {
+				SpecificObjectSelection selection = (SpecificObjectSelection) com.getObject();
+				if (selection.getObjSel() instanceof CreateObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof SelectObjectMutator) {
+					className = ((SelectObjectMutator) selection.getObjSel()).getObject().getType().getName();
+				}
+				if (selection.getObjSel() instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelper((SelectSampleMutator) selection.getObjSel());
+				}
+				if (selection.getObjSel() instanceof CloneObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+			}
+       		if (com.getObject() instanceof SpecificClosureSelection) {
+       			SpecificClosureSelection selection = (SpecificClosureSelection) com.getObject();
+     			if (selection.getObjSel() instanceof CreateObjectMutator) {
+       				className = selection.getObjSel().getType().getName();
+       			}
+       			if (selection.getObjSel() instanceof SelectObjectMutator) {
+       				className = ((SelectObjectMutator) selection.getObjSel()).getObject().getType().getName();
+       			}
+       			if (selection.getObjSel() instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelper((SelectSampleMutator) selection.getObjSel());
+				}
+       			if (selection.getObjSel() instanceof CloneObjectMutator) {
+       				className = selection.getObjSel().getType().getName();
+       			}
+       		}
+		}
+		return className;
 	}
 }

@@ -65,6 +65,7 @@ import mutatorenvironment.SpecificClosureSelection
 import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.ReferenceAdd
 import mutatorenvironment.ReferenceRemove
+import manager.MutatorUtils
 
 /**
  * This class contains custom scoping description.
@@ -511,49 +512,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         Scopes.scopeFor( getEContainers(definition.metamodel, com.type.name) )              
 	}
 	
-	public static def String selectSampleMutatorHelper(SelectSampleMutator com) {
-		var String className = null
-		if (com.object instanceof ObSelectionStrategy) {
-        	if (com.object instanceof RandomTypeSelection) {
-       			className = com.object.type.name
-       		}
-       		if (com.object instanceof CompleteTypeSelection) {
-       			className = com.object.type.name
-       		}
-			if (com.object instanceof SpecificObjectSelection) {
-				val SpecificObjectSelection selection = com.object as SpecificObjectSelection
-				if (selection.objSel instanceof CreateObjectMutator) {
-					className = selection.objSel.type.name
-				}
-				if (selection.objSel instanceof SelectObjectMutator) {
-					className = (selection.objSel as SelectObjectMutator).object.type.name
-				}
-				if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
-				}
-				if (selection.objSel instanceof CloneObjectMutator) {
-					className = selection.objSel.type.name
-				}
-			}
-       		if (com.object instanceof SpecificClosureSelection) {
-       			val SpecificClosureSelection selection = com.object as SpecificClosureSelection
-     			if (selection.objSel instanceof CreateObjectMutator) {
-       				className = selection.objSel.type.name
-       			}
-       			if (selection.objSel instanceof SelectObjectMutator) {
-       				className = (selection.objSel as SelectObjectMutator).object.type.name
-       			}
-       			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
-				}
-       			if (selection.objSel instanceof CloneObjectMutator) {
-       				className = selection.objSel.type.name
-       			}
-       		}
-		}
-		return className
-	}
-	
 	/**
 	 * RandomTypeSelection.refType can contain any EReference defined by the 
 	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
@@ -582,7 +540,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-       				sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+       				sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -598,7 +556,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-       				sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+       				sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -644,7 +602,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -659,7 +617,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -699,7 +657,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -714,7 +672,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -754,7 +712,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -769,7 +727,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -807,7 +765,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 					className = (selection.objSel as SelectObjectMutator).object.type.name
 				}
 				if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
 				if (selection.objSel instanceof CloneObjectMutator) {
 					className = selection.objSel.type.name
@@ -825,7 +783,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 					className = (selection.objSel as SelectObjectMutator).object.type.name
 				}
 				if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
 				if (selection.objSel instanceof CloneObjectMutator) {
 					className = selection.objSel.type.name
@@ -865,7 +823,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -881,7 +839,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -987,7 +945,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -1002,7 +960,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -1078,7 +1036,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -1093,7 +1051,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				sourceClassName = selection.objSel.type.name
@@ -1199,7 +1157,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -1214,7 +1172,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -2685,7 +2643,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2700,7 +2658,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2725,7 +2683,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2740,7 +2698,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2766,7 +2724,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2781,7 +2739,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2835,7 +2793,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2850,7 +2808,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2875,7 +2833,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2890,7 +2848,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2916,7 +2874,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2931,7 +2889,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -2982,7 +2940,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -2997,7 +2955,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
@@ -3045,7 +3003,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
@@ -3065,7 +3023,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name

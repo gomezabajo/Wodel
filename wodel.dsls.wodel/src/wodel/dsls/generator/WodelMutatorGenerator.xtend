@@ -87,6 +87,7 @@ import java.io.IOException
 import java.util.List
 import exceptions.ModelNotFoundException
 import exceptions.MetaModelNotFoundException
+import org.eclipse.emf.ecore.EObject
 
 /**
  * Generates code from your model files on save.
@@ -141,44 +142,7 @@ class WodelMutatorGenerator implements IGenerator {
 		}
 		return mutatorPath
 	}
-	
-	def int getNumberOfSeedModels(MutatorEnvironment e) {
-		var int total = 0;
-	   	try {
-		
-			var String modelURI = path + '/' + (e.definition as Program).source.path
-			var List<File> files = new ArrayList<File>()
-			var File folder = new File(modelURI)
-			if (modelURI.endsWith('/')) {
-				for (File file : folder.listFiles) {
-					files.add(file)
-				}
-			}
-			else {
-				files.add(folder)
-			}
-			for (var int i = 0; i < files.length; i++) {
-				if (files.get(i).isFile== true) {
-					var String pathfile = files.get(i).path;
-					if (pathfile.endsWith(".model") == true) {
-						total++;
-					}
-				}
-			}
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		} catch (MetaModelNotFoundException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		} catch (ModelNotFoundException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		}
-		return total;
-	}
-	
-	
+
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		manager.WodelContext.setProject(null)
 		manager.WodelContext.getProject
@@ -2071,6 +2035,10 @@ class WodelMutatorGenerator implements IGenerator {
 		appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
 		appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
 	«ENDIF»
+	«IF mut instanceof SelectSampleMutator»
+		appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
+		appMut.setDef(hmMutator.get("m«nRegistryMutation»"));
+	«ENDIF»
 		return appMut;
 	}
    '''
@@ -2169,6 +2137,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import commands.*;
 import commands.selection.strategies.*;
@@ -2219,14 +2188,13 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 	   	«IF nMut != 0»
 	   	numMutants = «nMut»;
 	   	«ENDIF»
-	   	
-	   	int totalMutants = numMutants * «e.getNumberOfSeedModels»;
+
+	   	int totalMutants = numMutants * «MutatorUtils.getNumberOfSeedModels(e, path)»;
 		totalTasks += totalMutants;
 		monitor.beginTask("Generating mutants", totalTasks);
 		HashMap<String, List<String>> hashmapMutVersions = new HashMap<String, List<String>>();
 		
 		«IF e.definition instanceof Program»
-		«val program = e.definition as Program»
 		«e.multiple»
 		«ENDIF»
 
@@ -2286,6 +2254,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 		monitor.worked(1);
 		//«i++»
 		«ENDFOR»
+		
    		//Generate metrics model
 		Bundle bundle = Platform.getBundle("wodel.models");
 	   	URL fileURL = bundle.getEntry("/models/MutatorMetrics.ecore");
@@ -3218,7 +3187,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
 			for (Mutator mut : l«compositeCommandName») {
 				«IF executeMutation == true»
 				if (mut != null) {
-					mut.mutate();
+					Object mutated = mut.mutate();
 				}
 				«ENDIF»
 			}

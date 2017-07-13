@@ -93,4 +93,12 @@
             class="pivot.PivotPackage"
             genModel="models/EssentialOCLCS.genmodel"/>
    </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorInfo -->
+      <package
+            uri="http://mutatorinfo/1.0"
+            class="mutatorinfo.MutatorinfoPackage"
+            genModel="models/MutatorInfo.genmodel"/>
+   </extension>
+
 </plugin>

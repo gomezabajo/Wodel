@@ -10,7 +10,7 @@
             id="RunWodel.contribution1">
          <menu
                icon="icons/wodel4.jpg"
-               id="RunWodel.menu1"
+               id="Wodel.menu1"
                label="Wodel..."
                path="additions">
             <separator
@@ -20,16 +20,9 @@
          <action
                label="Execute mutations"
                class="runwodel.popup.actions.RunWodel"
-               menubarPath="RunWodel.menu1/group1"
+               menubarPath="Wodel.menu1/group1"
                enablesFor="1"
                id="RunWodel.newAction1">
-         </action>
-         <action
-               label="Generate seed models"
-               class="runwodel.popup.actions.GenerateWodel"
-               menubarPath="RunWodel.menu1/group1"
-               enablesFor="1"
-               id="RunWodel.newAction2">
          </action>
       </objectContribution>
    </extension>

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Info
+Bundle-SymbolicName: wodel.metrics.info;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.metrics.info.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodel.utils,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: mutatorenvironment

@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import manager.DynamicMutatorMetrics.WodelMetricClass;
+import manager.DynamicMutatorMetrics.WodelMetricAttribute;
+import manager.DynamicMutatorMetrics.WodelMetricReference;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -288,6 +289,24 @@ public class DebugMutatorMetrics {
 			return this.references.addAll(references);
 		}
 		
+		public WodelMetricAttribute getAttributeByName(String name) {
+			for (WodelMetricAttribute metAtt : this.attributes) {
+				if (metAtt.getName().equals(name)) {
+					return metAtt;
+				}
+			}
+			return null;
+		}
+		
+		public WodelMetricReference getReferenceByName(String name) {
+			for (WodelMetricReference metRef : this.references) {
+				if (metRef.getName().equals(name)) {
+					return metRef;
+				}
+			}
+			return null;
+		}
+		
 		public WodelMetricClass() {
 			this.features[0] = new WodelMetricFeature(this, "Attributes");
 			this.features[1] = new WodelMetricFeature(this, "References");
@@ -473,8 +492,40 @@ public class DebugMutatorMetrics {
 						metricClass.ccreation = metricCl.ccreation;
 						metricClass.cmodification = metricCl.cmodification;
 						metricClass.cdeletion = metricCl.cdeletion;
-						metricClass.addAttributes(Arrays.asList(metricCl.getAttributes()));
-						metricClass.addReferences(Arrays.asList(metricCl.getReferences()));
+						for (WodelMetricAttribute metAtt : metricCl.getAttributes()) {
+							WodelMetricAttribute metricAttribute = null;
+							if (metricClass.getAttributeByName(metAtt.getName()) != null) {
+								metricAttribute = metricClass.getAttributeByName(metAtt.getName());
+							}
+							else {
+								metricAttribute = new WodelMetricAttribute();
+								metricAttribute.setEAttribute(metAtt.getEAttribute());
+								metricClass.addAttribute(metricAttribute);
+							}
+							metricAttribute.creation += metAtt.creation;
+							metricAttribute.modification += metAtt.modification;
+							metricAttribute.deletion += metAtt.deletion;
+							metricAttribute.ccreation += metAtt.ccreation;
+							metricAttribute.cmodification += metAtt.cmodification;
+							metricAttribute.cdeletion += metAtt.cdeletion;
+						}
+						for (WodelMetricReference metRef : metricCl.getReferences()) {
+							WodelMetricReference metricReference = null;
+							if (metricClass.getReferenceByName(metRef.getName()) != null) {
+								metricReference = metricClass.getReferenceByName(metRef.getName());
+							}
+							else {
+								metricReference = new WodelMetricReference();
+								metricReference.setEReference(metRef.getEReference());
+								metricClass.addReference(metricReference);
+							}
+							metricReference.creation += metRef.creation;
+							metricReference.modification += metRef.modification;
+							metricReference.deletion += metRef.deletion;
+							metricReference.ccreation += metRef.ccreation;
+							metricReference.cmodification += metRef.cmodification;
+							metricReference.cdeletion += metRef.cdeletion;
+						}
 						classMetrics.put(metricCl.getName(), metricClass);
 					}
 					else {
@@ -485,8 +536,40 @@ public class DebugMutatorMetrics {
 						metricClass.ccreation += metricCl.ccreation;
 						metricClass.cmodification += metricCl.cmodification;
 						metricClass.cdeletion += metricCl.cdeletion;
-						metricClass.addAttributes(Arrays.asList(metricCl.getAttributes()));
-						metricClass.addReferences(Arrays.asList(metricCl.getReferences()));
+						for (WodelMetricAttribute metAtt : metricCl.getAttributes()) {
+							WodelMetricAttribute metricAttribute = null;
+							if (metricClass.getAttributeByName(metAtt.getName()) != null) {
+								metricAttribute = metricClass.getAttributeByName(metAtt.getName());
+							}
+							else {
+								metricAttribute = new WodelMetricAttribute();
+								metricAttribute.setEAttribute(metAtt.getEAttribute());
+								metricClass.addAttribute(metricAttribute);
+							}
+							metricAttribute.creation += metAtt.creation;
+							metricAttribute.modification += metAtt.modification;
+							metricAttribute.deletion += metAtt.deletion;
+							metricAttribute.ccreation += metAtt.ccreation;
+							metricAttribute.cmodification += metAtt.cmodification;
+							metricAttribute.cdeletion += metAtt.cdeletion;
+						}
+						for (WodelMetricReference metRef : metricCl.getReferences()) {
+							WodelMetricReference metricReference = null;
+							if (metricClass.getReferenceByName(metRef.getName()) != null) {
+								metricReference = metricClass.getReferenceByName(metRef.getName());
+							}
+							else {
+								metricReference = new WodelMetricReference();
+								metricReference.setEReference(metRef.getEReference());
+								metricClass.addReference(metricReference);
+							}
+							metricReference.creation += metRef.creation;
+							metricReference.modification += metRef.modification;
+							metricReference.deletion += metRef.deletion;
+							metricReference.ccreation += metRef.ccreation;
+							metricReference.cmodification += metRef.cmodification;
+							metricReference.cdeletion += metRef.cdeletion;
+						}
 						classMetrics.put(metricCl.getName(), metricClass);
 					}
 				}

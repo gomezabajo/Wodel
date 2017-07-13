@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
+import manager.MutatorUtils;
 import manager.WodelContext;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeScalar;
@@ -1038,94 +1039,6 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     return _xblockexpression;
   }
   
-  public static String selectSampleMutatorHelper(final SelectSampleMutator com) {
-    String className = null;
-    ObSelectionStrategy _object = com.getObject();
-    if ((_object instanceof ObSelectionStrategy)) {
-      ObSelectionStrategy _object_1 = com.getObject();
-      if ((_object_1 instanceof RandomTypeSelection)) {
-        ObSelectionStrategy _object_2 = com.getObject();
-        EClass _type = _object_2.getType();
-        String _name = _type.getName();
-        className = _name;
-      }
-      ObSelectionStrategy _object_3 = com.getObject();
-      if ((_object_3 instanceof CompleteTypeSelection)) {
-        ObSelectionStrategy _object_4 = com.getObject();
-        EClass _type_1 = _object_4.getType();
-        String _name_1 = _type_1.getName();
-        className = _name_1;
-      }
-      ObSelectionStrategy _object_5 = com.getObject();
-      if ((_object_5 instanceof SpecificObjectSelection)) {
-        ObSelectionStrategy _object_6 = com.getObject();
-        final SpecificObjectSelection selection = ((SpecificObjectSelection) _object_6);
-        ObjectEmitter _objSel = selection.getObjSel();
-        if ((_objSel instanceof CreateObjectMutator)) {
-          ObjectEmitter _objSel_1 = selection.getObjSel();
-          EClass _type_2 = _objSel_1.getType();
-          String _name_2 = _type_2.getName();
-          className = _name_2;
-        }
-        ObjectEmitter _objSel_2 = selection.getObjSel();
-        if ((_objSel_2 instanceof SelectObjectMutator)) {
-          ObjectEmitter _objSel_3 = selection.getObjSel();
-          ObSelectionStrategy _object_7 = ((SelectObjectMutator) _objSel_3).getObject();
-          EClass _type_3 = _object_7.getType();
-          String _name_3 = _type_3.getName();
-          className = _name_3;
-        }
-        ObjectEmitter _objSel_4 = selection.getObjSel();
-        if ((_objSel_4 instanceof SelectSampleMutator)) {
-          ObjectEmitter _objSel_5 = selection.getObjSel();
-          String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
-          className = _selectSampleMutatorHelper;
-        }
-        ObjectEmitter _objSel_6 = selection.getObjSel();
-        if ((_objSel_6 instanceof CloneObjectMutator)) {
-          ObjectEmitter _objSel_7 = selection.getObjSel();
-          EClass _type_4 = _objSel_7.getType();
-          String _name_4 = _type_4.getName();
-          className = _name_4;
-        }
-      }
-      ObSelectionStrategy _object_8 = com.getObject();
-      if ((_object_8 instanceof SpecificClosureSelection)) {
-        ObSelectionStrategy _object_9 = com.getObject();
-        final SpecificClosureSelection selection_1 = ((SpecificClosureSelection) _object_9);
-        ObjectEmitter _objSel_8 = selection_1.getObjSel();
-        if ((_objSel_8 instanceof CreateObjectMutator)) {
-          ObjectEmitter _objSel_9 = selection_1.getObjSel();
-          EClass _type_5 = _objSel_9.getType();
-          String _name_5 = _type_5.getName();
-          className = _name_5;
-        }
-        ObjectEmitter _objSel_10 = selection_1.getObjSel();
-        if ((_objSel_10 instanceof SelectObjectMutator)) {
-          ObjectEmitter _objSel_11 = selection_1.getObjSel();
-          ObSelectionStrategy _object_10 = ((SelectObjectMutator) _objSel_11).getObject();
-          EClass _type_6 = _object_10.getType();
-          String _name_6 = _type_6.getName();
-          className = _name_6;
-        }
-        ObjectEmitter _objSel_12 = selection_1.getObjSel();
-        if ((_objSel_12 instanceof SelectSampleMutator)) {
-          ObjectEmitter _objSel_13 = selection_1.getObjSel();
-          String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
-          className = _selectSampleMutatorHelper_1;
-        }
-        ObjectEmitter _objSel_14 = selection_1.getObjSel();
-        if ((_objSel_14 instanceof CloneObjectMutator)) {
-          ObjectEmitter _objSel_15 = selection_1.getObjSel();
-          EClass _type_7 = _objSel_15.getType();
-          String _name_7 = _type_7.getName();
-          className = _name_7;
-        }
-      }
-    }
-    return className;
-  }
-  
   /**
    * RandomTypeSelection.refType can contain any EReference defined by the
    * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
@@ -1176,7 +1089,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             sourceClassName = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1209,7 +1122,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             sourceClassName = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -1287,7 +1200,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             className = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1320,7 +1233,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -1390,7 +1303,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             className = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1423,7 +1336,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -1493,7 +1406,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             className = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1526,7 +1439,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -1587,7 +1500,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             className = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1624,7 +1537,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className_1 = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -1694,7 +1607,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             sourceClassName = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1727,7 +1640,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             sourceClassName = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -1929,7 +1842,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             sourceClassName = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -1962,7 +1875,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             sourceClassName = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -2107,7 +2020,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             sourceClassName = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -2140,7 +2053,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             sourceClassName = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -2342,7 +2255,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             className = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -2375,7 +2288,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -5459,7 +5372,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_4 = selection.getObjSel();
             if ((_objSel_4 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_5 = selection.getObjSel();
-              String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+              String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
               className = _selectSampleMutatorHelper;
             }
             ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -5492,7 +5405,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_12 = selection_1.getObjSel();
             if ((_objSel_12 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_13 = selection_1.getObjSel();
-              String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+              String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
               className = _selectSampleMutatorHelper_1;
             }
             ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -5543,7 +5456,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_20 = selection_4.getObjSel();
             if ((_objSel_20 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_21 = selection_4.getObjSel();
-              String _selectSampleMutatorHelper_2 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_21));
+              String _selectSampleMutatorHelper_2 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_21));
               className = _selectSampleMutatorHelper_2;
             }
             ObjectEmitter _objSel_22 = selection_4.getObjSel();
@@ -5576,7 +5489,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_28 = selection_5.getObjSel();
             if ((_objSel_28 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_29 = selection_5.getObjSel();
-              String _selectSampleMutatorHelper_3 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_29));
+              String _selectSampleMutatorHelper_3 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_29));
               className = _selectSampleMutatorHelper_3;
             }
             ObjectEmitter _objSel_30 = selection_5.getObjSel();
@@ -5627,7 +5540,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_36 = selection_8.getObjSel();
             if ((_objSel_36 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_37 = selection_8.getObjSel();
-              String _selectSampleMutatorHelper_4 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_37));
+              String _selectSampleMutatorHelper_4 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_37));
               className = _selectSampleMutatorHelper_4;
             }
             ObjectEmitter _objSel_38 = selection_8.getObjSel();
@@ -5660,7 +5573,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_44 = selection_9.getObjSel();
             if ((_objSel_44 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_45 = selection_9.getObjSel();
-              String _selectSampleMutatorHelper_5 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_45));
+              String _selectSampleMutatorHelper_5 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_45));
               className = _selectSampleMutatorHelper_5;
             }
             ObjectEmitter _objSel_46 = selection_9.getObjSel();
@@ -5751,7 +5664,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_4 = selection.getObjSel();
             if ((_objSel_4 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_5 = selection.getObjSel();
-              String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+              String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
               className = _selectSampleMutatorHelper;
             }
             ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -5784,7 +5697,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_12 = selection_1.getObjSel();
             if ((_objSel_12 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_13 = selection_1.getObjSel();
-              String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+              String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
               className = _selectSampleMutatorHelper_1;
             }
             ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -5835,7 +5748,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_20 = selection_4.getObjSel();
             if ((_objSel_20 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_21 = selection_4.getObjSel();
-              String _selectSampleMutatorHelper_2 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_21));
+              String _selectSampleMutatorHelper_2 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_21));
               className = _selectSampleMutatorHelper_2;
             }
             ObjectEmitter _objSel_22 = selection_4.getObjSel();
@@ -5868,7 +5781,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_28 = selection_5.getObjSel();
             if ((_objSel_28 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_29 = selection_5.getObjSel();
-              String _selectSampleMutatorHelper_3 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_29));
+              String _selectSampleMutatorHelper_3 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_29));
               className = _selectSampleMutatorHelper_3;
             }
             ObjectEmitter _objSel_30 = selection_5.getObjSel();
@@ -5919,7 +5832,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_36 = selection_8.getObjSel();
             if ((_objSel_36 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_37 = selection_8.getObjSel();
-              String _selectSampleMutatorHelper_4 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_37));
+              String _selectSampleMutatorHelper_4 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_37));
               className = _selectSampleMutatorHelper_4;
             }
             ObjectEmitter _objSel_38 = selection_8.getObjSel();
@@ -5952,7 +5865,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_44 = selection_9.getObjSel();
             if ((_objSel_44 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_45 = selection_9.getObjSel();
-              String _selectSampleMutatorHelper_5 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_45));
+              String _selectSampleMutatorHelper_5 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_45));
               className = _selectSampleMutatorHelper_5;
             }
             ObjectEmitter _objSel_46 = selection_9.getObjSel();
@@ -6042,7 +5955,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_4 = selection.getObjSel();
           if ((_objSel_4 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_5 = selection.getObjSel();
-            String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+            String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
             className = _selectSampleMutatorHelper;
           }
           ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -6075,7 +5988,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();
@@ -6167,7 +6080,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObjectEmitter _objSel_4 = selection.getObjSel();
             if ((_objSel_4 instanceof SelectSampleMutator)) {
               ObjectEmitter _objSel_5 = selection.getObjSel();
-              String _selectSampleMutatorHelper = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
+              String _selectSampleMutatorHelper = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_5));
               className = _selectSampleMutatorHelper;
             }
             ObjectEmitter _objSel_6 = selection.getObjSel();
@@ -6206,7 +6119,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObjectEmitter _objSel_12 = selection_1.getObjSel();
           if ((_objSel_12 instanceof SelectSampleMutator)) {
             ObjectEmitter _objSel_13 = selection_1.getObjSel();
-            String _selectSampleMutatorHelper_1 = WodelScopeProvider.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
+            String _selectSampleMutatorHelper_1 = MutatorUtils.selectSampleMutatorHelper(((SelectSampleMutator) _objSel_13));
             className = _selectSampleMutatorHelper_1;
           }
           ObjectEmitter _objSel_14 = selection_1.getObjSel();

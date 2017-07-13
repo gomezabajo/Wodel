@@ -187,7 +187,10 @@ public class MutatorDependencies {
 								}
 							}
 						}
-						if (max >= mut.getMax()) {
+						if (previousMutators.size() == 0) {
+							value = 1;
+						}
+						else if (max >= mut.getMax()) {
 							value = 0;
 						}
 						else {

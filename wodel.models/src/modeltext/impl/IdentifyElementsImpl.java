@@ -6,8 +6,7 @@ import java.util.Collection;
 
 import modeltext.Element;
 import modeltext.IdentifyElements;
-import modeltext.IdentifyelementsPackage;
-
+import modeltext.ModeltextPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -28,11 +27,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.impl.IdentifyElementsImpl#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link modeltext.impl.IdentifyElementsImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -83,7 +82,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IdentifyelementsPackage.Literals.IDENTIFY_ELEMENTS;
+		return ModeltextPackage.Literals.IDENTIFY_ELEMENTS;
 	}
 
 	/**
@@ -104,7 +103,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 		String oldMetamodel = metamodel;
 		metamodel = newMetamodel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.IDENTIFY_ELEMENTS__METAMODEL, oldMetamodel, metamodel));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL, oldMetamodel, metamodel));
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	 */
 	public EList<Element> getElements() {
 		if (elements == null) {
-			elements = new EObjectContainmentEList<Element>(Element.class, this, IdentifyelementsPackage.IDENTIFY_ELEMENTS__ELEMENTS);
+			elements = new EObjectContainmentEList<Element>(Element.class, this, ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS);
 		}
 		return elements;
 	}
@@ -127,7 +126,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__ELEMENTS:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
 				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -141,9 +140,9 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__METAMODEL:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				return getMetamodel();
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__ELEMENTS:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
 				return getElements();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -158,10 +157,10 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__METAMODEL:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				setMetamodel((String)newValue);
 				return;
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__ELEMENTS:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
 				getElements().clear();
 				getElements().addAll((Collection<? extends Element>)newValue);
 				return;
@@ -177,10 +176,10 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__METAMODEL:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				setMetamodel(METAMODEL_EDEFAULT);
 				return;
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__ELEMENTS:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
 				getElements().clear();
 				return;
 		}
@@ -195,9 +194,9 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__METAMODEL:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__METAMODEL:
 				return METAMODEL_EDEFAULT == null ? metamodel != null : !METAMODEL_EDEFAULT.equals(metamodel);
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS__ELEMENTS:
+			case ModeltextPackage.IDENTIFY_ELEMENTS__ELEMENTS:
 				return elements != null && !elements.isEmpty();
 		}
 		return super.eIsSet(featureID);

@@ -3,8 +3,7 @@
 package modeltext.impl;
 
 import modeltext.Constant;
-import modeltext.IdentifyelementsPackage;
-
+import modeltext.ModeltextPackage;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -17,10 +16,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.impl.ConstantImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -61,7 +60,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IdentifyelementsPackage.Literals.CONSTANT;
+		return ModeltextPackage.Literals.CONSTANT;
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.CONSTANT__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.CONSTANT__VALUE, oldValue, value));
 	}
 
 	/**
@@ -93,7 +92,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IdentifyelementsPackage.CONSTANT__VALUE:
+			case ModeltextPackage.CONSTANT__VALUE:
 				return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -107,7 +106,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IdentifyelementsPackage.CONSTANT__VALUE:
+			case ModeltextPackage.CONSTANT__VALUE:
 				setValue((String)newValue);
 				return;
 		}
@@ -122,7 +121,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.CONSTANT__VALUE:
+			case ModeltextPackage.CONSTANT__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
 		}
@@ -137,7 +136,7 @@ public class ConstantImpl extends WordImpl implements Constant {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.CONSTANT__VALUE:
+			case ModeltextPackage.CONSTANT__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import manager.ModelManager;
-import manager.MutatorUtils;
+import mutator.MutatorUtils;
 import manager.WodelContext;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeScalar;

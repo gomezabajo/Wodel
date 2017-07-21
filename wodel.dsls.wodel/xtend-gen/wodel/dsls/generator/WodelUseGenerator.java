@@ -10,9 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.UseUtils;
 import manager.WodelContext;
+import mutator.MutatorUtils;
 import mutatorenvironment.Block;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CreateObjectMutator;
@@ -28,6 +27,8 @@ import mutatorenvironment.RemoveCompleteReferenceMutator;
 import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SelectSampleMutator;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -42,6 +43,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import use.UseUtils;
 
 /**
  * Generates code from your model files on save.
@@ -53,7 +55,7 @@ public class WodelUseGenerator implements IGenerator {
   private static class Cardinality {
     private int min = 0;
     
-    private int max = 10;
+    private int max = 0;
   }
   
   private String fileName;
@@ -72,6 +74,14 @@ public class WodelUseGenerator implements IGenerator {
   
   private HashMap<String, HashMap<String, String>> useReferences = new HashMap<String, HashMap<String, String>>();
   
+  private int maxInteger;
+  
+  private int minInteger;
+  
+  private int maxString;
+  
+  private int maxCardinality;
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
     WodelContext.setProject(null);
@@ -86,6 +96,22 @@ public class WodelUseGenerator implements IGenerator {
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(_iterable, MutatorEnvironment.class);
     for (final MutatorEnvironment e : _filter) {
       {
+        IPreferencesService _preferencesService = Platform.getPreferencesService();
+        String _string = _preferencesService.getString("wodel.dsls.Wodel", "Maximum integer value", "100", null);
+        int _parseInt = Integer.parseInt(_string);
+        this.maxInteger = _parseInt;
+        IPreferencesService _preferencesService_1 = Platform.getPreferencesService();
+        String _string_1 = _preferencesService_1.getString("wodel.dsls.Wodel", "Minimum integer value", "-100", null);
+        int _parseInt_1 = Integer.parseInt(_string_1);
+        this.minInteger = _parseInt_1;
+        IPreferencesService _preferencesService_2 = Platform.getPreferencesService();
+        String _string_2 = _preferencesService_2.getString("wodel.dsls.Wodel", "Maximum string value", "10", null);
+        int _parseInt_2 = Integer.parseInt(_string_2);
+        this.maxString = _parseInt_2;
+        IPreferencesService _preferencesService_3 = Platform.getPreferencesService();
+        String _string_3 = _preferencesService_3.getString("wodel.dsls.Wodel", "Maximum cardinality value", "10", null);
+        int _parseInt_3 = Integer.parseInt(_string_3);
+        this.maxCardinality = _parseInt_3;
         URI _uRI = resource.getURI();
         String _lastSegment = _uRI.lastSegment();
         this.fileName = _lastSegment;
@@ -416,13 +442,16 @@ public class WodelUseGenerator implements IGenerator {
       _builder.append("[default]");
       _builder.newLine();
       _builder.newLine();
-      _builder.append("Integer_min = -100");
+      _builder.append("Integer_min = ");
+      _builder.append(this.minInteger, "");
+      _builder.newLineIfNotEmpty();
+      _builder.append("Integer_max = ");
+      _builder.append(this.maxInteger, "");
+      _builder.newLineIfNotEmpty();
       _builder.newLine();
-      _builder.append("Integer_max = 100");
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("String_max = 10");
-      _builder.newLine();
+      _builder.append("String_max = ");
+      _builder.append(this.maxString, "");
+      _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append(this.dummyClassName, "");
       _builder.append("_min = 1");
@@ -479,6 +508,10 @@ public class WodelUseGenerator implements IGenerator {
               _builder.newLineIfNotEmpty();
               _builder.append("# ");
               _builder.append(cardinality.max = 1, "");
+              _builder.newLineIfNotEmpty();
+            } else {
+              _builder.append("# ");
+              _builder.append(cardinality.max = this.maxCardinality, "");
               _builder.newLineIfNotEmpty();
             }
           }
@@ -652,7 +685,8 @@ public class WodelUseGenerator implements IGenerator {
                   _builder.append(min, "");
                   _builder.newLineIfNotEmpty();
                   _builder.append(associationName, "");
-                  _builder.append("_max = 10");
+                  _builder.append("_max = ");
+                  _builder.append(this.maxCardinality, "");
                   _builder.newLineIfNotEmpty();
                 }
               }

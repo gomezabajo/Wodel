@@ -1,17 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: MutUtils
 Bundle-SymbolicName: wodel.utils;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .
-Bundle-Vendor: %providerName
-Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: commands,
- commands.selection.strategies,
- commands.strategies,
- exceptions,
- manager
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.ui,
@@ -24,13 +15,23 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.osgi,
  org.eclipse.emf.common,
  wodel.models,
- com.google.guava
+ com.google.guava,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: edutest,
- modeltext,
- mutatext,
- mutatorenvironment,
- org.eclipse.emf.codegen.ecore.generator,
+Import-Package: org.eclipse.emf.codegen.ecore.generator,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.ecore.xmi.impl
+ org.eclipse.emf.ecore.xmi.impl,
+ comparation.run
+Export-Package: commands,
+ commands.selection.strategies,
+ commands.strategies,
+ exceptions,
+ manager,
+ metrics,
+ mutator,
+ use
+
+

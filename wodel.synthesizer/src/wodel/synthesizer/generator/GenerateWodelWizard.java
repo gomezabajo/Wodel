@@ -36,8 +36,7 @@ import kodkod.ast.Relation;
 import kodkod.instance.TupleSet;
 import manager.IOUtils;
 import manager.ModelManager;
-import manager.MutatorUtils;
-import manager.UseUtils;
+import use.UseUtils;
 import manager.WodelContext;
 
 import org.eclipse.core.resources.IFile;

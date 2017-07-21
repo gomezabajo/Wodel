@@ -9,7 +9,7 @@ import modeltext.Attribute;
 import modeltext.Constant;
 import modeltext.Element;
 import modeltext.IdentifyElements;
-import modeltext.IdentifyelementsPackage;
+import modeltext.ModeltextPackage;
 import modeltext.Variable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
@@ -32,20 +32,20 @@ public abstract class AbstractModelTextSemanticSequencer extends AbstractDelegat
 	
 	@Override
 	public void createSequence(EObject context, EObject semanticObject) {
-		if(semanticObject.eClass().getEPackage() == IdentifyelementsPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
-			case IdentifyelementsPackage.ATTRIBUTE:
+		if(semanticObject.eClass().getEPackage() == ModeltextPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+			case ModeltextPackage.ATTRIBUTE:
 				sequence_Attribute(context, (Attribute) semanticObject); 
 				return; 
-			case IdentifyelementsPackage.CONSTANT:
+			case ModeltextPackage.CONSTANT:
 				sequence_Constant(context, (Constant) semanticObject); 
 				return; 
-			case IdentifyelementsPackage.ELEMENT:
+			case ModeltextPackage.ELEMENT:
 				sequence_Element(context, (Element) semanticObject); 
 				return; 
-			case IdentifyelementsPackage.IDENTIFY_ELEMENTS:
+			case ModeltextPackage.IDENTIFY_ELEMENTS:
 				sequence_IdentifyElements(context, (IdentifyElements) semanticObject); 
 				return; 
-			case IdentifyelementsPackage.VARIABLE:
+			case ModeltextPackage.VARIABLE:
 				sequence_Variable(context, (Variable) semanticObject); 
 				return; 
 			}
@@ -67,8 +67,8 @@ public abstract class AbstractModelTextSemanticSequencer extends AbstractDelegat
 	 */
 	protected void sequence_Constant(EObject context, Constant semanticObject) {
 		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, IdentifyelementsPackage.Literals.CONSTANT__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IdentifyelementsPackage.Literals.CONSTANT__VALUE));
+			if(transientValues.isValueTransient(semanticObject, ModeltextPackage.Literals.CONSTANT__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModeltextPackage.Literals.CONSTANT__VALUE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);

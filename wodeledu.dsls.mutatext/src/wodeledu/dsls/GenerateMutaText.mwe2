@@ -15,7 +15,7 @@ Workflow {
 		scanClassPath  = true
 		platformUri = "${runtimeProject}/.."
 		registerGeneratedEPackage = "mutatext.MutatextPackage"
-		registerGenModelFile = "platform:/resource/wodel/models/MutaText.genmodel"
+		registerGenModelFile = "platform:/resource/wodel.models/models/MutaText.genmodel"
 	}
 
 	component = DirectoryCleaner {

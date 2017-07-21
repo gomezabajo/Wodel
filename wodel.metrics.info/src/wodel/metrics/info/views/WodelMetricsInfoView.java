@@ -10,13 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import manager.ModelManager;
-import manager.MutatorInfo;
-import manager.MutatorInfo.MutatorInfoFeature;
-import manager.MutatorInfo.MutatorInfoMutant;
-import manager.MutatorInfo.MutatorInfoSeed;
-import manager.MutatorUtils;
+import mutator.MutatorInfo;
+import mutator.MutatorInfo.MutatorInfoFeature;
+import mutator.MutatorInfo.MutatorInfoMutant;
+import mutator.MutatorInfo.MutatorInfoSeed;
+import mutator.MutatorUtils;
 import manager.WodelContext;
-import manager.MutatorInfo.MutatorInfoClass;
+import mutator.MutatorInfo.MutatorInfoClass;
 import mutatorenvironment.MutatorEnvironment;
 
 import org.eclipse.swt.widgets.Composite;

@@ -10,12 +10,12 @@ package modeltext;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.Constant#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
- * @see modeltext.IdentifyelementsPackage#getConstant()
+ * @see modeltext.ModeltextPackage#getConstant()
  * @model
  * @generated
  */
@@ -30,7 +30,7 @@ public interface Constant extends Word {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
-	 * @see modeltext.IdentifyelementsPackage#getConstant_Value()
+	 * @see modeltext.ModeltextPackage#getConstant_Value()
 	 * @model required="true"
 	 *        annotation="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName body='Variable' unique='false' upper='*'"
 	 * @generated

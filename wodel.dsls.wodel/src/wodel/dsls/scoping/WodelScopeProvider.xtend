@@ -47,16 +47,12 @@ import mutatorenvironment.ReferenceSet
 import mutatorenvironment.ObSelectionStrategy
 import mutatorenvironment.Block
 import mutatorenvironment.Constraint
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.Arrays
 import mutatorenvironment.CloneObjectMutator
 import mutatorenvironment.ReferenceAtt
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EEnum
 import mutatorenvironment.AttributeEvaluation
 import mutatorenvironment.AttributeScalar
-import org.eclipse.xtext.resource.IEObjectDescription
 import mutatorenvironment.ObjectAttributeType
 import mutatorenvironment.MaxValueType
 import mutatorenvironment.MinValueType
@@ -65,7 +61,7 @@ import mutatorenvironment.SpecificClosureSelection
 import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.ReferenceAdd
 import mutatorenvironment.ReferenceRemove
-import manager.MutatorUtils
+import mutator.MutatorUtils
 
 /**
  * This class contains custom scoping description.

@@ -2,7 +2,7 @@
  */
 package modeltext.impl;
 
-import modeltext.IdentifyelementsPackage;
+import modeltext.ModeltextPackage;
 import modeltext.Variable;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.impl.VariableImpl#getRef <em>Ref</em>}</li>
  *   <li>{@link modeltext.impl.VariableImpl#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -65,7 +65,7 @@ public class VariableImpl extends WordImpl implements Variable {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IdentifyelementsPackage.Literals.VARIABLE;
+		return ModeltextPackage.Literals.VARIABLE;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class VariableImpl extends WordImpl implements Variable {
 			ref = (EReference)eResolveProxy(oldRef);
 			if (ref != oldRef) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IdentifyelementsPackage.VARIABLE__REF, oldRef, ref));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeltextPackage.VARIABLE__REF, oldRef, ref));
 			}
 		}
 		return ref;
@@ -103,7 +103,7 @@ public class VariableImpl extends WordImpl implements Variable {
 		EReference oldRef = ref;
 		ref = newRef;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.VARIABLE__REF, oldRef, ref));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.VARIABLE__REF, oldRef, ref));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class VariableImpl extends WordImpl implements Variable {
 			id = (EAttribute)eResolveProxy(oldId);
 			if (id != oldId) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IdentifyelementsPackage.VARIABLE__ID, oldId, id));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeltextPackage.VARIABLE__ID, oldId, id));
 			}
 		}
 		return id;
@@ -141,7 +141,7 @@ public class VariableImpl extends WordImpl implements Variable {
 		EAttribute oldId = id;
 		id = newId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.VARIABLE__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.VARIABLE__ID, oldId, id));
 	}
 
 	/**
@@ -152,10 +152,10 @@ public class VariableImpl extends WordImpl implements Variable {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IdentifyelementsPackage.VARIABLE__REF:
+			case ModeltextPackage.VARIABLE__REF:
 				if (resolve) return getRef();
 				return basicGetRef();
-			case IdentifyelementsPackage.VARIABLE__ID:
+			case ModeltextPackage.VARIABLE__ID:
 				if (resolve) return getId();
 				return basicGetId();
 		}
@@ -170,10 +170,10 @@ public class VariableImpl extends WordImpl implements Variable {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IdentifyelementsPackage.VARIABLE__REF:
+			case ModeltextPackage.VARIABLE__REF:
 				setRef((EReference)newValue);
 				return;
-			case IdentifyelementsPackage.VARIABLE__ID:
+			case ModeltextPackage.VARIABLE__ID:
 				setId((EAttribute)newValue);
 				return;
 		}
@@ -188,10 +188,10 @@ public class VariableImpl extends WordImpl implements Variable {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.VARIABLE__REF:
+			case ModeltextPackage.VARIABLE__REF:
 				setRef((EReference)null);
 				return;
-			case IdentifyelementsPackage.VARIABLE__ID:
+			case ModeltextPackage.VARIABLE__ID:
 				setId((EAttribute)null);
 				return;
 		}
@@ -206,9 +206,9 @@ public class VariableImpl extends WordImpl implements Variable {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.VARIABLE__REF:
+			case ModeltextPackage.VARIABLE__REF:
 				return ref != null;
-			case IdentifyelementsPackage.VARIABLE__ID:
+			case ModeltextPackage.VARIABLE__ID:
 				return id != null;
 		}
 		return super.eIsSet(featureID);

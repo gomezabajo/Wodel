@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MutComparation
+Bundle-SymbolicName: wodel.comparation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: comparation.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource
+Export-Package: comparation,
+ comparation.run

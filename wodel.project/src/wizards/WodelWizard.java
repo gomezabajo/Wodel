@@ -318,7 +318,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		String metamodel = null;
 		//Copies the selected meta-model
 		if (_pageTwo.file != null) {
-			metamodel = _pageTwo.file.substring(_pageTwo.file.lastIndexOf("\\") + 1);
+			metamodel = _pageTwo.file.substring(_pageTwo.file.lastIndexOf(File.separator) + 1);
 			IFile file = modelFolder.getFile(new Path(metamodel));
 			try {
 				FileReader fr = new FileReader(_pageTwo.file);

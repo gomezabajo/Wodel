@@ -3,8 +3,7 @@
 package modeltext.impl;
 
 import modeltext.Attribute;
-import modeltext.IdentifyelementsPackage;
-
+import modeltext.ModeltextPackage;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -20,11 +19,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.impl.AttributeImpl#isNegation <em>Negation</em>}</li>
  *   <li>{@link modeltext.impl.AttributeImpl#getAtt <em>Att</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -75,7 +74,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IdentifyelementsPackage.Literals.ATTRIBUTE;
+		return ModeltextPackage.Literals.ATTRIBUTE;
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 		boolean oldNegation = negation;
 		negation = newNegation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.ATTRIBUTE__NEGATION, oldNegation, negation));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.ATTRIBUTE__NEGATION, oldNegation, negation));
 	}
 
 	/**
@@ -110,7 +109,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 			att = (EAttribute)eResolveProxy(oldAtt);
 			if (att != oldAtt) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IdentifyelementsPackage.ATTRIBUTE__ATT, oldAtt, att));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeltextPackage.ATTRIBUTE__ATT, oldAtt, att));
 			}
 		}
 		return att;
@@ -134,7 +133,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 		EAttribute oldAtt = att;
 		att = newAtt;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.ATTRIBUTE__ATT, oldAtt, att));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.ATTRIBUTE__ATT, oldAtt, att));
 	}
 
 	/**
@@ -145,9 +144,9 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ATTRIBUTE__NEGATION:
+			case ModeltextPackage.ATTRIBUTE__NEGATION:
 				return isNegation();
-			case IdentifyelementsPackage.ATTRIBUTE__ATT:
+			case ModeltextPackage.ATTRIBUTE__ATT:
 				if (resolve) return getAtt();
 				return basicGetAtt();
 		}
@@ -162,10 +161,10 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ATTRIBUTE__NEGATION:
+			case ModeltextPackage.ATTRIBUTE__NEGATION:
 				setNegation((Boolean)newValue);
 				return;
-			case IdentifyelementsPackage.ATTRIBUTE__ATT:
+			case ModeltextPackage.ATTRIBUTE__ATT:
 				setAtt((EAttribute)newValue);
 				return;
 		}
@@ -180,10 +179,10 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ATTRIBUTE__NEGATION:
+			case ModeltextPackage.ATTRIBUTE__NEGATION:
 				setNegation(NEGATION_EDEFAULT);
 				return;
-			case IdentifyelementsPackage.ATTRIBUTE__ATT:
+			case ModeltextPackage.ATTRIBUTE__ATT:
 				setAtt((EAttribute)null);
 				return;
 		}
@@ -198,9 +197,9 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ATTRIBUTE__NEGATION:
+			case ModeltextPackage.ATTRIBUTE__NEGATION:
 				return negation != NEGATION_EDEFAULT;
-			case IdentifyelementsPackage.ATTRIBUTE__ATT:
+			case ModeltextPackage.ATTRIBUTE__ATT:
 				return att != null;
 		}
 		return super.eIsSet(featureID);

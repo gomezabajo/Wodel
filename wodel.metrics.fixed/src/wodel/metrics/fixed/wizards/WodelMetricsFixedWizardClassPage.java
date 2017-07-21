@@ -3,7 +3,7 @@ package wodel.metrics.fixed.wizards;
 import java.util.ArrayList;
 
 import manager.ModelManager;
-import manager.MutatorUtils;
+import mutator.MutatorUtils;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,7 +22,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 
 public class WodelMetricsFixedWizardClassPage extends WizardPage {
 	

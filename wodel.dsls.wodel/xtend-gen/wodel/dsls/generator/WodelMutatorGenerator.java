@@ -9,8 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
-import manager.MutatorUtils;
 import manager.WodelContext;
+import mutator.MutatorUtils;
 import mutatorenvironment.ArithmeticOperator;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
@@ -8066,7 +8066,7 @@ public class WodelMutatorGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("import manager.ModelManager;");
     _builder.newLine();
-    _builder.append("import manager.MutatorMetrics;");
+    _builder.append("import metrics.MutatorMetrics;");
     _builder.newLine();
     _builder.newLine();
     _builder.append("import org.eclipse.core.runtime.FileLocator;");
@@ -8115,7 +8115,7 @@ public class WodelMutatorGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("public class ");
     _builder.append(this.className, "");
-    _builder.append(" extends manager.MutatorUtils implements manager.IMutatorExecutor {");
+    _builder.append(" extends mutator.MutatorUtils implements manager.IMutatorExecutor {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -11615,7 +11615,7 @@ public class WodelMutatorGenerator implements IGenerator {
     _builder.append("      \t\t\t");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("isRepeated = registryMutant(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);");
+    _builder.append("isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);");
     _builder.newLine();
     _builder.newLine();
     _builder.append("\t    \t\t");
@@ -11832,7 +11832,7 @@ public class WodelMutatorGenerator implements IGenerator {
     _builder.append("       \t\t\t");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("isRepeated = registryMutantWithBlocks(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
+    _builder.append("isRepeated = registryMutantWithBlocks(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, \"");
     String _name_8 = b.getName();
     _builder.append(_name_8, "\t\t");
     _builder.append("\", fromNames, i, mutPaths, hashmapMutVersions);");

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import manager.ModelManager;
-import manager.MutatorUtils;
+import mutator.MutatorUtils;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -137,7 +137,7 @@ public class RunWodel implements IObjectActionDelegate {
 				List<String> modelpaths = ModelManager.getModels();
 				for (String ecoreURI : modelpaths) {
 					Resource modelfile = ModelManager.loadModel(packages, ecoreURI);
-					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf("\\") + 1, ecoreURI.length() - ".model".length())).listFiles();
+					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
 					if (files != null) {
 						for (int i = 0; i < files.length; i++) {
 							if (files[i].isDirectory() == true) {
@@ -147,7 +147,7 @@ public class RunWodel implements IObjectActionDelegate {
 										String pathfile = regfiles[j].getPath();
 										if (pathfile.endsWith(".model") == true) {
 											hashmap_regpostseed.put(pathfile, modelfile);
-											Resource mutant = ModelManager.loadModel(packages, ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf("\\") + 1, ecoreURI.length() - ".model".length()) + "/" + regfiles[j].getName().replace("Registry", "")); 
+											Resource mutant = ModelManager.loadModel(packages, ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regfiles[j].getName().replace("Registry", "")); 
 											hashmap_regpostmutant.put(pathfile, mutant);
 										}
 									}
@@ -170,7 +170,7 @@ public class RunWodel implements IObjectActionDelegate {
 												}
 											}
 											else {
-												String blockModelFolder = ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf("\\") + 1, ecoreURI.length() - ".model".length()) + "/" + regFilesBlock[j].getName();
+												String blockModelFolder = ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()) + "/" + regFilesBlock[j].getName();
 												MutatorUtils.generateRegistryPaths(regFilesBlock[j], packages, hashmap_regpostseed, hashmap_regpostmutant, files[i], blockModelFolder);
 											}
 										}
@@ -218,14 +218,14 @@ public class RunWodel implements IObjectActionDelegate {
 						String pathfile = file.getPath();
 						if (pathfile.endsWith(".model") == true) {
 							Resource modelfile = ModelManager.loadModel(packages, pathfile);
-							String targetfile = new File(ModelManager.getOutputPath() + "/" + pathfile.substring(pathfile.lastIndexOf("\\") + 1, pathfile.length() - ".model".length()) + "/" + pathfile.substring(pathfile.lastIndexOf("\\") + 1)).getPath();
+							String targetfile = new File(ModelManager.getOutputPath() + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1, pathfile.length() - ".model".length()) + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
 							hashmap_postproc.put(modelfile, targetfile);
 						}
 					}
 				}
 				for (String ecoreURI : modelpaths) {
-					System.out.println("FOLDER: " + ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf("\\") + 1, ecoreURI.length() - ".model".length()));
-					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf("\\") + 1, ecoreURI.length() - ".model".length())).listFiles();
+					System.out.println("FOLDER: " + ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()));
+					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
 					if (files != null) {
 						for (int i = 0; i < files.length; i++) {
 							if (files[i].isFile() == true) {

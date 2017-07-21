@@ -140,15 +140,17 @@ class EduTestGenerator implements IGenerator {
 
 	def boolean subsumeCheckbox(ArrayList<TestOption> testOptions, TestOption opt) {
 		for (optCheck : testOptions) {
-			var String textOption = optCheck.text.get(0)
-			var String newText = opt.text.get(0)
-			if (newText.equals(textOption)) {
-				if (optCheck.solution == false) {
-					testOptions.remove(optCheck)
-					return false
-				}
-				else {
-					return true
+			if (optCheck.text.size > 0) {
+				var String textOption = optCheck.text.get(0)
+				var String newText = opt.text.get(0)
+				if (newText.equals(textOption)) {
+					if (optCheck.solution == false) {
+						testOptions.remove(optCheck)
+						return false
+					}
+					else {
+						return true
+					}
 				}
 			}
 		}
@@ -287,10 +289,9 @@ class EduTestGenerator implements IGenerator {
 		«IF exercise instanceof MultiChoiceEmendation»
 		<!-- REGISTRY: «var dataReg = new HashMap<Test, Registry>()»
 		«val Bundle bundle = Platform.getBundle("wodel.models")»
-	   	«var URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")»
-		«val String ecore = FileLocator.resolve(fileURL).getFile()»
+		«val String ecore = ModelManager.getMetaModel().replace("\\", "/")»
 		«val ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore)»
-		«fileURL = bundle.getEntry("/models/AppliedMutations.ecore")»
+		«var fileURL = bundle.getEntry("/models/AppliedMutations.ecore")»
 		«val String registryecore = FileLocator.resolve(fileURL).getFile()»
 		«val ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore)»
 		«/*loads the idelems model*/»
@@ -320,7 +321,14 @@ class EduTestGenerator implements IGenerator {
 			«var rnd = ModelManager.getRandomIndex(dataRegistry.get(exercise).get(test).mutants)»
 			«var TestOption opt = new TestOption()»
 			«var Registry reg = dataRegistry.get(exercise).get(test)»
-			«opt.path = 'diagrams' + reg.mutants.get(rnd).URI.path.replace(ModelManager.outputPath.substring(2, ModelManager.outputPath.length), '').replace('.model', '.png')»
+			«System.out.println(reg.mutants.get(rnd).URI.path)»
+			«var String diagramPath = ""»
+			«IF ModelManager.outputPath.indexOf(":") != -1»
+			«diagramPath = reg.mutants.get(rnd).URI.path.replace(ModelManager.outputPath.substring(2, ModelManager.outputPath.length), '').replace('.model', '.png')»
+			«ELSE»
+			«diagramPath = reg.mutants.get(rnd).URI.path.replace(ModelManager.outputPath, "").replace('.model', '.png')»
+			«ENDIF»
+			«opt.path = 'diagrams' + diagramPath»
 			«opt.resource = reg.history.get(rnd)»
 			«opt.seed = reg.seed»
 			«opt.solution = true»
@@ -358,10 +366,11 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 					«ENDFOR»
 					«IF flag == true»
-					«IF mutation.eClass.name.equals("ObjectCreated")»
+					«IF mutation instanceof ObjectCreated»
+					«var ObjectCreated objectCreated = mutation as ObjectCreated»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(objectCreated.object.get(0), opt.seed)»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -401,10 +410,11 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ObjectRemoved")»
+					«IF mutation instanceof ObjectRemoved»
+					«var ObjectRemoved objectRemoved = mutation as ObjectRemoved»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(objectRemoved.object.get(0), opt.seed)»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -444,7 +454,8 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("SourceReferenceChanged")»
+					«IF mutation instanceof SourceReferenceChanged»
+					«var SourceReferenceChanged sourceReferenceChanged = mutation as SourceReferenceChanged»
 					«/*var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)*/»
 					«/*var EObject srcObject = appMut.getFrom.eGet(srcRef) as EObject*/»
 					«/*var EStructuralFeature srcName = srcObject.eClass.getEStructuralFeature('name')*/»
@@ -452,12 +463,12 @@ class EduTestGenerator implements IGenerator {
 					«/*var EObject tarObject = appMut.getTo.eGet(tarRef) as EObject*/»
 					«/*var EStructuralFeature tarName = tarObject.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource)»
-					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
-					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var EObject from = ModelManager.getEObject(sourceReferenceChanged.from, opt.seed)»
+					«var String refName = sourceReferenceChanged.refName as String»
 					«var EStructuralFeature srcRef = from.eClass.getEStructuralFeature(refName)»
 					«var Element refElement = ModelManager.getRefElement((from.eGet(srcRef) as EObject), srcRef, idelemsresource)»
 					«var Element srcElement = ModelManager.getElement((from.eGet(srcRef) as EObject), idelemsresource)»
-					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var EObject to = ModelManager.getEObject(sourceReferenceChanged.to, opt.seed)»
 					«var EStructuralFeature tarRef = to.eClass.getEStructuralFeature(refName)»
 					«var Element tarElement = ModelManager.getElement((to.eGet(tarRef) as EObject), idelemsresource)»
 					«var Text t = null»
@@ -523,23 +534,24 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("TargetReferenceChanged")»
+					«IF mutation instanceof TargetReferenceChanged»
+					«var TargetReferenceChanged targetReferenceChanged = mutation as TargetReferenceChanged»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReferences("object", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(targetReferenceChanged.object.get(0), opt.seed)»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
-					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var String refName = targetReferenceChanged.refName»
 					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object)»
 					«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
 					«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
 					«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
-					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
+					«var EObject from = ModelManager.getEObject(targetReferenceChanged.from, opt.seed)»
 					«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
-					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var EObject to = ModelManager.getEObject(targetReferenceChanged.to, opt.seed)»
 					«var Element toElement = ModelManager.getElement(to, idelemsresource)»
-					«var EObject oldTo = (ModelManager.getReference("oldTo", mutation) as EObject)»
+					«var EObject oldTo = ModelManager.getEObject(targetReferenceChanged.oldTo, opt.seed)»
 					«var Element oldToElement = ModelManager.getElement(oldTo, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -647,7 +659,8 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ReferenceSwap")»
+					«IF mutation instanceof ReferenceSwap»
+					«var ReferenceSwap referenceSwap = mutation as ReferenceSwap»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature firstRef = appMut.getRefObject.eClass.getEStructuralFeature(appMut.getRefName)*/»
@@ -655,11 +668,12 @@ class EduTestGenerator implements IGenerator {
 					«/*var EStructuralFeature otherToName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature otherFromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ReferenceCreated")»
+					«IF mutation instanceof ReferenceCreated»
+					«var ReferenceCreated referenceCreated = mutation as ReferenceCreated»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
-					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
-					«var String refName = ModelManager.getAttribute("name", ref) as String»
+					«var EObject object = ModelManager.getEObject(referenceCreated.object.get(0), opt.seed)»
+					«var EObject ref = ModelManager.getEObject(referenceCreated.ref.get(0), opt.seed)»
+					«var String refName = referenceCreated.refName»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -702,10 +716,11 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ReferenceRemoved")»
+					«IF mutation instanceof ReferenceRemoved»
+					«var ReferenceRemoved referenceRemoved = mutation as ReferenceRemoved»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
-					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(referenceRemoved.object.get(0), opt.seed)»
+					«var EObject ref = ModelManager.getEObject(referenceRemoved.ref.get(0), opt.seed)»
 					«var String refName = ModelManager.getAttribute("name", ref) as String»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
@@ -749,19 +764,21 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("InformationChanged")»
+					«IF mutation instanceof InformationChanged»
+					«var InformationChanged informationChanged = mutation as InformationChanged»
 					«/*var EStructuralFeature name = appMut.getObject.eClass.getEStructuralFeature('name')*/»
-					«var List<EObject> attChanges = (ModelManager.getReferences("attChanges", mutation) as List<EObject>)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as EObject)»
+					«var List<AttributeChanged> attChanges = informationChanged.attChanges»
+					«var EObject object = ModelManager.getEObject(informationChanged.object, opt.seed)»
 					«var ArrayList<String> attributes = new ArrayList<String>()»
 					«FOR att : attChanges»
 						«text = ''»
-						«IF att.eClass.name.equals("AttributeSwap")»
-						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
+						«IF att instanceof AttributeSwap»
+						«var AttributeSwap attSwap = att as AttributeSwap»
+						«var String attName = attSwap.attName»
 						«var EStructuralFeature attributeName = object.eClass.getEStructuralFeature(attName)»
-						«var EObject attObject = (ModelManager.getReference("attObject", att) as EObject)»
-						«var String firstName = (ModelManager.getAttribute("firstName", att) as String)»
-						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
+						«var EObject attObject = ModelManager.getEObject(attSwap.attObject, opt.seed)»
+						«var String firstName = attSwap.firstName»
+						«var String newVal = attSwap.newVal»
 						«/*var EStructuralFeature objectName = att.attObject.eClass.getEStructuralFeature('name')*/»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource)»
 						«var Element firstElement = ModelManager.getElement(object, idelemsresource)»
@@ -834,10 +851,11 @@ class EduTestGenerator implements IGenerator {
 						«attributes.add(text)»
 						«ENDIF»
 						«ELSE»
+						«var AttributeChanged attributeChanged = att as AttributeChanged»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource)»
-						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
-						«var String oldVal = (ModelManager.getAttribute("oldVal", att) as String)»
-						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
+						«var String attName = attributeChanged.attName»
+						«var String oldVal = attributeChanged.oldVal»
+						«var String newVal = attributeChanged.newVal»
 						«var Element element = ModelManager.getElement(object, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
@@ -896,19 +914,20 @@ class EduTestGenerator implements IGenerator {
 					«var ArrayList<String> references = new ArrayList<String>()»
 					«FOR ref : refChanges»
 						«text = ''»
-						«IF ref.eClass.name.equals("ReferenceChanged")»
+						«IF ref instanceof ReferenceChanged»
+						«var ReferenceChanged referenceChanged = ref as ReferenceChanged»
 						«text = ''»
 						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource)»
 						«var Element element = ModelManager.getElement(object, idelemsresource)»
-						«var String srcRefName = (ModelManager.getAttribute("srcRefName", ref) as String)»
+						«var String srcRefName = ref.srcRefName»
 						«var EStructuralFeature refSrc = object.eClass.getEStructuralFeature(srcRefName)»
 						«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
-						«var String refName = (ModelManager.getAttribute("refName", ref) as String)»
+						«var String refName = ref.refName»
 						«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
 						«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
-						«var EObject from = (ModelManager.getReference("from", ref) as EObject)»
+						«var EObject from = ModelManager.getEObject(ref.from, opt.seed)»
 						«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
-						«var EObject to = (ModelManager.getReference("to", ref) as EObject)»
+						«var EObject to = ModelManager.getEObject(ref.to, opt.seed)»
 						«var Element toElement = ModelManager.getElement(to, idelemsresource)»
 						«/*System.out.println("toName: " + toName)*/»
 						«/*System.out.println("fromName: " + fromName)*/»
@@ -1228,10 +1247,11 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 					«ENDFOR»
 					«IF flag == true»
-					«IF mutation.eClass.name.equals("ObjectCreated")»
+					«IF mutation instanceof ObjectCreated»
+					«var objectCreated = mutation as ObjectCreated»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(objectCreated.object.get(0), opt.seed)»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -1276,10 +1296,11 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ObjectRemoved")»
+					«IF mutation instanceof ObjectRemoved»
+					«var ObjectRemoved objectRemoved = mutation as ObjectRemoved»
 					«/*var EStructuralFeature name = appMut.getObject.get(0).eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(objectRemoved.object.get(0), opt.seed)»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -1327,7 +1348,8 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("SourceReferenceChanged")»
+					«IF mutation instanceof SourceReferenceChanged»
+					«var sourceReferenceChanged = mutation as SourceReferenceChanged»
 					«/*var EStructuralFeature srcRef = appMut.getFrom.eClass.getEStructuralFeature(appMut.getRefName)*/»
 					«/*var EObject srcObject = appMut.getFrom.eGet(srcRef) as EObject*/»
 					«/*var EStructuralFeature srcName = srcObject.eClass.getEStructuralFeature('name')*/»
@@ -1335,12 +1357,12 @@ class EduTestGenerator implements IGenerator {
 					«/*var EObject tarObject = appMut.getTo.eGet(tarRef) as EObject*/»
 					«/*var EStructuralFeature tarName = tarObject.eClass.getEStructuralFeature('name')*/»
 					«var Option cfgopt = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource)»
-					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
-					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var EObject from = ModelManager.getEObject(sourceReferenceChanged.from, opt.seed)»
+					«var String refName = sourceReferenceChanged.refName»
 					«var EStructuralFeature srcRef = from.eClass.getEStructuralFeature(refName)»
 					«var Element refElement = ModelManager.getRefElement((from.eGet(srcRef) as EObject), srcRef, idelemsresource)»
 					«var Element srcElement = ModelManager.getElement((from.eGet(srcRef) as EObject), idelemsresource)»
-					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var EObject to = ModelManager.getEObject(sourceReferenceChanged.to, opt.seed)»
 					«var EStructuralFeature tarRef = to.eClass.getEStructuralFeature(refName)»
 					«var Element tarElement = ModelManager.getElement((to.eGet(tarRef) as EObject), idelemsresource)»
 					«var Text t = null»
@@ -1412,23 +1434,21 @@ class EduTestGenerator implements IGenerator {
 					«ENDIF»
 					«ENDIF»
 					«System.out.println("mutation.eClass.name: " + mutation.eClass.name)»
-					«IF mutation.eClass.name.equals("TargetReferenceChanged")»
-					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
-					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
-					«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
+					«IF mutation instanceof TargetReferenceChanged»
+					«var TargetReferenceChanged targetReferenceChanged = mutation as TargetReferenceChanged»
 					«var Option cfgopt = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReferences("object", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(targetReferenceChanged.object.get(0), opt.seed)»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
-					«var String refName = (ModelManager.getAttribute("refName", mutation) as String)»
+					«var String refName = targetReferenceChanged.refName»
 					«var EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object)»
 					«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
 					«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
 					«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
-					«var EObject from = (ModelManager.getReference("from", mutation) as EObject)»
+					«var EObject from = ModelManager.getEObject(targetReferenceChanged.from, opt.seed)»
 					«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
-					«var EObject to = (ModelManager.getReference("to", mutation) as EObject)»
+					«var EObject to = ModelManager.getEObject(targetReferenceChanged.to, opt.seed)»
 					«var Element toElement = ModelManager.getElement(to, idelemsresource)»
-					«var EObject oldTo = (ModelManager.getReference("oldTo", mutation) as EObject)»
+					«var EObject oldTo = ModelManager.getEObject(targetReferenceChanged.oldTo, opt.seed)»
 					«var Element oldToElement = ModelManager.getElement(oldTo, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -1445,6 +1465,7 @@ class EduTestGenerator implements IGenerator {
 					«IF w instanceof Variable»
 					«var variable = w as Variable»
 					«IF variable.type == VariableType.OBJECT»
+					«IF element != null»
 					«IF element.att == null»
 					«FOR modeltext.Word v : element.words»
 					«IF v instanceof modeltext.Constant»
@@ -1464,7 +1485,9 @@ class EduTestGenerator implements IGenerator {
 					«ENDFOR»
 					«ENDIF»
 					«ENDIF»
+					«ENDIF»
 					«IF variable.type == VariableType.FROM_OBJECT»
+					«IF fromElement != null»
 					«FOR modeltext.Word v : fromElement.words»
 					«IF v instanceof modeltext.Constant»
 					«text += v.value + " "»
@@ -1482,7 +1505,9 @@ class EduTestGenerator implements IGenerator {
 					«ENDIF»
 					«ENDFOR»
 					«ENDIF»
+					«ENDIF»
 					«IF variable.type == VariableType.TO_OBJECT»
+					«IF toElement != null»
 					«FOR modeltext.Word v : toElement.words»
 					«IF v instanceof modeltext.Constant»
 					«text += v.value + " "»
@@ -1500,7 +1525,9 @@ class EduTestGenerator implements IGenerator {
 					«ENDIF»
 					«ENDFOR»
 					«ENDIF»
+					«ENDIF»
 					«IF variable.type == VariableType.OLD_TO_OBJECT»
+					«IF oldToElement != null»
 					«FOR modeltext.Word v : oldToElement.words»
 					«IF v instanceof modeltext.Constant»
 					«text += v.value + " "»
@@ -1518,12 +1545,15 @@ class EduTestGenerator implements IGenerator {
 					«ENDIF»
 					«ENDFOR»
 					«ENDIF»
+					«ENDIF»
 					«IF variable.type == VariableType.REF_NAME»
+					«IF refTarElement != null»
 					«FOR modeltext.Word v : refTarElement.words»
 					«IF v instanceof modeltext.Constant»
 					«text += v.value + " "»
 					«ENDIF»
 					«ENDFOR»
+					«ENDIF»
 					«ENDIF»
 					«IF variable.type == VariableType.SRC_REF_NAME»
 					«FOR modeltext.Word v : refSrcElement.words»
@@ -1543,7 +1573,7 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ReferenceSwap")»
+					«IF mutation instanceof ReferenceSwap»
 					«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature firstRef = appMut.getRefObject.eClass.getEStructuralFeature(appMut.getRefName)*/»
@@ -1551,10 +1581,11 @@ class EduTestGenerator implements IGenerator {
 					«/*var EStructuralFeature otherToName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 					«/*var EStructuralFeature otherFromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ReferenceCreated")»
+					«IF mutation instanceof ReferenceCreated»
+					«var ReferenceCreated referenceCreated = mutation as ReferenceCreated»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
-					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
+					«var EObject object = ModelManager.getEObject(referenceCreated.object.get(0), opt.seed)»
+					«var EObject ref = ModelManager.getEObject(referenceCreated.ref.get(0), opt.seed)»
 					«var String refName = ModelManager.getAttribute("name", ref) as String»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
@@ -1603,11 +1634,12 @@ class EduTestGenerator implements IGenerator {
 					«opts.add(optClone)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("ReferenceRemoved")»
+					«IF mutation instanceof ReferenceRemoved»
+					«var referenceRemoved = mutation as ReferenceRemoved»
 					«var Option cfgopt = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as List<EObject>).get(0)»
-					«var EObject ref = (ModelManager.getReference("ref", mutation) as List<EObject>).get(0)»
-					«var String refName = ModelManager.getAttribute("name", ref) as String»
+					«var EObject object = referenceRemoved.object.get(0)»
+					«var EObject ref = referenceRemoved.ref.get(0)»
+					«var String refName = referenceRemoved.refName as String»
 					«var Element element = ModelManager.getElement(object, idelemsresource)»
 					«var Text t = null»
 					«IF opt.solution == true»
@@ -1650,19 +1682,19 @@ class EduTestGenerator implements IGenerator {
 					«opt.text.add(text)»
 					«ENDIF»
 					«ENDIF»
-					«IF mutation.eClass.name.equals("InformationChanged")»
-					«/*var EStructuralFeature name = appMut.getObject.eClass.getEStructuralFeature('name')*/»
-					«var List<EObject> attChanges = (ModelManager.getReferences("attChanges", mutation) as List<EObject>)»
-					«var EObject object = (ModelManager.getReference("object", mutation) as EObject)»
+					«IF mutation instanceof InformationChanged»
+					«var InformationChanged informationChanged = mutation as InformationChanged»
+					«var List<AttributeChanged> attChanges = informationChanged.attChanges»
+					«var EObject object = ModelManager.getEObject(informationChanged.object, opt.seed)» 
 					«FOR att : attChanges»
 						«text = ''»
-						«IF att.eClass.name.equals("AttributeSwap")»
-						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
+						«IF att instanceof AttributeSwap»
+						«var AttributeSwap attributeSwap = att as AttributeSwap»
+						«var String attName = attributeSwap.attName as String»
 						«var EStructuralFeature attributeName = object.eClass.getEStructuralFeature(attName)»
-						«var EObject attObject = (ModelManager.getReference("attObject", att) as EObject)»
-						«var String firstName = (ModelManager.getAttribute("firstName", att) as String)»
-						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
-						«/*var EStructuralFeature objectName = att.attObject.eClass.getEStructuralFeature('name')*/»
+						«var EObject attObject = attributeSwap.attObject»
+						«var String firstName = attributeSwap.firstName»
+						«var String newVal = attributeSwap.newVal»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource)»
 						«var Element firstElement = ModelManager.getElement(object, idelemsresource)»
 						«var Element secondElement = ModelManager.getElement(attObject, idelemsresource)»
@@ -1739,10 +1771,11 @@ class EduTestGenerator implements IGenerator {
 						«opts.add(optClone)»
 						«ENDIF»
 						«ELSE»
+						«var AttributeChanged attributeChanged = att as AttributeChanged»
 						«var Option cfgopt = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource)»
-						«var String attName = (ModelManager.getAttribute("attName", att) as String)»
-						«var String oldVal = (ModelManager.getAttribute("oldVal", att) as String)»
-						«var String newVal = (ModelManager.getAttribute("newVal", att) as String)»
+						«var String attName = attributeChanged.attName»
+						«var String oldVal = attributeChanged.oldVal»
+						«var String newVal = attributeChanged.newVal»
 						«var Element element = ModelManager.getElement(object, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
@@ -1759,6 +1792,7 @@ class EduTestGenerator implements IGenerator {
 						«IF w instanceof Variable»
 						«var variable = w as Variable»
 						«IF variable.type == VariableType.OBJECT»
+						«IF element != null»
 						«FOR modeltext.Word v : element.words»
 						«IF v instanceof modeltext.Constant»
 						«text += v.value + " "»
@@ -1775,6 +1809,7 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDIF»
 						«ENDFOR»
+						«ENDIF»
 						«ENDIF»
 						«IF variable.type == VariableType.ATT_NAME»
 						«text += attName + " "»
@@ -1797,24 +1832,25 @@ class EduTestGenerator implements IGenerator {
 						«ENDIF»
 						«ENDIF»
 					«ENDFOR»
-					«var List<EObject> refChanges = (ModelManager.getReferences("refChanges", mutation) as List<EObject>)»
+					«var List<ReferenceChanged> refChanges = informationChanged.refChanges»
 					«FOR ref : refChanges»
 						«text = ''»
-						«IF ref.eClass.name.equals("ReferenceChanged")»
+						«IF ref instanceof ReferenceChanged»
+						«var ReferenceChanged referenceChanged = ref as ReferenceChanged»
 						«/*var EStructuralFeature toName = appMut.getTo.eClass.getEStructuralFeature('name')*/»
 						«/*var EStructuralFeature fromName = appMut.getFrom.eClass.getEStructuralFeature('name')*/»
 						«/*var EStructuralFeature oldToName = appMut.getOldTo.eClass.getEStructuralFeature('name')*/»
 						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource)»
 						«var Element element = ModelManager.getElement(object, idelemsresource)»
-						«var String srcRefName = (ModelManager.getAttribute("srcRefName", ref) as String)»
+						«var String srcRefName = referenceChanged.srcRefName»
 						«var EStructuralFeature refSrc = object.eClass.getEStructuralFeature(srcRefName)»
 						«var Element refSrcElement = ModelManager.getRefElement(object, refSrc, idelemsresource)»
-						«var String refName = (ModelManager.getAttribute("refName", ref) as String)»
+						«var String refName = referenceChanged.refName as String»
 						«var EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object)»
 						«var Element refTarElement = ModelManager.getRefElement(object, refTar, idelemsresource)»
-						«var EObject from = (ModelManager.getReference("from", ref) as EObject)»
+						«var EObject from = ModelManager.getEObject(referenceChanged.from, opt.seed)»
 						«var Element fromElement = ModelManager.getElement(from, idelemsresource)»
-						«var EObject to = (ModelManager.getReference("to", ref) as EObject)»
+						«var EObject to = ModelManager.getEObject(ref.to, opt.seed)»
 						«var Element toElement = ModelManager.getElement(to, idelemsresource)»
 						«var Text t = null»
 						«IF opt.solution == true»
@@ -2095,24 +2131,25 @@ class EduTestGenerator implements IGenerator {
 						«opts.add(optClone)»
 						«ENDIF»
 						«ENDIF»
-						«IF ref.eClass.name.equals("ReferenceSwap")»
+						«IF ref instanceof ReferenceSwap»
+						«var ReferenceSwap referenceSwap = ref as ReferenceSwap»
 						«text = ''»
 						«var Option cfgopt = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource)»
 						«var Element firstElement = ModelManager.getElement(object, idelemsresource)»
 						«System.out.println("firstElement: " + firstElement)»
-						«var EObject firstFrom = (ModelManager.getReference("from", ref) as EObject)»
+						«var EObject firstFrom = ModelManager.getEObject(referenceSwap.from, opt.seed)»
 						«var Element firstFromElement = ModelManager.getElement(firstFrom, idelemsresource)»
-						«var EObject firstTo = (ModelManager.getReference("to", ref) as EObject)»
+						«var EObject firstTo = ModelManager.getEObject(referenceSwap.to, opt.seed)»
 						«var Element firstToElement = ModelManager.getElement(firstTo, idelemsresource)»
-						«var EObject refObject = (ModelManager.getReference("refObject", ref) as EObject)»
+						«var EObject refObject = ModelManager.getEObject(referenceSwap.refObject, opt.seed)»
 						«var Element secondElement = ModelManager.getElement(refObject, idelemsresource)»
 						«System.out.println("secondElement: " + secondElement)»
-						«var EObject secondFrom = (ModelManager.getReference("otherFrom", ref) as EObject)»
+						«var EObject secondFrom = ModelManager.getEObject(referenceSwap.otherFrom, opt.seed)»
 						«var Element secondFromElement = ModelManager.getElement(secondFrom, idelemsresource)»
-						«var EObject secondTo = (ModelManager.getReference("otherTo", ref) as EObject)»
+						«var EObject secondTo = ModelManager.getElement(referenceSwap.otherTo, opt.seed)»
 						«var Element secondToElement = ModelManager.getElement(secondTo, idelemsresource)»
-						«var String refName = (ModelManager.getAttribute("refName", ref) as String)»
-						«var String refFirstName = (ModelManager.getAttribute("refFirstName", ref) as String)»
+						«var String refName = (ref as ReferenceSwap).refName»
+						«var String refFirstName = (ref as ReferenceSwap).firstName»
 						«/*System.out.println("toName: " + toName)*/»
 						«/*System.out.println("fromName: " + fromName)*/»
 						«/*System.out.println("firstRef: " + firstRef)*/»

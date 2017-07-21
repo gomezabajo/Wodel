@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.Mutator;
@@ -164,7 +165,10 @@ public class ModelManager {
 		IPath path = Platform.getLocation().makeAbsolute();
 		URI uri = URI.createFileURI(path.toString());
 		String ret = uri.toString();
-		ret = ret.replaceFirst("file:/", "");
+		ret = ret.replaceFirst("file:/", "/");
+		if (ret.indexOf(":") != -1) {
+			ret = ret.replaceFirst("/", "");
+		}
 		return ret;
 	}
 
@@ -886,7 +890,7 @@ public class ModelManager {
 			System.out.println("sf: " + sf.toString());
 			if (sf != null) {
 				if (sf.getName().equals(att)) {
-					System.out.println("aqui se produce la excepción!");
+					System.out.println("aqui se produce la excepciï¿½n!");
 					System.out.println("sf.getEType(): " + sf.getEType());
 					System.out.println("acs: " + acs);
 					Object value = acs.getValue(object);
@@ -966,7 +970,7 @@ public class ModelManager {
 			System.out.println("sf: " + sf.toString());
 			if (sf != null) {
 				if (sf.getName().equals(ref)) {
-					System.out.println("aqui se produce la excepción!");
+					System.out.println("aqui se produce la excepciï¿½n!");
 					System.out.println("sf.getEType(): " + sf.getEType());
 					System.out.println("tarObj: " + tarObj);
 					System.out.println("object: " + object);
@@ -1036,7 +1040,7 @@ public class ModelManager {
 				System.out.println("sf: " + sf.toString());
 				if (sf != null) {
 					if (sf.getName().equals(ref)) {
-						System.out.println("aqui se produce la excepción!");
+						System.out.println("aqui se produce la excepciï¿½n!");
 						System.out.println("sf.getEType(): " + sf.getEType());
 						System.out.println("oss: " + oss);
 						System.out.println("tarObj: " + tarObj);
@@ -1124,7 +1128,7 @@ public class ModelManager {
 			System.out.println("sf: " + sf.toString());
 			if (sf != null) {
 				if (sf.getName().equals(ref)) {
-					System.out.println("aqui se produce la excepción!");
+					System.out.println("aqui se produce la excepciï¿½n!");
 					System.out.println("sf.getEType(): " + sf.getEType());
 					System.out.println("rcs: " + rcs);
 					if (rcs.sameType()) {
@@ -1878,7 +1882,7 @@ public class ModelManager {
 //				Element element = (Element) obj;
 //				if (element.getType().getName().equals(object.eClass().getName())) {
 //					if (element.getAtt() != null) {
-//						if (element.getAtt().getNegation() == Negation.YES) { 
+//						if (element.getAtt().isNegation() == true) { 
 //							System.out.println("element.getAtt().getAtt().getName(): " + element.getAtt().getAtt().getName());
 //							System.out.println("object.eGet(ModelManager.getAttributeByName('name', object)): " + object.eGet(ModelManager.getAttributeByName("name", object)));
 //							System.out.println("object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)): " + object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)));
@@ -1888,7 +1892,7 @@ public class ModelManager {
 //							}
 //							continue;
 //						}
-//						if (element.getAtt().getNegation() == Negation.NOT) { 
+//						if (element.getAtt().isNegation() == false) { 
 //							System.out.println("element.getAtt().getAtt().getName(): " + element.getAtt().getAtt().getName());
 //							System.out.println("object.eGet(ModelManager.getAttributeByName('name', object)): " + object.eGet(ModelManager.getAttributeByName("name", object)));
 //							System.out.println("object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)): " + object.eGet(ModelManager.getAttributeByName(element.getAtt().getAtt().getName(), object)));
@@ -1921,23 +1925,28 @@ public class ModelManager {
 	
 	public static File getSeedModel(File seed, File mutant, String output) {
 		File ret = null;
-		String outputPath = output.endsWith("/") ? output.replace('/', '\\') + seed.getName().replace(".model", "") : output.replace('/', '\\') + "\\"+ seed.getName().replace(".model", "");
+		String outputPath = output.endsWith("/") ? output.replace("/", File.separator) + seed.getName().replace(".model", "") : output.replace("/", File.separator) + File.separator + seed.getName().replace(".model", "");
 		String mutantPath = mutant.getPath();
-		String mutantFolder = mutantPath.substring(0, mutantPath.lastIndexOf("\\"));
+		String mutantFolder = mutantPath.substring(0, mutantPath.lastIndexOf(File.separator));
 		int sub1 = outputPath.length() + 1;
 		int sub2 = mutantFolder.length();
 		if (sub1 < sub2) {
-		String mutantHierarchy = mutantFolder.substring(sub1, sub2);
-			String[] levels = mutantHierarchy.split("\\\\");
-			if (levels.length == 1) {
-				ret = seed;
+			String mutantHierarchy = mutantFolder.substring(sub1, sub2);
+			if (mutantHierarchy.indexOf(File.separator) != -1) {
+				String[] levels = mutantHierarchy.split(Pattern.quote(File.separator));
+				if (levels.length == 1) {
+					ret = seed;
+				}
+				else {
+					String folders = "";
+					for (int i = 1; i < levels.length - 1; i++) {
+						folders += levels[i] + File.separator;
+					}
+					ret = new File(outputPath + File.separator + folders + File.separator + levels[levels.length - 1] + ".model");
+				}
 			}
 			else {
-				String folders = "";
-				for (int i = 1; i < levels.length - 1; i++) {
-					folders += levels[i] + "\\";
-				}
-				ret = new File(outputPath + "\\" + folders + "\\" + levels[levels.length - 1] + ".model");
+				ret = seed;
 			}
 		}
 		else {
@@ -2028,5 +2037,12 @@ public class ModelManager {
 			in.close();
 			out.close();
 		}
+	}
+	
+	public static EObject getEObject(EObject object, Resource seed) {
+		if (object.eIsProxy()) {
+			return EcoreUtil.resolve(object, seed);
+		}
+		return object;
 	}
 }

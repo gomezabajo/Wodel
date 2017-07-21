@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import modeltext.Attribute;
 import modeltext.Element;
-import modeltext.IdentifyelementsPackage;
+import modeltext.ModeltextPackage;
 import modeltext.Word;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -30,13 +30,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.impl.ElementImpl#getType <em>Type</em>}</li>
  *   <li>{@link modeltext.impl.ElementImpl#getRef <em>Ref</em>}</li>
  *   <li>{@link modeltext.impl.ElementImpl#getAtt <em>Att</em>}</li>
  *   <li>{@link modeltext.impl.ElementImpl#getWords <em>Words</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -97,7 +97,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IdentifyelementsPackage.Literals.ELEMENT;
+		return ModeltextPackage.Literals.ELEMENT;
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 			type = (EClass)eResolveProxy(oldType);
 			if (type != oldType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IdentifyelementsPackage.ELEMENT__TYPE, oldType, type));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeltextPackage.ELEMENT__TYPE, oldType, type));
 			}
 		}
 		return type;
@@ -135,7 +135,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 		EClass oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.ELEMENT__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.ELEMENT__TYPE, oldType, type));
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 			ref = (EReference)eResolveProxy(oldRef);
 			if (ref != oldRef) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IdentifyelementsPackage.ELEMENT__REF, oldRef, ref));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeltextPackage.ELEMENT__REF, oldRef, ref));
 			}
 		}
 		return ref;
@@ -173,7 +173,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 		EReference oldRef = ref;
 		ref = newRef;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.ELEMENT__REF, oldRef, ref));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.ELEMENT__REF, oldRef, ref));
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 		Attribute oldAtt = att;
 		att = newAtt;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.ELEMENT__ATT, oldAtt, newAtt);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModeltextPackage.ELEMENT__ATT, oldAtt, newAtt);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -209,14 +209,14 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 		if (newAtt != att) {
 			NotificationChain msgs = null;
 			if (att != null)
-				msgs = ((InternalEObject)att).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IdentifyelementsPackage.ELEMENT__ATT, null, msgs);
+				msgs = ((InternalEObject)att).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModeltextPackage.ELEMENT__ATT, null, msgs);
 			if (newAtt != null)
-				msgs = ((InternalEObject)newAtt).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IdentifyelementsPackage.ELEMENT__ATT, null, msgs);
+				msgs = ((InternalEObject)newAtt).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModeltextPackage.ELEMENT__ATT, null, msgs);
 			msgs = basicSetAtt(newAtt, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IdentifyelementsPackage.ELEMENT__ATT, newAtt, newAtt));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.ELEMENT__ATT, newAtt, newAtt));
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 */
 	public EList<Word> getWords() {
 		if (words == null) {
-			words = new EObjectContainmentEList<Word>(Word.class, this, IdentifyelementsPackage.ELEMENT__WORDS);
+			words = new EObjectContainmentEList<Word>(Word.class, this, ModeltextPackage.ELEMENT__WORDS);
 		}
 		return words;
 	}
@@ -239,9 +239,9 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ELEMENT__ATT:
+			case ModeltextPackage.ELEMENT__ATT:
 				return basicSetAtt(null, msgs);
-			case IdentifyelementsPackage.ELEMENT__WORDS:
+			case ModeltextPackage.ELEMENT__WORDS:
 				return ((InternalEList<?>)getWords()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -255,15 +255,15 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ELEMENT__TYPE:
+			case ModeltextPackage.ELEMENT__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
-			case IdentifyelementsPackage.ELEMENT__REF:
+			case ModeltextPackage.ELEMENT__REF:
 				if (resolve) return getRef();
 				return basicGetRef();
-			case IdentifyelementsPackage.ELEMENT__ATT:
+			case ModeltextPackage.ELEMENT__ATT:
 				return getAtt();
-			case IdentifyelementsPackage.ELEMENT__WORDS:
+			case ModeltextPackage.ELEMENT__WORDS:
 				return getWords();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -278,16 +278,16 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ELEMENT__TYPE:
+			case ModeltextPackage.ELEMENT__TYPE:
 				setType((EClass)newValue);
 				return;
-			case IdentifyelementsPackage.ELEMENT__REF:
+			case ModeltextPackage.ELEMENT__REF:
 				setRef((EReference)newValue);
 				return;
-			case IdentifyelementsPackage.ELEMENT__ATT:
+			case ModeltextPackage.ELEMENT__ATT:
 				setAtt((Attribute)newValue);
 				return;
-			case IdentifyelementsPackage.ELEMENT__WORDS:
+			case ModeltextPackage.ELEMENT__WORDS:
 				getWords().clear();
 				getWords().addAll((Collection<? extends Word>)newValue);
 				return;
@@ -303,16 +303,16 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ELEMENT__TYPE:
+			case ModeltextPackage.ELEMENT__TYPE:
 				setType((EClass)null);
 				return;
-			case IdentifyelementsPackage.ELEMENT__REF:
+			case ModeltextPackage.ELEMENT__REF:
 				setRef((EReference)null);
 				return;
-			case IdentifyelementsPackage.ELEMENT__ATT:
+			case ModeltextPackage.ELEMENT__ATT:
 				setAtt((Attribute)null);
 				return;
-			case IdentifyelementsPackage.ELEMENT__WORDS:
+			case ModeltextPackage.ELEMENT__WORDS:
 				getWords().clear();
 				return;
 		}
@@ -327,13 +327,13 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IdentifyelementsPackage.ELEMENT__TYPE:
+			case ModeltextPackage.ELEMENT__TYPE:
 				return type != null;
-			case IdentifyelementsPackage.ELEMENT__REF:
+			case ModeltextPackage.ELEMENT__REF:
 				return ref != null;
-			case IdentifyelementsPackage.ELEMENT__ATT:
+			case ModeltextPackage.ELEMENT__ATT:
 				return att != null;
-			case IdentifyelementsPackage.ELEMENT__WORDS:
+			case ModeltextPackage.ELEMENT__WORDS:
 				return words != null && !words.isEmpty();
 		}
 		return super.eIsSet(featureID);

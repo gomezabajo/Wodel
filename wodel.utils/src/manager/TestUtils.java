@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 
 public class TestUtils {
@@ -41,9 +42,10 @@ public class TestUtils {
 	}
 	
 	public static Registry getRegistry(MultiChoiceEmendation exercise, Test test, ArrayList<EObject> blocks, ArrayList<EPackage> packages, ArrayList<EPackage> registrypackages) throws ModelNotFoundException {
-		File outFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", ""));
 		Registry registry = new Registry();
-		registry.seed = ModelManager.loadModel(packages, ModelManager.getModelsFolder() + '/' + test.getSource());
+		File outFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", ""));
+		String modelPath = ModelManager.getModelsFolder() + '/' + test.getSource();
+		registry.seed = ModelManager.loadModel(packages, modelPath);
 		registry.mutants = new ArrayList<Resource>();
 		registry.history = new ArrayList<Resource>();
 		registry.wrong = new HashMap<Resource, ArrayList<Registry>>();
@@ -80,7 +82,7 @@ public class TestUtils {
 													if (reg.getName().endsWith(".model")) {
 														if (reg.getName().startsWith(s.getName().replace(".model", ""))) {
 															registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + exercise.getBlock().getName() + "/registry/" + reg.getName()));
-													
+
 														}
 													}
 												}
@@ -105,33 +107,34 @@ public class TestUtils {
 												}
 											}
 											if (from != null) {
-											for (EObject block : from) {
-												String blockName = "";
-												for (EAttribute att : block.eClass().getEAllAttributes()) {
-													if (att.getName().equals("name")) {
-														blockName = (String) block.eGet(att);
-														break;
+												for (EObject block : from) {
+													String blockName = "";
+													for (EAttribute att : block.eClass().getEAllAttributes()) {
+														if (att.getName().equals("name")) {
+															blockName = (String) block.eGet(att);
+															break;
+														}
 													}
-												}
-												if (blockName.equals(exercise.getBlock().getName())) {
-													Registry wrongRegistry = new Registry();
-													wrongRegistry.seed = ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + exercise.getBlock().getName() +'/' + s.getName());
-													wrongRegistry.mutants = new ArrayList<Resource>();
-													wrongRegistry.history = new ArrayList<Resource>();
-													File wrongOutFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + "/" + name + '/' +  exercise.getBlock().getName());
-													if (wrongOutFolder.isDirectory() == true) {
-														for (File wf : wrongOutFolder.listFiles()) {
-															if (wf.getName().equals(s.getName().replace(".model", ""))) {
-																for (File w : wf.listFiles()) {
-																	if (w.isFile() == true) {
-																		if (w.getName().endsWith(".model")) {
-																			wrongRegistry.mutants.add(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + name + '/' + exercise.getBlock().getName() +'/' + s.getName().replace(".model", "") + '/' + w.getName()));
-																			for (File r : wf.listFiles()) {
-																				if (r.isDirectory() == true) {
-																					if (r.getName().equals("registry")) {
-																						for (File reg : r.listFiles()) {
-																							if (reg.getName().endsWith(".model")) {
-																								wrongRegistry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + name + '/' + exercise.getBlock().getName() + '/' + s.getName().replace(".model", "") + "/registry/" + reg.getName()));
+													if (blockName.equals(exercise.getBlock().getName())) {
+														Registry wrongRegistry = new Registry();
+														wrongRegistry.seed = ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + exercise.getBlock().getName() +'/' + s.getName());
+														wrongRegistry.mutants = new ArrayList<Resource>();
+														wrongRegistry.history = new ArrayList<Resource>();
+														File wrongOutFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + "/" + name + '/' +  exercise.getBlock().getName());
+														if (wrongOutFolder.isDirectory() == true) {
+															for (File wf : wrongOutFolder.listFiles()) {
+																if (wf.getName().equals(s.getName().replace(".model", ""))) {
+																	for (File w : wf.listFiles()) {
+																		if (w.isFile() == true) {
+																			if (w.getName().endsWith(".model")) {
+																				wrongRegistry.mutants.add(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + name + '/' + exercise.getBlock().getName() +'/' + s.getName().replace(".model", "") + '/' + w.getName()));
+																				for (File r : wf.listFiles()) {
+																					if (r.isDirectory() == true) {
+																						if (r.getName().equals("registry")) {
+																							for (File reg : r.listFiles()) {
+																								if (reg.getName().endsWith(".model")) {
+																									wrongRegistry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + name + '/' + exercise.getBlock().getName() + '/' + s.getName().replace(".model", "") + "/registry/" + reg.getName()));
+																								}
 																							}
 																						}
 																					}
@@ -142,11 +145,10 @@ public class TestUtils {
 																}
 															}
 														}
+														registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1)).add(wrongRegistry);
 													}
-													registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1)).add(wrongRegistry);
 												}
 											}
-										}
 										}
 									}
 								}
@@ -156,7 +158,7 @@ public class TestUtils {
 				}
 			}
 		}
-		
+
 		return registry;
 	}
 }

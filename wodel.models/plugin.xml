@@ -101,4 +101,12 @@
             genModel="models/MutatorInfo.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ModelText -->
+      <package
+            uri="http://modeltext/1.0"
+            class="modeltext.ModeltextPackage"
+            genModel="models/ModelText.genmodel"/>
+   </extension>
+
 </plugin>

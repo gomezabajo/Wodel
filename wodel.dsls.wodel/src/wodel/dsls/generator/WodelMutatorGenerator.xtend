@@ -73,7 +73,7 @@ import mutatorenvironment.ListType
 import mutatorenvironment.ObjectAttributeType
 import mutatorenvironment.MaxValueType
 import mutatorenvironment.MinValueType
-import manager.MutatorUtils
+import mutator.MutatorUtils
 import mutatorenvironment.AttributeOperation
 import mutatorenvironment.ArithmeticOperator
 import mutatorenvironment.RandomIntegerNumberType
@@ -83,11 +83,6 @@ import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.SampleClause
 import mutatorenvironment.ReferenceAdd
 import mutatorenvironment.ReferenceRemove
-import java.io.IOException
-import java.util.List
-import exceptions.ModelNotFoundException
-import exceptions.MetaModelNotFoundException
-import org.eclipse.emf.ecore.EObject
 
 /**
  * Generates code from your model files on save.
@@ -2127,7 +2122,7 @@ import java.util.Set;
 import java.util.List;
 
 import manager.ModelManager;
-import manager.MutatorMetrics;
+import metrics.MutatorMetrics;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -2155,7 +2150,7 @@ import org.osgi.framework.Bundle;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-public class «className» extends manager.MutatorUtils implements manager.IMutatorExecutor {
+public class «className» extends mutator.MutatorUtils implements manager.IMutatorExecutor {
 	
 	«IF e.definition instanceof Program»
    	//RESET COUNTER: «nMethod = 0»
@@ -3064,7 +3059,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
    				rules.put("«constraint.type.name»", newrules);
       			«ENDFOR»
       			
-				isRepeated = registryMutant(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
+				isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 
 	    		//Reload input
 	    		try {
@@ -3140,7 +3135,7 @@ public class «className» extends manager.MutatorUtils implements manager.IMuta
        			rules.put("«constraint.type.name»", newrules);
        			«ENDFOR»
        			
-				isRepeated = registryMutantWithBlocks(packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions);
+				isRepeated = registryMutantWithBlocks(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions);
       
 	    		//Reload input
 	    		try {

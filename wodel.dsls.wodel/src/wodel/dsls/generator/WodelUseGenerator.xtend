@@ -12,57 +12,23 @@ import mutatorenvironment.ModifyTargetReferenceMutator
 import mutatorenvironment.CreateReferenceMutator
 import mutatorenvironment.ModifyInformationMutator
 import java.util.ArrayList
-import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EReference
 import java.util.List
 import java.util.HashMap
 import org.eclipse.emf.ecore.EPackage
 import manager.ModelManager
-import manager.MutatorUtils
+import mutator.MutatorUtils
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
-import org.eclipse.emf.ecore.EAnnotation
-import org.eclipse.emf.common.util.EMap
-import java.util.Set
 import mutatorenvironment.MutatorEnvironment
 import mutatorenvironment.RemoveObjectMutator
 import mutatorenvironment.RemoveCompleteReferenceMutator
 import mutatorenvironment.SelectObjectMutator
 import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.CloneObjectMutator
-import mutatorenvironment.Expression
-import mutatorenvironment.AttributeEvaluation
-import mutatorenvironment.AttributeType
-import mutatorenvironment.SpecificStringType
-import mutatorenvironment.StringType
-import mutatorenvironment.DoubleType
-import mutatorenvironment.SpecificDoubleType
-import mutatorenvironment.BooleanType
-import mutatorenvironment.SpecificBooleanType
-import mutatorenvironment.IntegerType
-import mutatorenvironment.SpecificIntegerType
-import manager.UseUtils
-import mutatorenvironment.Operator
+import use.UseUtils
 import mutatorenvironment.Mutator
-import mutatorenvironment.ReferenceSet
-import mutatorenvironment.Evaluation
-import mutatorenvironment.SpecificObjectSelection
-import mutatorenvironment.RandomTypeSelection
-import mutatorenvironment.CompleteTypeSelection
-import mutatorenvironment.SpecificClosureSelection
-import mutatorenvironment.OtherTypeSelection
-import mutatorenvironment.AttributeSet
-import mutatorenvironment.AttributeScalar
-import mutatorenvironment.AttributeUnset
-import mutatorenvironment.AttributeSwap
-import mutatorenvironment.AttributeCopy
-import mutatorenvironment.ObjectAttributeType
-import mutatorenvironment.AttributeReverse
-import mutatorenvironment.AttributeOperation
-import mutatorenvironment.ReferenceEvaluation
-import mutatorenvironment.ObSelectionStrategy
-import mutatorenvironment.ReferenceInit
-import manager.MutatorDependencies
+import org.eclipse.core.runtime.Platform
 
 /**
  * Generates code from your model files on save.
@@ -72,8 +38,8 @@ import manager.MutatorDependencies
 class WodelUseGenerator implements IGenerator {
 	
 	private static class Cardinality {
-		int min = 0;
-		int max = 10;
+		int min = 0
+		int max = 0
 	}
 	
 	private String fileName
@@ -85,6 +51,11 @@ class WodelUseGenerator implements IGenerator {
 	private String dummyClassName = "Dummy"
 	private HashMap<String, HashMap<String, String>> useReferences = new HashMap<String, HashMap<String, String>>()
 	
+	private int maxInteger
+	private int minInteger
+	private int maxString
+	private int maxCardinality
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		manager.WodelContext.setProject(null)
 		manager.WodelContext.getProject
@@ -92,6 +63,11 @@ class WodelUseGenerator implements IGenerator {
 
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			
+			
+			maxInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum integer value", "100", null))
+			minInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Minimum integer value", "-100", null))
+			maxString = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum string value", "10", null))
+			maxCardinality = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum cardinality value", "10", null))
 			fileName = resource.URI.lastSegment
 					
 			fileName = fileName.replaceAll(".mutator", ".java")
@@ -304,10 +280,10 @@ class WodelUseGenerator implements IGenerator {
    def properties(MutatorEnvironment e) '''
 		[default]
 		
-		Integer_min = -100
-		Integer_max = 100
+		Integer_min = «minInteger»
+		Integer_max = «maxInteger»
 		
-		String_max = 10
+		String_max = «maxString»
 		
 		«dummyClassName»_min = 1
 		«dummyClassName»_max = 1
@@ -328,6 +304,8 @@ class WodelUseGenerator implements IGenerator {
 		«IF eclass.name.equals(root.name)»
 		# «cardinality.min++»
 		# «cardinality.max = 1»
+		«ELSE»
+		# «cardinality.max = maxCardinality»
 		«ENDIF»
 		# «classes.put(eclass.name, cardinality)»
 		«ENDFOR»
@@ -379,7 +357,7 @@ class WodelUseGenerator implements IGenerator {
 		# «min = classes.get(ref.EType.name).min»
 		«ENDIF»
 		«associationName»_min = «min»
-		«associationName»_max = 10
+		«associationName»_max = «maxCardinality»
 		«ENDFOR»
 		«ENDIF»
 		«ENDFOR»

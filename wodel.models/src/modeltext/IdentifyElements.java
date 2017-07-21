@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.IdentifyElements#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link modeltext.IdentifyElements#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
- * @see modeltext.IdentifyelementsPackage#getIdentifyElements()
+ * @see modeltext.ModeltextPackage#getIdentifyElements()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface IdentifyElements extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Metamodel</em>' attribute.
 	 * @see #setMetamodel(String)
-	 * @see modeltext.IdentifyelementsPackage#getIdentifyElements_Metamodel()
+	 * @see modeltext.ModeltextPackage#getIdentifyElements_Metamodel()
 	 * @model required="true"
 	 * @generated
 	 */
@@ -60,7 +60,7 @@ public interface IdentifyElements extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Elements</em>' containment reference list.
-	 * @see modeltext.IdentifyelementsPackage#getIdentifyElements_Elements()
+	 * @see modeltext.ModeltextPackage#getIdentifyElements_Elements()
 	 * @model containment="true"
 	 * @generated
 	 */

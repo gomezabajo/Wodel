@@ -15,15 +15,15 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.Element#getType <em>Type</em>}</li>
  *   <li>{@link modeltext.Element#getRef <em>Ref</em>}</li>
  *   <li>{@link modeltext.Element#getAtt <em>Att</em>}</li>
  *   <li>{@link modeltext.Element#getWords <em>Words</em>}</li>
  * </ul>
- * </p>
  *
- * @see modeltext.IdentifyelementsPackage#getElement()
+ * @see modeltext.ModeltextPackage#getElement()
  * @model
  * @generated
  */
@@ -38,7 +38,7 @@ public interface Element extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
-	 * @see modeltext.IdentifyelementsPackage#getElement_Type()
+	 * @see modeltext.ModeltextPackage#getElement_Type()
 	 * @model required="true"
 	 * @generated
 	 */
@@ -64,7 +64,7 @@ public interface Element extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref</em>' reference.
 	 * @see #setRef(EReference)
-	 * @see modeltext.IdentifyelementsPackage#getElement_Ref()
+	 * @see modeltext.ModeltextPackage#getElement_Ref()
 	 * @model
 	 * @generated
 	 */
@@ -90,7 +90,7 @@ public interface Element extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att</em>' containment reference.
 	 * @see #setAtt(Attribute)
-	 * @see modeltext.IdentifyelementsPackage#getElement_Att()
+	 * @see modeltext.ModeltextPackage#getElement_Att()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -116,7 +116,7 @@ public interface Element extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Words</em>' containment reference list.
-	 * @see modeltext.IdentifyelementsPackage#getElement_Words()
+	 * @see modeltext.ModeltextPackage#getElement_Words()
 	 * @model containment="true"
 	 * @generated
 	 */

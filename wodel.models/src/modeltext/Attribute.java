@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.Attribute#isNegation <em>Negation</em>}</li>
  *   <li>{@link modeltext.Attribute#getAtt <em>Att</em>}</li>
  * </ul>
- * </p>
  *
- * @see modeltext.IdentifyelementsPackage#getAttribute()
+ * @see modeltext.ModeltextPackage#getAttribute()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface Attribute extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Negation</em>' attribute.
 	 * @see #setNegation(boolean)
-	 * @see modeltext.IdentifyelementsPackage#getAttribute_Negation()
+	 * @see modeltext.ModeltextPackage#getAttribute_Negation()
 	 * @model default="true"
 	 * @generated
 	 */
@@ -60,7 +60,7 @@ public interface Attribute extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Att</em>' reference.
 	 * @see #setAtt(EAttribute)
-	 * @see modeltext.IdentifyelementsPackage#getAttribute_Att()
+	 * @see modeltext.ModeltextPackage#getAttribute_Att()
 	 * @model required="true"
 	 * @generated
 	 */

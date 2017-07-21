@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Set;
 
 import manager.ModelManager;
-import manager.StaticMutatorMetrics;
+import metrics.StaticMutatorMetrics;
 import manager.WodelContext;
-import manager.StaticMutatorMetrics.WodelMetricAttribute;
-import manager.StaticMutatorMetrics.WodelMetricClass;
-import manager.StaticMutatorMetrics.WodelMetricFeature;
-import manager.StaticMutatorMetrics.WodelMetricReference;
+import metrics.StaticMutatorMetrics.WodelMetricAttribute;
+import metrics.StaticMutatorMetrics.WodelMetricClass;
+import metrics.StaticMutatorMetrics.WodelMetricFeature;
+import metrics.StaticMutatorMetrics.WodelMetricReference;
 
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.command.CreateRepresentationCommand;
@@ -52,6 +52,7 @@ import org.eclipse.sirius.ui.business.api.viewpoint.ViewpointSelectionCallbackWi
 import org.eclipse.sirius.ui.business.internal.commands.ChangeViewpointSelectionCommand;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.RGBValues;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
@@ -1305,7 +1306,10 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			if (dView == null) {
 				return;
 			}
-			DRepresentation dRepresentation = dView.getOwnedRepresentations().get(0);
+			//DRepresentation dRepresentation = dView.getOwnedRepresentationDescriptors().get(0); <-- Works on Sirius 3.1.7
+			DRepresentationDescriptor dRepresentationDescriptor = dView.getOwnedRepresentationDescriptors().get(0);
+			DRepresentation dRepresentation = dRepresentationDescriptor.getRepresentation();
+			
 			IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(createdSession, dRepresentation, monitor);
 				
 			ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
@@ -1396,7 +1400,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 
 		//Save session and Refresh workspace		
 			//Includes the mutation metrics
-			String project = WodelContext.getProject();
+			String project = "/" + WodelContext.getProject();
 
 			RecordingCommand includeMetricsCommand = new RecordingCommand(domain) {
 				@Override

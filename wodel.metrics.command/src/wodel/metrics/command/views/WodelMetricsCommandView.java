@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import manager.CommandMutatorMetrics;
+import metrics.CommandMutatorMetrics;
 import manager.WodelContext;
-import manager.CommandMutatorMetrics.WodelMetricClass;
-import manager.CommandMutatorMetrics.WodelMetricCommand;
-import manager.CommandMutatorMetrics.WodelMetricFeature;
-import manager.CommandMutatorMetrics.WodelMetricAttribute;
-import manager.CommandMutatorMetrics.WodelMetricReference;
+import metrics.CommandMutatorMetrics.WodelMetricClass;
+import metrics.CommandMutatorMetrics.WodelMetricCommand;
+import metrics.CommandMutatorMetrics.WodelMetricFeature;
+import metrics.CommandMutatorMetrics.WodelMetricAttribute;
+import metrics.CommandMutatorMetrics.WodelMetricReference;
 import manager.ModelManager;
 
 import org.eclipse.swt.widgets.Composite;

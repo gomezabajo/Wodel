@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link modeltext.Variable#getRef <em>Ref</em>}</li>
  *   <li>{@link modeltext.Variable#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
- * @see modeltext.IdentifyelementsPackage#getVariable()
+ * @see modeltext.ModeltextPackage#getVariable()
  * @model
  * @generated
  */
@@ -33,7 +33,7 @@ public interface Variable extends Word {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ref</em>' reference.
 	 * @see #setRef(EReference)
-	 * @see modeltext.IdentifyelementsPackage#getVariable_Ref()
+	 * @see modeltext.ModeltextPackage#getVariable_Ref()
 	 * @model
 	 * @generated
 	 */
@@ -59,7 +59,7 @@ public interface Variable extends Word {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Id</em>' reference.
 	 * @see #setId(EAttribute)
-	 * @see modeltext.IdentifyelementsPackage#getVariable_Id()
+	 * @see modeltext.ModeltextPackage#getVariable_Id()
 	 * @model required="true"
 	 * @generated
 	 */

@@ -1,9 +1,0 @@
-generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample2/data/model/DFAAutomaton.ecore"
-
-with commands {
-	s = create State with {name = random-string(1,4)}
-	t = create Transition with {tar = s, symbol = one AlphabetSymbol}
-}

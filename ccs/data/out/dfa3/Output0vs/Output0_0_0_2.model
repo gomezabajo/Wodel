@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 file:/c:/eclipse/workspace/ccs/data/model/DFAAutomaton.ecore" xmi:id="_XZ1K0JWTEeeHwor16N4uRA" name="dfa3">
+  <states xmi:id="_XZ1K1JWTEeeHwor16N4uRA" name="s0" isInitial="true"/>
+  <states xmi:id="_XZ1K0ZWTEeeHwor16N4uRA" name="s1" isFinal="true"/>
+  <states xmi:id="_XZ1K0pWTEeeHwor16N4uRA" name="s2"/>
+  <states xmi:id="_XZ1K05WTEeeHwor16N4uRA" name="s3" isFinal="true"/>
+  <states xmi:id="_XZ1K1ZWTEeeHwor16N4uRA" name="s4" isFinal="true"/>
+  <states name="db"/>
+  <transitions xmi:id="_XZ1K1pWTEeeHwor16N4uRA" src="_XZ1K0pWTEeeHwor16N4uRA" tar="_XZ1K0ZWTEeeHwor16N4uRA" symbol="_XZ1x4JWTEeeHwor16N4uRA"/>
+  <transitions xmi:id="_XZ1K15WTEeeHwor16N4uRA" src="_XZ1K0pWTEeeHwor16N4uRA" tar="_XZ1K05WTEeeHwor16N4uRA" symbol="_XZ1x4ZWTEeeHwor16N4uRA"/>
+  <transitions xmi:id="_XZ1K2JWTEeeHwor16N4uRA" src="_XZ1K0ZWTEeeHwor16N4uRA" tar="_XZ1K0ZWTEeeHwor16N4uRA" symbol="_XZ1x4JWTEeeHwor16N4uRA"/>
+  <transitions tar="//@states.5" symbol="_XZ1x4JWTEeeHwor16N4uRA"/>
+  <alphabet xmi:id="_XZ1x4JWTEeeHwor16N4uRA" symbol="a"/>
+  <alphabet xmi:id="_XZ1x4ZWTEeeHwor16N4uRA" symbol="b"/>
+</DFAAutomaton:Automaton>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../sst.model#//@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../sst.model#//@commands.1"/>
+    <object href="../../../model/dfa2.model#_RU07dJWTEeeHwor16N4uRA"/>
+    <refChanges xsi:type="appliedMutations:ReferenceSwap" refName="symbol" firstName="symbol">
+      <def href="../../sst.model#//@commands.1"/>
+      <from href="../../../model/dfa2.model#_RU07d5WTEeeHwor16N4uRA"/>
+      <to href="../../../model/dfa2.model#_RU07d5WTEeeHwor16N4uRA"/>
+      <refObject href="../../../model/dfa2.model#_RU07dJWTEeeHwor16N4uRA"/>
+    </refChanges>
+  </muts>
+</appliedMutations:Mutations>

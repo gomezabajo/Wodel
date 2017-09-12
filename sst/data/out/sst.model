@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition"/>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+        </first>
+        <operator/>
+        <second xsi:type="mutatorenvironment:ReferenceEvaluation">
+          <name href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/src"/>
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+            <refType href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/src"/>
+          </value>
+        </second>
+      </expression>
+    </object>
+    <references xsi:type="mutatorenvironment:ReferenceSwap">
+      <reference href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <reference href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+    </references>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

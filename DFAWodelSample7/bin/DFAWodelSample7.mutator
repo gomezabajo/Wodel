@@ -1,9 +1,0 @@
-generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/DFAWodelSample7/data/model/DFAAutomaton.ecore"
-
-with commands {
-	s0 = modify one State where {isInitial = true} with	{isInitial = false}
-	s1 = modify one State where {self <> s0} with {isInitial = true}
-}

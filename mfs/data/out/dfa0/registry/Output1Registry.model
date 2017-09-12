@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../mfs.model#//@commands.0"/>
+    <object href="../../../model/dfa0.model#_9U63cpWSEeeHwor16N4uRA"/>
+    <attChanges attName="isFinal" oldVal="true" newVal="false">
+      <def href="../../mfs.model#//@commands.0"/>
+    </attChanges>
+  </muts>
+</appliedMutations:Mutations>

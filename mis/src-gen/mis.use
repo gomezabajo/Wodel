@@ -1,0 +1,56 @@
+model mis
+class Automaton
+	attributes
+		name : String
+end
+class Symbol
+	attributes
+		symbol : String
+end
+class State
+	attributes
+		name : String
+		isInitial : Boolean
+		isFinal : Boolean
+end
+class Transition
+end
+class Dummy
+end
+composition AutomatonState between
+	Automaton[*] role automatonstate
+	State[*] role states_
+end
+composition AutomatonTransition between
+	Automaton[*] role automatontransition
+	Transition[*] role transitions_
+end
+composition AutomatonSymbol between
+	Automaton[*] role automatonsymbol
+	Symbol[*] role alphabet
+end
+association TransitionState between
+	Transition[*] role transitionstate
+	State[1] role src
+end
+association TransitionState1 between
+	Transition[*] role transitionstate1
+	State[1] role tar
+end
+association TransitionSymbol between
+	Transition[*] role transitionsymbol
+	Symbol[0..1] role symbol
+end
+constraints
+context Dummy
+inv mut1 : Automaton.allInstances()->forAll(a | a.name <> null)
+inv mut2 : Symbol.allInstances()->forAll(s | s.symbol <> null)
+inv mut3 : State.allInstances()->forAll(s | s.name <> null)
+inv mut4 : State.allInstances()->forAll(s | s.isInitial <> null)
+inv mut5 : State.allInstances()->forAll(s | s.isFinal <> null)
+inv mut6 : State.allInstances()->size() > 1
+inv mut7 : State.allInstances()->exists(s | s.isInitial = true)
+inv mut8 : State.allInstances()->exists(s0 | State.allInstances()->exists(s1 | s1.isInitial = true and s0 <> s1))
+inv mut9 : State.allInstances()->exists(s | s.isFinal = true)
+inv mut10 : State.allInstances()->one(s | s.isInitial = true)
+inv mut11 : Symbol.allInstances()->forAll(a1,a2 |a1.symbol=a2.symbol implies a1=a2)

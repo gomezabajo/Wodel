@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 file:/c:/eclipse/workspace/clt/data/model/DFAAutomaton.ecore" xmi:id="_LJokgJWTEeeHwor16N4uRA" name="dfa1">
+  <states xmi:id="_LJokgZWTEeeHwor16N4uRA" name="s0" isInitial="true"/>
+  <states xmi:id="_LJokgpWTEeeHwor16N4uRA" name="s1" isFinal="true"/>
+  <transitions xmi:id="_LJokg5WTEeeHwor16N4uRA" src="_LJokgZWTEeeHwor16N4uRA" tar="_LJokgpWTEeeHwor16N4uRA" symbol="_LJokhZWTEeeHwor16N4uRA"/>
+  <transitions xmi:id="_LJokhJWTEeeHwor16N4uRA" src="_LJokgZWTEeeHwor16N4uRA" tar="_LJokgZWTEeeHwor16N4uRA" symbol="_LJokhpWTEeeHwor16N4uRA"/>
+  <transitions/>
+  <alphabet xmi:id="_LJokhZWTEeeHwor16N4uRA" symbol="a"/>
+  <alphabet xmi:id="_LJokhpWTEeeHwor16N4uRA" symbol="b"/>
+</DFAAutomaton:Automaton>

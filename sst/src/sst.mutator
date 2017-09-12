@@ -1,0 +1,9 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore"
+
+with commands {
+	t = select one Transition
+    modify one Transition where {self <> t and src = t->src} with {swapref(symbol, t->symbol)}
+}

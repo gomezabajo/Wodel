@@ -1,0 +1,8 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/workspace/mst/data/model/DFAAutomaton.ecore"
+
+with commands {
+	modify target symbol from one Transition to other Symbol
+}

@@ -49,8 +49,6 @@ conforms to the domain meta-model and satisfies its integrity constraints).
 Non-conformant mutants are discarded, in which case, the engine retries
 another mutant generation up to a configurable maximum number of retries.</p>
 
-<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
-
 <p>When generating the mutants, the engine takes care of assigning an appropriate
 value to any mandatory attribute or reference not initialized by
 the Wodel program. Similarly, created objects are automatically placed
@@ -96,6 +94,8 @@ with commands {
 <p>You can specify when mutants are going to be generated inside a Wodel program with the <em>blocks</em> directive.</p>
 
 <p>Also, you can mutate mutant models generated in a previous block, instead of mutating the seed models.</p>
+
+<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
 
 <pre><code>generate mutants
 in "out/"

@@ -41,12 +41,47 @@
 
 <p>Wodel is domain-independent, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
 
-<p>It's development environment is extensible, permitting the incorporation of post-processors for different applications.</p>
+<p>Wodel provides eight mutation primitives for object creation and deletion,
+reference redirection, attribute modification, and cloning, among others.</p>
 
-<p>As an example, this repository contains an application consisting on the automated generation of exercises for particular domains
-(automata, class diagrams, electronic circuits, etc.). We call this extension Wodel-Edu.</p>
+<p>The engine veryfies that each generated mutant is a valid model (i.e., it
+conforms to the domain meta-model and satisfies its integrity constraints).
+Non-conformant mutants are discarded, in which case, the engine retries
+another mutant generation up to a configurable maximum number of retries.</p>
 
-<p>This is a sample of a Wodel program that mutates a transition target of a Deterministic Finite Automaton model:</p>
+<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
+
+<p>When generating the mutants, the engine takes care of assigning an appropriate
+value to any mandatory attribute or reference not initialized by
+the Wodel program. Similarly, created objects are automatically placed
+in a suitable container, if no container was explicitly stated.</p>
+
+<p>Wodel includes a mechanism to identify and avoid the generation of duplicated
+mutants. By default, mutant equivalence is syntactic, but users can provide their
+own equivalence criteria (e.g., behavioural) through extension points.</p>
+
+<p>The execution of a Wodel program generates a registry of the applied
+mutations and the objects affected by them. This registry is useful to
+enable the repetition of the mutation process, or to synthesize a natural
+language description of the applied mutations.</p>
+
+<p>The IDE provides several metrics that can help in assessing whether a set
+of mutations is complete or has been correctly implemented.</p>
+
+<p>Also to facilitate the testing of Wodel programs, the IDE permits the
+automatic synthesis of seed models ensuring that all instructions in the
+program will be applicable to the generated models (if any such models
+exist).</p>
+
+<p>It's development environment is extensible, permitting the incorporation
+of post-processors for different applications.</p>
+
+<p>As an example, this repository contains an application consisting on
+the automated generation of exercises for particular domains (automata, class diagrams,
+electronic circuits, etc.). We call this extension Wodel-Edu.</p>
+
+<p>This is a sample of a Wodel program that mutates a transition target of a
+Deterministic Finite Automaton model:</p>
 
 <pre><code>generate 2 mutants
 in "out/"
@@ -61,8 +96,6 @@ with commands {
 <p>You can specify when mutants are going to be generated inside a Wodel program with the <em>blocks</em> directive.</p>
 
 <p>Also, you can mutate mutant models generated in a previous block, instead of mutating the seed models.</p>
-
-<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
 
 <pre><code>generate mutants
 in "out/"
@@ -82,6 +115,8 @@ constraints {
             closure(s | Transition.allInstances()-&gt;
             select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
 }
+
+
 </code></pre>
 
       <footer class="site-footer">

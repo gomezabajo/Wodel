@@ -1,0 +1,11 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore"
+
+with commands {
+	t = select one RuleType
+	setp = select all Parameter where {type in t->parameters}
+	p = select sample from setp with distinct {type}
+	create Rule with {type = t, parameters = p}
+}

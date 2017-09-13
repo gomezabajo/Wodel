@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//RuleType"/>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="setp">
+    <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+      <type href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//Parameter"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="in">
+          <name href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//Parameter/type"/>
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+            <refType href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//RuleType/parameters"/>
+          </value>
+        </first>
+      </expression>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:SelectSampleMutator" name="p" clause="distinct">
+    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    <features xsi:type="ecore:EReference" href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//Parameter/type"/>
+  </commands>
+  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+    <type href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//Rule"/>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//Rule/type"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+    </references>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore#//Rule/parameters"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.2"/>
+    </references>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

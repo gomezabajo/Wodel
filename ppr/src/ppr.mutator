@@ -1,0 +1,11 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/workspace/ppr/data/model/SecurityPolicy.ecore"
+
+with commands {
+	p1 = select one Parameter
+	p2 = select one Parameter where {type = p1->type and self <> p1}
+	r = select one Rule where {parameters = p1}
+	modify r with {parameters -= p1, parameters += p2}
+}

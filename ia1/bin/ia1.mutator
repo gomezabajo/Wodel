@@ -1,0 +1,10 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/workspace/ia1/data/model/Asple.ecore"
+
+with commands {
+	op = select one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
+	exp = create BinaryOperator in op->right with {left = op->right, operator = 'add'}
+	create Integer in exp->right with {value = 1}
+}

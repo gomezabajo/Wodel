@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../ASPLEWodelSample3.model#//@commands.0"/>
-    <object href="../../../model/sample.asple.model#_Kbe_8I-mEeaNMqhIMuT_iA"/>
-  </muts>
-</appliedMutations:Mutations>

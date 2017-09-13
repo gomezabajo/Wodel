@@ -1,0 +1,8 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/workspace/rsv/data/model/Asple.ecore"
+
+with commands {
+	modify one Integer with {value = random}
+}

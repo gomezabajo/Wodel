@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/rro/data/model/Asple.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/workspace/rro/data/model/Asple.ecore#//BinaryOperator"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:AttributeEvaluation">
+          <name href="file:/c:/eclipse/workspace/rro/data/model/Asple.ecore#//BinaryOperator/operator"/>
+          <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+            <value>less</value>
+            <value>equals</value>
+            <value>greater</value>
+            <value>distinct</value>
+          </value>
+        </first>
+      </expression>
+    </object>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/workspace/rro/data/model/Asple.ecore#//BinaryOperator/operator"/>
+      <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+        <value>less</value>
+        <value>equals</value>
+        <value>greater</value>
+        <value>distinct</value>
+      </value>
+    </attributes>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

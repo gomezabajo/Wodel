@@ -43,8 +43,8 @@
 <p>This is a sample of a Wodel program that mutates a transition target of a Deterministic Finite Automaton model:</p>
 
 <pre><code>generate 2 mutants
-in "out/"
-from "model/"
+in "data/out/"
+from "data/model/"
 metamodel "http://dfaAutomaton/1.0"
 
 with commands {
@@ -59,8 +59,8 @@ with commands {
 <p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
 
 <pre><code>generate mutants
-in "out/"
-from "model/exercise1.model"
+in "data/out/"
+from "data/model/exercise1.model"
 metamodel "http://dfaAutomaton/1.0"
 
 with blocks {
@@ -71,7 +71,7 @@ with blocks {
          modify one State with { name = random-string(4,6)}
     } [3]
 }
-constraints {
+constraints text=yes {
     context State connected: "isInitial or Set{self}-&gt;
             closure(s | Transition.allInstances()-&gt;
             select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"

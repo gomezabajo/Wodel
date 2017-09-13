@@ -31,54 +31,40 @@
     </section>
 
     <section class="main-content">
-      <p><strong>Wodel</strong> is a Domain-Specific Language for the specification and generation of model mutants.</p>
 
-<p>Wodel is domain-independent, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
+<p>Changes the initial state [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cis.zip">cis</a>]:</p>
 
-<p>It's development environment is extensible, permitting the incorporation of post-processors for different applications.</p>
+<pre><code>
+    s0 = modify one State where {isInitial = true} with {isInitial = false}
+    s1 = modify one State where {self <> s0} with {isInitial = true}
+</code></pre>
 
-<p>As an example, this repository contains an application consisting on the automated generation of exercises for particular domains
-(automata, class diagrams, electronic circuits, etc.). We call this extension Wodel-Edu.</p>
+<p>Alters transition probabilities [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/alp.zip">alp</a>]:</p>
 
-<p>This is a sample of a Wodel program that mutates a transition target of a Deterministic Finite Automaton model:</p>
+<pre><code>
+     t0 = select one Transition where {probability = min(probability)}
+     t1 = select one Transition where {self <> t0 and src = t0->src}
+     modify t1 with {probability += random(0.0, t0.probability)}
+     t2 = select one Transition where {self <> t0 and self <> t1 and src = t0->src}
+     modify t2 with {probability -= t1.probability}
+</code></pre>
 
-<pre><code>generate 2 mutants
-in "out/"
-from "model/"
-metamodel "http://dfaAutomaton/1.0"
+<p>Changes the target state of a transition [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cts.zip">cts</a>]:</p>
 
-with commands {
+<pre><code>
      modify target tar from one Transition to other State
-}
 </code></pre>
 
-<p>You can specify when mutants are going to be generated inside a Wodel program with the <em>blocks</em> directive.</p>
+<p>Creates a new transition [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cnt.zip">cnt</a>]:</p>
 
-<p>Also, you can mutate mutant models generated in a previous block, instead of mutating the seed models.</p>
-
-<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
-
-<pre><code>generate mutants
-in "out/"
-from "model/exercise1.model"
-metamodel "http://dfaAutomaton/1.0"
-
-with blocks {
-    first {
-         modify target tar from one Transition to other State [3]             
-} [2]
-    second from first repeat=no {
-         modify one State with { name = random-string(4,6)}
-    } [3]
-}
-constraints {
-    context State connected: "isInitial or Set{self}-&gt;
-            closure(s | Transition.allInstances()-&gt;
-            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
-}
+<pre><code>
+     t0 = select one Transition where {probability = min(probability)}
+     t1 = select one Transition where {self <> t0 and src = t0->src}
+     t2 = create Transition with {probability = random(0.0, t0.probability), src = t0->src}
+     modify t1 with {probability -= t2.probability}
 </code></pre>
 
-<p>Here you can download several examples of Wodel programs to probabilistic automata.<br />
+<p>Here you can download all these examples of Wodel programs to probabilistic automata.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/PFSMWodelSamples">Prob. Automata samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/PFSMWodelSamples">Prob. Automata samples .tar.gz</a>

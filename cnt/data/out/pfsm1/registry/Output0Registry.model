@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../cnt.model#//@commands.0"/>
+  </muts>
+  <muts>
+    <def href="../../cnt.model#//@commands.1"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../cnt.model#//@commands.2"/>
+    <object href="../Output0vs/Output0_0_0_3.model#//@transitions.11"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../cnt.model#//@commands.3"/>
+    <object href="../../../model/pfsm1.model#_zzeCkAQXEeepNvJoeelbpw"/>
+    <attChanges attName="probability" oldVal="0.75" newVal="0.59">
+      <def href="../../cnt.model#//@commands.3"/>
+    </attChanges>
+  </muts>
+</appliedMutations:Mutations>

@@ -1,8 +1,0 @@
-generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/PFSMWodelSampleCTS/data/model/PFSM.ecore"
-
-with commands {
-	modify target tar from one Transition to other State
-}

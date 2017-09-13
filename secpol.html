@@ -37,7 +37,7 @@
 	  </strong></p>
 
 <p>Selects two rule types with the same parameter types. Then modifies the type of a
-rule whose type is the first selected rule type with the second rule type (rtt):</p>
+rule whose type is the first selected rule type with the second rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rtt.zip">rtt</a>]:</p>
 
 <pre><code>
      t1 = select one RuleType
@@ -45,7 +45,7 @@ rule whose type is the first selected rule type with the second rule type (rtt):
      modify one Rule where {type = t1} with {type = t2}
 </code></pre>
 
-<p>Replaces a parameter of a rule with a different parameter of the same type (ppr):</p>
+<p>Replaces a parameter of a rule with a different parameter of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppr.zip">ppr</a>]:</p>
 
 <pre><code>
      p1 = select one Parameter
@@ -54,7 +54,7 @@ rule whose type is the first selected rule type with the second rule type (rtt):
      modify r with {parameters -= p1, parameters += p2}
 </code></pre>
 
-<p>Creates a new rule using a selected rule type (anr):</p>
+<p>Creates a new rule using a selected rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/anr.zip">anr</a>]:</p>
 
 <pre><code>
      t = select one RuleType
@@ -63,14 +63,14 @@ rule whose type is the first selected rule type with the second rule type (rtt):
      create Rule with {type = t, parameters = p}
 </code></pre>
 
-<p>Removes a rule (rer):</p>
+<p>Removes a rule [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rer.zip">rer</a>]:</p>
 
 <pre><code>
      remove one Rule
 </code></pre>
 
 <p>Replaces a parameter on a rule with one of its descending parameters (using the
-children reference) (ppd):</p>
+children reference) [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppd.zip">ppd</a>]:</p>
 
 <pre><code>
      r = select one Rule where {parameters->children <> null}
@@ -79,7 +79,7 @@ children reference) (ppd):</p>
      modify r with {parameters -= p, parameters += c}
 </code></pre>
 
-<p>Here you can download these examples of Wodel applied to Security Policies.<br />
+<p>Here you can download all these examples of Wodel applied to Security Policies.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/SecurityPoliciesWodelSamples">Security Policies samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/SecurityPoliciesWodelSamples">Security Policies samples tar.gz</a>

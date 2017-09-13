@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<modeltext:IdentifyElements xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeltext="http://modeltext/1.0" metamodel="C:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore">
+  <elements>
+    <type href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//State"/>
+    <words xsi:type="modeltext:Constant" value="State"/>
+    <words xsi:type="modeltext:Variable">
+      <id href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//State/name"/>
+    </words>
+  </elements>
+  <elements>
+    <type href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Transition"/>
+    <words xsi:type="modeltext:Constant" value="Transition"/>
+    <words xsi:type="modeltext:Variable">
+      <ref href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <id href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Symbol/symbol"/>
+    </words>
+  </elements>
+  <elements>
+    <type href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Transition"/>
+    <ref href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+    <words xsi:type="modeltext:Constant" value="target"/>
+  </elements>
+  <elements>
+    <type href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Transition"/>
+    <ref href="file:/c:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore#//Transition/src"/>
+    <words xsi:type="modeltext:Constant" value="source"/>
+  </elements>
+</modeltext:IdentifyElements>

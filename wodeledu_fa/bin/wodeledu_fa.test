@@ -1,0 +1,24 @@
+navigation=free
+
+MultiChoiceEmendation first {
+		retry=no, weighted=no, penalty=0.0,
+		order=options-descending, mode=checkbox
+		description for 'exercise4.model' = 'Which changes shall be applied to this automaton to accept only "a<sup>+</sup>b<sup>+</sup>"?'
+		description for 'exercise6.model' = 'Which changes shall be applied to this automaton to accept only "a*b"?'
+		description for 'exercise10.model' = 'Which changes shall be applied to this automaton to accept only "ab*(a|ab)"?'
+		description for 'exercise12.model' = 'Which changes shall be applied to this automaton to accept only "ba*|ba*b"?'
+}
+MultiChoiceDiagram simple1 {
+		retry=no
+		description for 'exercise1.model' = 'Select which of these automata accepts only the even binary numbers.'
+		description for 'exercise2.model' = 'Select which of these automata accepts only "a<sup>2</sup>+b*|a<sup>2</sup>b+|ab+"'
+		description for 'exercise3.model' = 'Select which of these automata accepts only "a*bab*"'
+		description for 'exercise5.model' = 'Select which of these automata accepts only "0<sup>m</sup>1<sup>n</sup>0<sup>p</sup> (m >= 0, n >= 0, p >= 1)"'
+}
+AlternativeResponse simple2 {
+		retry=no
+		description for 'exercise7.model' = 'Does this automaton accept only "((ab)*|(ba)*)<sup>+</sup>"?'
+		description for 'exercise8.model' = 'Does this automaton accept only "ab(ba)*"?'
+		description for 'exercise9.model' = 'Does this automaton accept only "(ab)*ba"?'
+		description for 'exercise11.model' = 'Does this automaton accept only "(a|b)(a(a|b)|b(a|b))*"?'
+}

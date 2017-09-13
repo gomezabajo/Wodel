@@ -31,54 +31,51 @@
     </section>
 
     <section class="main-content">
-      <p><strong>Wodel</strong> is a Domain-Specific Language for the specification and generation of model mutants.</p>
+      <p><strong>Wodel applied to ASPLE language. [<a href="http://gomezabajo.github.io/Wodel/ecore/Asple.ecore">ASPLE Language Ecore</a>]</strong></p>
 
-<p>Wodel is domain-independent, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
+<p>Replaces an arithmetic operator by another one (rao):</p>
 
-<p>It's development environment is extensible, permitting the incorporation of post-processors for different applications.</p>
-
-<p>As an example, this repository contains an application consisting on the automated generation of exercises for particular domains
-(automata, class diagrams, electronic circuits, etc.). We call this extension Wodel-Edu.</p>
-
-<p>This is a sample of a Wodel program that mutates a transition target of a Deterministic Finite Automaton model:</p>
-
-<pre><code>generate 2 mutants
-in "out/"
-from "model/"
-metamodel "http://dfaAutomaton/1.0"
-
-with commands {
-     modify target tar from one Transition to other State
-}
+<pre><code>
+     modify one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
+            with {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
 </code></pre>
 
-<p>You can specify when mutants are going to be generated inside a Wodel program with the <em>blocks</em> directive.</p>
+<p>Replaces an arithmetic operator by another one (rro):</p>
 
-<p>Also, you can mutate mutant models generated in a previous block, instead of mutating the seed models.</p>
-
-<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
-
-<pre><code>generate mutants
-in "out/"
-from "model/exercise1.model"
-metamodel "http://dfaAutomaton/1.0"
-
-with blocks {
-    first {
-         modify target tar from one Transition to other State [3]             
-} [2]
-    second from first repeat=no {
-         modify one State with { name = random-string(4,6)}
-    } [3]
-}
-constraints {
-    context State connected: "isInitial or Set{self}-&gt;
-            closure(s | Transition.allInstances()-&gt;
-            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
-}
+<pre><code>
+     modify one BinaryOperator where {operator in ['less', 'equals', 'greater', 'distinct']}
+            with {operator in ['less', 'equals', 'greater', 'distinct']}
 </code></pre>
 
-<p>Here you can download several examples of Wodel applied to ASPLE language.<br />
+<p>Replaces loop end condition by infinite loop (rli):</p>
+
+<pre><code>
+     loop = select one Loop
+            create Boolean in loop->expression with {value = true}
+</code></pre>
+
+<p>Delete statement (rst):</p>
+
+<pre><code>
+     remove one Statement
+</code></pre>
+
+<p>Replaces scalar variable (rsv):</p>
+
+<pre><code>
+     modify one Integer with {value = random}
+</code></pre>
+
+<p>Increment an arithmetic expression by 1 (ia1):</p>
+
+<pre><code>
+     op = select one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
+     exp = create BinaryOperator in op->right with {left = op->right, operator = 'add'}
+     create Integer in exp->right with {value = 1}
+</code></pre>
+
+
+<p>Here you can download these examples of Wodel applied to ASPLE language.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/ASPLEWodelSamples">ASPLE samples .zip</a><br />
 	  <a href="https://github.com/gomezabajo/Wodel/tarball/ASPLEWodelSamples">ASPLE samples .tar.gz</a>

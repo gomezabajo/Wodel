@@ -72,8 +72,8 @@ class diagrams, electronic circuits, etc.). We call this extension
 Deterministic Finite Automaton model:</p>
 
 <pre><code>generate 2 mutants
-in "out/"
-from "model/"
+in "data/out/"
+from "data/model/"
 metamodel "http://dfaAutomaton/1.0"
 
 with commands {
@@ -88,8 +88,8 @@ with commands {
 <p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
 
 <pre><code>generate mutants
-in "out/"
-from "model/exercise1.model"
+in "data/out/"
+from "data/model/exercise1.model"
 metamodel "http://dfaAutomaton/1.0"
 
 with blocks {

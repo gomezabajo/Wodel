@@ -35,12 +35,35 @@
 
 <p>Wodel is domain-independent, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
 
-<p>It's development environment is extensible, permitting the incorporation of post-processors for different applications.</p>
+<p>Wodel provides eight mutation primitives for object creation and deletion,
+reference redirection, attribute modification, and cloning, among others.</p>
 
-<p>As an example, this repository contains an application consisting on the automated generation of exercises for particular domains
-(automata, class diagrams, electronic circuits, etc.). We call this extension Wodel-Edu.</p>
+<p>The engine veryfies that each generated mutant is a valid model (i.e., it
+conforms to the domain meta-model and satisfies its integrity constraints).</p>
 
-<p>This is a sample of a Wodel program that mutates a transition target of a Deterministic Finite Automaton model:</p>
+<p>Wodel includes a mechanism to identify and avoid the generation of duplicated
+mutants. By default, mutant equivalence is syntactic, but users can provide their
+own equivalence criteria (e.g., behavioural) through extension points.</p>
+
+<p>The execution of a Wodel program generates a registry of the applied
+mutations and the objects affected by them. </p>
+
+<p>The IDE provides several metrics that can help in assessing whether a set
+of mutations is complete or has been correctly implemented.</p>
+
+<p>Also to facilitate the testing of Wodel programs, the IDE permits the
+automatic synthesis of seed models.</p>
+
+<p>It's development environment is extensible, permitting the incorporation
+of post-processors for different applications.</p>
+
+<p>As an example, this repository contains an application consisting on
+the automated generation of exercises for particular domains (automata,
+class diagrams, electronic circuits, etc.). We call this extension
+<a href="http://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu.</a></p>
+
+<p>This is a sample of a Wodel program that mutates a transition target of a
+Deterministic Finite Automaton model:</p>
 
 <pre><code>generate 2 mutants
 in "data/out/"

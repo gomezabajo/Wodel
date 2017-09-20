@@ -43,6 +43,57 @@
 
 <p>I will upload here the remaining UML Class Diagrams examples in the next few days.</p>
 
+<p>Adds an extraneous constraint to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco2.zip">-->uco2<!--</a>-->]:</p>
+
+<pre><code>
+    create Constraint with {type = one Class, id=random-string(1, 4)}
+</code></pre>
+
+<p>Adds a redundant association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas1.zip">-->uas1<!--</a>-->]:</p>
+
+<pre><code>
+    clone one Association
+</code></pre>
+
+<p>Adds a redundant derived association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas2.zip">-->uas2<!--</a>-->]:</p>
+
+<pre><code>
+    a1 = select one Association
+    a2 = select one Association where {src = a1->dest}
+    a3 = create Association with {src = a1->src, dest = a2->dest}
+    modify a3 with {copy(nsrc, a1.nsrc), copy(ndest, a2.ndest)}
+</code></pre>
+
+<p>Adds an extraneous association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas3.zip">-->uas3<!--</a>-->]:</p>
+
+<pre><code>
+    create Association with {src = one Class, dest = one Class, name = random-string(1, 4)}
+</code></pre>
+
+<p>Adds an extraneous derived association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas4.zip">-->uas4<!--</a>-->]:</p>
+
+<pre><code>
+    create Association with {src = one Class, dest = one Class, name = random-string(1, 4), derived = true}
+</code></pre>
+
+<p>Adds a redundant generalization to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge1.zip">-->uge1<!--</a>-->]:</p>
+
+<pre><code>
+    cl = select one Class where {super <> null and super->super <> null}
+    sup1 = select one Class in cl->super where {super <> null}
+    sup2 = select one Class in sup1->super where {self <> cl->super}
+    modify cl with {super = sup2}
+</code></pre>
+
+<p>Adds an extraneous generalization to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge2.zip">-->uge2<!--</a>-->]:</p>
+
+<pre><code>
+    cl1 = select one Class where {super <> null}
+	sup = select all Class in closure(cl1->super)
+	cl2 = select one Class where {super <> cl1}
+	modify cl1 with {super = cl2}
+</code></pre>
+
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/UMLClassDiagrams">UML Class Diagrams samples .zip</a><br />

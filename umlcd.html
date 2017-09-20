@@ -46,7 +46,7 @@
 <p>Adds an extraneous constraint to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco2.zip">-->uco2<!--</a>-->]:</p>
 
 <pre><code>
-    create Constraint with {type = one Class, id=random-string(1, 4)}
+    create Constraint with {type = one Class, id = random-string(1, 4)}
 </code></pre>
 
 <p>Adds a redundant association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas1.zip">-->uas1<!--</a>-->]:</p>
@@ -90,7 +90,7 @@
 <pre><code>
     cl1 = select one Class where {super <> null}
 	sup = select all Class in closure(cl1->super)
-	cl2 = select one Class where {super <> cl1}
+	cl2 = select one Class where {self <> sup}
 	modify cl1 with {super = cl2}
 </code></pre>
 

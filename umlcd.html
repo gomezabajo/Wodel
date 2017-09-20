@@ -89,9 +89,9 @@
 
 <pre><code>
     cl1 = select one Class where {super <> null}
-	sup = select all Class in closure(cl1->super)
-	cl2 = select one Class where {self <> sup}
-	modify cl1 with {super = cl2}
+    sup = select all Class in closure(cl1->super)
+    cl2 = select one Class where {self <> sup}
+    modify cl1 with {super = cl2}
 </code></pre>
 
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />

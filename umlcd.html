@@ -32,54 +32,21 @@
     </section>
 
     <section class="main-content">
-      <p><strong>Wodel applied to ASPLE language. [<a href="http://gomezabajo.github.io/Wodel/ecore/Asple.ecore">ASPLE Language Ecore</a>]</strong></p>
 
-<p>Replaces an arithmetic operator by another one [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rao.zip">rao</a>]:</p>
+      <p><strong>Wodel applied to UML Class Diagrams. [<a href="http://gomezabajo.github.io/Wodel/ecore/UMLClassDiagram.ecore">UML ClassDiagrams Ecore</a>]</strong></p>
 
-<pre><code>
-     modify one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-            with {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-</code></pre>
-
-<p>Replaces an arithmetic operator by another one [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rro.zip">rro</a>]:</p>
+<p>Adds a redundant constraint to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco1.zip">uco1</a>]:</p>
 
 <pre><code>
-     modify one BinaryOperator where {operator in ['less', 'equals', 'greater', 'distinct']}
-            with {operator in ['less', 'equals', 'greater', 'distinct']}
+    clone contents one Constraint
 </code></pre>
 
-<p>Replaces loop end condition by infinite loop [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rli.zip">rli</a>]:</p>
+<p>I will upload here the remaining UML Class Diagrams examples in the next few days.</p>
 
-<pre><code>
-     loop = select one Loop
-            create Boolean in loop->expression with {value = true}
-</code></pre>
+<p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />
 
-<p>Delete statement [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rst.zip">rst</a>]:</p>
-
-<pre><code>
-     remove one Statement
-</code></pre>
-
-<p>Replaces scalar variable [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rsv.zip">rsv</a>]:</p>
-
-<pre><code>
-     modify one Integer with {value = random}
-</code></pre>
-
-<p>Increment an arithmetic expression by 1 [<a href="http://gomezabajo.github.io/Wodel/zip/asple/ia1.zip">ia1</a>]:</p>
-
-<pre><code>
-     op = select one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-     exp = create BinaryOperator in op->right with {left = op->right, operator = 'add'}
-     create Integer in exp->right with {value = 1}
-</code></pre>
-
-
-<p>Here you can download all these examples of Wodel applied to ASPLE language.<br />
-
-	  <a href="https://github.com/gomezabajo/Wodel/zipball/ASPLEWodelSamples">ASPLE samples .zip</a><br />
-	  <a href="https://github.com/gomezabajo/Wodel/tarball/ASPLEWodelSamples">ASPLE samples .tar.gz</a>
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/UMLClassDiagrams">UML Class Diagrams .zip</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/UMLClassDiagrams">UML Class Diagrams .tar.gz</a>
 </p>
 	
 

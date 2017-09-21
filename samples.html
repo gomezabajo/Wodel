@@ -34,29 +34,29 @@
     <section class="main-content">
       <p><strong>Wodel</strong> is a Domain-Specific Language for the specification and generation of model mutants.</p>
 
-<p>Wodel is domain-independent, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
+<p>Wodel is <strong>domain-independent</strong>, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
 
-<p>Wodel provides eight mutation primitives for object creation and deletion,
+<p>Wodel provides <strong>eight mutation primitives</strong> for object creation and deletion,
 reference redirection, attribute modification, and cloning, among others.</p>
 
-<p>The engine veryfies that each generated mutant is a valid model (i.e., it
+<p>The engine <strong>veryfies that each generated mutant is a valid model</strong> (i.e., it
 conforms to the domain meta-model and satisfies its integrity constraints).</p>
 
-<p>Wodel includes a mechanism to identify and avoid the generation of duplicated
-mutants. By default, mutant equivalence is syntactic, but users can provide their
+<p>Wodel includes a <strong>mechanism to identify and avoid the generation of duplicated
+mutants</strong>. By default, mutant equivalence is syntactic, but users can provide their
 own equivalence criteria (e.g., behavioural) through extension points.</p>
 
-<p>The execution of a Wodel program generates a registry of the applied
-mutations and the objects affected by them. </p>
+<p>The execution of a Wodel program generates a <strong>registry of the applied
+mutations</strong> and the objects affected by them. </p>
 
-<p>The IDE provides several metrics that can help in assessing whether a set
+<p>The IDE provides <strong>several metrics</strong> that can help in assessing whether a set
 of mutations is complete or has been correctly implemented.</p>
 
 <p>Also to facilitate the testing of Wodel programs, the IDE permits the
-automatic synthesis of seed models.</p>
+<strong>automatic synthesis of seed models</strong>.</p>
 
-<p>It's development environment is extensible, permitting the incorporation
-of post-processors for different applications.</p>
+<p>It's <strong>development environment is extensible</strong>, permitting the incorporation
+of <strong>post-processors</strong> for different applications.</p>
 
 <p>As an example, this repository contains an application consisting on
 the automated generation of exercises for particular domains (automata,
@@ -101,6 +101,10 @@ constraints text=yes {
             select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
 }
 </code></pre>
+
+<p>This is a short video demo of Wodel framework:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nUsfjjqjdOM" frameborder="0" allowfullscreen></iframe>
 
 <p>Here you can download several examples of Wodel programs.<br />
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/WodelEduSamples">Wodel-Edu samples .zip</a><br />

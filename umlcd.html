@@ -438,6 +438,83 @@
     modify one Attribute with {visibility in {public, private, protected, package}}
 </code></pre>
 
+<p>Changes the order of the parameters [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop1.zip">-->wop1<!--</a>-->]:</p>
+
+<pre><code>
+    oper = select one Operation where {params <> null}
+    p = select one ParameterItem in oper->params
+    remove p from oper->params
+    modify oper with {params = p}
+</code></pre>
+
+<p>Changes the visibility kind of an operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop2.zip">-->wop2<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Operation with {visibility in {public, private, protected, package}}
+</code></pre>
+
+<p>Changes the data type returned by operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop3.zip">-->wop3<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Operation with {type = other NamedItem}
+</code></pre>
+
+<p>Changes the Parameter data type [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">-->wpa<!--</a>-->]:</p>
+
+<pre><code>
+    modify one ParameterItem with {type = other NamedItem}
+</code></pre>
+
+<p>Deletes a constraint [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">-->mco<!--</a>-->]:</p>
+
+<pre><code>
+    remove one Constraint
+</code></pre>
+
+<p>Deletes an Association [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mas.zip">-->mas<!--</a>-->]:</p>
+
+<pre><code>
+    remove one Association
+</code></pre>
+
+<p>Deletes a Generalization relation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mge.zip">-->mge<!--</a>-->]:</p>
+
+<pre><code>
+    cl = select one Class where {super <> null}
+    sup = select one Class in cl->super
+    remove sup from cl->super
+</code></pre>
+
+<p>Deletes the class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mcl.zip">-->mcl<!--</a>-->]:</p>
+
+<pre><code>
+    cl = select one Class
+    remove all Relation where {src = cl}
+    remove all Relation where {dest = cl}
+    remove all Operation where {type = cl}
+    remove all FeatureItem where {type = cl}
+    remove all AssociationClass where {association = null}
+    remove cl
+</code></pre>
+
+<p>Deletes an Attribute [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mat.zip">-->mat<!--</a>-->]:</p>
+
+<pre><code>
+    remove one Attribute
+</code></pre>
+
+<p>Deletes the operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mop.zip">-->mop<!--</a>-->]:</p>
+
+<pre><code>
+    remove one Operation
+</code></pre>
+
+<p>Deletes a Parameter from an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mpa.zip">-->mpa<!--</a>-->]:</p>
+
+<pre><code>
+    remove one ParameterItem
+</code></pre>
+
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/UMLClassDiagrams">UML Class Diagrams samples .zip</a><br />

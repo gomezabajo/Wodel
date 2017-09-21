@@ -145,13 +145,13 @@
 <p>Adds a redundant parameter to an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa1.zip">-->upa1<!--</a>-->]:</p>
 
 <pre><code>
-    clone one ParameterItem
+    clone one Parameter
 </code></pre>
 
 <p>Adds an extraneous Parameter to an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa2.zip">-->upa2<!--</a>-->]:</p>
 
 <pre><code>
-    create ParameterItem with {name = random-string(1, 4)}
+    create Parameter with {name = random-string(1, 4)}
 </code></pre>
 
 <p>Changes the constraint by deleting the references to a class Attribute [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">-->wco1<!--</a>-->]:</p>
@@ -429,7 +429,7 @@
 <p>Changes the Attribute data type [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat3.zip">-->wat3<!--</a>-->]:</p>
 
 <pre><code>
-    modify one Attribute with {type = other NamedItem}
+    modify one Attribute with {type = other NamedElement}
 </code></pre>
 
 <p>Changes the Attribute visibility property [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat4.zip">-->wat4<!--</a>-->]:</p>
@@ -442,7 +442,7 @@
 
 <pre><code>
     oper = select one Operation where {params <> null}
-    p = select one ParameterItem in oper->params
+    p = select one Parameter in oper->params
     remove p from oper->params
     modify oper with {params = p}
 </code></pre>
@@ -456,13 +456,13 @@
 <p>Changes the data type returned by operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop3.zip">-->wop3<!--</a>-->]:</p>
 
 <pre><code>
-    modify one Operation with {type = other NamedItem}
+    modify one Operation with {type = other NamedElement}
 </code></pre>
 
 <p>Changes the Parameter data type [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">-->wpa<!--</a>-->]:</p>
 
 <pre><code>
-    modify one ParameterItem with {type = other NamedItem}
+    modify one Parameter with {type = other NamedElement}
 </code></pre>
 
 <p>Deletes a constraint [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">-->mco<!--</a>-->]:</p>
@@ -492,7 +492,7 @@
     remove all Relation where {src = cl}
     remove all Relation where {dest = cl}
     remove all Operation where {type = cl}
-    remove all FeatureItem where {type = cl}
+    remove all Feature where {type = cl}
     remove all AssociationClass where {association = null}
     remove cl
 </code></pre>
@@ -512,7 +512,7 @@
 <p>Deletes a Parameter from an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mpa.zip">-->mpa<!--</a>-->]:</p>
 
 <pre><code>
-    remove one ParameterItem
+    remove one Parameter
 </code></pre>
 
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />

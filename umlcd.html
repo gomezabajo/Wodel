@@ -170,71 +170,71 @@
 <p>Change the constraint by deleting the calls to specific operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">-->wco3<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null}
-	remove reference operations in c
+    c = select one Constraint where {operations <> null}
+    remove reference operations in c
 </code></pre>
 
 <p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">-->wco4<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null and operations->operators <> null}
-	oper = select one Operation in c->operations where {operators <> null}
-	op = select one Operator in oper->operators
-	modify op with {operator in {add, subtract, multiply, divide}}
+    c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators
+    modify op with {operator in {add, subtract, multiply, divide}}
 </code></pre>
 
 <p>Changes the constraint by adding the conditional operator "not" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">-->wco5<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null}
-	oper = select one Operation in c->operations
-	op = create Operator in oper->operators
-	modify op with {operator in {not}}
+    c = select one Constraint where {operations <> null}
+    oper = select one Operation in c->operations
+    op = create Operator in oper->operators
+    modify op with {operator in {not}}
 </code></pre>
 
 <p>Changes a conditional operator "and" for a conditional operator "or" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">-->wco6a<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null and operations->operators <> null}
-	oper = select one Operation in c->operations where {operators <> null}
-	op = select one Operator in oper->operators where {operator = {^and}}
+    c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators where {operator = {^and}}
     modify op with {operator = {^or}}
 </code></pre>
 
 <p>Changes a conditional operator "or" for a conditional operator "and" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">-->wco6b<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null and operations->operators <> null}
-	oper = select one Operation in c->operations where {operators <> null}
-	op = select one Operator in oper->operators where {operator = {^or}}
+    c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators where {operator = {^or}}
     modify op with {operator = {^and}}
 </code></pre>
 
 <p>Changes the constraint by deleting the conditional operator "not" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">-->wco7<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null and operations->operators <> null}
-	oper = select one Operation in c->operations where {operators <> null}
-	op = select one Operator in oper->operators where {operator = {^not}}
-	remove op
+    c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators where {operator = {^not}}
+    remove op
 </code></pre>
 
 <p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">-->wco8<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null and operations->operators <> null}
-	oper = select one Operation in c->operations where {operators <> null}
-	op = select one Operator in oper->operators where {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
-	modify op with {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
+    c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators where {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
+    modify op with {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
 </code></pre>
 
 <p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">-->wco9<!--</a>-->]:</p>
 
 <pre><code>
-	c = select one Constraint where {operations <> null and operations->operators <> null}
-	oper = select one Operation in c->operations where {operators <> null}
-	op = select one Operator in oper->operators where {operator = {negative}}
-	remove op
+    c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators where {operator = {negative}}
+    remove op
 </code></pre>
 
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />

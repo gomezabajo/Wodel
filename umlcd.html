@@ -351,6 +351,93 @@
     remove dep
 </code></pre>
 
+<p>Changes the tar multiplicity of an Association (i.e. *, 0..1, 1..1, 1..*) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was3.zip">-->was3<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Association with {ntar in ['*', '0..1', '1..1', '1..*']}
+</code></pre>
+
+<p>Changes the Generalization member ends [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wge.zip">-->wge<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Class with {super = other Class}
+</code></pre>
+
+<p>Changes visibility kind of the Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl1.zip">-->wcl1<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Class with {visibility in {public, private, protected, package}}
+</code></pre>
+
+<p>Changes Class by an Association Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl2.zip">-->wcl2<!--</a>-->]:</p>
+
+<pre><code>
+    cl = select one Class
+    ac = create AssociationClass with {
+        features = cl->features,
+        super = cl->super,
+        supplier = cl->supplier
+    }
+    modify ac with {
+        copy (abstract, cl.abstract),
+        copy (derived, cl.derived),
+        copy (name, cl.name),
+        copy (scope, cl.scope),
+        copy (visibility, cl.visibility)
+    }
+    remove cl
+</code></pre>
+
+<p>Changes Association Class for a Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl3.zip">-->wcl3<!--</a>-->]:</p>
+
+<pre><code>
+    ac = select one AssociationClass
+    sup = select one Class in ac->super
+    cl = create Class with {
+        features = sup->features,
+        super = sup->super,
+        supplier = sup->supplier
+    }
+    modify cl with {
+        copy(abstract, sup.abstract),
+        copy(derived, sup.derived),
+        copy(name, sup.name),
+        copy(scope, sup.scope),
+        copy(visibility, sup.visibility)
+    }
+    remove ac
+</code></pre>
+
+<p>Changes the Class feature "abstract" to true [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl4.zip">-->wcl4<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Class where {abstract = false} with {abstract = true}
+</code></pre>
+
+<p>Changes the Attribute feature "derived" to true [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat1.zip">-->wat1<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Attribute where {derived = false} with {derived = true}
+</code></pre>
+
+<p>Changes the Attribute property "derived" to false [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat2.zip">-->wat2<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Attribute where {derived = true} with {derived = false}
+</code></pre>
+
+<p>Changes the Attribute data type [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat3.zip">-->wat3<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Attribute with {type = other NamedItem}
+</code></pre>
+
+<p>Changes the Attribute visibility property [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat4.zip">-->wat4<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Attribute with {visibility in {public, private, protected, package}}
+</code></pre>
+
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/UMLClassDiagrams">UML Class Diagrams samples .zip</a><br />

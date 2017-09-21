@@ -392,18 +392,17 @@
 
 <pre><code>
     ac = select one AssociationClass
-    sup = select one Class in ac->super
     cl = create Class with {
-        features = sup->features,
-        super = sup->super,
-        supplier = sup->supplier
+        features = ac->features,
+        super = ac->super,
+        supplier = ac->supplier
     }
     modify cl with {
-        copy(abstract, sup.abstract),
-        copy(derived, sup.derived),
-        copy(name, sup.name),
-        copy(scope, sup.scope),
-        copy(visibility, sup.visibility)
+        copy(abstract, ac.abstract),
+        copy(derived, ac.derived),
+        copy(name, ac.name),
+        copy(scope, ac.scope),
+        copy(visibility, ac.visibility)
     }
     remove ac
 </code></pre>

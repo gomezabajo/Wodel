@@ -237,6 +237,120 @@
     remove op
 </code></pre>
 
+<p>Interchange the members (src and tar) of an Association [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was1.zip">-->was1<!--</a>-->]:</p>
+
+<pre><code>
+    modify one Association with {swapref(src, tar)}
+</code></pre>
+
+<p>Changes the association type (association, aggregation) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2a.zip">-->was2a<!--</a>-->]:</p>
+
+<pre><code>
+    as = select one Association
+    rel = create Aggregation with {src = as->src, tar = as->tar}
+    modify rel with {copy(name, as.name)}
+    remove as
+</code></pre>
+
+<p>Changes the association type (aggregation, association) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2b.zip">-->was2b<!--</a>-->]:</p>
+
+<pre><code>
+    ag = select one Aggregation
+    rel = create Association with {src = ag->src, tar = ag->tar}
+    modify rel with {copy(name, ag.name)}
+    remove ag
+</code></pre>
+
+<p>Changes the association type (association, composition) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2c.zip">-->was2c<!--</a>-->]:</p>
+
+<pre><code>
+    as = select one Association
+    rel = create Composition with {src = as->src, dest = as->dest}
+    modify rel with {copy(name, as.name)}
+    remove as
+</code></pre>
+
+<p>Changes the association type (composition, association) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2d.zip">-->was2d<!--</a>-->]:</p>
+
+<pre><code>
+    comp = select one Composition
+    rel = create Association with {src = comp->src, dest = comp->dest}
+    modify rel with {copy(name, comp.name)}
+    remove comp
+</code></pre>
+
+<p>Changes the association type (association, dependency) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2e.zip">-->was2e<!--</a>-->]:</p>
+
+<pre><code>
+    as = select one Association
+    rel = create Dependency with {src = as->src, dest = as->dest}
+    modify rel with {copy(name, as.name)}
+    remove as
+</code></pre>
+
+<p>Changes the association type (dependency, association) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2f.zip">-->was2f<!--</a>-->]:</p>
+
+<pre><code>
+    dep = select one Dependency
+    rel = create Association with {src = dep->src, dest = dep->dest}
+    modify rel with {copy(name, dep.name)}
+    remove dep
+</code></pre>
+
+<p>Changes the association type (aggregation, composition) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2g.zip">-->was2g<!--</a>-->]:</p>
+
+<pre><code>
+    ag = select one Aggregation
+    rel = create Composition with {src = ag->src, dest = ag->dest}
+    modify rel with {copy(name, ag.name)}
+    remove ag
+</code></pre>
+
+<p>Changes the association type (composition, aggregation) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2h.zip">-->was2h<!--</a>-->]:</p>
+
+<pre><code>
+    comp = select one Composition
+    rel = create Aggregation with {src = comp->src, dest = comp->dest}
+    modify rel with{copy(name, comp.name)}
+    remove comp
+</code></pre>
+
+<p>Changes the association type (aggregation, dependency) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2i.zip">-->was2i<!--</a>-->]:</p>
+
+<pre><code>
+    ag = select one Aggregation
+    rel = create Dependency with {src = ag->src, dest = ag->dest}
+    modify rel with {copy(name, ag.name)}
+    remove ag
+</code></pre>
+
+<p>Changes the association type (dependency, aggregation) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2j.zip">-->was2j<!--</a>-->]:</p>
+
+<pre><code>
+    dep = select one Dependency
+    rel = create Aggregation with {src = dep->src, dest = dep->dest}
+    modify rel with {copy(name, dep.name)}
+    remove dep
+</code></pre>
+
+<p>Changes the association type (composition, dependency) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2k.zip">-->was2k<!--</a>-->]:</p>
+
+<pre><code>
+    comp = select one Composition
+    rel = create Dependency with {src = comp->src, dest = comp->dest}
+    modify rel with {copy(name, comp.name)}
+    remove comp
+</code></pre>
+
+<p>Changes the association type (dependency, composition) [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2l.zip">-->was2l<!--</a>-->]:</p>
+
+<pre><code>
+    dep = select one Dependency
+    rel = create Composition with {src = dep->src, dest = dep->dest}
+    modify rel with {copy(name, dep.name)}
+    remove dep
+</code></pre>
+
 <p>Here you can download all these examples of Wodel applied to probabilistic automata.<br />
 
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/UMLClassDiagrams">UML Class Diagrams samples .zip</a><br />

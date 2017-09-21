@@ -59,21 +59,21 @@
 
 <pre><code>
     a1 = select one Association
-    a2 = select one Association where {src = a1->dest}
-    a3 = create Association with {src = a1->src, dest = a2->dest}
-    modify a3 with {copy(nsrc, a1.nsrc), copy(ndest, a2.ndest)}
+    a2 = select one Association where {src = a1->tar}
+    a3 = create Association with {src = a1->src, tar = a2->tar}
+    modify a3 with {copy(nsrc, a1.nsrc), copy(ntar, a2.ntar)}
 </code></pre>
 
 <p>Adds an extraneous association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas3.zip">-->uas3<!--</a>-->]:</p>
 
 <pre><code>
-    create Association with {src = one Class, dest = one Class, name = random-string(1, 4)}
+    create Association with {src = one Class, tar = one Class, name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds an extraneous derived association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas4.zip">-->uas4<!--</a>-->]:</p>
 
 <pre><code>
-    create Association with {src = one Class, dest = one Class, name = random-string(1, 4), derived = true}
+    create Association with {src = one Class, tar = one Class, name = random-string(1, 4), derived = true}
 </code></pre>
 
 <p>Adds a redundant generalization to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge1.zip">-->uge1<!--</a>-->]:</p>
@@ -265,7 +265,7 @@
 
 <pre><code>
     as = select one Association
-    rel = create Composition with {src = as->src, dest = as->dest}
+    rel = create Composition with {src = as->src, tar = as->tar}
     modify rel with {copy(name, as.name)}
     remove as
 </code></pre>
@@ -274,7 +274,7 @@
 
 <pre><code>
     comp = select one Composition
-    rel = create Association with {src = comp->src, dest = comp->dest}
+    rel = create Association with {src = comp->src, tar = comp->tar}
     modify rel with {copy(name, comp.name)}
     remove comp
 </code></pre>
@@ -283,7 +283,7 @@
 
 <pre><code>
     as = select one Association
-    rel = create Dependency with {src = as->src, dest = as->dest}
+    rel = create Dependency with {src = as->src, tar = as->tar}
     modify rel with {copy(name, as.name)}
     remove as
 </code></pre>
@@ -292,7 +292,7 @@
 
 <pre><code>
     dep = select one Dependency
-    rel = create Association with {src = dep->src, dest = dep->dest}
+    rel = create Association with {src = dep->src, tar = dep->tar}
     modify rel with {copy(name, dep.name)}
     remove dep
 </code></pre>
@@ -301,7 +301,7 @@
 
 <pre><code>
     ag = select one Aggregation
-    rel = create Composition with {src = ag->src, dest = ag->dest}
+    rel = create Composition with {src = ag->src, tar = ag->tar}
     modify rel with {copy(name, ag.name)}
     remove ag
 </code></pre>
@@ -310,7 +310,7 @@
 
 <pre><code>
     comp = select one Composition
-    rel = create Aggregation with {src = comp->src, dest = comp->dest}
+    rel = create Aggregation with {src = comp->src, tar = comp->tar}
     modify rel with{copy(name, comp.name)}
     remove comp
 </code></pre>
@@ -319,7 +319,7 @@
 
 <pre><code>
     ag = select one Aggregation
-    rel = create Dependency with {src = ag->src, dest = ag->dest}
+    rel = create Dependency with {src = ag->src, tar = ag->tar}
     modify rel with {copy(name, ag.name)}
     remove ag
 </code></pre>
@@ -328,7 +328,7 @@
 
 <pre><code>
     dep = select one Dependency
-    rel = create Aggregation with {src = dep->src, dest = dep->dest}
+    rel = create Aggregation with {src = dep->src, tar = dep->tar}
     modify rel with {copy(name, dep.name)}
     remove dep
 </code></pre>
@@ -337,7 +337,7 @@
 
 <pre><code>
     comp = select one Composition
-    rel = create Dependency with {src = comp->src, dest = comp->dest}
+    rel = create Dependency with {src = comp->src, tar = comp->tar}
     modify rel with {copy(name, comp.name)}
     remove comp
 </code></pre>
@@ -346,7 +346,7 @@
 
 <pre><code>
     dep = select one Dependency
-    rel = create Composition with {src = dep->src, dest = dep->dest}
+    rel = create Composition with {src = dep->src, tar = dep->tar}
     modify rel with {copy(name, dep.name)}
     remove dep
 </code></pre>

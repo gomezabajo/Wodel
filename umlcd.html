@@ -355,21 +355,19 @@
     modify one Association with {ntar in ['*', '0..1', '1..1', '1..*']}
 </code></pre>
 
-<p>I will upload here the remaining UML Class Diagrams examples in the next few days.</p>
-
-<p>Changes the Generalization member ends [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wge.zip">-->wge<!--</a>-->]:</p>
+<p>Changes the Generalization member ends [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wge.zip">wge</a>]:</p>
 
 <pre><code>
     modify one Class with {super = one Class}
 </code></pre>
 
-<p>Changes visibility kind of the Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl1.zip">-->wcl1<!--</a>-->]:</p>
+<p>Changes visibility kind of the Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl1.zip">wcl1</a>]:</p>
 
 <pre><code>
     modify one Class with {visibility in {public, private, protected, package}}
 </code></pre>
 
-<p>Changes Class by an Association Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl2.zip">-->wcl2<!--</a>-->]:</p>
+<p>Changes Class by an Association Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl2.zip">wcl2</a>]:</p>
 
 <pre><code>
     cl = select one Class
@@ -388,7 +386,7 @@
     remove cl
 </code></pre>
 
-<p>Changes Association Class for a Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl3.zip">-->wcl3<!--</a>-->]:</p>
+<p>Changes Association Class for a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl3.zip">wcl3</a>]:</p>
 
 <pre><code>
     ac = select one AssociationClass
@@ -407,37 +405,37 @@
     remove ac
 </code></pre>
 
-<p>Changes the Class feature "abstract" to true [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl4.zip">-->wcl4<!--</a>-->]:</p>
+<p>Changes the Class feature "abstract" to true [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl4.zip">wcl4</a>]:</p>
 
 <pre><code>
     modify one Class where {abstract = false} with {abstract = true}
 </code></pre>
 
-<p>Changes the Attribute feature "derived" to true [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat1.zip">-->wat1<!--</a>-->]:</p>
+<p>Changes the Attribute feature "derived" to true [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat1.zip">wat1</a>]:</p>
 
 <pre><code>
     modify one Attribute where {derived = false} with {derived = true}
 </code></pre>
 
-<p>Changes the Attribute property "derived" to false [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat2.zip">-->wat2<!--</a>-->]:</p>
+<p>Changes the Attribute property "derived" to false [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat2.zip">wat2</a>]:</p>
 
 <pre><code>
     modify one Attribute where {derived = true} with {derived = false}
 </code></pre>
 
-<p>Changes the Attribute data type [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat3.zip">-->wat3<!--</a>-->]:</p>
+<p>Changes the Attribute data type [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat3.zip">wat3</a>]:</p>
 
 <pre><code>
     modify one Attribute with {type = other NamedElement}
 </code></pre>
 
-<p>Changes the Attribute visibility property [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat4.zip">-->wat4<!--</a>-->]:</p>
+<p>Changes the Attribute visibility property [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat4.zip">wat4</a>]:</p>
 
 <pre><code>
     modify one Attribute with {visibility in {public, private, protected, package}}
 </code></pre>
 
-<p>Changes the order of the parameters [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop1.zip">-->wop1<!--</a>-->]:</p>
+<p>Changes the order of the parameters [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop1.zip">wop1</a>]:</p>
 
 <pre><code>
     oper = select one Operation where {params <> null}
@@ -446,31 +444,31 @@
     modify oper with {params = p}
 </code></pre>
 
-<p>Changes the visibility kind of an operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop2.zip">-->wop2<!--</a>-->]:</p>
+<p>Changes the visibility kind of an operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop2.zip">wop2</a>]:</p>
 
 <pre><code>
     modify one Operation with {visibility in {public, private, protected, package}}
 </code></pre>
 
-<p>Changes the data type returned by operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop3.zip">-->wop3<!--</a>-->]:</p>
+<p>Changes the data type returned by operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop3.zip">wop3</a>]:</p>
 
 <pre><code>
     modify one Operation with {type = other NamedElement}
 </code></pre>
 
-<p>Changes the Parameter data type [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">-->wpa<!--</a>-->]:</p>
+<p>Changes the Parameter data type [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">wpa</a>]:</p>
 
 <pre><code>
     modify one Parameter with {type = other NamedElement}
 </code></pre>
 
-<p>Deletes a constraint [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">-->mco<!--</a>-->]:</p>
+<p>Deletes a constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">mco</a>]:</p>
 
 <pre><code>
     remove one Constraint
 </code></pre>
 
-<p>Deletes an Association [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mas.zip">-->mas<!--</a>-->]:</p>
+<p>Deletes an Association [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mas.zip">mas</a>]:</p>
 
 <pre><code>
     remove one Association

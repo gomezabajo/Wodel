@@ -476,7 +476,7 @@
     remove one Association
 </code></pre>
 
-<p>Deletes a Generalization relation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mge.zip">-->mge<!--</a>-->]:</p>
+<p>Deletes a Generalization relation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mge.zip">mge</a>]:</p>
 
 <pre><code>
     cl = select one Class where {super <> null}
@@ -484,31 +484,31 @@
     remove sup from cl->super
 </code></pre>
 
-<p>Deletes the class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mcl.zip">-->mcl<!--</a>-->]:</p>
+<p>Deletes the class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mcl.zip">mcl</a>]:</p>
 
 <pre><code>
     cl = select one Class
     remove all Relation where {src = cl}
-    remove all Relation where {dest = cl}
+    remove all Relation where {tar = cl}
     remove all Operation where {type = cl}
     remove all Feature where {type = cl}
     remove all AssociationClass where {association = null}
     remove cl
 </code></pre>
 
-<p>Deletes an Attribute [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mat.zip">-->mat<!--</a>-->]:</p>
+<p>Deletes an Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mat.zip">mat</a>]:</p>
 
 <pre><code>
     remove one Attribute
 </code></pre>
 
-<p>Deletes the operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mop.zip">-->mop<!--</a>-->]:</p>
+<p>Deletes the operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mop.zip">mop</a>]:</p>
 
 <pre><code>
     remove one Operation
 </code></pre>
 
-<p>Deletes a Parameter from an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mpa.zip">-->mpa<!--</a>-->]:</p>
+<p>Deletes a Parameter from an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mpa.zip">mpa</a>]:</p>
 
 <pre><code>
     remove one Parameter

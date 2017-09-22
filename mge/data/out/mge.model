@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+          <name href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        </first>
+      </expression>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="sup">
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <refType href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class/super"/>
+    </container>
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class"/>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <refType href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class/super"/>
+    </container>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

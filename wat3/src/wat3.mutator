@@ -1,0 +1,8 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/wat3/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	modify one Attribute with {type = other NamedElement}
+}

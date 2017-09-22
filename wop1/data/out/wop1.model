@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="oper">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore#//Operation"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+          <name href="file:/c:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+        </first>
+      </expression>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <refType href="file:/c:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+    </container>
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore#//Parameter"/>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <refType href="file:/c:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+    </container>
+  </commands>
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+    <references xsi:type="mutatorenvironment:ReferenceInit">
+      <reference href="file:/c:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    </references>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

@@ -1,0 +1,8 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/wop2/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	modify one Operation with {visibility in {public, private, protected, package}}
+}

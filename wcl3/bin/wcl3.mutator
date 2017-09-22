@@ -1,0 +1,21 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	ac = select one AssociationClass
+    cl = create Class with {
+        features = ac->features,
+        super = ac->super,
+        supplier = ac->supplier
+    }
+    modify cl with {
+        copy(abstract, ac.abstract),
+        copy(derived, ac.derived),
+        copy(name, ac.name),
+        copy(scope, ac.scope),
+        copy(visibility, ac.visibility)
+    }
+    remove ac
+}

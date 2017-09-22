@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../wge.model#//@commands.0"/>
+    <object href="../../../model/cd.example.model#_-hk-4JvUEee9uaaNIqtE3A"/>
+    <refChanges refName="super">
+      <def href="../../wge.model#//@commands.0"/>
+      <object href="../../../model/cd.example.model#_-hk-4JvUEee9uaaNIqtE3A"/>
+    </refChanges>
+  </muts>
+</appliedMutations:Mutations>

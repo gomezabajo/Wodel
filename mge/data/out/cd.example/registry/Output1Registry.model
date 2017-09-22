@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../mge.model#//@commands.0"/>
+  </muts>
+  <muts>
+    <def href="../../mge.model#//@commands.1"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../mge.model#//@commands.2"/>
+    <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
+  </muts>
+</appliedMutations:Mutations>

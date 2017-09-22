@@ -1,0 +1,591 @@
+model wop2
+class ClassDiagram
+end
+class NamedElement
+	attributes
+		name : String
+end
+class PrimitiveElement < NamedElement
+	attributes
+end
+class Parameter < NamedElement
+end
+class Feature
+	attributes
+		name : String
+end
+class ModifiedElement < NamedElement
+	attributes
+end
+class Classifier < ModifiedElement
+end
+class Class < Classifier
+	attributes
+		abstract_ : Boolean
+		derived : Boolean
+end
+class Attribute < Feature
+	attributes
+		max_ : Integer
+		min_ : Integer
+		derived : Boolean
+end
+class Constraint
+	attributes
+		id : String
+end
+class Operation < Feature
+end
+class Operator
+	attributes
+end
+class Relation < ModifiedElement
+	attributes
+		nsrc : String
+		ntar : String
+		derived : Boolean
+end
+class Dependency < Relation
+end
+class Association < Relation
+end
+class Aggregation < Relation
+end
+class Composition < Relation
+end
+class AssociationClass < Class
+end
+class RootCS
+end
+class PackageCS
+	attributes
+		name : String
+end
+class ClassCS
+	attributes
+		name : String
+end
+class PropertyCS
+	attributes
+		name : String
+end
+class OperationCS
+	attributes
+		name : String
+end
+class ParameterCS
+	attributes
+		name : String
+end
+class ConstraintCS
+end
+class InvariantCS
+end
+class ExpCS
+end
+class LogicExpCS < ExpCS
+	attributes
+		op : String
+end
+class CallExpCS < LogicExpCS
+end
+class PrimaryExpCS < CallExpCS
+end
+class NavigationExpCS < PrimaryExpCS
+end
+class NameExpCS < NavigationExpCS
+end
+class LoopExpCS < NavigationExpCS
+	attributes
+		logicOp : String
+end
+class CollectExpCS < LoopExpCS
+end
+class IteratorVarCS
+	attributes
+		itName : String
+end
+class IterateExpCS < LoopExpCS
+end
+class AccVarCS
+	attributes
+		accVarName : String
+end
+class RoundedBracketClauseCS
+end
+class LiteralExpCS < PrimaryExpCS
+end
+class IntLiteralExpCS < LiteralExpCS
+	attributes
+		intSymbol : Integer
+end
+class StringLiteralExpCS < LiteralExpCS
+	attributes
+		stringSymbol : String
+end
+class BooleanLiteralExpCS < LiteralExpCS
+end
+class PathNameCS
+end
+class PathCS
+end
+class PathVariableCS < PathCS
+	attributes
+		varName : String
+end
+class PathElementCS < PathCS
+end
+class BooleanExpCS < BooleanLiteralExpCS
+	attributes
+		boolSymbol : Boolean
+end
+class ExistsExpCS < LoopExpCS
+end
+class NavigationNameExpCS < NavigationExpCS
+end
+class NavigationPathNameCS
+end
+class NavigationPathCS
+end
+class NavigationPathVariableCS < NavigationPathCS
+	attributes
+		varName : String
+end
+class NavigationPathElementCS < NavigationPathCS
+end
+class ForAllExpCS < LoopExpCS
+end
+class Dummy
+end
+composition ClassDiagramClass between
+	ClassDiagram[*] role classdiagramclass
+	Class[*] role classes
+end
+composition ClassDiagramRelation between
+	ClassDiagram[*] role classdiagramrelation
+	Relation[*] role relations
+end
+composition ClassDiagramPrimitiveElement between
+	ClassDiagram[*] role classdiagramprimitiveelement
+	PrimitiveElement[*] role types
+end
+composition ClassDiagramConstraint between
+	ClassDiagram[*] role classdiagramconstraint
+	Constraint[*] role constraints_
+end
+association ParameterNamedElement between
+	Parameter[*] role parameternamedelement
+	NamedElement[1] role type
+end
+association FeatureNamedElement between
+	Feature[*] role featurenamedelement
+	NamedElement[1] role type1
+end
+composition ClassFeature between
+	Class[*] role classfeature
+	Feature[*] role features
+end
+association ClassClass between
+	Class[*] role classclass
+	Class[*] role super
+end
+association ClassClass1 between
+	Class[*] role classclass1
+	Class[*] role supplier
+end
+association ConstraintClass between
+	Constraint[*] role constraintclass
+	Class[1] role type2
+end
+composition ConstraintInvariantCS between
+	Constraint[*] role constraintinvariantcs
+	InvariantCS[*] role expressions
+end
+composition ConstraintOperation between
+	Constraint[*] role constraintoperation
+	Operation[*] role operations_
+end
+association ConstraintAttribute between
+	Constraint[*] role constraintattribute
+	Attribute[*] role attributes_
+end
+composition OperationParameter between
+	Operation[*] role operationparameter
+	Parameter[*] role params
+end
+composition OperationOperator between
+	Operation[*] role operationoperator
+	Operator[*] role operators
+end
+association RelationClass between
+	Relation[*] role relationclass
+	Class[1] role src
+end
+association RelationClass1 between
+	Relation[*] role relationclass1
+	Class[1] role tar
+end
+association AssociationClassAssociation between
+	AssociationClass[*] role associationclassassociation
+	Association[1] role association_
+end
+composition RootCSPackageCS between
+	RootCS[*] role rootcspackagecs
+	PackageCS[*] role packages
+end
+composition RootCSConstraintCS between
+	RootCS[*] role rootcsconstraintcs
+	ConstraintCS[*] role constraints1
+end
+composition PackageCSPackageCS between
+	PackageCS[*] role packagecspackagecs
+	PackageCS[*] role packages1
+end
+composition PackageCSClassCS between
+	PackageCS[*] role packagecsclasscs
+	ClassCS[*] role classes1
+end
+composition ClassCSPathNameCS between
+	ClassCS[*] role classcspathnamecs
+	PathNameCS[0..1] role extends
+end
+composition ClassCSPropertyCS between
+	ClassCS[*] role classcspropertycs
+	PropertyCS[*] role properties
+end
+composition ClassCSOperationCS between
+	ClassCS[*] role classcsoperationcs
+	OperationCS[*] role operations1
+end
+composition PropertyCSPathNameCS between
+	PropertyCS[*] role propertycspathnamecs
+	PathNameCS[0..1] role typeRef
+end
+composition OperationCSParameterCS between
+	OperationCS[*] role operationcsparametercs
+	ParameterCS[*] role params1
+end
+composition OperationCSPathNameCS between
+	OperationCS[*] role operationcspathnamecs
+	PathNameCS[0..1] role resultRef
+end
+composition OperationCSExpCS between
+	OperationCS[*] role operationcsexpcs
+	ExpCS[0..1] role body
+end
+composition ParameterCSPathNameCS between
+	ParameterCS[*] role parametercspathnamecs
+	PathNameCS[0..1] role typeRef1
+end
+composition ConstraintCSPathNameCS between
+	ConstraintCS[*] role constraintcspathnamecs
+	PathNameCS[0..1] role typeRef2
+end
+composition ConstraintCSInvariantCS between
+	ConstraintCS[*] role constraintcsinvariantcs
+	InvariantCS[*] role invariants
+end
+composition InvariantCSExpCS between
+	InvariantCS[*] role invariantcsexpcs
+	ExpCS[0..1] role exp
+end
+composition LogicExpCSLogicExpCS between
+	LogicExpCS[*] role logicexpcslogicexpcs
+	LogicExpCS[0..1] role left
+end
+composition LogicExpCSCallExpCS between
+	LogicExpCS[*] role logicexpcscallexpcs
+	CallExpCS[0..1] role right
+end
+composition CallExpCSCallExpCS between
+	CallExpCS[*] role callexpcscallexpcs
+	CallExpCS[0..1] role source
+end
+composition CallExpCSNavigationExpCS between
+	CallExpCS[*] role callexpcsnavigationexpcs
+	NavigationExpCS[0..1] role navExp
+end
+composition NameExpCSPathNameCS between
+	NameExpCS[*] role nameexpcspathnamecs
+	PathNameCS[0..1] role expName
+end
+composition NameExpCSRoundedBracketClauseCS between
+	NameExpCS[*] role nameexpcsroundedbracketclausecs
+	RoundedBracketClauseCS[0..1] role roundedBrackets
+end
+composition NameExpCSCallExpCS between
+	NameExpCS[*] role nameexpcscallexpcs
+	CallExpCS[0..1] role callExp
+end
+composition LoopExpCSIteratorVarCS between
+	LoopExpCS[*] role loopexpcsiteratorvarcs
+	IteratorVarCS[0..1] role itVar
+end
+composition LoopExpCSExpCS between
+	LoopExpCS[*] role loopexpcsexpcs
+	ExpCS[*] role exp1
+end
+composition IteratorVarCSPathNameCS between
+	IteratorVarCS[*] role iteratorvarcspathnamecs
+	PathNameCS[0..1] role itType
+end
+composition IterateExpCSAccVarCS between
+	IterateExpCS[*] role iterateexpcsaccvarcs
+	AccVarCS[0..1] role accVar
+end
+composition AccVarCSPathNameCS between
+	AccVarCS[*] role accvarcspathnamecs
+	PathNameCS[0..1] role accType
+end
+composition AccVarCSExpCS between
+	AccVarCS[*] role accvarcsexpcs
+	ExpCS[0..1] role accInitExp
+end
+composition RoundedBracketClauseCSExpCS between
+	RoundedBracketClauseCS[*] role roundedbracketclausecsexpcs
+	ExpCS[*] role args
+end
+composition PathNameCSPathCS between
+	PathNameCS[*] role pathnamecspathcs
+	PathCS[*] role path
+end
+association PathElementCSFeature between
+	PathElementCS[*] role pathelementcsfeature
+	Feature[0..1] role pathName
+end
+composition ExistsExpCSAccVarCS between
+	ExistsExpCS[*] role existsexpcsaccvarcs
+	AccVarCS[*] role accVars
+end
+composition NavigationNameExpCSNavigationPathNameCS between
+	NavigationNameExpCS[*] role navigationnameexpcsnavigationpathnamecs
+	NavigationPathNameCS[0..1] role expName1
+end
+composition NavigationNameExpCSRoundedBracketClauseCS between
+	NavigationNameExpCS[*] role navigationnameexpcsroundedbracketclausecs
+	RoundedBracketClauseCS[0..1] role roundedBrackets1
+end
+composition NavigationNameExpCSCallExpCS between
+	NavigationNameExpCS[*] role navigationnameexpcscallexpcs
+	CallExpCS[0..1] role callExp1
+end
+composition NavigationPathNameCSNavigationPathCS between
+	NavigationPathNameCS[*] role navigationpathnamecsnavigationpathcs
+	NavigationPathCS[*] role path1
+end
+association NavigationPathElementCSFeature between
+	NavigationPathElementCS[*] role navigationpathelementcsfeature
+	Feature[0..1] role pathName1
+end
+composition ForAllExpCSAccVarCS between
+	ForAllExpCS[*] role forallexpcsaccvarcs
+	AccVarCS[*] role accVars1
+end
+constraints
+context Dummy
+context AccVarCS inv single_container:
+	IterateExpCS.allInstances()->collect(o | o.accVar)->count(self) +
+	ExistsExpCS.allInstances()->collect(o | o.accVars)->count(self) +
+	ForAllExpCS.allInstances()->collect(o | o.accVars1)->count(self) <= 1
+context PackageCS inv single_container:
+	RootCS.allInstances()->collect(o | o.packages)->count(self) +
+	PackageCS.allInstances()->collect(o | o.packages1)->count(self) <= 1
+context ExpCS inv single_container:
+	OperationCS.allInstances()->collect(o | o.body)->count(self) +
+	InvariantCS.allInstances()->collect(o | o.exp)->count(self) +
+	LoopExpCS.allInstances()->collect(o | o.exp1)->count(self) +
+	AccVarCS.allInstances()->collect(o | o.accInitExp)->count(self) +
+	RoundedBracketClauseCS.allInstances()->collect(o | o.args)->count(self) <= 1
+context RoundedBracketClauseCS inv single_container:
+	NameExpCS.allInstances()->collect(o | o.roundedBrackets)->count(self) +
+	NavigationNameExpCS.allInstances()->collect(o | o.roundedBrackets1)->count(self) <= 1
+context PathNameCS inv single_container:
+	ClassCS.allInstances()->collect(o | o.extends)->count(self) +
+	PropertyCS.allInstances()->collect(o | o.typeRef)->count(self) +
+	OperationCS.allInstances()->collect(o | o.resultRef)->count(self) +
+	ParameterCS.allInstances()->collect(o | o.typeRef1)->count(self) +
+	ConstraintCS.allInstances()->collect(o | o.typeRef2)->count(self) +
+	NameExpCS.allInstances()->collect(o | o.expName)->count(self) +
+	IteratorVarCS.allInstances()->collect(o | o.itType)->count(self) +
+	AccVarCS.allInstances()->collect(o | o.accType)->count(self) <= 1
+context CallExpCS inv single_container:
+	LogicExpCS.allInstances()->collect(o | o.right)->count(self) +
+	CallExpCS.allInstances()->collect(o | o.source)->count(self) +
+	NameExpCS.allInstances()->collect(o | o.callExp)->count(self) +
+	NavigationNameExpCS.allInstances()->collect(o | o.callExp1)->count(self) <= 1
+context InvariantCS inv single_container:
+	Constraint.allInstances()->collect(o | o.expressions)->count(self) +
+	ConstraintCS.allInstances()->collect(o | o.invariants)->count(self) <= 1
+context PackageCS inv non_contains_itself_packages1:
+not self.packages1->includes(self)
+and
+not self.packages1->exists(packages11 |
+if packages11.oclIsKindOf(PackageCS) then
+	packages11.oclAsType(PackageCS).packages1->includes(self)
+	 else false endif)
+and
+not self.packages1->exists(packages12 |
+if packages12.oclIsKindOf(PackageCS) then
+	packages12.oclAsType(PackageCS).packages1->exists(packages11 |
+if packages11.oclIsKindOf(PackageCS) then
+	packages11.oclAsType(PackageCS).packages1->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not self.packages1->exists(packages13 |
+if packages13.oclIsKindOf(PackageCS) then
+	packages13.oclAsType(PackageCS).packages1->exists(packages12 |
+if packages12.oclIsKindOf(PackageCS) then
+	packages12.oclAsType(PackageCS).packages1->exists(packages11 |
+if packages11.oclIsKindOf(PackageCS) then
+	packages11.oclAsType(PackageCS).packages1->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not self.packages1->exists(packages14 |
+if packages14.oclIsKindOf(PackageCS) then
+	packages14.oclAsType(PackageCS).packages1->exists(packages13 |
+if packages13.oclIsKindOf(PackageCS) then
+	packages13.oclAsType(PackageCS).packages1->exists(packages12 |
+if packages12.oclIsKindOf(PackageCS) then
+	packages12.oclAsType(PackageCS).packages1->exists(packages11 |
+if packages11.oclIsKindOf(PackageCS) then
+	packages11.oclAsType(PackageCS).packages1->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context LogicExpCS inv non_contains_itself_left:
+not Set{self.left}->includes(self)
+and
+not Set{self.left}->exists(left1 |
+if left1.oclIsKindOf(LogicExpCS) then
+	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
+	 else false endif)
+and
+not Set{self.left}->exists(left2 |
+if left2.oclIsKindOf(LogicExpCS) then
+	Set{left2.oclAsType(LogicExpCS).left}->exists(left1 |
+if left1.oclIsKindOf(LogicExpCS) then
+	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.left}->exists(left3 |
+if left3.oclIsKindOf(LogicExpCS) then
+	Set{left3.oclAsType(LogicExpCS).left}->exists(left2 |
+if left2.oclIsKindOf(LogicExpCS) then
+	Set{left2.oclAsType(LogicExpCS).left}->exists(left1 |
+if left1.oclIsKindOf(LogicExpCS) then
+	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.left}->exists(left4 |
+if left4.oclIsKindOf(LogicExpCS) then
+	Set{left4.oclAsType(LogicExpCS).left}->exists(left3 |
+if left3.oclIsKindOf(LogicExpCS) then
+	Set{left3.oclAsType(LogicExpCS).left}->exists(left2 |
+if left2.oclIsKindOf(LogicExpCS) then
+	Set{left2.oclAsType(LogicExpCS).left}->exists(left1 |
+if left1.oclIsKindOf(LogicExpCS) then
+	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context CallExpCS inv non_contains_itself_source:
+not Set{self.source}->includes(self)
+and
+not Set{self.source}->exists(source1 |
+if source1.oclIsKindOf(CallExpCS) then
+	Set{source1.oclAsType(CallExpCS).source}->includes(self)
+	 else false endif)
+and
+not Set{self.source}->exists(source2 |
+if source2.oclIsKindOf(CallExpCS) then
+	Set{source2.oclAsType(CallExpCS).source}->exists(source1 |
+if source1.oclIsKindOf(CallExpCS) then
+	Set{source1.oclAsType(CallExpCS).source}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.source}->exists(source3 |
+if source3.oclIsKindOf(CallExpCS) then
+	Set{source3.oclAsType(CallExpCS).source}->exists(source2 |
+if source2.oclIsKindOf(CallExpCS) then
+	Set{source2.oclAsType(CallExpCS).source}->exists(source1 |
+if source1.oclIsKindOf(CallExpCS) then
+	Set{source1.oclAsType(CallExpCS).source}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.source}->exists(source4 |
+if source4.oclIsKindOf(CallExpCS) then
+	Set{source4.oclAsType(CallExpCS).source}->exists(source3 |
+if source3.oclIsKindOf(CallExpCS) then
+	Set{source3.oclAsType(CallExpCS).source}->exists(source2 |
+if source2.oclIsKindOf(CallExpCS) then
+	Set{source2.oclAsType(CallExpCS).source}->exists(source1 |
+if source1.oclIsKindOf(CallExpCS) then
+	Set{source1.oclAsType(CallExpCS).source}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+inv mut1 : NamedElement.allInstances()->forAll(n | n.name <> null)
+inv mut2 : PrimitiveElement.allInstances()->forAll(p | p.name <> null)
+inv mut3 : PrimitiveElement.allInstances()->forAll(p | p.type <> null)
+inv mut4 : Parameter.allInstances()->forAll(p | p.name <> null)
+inv mut5 : Feature.allInstances()->forAll(f | f.name <> null)
+inv mut6 : Feature.allInstances()->forAll(f | f.visibility <> null)
+inv mut7 : Feature.allInstances()->forAll(f | f.scope <> null)
+inv mut8 : ModifiedElement.allInstances()->forAll(m | m.name <> null)
+inv mut9 : ModifiedElement.allInstances()->forAll(m | m.visibility <> null)
+inv mut10 : ModifiedElement.allInstances()->forAll(m | m.scope <> null)
+inv mut11 : Classifier.allInstances()->forAll(c | c.name <> null)
+inv mut12 : Classifier.allInstances()->forAll(c | c.visibility <> null)
+inv mut13 : Classifier.allInstances()->forAll(c | c.scope <> null)
+inv mut14 : Class.allInstances()->forAll(c | c.name <> null)
+inv mut15 : Class.allInstances()->forAll(c | c.visibility <> null)
+inv mut16 : Class.allInstances()->forAll(c | c.scope <> null)
+inv mut17 : Class.allInstances()->forAll(c | c.abstract_ <> null)
+inv mut18 : Class.allInstances()->forAll(c | c.derived <> null)
+inv mut19 : Attribute.allInstances()->forAll(a | a.name <> null)
+inv mut20 : Attribute.allInstances()->forAll(a | a.visibility <> null)
+inv mut21 : Attribute.allInstances()->forAll(a | a.scope <> null)
+inv mut22 : Attribute.allInstances()->forAll(a | a.derived <> null)
+inv mut23 : Constraint.allInstances()->forAll(c | c.id <> null)
+inv mut24 : Operation.allInstances()->forAll(o | o.name <> null)
+inv mut25 : Operation.allInstances()->forAll(o | o.visibility <> null)
+inv mut26 : Operation.allInstances()->forAll(o | o.scope <> null)
+inv mut27 : Operator.allInstances()->forAll(o | o.operator <> null)
+inv mut28 : Relation.allInstances()->forAll(r | r.name <> null)
+inv mut29 : Relation.allInstances()->forAll(r | r.visibility <> null)
+inv mut30 : Relation.allInstances()->forAll(r | r.scope <> null)
+inv mut31 : Relation.allInstances()->forAll(r | r.derived <> null)
+inv mut32 : Dependency.allInstances()->forAll(d | d.name <> null)
+inv mut33 : Dependency.allInstances()->forAll(d | d.visibility <> null)
+inv mut34 : Dependency.allInstances()->forAll(d | d.scope <> null)
+inv mut35 : Dependency.allInstances()->forAll(d | d.derived <> null)
+inv mut36 : Association.allInstances()->forAll(a | a.name <> null)
+inv mut37 : Association.allInstances()->forAll(a | a.visibility <> null)
+inv mut38 : Association.allInstances()->forAll(a | a.scope <> null)
+inv mut39 : Association.allInstances()->forAll(a | a.derived <> null)
+inv mut40 : Aggregation.allInstances()->forAll(a | a.name <> null)
+inv mut41 : Aggregation.allInstances()->forAll(a | a.visibility <> null)
+inv mut42 : Aggregation.allInstances()->forAll(a | a.scope <> null)
+inv mut43 : Aggregation.allInstances()->forAll(a | a.derived <> null)
+inv mut44 : Composition.allInstances()->forAll(c | c.name <> null)
+inv mut45 : Composition.allInstances()->forAll(c | c.visibility <> null)
+inv mut46 : Composition.allInstances()->forAll(c | c.scope <> null)
+inv mut47 : Composition.allInstances()->forAll(c | c.derived <> null)
+inv mut48 : AssociationClass.allInstances()->forAll(a | a.name <> null)
+inv mut49 : AssociationClass.allInstances()->forAll(a | a.visibility <> null)
+inv mut50 : AssociationClass.allInstances()->forAll(a | a.scope <> null)
+inv mut51 : AssociationClass.allInstances()->forAll(a | a.abstract_ <> null)
+inv mut52 : AssociationClass.allInstances()->forAll(a | a.derived <> null)
+inv mut53 : Operation.allInstances()->size() > 0

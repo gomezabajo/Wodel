@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../wcl3.model#//@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../wcl3.model#//@commands.1"/>
+    <object href="../Output0vs/Output0_0_0_2.model#//@classes.5"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../wcl3.model#//@commands.2"/>
+    <object href="../../../model/cd.example.model#//@classes.4"/>
+    <attChanges attName="abstract" oldVal="false" newVal="false">
+      <def href="../../wcl3.model#//@commands.2"/>
+    </attChanges>
+    <attChanges attName="derived" oldVal="false" newVal="false">
+      <def href="../../wcl3.model#//@commands.2"/>
+    </attChanges>
+    <attChanges attName="name" oldVal="associationBC" newVal="associationBC">
+      <def href="../../wcl3.model#//@commands.2"/>
+    </attChanges>
+    <attChanges attName="scope" oldVal="instance" newVal="instance">
+      <def href="../../wcl3.model#//@commands.2"/>
+    </attChanges>
+    <attChanges attName="visibility" oldVal="private" newVal="private">
+      <def href="../../wcl3.model#//@commands.2"/>
+    </attChanges>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../wcl3.model#//@commands.3"/>
+    <object href="../../../model/cd.example.model#_zZ_8wJvwEee_psWNZC0Yfw"/>
+  </muts>
+</appliedMutations:Mutations>

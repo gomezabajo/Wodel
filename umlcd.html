@@ -43,19 +43,19 @@
 
 <p>I will upload here the remaining UML Class Diagrams examples in the next few days.</p>
 
-<p>Adds an extraneous constraint to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco2.zip">-->uco2<!--</a>-->]:</p>
+<p>Adds an extraneous constraint to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco2.zip">uco2</a>]:</p>
 
 <pre><code>
     create Constraint with {type = one Class, id = random-string(1, 4)}
 </code></pre>
 
-<p>Adds a redundant association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas1.zip">-->uas1<!--</a>-->]:</p>
+<p>Adds a redundant association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas1.zip">uas1</a>]:</p>
 
 <pre><code>
     clone one Association
 </code></pre>
 
-<p>Adds a redundant derived association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas2.zip">-->uas2<!--</a>-->]:</p>
+<p>Adds a redundant derived association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas2.zip">uas2</a>]:</p>
 
 <pre><code>
     a1 = select one Association
@@ -64,19 +64,19 @@
     modify a3 with {copy(nsrc, a1.nsrc), copy(ntar, a2.ntar)}
 </code></pre>
 
-<p>Adds an extraneous association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas3.zip">-->uas3<!--</a>-->]:</p>
+<p>Adds an extraneous association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas3.zip">uas3</a>]:</p>
 
 <pre><code>
     create Association with {src = one Class, tar = one Class, name = random-string(1, 4)}
 </code></pre>
 
-<p>Adds an extraneous derived association to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas4.zip">-->uas4<!--</a>-->]:</p>
+<p>Adds an extraneous derived association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas4.zip">uas4</a>]:</p>
 
 <pre><code>
     create Association with {src = one Class, tar = one Class, name = random-string(1, 4), derived = true}
 </code></pre>
 
-<p>Adds a redundant generalization to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge1.zip">-->uge1<!--</a>-->]:</p>
+<p>Adds a redundant generalization to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge1.zip">uge1</a>]:</p>
 
 <pre><code>
     cl = select one Class where {super <> null and super->super <> null}
@@ -85,7 +85,7 @@
     modify cl with {super = sup2}
 </code></pre>
 
-<p>Adds an extraneous generalization to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge2.zip">-->uge2<!--</a>-->]:</p>
+<p>Adds an extraneous generalization to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge2.zip">uge2</a>]:</p>
 
 <pre><code>
     cl1 = select one Class where {super <> null}
@@ -94,87 +94,87 @@
     modify cl1 with {super = cl2}
 </code></pre>
 
-<p>Adds a redundant class to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl1.zip">-->ucl1<!--</a>-->]:</p>
+<p>Adds a redundant class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl1.zip">ucl1</a>]:</p>
 
 <pre><code>
     clone contents one Class
 </code></pre>
 
-<p>Adds an extraneous class to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl2.zip">-->ucl2<!--</a>-->]:</p>
+<p>Adds an extraneous class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl2.zip">ucl2</a>]:</p>
 
 <pre><code>
     create Class with {name = random-string(1, 4)}
 </code></pre>
 
-<p>Adds a redundant association class to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl3.zip">-->ucl3<!--</a>-->]:</p>
+<p>Adds a redundant association class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl3.zip">ucl3</a>]:</p>
 
 <pre><code>
     clone one AssociationClass
 </code></pre>
 
-<p>Adds an extraneous association class to the CD [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl4.zip">-->ucl4<!--</a>-->]:</p>
+<p>Adds an extraneous association class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl4.zip">ucl4</a>]:</p>
 
 <pre><code>
     create AssociationClass with {name = random-string(1, 4)}
 </code></pre>
 
-<p>Adds a redundant attribute to a Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat1.zip">-->uat1<!--</a>-->]:</p>
+<p>Adds a redundant attribute to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat1.zip">uat1</a>]:</p>
 
 <pre><code>
     clone one Attribute
 </code></pre>
 
-<p>Adds an extraneous attribute to a Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat2.zip">-->uat2<!--</a>-->]:</p>
+<p>Adds an extraneous attribute to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat2.zip">uat2</a>]:</p>
 
 <pre><code>
     create Attribute with {type = one Class, name = random-string(1, 4)}
 </code></pre>
 
-<p>Adds a redundant operation to a Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop1.zip">-->uop1<!--</a>-->]:</p>
+<p>Adds a redundant operation to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop1.zip">uop1</a>]:</p>
 
 <pre><code>
     clone contents one Operation
 </code></pre>
 
-<p>Adds an extraneous operation to a Class [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop2.zip">-->uop2<!--</a>-->]:</p>
+<p>Adds an extraneous operation to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop2.zip">uop2</a>]:</p>
 
 <pre><code>
     create Operation with {type = one Class, name = random-string(1, 4)}
 </code></pre>
 
-<p>Adds a redundant parameter to an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa1.zip">-->upa1<!--</a>-->]:</p>
+<p>Adds a redundant parameter to an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa1.zip">upa1</a>]:</p>
 
 <pre><code>
     clone one Parameter
 </code></pre>
 
-<p>Adds an extraneous Parameter to an Operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa2.zip">-->upa2<!--</a>-->]:</p>
+<p>Adds an extraneous Parameter to an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa2.zip">upa2</a>]:</p>
 
 <pre><code>
     create Parameter with {name = random-string(1, 4)}
 </code></pre>
 
-<p>Changes the constraint by deleting the references to a class Attribute [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">-->wco1<!--</a>-->]:</p>
+<p>Changes the constraint by deleting the references to a class Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">wco1</a>]:</p>
 
 <pre><code>
     remove reference attributes in one Constraint where {attributes <> null}
 </code></pre>
 
-<p>Changes the Attribute data type in the constraint [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">-->wco2<!--</a>-->]:</p>
+<p>Changes the Attribute data type in the constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">wco2</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {attributes <> null}
     modify c->attributes with {type = other Class}
 </code></pre>
 
-<p>Change the constraint by deleting the calls to specific operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">-->wco3<!--</a>-->]:</p>
+<p>Change the constraint by deleting the calls to specific operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null}
     remove reference operations in c
 </code></pre>
 
-<p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">-->wco4<!--</a>-->]:</p>
+<p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">wco4</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -183,7 +183,7 @@
     modify op with {operator in {add, subtract, multiply, divide}}
 </code></pre>
 
-<p>Changes the constraint by adding the conditional operator "not" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">-->wco5<!--</a>-->]:</p>
+<p>Changes the constraint by adding the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">wco5</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null}
@@ -192,7 +192,7 @@
     modify op with {operator in {not}}
 </code></pre>
 
-<p>Changes a conditional operator "and" for a conditional operator "or" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">-->wco6a<!--</a>-->]:</p>
+<p>Changes a conditional operator "and" for a conditional operator "or" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">wco6a</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -201,7 +201,7 @@
     modify op with {operator = {^or}}
 </code></pre>
 
-<p>Changes a conditional operator "or" for a conditional operator "and" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">-->wco6b<!--</a>-->]:</p>
+<p>Changes a conditional operator "or" for a conditional operator "and" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">wco6b</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -210,7 +210,7 @@
     modify op with {operator = {^and}}
 </code></pre>
 
-<p>Changes the constraint by deleting the conditional operator "not" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">-->wco7<!--</a>-->]:</p>
+<p>Changes the constraint by deleting the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">wco7</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -219,7 +219,7 @@
     remove op
 </code></pre>
 
-<p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">-->wco8<!--</a>-->]:</p>
+<p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">wco8</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -228,7 +228,7 @@
     modify op with {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
 </code></pre>
 
-<p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">-->wco9<!--</a>-->]:</p>
+<p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">wco9</a>]:</p>
 
 <pre><code>
     c = select one Constraint where {operations <> null and operations->operators <> null}

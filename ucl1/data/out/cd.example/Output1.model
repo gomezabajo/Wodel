@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umlclassdiagram:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umlclassdiagram="http://umlclassdiagram/1.0" xsi:schemaLocation="http://umlclassdiagram/1.0 file:/c:/eclipse/runtime-EclipseApplication/ucl1/data/model/UMLClassDiagram.ecore" xmi:id="_0hqZIJvUEee9uaaNIqtE3A">
+  <classes xmi:id="_-hk-4JvUEee9uaaNIqtE3A" name="A">
+    <features xsi:type="umlclassdiagram:Attribute" xmi:id="_ZQ1PwJvVEee9uaaNIqtE3A" name="value" type="_VSLB0JvVEee9uaaNIqtE3A" max="1" derived="true"/>
+  </classes>
+  <classes xmi:id="_AKKtUJvVEee9uaaNIqtE3A" name="B" super="_-hk-4JvUEee9uaaNIqtE3A"/>
+  <classes xmi:id="_dPCxwJvVEee9uaaNIqtE3A" name="C" super="_-hk-4JvUEee9uaaNIqtE3A"/>
+  <classes xmi:id="_8bWjsJ69EeeqdZIhK5Awmw" name="D" super="_AKKtUJvVEee9uaaNIqtE3A"/>
+  <classes xsi:type="umlclassdiagram:AssociationClass" xmi:id="_zZ_8wJvwEee_psWNZC0Yfw" name="associationBC" association="_CCQ3YJvVEee9uaaNIqtE3A"/>
+  <classes name="C" super="_-hk-4JvUEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Association" xmi:id="_CCQ3YJvVEee9uaaNIqtE3A" name="BC" src="_AKKtUJvVEee9uaaNIqtE3A" ntar="" tar="_dPCxwJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Association" xmi:id="_4HM_oJvYEee9uaaNIqtE3A" name="CB" nsrc="" src="_dPCxwJvVEee9uaaNIqtE3A" ntar="" tar="_AKKtUJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Aggregation" xmi:id="_rMnekJ1DEeeSVIfAn2rCKg" name="AB" src="_-hk-4JvUEee9uaaNIqtE3A" tar="_AKKtUJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Aggregation" xmi:id="_oVzpgJ1DEeeSVIfAn2rCKg" name="BA" src="_-hk-4JvUEee9uaaNIqtE3A" tar="_AKKtUJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Composition" xmi:id="_wLEVkJ1DEeeSVIfAn2rCKg" name="BC" src="_AKKtUJvVEee9uaaNIqtE3A" tar="_dPCxwJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Composition" xmi:id="_yzOqoJ1DEeeSVIfAn2rCKg" name="CB" src="_dPCxwJvVEee9uaaNIqtE3A" tar="_AKKtUJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Dependency" xmi:id="_64b3MJ1DEeeSVIfAn2rCKg" name="AB" src="_-hk-4JvUEee9uaaNIqtE3A" tar="_AKKtUJvVEee9uaaNIqtE3A"/>
+  <relations xsi:type="umlclassdiagram:Dependency" xmi:id="_4JQ7MJ1DEeeSVIfAn2rCKg" name="BA" src="_AKKtUJvVEee9uaaNIqtE3A" tar="_-hk-4JvUEee9uaaNIqtE3A"/>
+  <types xmi:id="_RpK60JvVEee9uaaNIqtE3A" name="boolean"/>
+  <types xmi:id="_TArgUJvVEee9uaaNIqtE3A" name="date" type="Date"/>
+  <types xmi:id="_UGGQQJvVEee9uaaNIqtE3A" name="double" type="Double"/>
+  <types xmi:id="_VSLB0JvVEee9uaaNIqtE3A" name="int" type="Integer"/>
+  <types xmi:id="_W4QO0JvVEee9uaaNIqtE3A" name="string" type="String"/>
+  <constraints xmi:id="_HX5fUJvVEee9uaaNIqtE3A" id="inv" type="_-hk-4JvUEee9uaaNIqtE3A" attributes="_ZQ1PwJvVEee9uaaNIqtE3A">
+    <operations xmi:id="_KT4vUJvVEee9uaaNIqtE3A" name="op" type="_-hk-4JvUEee9uaaNIqtE3A">
+      <params xmi:id="_NJxXUJvVEee9uaaNIqtE3A" name="i" type="_VSLB0JvVEee9uaaNIqtE3A"/>
+      <params xmi:id="_l_3uMJvVEee9uaaNIqtE3A" name="j" type="_VSLB0JvVEee9uaaNIqtE3A"/>
+      <operators xmi:id="_MfgSUJvVEee9uaaNIqtE3A"/>
+      <operators xmi:id="_BQXr4JyPEeevV424rJsp6w" operator="and"/>
+      <operators xmi:id="_1ac74JyQEee2gvjY3YDx4g" operator="or"/>
+      <operators xmi:id="_kaXNEJySEee2gvjY3YDx4g" operator="not"/>
+      <operators xmi:id="_GYQ18JyTEee2gvjY3YDx4g" operator="equals"/>
+      <operators xmi:id="_RDLggJyTEee2gvjY3YDx4g" operator="negative"/>
+    </operations>
+  </constraints>
+</umlclassdiagram:ClassDiagram>

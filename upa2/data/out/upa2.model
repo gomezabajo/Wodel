@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/upa2/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+    <type href="file:/c:/eclipse/runtime-EclipseApplication/upa2/data/model/UMLClassDiagram.ecore#//Parameter"/>
+    <attributes xsi:type="mutatorenvironment:AttributeScalar">
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/upa2/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+      <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+    </attributes>
+  </commands>
+</mutatorenvironment:MutatorEnvironment>

@@ -1,30 +1,30 @@
 model uco1
 class ClassDiagram
 end
-class NamedItem
+class NamedElement
 	attributes
 		name : String
 end
-class PrimitiveItem < NamedItem
+class PrimitiveElement < NamedElement
 	attributes
 end
-class ParameterItem < NamedItem
+class Parameter < NamedElement
 end
-class FeatureItem
+class Feature
 	attributes
 		name : String
 end
-class ModifiedItem < NamedItem
+class ModifiedElement < NamedElement
 	attributes
 end
-class Classifier < ModifiedItem
+class Classifier < ModifiedElement
 end
 class Class < Classifier
 	attributes
 		abstract_ : Boolean
 		derived : Boolean
 end
-class Attribute < FeatureItem
+class Attribute < Feature
 	attributes
 		max_ : Integer
 		min_ : Integer
@@ -34,15 +34,15 @@ class Constraint
 	attributes
 		id : String
 end
-class Operation < FeatureItem
+class Operation < Feature
 end
 class Operator
 	attributes
 end
-class Relation < ModifiedItem
+class Relation < ModifiedElement
 	attributes
 		nsrc : String
-		ndest : String
+		ntar : String
 		derived : Boolean
 end
 class Dependency < Relation
@@ -165,25 +165,25 @@ composition ClassDiagramRelation between
 	ClassDiagram[*] role classdiagramrelation
 	Relation[*] role relations
 end
-composition ClassDiagramPrimitiveItem between
-	ClassDiagram[*] role classdiagramprimitiveitem
-	PrimitiveItem[*] role types
+composition ClassDiagramPrimitiveElement between
+	ClassDiagram[*] role classdiagramprimitiveelement
+	PrimitiveElement[*] role types
 end
 composition ClassDiagramConstraint between
 	ClassDiagram[*] role classdiagramconstraint
 	Constraint[*] role constraints_
 end
-association ParameterItemNamedItem between
-	ParameterItem[*] role parameteritemnameditem
-	NamedItem[1] role type
+association ParameterNamedElement between
+	Parameter[*] role parameternamedelement
+	NamedElement[1] role type
 end
-association FeatureItemNamedItem between
-	FeatureItem[*] role featureitemnameditem
-	NamedItem[1] role type1
+association FeatureNamedElement between
+	Feature[*] role featurenamedelement
+	NamedElement[1] role type1
 end
-composition ClassFeatureItem between
-	Class[*] role classfeatureitem
-	FeatureItem[*] role features
+composition ClassFeature between
+	Class[*] role classfeature
+	Feature[*] role features
 end
 association ClassClass between
 	Class[*] role classclass
@@ -209,9 +209,9 @@ association ConstraintAttribute between
 	Constraint[*] role constraintattribute
 	Attribute[*] role attributes_
 end
-composition OperationParameterItem between
-	Operation[*] role operationparameteritem
-	ParameterItem[*] role params
+composition OperationParameter between
+	Operation[*] role operationparameter
+	Parameter[*] role params
 end
 composition OperationOperator between
 	Operation[*] role operationoperator
@@ -223,7 +223,7 @@ association RelationClass between
 end
 association RelationClass1 between
 	Relation[*] role relationclass1
-	Class[1] role dest
+	Class[1] role tar
 end
 association AssociationClassAssociation between
 	AssociationClass[*] role associationclassassociation
@@ -349,9 +349,9 @@ composition PathNameCSPathCS between
 	PathNameCS[*] role pathnamecspathcs
 	PathCS[*] role path
 end
-association PathElementCSFeatureItem between
-	PathElementCS[*] role pathelementcsfeatureitem
-	FeatureItem[0..1] role pathName
+association PathElementCSFeature between
+	PathElementCS[*] role pathelementcsfeature
+	Feature[0..1] role pathName
 end
 composition ExistsExpCSAccVarCS between
 	ExistsExpCS[*] role existsexpcsaccvarcs
@@ -373,9 +373,9 @@ composition NavigationPathNameCSNavigationPathCS between
 	NavigationPathNameCS[*] role navigationpathnamecsnavigationpathcs
 	NavigationPathCS[*] role path1
 end
-association NavigationPathElementCSFeatureItem between
-	NavigationPathElementCS[*] role navigationpathelementcsfeatureitem
-	FeatureItem[0..1] role pathName1
+association NavigationPathElementCSFeature between
+	NavigationPathElementCS[*] role navigationpathelementcsfeature
+	Feature[0..1] role pathName1
 end
 composition ForAllExpCSAccVarCS between
 	ForAllExpCS[*] role forallexpcsaccvarcs
@@ -536,16 +536,16 @@ if source1.oclIsKindOf(CallExpCS) then
 	 else false endif)
 	 else false endif)
 	 else false endif)
-inv mut1 : NamedItem.allInstances()->forAll(n | n.name <> null)
-inv mut2 : PrimitiveItem.allInstances()->forAll(p | p.name <> null)
-inv mut3 : PrimitiveItem.allInstances()->forAll(p | p.type <> null)
-inv mut4 : ParameterItem.allInstances()->forAll(p | p.name <> null)
-inv mut5 : FeatureItem.allInstances()->forAll(f | f.name <> null)
-inv mut6 : FeatureItem.allInstances()->forAll(f | f.visibility <> null)
-inv mut7 : FeatureItem.allInstances()->forAll(f | f.scope <> null)
-inv mut8 : ModifiedItem.allInstances()->forAll(m | m.name <> null)
-inv mut9 : ModifiedItem.allInstances()->forAll(m | m.visibility <> null)
-inv mut10 : ModifiedItem.allInstances()->forAll(m | m.scope <> null)
+inv mut1 : NamedElement.allInstances()->forAll(n | n.name <> null)
+inv mut2 : PrimitiveElement.allInstances()->forAll(p | p.name <> null)
+inv mut3 : PrimitiveElement.allInstances()->forAll(p | p.type <> null)
+inv mut4 : Parameter.allInstances()->forAll(p | p.name <> null)
+inv mut5 : Feature.allInstances()->forAll(f | f.name <> null)
+inv mut6 : Feature.allInstances()->forAll(f | f.visibility <> null)
+inv mut7 : Feature.allInstances()->forAll(f | f.scope <> null)
+inv mut8 : ModifiedElement.allInstances()->forAll(m | m.name <> null)
+inv mut9 : ModifiedElement.allInstances()->forAll(m | m.visibility <> null)
+inv mut10 : ModifiedElement.allInstances()->forAll(m | m.scope <> null)
 inv mut11 : Classifier.allInstances()->forAll(c | c.name <> null)
 inv mut12 : Classifier.allInstances()->forAll(c | c.visibility <> null)
 inv mut13 : Classifier.allInstances()->forAll(c | c.scope <> null)

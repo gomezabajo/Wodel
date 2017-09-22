@@ -8,24 +8,24 @@
         <references name="types"/>
         <references name="constraints"/>
       </classes>
-      <classes name="NamedItem">
+      <classes name="NamedElement">
         <attributes name="name"/>
       </classes>
-      <classes name="PrimitiveItem">
+      <classes name="PrimitiveElement">
         <attributes name="name"/>
         <attributes name="type"/>
       </classes>
-      <classes name="ParameterItem">
+      <classes name="Parameter">
         <attributes name="name"/>
         <references name="type"/>
       </classes>
-      <classes name="FeatureItem">
+      <classes name="Feature">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <references name="type"/>
       </classes>
-      <classes name="ModifiedItem">
+      <classes name="ModifiedElement">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -77,50 +77,50 @@
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Dependency">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Association">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Aggregation">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Composition">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="AssociationClass">
         <attributes name="name"/>
@@ -347,24 +347,24 @@
         <references name="types"/>
         <references name="constraints"/>
       </classes>
-      <classes name="NamedItem">
+      <classes name="NamedElement">
         <attributes name="name"/>
       </classes>
-      <classes name="PrimitiveItem">
+      <classes name="PrimitiveElement">
         <attributes name="name"/>
         <attributes name="type"/>
       </classes>
-      <classes name="ParameterItem">
+      <classes name="Parameter">
         <attributes name="name"/>
         <references name="type"/>
       </classes>
-      <classes name="FeatureItem">
+      <classes name="Feature">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <references name="type"/>
       </classes>
-      <classes name="ModifiedItem">
+      <classes name="ModifiedElement">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -416,50 +416,50 @@
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Dependency">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Association">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Aggregation">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="Composition">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="nsrc"/>
-        <attributes name="ndest"/>
+        <attributes name="ntar"/>
         <attributes name="derived"/>
         <references name="src"/>
-        <references name="dest"/>
+        <references name="tar"/>
       </classes>
       <classes name="AssociationClass">
         <attributes name="name"/>
@@ -685,24 +685,24 @@
       <references name="types"/>
       <references name="constraints"/>
     </classes>
-    <classes name="NamedItem">
+    <classes name="NamedElement">
       <attributes name="name"/>
     </classes>
-    <classes name="PrimitiveItem">
+    <classes name="PrimitiveElement">
       <attributes name="name"/>
       <attributes name="type"/>
     </classes>
-    <classes name="ParameterItem">
+    <classes name="Parameter">
       <attributes name="name"/>
       <references name="type"/>
     </classes>
-    <classes name="FeatureItem">
+    <classes name="Feature">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <references name="type"/>
     </classes>
-    <classes name="ModifiedItem">
+    <classes name="ModifiedElement">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
@@ -754,50 +754,50 @@
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="nsrc"/>
-      <attributes name="ndest"/>
+      <attributes name="ntar"/>
       <attributes name="derived"/>
       <references name="src"/>
-      <references name="dest"/>
+      <references name="tar"/>
     </classes>
     <classes name="Dependency">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="nsrc"/>
-      <attributes name="ndest"/>
+      <attributes name="ntar"/>
       <attributes name="derived"/>
       <references name="src"/>
-      <references name="dest"/>
+      <references name="tar"/>
     </classes>
     <classes name="Association">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="nsrc"/>
-      <attributes name="ndest"/>
+      <attributes name="ntar"/>
       <attributes name="derived"/>
       <references name="src"/>
-      <references name="dest"/>
+      <references name="tar"/>
     </classes>
     <classes name="Aggregation">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="nsrc"/>
-      <attributes name="ndest"/>
+      <attributes name="ntar"/>
       <attributes name="derived"/>
       <references name="src"/>
-      <references name="dest"/>
+      <references name="tar"/>
     </classes>
     <classes name="Composition">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="nsrc"/>
-      <attributes name="ndest"/>
+      <attributes name="ntar"/>
       <attributes name="derived"/>
       <references name="src"/>
-      <references name="dest"/>
+      <references name="tar"/>
     </classes>
     <classes name="AssociationClass">
       <attributes name="name"/>
@@ -1023,24 +1023,24 @@
     <references name="types"/>
     <references name="constraints"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="NamedItem">
+  <classes xsi:type="mutatormetrics:Class" name="NamedElement">
     <attributes name="name"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="PrimitiveItem">
+  <classes xsi:type="mutatormetrics:Class" name="PrimitiveElement">
     <attributes name="name"/>
     <attributes name="type"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="ParameterItem">
+  <classes xsi:type="mutatormetrics:Class" name="Parameter">
     <attributes name="name"/>
     <references name="type"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="FeatureItem">
+  <classes xsi:type="mutatormetrics:Class" name="Feature">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <references name="type"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="ModifiedItem">
+  <classes xsi:type="mutatormetrics:Class" name="ModifiedElement">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
@@ -1092,50 +1092,50 @@
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="nsrc"/>
-    <attributes name="ndest"/>
+    <attributes name="ntar"/>
     <attributes name="derived"/>
     <references name="src"/>
-    <references name="dest"/>
+    <references name="tar"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Dependency">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="nsrc"/>
-    <attributes name="ndest"/>
+    <attributes name="ntar"/>
     <attributes name="derived"/>
     <references name="src"/>
-    <references name="dest"/>
+    <references name="tar"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Association">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="nsrc"/>
-    <attributes name="ndest"/>
+    <attributes name="ntar"/>
     <attributes name="derived"/>
     <references name="src"/>
-    <references name="dest"/>
+    <references name="tar"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Aggregation">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="nsrc"/>
-    <attributes name="ndest"/>
+    <attributes name="ntar"/>
     <attributes name="derived"/>
     <references name="src"/>
-    <references name="dest"/>
+    <references name="tar"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Composition">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="nsrc"/>
-    <attributes name="ndest"/>
+    <attributes name="ntar"/>
     <attributes name="derived"/>
     <references name="src"/>
-    <references name="dest"/>
+    <references name="tar"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="AssociationClass">
     <attributes name="name"/>

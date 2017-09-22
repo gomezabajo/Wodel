@@ -1,0 +1,8 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	remove reference attributes in one Constraint where {attributes <> null}
+}

@@ -1,0 +1,8 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/uop2/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	create Operation with {type = one Class, name = random-string(1, 4)}
+}

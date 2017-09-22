@@ -1,0 +1,11 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/uas2/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	a1 = select one Association
+	a2 = select one Association where {src = a1->tar}
+	a3 = create Association with {src = a1->src, tar = a2->tar}
+	modify a3 with {copy(nsrc, a1.nsrc), copy(ntar, a2.ntar)}
+}

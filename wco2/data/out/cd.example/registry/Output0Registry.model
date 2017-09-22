@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../wco2.model#//@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../wco2.model#//@commands.1"/>
+    <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
+    <refChanges srcRefName="type" refName="type">
+      <def href="../../wco2.model#//@commands.1"/>
+      <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
+      <from href="../../../model/cd.example.model#_VSLB0JvVEee9uaaNIqtE3A"/>
+      <to href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
+    </refChanges>
+  </muts>
+</appliedMutations:Mutations>

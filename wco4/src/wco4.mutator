@@ -1,0 +1,11 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/wco4/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	c = select one Constraint where {operations <> null and operations->operators <> null}
+    oper = select one Operation in c->operations where {operators <> null}
+    op = select one Operator in oper->operators
+    modify op with {operator in {add, subtract, multiply, divide}}
+}

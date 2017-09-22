@@ -1,0 +1,11 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/was2i/data/model/UMLClassDiagram.ecore"
+
+with commands {
+	ag = select one Aggregation
+    rel = create Dependency with {src = ag->src, tar = ag->tar}
+    modify rel with {copy(name, ag.name)}
+    remove ag
+}

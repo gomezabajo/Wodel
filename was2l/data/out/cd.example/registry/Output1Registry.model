@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../was2l.model#//@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../was2l.model#//@commands.1"/>
+    <object href="../Output1vs/Output1_0_0_2.model#//@relations.8"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../was2l.model#//@commands.2"/>
+    <object href="../../../model/cd.example.model#//@relations.7"/>
+    <attChanges attName="name" oldVal="BA" newVal="BA">
+      <def href="../../was2l.model#//@commands.2"/>
+    </attChanges>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../was2l.model#//@commands.3"/>
+    <object href="../../../model/cd.example.model#_4JQ7MJ1DEeeSVIfAn2rCKg"/>
+  </muts>
+</appliedMutations:Mutations>

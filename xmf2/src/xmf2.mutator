@@ -1,0 +1,10 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/xmf2/data/model/bpel.ecore"
+
+with commands {
+	fh2 = select one FaultHandler where {catch <> null}
+	c2 = select one Catch in fh2->catch
+	remove c2
+}

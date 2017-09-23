@@ -1,0 +1,10 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/apa1/data/model/bpel.ecore"
+
+with commands {
+	p2 = select one Pick where {alarm <> null}
+	a2 = select one OnAlarm in p2->alarm
+	remove a2
+}

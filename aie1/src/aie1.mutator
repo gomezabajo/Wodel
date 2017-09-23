@@ -1,0 +1,9 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/aie1/data/model/bpel.ecore"
+
+with commands {
+	if1 = select one If where {elseIf <> null}
+	remove one ElseIf from if1->elseIf
+}

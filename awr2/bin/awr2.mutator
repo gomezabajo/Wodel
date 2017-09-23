@@ -1,0 +1,22 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/awr2/data/model/bpel.ecore"
+
+with commands {
+	repeatUntil2 = select one RepeatUntil
+	while2 = create While with {
+		targets = repeatUntil2->targets,
+		sources = repeatUntil2->sources,
+		condition = repeatUntil2->condition,
+		activity = repeatUntil2->activity,
+		eExtensibilityElements = repeatUntil2->eExtensibilityElements,
+		documentation = repeatUntil2->documentation
+	}
+	modify while2 with {
+		copy(name, repeatUntil2.name),
+		copy(element, repeatUntil2.element),
+		copy(documentationElement, repeatUntil2.documentationElement),
+		copy(suppressJoinFailure, repeatUntil2.suppressJoinFailure)
+	} 
+}

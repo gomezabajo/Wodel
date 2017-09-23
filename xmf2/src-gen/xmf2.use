@@ -1,0 +1,1175 @@
+model xmf2
+class Process < BPELExtensibleElement
+	attributes
+		name : String
+		targetNamespace : String
+		queryLanguage : String
+		expressionLanguage : String
+		abstractProcessProfile : String
+end
+class PartnerLink < BPELExtensibleElement
+	attributes
+		name : String
+end
+class FaultHandler < BPELExtensibleElement
+end
+class Activity < BPELExtensibleElement
+	attributes
+		name : String
+end
+class CorrelationSet < BPELExtensibleElement
+	attributes
+		name : String
+end
+class Invoke < PartnerActivity
+end
+class Link < BPELExtensibleElement
+	attributes
+		name : String
+end
+class Catch < BPELExtensibleElement
+	attributes
+end
+class Reply < PartnerActivity
+	attributes
+end
+class PartnerActivity < Activity
+end
+class Receive < PartnerActivity
+	attributes
+end
+class Exit < Activity
+end
+class Throw < Activity
+	attributes
+end
+class Wait < Activity
+end
+class Empty < Activity
+end
+class Sequence_ < Activity
+end
+class While < Activity
+end
+class Pick < Activity
+	attributes
+end
+class Flow < Activity
+end
+class OnAlarm < BPELExtensibleElement
+end
+class Assign < Activity
+	attributes
+end
+class Copy < BPELExtensibleElement
+	attributes
+end
+class Extension < BPELExtensibleElement
+	attributes
+		namespace : String
+end
+class Scope < Activity
+	attributes
+end
+class CompensateScope < Activity
+end
+class CompensationHandler < BPELExtensibleElement
+end
+class AbstractAssignBound
+end
+class To < BPELExtensibleElement
+end
+class From < BPELExtensibleElement
+	attributes
+		literal : String
+end
+class OnMessage < BPELExtensibleElement
+end
+class Expression < ExtensibilityElement
+	attributes
+		expressionLanguage : String
+end
+class BooleanExpression < Expression
+end
+class Correlation < BPELExtensibleElement
+	attributes
+		initiate : String
+end
+class MessageExchange < BPELExtensibleElement
+	attributes
+		name : String
+end
+class EventHandler < BPELExtensibleElement
+end
+class Source < BPELExtensibleElement
+end
+class Target < BPELExtensibleElement
+end
+class PartnerLinks < BPELExtensibleElement
+end
+class MessageExchanges < BPELExtensibleElement
+end
+class Variables < BPELExtensibleElement
+end
+class CorrelationSets < BPELExtensibleElement
+end
+class Links < BPELExtensibleElement
+end
+class CatchAll < BPELExtensibleElement
+end
+class Correlations < BPELExtensibleElement
+end
+class Variable < BPELExtensibleElement
+	attributes
+		name : String
+end
+class UnknownExtensibilityAttribute < UnknownExtensibilityElement
+end
+class OnEvent < BPELExtensibleElement
+end
+class Import < BPELExtensibleElement
+	attributes
+		namespace : String
+		location : String
+		importType : String
+end
+class Rethrow < Activity
+end
+class Condition < Expression
+end
+class Targets < BPELExtensibleElement
+end
+class Sources < BPELExtensibleElement
+end
+class Query < WSDLElement
+	attributes
+		value : String
+		queryLanguage : String
+end
+class ServiceRef < ExtensibleElement
+	attributes
+		referenceScheme : String
+end
+class Extensions < BPELExtensibleElement
+end
+class ExtensionActivity < Activity
+end
+class FromPart < BPELExtensibleElement
+end
+class ToPart < BPELExtensibleElement
+end
+class OpaqueActivity < Activity
+end
+class ForEach < Activity
+	attributes
+end
+class RepeatUntil < Activity
+end
+class TerminationHandler < BPELExtensibleElement
+end
+class Validate < Activity
+end
+class If < Activity
+end
+class ElseIf < BPELExtensibleElement
+end
+class Else < BPELExtensibleElement
+end
+class CompletionCondition < BPELExtensibleElement
+end
+class Branches < Expression
+	attributes
+end
+class BPELExtensibleElement < ExtensibleElement
+end
+class Documentation < BPELExtensibleElement
+	attributes
+		lang : String
+		source : String
+		value : String
+end
+class Compensate < Activity
+end
+class FromParts < BPELExtensibleElement
+end
+class ToParts < BPELExtensibleElement
+end
+class Property < ExtensibilityElement
+	attributes
+		name : String
+		ID : String
+end
+class PropertyAlias < ExtensibilityElement
+	attributes
+		part : String
+		ID : String
+end
+class Query < ExtensibilityElement
+	attributes
+		queryLanguage : String
+		value : String
+end
+class PartnerLinkType < ExtensibilityElement
+	attributes
+		name : String
+		ID : String
+end
+class Role < ExtensibilityElement
+	attributes
+		ID : String
+		name : String
+end
+class Dummy
+end
+composition ProcessPartnerLinks between
+	Process[*] role processpartnerlinks
+	PartnerLinks[0..1] role partnerLinks
+end
+composition ProcessVariables between
+	Process[*] role processvariables
+	Variables[0..1] role variables
+end
+composition ProcessActivity between
+	Process[*] role processactivity
+	Activity[1] role activity
+end
+composition ProcessFaultHandler between
+	Process[*] role processfaulthandler
+	FaultHandler[0..1] role faultHandlers
+end
+composition ProcessEventHandler between
+	Process[*] role processeventhandler
+	EventHandler[0..1] role eventHandlers
+end
+composition ProcessCorrelationSets between
+	Process[*] role processcorrelationsets
+	CorrelationSets[0..1] role correlationSets
+end
+composition ProcessImport between
+	Process[*] role processimport
+	Import[*] role imports
+end
+composition ProcessExtensions between
+	Process[*] role processextensions
+	Extensions[0..1] role extensions
+end
+composition ProcessMessageExchanges between
+	Process[*] role processmessageexchanges
+	MessageExchanges[0..1] role messageExchanges
+end
+association PartnerLinkRole between
+	PartnerLink[*] role partnerlinkrole
+	Role[0..1] role myRole
+end
+association PartnerLinkRole1 between
+	PartnerLink[*] role partnerlinkrole1
+	Role[0..1] role partnerRole
+end
+association PartnerLinkPartnerLinkType between
+	PartnerLink[*] role partnerlinkpartnerlinktype
+	PartnerLinkType[0..1] role PartnerLinkType
+end
+composition FaultHandlerCatch between
+	FaultHandler[*] role faulthandlercatch
+	Catch[*] role catch
+end
+composition FaultHandlerCatchAll between
+	FaultHandler[*] role faulthandlercatchall
+	CatchAll[0..1] role catchAll
+end
+composition ActivityTargets between
+	Activity[*] role activitytargets
+	Targets[0..1] role targets
+end
+composition ActivitySources between
+	Activity[*] role activitysources
+	Sources[0..1] role sources
+end
+association CorrelationSetProperty between
+	CorrelationSet[*] role correlationsetproperty
+	Property[*] role properties
+end
+association InvokeVariable between
+	Invoke[*] role invokevariable
+	Variable[0..1] role outputVariable
+end
+association InvokeVariable1 between
+	Invoke[*] role invokevariable1
+	Variable[0..1] role inputVariable
+end
+composition InvokeCompensationHandler between
+	Invoke[*] role invokecompensationhandler
+	CompensationHandler[0..1] role compensationHandler
+end
+composition InvokeFaultHandler between
+	Invoke[*] role invokefaulthandler
+	FaultHandler[0..1] role faultHandler
+end
+composition InvokeFromParts between
+	Invoke[*] role invokefromparts
+	FromParts[0..1] role fromParts
+end
+composition InvokeToParts between
+	Invoke[*] role invoketoparts
+	ToParts[0..1] role toParts
+end
+association LinkSource between
+	Link[*] role linksource
+	Source[*] role sources1
+end
+association LinkTarget between
+	Link[*] role linktarget
+	Target[*] role targets1
+end
+composition CatchVariable between
+	Catch[*] role catchvariable
+	Variable[0..1] role faultVariable
+end
+composition CatchActivity between
+	Catch[*] role catchactivity
+	Activity[1] role activity1
+end
+association CatchMessage between
+	Catch[*] role catchmessage
+	Message[0..1] role faultMessageType
+end
+association CatchXSDElementDeclaration between
+	Catch[*] role catchxsdelementdeclaration
+	XSDElementDeclaration[0..1] role faultElement
+end
+association ReplyVariable between
+	Reply[*] role replyvariable
+	Variable[0..1] role variable
+end
+composition ReplyToParts between
+	Reply[*] role replytoparts
+	ToParts[0..1] role toParts1
+end
+association ReplyMessageExchange between
+	Reply[*] role replymessageexchange
+	MessageExchange[1] role messageExchange
+end
+association PartnerActivityPartnerLink between
+	PartnerActivity[*] role partneractivitypartnerlink
+	PartnerLink[1] role partnerLink
+end
+composition PartnerActivityCorrelations between
+	PartnerActivity[*] role partneractivitycorrelations
+	Correlations[0..1] role correlations
+end
+association PartnerActivityPortType between
+	PartnerActivity[*] role partneractivityporttype
+	PortType[1] role portType
+end
+association PartnerActivityOperation between
+	PartnerActivity[*] role partneractivityoperation
+	Operation[1] role operation
+end
+association ReceiveVariable between
+	Receive[*] role receivevariable
+	Variable[1] role variable1
+end
+composition ReceiveFromParts between
+	Receive[*] role receivefromparts
+	FromParts[0..1] role fromParts1
+end
+association ReceiveMessageExchange between
+	Receive[*] role receivemessageexchange
+	MessageExchange[1] role messageExchange1
+end
+association ThrowVariable between
+	Throw[*] role throwvariable
+	Variable[0..1] role faultVariable1
+end
+composition WaitExpression between
+	Wait[*] role waitexpression
+	Expression[0..1] role for_
+end
+composition WaitExpression1 between
+	Wait[*] role waitexpression1
+	Expression[0..1] role until
+end
+composition SequenceActivity between
+	Sequence_[*] role sequenceactivity
+	Activity[1..*] role activities
+end
+composition WhileActivity between
+	While[*] role whileactivity
+	Activity[1] role activity2
+end
+composition WhileCondition between
+	While[*] role whilecondition
+	Condition[1] role condition
+end
+composition PickOnMessage between
+	Pick[*] role pickonmessage
+	OnMessage[1..*] role messages
+end
+composition PickOnAlarm between
+	Pick[*] role pickonalarm
+	OnAlarm[*] role alarm
+end
+composition FlowActivity between
+	Flow[*] role flowactivity
+	Activity[1..*] role activities1
+end
+composition FlowLinks between
+	Flow[*] role flowlinks
+	Links[0..1] role links
+end
+composition FlowCompletionCondition between
+	Flow[*] role flowcompletioncondition
+	CompletionCondition[0..1] role completionCondition
+end
+composition OnAlarmActivity between
+	OnAlarm[*] role onalarmactivity
+	Activity[1] role activity3
+end
+composition OnAlarmExpression between
+	OnAlarm[*] role onalarmexpression
+	Expression[0..1] role for1
+end
+composition OnAlarmExpression1 between
+	OnAlarm[*] role onalarmexpression1
+	Expression[0..1] role until1
+end
+composition OnAlarmExpression2 between
+	OnAlarm[*] role onalarmexpression2
+	Expression[0..1] role repeatEvery
+end
+composition AssignCopy between
+	Assign[*] role assigncopy
+	Copy[1..*] role copy
+end
+composition CopyTo between
+	Copy[*] role copyto
+	To[1] role to
+end
+composition CopyFrom between
+	Copy[*] role copyfrom
+	From[1] role from_
+end
+composition ScopeFaultHandler between
+	Scope[*] role scopefaulthandler
+	FaultHandler[0..1] role faultHandlers1
+end
+composition ScopeCompensationHandler between
+	Scope[*] role scopecompensationhandler
+	CompensationHandler[0..1] role compensationHandler1
+end
+composition ScopeActivity between
+	Scope[*] role scopeactivity
+	Activity[1] role activity4
+end
+composition ScopeVariables between
+	Scope[*] role scopevariables
+	Variables[0..1] role variables1
+end
+composition ScopeCorrelationSets between
+	Scope[*] role scopecorrelationsets
+	CorrelationSets[0..1] role correlationSets1
+end
+composition ScopeEventHandler between
+	Scope[*] role scopeeventhandler
+	EventHandler[0..1] role eventHandlers1
+end
+composition ScopePartnerLinks between
+	Scope[*] role scopepartnerlinks
+	PartnerLinks[0..1] role partnerLinks1
+end
+composition ScopeTerminationHandler between
+	Scope[*] role scopeterminationhandler
+	TerminationHandler[0..1] role terminationHandler
+end
+composition ScopeMessageExchanges between
+	Scope[*] role scopemessageexchanges
+	MessageExchanges[0..1] role messageExchanges1
+end
+association CompensateScopeActivity between
+	CompensateScope[*] role compensatescopeactivity
+	Activity[0..1] role target
+end
+composition CompensationHandlerActivity between
+	CompensationHandler[*] role compensationhandleractivity
+	Activity[1] role activity5
+end
+association AbstractAssignBoundVariable between
+	AbstractAssignBound[*] role abstractassignboundvariable
+	Variable[0..1] role variable2
+end
+association AbstractAssignBoundPart between
+	AbstractAssignBound[*] role abstractassignboundpart
+	Part[0..1] role part
+end
+association AbstractAssignBoundPartnerLink between
+	AbstractAssignBound[*] role abstractassignboundpartnerlink
+	PartnerLink[0..1] role partnerLink1
+end
+association AbstractAssignBoundProperty between
+	AbstractAssignBound[*] role abstractassignboundproperty
+	Property[0..1] role property
+end
+composition AbstractAssignBoundQuery between
+	AbstractAssignBound[*] role abstractassignboundquery
+	Query[0..1] role query
+end
+composition AbstractAssignBoundExpression between
+	AbstractAssignBound[*] role abstractassignboundexpression
+	Expression[0..1] role expression
+end
+composition FromServiceRef between
+	From[*] role fromserviceref
+	ServiceRef[0..1] role serviceRef
+end
+association FromXSDTypeDefinition between
+	From[*] role fromxsdtypedefinition
+	XSDTypeDefinition[0..1] role type
+end
+association OnMessageVariable between
+	OnMessage[*] role onmessagevariable
+	Variable[0..1] role variable3
+end
+composition OnMessageActivity between
+	OnMessage[*] role onmessageactivity
+	Activity[0..1] role activity6
+end
+association OnMessagePortType between
+	OnMessage[*] role onmessageporttype
+	PortType[1] role portType1
+end
+association OnMessagePartnerLink between
+	OnMessage[*] role onmessagepartnerlink
+	PartnerLink[1] role partnerLink2
+end
+composition OnMessageCorrelations between
+	OnMessage[*] role onmessagecorrelations
+	Correlations[0..1] role correlations1
+end
+association OnMessageOperation between
+	OnMessage[*] role onmessageoperation
+	Operation[1] role operation1
+end
+composition OnMessageFromParts between
+	OnMessage[*] role onmessagefromparts
+	FromParts[0..1] role fromParts2
+end
+association OnMessageMessageExchange between
+	OnMessage[*] role onmessagemessageexchange
+	MessageExchange[1] role messageExchange2
+end
+association CorrelationCorrelationSet between
+	Correlation[*] role correlationcorrelationset
+	CorrelationSet[1] role set
+end
+composition EventHandlerOnAlarm between
+	EventHandler[*] role eventhandleronalarm
+	OnAlarm[*] role alarm1
+end
+composition EventHandlerOnEvent between
+	EventHandler[*] role eventhandleronevent
+	OnEvent[*] role events
+end
+association SourceLink between
+	Source[*] role sourcelink
+	Link[1] role Link
+end
+association SourceActivity between
+	Source[*] role sourceactivity
+	Activity[1] role activity7
+end
+composition SourceCondition between
+	Source[*] role sourcecondition
+	Condition[0..1] role transitionCondition
+end
+association TargetLink between
+	Target[*] role targetlink
+	Link[1] role Link1
+end
+association TargetActivity between
+	Target[*] role targetactivity
+	Activity[1] role activity8
+end
+composition PartnerLinksPartnerLink between
+	PartnerLinks[*] role partnerlinkspartnerlink
+	PartnerLink[*] role children
+end
+composition MessageExchangesMessageExchange between
+	MessageExchanges[*] role messageexchangesmessageexchange
+	MessageExchange[*] role children1
+end
+composition VariablesVariable between
+	Variables[*] role variablesvariable
+	Variable[*] role children2
+end
+composition CorrelationSetsCorrelationSet between
+	CorrelationSets[*] role correlationsetscorrelationset
+	CorrelationSet[*] role children3
+end
+composition LinksLink between
+	Links[*] role linkslink
+	Link[*] role children4
+end
+composition CatchAllActivity between
+	CatchAll[*] role catchallactivity
+	Activity[1] role activity9
+end
+composition CorrelationsCorrelation between
+	Correlations[*] role correlationscorrelation
+	Correlation[*] role children5
+end
+association VariableMessage between
+	Variable[*] role variablemessage
+	Message[0..1] role messageType
+end
+association VariableXSDElementDeclaration between
+	Variable[*] role variablexsdelementdeclaration
+	XSDElementDeclaration[0..1] role XSDElement
+end
+association VariableXSDTypeDefinition between
+	Variable[*] role variablexsdtypedefinition
+	XSDTypeDefinition[0..1] role type1
+end
+composition VariableFrom between
+	Variable[*] role variablefrom
+	From[0..1] role from1
+end
+composition OnEventActivity between
+	OnEvent[*] role oneventactivity
+	Activity[0..1] role activity10
+end
+composition OnEventVariable between
+	OnEvent[*] role oneventvariable
+	Variable[0..1] role variable4
+end
+association OnEventPartnerLink between
+	OnEvent[*] role oneventpartnerlink
+	PartnerLink[1] role partnerLink3
+end
+composition OnEventCorrelations between
+	OnEvent[*] role oneventcorrelations
+	Correlations[0..1] role correlations2
+end
+association OnEventOperation between
+	OnEvent[*] role oneventoperation
+	Operation[1] role operation2
+end
+association OnEventPortType between
+	OnEvent[*] role oneventporttype
+	PortType[1] role portType2
+end
+association OnEventMessage between
+	OnEvent[*] role oneventmessage
+	Message[0..1] role messageType1
+end
+association OnEventXSDElementDeclaration between
+	OnEvent[*] role oneventxsdelementdeclaration
+	XSDElementDeclaration[0..1] role XSDElement1
+end
+composition OnEventCorrelationSets between
+	OnEvent[*] role oneventcorrelationsets
+	CorrelationSets[0..1] role correlationSets2
+end
+composition OnEventFromParts between
+	OnEvent[*] role oneventfromparts
+	FromParts[0..1] role fromParts3
+end
+association OnEventMessageExchange between
+	OnEvent[*] role oneventmessageexchange
+	MessageExchange[1] role messageExchange3
+end
+composition TargetsTarget between
+	Targets[*] role targetstarget
+	Target[*] role children6
+end
+composition TargetsCondition between
+	Targets[*] role targetscondition
+	Condition[0..1] role joinCondition
+end
+composition SourcesSource between
+	Sources[*] role sourcessource
+	Source[*] role children7
+end
+composition ExtensionsExtension between
+	Extensions[*] role extensionsextension
+	Extension[*] role children8
+end
+association FromPartVariable between
+	FromPart[*] role frompartvariable
+	Variable[0..1] role toVariable
+end
+association FromPartPart between
+	FromPart[*] role frompartpart
+	Part[0..1] role part1
+end
+association ToPartVariable between
+	ToPart[*] role topartvariable
+	Variable[0..1] role fromVariable
+end
+association ToPartPart between
+	ToPart[*] role topartpart
+	Part[0..1] role part2
+end
+composition ForEachExpression between
+	ForEach[*] role foreachexpression
+	Expression[1] role startCounterValue
+end
+composition ForEachExpression1 between
+	ForEach[*] role foreachexpression1
+	Expression[1] role finalCounterValue
+end
+composition ForEachVariable between
+	ForEach[*] role foreachvariable
+	Variable[1] role counterName
+end
+composition ForEachCompletionCondition between
+	ForEach[*] role foreachcompletioncondition
+	CompletionCondition[0..1] role completionCondition1
+end
+composition ForEachActivity between
+	ForEach[*] role foreachactivity
+	Activity[1] role activity11
+end
+composition RepeatUntilActivity between
+	RepeatUntil[*] role repeatuntilactivity
+	Activity[1] role activity12
+end
+composition RepeatUntilCondition between
+	RepeatUntil[*] role repeatuntilcondition
+	Condition[1] role condition1
+end
+composition TerminationHandlerActivity between
+	TerminationHandler[*] role terminationhandleractivity
+	Activity[0..1] role activity13
+end
+association ValidateVariable between
+	Validate[*] role validatevariable
+	Variable[*] role variables2
+end
+composition IfCondition between
+	If[*] role ifcondition
+	Condition[0..1] role condition2
+end
+composition IfElseIf between
+	If[*] role ifelseif
+	ElseIf[*] role elseIf
+end
+composition IfElse between
+	If[*] role ifelse
+	Else[0..1] role else_
+end
+composition IfActivity between
+	If[*] role ifactivity
+	Activity[1] role activity14
+end
+composition ElseIfCondition between
+	ElseIf[*] role elseifcondition
+	Condition[0..1] role condition3
+end
+composition ElseIfActivity between
+	ElseIf[*] role elseifactivity
+	Activity[1] role activity15
+end
+composition ElseActivity between
+	Else[*] role elseactivity
+	Activity[1] role activity16
+end
+composition CompletionConditionBranches between
+	CompletionCondition[*] role completionconditionbranches
+	Branches[0..1] role branches
+end
+composition BPELExtensibleElementDocumentation between
+	BPELExtensibleElement[*] role bpelextensibleelementdocumentation
+	Documentation[0..1] role documentation
+end
+composition FromPartsFromPart between
+	FromParts[*] role frompartsfrompart
+	FromPart[*] role children9
+end
+composition ToPartsToPart between
+	ToParts[*] role topartstopart
+	ToPart[*] role children10
+end
+association PropertyAliasPart between
+	PropertyAlias[*] role propertyaliaspart
+	Part[1] role wsdlPart
+end
+composition PropertyAliasQuery between
+	PropertyAlias[*] role propertyaliasquery
+	Query[0..1] role query1
+end
+composition PartnerLinkTypeRole between
+	PartnerLinkType[*] role partnerlinktyperole
+	Role[*] role role_
+end
+constraints
+context Dummy
+context EventHandler inv single_container:
+	Process.allInstances()->collect(o | o.eventHandlers)->count(self) +
+	Scope.allInstances()->collect(o | o.eventHandlers1)->count(self) <= 1
+context From inv single_container:
+	Copy.allInstances()->collect(o | o.from_)->count(self) +
+	Variable.allInstances()->collect(o | o.from1)->count(self) <= 1
+context ToParts inv single_container:
+	Invoke.allInstances()->collect(o | o.toParts)->count(self) +
+	Reply.allInstances()->collect(o | o.toParts1)->count(self) <= 1
+context CompletionCondition inv single_container:
+	Flow.allInstances()->collect(o | o.completionCondition)->count(self) +
+	ForEach.allInstances()->collect(o | o.completionCondition1)->count(self) <= 1
+context Variable inv single_container:
+	Catch.allInstances()->collect(o | o.faultVariable)->count(self) +
+	Variables.allInstances()->collect(o | o.children2)->count(self) +
+	OnEvent.allInstances()->collect(o | o.variable4)->count(self) +
+	ForEach.allInstances()->collect(o | o.counterName)->count(self) <= 1
+context Correlations inv single_container:
+	PartnerActivity.allInstances()->collect(o | o.correlations)->count(self) +
+	OnMessage.allInstances()->collect(o | o.correlations1)->count(self) +
+	OnEvent.allInstances()->collect(o | o.correlations2)->count(self) <= 1
+context Condition inv single_container:
+	While.allInstances()->collect(o | o.condition)->count(self) +
+	Source.allInstances()->collect(o | o.transitionCondition)->count(self) +
+	Targets.allInstances()->collect(o | o.joinCondition)->count(self) +
+	RepeatUntil.allInstances()->collect(o | o.condition1)->count(self) +
+	If.allInstances()->collect(o | o.condition2)->count(self) +
+	ElseIf.allInstances()->collect(o | o.condition3)->count(self) <= 1
+context CompensationHandler inv single_container:
+	Invoke.allInstances()->collect(o | o.compensationHandler)->count(self) +
+	Scope.allInstances()->collect(o | o.compensationHandler1)->count(self) <= 1
+context Activity inv single_container:
+	Process.allInstances()->collect(o | o.activity)->count(self) +
+	Catch.allInstances()->collect(o | o.activity1)->count(self) +
+	Sequence_.allInstances()->collect(o | o.activities)->count(self) +
+	While.allInstances()->collect(o | o.activity2)->count(self) +
+	Flow.allInstances()->collect(o | o.activities1)->count(self) +
+	OnAlarm.allInstances()->collect(o | o.activity3)->count(self) +
+	Scope.allInstances()->collect(o | o.activity4)->count(self) +
+	CompensationHandler.allInstances()->collect(o | o.activity5)->count(self) +
+	OnMessage.allInstances()->collect(o | o.activity6)->count(self) +
+	CatchAll.allInstances()->collect(o | o.activity9)->count(self) +
+	OnEvent.allInstances()->collect(o | o.activity10)->count(self) +
+	ForEach.allInstances()->collect(o | o.activity11)->count(self) +
+	RepeatUntil.allInstances()->collect(o | o.activity12)->count(self) +
+	TerminationHandler.allInstances()->collect(o | o.activity13)->count(self) +
+	If.allInstances()->collect(o | o.activity14)->count(self) +
+	ElseIf.allInstances()->collect(o | o.activity15)->count(self) +
+	Else.allInstances()->collect(o | o.activity16)->count(self) <= 1
+context MessageExchanges inv single_container:
+	Process.allInstances()->collect(o | o.messageExchanges)->count(self) +
+	Scope.allInstances()->collect(o | o.messageExchanges1)->count(self) <= 1
+context Query inv single_container:
+	AbstractAssignBound.allInstances()->collect(o | o.query)->count(self) +
+	PropertyAlias.allInstances()->collect(o | o.query1)->count(self) <= 1
+context Variables inv single_container:
+	Process.allInstances()->collect(o | o.variables)->count(self) +
+	Scope.allInstances()->collect(o | o.variables1)->count(self) <= 1
+context PartnerLinks inv single_container:
+	Process.allInstances()->collect(o | o.partnerLinks)->count(self) +
+	Scope.allInstances()->collect(o | o.partnerLinks1)->count(self) <= 1
+context Expression inv single_container:
+	Wait.allInstances()->collect(o | o.for_)->count(self) +
+	Wait.allInstances()->collect(o | o.until)->count(self) +
+	OnAlarm.allInstances()->collect(o | o.for1)->count(self) +
+	OnAlarm.allInstances()->collect(o | o.until1)->count(self) +
+	OnAlarm.allInstances()->collect(o | o.repeatEvery)->count(self) +
+	AbstractAssignBound.allInstances()->collect(o | o.expression)->count(self) +
+	ForEach.allInstances()->collect(o | o.startCounterValue)->count(self) +
+	ForEach.allInstances()->collect(o | o.finalCounterValue)->count(self) <= 1
+context FromParts inv single_container:
+	Invoke.allInstances()->collect(o | o.fromParts)->count(self) +
+	Receive.allInstances()->collect(o | o.fromParts1)->count(self) +
+	OnMessage.allInstances()->collect(o | o.fromParts2)->count(self) +
+	OnEvent.allInstances()->collect(o | o.fromParts3)->count(self) <= 1
+context OnAlarm inv single_container:
+	Pick.allInstances()->collect(o | o.alarm)->count(self) +
+	EventHandler.allInstances()->collect(o | o.alarm1)->count(self) <= 1
+context FaultHandler inv single_container:
+	Process.allInstances()->collect(o | o.faultHandlers)->count(self) +
+	Invoke.allInstances()->collect(o | o.faultHandler)->count(self) +
+	Scope.allInstances()->collect(o | o.faultHandlers1)->count(self) <= 1
+context CorrelationSets inv single_container:
+	Process.allInstances()->collect(o | o.correlationSets)->count(self) +
+	Scope.allInstances()->collect(o | o.correlationSets1)->count(self) +
+	OnEvent.allInstances()->collect(o | o.correlationSets2)->count(self) <= 1
+context Sequence_ inv non_contains_itself_activities:
+not self.activities->includes(self)
+and
+not self.activities->exists(activities1 |
+if activities1.oclIsKindOf(Sequence_) then
+	activities1.oclAsType(Sequence_).activities->includes(self)
+	 else false endif)
+and
+not self.activities->exists(activities2 |
+if activities2.oclIsKindOf(Sequence_) then
+	activities2.oclAsType(Sequence_).activities->exists(activities1 |
+if activities1.oclIsKindOf(Sequence_) then
+	activities1.oclAsType(Sequence_).activities->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not self.activities->exists(activities3 |
+if activities3.oclIsKindOf(Sequence_) then
+	activities3.oclAsType(Sequence_).activities->exists(activities2 |
+if activities2.oclIsKindOf(Sequence_) then
+	activities2.oclAsType(Sequence_).activities->exists(activities1 |
+if activities1.oclIsKindOf(Sequence_) then
+	activities1.oclAsType(Sequence_).activities->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not self.activities->exists(activities4 |
+if activities4.oclIsKindOf(Sequence_) then
+	activities4.oclAsType(Sequence_).activities->exists(activities3 |
+if activities3.oclIsKindOf(Sequence_) then
+	activities3.oclAsType(Sequence_).activities->exists(activities2 |
+if activities2.oclIsKindOf(Sequence_) then
+	activities2.oclAsType(Sequence_).activities->exists(activities1 |
+if activities1.oclIsKindOf(Sequence_) then
+	activities1.oclAsType(Sequence_).activities->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context While inv non_contains_itself_activity2:
+not Set{self.activity2}->includes(self)
+and
+not Set{self.activity2}->exists(activity21 |
+if activity21.oclIsKindOf(While) then
+	Set{activity21.oclAsType(While).activity2}->includes(self)
+	 else false endif)
+and
+not Set{self.activity2}->exists(activity22 |
+if activity22.oclIsKindOf(While) then
+	Set{activity22.oclAsType(While).activity2}->exists(activity21 |
+if activity21.oclIsKindOf(While) then
+	Set{activity21.oclAsType(While).activity2}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity2}->exists(activity23 |
+if activity23.oclIsKindOf(While) then
+	Set{activity23.oclAsType(While).activity2}->exists(activity22 |
+if activity22.oclIsKindOf(While) then
+	Set{activity22.oclAsType(While).activity2}->exists(activity21 |
+if activity21.oclIsKindOf(While) then
+	Set{activity21.oclAsType(While).activity2}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity2}->exists(activity24 |
+if activity24.oclIsKindOf(While) then
+	Set{activity24.oclAsType(While).activity2}->exists(activity23 |
+if activity23.oclIsKindOf(While) then
+	Set{activity23.oclAsType(While).activity2}->exists(activity22 |
+if activity22.oclIsKindOf(While) then
+	Set{activity22.oclAsType(While).activity2}->exists(activity21 |
+if activity21.oclIsKindOf(While) then
+	Set{activity21.oclAsType(While).activity2}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context Flow inv non_contains_itself_activities1:
+not self.activities1->includes(self)
+and
+not self.activities1->exists(activities11 |
+if activities11.oclIsKindOf(Flow) then
+	activities11.oclAsType(Flow).activities1->includes(self)
+	 else false endif)
+and
+not self.activities1->exists(activities12 |
+if activities12.oclIsKindOf(Flow) then
+	activities12.oclAsType(Flow).activities1->exists(activities11 |
+if activities11.oclIsKindOf(Flow) then
+	activities11.oclAsType(Flow).activities1->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not self.activities1->exists(activities13 |
+if activities13.oclIsKindOf(Flow) then
+	activities13.oclAsType(Flow).activities1->exists(activities12 |
+if activities12.oclIsKindOf(Flow) then
+	activities12.oclAsType(Flow).activities1->exists(activities11 |
+if activities11.oclIsKindOf(Flow) then
+	activities11.oclAsType(Flow).activities1->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not self.activities1->exists(activities14 |
+if activities14.oclIsKindOf(Flow) then
+	activities14.oclAsType(Flow).activities1->exists(activities13 |
+if activities13.oclIsKindOf(Flow) then
+	activities13.oclAsType(Flow).activities1->exists(activities12 |
+if activities12.oclIsKindOf(Flow) then
+	activities12.oclAsType(Flow).activities1->exists(activities11 |
+if activities11.oclIsKindOf(Flow) then
+	activities11.oclAsType(Flow).activities1->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context Scope inv non_contains_itself_activity4:
+not Set{self.activity4}->includes(self)
+and
+not Set{self.activity4}->exists(activity41 |
+if activity41.oclIsKindOf(Scope) then
+	Set{activity41.oclAsType(Scope).activity4}->includes(self)
+	 else false endif)
+and
+not Set{self.activity4}->exists(activity42 |
+if activity42.oclIsKindOf(Scope) then
+	Set{activity42.oclAsType(Scope).activity4}->exists(activity41 |
+if activity41.oclIsKindOf(Scope) then
+	Set{activity41.oclAsType(Scope).activity4}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity4}->exists(activity43 |
+if activity43.oclIsKindOf(Scope) then
+	Set{activity43.oclAsType(Scope).activity4}->exists(activity42 |
+if activity42.oclIsKindOf(Scope) then
+	Set{activity42.oclAsType(Scope).activity4}->exists(activity41 |
+if activity41.oclIsKindOf(Scope) then
+	Set{activity41.oclAsType(Scope).activity4}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity4}->exists(activity44 |
+if activity44.oclIsKindOf(Scope) then
+	Set{activity44.oclAsType(Scope).activity4}->exists(activity43 |
+if activity43.oclIsKindOf(Scope) then
+	Set{activity43.oclAsType(Scope).activity4}->exists(activity42 |
+if activity42.oclIsKindOf(Scope) then
+	Set{activity42.oclAsType(Scope).activity4}->exists(activity41 |
+if activity41.oclIsKindOf(Scope) then
+	Set{activity41.oclAsType(Scope).activity4}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context ForEach inv non_contains_itself_activity11:
+not Set{self.activity11}->includes(self)
+and
+not Set{self.activity11}->exists(activity111 |
+if activity111.oclIsKindOf(ForEach) then
+	Set{activity111.oclAsType(ForEach).activity11}->includes(self)
+	 else false endif)
+and
+not Set{self.activity11}->exists(activity112 |
+if activity112.oclIsKindOf(ForEach) then
+	Set{activity112.oclAsType(ForEach).activity11}->exists(activity111 |
+if activity111.oclIsKindOf(ForEach) then
+	Set{activity111.oclAsType(ForEach).activity11}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity11}->exists(activity113 |
+if activity113.oclIsKindOf(ForEach) then
+	Set{activity113.oclAsType(ForEach).activity11}->exists(activity112 |
+if activity112.oclIsKindOf(ForEach) then
+	Set{activity112.oclAsType(ForEach).activity11}->exists(activity111 |
+if activity111.oclIsKindOf(ForEach) then
+	Set{activity111.oclAsType(ForEach).activity11}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity11}->exists(activity114 |
+if activity114.oclIsKindOf(ForEach) then
+	Set{activity114.oclAsType(ForEach).activity11}->exists(activity113 |
+if activity113.oclIsKindOf(ForEach) then
+	Set{activity113.oclAsType(ForEach).activity11}->exists(activity112 |
+if activity112.oclIsKindOf(ForEach) then
+	Set{activity112.oclAsType(ForEach).activity11}->exists(activity111 |
+if activity111.oclIsKindOf(ForEach) then
+	Set{activity111.oclAsType(ForEach).activity11}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context RepeatUntil inv non_contains_itself_activity12:
+not Set{self.activity12}->includes(self)
+and
+not Set{self.activity12}->exists(activity121 |
+if activity121.oclIsKindOf(RepeatUntil) then
+	Set{activity121.oclAsType(RepeatUntil).activity12}->includes(self)
+	 else false endif)
+and
+not Set{self.activity12}->exists(activity122 |
+if activity122.oclIsKindOf(RepeatUntil) then
+	Set{activity122.oclAsType(RepeatUntil).activity12}->exists(activity121 |
+if activity121.oclIsKindOf(RepeatUntil) then
+	Set{activity121.oclAsType(RepeatUntil).activity12}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity12}->exists(activity123 |
+if activity123.oclIsKindOf(RepeatUntil) then
+	Set{activity123.oclAsType(RepeatUntil).activity12}->exists(activity122 |
+if activity122.oclIsKindOf(RepeatUntil) then
+	Set{activity122.oclAsType(RepeatUntil).activity12}->exists(activity121 |
+if activity121.oclIsKindOf(RepeatUntil) then
+	Set{activity121.oclAsType(RepeatUntil).activity12}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity12}->exists(activity124 |
+if activity124.oclIsKindOf(RepeatUntil) then
+	Set{activity124.oclAsType(RepeatUntil).activity12}->exists(activity123 |
+if activity123.oclIsKindOf(RepeatUntil) then
+	Set{activity123.oclAsType(RepeatUntil).activity12}->exists(activity122 |
+if activity122.oclIsKindOf(RepeatUntil) then
+	Set{activity122.oclAsType(RepeatUntil).activity12}->exists(activity121 |
+if activity121.oclIsKindOf(RepeatUntil) then
+	Set{activity121.oclAsType(RepeatUntil).activity12}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+context If inv non_contains_itself_activity14:
+not Set{self.activity14}->includes(self)
+and
+not Set{self.activity14}->exists(activity141 |
+if activity141.oclIsKindOf(If) then
+	Set{activity141.oclAsType(If).activity14}->includes(self)
+	 else false endif)
+and
+not Set{self.activity14}->exists(activity142 |
+if activity142.oclIsKindOf(If) then
+	Set{activity142.oclAsType(If).activity14}->exists(activity141 |
+if activity141.oclIsKindOf(If) then
+	Set{activity141.oclAsType(If).activity14}->includes(self)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity14}->exists(activity143 |
+if activity143.oclIsKindOf(If) then
+	Set{activity143.oclAsType(If).activity14}->exists(activity142 |
+if activity142.oclIsKindOf(If) then
+	Set{activity142.oclAsType(If).activity14}->exists(activity141 |
+if activity141.oclIsKindOf(If) then
+	Set{activity141.oclAsType(If).activity14}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+and
+not Set{self.activity14}->exists(activity144 |
+if activity144.oclIsKindOf(If) then
+	Set{activity144.oclAsType(If).activity14}->exists(activity143 |
+if activity143.oclIsKindOf(If) then
+	Set{activity143.oclAsType(If).activity14}->exists(activity142 |
+if activity142.oclIsKindOf(If) then
+	Set{activity142.oclAsType(If).activity14}->exists(activity141 |
+if activity141.oclIsKindOf(If) then
+	Set{activity141.oclAsType(If).activity14}->includes(self)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+	 else false endif)
+inv mut1 : ForEach.allInstances()->forAll(f | f.parallel <> null)
+inv mut2 : FaultHandler.allInstances()->size() > 0
+inv mut3 : FaultHandler.allInstances()->exists(f0 | f0.catch <> null)
+inv mut4 : Catch.allInstances()->size() > 1

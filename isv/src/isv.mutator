@@ -1,0 +1,10 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/isv/data/model/bpel.ecore"
+
+with commands {
+	v1 = select one Variable
+	v2 = select one Variable where {name <> v1.name and type = v1->type}
+	modify v1 with {copy (name, v2.name)}
+}

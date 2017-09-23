@@ -1,0 +1,10 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/xee/data/model/bpel.ecore"
+
+with commands {
+	ev2 = select one EventHandler where {events <> null}
+	event = select one OnEvent in ev2->events
+	remove event
+}

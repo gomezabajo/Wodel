@@ -1,0 +1,10 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/apm/data/model/bpel.ecore"
+
+with commands {
+	p1 = select one Pick where {messages <> null}
+	m1 = select one OnMessage in p1->messages
+	remove m1
+}

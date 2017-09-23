@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wodel by gomezabajo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61793148-4', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <section class="page-header">
+      <h1 class="project-name"><a href="http://gomezabajo.github.io/Wodel" style="color: #FFFFEE;">Wodel</a></h1>
+      <h2 class="project-tagline">A Domain-Specific Language for Model Mutation</h2>
+	  <a href="http://gomezabajo.github.io/Wodel/wodel-edu.html" class="btn">Wodel-Edu</a>
+	  <a href="http://gomezabajo.github.io/Wodel/automata.html" class="btn">Finite Automata</a>
+	  <a href="http://gomezabajo.github.io/Wodel/asple.html" class="btn">ASPLE Language</a>
+	  <a href="http://gomezabajo.github.io/Wodel/secpol.html" class="btn">Security Policies</a>
+	  <a href="http://gomezabajo.github.io/Wodel/pfsm.html" class="btn">Prob. Automata</a>
+	  <a href="http://gomezabajo.github.io/Wodel/umlcd.html" class="btn">UML Class Diagrams</a>
+ 	  <a href="http://gomezabajo.github.io/Wodel/bpel.html" class="btn">BPEL</a>
+   </section>
+
+    <section class="main-content">
+      <p><strong>Wodel applied to BPEL. [<a href="http://gomezabajo.github.io/Wodel/ecore/bpel.ecore">BPEL Ecore</a>]</strong></p>
+
+<p><u>Identifier mutation.</u></p>
+	  
+<p>Replaces a variable identifier by another of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/isv.zip">isv</a>]:</p>
+
+<pre><code>
+    v1 = select one Variable
+    v2 = select one Variable where {self <> v1 and type = v1->type}
+    modify v1 with {copy (name, v2.name)}
+</code></pre>
+
+<p><u>Concurrent activity mutation.</u></p>
+	  
+<p>Changes the createInstance attribute from an inbound message activity to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aci.zip">aci</a>]:</p>
+
+<pre><code>
+    modify one Receive with {createInstance = false}
+</code></pre>
+
+<p>Replaces a sequential forEach activity by a parallel one [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/afp.zip">afp</a>]:</p>
+
+<pre><code>
+    modify one ForEach with {parallel = true}
+</code></pre>
+
+<p>Replaces a sequence activity by a flow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
+
+<pre><code>
+    s1 = select one Sequence
+    f1 = create Flow with {
+        targets = s1->targets,
+        sources = s1->sources,
+        activities = s1->activities
+    }
+    modify f1 with {
+        copy(name, s1.name),
+        copy (suppressJoinFailure, s1.suppressJoinFailure)
+    }
+    remove s1
+</code></pre>
+
+<p>Changes the isolated attribute of a scope to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ais.zip">ais</a>]:</p>
+
+<pre><code>
+    modify one Scope with {isolated = false}
+</code></pre>
+
+<p><u>Non-concurrent activity mutation.</u></p>
+
+<p>Deletes an activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ael.zip">ael</a>]:</p>
+
+<pre><code>
+   remove one Activity
+</code></pre>
+
+<p>Deletes an elseif element from an if activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aie1.zip">aie1</a>]:</p>
+
+<pre><code>
+   if1 = select one If where {elseIf <> null}
+   remove one ElseIf from if1->elseIf
+</code></pre>
+
+<p>Deletes an else element from an if activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aie2.zip">aie2</a>]:</p>
+
+<pre><code>
+   if2 = select one If where {else <> null}
+   remove one Else from if2->else
+</code></pre>
+
+<p>Replaces a while activity by a repeatUntil activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr1.zip">awr1</a>]:</p>
+
+<pre><code>
+    while1 = select one While
+    repeatUntil1 = create RepeatUntil with {
+        targets = while1->targets,
+        sources = while1->sources,
+        condition = while1->condition,
+        activity = while1->activity,
+        eExtensibilityElements = while1->eExtensibilityElements,
+        documentation = while1->documentation
+    }
+    modify repeatUntil1 with {
+        copy(name, while1.name),
+        copy(element, while1.element),
+        copy(documentationElement, while1.documentationElement),
+        copy(suppressJoinFailure, while1.suppressJoinFailure)
+    }
+</code></pre>
+
+<p>Replaces a repeatUntil activity by a while activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
+
+<pre><code>
+    repeatUntil2 = select one RepeatUntil
+    while2 = create While with {
+        targets = repeatUntil2->targets,
+        sources = repeatUntil2->sources,
+        condition = repeatUntil2->condition,
+        activity = repeatUntil2->activity,
+        eExtensibilityElements = repeatUntil2->eExtensibilityElements,
+        documentation = repeatUntil2->documentation
+    }
+    modify while2 with {
+        copy(name, repeatUntil2.name),
+        copy(element, repeatUntil2.element),
+        copy(documentationElement, repeatUntil2.documentationElement),
+        copy(suppressJoinFailure, repeatUntil2.suppressJoinFailure)
+    }
+</code></pre>
+
+<p>Removes the joinCondition attribute from an activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ajc.zip">ajc</a>]:</p>
+
+<pre><code>
+    modify one Activity with {unset(suppressJoinFailure)}
+</code></pre>
+
+<p>Exchanges the order of two child activities in a sequence activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asi.zip">asi</a>]:</p>
+
+<pre><code>
+    s2 = select one Sequence where {activities <> null}
+    a1 = select one Activity in s2->activities
+    remove a1 from s2->activities
+    modify s2 with {activities = a1}
+</code></pre>
+
+<p>Removes an onMessage element from a pick activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apm.zip">apm</a>]:</p>
+
+<pre><code>
+    p1 = select one Pick where {messages <> null}
+    m1 = select one OnMessage in p1->messages
+    remove m1
+</code></pre>
+
+<p>Removes the onAlarm element from a pick activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apa1.zip">apa1</a>]:</p>
+
+<pre><code>
+    p2 = select one Pick where {alarm <> null}
+    a2 = select one OnAlarm in p2->alarm
+    remove a2
+</code></pre>
+
+<p>Removes the onAlarm element from an event handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apa2.zip">apa2</a>]:</p>
+
+<pre><code>
+    ev1 = select one EventHandler where {alarm <> null}
+    a3 = select one OnAlarm in ev1->alarm
+    remove a3
+</code></pre>
+
+<p><u>Exception and event mutation.</u></p>
+
+<p>Removes a catch element from a fault handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmf1.zip">xmf1</a>]:</p>
+
+<pre><code>
+    fh1 = select one FaultHandler where {catchAll <> null}
+    c1 = select one CatchAll in fh1->catchAll
+    remove c1
+</code></pre>
+
+<p>Removes the catchAll element from a fault handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmf2.zip">xmf2</a>]:</p>
+
+<pre><code>
+    fh2 = select one FaultHandler where {catch <> null}
+    c2 = select one Catch in fh2->catch
+    remove c2
+</code></pre>
+
+<p>Removes a compensation handler definition [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmc.zip">xmc</a>]:</p>
+
+<pre><code>
+    remove one CompensationHandler
+</code></pre>
+
+<p>Removes a termination handler definition [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xmt.zip">xmt</a>]:</p>
+
+<pre><code>
+    remove one TerminationHandler
+</code></pre>
+
+<p>Replaces the fault thrown by a throw activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xtf.zip">xtf</a>]:</p>
+
+<pre><code>
+    t1 = select one Throw where {faultVariable <> null}
+    fv1 = select one Variable in t1->faultVariable
+    fv2 = select one Variable where {self <> fv1}
+    remove fv1
+    modify t1 with {faultVariable = fv2}
+</code></pre>
+
+<p>Removes a rethrow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xer.zip">xer</a>]:</p>
+
+<pre><code>
+   remove one Rethrow
+</code></pre>
+
+<p>Removes an onEvent element from an event handler [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xee.zip">xee</a>]:</p>
+
+<pre><code>
+   ev2 = select one EventHandler where {events <> null}
+   event = select one OnEvent in ev2->events
+   remove event
+</code></pre>
+
+
+<p>Here you can download all these examples of Wodel applied to BPEL.<br />
+
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/BPELSamples">BPEL samples .zip</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/BPELSamples">BPEL samples .tar.gz</a>
+</p>
+	
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

@@ -37,75 +37,39 @@
 
 <p>Wodel is <strong>domain-independent</strong>, as it can be used to generate mutants of models conforming to arbitrary meta-models.</p>
 
-<p>Wodel provides <strong>eight mutation primitives</strong> for object creation and deletion,
-reference redirection, attribute modification, and cloning, among others.</p>
+<p>In this pages, you can access some interesting <strong>Wodel mutation operators</strong> for
+Finite Automata, ASPLE Language, Security Policies, Prob. Automata, UML Class Diagrams, and BPEL.</p>
 
-<p>The engine <strong>veryfies that each generated mutant is a valid model</strong> (i.e., it
-conforms to the domain meta-model and satisfies its integrity constraints).</p>
+<p>These are the works in which we based these mutation operators:</p>
 
-<p>Wodel includes a <strong>mechanism to identify and avoid the generation of duplicated
-mutants</strong>. By default, mutant equivalence is syntactic, but users can provide their
-own equivalence criteria (e.g., behavioural) through extension points.</p>
+<p>Finite Automata [<a href="www.miso.es/pubs/Wodel.pdf" target="_blank" alt="Wodel: A domain-specific language for model mutation">1</a>]:
+P. G&oacute;mez-Abajo, E. Guerra, and J. de Lara. Wodel: A domain-specific language for model mutation. In
+Proceedings of the 31st Annual ACM Symposium on Applied Computing, SAC ’16, pages 1968–1973, New York, NY, USA,
+2016. ACM.</p>
 
-<p>The execution of a Wodel program generates a <strong>registry of the applied
-mutations</strong> and the objects affected by them. </p>
+<p>Finite Automata [<a href="https://dl.acm.org/citation.cfm?id=2530546" target="_blank" alt="Automating exercise generation: A step towards
+meeting the MOOC challenge for embedded systems.">2</a>]: D. Sadigh, S. A. Seshia, and M. Gupta. Automating exercise generation: A step towards
+meeting the MOOC challenge for embedded systems. In WESE, pages 2:1–2:8. ACM, 2013.</p>
 
-<p>The IDE provides <strong>several metrics</strong> that can help in assessing whether a set
-of mutations is complete or has been correctly implemented.</p>
+<p>ASPLE Language [<a href="https://dl.acm.org/citation.cfm?id=227610" target="_blank" alt="An experimental determination of sufficient
+mutant operators">3</a>]: A. J. Offutt, A. Lee, G. Rothermel, R. H. Untch, C. Zapf, An experimental determination of sufficient mutant
+operators, ACM Transactions on Software Engineering Methodology 5 (2) (1996) 99-118.</p>
 
-<p>Also to facilitate the testing of Wodel programs, the IDE permits the
-<strong>automatic synthesis of seed models</strong>.</p>
+<p>Security Policies [<a href="http://ieeexplore.ieee.org/document/4567021/" target="_blank" alt="A generic metamodel for security policies
+mutation">4</a>]: A generic metamodel for security policies mutation. In Proc. ICST, pages 278–286. IEEE Computer Society, 2008.</p>
 
-<p>It's <strong>development environment is extensible</strong>, permitting the incorporation
-of <strong>post-processors</strong> for different applications.</p>
+<p>Prob. Automata [<a href="https://dl.acm.org/citation.cfm?id=1630273" target="_blank" alt="Mutation testing from probabilistic and
+stochastic finite state machines">5</a>]: R. M. Hierons and M. G. Merayo. Mutation testing from probabilistic and stochastic finite
+state machines. Journal of Systems and Software, 82(11):1804–1818, 2009.</p>
 
-<p>As an example, this repository contains an application consisting on
-the <strong>automated generation of exercises</strong> for particular domains (automata,
-class diagrams, electronic circuits, etc.). We call this extension
-<strong><a href="http://gomezabajo.github.io/Wodel/wodel-edu.html">Wodel-Edu.</a></strong></p>
+<p>UML Class Diagrams [<a href="https://link.springer.com/chapter/10.1007/978-3-319-39696-5_20" target="_blank" alt="Mutation operators
+for UML class diagrams">6</a>]: M. F. Granda, N. Condori-Fern&aacute;ndez, T. E. J. Vos, and O. Pastor. Mutation operators for
+UML class diagrams. In Proc. CAiSE, volume 9694 of Lecture Notes in Computer Science, pages 325–341. Springer, 2016.</p>
 
-<p>This is a sample of a Wodel program that mutates a transition target of a
-Deterministic Finite Automaton model:</p>
-
-<pre><code>generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "http://dfaAutomaton/1.0"
-
-with commands {
-     modify target tar from one Transition to other State
-}
-</code></pre>
-
-<p>You can specify when mutants are going to be generated inside a Wodel program with the <em>blocks</em> directive.</p>
-
-<p>Also, you can mutate mutant models generated in a previous block, instead of mutating the seed models.</p>
-
-<p>Furthermore, you can specify OCL constraints that will apply to generated mutants:</p>
-
-<pre><code>generate mutants
-in "data/out/"
-from "data/model/exercise1.model"
-metamodel "http://dfaAutomaton/1.0"
-
-with blocks {
-    first {
-         modify target tar from one Transition to other State [3]             
-} [2]
-    second from first repeat=no {
-         modify one State with { name = random-string(4,6)}
-    } [3]
-}
-constraints text=yes {
-    context State connected: "isInitial or Set{self}-&gt;
-            closure(s | Transition.allInstances()-&gt;
-            select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
-}
-</code></pre>
-
-<p>This is a short video demo of Wodel framework:</p>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nUsfjjqjdOM" frameborder="0" allowfullscreen></iframe>
+<p>BPEL [<a href="https://link.springer.com/chapter/10.1007/978-3-319-39696-5_20" target="_blank" alt="Mutation testing
+from probabilistic and stochastic finite state machines">6</a>]: A. Estero-Botaro, F. Palomo-Lozano, I. Medina-Bulo, J. J.
+Dom&iacute;nguez-Jim&eacute;nez, and A. Garc&iacute;a-Dom&iacute;nguez. Quality metrics for mutation testing with applications
+to WS-BPEL compositions. Softw. Test., Verif. Reliab., 25(5-7):536–571, 2015.</p>
 
 <p>Here you can download several examples of Wodel programs.<br />
 	  <a href="https://github.com/gomezabajo/Wodel/zipball/WodelEduSamples">Wodel-Edu samples .zip</a><br />

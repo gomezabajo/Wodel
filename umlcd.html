@@ -247,7 +247,7 @@
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators where {operator = {negative}}
     remove op-->
-	modify one IntLiteralExpCS where {op = 'negative'} with {op = ''}
+    modify one IntLiteralExpCS where {op = 'negative'} with {op = ''}
 </code></pre>
 
 <p>Interchange the members (src and tar) of an Association [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was1.zip">was1</a>]:</p>

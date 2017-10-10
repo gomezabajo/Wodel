@@ -154,14 +154,14 @@
     create Parameter with {name = random-string(1, 4)}
 </code></pre>
 
-<p>Changes the constraint by deleting the references to a class Attribute [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">-->wco1<!--</a>-->]:</p>
+<p>Changes the constraint by deleting the references to a class Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">wco1</a>]:</p>
 
 <pre><code>
     <!--remove reference attributes in one Constraint where {attributes <> null}-->
     remove one PathElementCS where {pathName = one Attribute}
 </code></pre>
 
-<p>Changes the Attribute data type in the constraint [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">-->wco2<!--</a>-->]:</p>
+<p>Changes the Attribute data type in the constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">wco2</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {attributes <> null}
@@ -171,7 +171,7 @@
     modify att with {type = one Class}
 </code></pre>
 
-<p>Change the constraint by deleting the calls to specific operation [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">-->wco3<!--</a>-->]:</p>
+<p>Change the constraint by deleting the calls to specific operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null}
@@ -179,7 +179,7 @@
     remove one OperationCS
 </code></pre>
 
-<p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">-->wco4<!--</a>-->]:</p>
+<p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">wco4</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -189,7 +189,7 @@
     modify one IntLiteralExpCS with {op in ['add', 'subtract', 'multiply', 'divide']}
 </code></pre>
 
-<p>Changes the constraint by adding the conditional operator "not" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">-->wco5<!--</a>-->]:</p>
+<p>Changes the constraint by adding the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">wco5</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null}
@@ -200,7 +200,7 @@
     create LogicExpCS in inv->exp with {op = 'not'}
 </code></pre>
 
-<p>Changes a conditional operator "and" for a conditional operator "or" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">-->wco6a<!--</a>-->]:</p>
+<p>Changes a conditional operator "and" for a conditional operator "or" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">wco6a</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -210,7 +210,7 @@
     modify one BooleanExpCS where {op = 'and'} with {op = 'or'} 
 </code></pre>
 
-<p>Changes a conditional operator "or" for a conditional operator "and" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">-->wco6b<!--</a>-->]:</p>
+<p>Changes a conditional operator "or" for a conditional operator "and" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">wco6b</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -220,7 +220,7 @@
     modify one BooleanExpCS where {op = 'or'} with {op = 'and'}
 </code></pre>
 
-<p>Changes the constraint by deleting the conditional operator "not" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">-->wco7<!--</a>-->]:</p>
+<p>Changes the constraint by deleting the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">wco7</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -230,7 +230,7 @@
     remove one LogicExpCS where {op = 'not'}
 </code></pre>
 
-<p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">-->wco8<!--</a>-->]:</p>
+<p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">wco8</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -241,7 +241,7 @@
         with {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
 </code></pre>
 
-<p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<!--<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">-->wco9<!--</a>-->]:</p>
+<p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">wco9</a>]:</p>
 
 <pre><code>
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
@@ -493,9 +493,11 @@
 <p>Deletes a Generalization relation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mge.zip">mge</a>]:</p>
 
 <pre><code>
-    cl = select one Class where {super <> null}
+<!--cl = select one Class where {super <> null}
     sup = select one Class in cl->super
-    remove sup from cl->super
+    remove sup from cl->super-->
+	cl = select one Class where {super <> null}
+	remove reference super in cl
 </code></pre>
 
 <p>Deletes the class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mcl.zip">mcl</a>]:</p>

@@ -5,7 +5,7 @@ metamodel "C:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram
 
 with commands {
 	oper = select one Operation where {params <> null}
-    p = select one Parameter in oper->params
-    remove p from oper->params
-    modify oper with {params = p}
+	p = select one Parameter in oper->params
+	remove p from oper->params
+	modify oper with {params = p}
 }

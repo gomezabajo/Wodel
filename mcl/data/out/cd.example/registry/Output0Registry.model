@@ -4,39 +4,7 @@
     <def href="../../mcl.model#//@commands.0"/>
   </muts>
   <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.1"/>
-    <object href="../../../model/cd.example.model#_CCQ3YJvVEee9uaaNIqtE3A"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.1"/>
-    <object href="../../../model/cd.example.model#_wLEVkJ1DEeeSVIfAn2rCKg"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.1"/>
-    <object href="../../../model/cd.example.model#_4JQ7MJ1DEeeSVIfAn2rCKg"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_oVzpgJ1DEeeSVIfAn2rCKg"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_rMnekJ1DEeeSVIfAn2rCKg"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_4HM_oJvYEee9uaaNIqtE3A"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_64b3MJ1DEeeSVIfAn2rCKg"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_yzOqoJ1DEeeSVIfAn2rCKg"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
     <def href="../../mcl.model#//@commands.6"/>
-    <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
+    <object href="../../../model/cd.example.model#_zZ_8wJvwEee_psWNZC0Yfw"/>
   </muts>
 </appliedMutations:Mutations>

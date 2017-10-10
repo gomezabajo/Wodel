@@ -12,19 +12,19 @@
     <type href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class"/>
     <references xsi:type="mutatorenvironment:ReferenceInit">
       <reference href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/features"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1">
         <refType href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/features"/>
       </object>
     </references>
     <references xsi:type="mutatorenvironment:ReferenceInit">
       <reference href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1">
         <refType href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
       </object>
     </references>
     <references xsi:type="mutatorenvironment:ReferenceInit">
       <reference href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/supplier"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1">
         <refType href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/supplier"/>
       </object>
     </references>
@@ -34,27 +34,27 @@
     <attributes xsi:type="mutatorenvironment:AttributeCopy">
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     </attributes>
     <attributes xsi:type="mutatorenvironment:AttributeCopy">
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/derived"/>
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//Class/derived"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     </attributes>
     <attributes xsi:type="mutatorenvironment:AttributeCopy">
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     </attributes>
     <attributes xsi:type="mutatorenvironment:AttributeCopy">
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/scope"/>
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/scope"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     </attributes>
     <attributes xsi:type="mutatorenvironment:AttributeCopy">
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
       <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wcl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     </attributes>
   </commands>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">

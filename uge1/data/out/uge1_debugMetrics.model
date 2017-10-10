@@ -58,8 +58,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -374,14 +372,14 @@
         <attributes name="visibility"/>
         <attributes name="scope"/>
       </classes>
-      <classes name="Class" modified="1" cmodified="1">
+      <classes name="Class">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="abstract"/>
         <attributes name="derived"/>
         <references name="features"/>
-        <references name="super" modified="1"/>
+        <references name="super"/>
         <references name="supplier"/>
       </classes>
       <classes name="Attribute">
@@ -397,8 +395,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -712,14 +708,14 @@
       <attributes name="visibility"/>
       <attributes name="scope"/>
     </classes>
-    <classes name="Class" modified="1" cmodified="1">
+    <classes name="Class">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="abstract"/>
       <attributes name="derived"/>
       <references name="features"/>
-      <references name="super" modified="1"/>
+      <references name="super"/>
       <references name="supplier"/>
     </classes>
     <classes name="Attribute">
@@ -735,8 +731,6 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation">
       <attributes name="name"/>
@@ -1050,14 +1044,14 @@
     <attributes name="visibility"/>
     <attributes name="scope"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Class" modified="1" cmodified="1">
+  <classes xsi:type="mutatormetrics:Class" name="Class">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="abstract"/>
     <attributes name="derived"/>
     <references name="features"/>
-    <references name="super" modified="1"/>
+    <references name="super"/>
     <references name="supplier"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Attribute">
@@ -1073,8 +1067,6 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>

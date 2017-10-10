@@ -5,7 +5,7 @@ metamodel "C:/eclipse/runtime-EclipseApplication/was2k/data/model/UMLClassDiagra
 
 with commands {
 	comp = select one Composition
-    rel = create Dependency with {src = comp->src, tar = comp->tar}
-    modify rel with {copy(name, comp.name)}
-    remove comp
+	rel = create Dependency with {src = comp->src, tar = comp->tar}
+	modify rel with {copy(name, comp.name)}
+	remove comp
 }

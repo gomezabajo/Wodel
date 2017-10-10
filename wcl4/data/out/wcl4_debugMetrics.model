@@ -35,11 +35,11 @@
         <attributes name="visibility"/>
         <attributes name="scope"/>
       </classes>
-      <classes name="Class">
+      <classes name="Class" modified="1" cmodified="1">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
-        <attributes name="abstract"/>
+        <attributes name="abstract" modified="1"/>
         <attributes name="derived"/>
         <references name="features"/>
         <references name="super"/>
@@ -58,8 +58,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -122,11 +120,11 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="AssociationClass" modified="1" cmodified="1">
+      <classes name="AssociationClass">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
-        <attributes name="abstract" modified="1"/>
+        <attributes name="abstract"/>
         <attributes name="derived"/>
         <references name="features"/>
         <references name="super"/>
@@ -397,8 +395,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -712,11 +708,11 @@
       <attributes name="visibility"/>
       <attributes name="scope"/>
     </classes>
-    <classes name="Class" modified="1" cmodified="1">
+    <classes name="Class" modified="2" cmodified="2">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
-      <attributes name="abstract" modified="1"/>
+      <attributes name="abstract" modified="2"/>
       <attributes name="derived"/>
       <references name="features"/>
       <references name="super"/>
@@ -735,8 +731,6 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation">
       <attributes name="name"/>
@@ -799,11 +793,11 @@
       <references name="src"/>
       <references name="tar"/>
     </classes>
-    <classes name="AssociationClass" modified="1" cmodified="1">
+    <classes name="AssociationClass">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
-      <attributes name="abstract" modified="1"/>
+      <attributes name="abstract"/>
       <attributes name="derived"/>
       <references name="features"/>
       <references name="super"/>
@@ -1050,11 +1044,11 @@
     <attributes name="visibility"/>
     <attributes name="scope"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Class" modified="1" cmodified="1">
+  <classes xsi:type="mutatormetrics:Class" name="Class" modified="2" cmodified="2">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
-    <attributes name="abstract" modified="1"/>
+    <attributes name="abstract" modified="2"/>
     <attributes name="derived"/>
     <references name="features"/>
     <references name="super"/>
@@ -1073,8 +1067,6 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>
@@ -1137,11 +1129,11 @@
     <references name="src"/>
     <references name="tar"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="AssociationClass" modified="1" cmodified="1">
+  <classes xsi:type="mutatormetrics:Class" name="AssociationClass">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
-    <attributes name="abstract" modified="1"/>
+    <attributes name="abstract"/>
     <attributes name="derived"/>
     <references name="features"/>
     <references name="super"/>

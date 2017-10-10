@@ -3,11 +3,9 @@
   <muts>
     <def href="../../mge.model#//@commands.0"/>
   </muts>
-  <muts>
+  <muts xsi:type="appliedMutations:ReferenceRemoved" refName="super">
     <def href="../../mge.model#//@commands.1"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mge.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
+    <object href="../Output0vs/Output0_0_0_2.model#_-hk-4JvUEee9uaaNIqtE3A"/>
+    <ref href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class/super"/>
   </muts>
 </appliedMutations:Mutations>

@@ -3,14 +3,15 @@
   <muts>
     <def href="../../wco2.model#//@commands.0"/>
   </muts>
-  <muts xsi:type="appliedMutations:InformationChanged">
+  <muts>
     <def href="../../wco2.model#//@commands.1"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../wco2.model#//@commands.2"/>
     <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
-    <refChanges srcRefName="type" refName="type">
-      <def href="../../wco2.model#//@commands.1"/>
+    <refChanges refName="type">
+      <def href="../../wco2.model#//@commands.2"/>
       <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
-      <from href="../../../model/cd.example.model#_VSLB0JvVEee9uaaNIqtE3A"/>
-      <to href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

@@ -5,7 +5,7 @@ metamodel "C:/eclipse/runtime-EclipseApplication/was2j/data/model/UMLClassDiagra
 
 with commands {
 	dep = select one Dependency
-    rel = create Aggregation with {src = dep->src, tar = dep->tar}
-    modify rel with {copy(name, dep.name)}
-    remove dep
+	rel = create Aggregation with {src = dep->src, tar = dep->tar}
+	modify rel with {copy(name, dep.name)}
+	remove dep
 }

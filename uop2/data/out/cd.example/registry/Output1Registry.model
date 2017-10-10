@@ -2,6 +2,6 @@
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectCreated">
     <def href="../../uop2.model#//@commands.0"/>
-    <object href="../Output1.model#//@classes.4/@features.0"/>
+    <object href="../Output1.model#//@classes.2/@features.0"/>
   </muts>
 </appliedMutations:Mutations>

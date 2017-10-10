@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../wpa.model#//@commands.0"/>
-    <object href="../../../model/cd.example.model#_NJxXUJvVEee9uaaNIqtE3A"/>
+    <def href="../../wpa.model#//@blocks.0/@commands.0"/>
+    <object href="../../../model/cd.example.model#_Z0-YcKqYEeeHxJKsgISCrw"/>
     <refChanges srcRefName="type" refName="type">
-      <def href="../../wpa.model#//@commands.0"/>
-      <object href="../../../model/cd.example.model#_NJxXUJvVEee9uaaNIqtE3A"/>
-      <from href="../../../model/cd.example.model#_VSLB0JvVEee9uaaNIqtE3A"/>
-      <to href="../../../model/cd.example.model#_UGGQQJvVEee9uaaNIqtE3A"/>
+      <def href="../../wpa.model#//@blocks.0/@commands.0"/>
+      <object href="../../../model/cd.example.model#_Z0-YcKqYEeeHxJKsgISCrw"/>
+      <from href="../../../model/cd.example.model#_dPCxwJvVEee9uaaNIqtE3A"/>
+      <to href="../../../model/cd.example.model#_Z0-YcKqYEeeHxJKsgISCrw"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

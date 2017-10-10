@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../was2f.model#//@commands.0"/>
+    <def href="../../was2f.model#//@blocks.0/@commands.0"/>
   </muts>
   <muts xsi:type="appliedMutations:ObjectCreated">
-    <def href="../../was2f.model#//@commands.1"/>
+    <def href="../../was2f.model#//@blocks.1/@commands.0"/>
     <object href="../Output1vs/Output1_0_0_2.model#//@relations.8"/>
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../was2f.model#//@commands.2"/>
+    <def href="../../was2f.model#//@blocks.2/@commands.0"/>
     <object href="../../../model/cd.example.model#//@relations.7"/>
     <attChanges attName="name" oldVal="AB" newVal="AB">
-      <def href="../../was2f.model#//@commands.2"/>
+      <def href="../../was2f.model#//@blocks.2/@commands.0"/>
     </attChanges>
   </muts>
   <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../was2f.model#//@commands.3"/>
+    <def href="../../was2f.model#//@blocks.3/@commands.0"/>
     <object href="../../../model/cd.example.model#_64b3MJ1DEeeSVIfAn2rCKg"/>
   </muts>
 </appliedMutations:Mutations>

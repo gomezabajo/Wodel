@@ -58,10 +58,8 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
-      <classes name="Operation" cmodified="1">
+      <classes name="Operation">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -142,17 +140,17 @@
         <references name="packages"/>
         <references name="classes"/>
       </classes>
-      <classes name="ClassCS">
+      <classes name="ClassCS" modified="1">
         <attributes name="name"/>
         <references name="extends"/>
         <references name="properties"/>
-        <references name="operations"/>
+        <references name="operations" modified="1"/>
       </classes>
       <classes name="PropertyCS">
         <attributes name="name"/>
         <references name="typeRef"/>
       </classes>
-      <classes name="OperationCS">
+      <classes name="OperationCS" cremoved="1">
         <attributes name="name"/>
         <references name="params"/>
         <references name="resultRef"/>
@@ -397,10 +395,8 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
-      <classes name="Operation" cmodified="1">
+      <classes name="Operation">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -481,17 +477,17 @@
         <references name="packages"/>
         <references name="classes"/>
       </classes>
-      <classes name="ClassCS">
+      <classes name="ClassCS" modified="1">
         <attributes name="name"/>
         <references name="extends"/>
         <references name="properties"/>
-        <references name="operations"/>
+        <references name="operations" modified="1"/>
       </classes>
       <classes name="PropertyCS">
         <attributes name="name"/>
         <references name="typeRef"/>
       </classes>
-      <classes name="OperationCS">
+      <classes name="OperationCS" cremoved="1">
         <attributes name="name"/>
         <references name="params"/>
         <references name="resultRef"/>
@@ -735,10 +731,8 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
-    <classes name="Operation" cmodified="2">
+    <classes name="Operation">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
@@ -819,17 +813,17 @@
       <references name="packages"/>
       <references name="classes"/>
     </classes>
-    <classes name="ClassCS">
+    <classes name="ClassCS" modified="2">
       <attributes name="name"/>
       <references name="extends"/>
       <references name="properties"/>
-      <references name="operations"/>
+      <references name="operations" modified="2"/>
     </classes>
     <classes name="PropertyCS">
       <attributes name="name"/>
       <references name="typeRef"/>
     </classes>
-    <classes name="OperationCS">
+    <classes name="OperationCS" cremoved="2">
       <attributes name="name"/>
       <references name="params"/>
       <references name="resultRef"/>
@@ -1073,10 +1067,8 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Operation" cmodified="2">
+  <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
@@ -1157,17 +1149,17 @@
     <references name="packages"/>
     <references name="classes"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="ClassCS">
+  <classes xsi:type="mutatormetrics:Class" name="ClassCS" modified="2">
     <attributes name="name"/>
     <references name="extends"/>
     <references name="properties"/>
-    <references name="operations"/>
+    <references name="operations" modified="2"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="PropertyCS">
     <attributes name="name"/>
     <references name="typeRef"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="OperationCS">
+  <classes xsi:type="mutatormetrics:Class" name="OperationCS" cremoved="2">
     <attributes name="name"/>
     <references name="params"/>
     <references name="resultRef"/>

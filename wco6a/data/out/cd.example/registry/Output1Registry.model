@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
-  <muts>
-    <def href="../../wco6a.model#//@commands.0"/>
-  </muts>
-  <muts>
-    <def href="../../wco6a.model#//@commands.1"/>
-  </muts>
-  <muts>
-    <def href="../../wco6a.model#//@commands.2"/>
-  </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../wco6a.model#//@commands.3"/>
-    <object href="../../../model/cd.example.model#_BQXr4JyPEeevV424rJsp6w"/>
-    <attChanges attName="operator" oldVal="and" newVal="or">
-      <def href="../../wco6a.model#//@commands.3"/>
+    <def href="../../wco6a.model#//@blocks.0/@commands.0"/>
+    <object href="../../../model/cd.example.model#_5jwo8KqZEeeyLOkJMBAW2A"/>
+    <attChanges attName="op" oldVal="and" newVal="or">
+      <def href="../../wco6a.model#//@blocks.0/@commands.0"/>
     </attChanges>
   </muts>
 </appliedMutations:Mutations>

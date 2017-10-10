@@ -4,8 +4,5 @@ from "data/model/"
 metamodel "C:/eclipse/runtime-EclipseApplication/wco6a/data/model/UMLClassDiagram.ecore"
 
 with commands {
-    c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators where {operator = {^and}}
-    modify op with {operator = {^or}}
+	modify one BooleanExpCS where {op = 'and'} with {op = 'or'}
 }

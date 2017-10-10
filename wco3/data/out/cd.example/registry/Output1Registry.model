@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
-  <muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
     <def href="../../wco3.model#//@commands.0"/>
-  </muts>
-  <muts xsi:type="appliedMutations:ReferenceRemoved" refName="operations">
-    <def href="../../wco3.model#//@commands.1"/>
-    <object href="../../../model/cd.example.model#_KT4vUJvVEee9uaaNIqtE3A"/>
-    <ref href="file:/c:/eclipse/runtime-EclipseApplication/wco3/data/model/UMLClassDiagram.ecore#//Constraint/operations"/>
+    <object href="../../../model/cd.example.model#_4BRigKqZEeeyLOkJMBAW2A"/>
   </muts>
 </appliedMutations:Mutations>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../wcl4.model#//@commands.0"/>
-    <object href="../../../model/cd.example.model#_dPCxwJvVEee9uaaNIqtE3A"/>
+    <def href="../../wcl4.model#//@blocks.0/@commands.0"/>
+    <object href="../../../model/cd.example.model#_8bWjsJ69EeeqdZIhK5Awmw"/>
     <attChanges attName="abstract" oldVal="false" newVal="true">
-      <def href="../../wcl4.model#//@commands.0"/>
+      <def href="../../wcl4.model#//@blocks.0/@commands.0"/>
     </attChanges>
   </muts>
 </appliedMutations:Mutations>

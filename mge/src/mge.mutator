@@ -5,6 +5,5 @@ metamodel "C:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.
 
 with commands {
 	cl = select one Class where {super <> null}
-    sup = select one Class in cl->super
-    remove sup from cl->super
+    remove reference super in cl
 }

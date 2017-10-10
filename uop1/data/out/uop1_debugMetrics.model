@@ -54,12 +54,10 @@
         <attributes name="derived"/>
         <references name="type"/>
       </classes>
-      <classes name="Constraint" modified="1">
+      <classes name="Constraint">
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations" modified="1"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation" created="4" ccreated="1">
         <attributes name="name" created="1"/>
@@ -393,12 +391,10 @@
         <attributes name="derived"/>
         <references name="type"/>
       </classes>
-      <classes name="Constraint" modified="1">
+      <classes name="Constraint">
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations" modified="1"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation" created="4" ccreated="1">
         <attributes name="name" created="1"/>
@@ -731,12 +727,10 @@
       <attributes name="derived"/>
       <references name="type"/>
     </classes>
-    <classes name="Constraint" modified="2">
+    <classes name="Constraint">
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations" modified="2"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation" created="8" ccreated="2">
       <attributes name="name" created="2"/>
@@ -1069,12 +1063,10 @@
     <attributes name="derived"/>
     <references name="type"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Constraint" modified="2">
+  <classes xsi:type="mutatormetrics:Class" name="Constraint">
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations" modified="2"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation" created="8" ccreated="2">
     <attributes name="name" created="2"/>

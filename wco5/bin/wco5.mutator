@@ -4,8 +4,6 @@ from "data/model/"
 metamodel "C:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore"
 
 with commands {
-	c = select one Constraint where {operations <> null}
-    oper = select one Operation in c->operations
-    op = create Operator in oper->operators
-    modify op with {operator in {not}}
+	inv = select one InvariantCS where {exp <> null}
+	create LogicExpCS in inv->exp with {op = 'not'}
 }

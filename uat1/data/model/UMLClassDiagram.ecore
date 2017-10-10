@@ -64,11 +64,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Class"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
-        upperBound="-1" eType="#//miniOCL/InvariantCS" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
-        eType="#//Operation" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
-        eType="#//Attribute"/>
+        upperBound="-1" eType="#//miniOCL/RootCS" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//Feature">
     <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"

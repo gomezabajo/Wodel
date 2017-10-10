@@ -26,7 +26,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>wodel.project.sampleBuilder</name>
+			<name>wodel.project.examples.sampleBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -34,7 +34,7 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
-		<nature>wodel.project.sampleNature</nature>
+		<nature>wodel.project.examples.sampleNature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 	</natures>
 </projectDescription>

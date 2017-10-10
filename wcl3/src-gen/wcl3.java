@@ -93,47 +93,47 @@ HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, Attri
 ObSelectionStrategy objectSelection = null;
 HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 //NAME:features
-  		//REFERENCES COMPILES	19
-ObSelectionStrategy refSelection19 = null;
-if (hmObjects.get("ac") != null) {
-refSelection19 = new SpecificObjectSelection(packages, model, hmObjects.get("ac"), "features");
+  		//REFERENCES COMPILES	959
+ObSelectionStrategy refSelection959 = null;
+if (hmObjects.get("cl") != null) {
+refSelection959 = new SpecificObjectSelection(packages, model, hmObjects.get("cl"), "features");
 } else {
-	if (hmList.get("ac") != null) {
-	refSelection19 = new SpecificObjectSelection(packages, model, hmList.get("ac"), "features");
+	if (hmList.get("cl") != null) {
+	refSelection959 = new SpecificObjectSelection(packages, model, hmList.get("cl"), "features");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("features", refSelection19);
+   		refs.put("features", refSelection959);
 //NAME:super
-  		//REFERENCES COMPILES	20
-ObSelectionStrategy refSelection20 = null;
-if (hmObjects.get("ac") != null) {
-refSelection20 = new SpecificObjectSelection(packages, model, hmObjects.get("ac"), "super");
+  		//REFERENCES COMPILES	960
+ObSelectionStrategy refSelection960 = null;
+if (hmObjects.get("cl") != null) {
+refSelection960 = new SpecificObjectSelection(packages, model, hmObjects.get("cl"), "super");
 } else {
-	if (hmList.get("ac") != null) {
-	refSelection20 = new SpecificObjectSelection(packages, model, hmList.get("ac"), "super");
+	if (hmList.get("cl") != null) {
+	refSelection960 = new SpecificObjectSelection(packages, model, hmList.get("cl"), "super");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("super", refSelection20);
+   		refs.put("super", refSelection960);
 //NAME:supplier
-  		//REFERENCES COMPILES	21
-ObSelectionStrategy refSelection21 = null;
-if (hmObjects.get("ac") != null) {
-refSelection21 = new SpecificObjectSelection(packages, model, hmObjects.get("ac"), "supplier");
+  		//REFERENCES COMPILES	961
+ObSelectionStrategy refSelection961 = null;
+if (hmObjects.get("cl") != null) {
+refSelection961 = new SpecificObjectSelection(packages, model, hmObjects.get("cl"), "supplier");
 } else {
-	if (hmList.get("ac") != null) {
-	refSelection21 = new SpecificObjectSelection(packages, model, hmList.get("ac"), "supplier");
+	if (hmList.get("cl") != null) {
+	refSelection961 = new SpecificObjectSelection(packages, model, hmList.get("cl"), "supplier");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("supplier", refSelection21);
+   		refs.put("supplier", refSelection961);
 CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "Class");
 //INC COUNTER: 1
 if (mut != null) {
@@ -203,7 +203,7 @@ appMut = cMut;
 	//COUNTER:0
 	//NAME:abstract
 if (objectSelection != null && objectSelection.getObject() != null) {
-	if (hmObjects.get("ac") != null) {
+	if (hmObjects.get("cl") != null) {
 	   							List<AttributeConfigurationStrategy> atts = null;
 	   							if (attsList.get("abstract") != null) {
 				   					atts = attsList.get("abstract");
@@ -211,7 +211,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 					   			else {
 		   							atts = new ArrayList<AttributeConfigurationStrategy>();
 					   			}
-			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("ac"), "abstract", "abstract"));
+			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("cl"), "abstract", "abstract"));
 				   				attsList.put("abstract", atts);
 	} else {
 		return mutations;
@@ -220,7 +220,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 	//COUNTER:1
 	//NAME:derived
 if (objectSelection != null && objectSelection.getObject() != null) {
-	if (hmObjects.get("ac") != null) {
+	if (hmObjects.get("cl") != null) {
 	   							List<AttributeConfigurationStrategy> atts = null;
 	   							if (attsList.get("derived") != null) {
 				   					atts = attsList.get("derived");
@@ -228,7 +228,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 					   			else {
 		   							atts = new ArrayList<AttributeConfigurationStrategy>();
 					   			}
-			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("ac"), "derived", "derived"));
+			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("cl"), "derived", "derived"));
 				   				attsList.put("derived", atts);
 	} else {
 		return mutations;
@@ -237,7 +237,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 	//COUNTER:2
 	//NAME:name
 if (objectSelection != null && objectSelection.getObject() != null) {
-	if (hmObjects.get("ac") != null) {
+	if (hmObjects.get("cl") != null) {
 	   							List<AttributeConfigurationStrategy> atts = null;
 	   							if (attsList.get("name") != null) {
 				   					atts = attsList.get("name");
@@ -245,7 +245,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 					   			else {
 		   							atts = new ArrayList<AttributeConfigurationStrategy>();
 					   			}
-			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("ac"), "name", "name"));
+			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("cl"), "name", "name"));
 				   				attsList.put("name", atts);
 	} else {
 		return mutations;
@@ -254,7 +254,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 	//COUNTER:3
 	//NAME:scope
 if (objectSelection != null && objectSelection.getObject() != null) {
-	if (hmObjects.get("ac") != null) {
+	if (hmObjects.get("cl") != null) {
 	   							List<AttributeConfigurationStrategy> atts = null;
 	   							if (attsList.get("scope") != null) {
 				   					atts = attsList.get("scope");
@@ -262,7 +262,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 					   			else {
 		   							atts = new ArrayList<AttributeConfigurationStrategy>();
 					   			}
-			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("ac"), "scope", "scope"));
+			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("cl"), "scope", "scope"));
 				   				attsList.put("scope", atts);
 	} else {
 		return mutations;
@@ -271,7 +271,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 	//COUNTER:4
 	//NAME:visibility
 if (objectSelection != null && objectSelection.getObject() != null) {
-	if (hmObjects.get("ac") != null) {
+	if (hmObjects.get("cl") != null) {
 	   							List<AttributeConfigurationStrategy> atts = null;
 	   							if (attsList.get("visibility") != null) {
 				   					atts = attsList.get("visibility");
@@ -279,7 +279,7 @@ if (objectSelection != null && objectSelection.getObject() != null) {
 					   			else {
 		   							atts = new ArrayList<AttributeConfigurationStrategy>();
 					   			}
-			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("ac"), "visibility", "visibility"));
+			   					atts.add(new CopyAttributeConfigurationStrategy(objectSelection.getObject(), hmObjects.get("cl"), "visibility", "visibility"));
 				   				attsList.put("visibility", atts);
 	} else {
 		return mutations;
@@ -314,7 +314,7 @@ private AppMutation registry3(Mutator mut, HashMap<String, EObject> hmMutator, R
 	//ATTRIBUTE COUNTER: 
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@35bb8772 (name: abstract) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@49b47589 (name: abstract) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut0 = null;
 attMut0 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut0.setAttName("abstract");
@@ -332,7 +332,7 @@ icMut.setDef(hmMutator.get("m3"));
 //ATTRIBUTE COUNTER INC: 0
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@702a3704 (name: derived) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: false, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@4e517c90 (name: derived) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: false, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut1 = null;
 attMut1 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut1.setAttName("derived");
@@ -350,7 +350,7 @@ icMut.setDef(hmMutator.get("m3"));
 //ATTRIBUTE COUNTER INC: 1
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@63b271e8 (name: name) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@7faba51e (name: name) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut2 = null;
 attMut2 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut2.setAttName("name");
@@ -368,7 +368,7 @@ icMut.setDef(hmMutator.get("m3"));
 //ATTRIBUTE COUNTER INC: 2
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@72878834 (name: scope) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: instance, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@4e2727fd (name: scope) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: instance, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut3 = null;
 attMut3 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut3.setAttName("scope");
@@ -386,7 +386,7 @@ icMut.setDef(hmMutator.get("m3"));
 //ATTRIBUTE COUNTER INC: 3
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@4ba7e286 (name: visibility) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: private, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@3b995d60 (name: visibility) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: private, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut4 = null;
 attMut4 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut4.setAttName("visibility");
@@ -557,20 +557,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 31
+	   	   	   			//COMMAND: 3060
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:ac31
+	   	   	   			//NAME:ac3060
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> lac31 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> lac3060 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (lac31 != null) {
+	   	   	   			if (lac3060 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : lac31) {
+	   	   	   				for (Mutator mut : lac3060) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -588,20 +588,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 2	
-	   	   	   			//COMMAND: 32
+	   	   	   			//COMMAND: 3061
 	   	   	   			//REGISTRY COUNTER: 2
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:cl32
+	   	   	   			//NAME:cl3061
 	   	   	   			//METHOD NAME:mutation2
 	   	   	   			
-	   	   	   			ArrayList<Mutator> lcl32 = mutation2(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> lcl3061 = mutation2(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 2
 	   	   	   			//REGISTRY METHOD NAME:registry2
 	   	   	   			
-	   	   	   			if (lcl32 != null) {
+	   	   	   			if (lcl3061 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : lcl32) {
+	   	   	   				for (Mutator mut : lcl3061) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -624,20 +624,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 3	
-	   	   	   			//COMMAND: 33
+	   	   	   			//COMMAND: 3062
 	   	   	   			//REGISTRY COUNTER: 3
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:33
+	   	   	   			//NAME:3062
 	   	   	   			//METHOD NAME:mutation3
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l33 = mutation3(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l3062 = mutation3(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 3
 	   	   	   			//REGISTRY METHOD NAME:registry3
 	   	   	   			
-	   	   	   			if (l33 != null) {
+	   	   	   			if (l3062 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l33) {
+	   	   	   				for (Mutator mut : l3062) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -657,20 +657,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 4	
-	   	   	   			//COMMAND: 34
+	   	   	   			//COMMAND: 3063
 	   	   	   			//REGISTRY COUNTER: 4
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:34
+	   	   	   			//NAME:3063
 	   	   	   			//METHOD NAME:mutation4
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l34 = mutation4(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l3063 = mutation4(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 4
 	   	   	   			//REGISTRY METHOD NAME:registry4
 	   	   	   			
-	   	   	   			if (l34 != null) {
+	   	   	   			if (l3063 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l34) {
+	   	   	   				for (Mutator mut : l3063) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -693,7 +693,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-	   	      			
 	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	

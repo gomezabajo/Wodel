@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
-  <muts xsi:type="appliedMutations:ReferenceRemoved" refName="attributes">
+  <muts xsi:type="appliedMutations:ObjectRemoved">
     <def href="../../wco1.model#//@commands.0"/>
-    <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
-    <ref href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//Constraint/attributes"/>
+    <object href="../../../model/cd.example.model#_NwRIMKQ8EeelVK1m9JiKCA"/>
   </muts>
 </appliedMutations:Mutations>

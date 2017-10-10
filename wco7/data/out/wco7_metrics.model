@@ -58,19 +58,17 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
-      <classes name="Operation" modified="1">
+      <classes name="Operation">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <references name="type"/>
         <references name="params"/>
-        <references name="operators" modified="1"/>
+        <references name="operators"/>
       </classes>
-      <classes name="Operator" removed="1" cremoved="1">
-        <attributes name="operator" removed="1"/>
+      <classes name="Operator">
+        <attributes name="operator"/>
       </classes>
       <classes name="Relation">
         <attributes name="name"/>
@@ -170,7 +168,7 @@
         <references name="exp"/>
       </classes>
       <classes name="ExpCS"/>
-      <classes name="LogicExpCS">
+      <classes name="LogicExpCS" cremoved="1">
         <attributes name="op"/>
         <references name="left"/>
         <references name="right"/>
@@ -397,19 +395,17 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
-      <classes name="Operation" modified="1">
+      <classes name="Operation">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <references name="type"/>
         <references name="params"/>
-        <references name="operators" modified="1"/>
+        <references name="operators"/>
       </classes>
-      <classes name="Operator" removed="1" cremoved="1">
-        <attributes name="operator" removed="1"/>
+      <classes name="Operator">
+        <attributes name="operator"/>
       </classes>
       <classes name="Relation">
         <attributes name="name"/>
@@ -509,7 +505,7 @@
         <references name="exp"/>
       </classes>
       <classes name="ExpCS"/>
-      <classes name="LogicExpCS">
+      <classes name="LogicExpCS" cremoved="1">
         <attributes name="op"/>
         <references name="left"/>
         <references name="right"/>
@@ -735,19 +731,17 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
-    <classes name="Operation" modified="2">
+    <classes name="Operation">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <references name="type"/>
       <references name="params"/>
-      <references name="operators" modified="2"/>
+      <references name="operators"/>
     </classes>
-    <classes name="Operator" removed="2" cremoved="2">
-      <attributes name="operator" removed="2"/>
+    <classes name="Operator">
+      <attributes name="operator"/>
     </classes>
     <classes name="Relation">
       <attributes name="name"/>
@@ -847,7 +841,7 @@
       <references name="exp"/>
     </classes>
     <classes name="ExpCS"/>
-    <classes name="LogicExpCS">
+    <classes name="LogicExpCS" cremoved="2">
       <attributes name="op"/>
       <references name="left"/>
       <references name="right"/>
@@ -1073,19 +1067,17 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Operation" modified="2">
+  <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <references name="type"/>
     <references name="params"/>
-    <references name="operators" modified="2"/>
+    <references name="operators"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Operator" removed="2" cremoved="2">
-    <attributes name="operator" removed="2"/>
+  <classes xsi:type="mutatormetrics:Class" name="Operator">
+    <attributes name="operator"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Relation">
     <attributes name="name"/>
@@ -1185,7 +1177,7 @@
     <references name="exp"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="ExpCS"/>
-  <classes xsi:type="mutatormetrics:Class" name="LogicExpCS">
+  <classes xsi:type="mutatormetrics:Class" name="LogicExpCS" cremoved="2">
     <attributes name="op"/>
     <references name="left"/>
     <references name="right"/>

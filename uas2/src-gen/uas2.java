@@ -152,33 +152,33 @@ HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, Attri
 ObSelectionStrategy objectSelection = null;
 HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 //NAME:src
-  		//REFERENCES COMPILES	44
-ObSelectionStrategy refSelection44 = null;
+  		//REFERENCES COMPILES	158
+ObSelectionStrategy refSelection158 = null;
 if (hmObjects.get("a1") != null) {
-refSelection44 = new SpecificObjectSelection(packages, model, hmObjects.get("a1"), "src");
+refSelection158 = new SpecificObjectSelection(packages, model, hmObjects.get("a1"), "src");
 } else {
 	if (hmList.get("a1") != null) {
-	refSelection44 = new SpecificObjectSelection(packages, model, hmList.get("a1"), "src");
+	refSelection158 = new SpecificObjectSelection(packages, model, hmList.get("a1"), "src");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("src", refSelection44);
+   		refs.put("src", refSelection158);
 //NAME:tar
-  		//REFERENCES COMPILES	45
-ObSelectionStrategy refSelection45 = null;
+  		//REFERENCES COMPILES	159
+ObSelectionStrategy refSelection159 = null;
 if (hmObjects.get("a2") != null) {
-refSelection45 = new SpecificObjectSelection(packages, model, hmObjects.get("a2"), "tar");
+refSelection159 = new SpecificObjectSelection(packages, model, hmObjects.get("a2"), "tar");
 } else {
 	if (hmList.get("a2") != null) {
-	refSelection45 = new SpecificObjectSelection(packages, model, hmList.get("a2"), "tar");
+	refSelection159 = new SpecificObjectSelection(packages, model, hmList.get("a2"), "tar");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("tar", refSelection45);
+   		refs.put("tar", refSelection159);
 CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "Association");
 //INC COUNTER: 2
 if (mut != null) {
@@ -308,7 +308,7 @@ private AppMutation registry4(Mutator mut, HashMap<String, EObject> hmMutator, R
 	//ATTRIBUTE COUNTER: 
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@31bf9635 (name: nsrc) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@1590b30b (name: nsrc) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut0 = null;
 attMut0 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut0.setAttName("nsrc");
@@ -326,7 +326,7 @@ icMut.setDef(hmMutator.get("m4"));
 //ATTRIBUTE COUNTER INC: 0
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@6d9dfdd (name: ntar) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@5747180b (name: ntar) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut1 = null;
 attMut1 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut1.setAttName("ntar");
@@ -430,20 +430,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 163
+	   	   	   			//COMMAND: 512
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:a1163
+	   	   	   			//NAME:a1512
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> la1163 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> la1512 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (la1163 != null) {
+	   	   	   			if (la1512 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : la1163) {
+	   	   	   				for (Mutator mut : la1512) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -461,20 +461,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 2	
-	   	   	   			//COMMAND: 164
+	   	   	   			//COMMAND: 513
 	   	   	   			//REGISTRY COUNTER: 2
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:a2164
+	   	   	   			//NAME:a2513
 	   	   	   			//METHOD NAME:mutation2
 	   	   	   			
-	   	   	   			ArrayList<Mutator> la2164 = mutation2(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> la2513 = mutation2(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 2
 	   	   	   			//REGISTRY METHOD NAME:registry2
 	   	   	   			
-	   	   	   			if (la2164 != null) {
+	   	   	   			if (la2513 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : la2164) {
+	   	   	   				for (Mutator mut : la2513) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -492,20 +492,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 3	
-	   	   	   			//COMMAND: 165
+	   	   	   			//COMMAND: 514
 	   	   	   			//REGISTRY COUNTER: 3
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:a3165
+	   	   	   			//NAME:a3514
 	   	   	   			//METHOD NAME:mutation3
 	   	   	   			
-	   	   	   			ArrayList<Mutator> la3165 = mutation3(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> la3514 = mutation3(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 3
 	   	   	   			//REGISTRY METHOD NAME:registry3
 	   	   	   			
-	   	   	   			if (la3165 != null) {
+	   	   	   			if (la3514 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : la3165) {
+	   	   	   				for (Mutator mut : la3514) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -528,20 +528,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 4	
-	   	   	   			//COMMAND: 166
+	   	   	   			//COMMAND: 515
 	   	   	   			//REGISTRY COUNTER: 4
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:166
+	   	   	   			//NAME:515
 	   	   	   			//METHOD NAME:mutation4
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l166 = mutation4(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l515 = mutation4(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 4
 	   	   	   			//REGISTRY METHOD NAME:registry4
 	   	   	   			
-	   	   	   			if (l166 != null) {
+	   	   	   			if (l515 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l166) {
+	   	   	   				for (Mutator mut : l515) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -564,7 +564,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-	   	      			
 	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	

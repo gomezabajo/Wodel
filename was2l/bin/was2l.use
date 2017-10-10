@@ -1,33 +1,38 @@
 model was2l
 class ClassDiagram
 end
-class NamedElement
+abstract class NamedElement
 	attributes
 		name : String
 end
 class PrimitiveElement < NamedElement
 	attributes
+		type : Integer
 end
 class Parameter < NamedElement
 end
-class Feature
+abstract class Feature
 	attributes
 		name : String
+		visibility : Integer
+		scope : Integer
 end
-class ModifiedElement < NamedElement
+abstract class ModifiedElement < NamedElement
 	attributes
+		visibility : Integer
+		scope : Integer
 end
-class Classifier < ModifiedElement
+abstract class Classifier < ModifiedElement
 end
 class Class < Classifier
 	attributes
-		abstract_ : Boolean
+		xxxxabstract : Boolean
 		derived : Boolean
 end
 class Attribute < Feature
 	attributes
-		max_ : Integer
-		min_ : Integer
+		xxxxmax : Integer
+		xxxxmin : Integer
 		derived : Boolean
 end
 class Constraint
@@ -38,8 +43,9 @@ class Operation < Feature
 end
 class Operator
 	attributes
+		operator : Integer
 end
-class Relation < ModifiedElement
+abstract class Relation < ModifiedElement
 	attributes
 		nsrc : String
 		ntar : String
@@ -158,20 +164,20 @@ end
 class Dummy
 end
 composition ClassDiagramClass between
-	ClassDiagram[*] role classdiagramclass
+	ClassDiagram[0..1] role classdiagramclass
 	Class[*] role classes
 end
 composition ClassDiagramRelation between
-	ClassDiagram[*] role classdiagramrelation
+	ClassDiagram[0..1] role classdiagramrelation
 	Relation[*] role relations
 end
 composition ClassDiagramPrimitiveElement between
-	ClassDiagram[*] role classdiagramprimitiveelement
+	ClassDiagram[0..1] role classdiagramprimitiveelement
 	PrimitiveElement[*] role types
 end
 composition ClassDiagramConstraint between
-	ClassDiagram[*] role classdiagramconstraint
-	Constraint[*] role constraints_
+	ClassDiagram[0..1] role classdiagramconstraint
+	Constraint[*] role xxxxconstraints
 end
 association ParameterNamedElement between
 	Parameter[*] role parameternamedelement
@@ -182,7 +188,7 @@ association FeatureNamedElement between
 	NamedElement[1] role type1
 end
 composition ClassFeature between
-	Class[*] role classfeature
+	Class[0..1] role classfeature
 	Feature[*] role features
 end
 association ClassClass between
@@ -197,24 +203,16 @@ association ConstraintClass between
 	Constraint[*] role constraintclass
 	Class[1] role type2
 end
-composition ConstraintInvariantCS between
-	Constraint[*] role constraintinvariantcs
-	InvariantCS[*] role expressions
-end
-composition ConstraintOperation between
-	Constraint[*] role constraintoperation
-	Operation[*] role operations_
-end
-association ConstraintAttribute between
-	Constraint[*] role constraintattribute
-	Attribute[*] role attributes_
+composition ConstraintRootCS between
+	Constraint[0..1] role constraintrootcs
+	RootCS[*] role expressions
 end
 composition OperationParameter between
-	Operation[*] role operationparameter
+	Operation[0..1] role operationparameter
 	Parameter[*] role params
 end
 composition OperationOperator between
-	Operation[*] role operationoperator
+	Operation[0..1] role operationoperator
 	Operator[*] role operators
 end
 association RelationClass between
@@ -227,126 +225,126 @@ association RelationClass1 between
 end
 association AssociationClassAssociation between
 	AssociationClass[*] role associationclassassociation
-	Association[1] role association_
+	Association[1] role xxxxassociation
 end
 composition RootCSPackageCS between
-	RootCS[*] role rootcspackagecs
+	RootCS[0..1] role rootcspackagecs
 	PackageCS[*] role packages
 end
 composition RootCSConstraintCS between
-	RootCS[*] role rootcsconstraintcs
+	RootCS[0..1] role rootcsconstraintcs
 	ConstraintCS[*] role constraints1
 end
 composition PackageCSPackageCS between
-	PackageCS[*] role packagecspackagecs
+	PackageCS[0..1] role packagecspackagecs
 	PackageCS[*] role packages1
 end
 composition PackageCSClassCS between
-	PackageCS[*] role packagecsclasscs
+	PackageCS[0..1] role packagecsclasscs
 	ClassCS[*] role classes1
 end
 composition ClassCSPathNameCS between
-	ClassCS[*] role classcspathnamecs
+	ClassCS[0..1] role classcspathnamecs
 	PathNameCS[0..1] role extends
 end
 composition ClassCSPropertyCS between
-	ClassCS[*] role classcspropertycs
+	ClassCS[0..1] role classcspropertycs
 	PropertyCS[*] role properties
 end
 composition ClassCSOperationCS between
-	ClassCS[*] role classcsoperationcs
-	OperationCS[*] role operations1
+	ClassCS[0..1] role classcsoperationcs
+	OperationCS[*] role xxxxoperations
 end
 composition PropertyCSPathNameCS between
-	PropertyCS[*] role propertycspathnamecs
+	PropertyCS[0..1] role propertycspathnamecs
 	PathNameCS[0..1] role typeRef
 end
 composition OperationCSParameterCS between
-	OperationCS[*] role operationcsparametercs
+	OperationCS[0..1] role operationcsparametercs
 	ParameterCS[*] role params1
 end
 composition OperationCSPathNameCS between
-	OperationCS[*] role operationcspathnamecs
+	OperationCS[0..1] role operationcspathnamecs
 	PathNameCS[0..1] role resultRef
 end
 composition OperationCSExpCS between
-	OperationCS[*] role operationcsexpcs
+	OperationCS[0..1] role operationcsexpcs
 	ExpCS[0..1] role body
 end
 composition ParameterCSPathNameCS between
-	ParameterCS[*] role parametercspathnamecs
+	ParameterCS[0..1] role parametercspathnamecs
 	PathNameCS[0..1] role typeRef1
 end
 composition ConstraintCSPathNameCS between
-	ConstraintCS[*] role constraintcspathnamecs
+	ConstraintCS[0..1] role constraintcspathnamecs
 	PathNameCS[0..1] role typeRef2
 end
 composition ConstraintCSInvariantCS between
-	ConstraintCS[*] role constraintcsinvariantcs
+	ConstraintCS[0..1] role constraintcsinvariantcs
 	InvariantCS[*] role invariants
 end
 composition InvariantCSExpCS between
-	InvariantCS[*] role invariantcsexpcs
+	InvariantCS[0..1] role invariantcsexpcs
 	ExpCS[0..1] role exp
 end
 composition LogicExpCSLogicExpCS between
-	LogicExpCS[*] role logicexpcslogicexpcs
+	LogicExpCS[0..1] role logicexpcslogicexpcs
 	LogicExpCS[0..1] role left
 end
 composition LogicExpCSCallExpCS between
-	LogicExpCS[*] role logicexpcscallexpcs
+	LogicExpCS[0..1] role logicexpcscallexpcs
 	CallExpCS[0..1] role right
 end
 composition CallExpCSCallExpCS between
-	CallExpCS[*] role callexpcscallexpcs
+	CallExpCS[0..1] role callexpcscallexpcs
 	CallExpCS[0..1] role source
 end
 composition CallExpCSNavigationExpCS between
-	CallExpCS[*] role callexpcsnavigationexpcs
+	CallExpCS[0..1] role callexpcsnavigationexpcs
 	NavigationExpCS[0..1] role navExp
 end
 composition NameExpCSPathNameCS between
-	NameExpCS[*] role nameexpcspathnamecs
+	NameExpCS[0..1] role nameexpcspathnamecs
 	PathNameCS[0..1] role expName
 end
 composition NameExpCSRoundedBracketClauseCS between
-	NameExpCS[*] role nameexpcsroundedbracketclausecs
+	NameExpCS[0..1] role nameexpcsroundedbracketclausecs
 	RoundedBracketClauseCS[0..1] role roundedBrackets
 end
 composition NameExpCSCallExpCS between
-	NameExpCS[*] role nameexpcscallexpcs
+	NameExpCS[0..1] role nameexpcscallexpcs
 	CallExpCS[0..1] role callExp
 end
 composition LoopExpCSIteratorVarCS between
-	LoopExpCS[*] role loopexpcsiteratorvarcs
+	LoopExpCS[0..1] role loopexpcsiteratorvarcs
 	IteratorVarCS[0..1] role itVar
 end
 composition LoopExpCSExpCS between
-	LoopExpCS[*] role loopexpcsexpcs
+	LoopExpCS[0..1] role loopexpcsexpcs
 	ExpCS[*] role exp1
 end
 composition IteratorVarCSPathNameCS between
-	IteratorVarCS[*] role iteratorvarcspathnamecs
+	IteratorVarCS[0..1] role iteratorvarcspathnamecs
 	PathNameCS[0..1] role itType
 end
 composition IterateExpCSAccVarCS between
-	IterateExpCS[*] role iterateexpcsaccvarcs
+	IterateExpCS[0..1] role iterateexpcsaccvarcs
 	AccVarCS[0..1] role accVar
 end
 composition AccVarCSPathNameCS between
-	AccVarCS[*] role accvarcspathnamecs
+	AccVarCS[0..1] role accvarcspathnamecs
 	PathNameCS[0..1] role accType
 end
 composition AccVarCSExpCS between
-	AccVarCS[*] role accvarcsexpcs
+	AccVarCS[0..1] role accvarcsexpcs
 	ExpCS[0..1] role accInitExp
 end
 composition RoundedBracketClauseCSExpCS between
-	RoundedBracketClauseCS[*] role roundedbracketclausecsexpcs
+	RoundedBracketClauseCS[0..1] role roundedbracketclausecsexpcs
 	ExpCS[*] role args
 end
 composition PathNameCSPathCS between
-	PathNameCS[*] role pathnamecspathcs
+	PathNameCS[0..1] role pathnamecspathcs
 	PathCS[*] role path
 end
 association PathElementCSFeature between
@@ -354,23 +352,23 @@ association PathElementCSFeature between
 	Feature[0..1] role pathName
 end
 composition ExistsExpCSAccVarCS between
-	ExistsExpCS[*] role existsexpcsaccvarcs
+	ExistsExpCS[0..1] role existsexpcsaccvarcs
 	AccVarCS[*] role accVars
 end
 composition NavigationNameExpCSNavigationPathNameCS between
-	NavigationNameExpCS[*] role navigationnameexpcsnavigationpathnamecs
+	NavigationNameExpCS[0..1] role navigationnameexpcsnavigationpathnamecs
 	NavigationPathNameCS[0..1] role expName1
 end
 composition NavigationNameExpCSRoundedBracketClauseCS between
-	NavigationNameExpCS[*] role navigationnameexpcsroundedbracketclausecs
+	NavigationNameExpCS[0..1] role navigationnameexpcsroundedbracketclausecs
 	RoundedBracketClauseCS[0..1] role roundedBrackets1
 end
 composition NavigationNameExpCSCallExpCS between
-	NavigationNameExpCS[*] role navigationnameexpcscallexpcs
+	NavigationNameExpCS[0..1] role navigationnameexpcscallexpcs
 	CallExpCS[0..1] role callExp1
 end
 composition NavigationPathNameCSNavigationPathCS between
-	NavigationPathNameCS[*] role navigationpathnamecsnavigationpathcs
+	NavigationPathNameCS[0..1] role navigationpathnamecsnavigationpathcs
 	NavigationPathCS[*] role path1
 end
 association NavigationPathElementCSFeature between
@@ -378,11 +376,10 @@ association NavigationPathElementCSFeature between
 	Feature[0..1] role pathName1
 end
 composition ForAllExpCSAccVarCS between
-	ForAllExpCS[*] role forallexpcsaccvarcs
+	ForAllExpCS[0..1] role forallexpcsaccvarcs
 	AccVarCS[*] role accVars1
 end
 constraints
-context Dummy
 context AccVarCS inv single_container:
 	IterateExpCS.allInstances()->collect(o | o.accVar)->count(self) +
 	ExistsExpCS.allInstances()->collect(o | o.accVars)->count(self) +
@@ -413,9 +410,6 @@ context CallExpCS inv single_container:
 	CallExpCS.allInstances()->collect(o | o.source)->count(self) +
 	NameExpCS.allInstances()->collect(o | o.callExp)->count(self) +
 	NavigationNameExpCS.allInstances()->collect(o | o.callExp1)->count(self) <= 1
-context InvariantCS inv single_container:
-	Constraint.allInstances()->collect(o | o.expressions)->count(self) +
-	ConstraintCS.allInstances()->collect(o | o.invariants)->count(self) <= 1
 context PackageCS inv non_contains_itself_packages1:
 not self.packages1->includes(self)
 and
@@ -536,6 +530,7 @@ if source1.oclIsKindOf(CallExpCS) then
 	 else false endif)
 	 else false endif)
 	 else false endif)
+context Dummy
 inv mut1 : NamedElement.allInstances()->forAll(n | n.name <> null)
 inv mut2 : PrimitiveElement.allInstances()->forAll(p | p.name <> null)
 inv mut3 : PrimitiveElement.allInstances()->forAll(p | p.type <> null)
@@ -552,7 +547,7 @@ inv mut13 : Classifier.allInstances()->forAll(c | c.scope <> null)
 inv mut14 : Class.allInstances()->forAll(c | c.name <> null)
 inv mut15 : Class.allInstances()->forAll(c | c.visibility <> null)
 inv mut16 : Class.allInstances()->forAll(c | c.scope <> null)
-inv mut17 : Class.allInstances()->forAll(c | c.abstract_ <> null)
+inv mut17 : Class.allInstances()->forAll(c | c.xxxxabstract <> null)
 inv mut18 : Class.allInstances()->forAll(c | c.derived <> null)
 inv mut19 : Attribute.allInstances()->forAll(a | a.name <> null)
 inv mut20 : Attribute.allInstances()->forAll(a | a.visibility <> null)
@@ -586,7 +581,7 @@ inv mut47 : Composition.allInstances()->forAll(c | c.derived <> null)
 inv mut48 : AssociationClass.allInstances()->forAll(a | a.name <> null)
 inv mut49 : AssociationClass.allInstances()->forAll(a | a.visibility <> null)
 inv mut50 : AssociationClass.allInstances()->forAll(a | a.scope <> null)
-inv mut51 : AssociationClass.allInstances()->forAll(a | a.abstract_ <> null)
+inv mut51 : AssociationClass.allInstances()->forAll(a | a.xxxxabstract <> null)
 inv mut52 : AssociationClass.allInstances()->forAll(a | a.derived <> null)
 inv mut53 : Dependency.allInstances()->size() > 1
 inv mut54 : ClassDiagram.allInstances()->size() > 0

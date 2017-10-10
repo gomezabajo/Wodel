@@ -58,8 +58,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation" modified="1">
         <attributes name="name"/>
@@ -397,8 +395,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation" modified="1">
         <attributes name="name"/>
@@ -735,8 +731,6 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation" modified="2">
       <attributes name="name"/>
@@ -1073,8 +1067,6 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation" modified="2">
     <attributes name="name"/>

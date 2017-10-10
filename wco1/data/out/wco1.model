@@ -3,15 +3,17 @@
   <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:RemoveSpecificReferenceMutator">
-    <refType href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//Constraint/attributes"/>
-    <container xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//Constraint"/>
+  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS"/>
       <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//Constraint/attributes"/>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS/pathName"/>
+          <value xsi:type="mutatorenvironment:RandomTypeSelection">
+            <type href="file:/c:/eclipse/runtime-EclipseApplication/wco1/data/model/UMLClassDiagram.ecore#//Attribute"/>
+          </value>
         </first>
       </expression>
-    </container>
+    </object>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

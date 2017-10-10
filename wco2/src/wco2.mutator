@@ -4,6 +4,7 @@ from "data/model/"
 metamodel "C:/eclipse/runtime-EclipseApplication/wco2/data/model/UMLClassDiagram.ecore"
 
 with commands {
-	c = select one Constraint where {attributes <> null}
-    modify c->attributes with {type = other Class}
+	path = select one PathElementCS where {pathName = one Attribute}
+	att = select one Attribute in path->pathName
+	modify att with {type = one Class}
 }

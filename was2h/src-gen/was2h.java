@@ -93,33 +93,33 @@ HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, Attri
 ObSelectionStrategy objectSelection = null;
 HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 //NAME:src
-  		//REFERENCES COMPILES	3
-ObSelectionStrategy refSelection3 = null;
+  		//REFERENCES COMPILES	581
+ObSelectionStrategy refSelection581 = null;
 if (hmObjects.get("comp") != null) {
-refSelection3 = new SpecificObjectSelection(packages, model, hmObjects.get("comp"), "src");
+refSelection581 = new SpecificObjectSelection(packages, model, hmObjects.get("comp"), "src");
 } else {
 	if (hmList.get("comp") != null) {
-	refSelection3 = new SpecificObjectSelection(packages, model, hmList.get("comp"), "src");
+	refSelection581 = new SpecificObjectSelection(packages, model, hmList.get("comp"), "src");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("src", refSelection3);
+   		refs.put("src", refSelection581);
 //NAME:tar
-  		//REFERENCES COMPILES	4
-ObSelectionStrategy refSelection4 = null;
+  		//REFERENCES COMPILES	582
+ObSelectionStrategy refSelection582 = null;
 if (hmObjects.get("comp") != null) {
-refSelection4 = new SpecificObjectSelection(packages, model, hmObjects.get("comp"), "tar");
+refSelection582 = new SpecificObjectSelection(packages, model, hmObjects.get("comp"), "tar");
 } else {
 	if (hmList.get("comp") != null) {
-	refSelection4 = new SpecificObjectSelection(packages, model, hmList.get("comp"), "tar");
+	refSelection582 = new SpecificObjectSelection(packages, model, hmList.get("comp"), "tar");
 	}
 	else {
 		return mutations;
 	}
 }
-   		refs.put("tar", refSelection4);
+   		refs.put("tar", refSelection582);
 CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "Aggregation");
 //INC COUNTER: 1
 if (mut != null) {
@@ -232,7 +232,7 @@ private AppMutation registry3(Mutator mut, HashMap<String, EObject> hmMutator, R
 	//ATTRIBUTE COUNTER: 
 //
 //
-//org.eclipse.emf.ecore.impl.EAttributeImpl@4afe0125 (name: name) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
+//org.eclipse.emf.ecore.impl.EAttributeImpl@119133c (name: name) (ordered: true, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)
 AttributeChanged attMut0 = null;
 attMut0 = AppliedMutationsFactory.eINSTANCE.createAttributeChanged();
 attMut0.setAttName("name");
@@ -403,20 +403,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 5
+	   	   	   			//COMMAND: 1863
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:comp5
+	   	   	   			//NAME:comp1863
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> lcomp5 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> lcomp1863 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (lcomp5 != null) {
+	   	   	   			if (lcomp1863 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : lcomp5) {
+	   	   	   				for (Mutator mut : lcomp1863) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -434,20 +434,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 2	
-	   	   	   			//COMMAND: 6
+	   	   	   			//COMMAND: 1864
 	   	   	   			//REGISTRY COUNTER: 2
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:rel6
+	   	   	   			//NAME:rel1864
 	   	   	   			//METHOD NAME:mutation2
 	   	   	   			
-	   	   	   			ArrayList<Mutator> lrel6 = mutation2(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> lrel1864 = mutation2(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 2
 	   	   	   			//REGISTRY METHOD NAME:registry2
 	   	   	   			
-	   	   	   			if (lrel6 != null) {
+	   	   	   			if (lrel1864 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : lrel6) {
+	   	   	   				for (Mutator mut : lrel1864) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -470,20 +470,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 3	
-	   	   	   			//COMMAND: 7
+	   	   	   			//COMMAND: 1865
 	   	   	   			//REGISTRY COUNTER: 3
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:7
+	   	   	   			//NAME:1865
 	   	   	   			//METHOD NAME:mutation3
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l7 = mutation3(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l1865 = mutation3(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 3
 	   	   	   			//REGISTRY METHOD NAME:registry3
 	   	   	   			
-	   	   	   			if (l7 != null) {
+	   	   	   			if (l1865 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l7) {
+	   	   	   				for (Mutator mut : l1865) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -503,20 +503,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 4	
-	   	   	   			//COMMAND: 8
+	   	   	   			//COMMAND: 1866
 	   	   	   			//REGISTRY COUNTER: 4
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:8
+	   	   	   			//NAME:1866
 	   	   	   			//METHOD NAME:mutation4
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l8 = mutation4(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l1866 = mutation4(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 4
 	   	   	   			//REGISTRY METHOD NAME:registry4
 	   	   	   			
-	   	   	   			if (l8 != null) {
+	   	   	   			if (l1866 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l8) {
+	   	   	   				for (Mutator mut : l1866) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -539,7 +539,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-	   	      			
 	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	

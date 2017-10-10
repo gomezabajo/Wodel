@@ -76,39 +76,9 @@ public class mpa extends mutator.MutatorUtils implements manager.IMutatorExecuto
 private AppMutation registry1(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed, List<String> mutPaths, ArrayList<EPackage> packages) {
 	AppMutation appMut = null;
 ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-System.out.println("ModelManager.getObject(seed, mut.getObject()): " + ModelManager.getObject(seed, mut.getObject()));
-if (ModelManager.getObject(seed, mut.getObject()) != null) {
-	rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));
-}
-else {
-	if ((mutPaths != null) && (packages != null)) {
-		try {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModel(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					System.out.println("FOUND!!!");
-					break;
-				}
-				//Reload input
-	    				try {
-					mutant.unload();
-					mutant.load(null); 
-				} catch (Exception e) {}
-			}
-			if (object != null) {
-				rMut.getObject().add(object);
-			}
-			else {
-				rMut.getObject().add(mut.getObject());
-			}
-		} catch (ModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+EObject foundObject = findEObjectForRegistry(seed, mut, mutPaths, packages);
+if (foundObject != null) {
+	rMut.getObject().add(foundObject);
 }
 rMut.setDef(hmMutator.get("m1"));
 appMut = rMut;
@@ -163,8 +133,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	    for (String modelFilename : modelFilenames) {
 	    	HashSet<String> hashsetMutants = new HashSet<String>();
 	    	hashsetMutants.add(modelFilename);
-	    	Resource model = ModelManager.loadModel(packages, modelFilename);
-	    	Resource seed = ModelManager.loadModel(packages, modelFilename);
 	    
 	   	   		//Generate metrics model
 	   	Bundle bundle = Platform.getBundle("wodel.models");
@@ -187,6 +155,8 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   			int attempts = 0;
 	   	   			int max = 0;
 	   	   			while ((isRepeated == true) && (attempts < maxAttempts)) {
+	   			Resource model = ModelManager.loadModel(packages, modelFilename);
+	   			Resource seed = ModelManager.loadModel(packages, modelFilename);
 	   			List<String> mutPaths = new ArrayList<String>();
 	   			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 	   	   				attempts++;
@@ -199,20 +169,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 53
+	   	   	   			//COMMAND: 131
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:53
+	   	   	   			//NAME:131
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l53 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l131 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (l53 != null) {
+	   	   	   			if (l131 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l53) {
+	   	   	   				for (Mutator mut : l131) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -236,13 +206,14 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
 	   	      			
-	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	
 	   		    		//Reload input
 	   		    		try {
 	   				model.unload();
 	   				model.load(null); 
+	   				seed.unload();
+	   				seed.load(null);
 	   			} catch (Exception e) {}
 	   	   			}
 	   		monitor.worked(1);

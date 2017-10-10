@@ -62,25 +62,25 @@ atts.put("name", new RandomStringConfigurationStrategy(1, 4, false)
 );
 HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 //NAME:src
-  		//REFERENCES COMPILES	48
-RandomTypeSelection refRts48 = new RandomTypeSelection(packages, model, "Class");
-EObject refObject48 = refRts48.getObject();
-ObSelectionStrategy refSelection48 = null;
-if (refObject48 != null) {
-refSelection48 = 
-	new SpecificObjectSelection(packages, model, refObject48);
+  		//REFERENCES COMPILES	199
+RandomTypeSelection refRts199 = new RandomTypeSelection(packages, model, "Class");
+EObject refObject199 = refRts199.getObject();
+ObSelectionStrategy refSelection199 = null;
+if (refObject199 != null) {
+refSelection199 = 
+	new SpecificObjectSelection(packages, model, refObject199);
 }
-   		refs.put("src", refSelection48);
+   		refs.put("src", refSelection199);
 //NAME:tar
-  		//REFERENCES COMPILES	49
-RandomTypeSelection refRts49 = new RandomTypeSelection(packages, model, "Class");
-EObject refObject49 = refRts49.getObject();
-ObSelectionStrategy refSelection49 = null;
-if (refObject49 != null) {
-refSelection49 = 
-	new SpecificObjectSelection(packages, model, refObject49);
+  		//REFERENCES COMPILES	200
+RandomTypeSelection refRts200 = new RandomTypeSelection(packages, model, "Class");
+EObject refObject200 = refRts200.getObject();
+ObSelectionStrategy refSelection200 = null;
+if (refObject200 != null) {
+refSelection200 = 
+	new SpecificObjectSelection(packages, model, refObject200);
 }
-   		refs.put("tar", refSelection49);
+   		refs.put("tar", refSelection200);
 CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "Association");
 //INC COUNTER: 0
 if (mut != null) {
@@ -213,20 +213,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 168
+	   	   	   			//COMMAND: 643
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:168
+	   	   	   			//NAME:643
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l168 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l643 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (l168 != null) {
+	   	   	   			if (l643 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l168) {
+	   	   	   				for (Mutator mut : l643) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -251,7 +251,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-	   	      			
 	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	

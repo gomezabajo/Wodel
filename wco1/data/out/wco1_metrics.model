@@ -45,7 +45,7 @@
         <references name="super"/>
         <references name="supplier"/>
       </classes>
-      <classes name="Attribute" cmodified="1">
+      <classes name="Attribute">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -58,8 +58,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -286,7 +284,7 @@
       <classes name="PathVariableCS">
         <attributes name="varName"/>
       </classes>
-      <classes name="PathElementCS">
+      <classes name="PathElementCS" cremoved="1">
         <references name="pathName"/>
       </classes>
       <classes name="BooleanExpCS">
@@ -384,7 +382,7 @@
         <references name="super"/>
         <references name="supplier"/>
       </classes>
-      <classes name="Attribute" cmodified="1">
+      <classes name="Attribute">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -397,8 +395,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -625,7 +621,7 @@
       <classes name="PathVariableCS">
         <attributes name="varName"/>
       </classes>
-      <classes name="PathElementCS">
+      <classes name="PathElementCS" cremoved="1">
         <references name="pathName"/>
       </classes>
       <classes name="BooleanExpCS">
@@ -722,7 +718,7 @@
       <references name="super"/>
       <references name="supplier"/>
     </classes>
-    <classes name="Attribute" cmodified="2">
+    <classes name="Attribute">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
@@ -735,8 +731,6 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation">
       <attributes name="name"/>
@@ -963,7 +957,7 @@
     <classes name="PathVariableCS">
       <attributes name="varName"/>
     </classes>
-    <classes name="PathElementCS">
+    <classes name="PathElementCS" cremoved="2">
       <references name="pathName"/>
     </classes>
     <classes name="BooleanExpCS">
@@ -1060,7 +1054,7 @@
     <references name="super"/>
     <references name="supplier"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Attribute" cmodified="2">
+  <classes xsi:type="mutatormetrics:Class" name="Attribute">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
@@ -1073,8 +1067,6 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>
@@ -1301,7 +1293,7 @@
   <classes xsi:type="mutatormetrics:Class" name="PathVariableCS">
     <attributes name="varName"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="PathElementCS">
+  <classes xsi:type="mutatormetrics:Class" name="PathElementCS" cremoved="2">
     <references name="pathName"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="BooleanExpCS">

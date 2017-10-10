@@ -3,9 +3,1345 @@
   <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:CloneObjectMutator">
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+  <blocks name="uco1">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator" contents="true">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Constraint"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="uco2">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Constraint"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Constraint/id"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Constraint/type"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="uas1">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="uas2">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="a1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="a2">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
+              <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="a3">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.2"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/nsrc"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/nsrc"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/ntar"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/ntar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.3/@commands.1"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="uas3">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="uas4">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/derived"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="uge1">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+            <refName href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="sup1">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="sup2">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.1">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+              <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+            </value>
+          </first>
+        </expression>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.2"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="uge2">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="sup">
+      <container xsi:type="mutatorenvironment:SpecificClosureSelection" objSel="//@blocks.7/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+      </container>
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl2">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.1"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.0"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.7/@commands.2"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="ucl1">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator" contents="true">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="ucl2">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="ucl3">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//AssociationClass"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="ucl4">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
       <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//AssociationClass"/>
-    </object>
-  </commands>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="uat1">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="uat2">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="uop1">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator" contents="true">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="uop2">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="upa1">
+    <commands xsi:type="mutatorenvironment:CloneObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Parameter"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="upa2">
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Parameter"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <value xsi:type="mutatorenvironment:RandomStringType" min="1" max="4"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wco1">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS/pathName"/>
+            <value xsi:type="mutatorenvironment:RandomTypeSelection">
+              <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="wco2">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="path">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS/pathName"/>
+            <value xsi:type="mutatorenvironment:RandomTypeSelection">
+              <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="att">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.19/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/PathElementCS/pathName"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.19/@commands.1"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="wco3">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/OperationCS"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="wco4">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/IntLiteralExpCS"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+        <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+          <value>add</value>
+          <value>subtract</value>
+          <value>multiply</value>
+          <value>divide</value>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wco5">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="inv">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/InvariantCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/InvariantCS/exp"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.22/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/InvariantCS/exp"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="not"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wco6a">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/BooleanExpCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+            <value xsi:type="mutatorenvironment:SpecificStringType" value="and"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="or"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wco6b">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/BooleanExpCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+            <value xsi:type="mutatorenvironment:SpecificStringType" value="or"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="and"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wco7">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+            <value xsi:type="mutatorenvironment:SpecificStringType" value="not"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="wco8">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/BooleanExpCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+            <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+              <value>lt</value>
+              <value>lte</value>
+              <value>gt</value>
+              <value>gte</value>
+              <value>equals</value>
+              <value>distinct</value>
+            </value>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+        <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+          <value>lt</value>
+          <value>lte</value>
+          <value>gt</value>
+          <value>gte</value>
+          <value>equals</value>
+          <value>distinct</value>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wco9">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/IntLiteralExpCS"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+            <value xsi:type="mutatorenvironment:SpecificStringType" value="negative"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value=""/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="was1">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+      <references xsi:type="mutatorenvironment:ReferenceSwap">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="was2a">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="as">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Aggregation"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2b">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ag">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Aggregation"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2c">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="as">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Composition"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.31/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2d">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="comp">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Composition"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2e">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="as">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Dependency"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.33/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2f">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="dep">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Dependency"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2g">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ag">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Aggregation"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Composition"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.35/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2h">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="comp">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Composition"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Aggregation"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.36/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2i">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ag">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Aggregation"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Dependency"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.30/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.37/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2j">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="dep">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Dependency"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Aggregation"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.38/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2k">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="comp">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Composition"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Dependency"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.32/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.39/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was2l">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="dep">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Dependency"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="rel">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Composition"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.29/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.34/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.40/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="was3">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/ntar"/>
+        <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+          <value>*</value>
+          <value>0..1</value>
+          <value>1..1</value>
+          <value>1..*</value>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wge">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <object xsi:type="mutatorenvironment:RandomTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="wcl1">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
+        <value xsi:type="mutatorenvironment:ListType" operator="in">
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/public"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/private"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/protected"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/package"/>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wcl2">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="ac">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//AssociationClass"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/features"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/features"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/supplier"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/supplier"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.44/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/derived"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/derived"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/scope"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/scope"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.44/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="wcl3">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ac">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//AssociationClass"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="cl">
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/features"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/features"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+        </object>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/supplier"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+          <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/supplier"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/derived"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/derived"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement/name"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/scope"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/scope"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+      <attributes xsi:type="mutatorenvironment:AttributeCopy">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//ModifiedElement/visibility"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.45/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="wcl4">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/abstract"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wat1">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute/derived"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute/derived"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wat2">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute/derived"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute/derived"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wat3">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+      </object>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+        <object xsi:type="mutatorenvironment:OtherTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="wat4">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/visibility"/>
+        <value xsi:type="mutatorenvironment:ListType" operator="in">
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/public"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/private"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/protected"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/package"/>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wop1">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="oper">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.51/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Parameter"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.51/@commands.1"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.51/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+      </container>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.51/@commands.0"/>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation/params"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.51/@commands.1"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="wop2">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/visibility"/>
+        <value xsi:type="mutatorenvironment:ListType" operator="in">
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/public"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/private"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/protected"/>
+          <value href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//VisbilityType/package"/>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="wop3">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+      </object>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+        <object xsi:type="mutatorenvironment:OtherTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="wpa">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Parameter"/>
+      </object>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Parameter/type"/>
+        <object xsi:type="mutatorenvironment:OtherTypeSelection">
+          <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//NamedElement"/>
+        </object>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="mco">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Constraint"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mas">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Association"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mge">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="sup">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.6/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.57/@commands.1"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.57/@commands.0">
+        <refType href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class/super"/>
+      </container>
+    </commands>
+  </blocks>
+  <blocks name="mcl">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Class"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.58/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.58/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.58/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.58/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//AssociationClass"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//AssociationClass/association"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.58/@commands.0"/>
+    </commands>
+  </blocks>
+  <blocks name="mat">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Attribute"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mop">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Operation"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="mpa">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="file:/c:/eclipse/runtime-EclipseApplication/ucl3/data/model/UMLClassDiagram.ecore#//Parameter"/>
+      </object>
+    </commands>
+  </blocks>
 </mutatorenvironment:MutatorEnvironment>

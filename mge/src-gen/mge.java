@@ -104,39 +104,16 @@ appMut.setDef(hmMutator.get("m1"));
 //METHOD NAME:mutation2
 	private ArrayList<Mutator> mutation2(ArrayList<EPackage> packages, Resource model, HashMap<String, EObject> hmObjects, HashMap<String, List<EObject>> hmList) throws ReferenceNonExistingException {
 		ArrayList<Mutator> mutations = new ArrayList<Mutator>();
-//SELECT OBJECT mutation2
-	ObSelectionStrategy containerSelection = null;
-	SpecificReferenceSelection referenceSelection = null;
-	//
-	if (hmObjects.get("cl") != null) {
+	// REMOVE SPECIFIC REFERENCE mutation2
+		ObSelectionStrategy containerSelection = null;
 		containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("cl"));
-		   			} else {
-		   				if (hmList.get("cl") != null) {
-		   					containerSelection = new SpecificObjectSelection(packages, model, hmList.get("cl"));
-		   				}
-		   				else {
-			return mutations;
-		}
-	}
-	if (hmObjects.get("cl") != null) {
-		referenceSelection = new SpecificReferenceSelection(packages, model, "super", hmObjects.get("cl"));
-			   			} else {
-			   				return mutations;
-	}
-	RandomTypeSelection rts = new RandomTypeSelection(packages, model, "Class", referenceSelection, containerSelection);
-	EObject object = rts.getObject();
-	
-	ObSelectionStrategy objectSelection = null; 
-	if (object != null) {
-		objectSelection = new SpecificObjectSelection(packages, model, object);
-	}
-		SelectObjectMutator mut = new SelectObjectMutator(model, packages, referenceSelection, containerSelection, objectSelection);
-		//INC COUNTER: 1
-		if (mut != null) {
-			mut.setId("m2");
+		RemoveReferenceMutator mut = new RemoveReferenceMutator(model, packages, containerSelection, "super");
+	   	//INC COUNTER: 1
+	   	if (mut != null) {
+	   		mut.setId("m2");
 			mutations.add(mut);
 		}
-		//END SELECT OBJECT mutation2
+	//END REMOVE SPECIFIC REFERENCE mutation2
 		return mutations;	
 	}
 //COUNTER: 2
@@ -144,84 +121,15 @@ appMut.setDef(hmMutator.get("m1"));
 //REGISTRY COUNTER: 1
 private AppMutation registry2(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed, List<String> mutPaths, ArrayList<EPackage> packages) {
 	AppMutation appMut = null;
-appMut = AppliedMutationsFactory.eINSTANCE.createAppMutation();
-appMut.setDef(hmMutator.get("m2"));
-	return appMut;
+ReferenceRemoved rMut = AppliedMutationsFactory.eINSTANCE.createReferenceRemoved();
+List<EObject> objects = new ArrayList<EObject>();
+objects.addAll(findEObjectsForRegistry(seed, mut, mutPaths, packages));
+rMut.getObject().addAll(objects);
+if (((RemoveReferenceMutator) mut).getReference() != null) {
+	rMut.getRef().add(((RemoveReferenceMutator) mut).getReference());
+	rMut.setRefName(((RemoveReferenceMutator) mut).getRefName());
 }
-//COUNTER: 3
-//METHOD NAME:mutation3
-	private ArrayList<Mutator> mutation3(ArrayList<EPackage> packages, Resource model, HashMap<String, EObject> hmObjects, HashMap<String, List<EObject>> hmList) throws ReferenceNonExistingException {
-		ArrayList<Mutator> mutations = new ArrayList<Mutator>();
-	// REMOVE OBJECT mutation3
-		ObSelectionStrategy containerSelection = null;
-		SpecificReferenceSelection referenceSelection = null;
-		//
-		if (hmObjects.get("cl") != null) {
-			containerSelection = new SpecificObjectSelection(packages, model, hmObjects.get("cl"));
-		   			} else {
-			return mutations;
-		}
-				if (hmObjects.get("cl") != null) {
-					referenceSelection = new SpecificReferenceSelection(packages, model, "super", hmObjects.get("cl"));
-		   			} else {
-					return mutations;
-				}
-		ObSelectionStrategy objectSelection = null;
-		if (hmObjects.get("sup") != null) {
-			objectSelection = new SpecificObjectSelection(packages, model, hmObjects.get("sup"), referenceSelection, containerSelection);
-	   			} else {
-			return mutations;
-		}
-			RemoveObjectMutator mut = new RemoveObjectMutator(model, packages, objectSelection, referenceSelection, containerSelection);
-			   		//INC COUNTER: 2
-			   		if (mut != null) {
-				   		mut.setId("m3");
-				mutations.add(mut);
-			}
-		//END REMOVE OBJECT mutation3
-		return mutations;	
-	}
-//COUNTER: 3
-//METHOD NAME:registry3
-//REGISTRY COUNTER: 2
-private AppMutation registry3(Mutator mut, HashMap<String, EObject> hmMutator, Resource seed, List<String> mutPaths, ArrayList<EPackage> packages) {
-	AppMutation appMut = null;
-ObjectRemoved rMut = AppliedMutationsFactory.eINSTANCE.createObjectRemoved();
-System.out.println("ModelManager.getObject(seed, mut.getObject()): " + ModelManager.getObject(seed, mut.getObject()));
-if (ModelManager.getObject(seed, mut.getObject()) != null) {
-	rMut.getObject().add(ModelManager.getObject(seed, mut.getObject()));
-}
-else {
-	if ((mutPaths != null) && (packages != null)) {
-		try {
-			Resource mutant = null;
-			EObject object = null;
-			for (String mutatorPath : mutPaths) {
-				mutant = ModelManager.loadModel(packages, mutatorPath);
-				object = ModelManager.getObject(mutant, mut.getObject());
-				if (object != null) {
-					System.out.println("FOUND!!!");
-					break;
-				}
-				//Reload input
-	    				try {
-					mutant.unload();
-					mutant.load(null); 
-				} catch (Exception e) {}
-			}
-			if (object != null) {
-				rMut.getObject().add(object);
-			}
-			else {
-				rMut.getObject().add(mut.getObject());
-			}
-		} catch (ModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-}
-rMut.setDef(hmMutator.get("m3"));
+rMut.setDef(hmMutator.get("m2"));
 appMut = rMut;
 	return appMut;
 }
@@ -274,8 +182,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	    for (String modelFilename : modelFilenames) {
 	    	HashSet<String> hashsetMutants = new HashSet<String>();
 	    	hashsetMutants.add(modelFilename);
-	    	Resource model = ModelManager.loadModel(packages, modelFilename);
-	    	Resource seed = ModelManager.loadModel(packages, modelFilename);
 	    
 	   	   		//Generate metrics model
 	   	Bundle bundle = Platform.getBundle("wodel.models");
@@ -298,6 +204,8 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   			int attempts = 0;
 	   	   			int max = 0;
 	   	   			while ((isRepeated == true) && (attempts < maxAttempts)) {
+	   			Resource model = ModelManager.loadModel(packages, modelFilename);
+	   			Resource seed = ModelManager.loadModel(packages, modelFilename);
 	   			List<String> mutPaths = new ArrayList<String>();
 	   			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
 	   	   				attempts++;
@@ -310,20 +218,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 23
+	   	   	   			//COMMAND: 3
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:cl23
+	   	   	   			//NAME:cl3
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> lcl23 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> lcl3 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (lcl23 != null) {
+	   	   	   			if (lcl3 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : lcl23) {
+	   	   	   				for (Mutator mut : lcl3) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -341,60 +249,29 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   	   			}
 	   	   	   			}
 	   	   	   			   	   	//COUNTER: 2	
-	   	   	   			//COMMAND: 24
+	   	   	   			//COMMAND: 4
 	   	   	   			//REGISTRY COUNTER: 2
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:sup24
+	   	   	   			//NAME:4
 	   	   	   			//METHOD NAME:mutation2
 	   	   	   			
-	   	   	   			ArrayList<Mutator> lsup24 = mutation2(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l4 = mutation2(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 2
 	   	   	   			//REGISTRY METHOD NAME:registry2
 	   	   	   			
-	   	   	   			if (lsup24 != null) {
+	   	   	   			if (l4 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : lsup24) {
+	   	   	   				for (Mutator mut : l4) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
-	   	   	   							if (mutated instanceof EObject) {
-	   	   	   							hashmapEObject.put("sup", mut.getObject());
-	   	   	   							}
-	   	   	   							AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
-	   	   	   							if (appMut != null) {
-	   	   	   								muts.getMuts().add(appMut);
-	   	   	   							}
-	   	   	   						}
-	   	   	   					}
-	   	   	   					k++;
-	   	   	   				}
-	   	   	   			}
-	   	   	   			}
-	   	   	   			   	   	//COUNTER: 3	
-	   	   	   			//COMMAND: 25
-	   	   	   			//REGISTRY COUNTER: 3
-	   	   	   			max = 1;
-	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:25
-	   	   	   			//METHOD NAME:mutation3
-	   	   	   			
-	   	   	   			ArrayList<Mutator> l25 = mutation3(packages, model, hashmapEObject, hashmapList);
-	   	   	   			//COUNTER: 3
-	   	   	   			//REGISTRY METHOD NAME:registry3
-	   	   	   			
-	   	   	   			if (l25 != null) {
-	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l25) {
-	   	   	   					if (mut != null) {
-	   	   	   						Object mutated = mut.mutate();
-	   	   	   						if (mutated != null) {
-	   	   	   							String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_3.model";
+	   	   	   							String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_2.model";
 	   	   	   							ModelManager.saveOutModel(model, mutatorPath);
 	   	   	   							if (mutPaths.contains(mutatorPath) == false) {
 	   	   	   								mutPaths.add(mutatorPath);
 	   	   	   							}
-	   	   	   							AppMutation appMut = registry3(mut, hmMutator, seed, mutPaths, packages);
+	   	   	   							AppMutation appMut = registry2(mut, hmMutator, seed, mutPaths, packages);
 	   	   	   							if (appMut != null) {
 	   	   	   								muts.getMuts().add(appMut);
 	   	   	   							}
@@ -409,13 +286,14 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
 	   	      			
-	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	
 	   		    		//Reload input
 	   		    		try {
 	   				model.unload();
 	   				model.load(null); 
+	   				seed.unload();
+	   				seed.load(null);
 	   			} catch (Exception e) {}
 	   	   			}
 	   		monitor.worked(1);

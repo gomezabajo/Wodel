@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../uge2.model#//@commands.0"/>
+    <def href="../../uge2.model#//@blocks.0/@commands.0"/>
   </muts>
   <muts>
-    <def href="../../uge2.model#//@commands.1"/>
+    <def href="../../uge2.model#//@blocks.1/@commands.0"/>
   </muts>
   <muts>
-    <def href="../../uge2.model#//@commands.2"/>
+    <def href="../../uge2.model#//@blocks.2/@commands.0"/>
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../uge2.model#//@commands.3"/>
-    <object href="../../../model/cd.example.model#_8bWjsJ69EeeqdZIhK5Awmw"/>
+    <def href="../../uge2.model#//@blocks.3/@commands.0"/>
+    <object href="../../../model/cd.example.model#_dPCxwJvVEee9uaaNIqtE3A"/>
     <refChanges refName="super">
-      <def href="../../uge2.model#//@commands.3"/>
-      <object href="../../../model/cd.example.model#_8bWjsJ69EeeqdZIhK5Awmw"/>
+      <def href="../../uge2.model#//@blocks.3/@commands.0"/>
+      <object href="../../../model/cd.example.model#_dPCxwJvVEee9uaaNIqtE3A"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

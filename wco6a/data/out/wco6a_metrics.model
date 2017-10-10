@@ -58,8 +58,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -69,8 +67,8 @@
         <references name="params"/>
         <references name="operators"/>
       </classes>
-      <classes name="Operator" modified="1" cmodified="1">
-        <attributes name="operator" modified="1"/>
+      <classes name="Operator">
+        <attributes name="operator"/>
       </classes>
       <classes name="Relation">
         <attributes name="name"/>
@@ -289,8 +287,8 @@
       <classes name="PathElementCS">
         <references name="pathName"/>
       </classes>
-      <classes name="BooleanExpCS">
-        <attributes name="op"/>
+      <classes name="BooleanExpCS" modified="1" cmodified="1">
+        <attributes name="op" modified="1"/>
         <attributes name="boolSymbol"/>
         <references name="left"/>
         <references name="right"/>
@@ -397,8 +395,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -408,8 +404,8 @@
         <references name="params"/>
         <references name="operators"/>
       </classes>
-      <classes name="Operator" modified="1" cmodified="1">
-        <attributes name="operator" modified="1"/>
+      <classes name="Operator">
+        <attributes name="operator"/>
       </classes>
       <classes name="Relation">
         <attributes name="name"/>
@@ -628,8 +624,8 @@
       <classes name="PathElementCS">
         <references name="pathName"/>
       </classes>
-      <classes name="BooleanExpCS">
-        <attributes name="op"/>
+      <classes name="BooleanExpCS" modified="1" cmodified="1">
+        <attributes name="op" modified="1"/>
         <attributes name="boolSymbol"/>
         <references name="left"/>
         <references name="right"/>
@@ -735,8 +731,6 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation">
       <attributes name="name"/>
@@ -746,8 +740,8 @@
       <references name="params"/>
       <references name="operators"/>
     </classes>
-    <classes name="Operator" modified="2" cmodified="2">
-      <attributes name="operator" modified="2"/>
+    <classes name="Operator">
+      <attributes name="operator"/>
     </classes>
     <classes name="Relation">
       <attributes name="name"/>
@@ -966,8 +960,8 @@
     <classes name="PathElementCS">
       <references name="pathName"/>
     </classes>
-    <classes name="BooleanExpCS">
-      <attributes name="op"/>
+    <classes name="BooleanExpCS" modified="2" cmodified="2">
+      <attributes name="op" modified="2"/>
       <attributes name="boolSymbol"/>
       <references name="left"/>
       <references name="right"/>
@@ -1073,8 +1067,6 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>
@@ -1084,8 +1076,8 @@
     <references name="params"/>
     <references name="operators"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Operator" modified="2" cmodified="2">
-    <attributes name="operator" modified="2"/>
+  <classes xsi:type="mutatormetrics:Class" name="Operator">
+    <attributes name="operator"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Relation">
     <attributes name="name"/>
@@ -1304,8 +1296,8 @@
   <classes xsi:type="mutatormetrics:Class" name="PathElementCS">
     <references name="pathName"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="BooleanExpCS">
-    <attributes name="op"/>
+  <classes xsi:type="mutatormetrics:Class" name="BooleanExpCS" modified="2" cmodified="2">
+    <attributes name="op" modified="2"/>
     <attributes name="boolSymbol"/>
     <references name="left"/>
     <references name="right"/>

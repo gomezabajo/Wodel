@@ -58,8 +58,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -112,15 +110,15 @@
         <references name="src" created="1"/>
         <references name="tar" created="1"/>
       </classes>
-      <classes name="Composition" removed="6" cremoved="1">
-        <attributes name="name" removed="1"/>
-        <attributes name="visibility" removed="1"/>
-        <attributes name="scope" removed="1"/>
+      <classes name="Composition" cremoved="1">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
         <attributes name="nsrc"/>
         <attributes name="ntar"/>
-        <attributes name="derived" removed="1"/>
-        <references name="src" removed="1"/>
-        <references name="tar" removed="1"/>
+        <attributes name="derived"/>
+        <references name="src"/>
+        <references name="tar"/>
       </classes>
       <classes name="AssociationClass">
         <attributes name="name"/>
@@ -397,8 +395,6 @@
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -451,15 +447,15 @@
         <references name="src" created="1"/>
         <references name="tar" created="1"/>
       </classes>
-      <classes name="Composition" removed="6" cremoved="1">
-        <attributes name="name" removed="1"/>
-        <attributes name="visibility" removed="1"/>
-        <attributes name="scope" removed="1"/>
+      <classes name="Composition" cremoved="1">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
         <attributes name="nsrc"/>
         <attributes name="ntar"/>
-        <attributes name="derived" removed="1"/>
-        <references name="src" removed="1"/>
-        <references name="tar" removed="1"/>
+        <attributes name="derived"/>
+        <references name="src"/>
+        <references name="tar"/>
       </classes>
       <classes name="AssociationClass">
         <attributes name="name"/>
@@ -735,8 +731,6 @@
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation">
       <attributes name="name"/>
@@ -789,15 +783,15 @@
       <references name="src" created="2"/>
       <references name="tar" created="2"/>
     </classes>
-    <classes name="Composition" removed="12" cremoved="2">
-      <attributes name="name" removed="2"/>
-      <attributes name="visibility" removed="2"/>
-      <attributes name="scope" removed="2"/>
+    <classes name="Composition" cremoved="2">
+      <attributes name="name"/>
+      <attributes name="visibility"/>
+      <attributes name="scope"/>
       <attributes name="nsrc"/>
       <attributes name="ntar"/>
-      <attributes name="derived" removed="2"/>
-      <references name="src" removed="2"/>
-      <references name="tar" removed="2"/>
+      <attributes name="derived"/>
+      <references name="src"/>
+      <references name="tar"/>
     </classes>
     <classes name="AssociationClass">
       <attributes name="name"/>
@@ -1073,8 +1067,6 @@
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>
@@ -1127,15 +1119,15 @@
     <references name="src" created="2"/>
     <references name="tar" created="2"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Composition" removed="12" cremoved="2">
-    <attributes name="name" removed="2"/>
-    <attributes name="visibility" removed="2"/>
-    <attributes name="scope" removed="2"/>
+  <classes xsi:type="mutatormetrics:Class" name="Composition" cremoved="2">
+    <attributes name="name"/>
+    <attributes name="visibility"/>
+    <attributes name="scope"/>
     <attributes name="nsrc"/>
     <attributes name="ntar"/>
-    <attributes name="derived" removed="2"/>
-    <references name="src" removed="2"/>
-    <references name="tar" removed="2"/>
+    <attributes name="derived"/>
+    <references name="src"/>
+    <references name="tar"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="AssociationClass">
     <attributes name="name"/>

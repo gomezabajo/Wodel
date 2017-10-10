@@ -3,66 +3,32 @@
   <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="c">
+  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Constraint"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Constraint/operations"/>
-        </first>
-        <operator/>
-        <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Constraint/operations"/>
-          <refName href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operation/operators"/>
-        </second>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="oper">
-    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-      <refType href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Constraint/operations"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operation/operators"/>
-        </first>
-      </expression>
-    </container>
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operation"/>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="op">
-    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1">
-      <refType href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operation/operators"/>
+      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//miniOCL/BooleanExpCS"/>
       <expression>
         <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operator/operator"/>
-          <value xsi:type="mutatorenvironment:ListType" operator="in">
-            <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/lt"/>
-            <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/lte"/>
-            <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/gt"/>
-            <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/gte"/>
-            <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/equals"/>
-            <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/distinct"/>
+          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+          <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+            <value>lt</value>
+            <value>lte</value>
+            <value>gt</value>
+            <value>gte</value>
+            <value>equals</value>
+            <value>distinct</value>
           </value>
         </first>
       </expression>
-    </container>
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operator"/>
     </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
-    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.2"/>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//Operator/operator"/>
-      <value xsi:type="mutatorenvironment:ListType" operator="in">
-        <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/lt"/>
-        <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/lte"/>
-        <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/gt"/>
-        <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/gte"/>
-        <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/equals"/>
-        <value href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//OperatorType/distinct"/>
+      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wco8/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+      <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+        <value>lt</value>
+        <value>lte</value>
+        <value>gt</value>
+        <value>gte</value>
+        <value>equals</value>
+        <value>distinct</value>
       </value>
     </attributes>
   </commands>

@@ -45,21 +45,19 @@
         <references name="super"/>
         <references name="supplier"/>
       </classes>
-      <classes name="Attribute">
+      <classes name="Attribute" modified="1" cmodified="1">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="max"/>
         <attributes name="min"/>
-        <attributes name="derived"/>
+        <attributes name="derived" modified="1"/>
         <references name="type"/>
       </classes>
       <classes name="Constraint">
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -384,21 +382,19 @@
         <references name="super"/>
         <references name="supplier"/>
       </classes>
-      <classes name="Attribute">
+      <classes name="Attribute" modified="1" cmodified="1">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
         <attributes name="max"/>
         <attributes name="min"/>
-        <attributes name="derived"/>
+        <attributes name="derived" modified="1"/>
         <references name="type"/>
       </classes>
       <classes name="Constraint">
         <attributes name="id"/>
         <references name="type"/>
         <references name="expressions"/>
-        <references name="operations"/>
-        <references name="attributes"/>
       </classes>
       <classes name="Operation">
         <attributes name="name"/>
@@ -722,21 +718,19 @@
       <references name="super"/>
       <references name="supplier"/>
     </classes>
-    <classes name="Attribute">
+    <classes name="Attribute" modified="2" cmodified="2">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
       <attributes name="max"/>
       <attributes name="min"/>
-      <attributes name="derived"/>
+      <attributes name="derived" modified="2"/>
       <references name="type"/>
     </classes>
     <classes name="Constraint">
       <attributes name="id"/>
       <references name="type"/>
       <references name="expressions"/>
-      <references name="operations"/>
-      <references name="attributes"/>
     </classes>
     <classes name="Operation">
       <attributes name="name"/>
@@ -1060,21 +1054,19 @@
     <references name="super"/>
     <references name="supplier"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Attribute">
+  <classes xsi:type="mutatormetrics:Class" name="Attribute" modified="2" cmodified="2">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
     <attributes name="max"/>
     <attributes name="min"/>
-    <attributes name="derived"/>
+    <attributes name="derived" modified="2"/>
     <references name="type"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Constraint">
     <attributes name="id"/>
     <references name="type"/>
     <references name="expressions"/>
-    <references name="operations"/>
-    <references name="attributes"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Operation">
     <attributes name="name"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectCreated">
-    <def href="../../ucl4.model#//@commands.0"/>
+    <def href="../../ucl4.model#//@blocks.0/@commands.0"/>
     <object href="../Output0vs/Output0_0_0_1.model#//@classes.5"/>
   </muts>
 </appliedMutations:Mutations>

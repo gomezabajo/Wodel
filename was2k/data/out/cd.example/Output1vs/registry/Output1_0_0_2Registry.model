@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectCreated">
-    <def href="../../../was2k.model#//@commands.1"/>
+    <def href="../../../was2k.model#//@blocks.1/@commands.0"/>
     <object href="../Output1_0_0_2.model#//@relations.8"/>
   </muts>
 </appliedMutations:Mutations>

@@ -3,18 +3,8 @@
   <muts>
     <def href="../../wco5.model#//@commands.0"/>
   </muts>
-  <muts>
-    <def href="../../wco5.model#//@commands.1"/>
-  </muts>
   <muts xsi:type="appliedMutations:ObjectCreated">
-    <def href="../../wco5.model#//@commands.2"/>
-    <object href="../Output1.model#_MfgSUJvVEee9uaaNIqtE3A"/>
-  </muts>
-  <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../wco5.model#//@commands.3"/>
-    <object href="../../../model/cd.example.model#//@constraints.0/@operations.0/@operators.6"/>
-    <attChanges attName="operator" oldVal="add" newVal="not">
-      <def href="../../wco5.model#//@commands.3"/>
-    </attChanges>
+    <def href="../../wco5.model#//@commands.1"/>
+    <object href="../Output1.model#__rdtgKQ3EeelVK1m9JiKCA"/>
   </muts>
 </appliedMutations:Mutations>

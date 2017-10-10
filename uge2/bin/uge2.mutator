@@ -4,8 +4,8 @@ from "data/model/"
 metamodel "C:/eclipse/runtime-EclipseApplication/uge2/data/model/UMLClassDiagram.ecore"
 
 with commands {
-    cl1 = select one Class where {super <> null}
-    sup = select all Class in closure(cl1->super)
-    cl2 = select one Class where {self <> sup}
-    modify cl1 with {super = cl2}
+		cl1 = select one Class where {super <> null}
+		sup = select all Class in closure(cl1->super)
+		cl2 = select one Class where {self <> sup}
+		modify cl1 with {super = cl2}
 }

@@ -5,7 +5,7 @@ metamodel "C:/eclipse/runtime-EclipseApplication/uge1/data/model/UMLClassDiagram
 
 with commands {
 	cl = select one Class where {super <> null and super->super <> null}
-    sup1 = select one Class in cl->super where {super <> null}
-    sup2 = select one Class in sup1->super where {self <> cl->super}
-    modify cl with {super = sup2}
+	sup1 = select one Class in cl->super where {super <> null}
+	sup2 = select one Class in sup1->super where {self <> cl->super}
+	modify cl with {super = sup2}
 }

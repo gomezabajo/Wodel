@@ -62,15 +62,15 @@ atts.put("id", new RandomStringConfigurationStrategy(1, 4, false)
 );
 HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
 //NAME:type
-  		//REFERENCES COMPILES	41
-RandomTypeSelection refRts41 = new RandomTypeSelection(packages, model, "Class");
-EObject refObject41 = refRts41.getObject();
-ObSelectionStrategy refSelection41 = null;
-if (refObject41 != null) {
-refSelection41 = 
-	new SpecificObjectSelection(packages, model, refObject41);
+  		//REFERENCES COMPILES	79
+RandomTypeSelection refRts79 = new RandomTypeSelection(packages, model, "Class");
+EObject refObject79 = refRts79.getObject();
+ObSelectionStrategy refSelection79 = null;
+if (refObject79 != null) {
+refSelection79 = 
+	new SpecificObjectSelection(packages, model, refObject79);
 }
-   		refs.put("type", refSelection41);
+   		refs.put("type", refSelection79);
 CreateObjectMutator mut = new CreateObjectMutator(model, packages, referenceSelection, containerSelection, atts, refs, "Constraint");
 //INC COUNTER: 0
 if (mut != null) {
@@ -203,20 +203,20 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	   				//RESET COUNTER: 0
 	   	
 	   	   	   			   	   	//COUNTER: 1	
-	   	   	   			//COMMAND: 155
+	   	   	   			//COMMAND: 256
 	   	   	   			//REGISTRY COUNTER: 1
 	   	   	   			max = 1;
 	   	   	   			for (int j = 0; j < max; j++) {
-	   	   	   			//NAME:155
+	   	   	   			//NAME:256
 	   	   	   			//METHOD NAME:mutation1
 	   	   	   			
-	   	   	   			ArrayList<Mutator> l155 = mutation1(packages, model, hashmapEObject, hashmapList);
+	   	   	   			ArrayList<Mutator> l256 = mutation1(packages, model, hashmapEObject, hashmapList);
 	   	   	   			//COUNTER: 1
 	   	   	   			//REGISTRY METHOD NAME:registry1
 	   	   	   			
-	   	   	   			if (l155 != null) {
+	   	   	   			if (l256 != null) {
 	   	   	   				int k = 0;
-	   	   	   				for (Mutator mut : l155) {
+	   	   	   				for (Mutator mut : l256) {
 	   	   	   					if (mut != null) {
 	   	   	   						Object mutated = mut.mutate();
 	   	   	   						if (mutated != null) {
@@ -241,7 +241,6 @@ public void execute(int maxAttempts, int numMutants, boolean registry, boolean m
 	   	      
 	   	      			//MUTANT COMPLETION AND REGISTRY
 	   	       			HashMap<String, ArrayList<String>> rules = new HashMap<String, ArrayList<String>>();
-	   	      			
 	   	      			
 	   			isRepeated = registryMutant(ecoreURI, packages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions);
 	   	

@@ -16,7 +16,7 @@
     <attChanges attName="derived" oldVal="false" newVal="false">
       <def href="../../wcl2.model#//@commands.2"/>
     </attChanges>
-    <attChanges attName="name" oldVal="B" newVal="B">
+    <attChanges attName="name" oldVal="A" newVal="A">
       <def href="../../wcl2.model#//@commands.2"/>
     </attChanges>
     <attChanges attName="scope" oldVal="instance" newVal="instance">
@@ -28,6 +28,5 @@
   </muts>
   <muts xsi:type="appliedMutations:ObjectRemoved">
     <def href="../../wcl2.model#//@commands.3"/>
-    <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
   </muts>
 </appliedMutations:Mutations>

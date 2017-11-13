@@ -41,8 +41,8 @@
 <p>Replaces a variable identifier by another of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/isv.zip">isv</a>]:</p>
 
 <pre><code>
-    v1 = select one Variable
-    v2 = select one Variable where {self <> v1 and type = v1->type}
+    v1 = select one Variable where {type <> null}
+    v2 = select one Variable where {self <> v1 and type = v1->type and name <> v1.name}
     modify v1 with {copy (name, v2.name)}
 </code></pre>
 
@@ -51,19 +51,21 @@
 <p>Changes the createInstance attribute from an inbound message activity to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/aci.zip">aci</a>]:</p>
 
 <pre><code>
-    modify one Receive with {createInstance = false}
+    modify one Receive where {createInstance = true} with {createInstance = false}
 </code></pre>
 
 <p>Replaces a sequential forEach activity by a parallel one [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/afp.zip">afp</a>]:</p>
 
 <pre><code>
-    modify one ForEach with {parallel = true}
+    modify one ForEach where {parallel = false} with {parallel = true}
 </code></pre>
 
 <p>Replaces a sequence activity by a flow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
 
 <pre><code>
-    s1 = select one Sequence
+    s1 = select one Sequence where {
+        targets <> null and sources <> null and activities <> null
+    }
     f1 = create Flow with {
         targets = s1->targets,
         sources = s1->sources,
@@ -79,7 +81,7 @@
 <p>Changes the isolated attribute of a scope to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ais.zip">ais</a>]:</p>
 
 <pre><code>
-    modify one Scope with {isolated = false}
+    modify one Scope where {isolated = true} with {isolated = false}
 </code></pre>
 
 <p><u>Non-concurrent activity mutation.</u></p>

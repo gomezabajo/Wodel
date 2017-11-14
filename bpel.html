@@ -63,9 +63,7 @@
 <p>Replaces a sequence activity by a flow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
 
 <pre><code>
-    s1 = select one Sequence where {
-        targets <> null and sources <> null and activities <> null
-    }
+    s1 = select one Sequence
     f1 = create Flow with {
         targets = s1->targets,
         sources = s1->sources,
@@ -124,6 +122,7 @@
         copy(documentationElement, while1.documentationElement),
         copy(suppressJoinFailure, while1.suppressJoinFailure)
     }
+	remove while1
 </code></pre>
 
 <p>Replaces a repeatUntil activity by a while activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
@@ -144,12 +143,14 @@
         copy(documentationElement, repeatUntil2.documentationElement),
         copy(suppressJoinFailure, repeatUntil2.suppressJoinFailure)
     }
+	remove repeatUntil2
 </code></pre>
 
 <p>Removes the joinCondition attribute from an activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ajc.zip">ajc</a>]:</p>
 
 <pre><code>
-    modify one Activity with {unset(suppressJoinFailure)}
+    modify one Activity where {suppressJoinFailure = true}
+	    with {suppressJoinFailure = false}
 </code></pre>
 
 <p>Exchanges the order of two child activities in a sequence activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asi.zip">asi</a>]:</p>
@@ -221,7 +222,6 @@
     t1 = select one Throw where {faultVariable <> null}
     fv1 = select one Variable in t1->faultVariable
     fv2 = select one Variable where {self <> fv1}
-    remove fv1
     modify t1 with {faultVariable = fv2}
 </code></pre>
 

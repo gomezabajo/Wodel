@@ -260,109 +260,133 @@
 <p>Changes the association type (association, aggregation) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2a.zip">was2a</a>]:</p>
 
 <pre><code>
+    <!--
     as = select one Association
     rel = create Aggregation with {src = as->src, tar = as->tar}
     modify rel with {copy(name, as.name)}
-    remove as
+    remove as-->
+    retype one Association as Aggregation
 </code></pre>
 
 <p>Changes the association type (aggregation, association) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2b.zip">was2b</a>]:</p>
 
 <pre><code>
+    <!--
     ag = select one Aggregation
     rel = create Association with {src = ag->src, tar = ag->tar}
     modify rel with {copy(name, ag.name)}
-    remove ag
+    remove ag-->
+    retype one Aggregation as Association
 </code></pre>
 
 <p>Changes the association type (association, composition) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2c.zip">was2c</a>]:</p>
 
 <pre><code>
+	<!--
     as = select one Association
     rel = create Composition with {src = as->src, tar = as->tar}
     modify rel with {copy(name, as.name)}
-    remove as
+    remove as-->
+    retype one Association as Composition
 </code></pre>
 
 <p>Changes the association type (composition, association) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2d.zip">was2d</a>]:</p>
 
 <pre><code>
+	<!--
     comp = select one Composition
     rel = create Association with {src = comp->src, tar = comp->tar}
     modify rel with {copy(name, comp.name)}
-    remove comp
+    remove comp-->
+    retype one Composition as Association
 </code></pre>
 
 <p>Changes the association type (association, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2e.zip">was2e</a>]:</p>
 
 <pre><code>
-    as = select one Association
+    <!--
+	as = select one Association
     rel = create Dependency with {src = as->src, tar = as->tar}
     modify rel with {copy(name, as.name)}
-    remove as
+    remove as-->
+    retype one Association as Dependency
 </code></pre>
 
 <p>Changes the association type (dependency, association) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2f.zip">was2f</a>]:</p>
 
 <pre><code>
+	<!--
     dep = select one Dependency
     rel = create Association with {src = dep->src, tar = dep->tar}
     modify rel with {copy(name, dep.name)}
-    remove dep
+    remove dep-->
+    retype one Dependency as Association
 </code></pre>
 
 <p>Changes the association type (aggregation, composition) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2g.zip">was2g</a>]:</p>
 
 <pre><code>
+    <!--
     ag = select one Aggregation
     rel = create Composition with {src = ag->src, tar = ag->tar}
-    modify rel with {copy(name, ag.name)}
-    remove ag
+    modify rel with {copy(name, ag.name)}	
+    remove ag-->
+    retype one Aggregation as Composition
 </code></pre>
 
 <p>Changes the association type (composition, aggregation) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2h.zip">was2h</a>]:</p>
 
 <pre><code>
+    <!--
     comp = select one Composition
     rel = create Aggregation with {src = comp->src, tar = comp->tar}
     modify rel with{copy(name, comp.name)}
-    remove comp
+    remove comp-->
+    retype one Composition as Aggregation
 </code></pre>
 
 <p>Changes the association type (aggregation, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2i.zip">was2i</a>]:</p>
 
 <pre><code>
+    <!--
     ag = select one Aggregation
     rel = create Dependency with {src = ag->src, tar = ag->tar}
     modify rel with {copy(name, ag.name)}
-    remove ag
+    remove ag-->
+    retype one Aggregation as Dependency
 </code></pre>
 
 <p>Changes the association type (dependency, aggregation) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2j.zip">was2j</a>]:</p>
 
 <pre><code>
+    <!--
     dep = select one Dependency
     rel = create Aggregation with {src = dep->src, tar = dep->tar}
     modify rel with {copy(name, dep.name)}
-    remove dep
+    remove dep-->
+    retype one Dependency as Aggregation
 </code></pre>
 
 <p>Changes the association type (composition, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2k.zip">was2k</a>]:</p>
 
 <pre><code>
+    <!--
     comp = select one Composition
     rel = create Dependency with {src = comp->src, tar = comp->tar}
     modify rel with {copy(name, comp.name)}
-    remove comp
+    remove comp-->
+    retype one Composition as Dependency
 </code></pre>
 
 <p>Changes the association type (dependency, composition) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2l.zip">was2l</a>]:</p>
 
 <pre><code>
+    <!--
     dep = select one Dependency
     rel = create Composition with {src = dep->src, tar = dep->tar}
     modify rel with {copy(name, dep.name)}
-    remove dep
+    remove dep-->
+    retype one Dependency as Composition
 </code></pre>
 
 <p>Changes the tar multiplicity of an Association (i.e. *, 0..1, 1..1, 1..*) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was3.zip">was3</a>]:</p>
@@ -386,6 +410,7 @@
 <p>Changes Class by an Association Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl2.zip">wcl2</a>]:</p>
 
 <pre><code>
+    <!--
     cl = select one Class
     ac = create AssociationClass with {
         features = cl->features,
@@ -399,12 +424,14 @@
         copy (scope, cl.scope),
         copy (visibility, cl.visibility)
     }
-    remove cl
+    remove cl-->
+    retype one Class as AssociationClass
 </code></pre>
 
 <p>Changes Association Class for a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl3.zip">wcl3</a>]:</p>
 
 <pre><code>
+    <!--
     ac = select one AssociationClass
     cl = create Class with {
         features = ac->features,
@@ -418,7 +445,8 @@
         copy(scope, ac.scope),
         copy(visibility, ac.visibility)
     }
-    remove ac
+    remove ac-->
+    retype one AssociationClass as Class
 </code></pre>
 
 <p>Changes the Class feature "abstract" to true [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl4.zip">wcl4</a>]:</p>
@@ -454,10 +482,14 @@
 <p>Changes the order of the parameters [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop1.zip">wop1</a>]:</p>
 
 <pre><code>
+    <!--
     oper = select one Operation where {params <> null}
     p = select one Parameter in oper->params
     remove p from oper->params
-    modify oper with {params = p}
+    modify oper with {params = p}-->
+    oper = select one Operation where {params <> null}
+    p = select one Parameter in oper->params
+    modify oper with {params -= p, params += p}
 </code></pre>
 
 <p>Changes the visibility kind of an operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop2.zip">wop2</a>]:</p>

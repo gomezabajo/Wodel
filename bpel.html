@@ -63,7 +63,10 @@
 <p>Replaces a sequence activity by a flow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asf.zip">asf</a>]:</p>
 
 <pre><code>
-    s1 = select one Sequence
+    <!--
+    s1 = select one Sequence where {
+        targets <> null and sources <> null and activities <> null
+    }
     f1 = create Flow with {
         targets = s1->targets,
         sources = s1->sources,
@@ -73,7 +76,8 @@
         copy(name, s1.name),
         copy (suppressJoinFailure, s1.suppressJoinFailure)
     }
-    remove s1
+    remove s1-->
+    retype one Sequence as Flow
 </code></pre>
 
 <p>Changes the isolated attribute of a scope to <i>no</i> [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ais.zip">ais</a>]:</p>
@@ -107,6 +111,7 @@
 <p>Replaces a while activity by a repeatUntil activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr1.zip">awr1</a>]:</p>
 
 <pre><code>
+    <!--
     while1 = select one While
     repeatUntil1 = create RepeatUntil with {
         targets = while1->targets,
@@ -121,13 +126,14 @@
         copy(element, while1.element),
         copy(documentationElement, while1.documentationElement),
         copy(suppressJoinFailure, while1.suppressJoinFailure)
-    }
-    remove while1
+    }-->
+    retype one While as RepeatUntil
 </code></pre>
 
 <p>Replaces a repeatUntil activity by a while activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/awr2.zip">awr2</a>]:</p>
 
 <pre><code>
+    <!--
     repeatUntil2 = select one RepeatUntil
     while2 = create While with {
         targets = repeatUntil2->targets,
@@ -142,24 +148,28 @@
         copy(element, repeatUntil2.element),
         copy(documentationElement, repeatUntil2.documentationElement),
         copy(suppressJoinFailure, repeatUntil2.suppressJoinFailure)
-    }
-    remove repeatUntil2
+    }-->
+    retype one RepeatUntil as While
 </code></pre>
 
 <p>Removes the joinCondition attribute from an activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/ajc.zip">ajc</a>]:</p>
 
 <pre><code>
-    modify one Activity where {suppressJoinFailure = true}
-        with {suppressJoinFailure = false}
+    modify one Activity with {unset(suppressJoinFailure)}
 </code></pre>
 
 <p>Exchanges the order of two child activities in a sequence activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/asi.zip">asi</a>]:</p>
 
 <pre><code>
+    <!--
     s2 = select one Sequence where {activities <> null}
     a1 = select one Activity in s2->activities
     remove a1 from s2->activities
     modify s2 with {activities = a1}
+    -->
+    s2 = select one Sequence where {activities <> null}
+    a1 = select one Activity in s2->activities
+	modify s2 with {activities -= a1, activities += a1}
 </code></pre>
 
 <p>Removes an onMessage element from a pick activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apm.zip">apm</a>]:</p>
@@ -222,6 +232,7 @@
     t1 = select one Throw where {faultVariable <> null}
     fv1 = select one Variable in t1->faultVariable
     fv2 = select one Variable where {self <> fv1}
+    remove fv1
     modify t1 with {faultVariable = fv2}
 </code></pre>
 

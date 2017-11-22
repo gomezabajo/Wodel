@@ -100,8 +100,8 @@ with blocks {
          modify one State with { name = random-string(4,6)}
     } [3]
 }
-constraints text=yes {
-    context State connected: "isInitial or Set{self}-&gt;
+constraints {
+    context State connected:: "isInitial or Set{self}-&gt;
             closure(s | Transition.allInstances()-&gt;
             select(t | t.tar=s)-&gt;collect(src))-&gt;exists(s | s.isInitial)"
 }

@@ -169,7 +169,7 @@
     -->
     s2 = select one Sequence where {activities <> null}
     a1 = select one Activity in s2->activities
-	modify s2 with {activities -= a1, activities += a1}
+    modify s2 with {activities -= a1, activities += a1}
 </code></pre>
 
 <p>Removes an onMessage element from a pick activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/apm.zip">apm</a>]:</p>

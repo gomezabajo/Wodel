@@ -536,8 +536,7 @@
 
 <pre><code>
     cl = select one Class
-    remove all Relation where {src = cl}
-    remove all Relation where {tar = cl}
+    remove all Relation where {src = cl or tar = cl}
     remove all Operation where {type = cl}
     remove all Feature where {type = cl}
     remove all AssociationClass where {association = null}

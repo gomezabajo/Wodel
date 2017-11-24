@@ -232,8 +232,7 @@
     t1 = select one Throw where {faultVariable <> null}
     fv1 = select one Variable in t1->faultVariable
     fv2 = select one Variable where {self <> fv1}
-    remove fv1
-    modify t1 with {faultVariable = fv2}
+    modify t1 with {faultVariable -= fv1, faultVariable += fv2}
 </code></pre>
 
 <p>Removes a rethrow activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpel/xer.zip">xer</a>]:</p>

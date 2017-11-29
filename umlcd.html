@@ -168,7 +168,7 @@
     modify c->attributes with {type = other Class}-->
     path = select one PathElementCS where {pathName = one Attribute}
     att = select one Attribute in path->pathName
-    modify att with {type = one Class}
+    modify att with {type = other Class}
 </code></pre>
 
 <p>Change the constraint by deleting the calls to specific operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>

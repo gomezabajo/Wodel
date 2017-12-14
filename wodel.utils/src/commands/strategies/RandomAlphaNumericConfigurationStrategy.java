@@ -3,15 +3,17 @@ package commands.strategies;
 import manager.ModelManager;
 
 /**
- * @author Victor Lopez Rivero
- * StringConfigurationStrategy configures the String attributes
+ * @author Pablo Gomez-Abajo
+ * 
+ * RandomAlphaNumericConfigurationStrategy configures the String attributes
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class RandomAlphaNumericConfigurationStrategy extends RandomStringConfigurationStrategy{
 	
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	public RandomAlphaNumericConfigurationStrategy(int min, int max, boolean allowsNull, boolean firstUpperCase, boolean firstLowerCase, boolean allUpperCase, boolean allLowerCase){
 		super(min, max, allowsNull);
 		final char [] alphaNum = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -20,8 +22,7 @@ public class RandomAlphaNumericConfigurationStrategy extends RandomStringConfigu
 								  'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'};
 		int size = ModelManager.rn.nextInt(max-min)+min;
 	
-		int 	number = 0,
-				lower  = 11,
+		int 	lower  = 11,
 				upper  = 37;
 		
 		this.value = "";
@@ -53,8 +54,7 @@ public class RandomAlphaNumericConfigurationStrategy extends RandomStringConfigu
 								  'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'};
 		int size = ModelManager.rn.nextInt(max-min)+min;
 	
-		int 	number = 0,
-				lower  = 11,
+		int 	lower  = 11,
 				upper  = 37;
 		
 		this.value = "";

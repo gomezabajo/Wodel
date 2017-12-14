@@ -16,8 +16,13 @@ import exceptions.ObjectNoTargetableException;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero
- * CreateReferenceMutator creates new references over the diagram. 
+ * @author Pablo Gomez-Abajo
+ * 
+ * CreateReferenceMutator creates new references over the diagram.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public class CreateReferenceMutator extends Mutator {
 	
@@ -51,7 +56,7 @@ public class CreateReferenceMutator extends Mutator {
 	 * @param refType
 	 * Normal constructor
 	 */
-	public CreateReferenceMutator(Resource model, ArrayList<EPackage> metaModel,
+	public CreateReferenceMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy sourceSelection, ObSelectionStrategy targetSelection, String refType){
 		super(model, metaModel, "ReferenceCreated");
 		this.sourceSelection = sourceSelection;

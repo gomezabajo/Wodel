@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 DFAAutomaton.ecore" xmi:id="_CEZXwJCEEeepZr8yRJoheA" name="dfa2">
+  <states xmi:id="_Dv53UJCEEeepZr8yRJoheA" name="q4" isInitial="true" isFinal="true"/>
+  <states xmi:id="_HBF7QJCEEeepZr8yRJoheA" name="q5"/>
+  <states xmi:id="_IgKhUJCEEeepZr8yRJoheA" name="q6" isFinal="true"/>
+  <states xmi:id="_KcN-UJCEEeepZr8yRJoheA" name="q7"/>
+  <states xmi:id="_ML06wJCEEeepZr8yRJoheA" name="q8" isFinal="true"/>
+  <states xmi:id="_ORlGUJCEEeepZr8yRJoheA" name="q9"/>
+  <states xmi:id="_PUG6UJCEEeepZr8yRJoheA" name="q10" isFinal="true"/>
+  <states xmi:id="_RuvwwJCEEeepZr8yRJoheA" name="q11"/>
+  <transitions xmi:id="_U2uOUJCEEeepZr8yRJoheA" src="_Dv53UJCEEeepZr8yRJoheA" tar="_HBF7QJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_Wme7wJCEEeepZr8yRJoheA" src="_HBF7QJCEEeepZr8yRJoheA" tar="_IgKhUJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_YX2ywJCEEeepZr8yRJoheA" src="_IgKhUJCEEeepZr8yRJoheA" tar="_KcN-UJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_aX4w0JCEEeepZr8yRJoheA" src="_KcN-UJCEEeepZr8yRJoheA" tar="_ML06wJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_c9lnwJCEEeepZr8yRJoheA" src="_ML06wJCEEeepZr8yRJoheA" tar="_ORlGUJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_fShe0JCEEeepZr8yRJoheA" src="_ORlGUJCEEeepZr8yRJoheA" tar="_PUG6UJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_hCWdsJCEEeepZr8yRJoheA" src="_PUG6UJCEEeepZr8yRJoheA" tar="_RuvwwJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <transitions xmi:id="_ieJGQJCEEeepZr8yRJoheA" src="_RuvwwJCEEeepZr8yRJoheA" tar="_Dv53UJCEEeepZr8yRJoheA" symbol="_T2F3wJCEEeepZr8yRJoheA"/>
+  <alphabet xmi:id="_T2F3wJCEEeepZr8yRJoheA" symbol="a"/>
+</DFAAutomaton:Automaton>

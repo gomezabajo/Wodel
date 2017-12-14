@@ -3,34 +3,20 @@
  */
 package wodel.dsls.validation
 
-import java.util.ArrayList
 import manager.ModelManager
-import mutatorenvironment.CompositeMutator
 import mutatorenvironment.CreateObjectMutator
-import mutatorenvironment.MutatorEnvironment
-import mutatorenvironment.RandomTypeSelection
-import mutatorenvironment.SpecificObjectSelection
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.validation.Check
 import java.util.List
-import mutatorenvironment.Definition
 import mutatorenvironment.Program
-import java.io.FileNotFoundException
 import exceptions.MetaModelNotFoundException
-import exceptions.ModelNotFoundException
 import mutatorenvironment.Mutator
 import mutatorenvironment.ModifyInformationMutator
-import mutatorenvironment.ObSelectionStrategy
 import mutatorenvironment.AttributeSet
 import org.eclipse.emf.common.util.EList
 import mutatorenvironment.AttributeUnset
 import org.eclipse.emf.ecore.EAttribute
 import mutatorenvironment.AttributeSwap
 import mutatorenvironment.AttributeCopy
-import mutatorenvironment.ModifySourceReferenceMutator
-import org.eclipse.emf.ecore.EReference
 import mutatorenvironment.AttributeScalar
 import mutatorenvironment.AttributeType
 import mutatorenvironment.StringType
@@ -39,17 +25,19 @@ import mutatorenvironment.BooleanType
 import mutatorenvironment.DoubleType
 import mutatorenvironment.ListStringType
 import java.io.File
-import mutatorenvironment.Expression
-import mutatorenvironment.BinaryOperator
 import mutatorenvironment.AttributeReverse
-
-//import org.eclipse.xtext.validation.Check
+import org.eclipse.xtext.validation.Check
 
 /**
- * Custom validation rules. 
- *
- * see http://www.eclipse.org/Xtext/documentation.html#validation
+ * @author Pablo Gomez-Abajo - Wodel editor validator.
+ * 
+ * Validates the Wodel code.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 class WodelValidator extends AbstractWodelValidator {
 	
     public static val INVALID_NAME = 'invalidName'
@@ -62,7 +50,7 @@ class WodelValidator extends AbstractWodelValidator {
     public static val WARNING_MODIFY_SOURCE = 'warningModifySource'
     public static val INVALID_EXPRESSION = 'invalidExpression'
     public static val INVALID_REVERSE = 'invalidReverse'
-    ArrayList<EPackage> packages
+    List<EPackage> packages
     String lastMetamodel = '' 
     
     @Check
@@ -134,7 +122,6 @@ class WodelValidator extends AbstractWodelValidator {
     			}
     		}
     		if (attset instanceof AttributeSwap) {
-    			System.out.println("SWAP: attset: " + attset);
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var EAttribute att1 = attset.getAttribute().get(1);
     			
@@ -144,7 +131,6 @@ class WodelValidator extends AbstractWodelValidator {
     		}
     		
     		if (attset instanceof AttributeCopy) {
-    			System.out.println("COPY: attset: " + attset);
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var EAttribute att1 = attset.getAttribute().get(1);
     			
@@ -171,7 +157,6 @@ class WodelValidator extends AbstractWodelValidator {
     				}
     			}
     			if (att_type instanceof DoubleType) {
-    				System.out.println("DoubleType: " + att0.getEType().getInstanceClassName())
     				if (!att0.getEType().getInstanceClassName().equals("double") && (!att0.getEType().getInstanceClassName().equals("java.lang.Double"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
@@ -202,7 +187,6 @@ class WodelValidator extends AbstractWodelValidator {
     			}
     		}
     		if (attset instanceof AttributeSwap) {
-    			System.out.println("SWAP: attset: " + attset);
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var EAttribute att1 = attset.getAttribute().get(1);
     			
@@ -212,7 +196,6 @@ class WodelValidator extends AbstractWodelValidator {
     		}
     		
     		if (attset instanceof AttributeCopy) {
-    			System.out.println("COPY: attset: " + attset);
     			var EAttribute att0 = attset.getAttribute().get(0);
     			var EAttribute att1 = attset.getAttribute().get(1);
     			
@@ -230,7 +213,6 @@ class WodelValidator extends AbstractWodelValidator {
     			}
     			if (att_type instanceof BooleanType) {
     				var String className = att0.getEType().getInstanceClassName()
-    				System.out.println(className)
     				if (!att0.getEType().getInstanceClassName().equals("boolean") && (!att0.getEType().getInstanceClassName().equals("java.lang.Boolean"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}
@@ -241,7 +223,6 @@ class WodelValidator extends AbstractWodelValidator {
     				}
     			}
     			if (att_type instanceof DoubleType) {
-    				System.out.println("DoubleType: " + att0.getEType().getInstanceClassName())
     				if (!att0.getEType().getInstanceClassName().equals("double") && (!att0.getEType().getInstanceClassName().equals("java.lang.Double"))) {
     					error('The attributes are not of the same type', null, INVALID_TYPE);
     				}

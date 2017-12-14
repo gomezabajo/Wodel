@@ -1,9 +1,7 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -11,16 +9,23 @@ import org.eclipse.emf.ecore.resource.Resource;
 import commands.ObjectEmitter;
 import exceptions.ReferenceNonExistingException;
 
+
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * ObSelectionStrategy is the father class of all the selection strategies
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public abstract class ObSelectionStrategy implements ObjectEmitter{
 	
 	/**
 	 * Loades metamodel
 	 */
-	private ArrayList<EPackage> metaModel;
+	private List<EPackage> metaModel;
 	/**
 	 * Loaded model
 	 */
@@ -31,7 +36,7 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 	 * @param model
 	 * Normal constructor
 	 */
-	public ObSelectionStrategy(ArrayList<EPackage> metaModel, Resource model){
+	public ObSelectionStrategy(List<EPackage> metaModel, Resource model){
 		this.metaModel = metaModel;
 		this.model = model;
 	}
@@ -40,10 +45,10 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 
 	public List<EObject> getObjects() throws ReferenceNonExistingException { return null; };
 	
-	public ArrayList<EPackage> getMetaModel() {
+	public List<EPackage> getMetaModel() {
 		return metaModel;
 	}
-	public void setMetaModel(ArrayList<EPackage> metaModel) {
+	public void setMetaModel(List<EPackage> metaModel) {
 		this.metaModel = metaModel;
 	}
 	public Resource getModel() {
@@ -52,9 +57,4 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 	public void setModel(Resource model) {
 		this.model = model;
 	}
-	
-	//public boolean sameType(EClassifier c) throws ReferenceNonExistingException {
-	//	if(c.getName().equals(this.getObject().eClass().getName())) return true;
-	//	return false;
-	//}
 }

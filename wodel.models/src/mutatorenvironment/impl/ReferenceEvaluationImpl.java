@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getName <em>Name</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getRefName <em>Ref Name</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getValue <em>Value</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceEvaluationImpl#getRefType <em>Ref Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

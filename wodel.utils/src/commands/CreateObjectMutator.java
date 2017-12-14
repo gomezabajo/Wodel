@@ -1,10 +1,12 @@
 package commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import manager.ModelManager;
 
@@ -12,12 +14,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import commands.selection.strategies.ObSelectionStrategy;
-import commands.selection.strategies.SpecificObjectSelection;
 import commands.strategies.AttributeConfigurationStrategy;
 import exceptions.AbstractCreationException;
 import exceptions.ObjectNotContainedException;
@@ -25,8 +25,13 @@ import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * CreateObjectMutator creates new objects over the diagram. 
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public class CreateObjectMutator extends Mutator {	
 	
@@ -55,9 +60,6 @@ public class CreateObjectMutator extends Mutator {
 	 */
 	private String objName = null;
 	
-	private String refType = null;
-	
-
 	/**
 	 * @param model
 	 * @param metaModel
@@ -66,7 +68,7 @@ public class CreateObjectMutator extends Mutator {
 	 * @param attributeConfig
 	 * Normal constructor
 	 */
-	public CreateObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+	public CreateObjectMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig){
 		super(model, metaModel, "ObjectCreated");
 		this.referenceSelection = referenceSelection;
@@ -83,7 +85,7 @@ public class CreateObjectMutator extends Mutator {
 	 * @param inheritedName
 	 * Constructor that specifies the class name
 	 */
-	public CreateObjectMutator(Resource model, ArrayList<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
+	public CreateObjectMutator(Resource model, List<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
 			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, String objName){
 		super(model, metaModel, "ObjectCreated");
 		this.referenceSelection = referenceSelection;
@@ -101,7 +103,7 @@ public class CreateObjectMutator extends Mutator {
 	 * @param inheritedName
 	 * Constructor that specifies the class name
 	 */
-	public CreateObjectMutator(Resource model, ArrayList<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
+	public CreateObjectMutator(Resource model, List<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
 			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig, String objName){
 		super(model, metaModel, "ObjectCreated");
 		this.referenceSelection = referenceSelection;
@@ -111,26 +113,6 @@ public class CreateObjectMutator extends Mutator {
 		this.objName = objName;
 	}
 	
-	/**
-	 * @param model
-	 * @param metaModel
-	 * @param referenceSelection
-	 * @param containerSelection
-	 * @param attributeConfig
-	 * @param inheritedName
-	 * Constructor that specifies the class name
-	 */
-	public CreateObjectMutator(Resource model, ArrayList<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
-			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig, String objName, String refType){
-		super(model, metaModel, "ObjectCreated");
-		this.referenceSelection = referenceSelection;
-		this.containerSelection = containerSelection;
-		this.attributeConfig = attributeConfig;
-		this.referenceConfig = referenceConfig;
-		this.objName = objName;
-		this.refType = refType;
-	}
-
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
@@ -168,14 +150,27 @@ public class CreateObjectMutator extends Mutator {
 		//If there is not a selected reference we choose a random one
 		if(reference == null && objName != null){
 			ArrayList<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
-			reference = refs.get(ModelManager.getRandomIndex(refs));
+			Collections.shuffle(refs);
+			for (EReference ref : refs) {
+				if (ref.getEType().getName().equals(objName)) {
+					reference = ref;
+					break;
+				}
+			}
+			if (reference == null) {
+				reference = refs.get(ModelManager.getRandomIndex(refs));
+			}
 		}
 
 		
 		//We create the object
 		EObject newObj = null;
-		
-		newObj = EcoreUtil.create((EClass) obj);
+		//if (this.getMetaModel().get(0).getNsURI().equals("http://www.eclipse.org/emf/2002/Ecore")) {
+		//	newObj = EcoreFactory.eINSTANCE.create((EClass) obj);
+		//}
+		//else {
+			newObj = EcoreUtil.create((EClass) obj);
+		//}
 		
 		boolean sup = false;
 		if(!reference.getEType().getName().equals(newObj.eClass().getName())){
@@ -185,23 +180,30 @@ public class CreateObjectMutator extends Mutator {
 					sup=true;
 				}
 			}*/
-			if (! newObj.eClass().getEAllSuperTypes().contains(reference.getEType())) {			
+			boolean found = false;
+			for (EClass superType : newObj.eClass().getEAllSuperTypes()) {
+				if (superType.getName().equals(reference.getEType().getName())) {
+					found = true;
+					break;
+				}
+			}
+			if (found == false) {			
 				result = null;
 				throw new ObjectNotContainedException("The object "+newObj.eClass().getName()+ " is not contained in "+ container.eClass().getName());
 			}
 		}
 		
 		//Attributes configuration
-		Iterator it = this.attributeConfig.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, AttributeConfigurationStrategy> e = (Map.Entry<String, AttributeConfigurationStrategy>)it.next();			
+		Iterator<Entry<String, AttributeConfigurationStrategy>> att = this.attributeConfig.entrySet().iterator();
+		while (att.hasNext()) {
+			Map.Entry<String, AttributeConfigurationStrategy> e = att.next();			
 			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
 		}
 			
 		//Reference configuration
-		it = this.referenceConfig.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)it.next();
+		Iterator<Entry<String, ObSelectionStrategy>> ref = this.referenceConfig.entrySet().iterator();
+		while (ref.hasNext()) {
+			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)ref.next();
 			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
 				if (e.getValue().getObject() != null) {
 					ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
@@ -239,15 +241,10 @@ public class CreateObjectMutator extends Mutator {
 				result=null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
-			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
-				container.eSet(reference, newObj);
-			}
-			else {
-				container.eSet(reference, obj);
-			}
+			container.eSet(reference, newObj);
 			this.result = newObj;
 		}
-		
+
 		return newObj;
 	}
 	

@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.SelectSampleMutatorImpl#getObject <em>Object</em>}</li>
  *   <li>{@link mutatorenvironment.impl.SelectSampleMutatorImpl#getClause <em>Clause</em>}</li>
  *   <li>{@link mutatorenvironment.impl.SelectSampleMutatorImpl#getFeatures <em>Features</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

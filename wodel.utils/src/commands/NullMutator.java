@@ -1,6 +1,6 @@
 package commands;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -10,9 +10,16 @@ import commands.selection.strategies.ObSelectionStrategy;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero
- * NullMutator does nothing. But it is helpful that it saves something in its result attribute.  
+ * @author Pablo Gomez-Abajo
+ * 
+ * NullMutator does nothing. But it is helpful that it saves
+ * something in its result attribute.  
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class NullMutator extends Mutator{
 	
 	/**
@@ -30,7 +37,7 @@ public class NullMutator extends Mutator{
 	 * @param object
 	 * Normal constructor
 	 */
-	public NullMutator(Resource model, ArrayList<EPackage> metaModel, ObSelectionStrategy object) {
+	public NullMutator(Resource model, List<EPackage> metaModel, ObSelectionStrategy object) {
 		super(model, metaModel, "Null");
 		this.object = object;
 	}
@@ -43,6 +50,4 @@ public class NullMutator extends Mutator{
 		result = object.getObject();
 		return this.result;
 	}
-
-
 }

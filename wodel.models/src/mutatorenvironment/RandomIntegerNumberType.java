@@ -10,10 +10,10 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RandomIntegerNumberType#getMin <em>Min</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRandomIntegerNumberType()
  * @model
@@ -32,6 +32,7 @@ public interface RandomIntegerNumberType extends RandomNumberType {
 	 * @see #setMin(int)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getRandomIntegerNumberType_Min()
 	 * @model required="true"
+	 *        annotation="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName body='SpecificClosureSelection' unique='false' upper='*'"
 	 * @generated
 	 */
 	int getMin();

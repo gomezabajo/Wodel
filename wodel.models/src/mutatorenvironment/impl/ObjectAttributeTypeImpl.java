@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ObjectAttributeTypeImpl#getObjSel <em>Obj Sel</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ObjectAttributeTypeImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ObjectAttributeTypeImpl#getOperator <em>Operator</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

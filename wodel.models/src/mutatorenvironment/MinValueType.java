@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.MinValueType#getAttribute <em>Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getMinValueType()
  * @model

@@ -15,8 +15,11 @@ import org.eclipse.ui.PlatformUI;
  */
 public class WodelContext implements Runnable {
 	private static String project;
+	private static String fileName;
 
-	private WodelContext(){}
+	private WodelContext(){
+	}
+	
 	
 	public static String getProject() {
 		if (project == null) {
@@ -28,6 +31,13 @@ public class WodelContext implements Runnable {
 		WodelContext.project = project;
 	}
 	
+	public static String getFileName() {
+		if (fileName == null) {
+			Display.getDefault().syncExec(new WodelContext());
+		}
+		return fileName;
+	}
+
 	@Override
 	public void run() {
 		IWorkbenchWindow ww = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -37,6 +47,7 @@ public class WodelContext implements Runnable {
 			IFile file = (IFile)wbp.getEditorInput().getAdapter(IFile.class);
 			IProject ip = file.getProject();
 			WodelContext.project = ip.getName();
+			WodelContext.fileName = file.getName();
 		}
 	}
 }

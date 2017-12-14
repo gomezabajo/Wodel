@@ -72,6 +72,7 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 			case AppliedMutationsPackage.ATTRIBUTE_SWAP: return createAttributeSwap();
 			case AppliedMutationsPackage.COMPOSITE_MUTATION: return createCompositeMutation();
 			case AppliedMutationsPackage.OBJECT_CLONED: return createObjectCloned();
+			case AppliedMutationsPackage.OBJECT_RETYPED: return createObjectRetyped();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -235,6 +236,16 @@ public class AppliedMutationsFactoryImpl extends EFactoryImpl implements Applied
 	public ObjectCloned createObjectCloned() {
 		ObjectClonedImpl objectCloned = new ObjectClonedImpl();
 		return objectCloned;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObjectRetyped createObjectRetyped() {
+		ObjectRetypedImpl objectRetyped = new ObjectRetypedImpl();
+		return objectRetyped;
 	}
 
 	/**

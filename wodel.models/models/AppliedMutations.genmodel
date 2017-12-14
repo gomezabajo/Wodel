@@ -17,6 +17,7 @@
     </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//ObjectRemoved">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRemoved/object"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRemoved/type"/>
     </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//ReferenceChanged">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ReferenceChanged/object"/>
@@ -74,6 +75,12 @@
     </genClasses>
     <genClasses ecoreClass="AppliedMutations.ecore#//ObjectCloned">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectCloned/object"/>
+    </genClasses>
+    <genClasses ecoreClass="AppliedMutations.ecore#//ObjectRetyped">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRetyped/object"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRetyped/removedObject"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRetyped/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference AppliedMutations.ecore#//ObjectRetyped/newType"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

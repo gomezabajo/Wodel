@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.ReferenceSet#getReference <em>Reference</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceSet#getObject <em>Object</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceSet()
  * @model

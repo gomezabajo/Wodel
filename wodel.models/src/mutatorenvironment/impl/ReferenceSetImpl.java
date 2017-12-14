@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ReferenceSetImpl#getReference <em>Reference</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReferenceSetImpl#getObject <em>Object</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getDefinition <em>Definition</em>}</li>
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getCommands <em>Commands</em>}</li>
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getBlocks <em>Blocks</em>}</li>
  *   <li>{@link mutatorenvironment.MutatorEnvironment#getConstraints <em>Constraints</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getMutatorEnvironment()
  * @model

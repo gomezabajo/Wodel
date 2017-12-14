@@ -5,10 +5,16 @@ import java.util.List;
 import manager.ModelManager;
 
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * SwapAttributeConfigurationStrategy reference swap
+ *  
+ */
 
 public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationStrategy {
 	
@@ -29,21 +35,16 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 	public boolean sameType() {
 		Object src = eobjsrc.eGet(source);
 		Object tar = eobjsrc.eGet(target);
-		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
 		if (src != null && tar != null) {
-			if (src.getClass().getSimpleName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase())) {
+			if (src.getClass().equals(tar.getClass())) {
 				return true;
 			}
 		}
 		if (source != null && target != null) {
-			if (source.getEType().getName().equals(target.getEType().getName())) {
+			if (EcoreUtil.equals(source.getEReferenceType(), target.getEReferenceType())) {
 				return true;
 			}
 		}
-		//System.out.println("c: " + c.getInstanceClass().toString() + ", source: " + src.getClass().toString() + ", target:" + tar.getClass().toString());
-		//if ((c.getInstanceClass() == src.getClass()) && (c.getInstanceClass() == tar.getClass())) {
-		//	return true;
-		//}
 		return false;
 	}
 
@@ -144,14 +145,12 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 		super("");
 		for (EReference a : obj_src.eClass().getEAllReferences()) {
 			if (a.getName().equals(source)) {
-				System.out.println("SOURCE: " + source + ", VALUE: " + obj_src.eGet(a));
 				this.source = a;
 				break;
 			}
 		}
 		for (EReference a : obj_tar.eClass().getEAllReferences()) {
 			if (a.getName().equals(target)) {
-				System.out.println("TARGET: " + target + ", VALUE: " + obj_tar.eGet(a));
 				this.target = a;
 				break;
 			}
@@ -161,7 +160,6 @@ public class SwapReferenceConfigurationStrategy extends ReferenceConfigurationSt
 			if (r.getName().equals(source)) {
 				continue;
 			}
-			System.out.println("obj_src.eGet(r): " + obj_src.eGet(r));
 			if (obj_src.eGet(this.source) != null) {
 				if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
 					othereobjsrc = (EObject) obj_src.eGet(r, true);

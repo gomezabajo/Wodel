@@ -3979,13 +3979,22 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int CONSTRAINT__TYPE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Rule</b></em>' attribute.
+	 * The feature id for the '<em><b>Expressions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONSTRAINT__RULE = 2;
+	int CONSTRAINT__EXPRESSIONS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Rules</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONSTRAINT__RULES = 3;
 
 	/**
 	 * The number of structural features of the '<em>Constraint</em>' class.
@@ -3994,7 +4003,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONSTRAINT_FEATURE_COUNT = 3;
+	int CONSTRAINT_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Constraint</em>' class.
@@ -4866,6 +4875,124 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REFERENCE_REMOVE_OPERATION_COUNT = REFERENCE_SET_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.RetypeObjectMutatorImpl <em>Retype Object Mutator</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.RetypeObjectMutatorImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRetypeObjectMutator()
+	 * @generated
+	 */
+	int RETYPE_OBJECT_MUTATOR = 82;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__TYPE = MUTATOR__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__NAME = MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__MIN = MUTATOR__MIN;
+
+	/**
+	 * The feature id for the '<em><b>Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__MAX = MUTATOR__MAX;
+
+	/**
+	 * The feature id for the '<em><b>Fixed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__FIXED = MUTATOR__FIXED;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__OBJECT = MUTATOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Container</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__CONTAINER = MUTATOR_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__REF_TYPE = MUTATOR_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__ATTRIBUTES = MUTATOR_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>References</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__REFERENCES = MUTATOR_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Retype Object Mutator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR_FEATURE_COUNT = MUTATOR_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of operations of the '<em>Retype Object Mutator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR_OPERATION_COUNT = MUTATOR_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4873,7 +5000,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getLogicOperator()
 	 * @generated
 	 */
-	int LOGIC_OPERATOR = 82;
+	int LOGIC_OPERATOR = 83;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Operator <em>Operator</em>}' enum.
@@ -4883,7 +5010,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 83;
+	int OPERATOR = 84;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Repeat <em>Repeat</em>}' enum.
@@ -4893,7 +5020,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRepeat()
 	 * @generated
 	 */
-	int REPEAT = 84;
+	int REPEAT = 85;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.ArithmeticOperator <em>Arithmetic Operator</em>}' enum.
@@ -4903,7 +5030,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getArithmeticOperator()
 	 * @generated
 	 */
-	int ARITHMETIC_OPERATOR = 85;
+	int ARITHMETIC_OPERATOR = 86;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}' enum.
@@ -4913,7 +5040,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSampleClause()
 	 * @generated
 	 */
-	int SAMPLE_CLAUSE = 86;
+	int SAMPLE_CLAUSE = 87;
 
 
 	/**
@@ -6611,15 +6738,26 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getConstraint_Type();
 
 	/**
-	 * Returns the meta object for the attribute '{@link mutatorenvironment.Constraint#getRule <em>Rule</em>}'.
+	 * Returns the meta object for the containment reference list '{@link mutatorenvironment.Constraint#getExpressions <em>Expressions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Rule</em>'.
-	 * @see mutatorenvironment.Constraint#getRule()
+	 * @return the meta object for the containment reference list '<em>Expressions</em>'.
+	 * @see mutatorenvironment.Constraint#getExpressions()
 	 * @see #getConstraint()
 	 * @generated
 	 */
-	EAttribute getConstraint_Rule();
+	EReference getConstraint_Expressions();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link mutatorenvironment.Constraint#getRules <em>Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Rules</em>'.
+	 * @see mutatorenvironment.Constraint#getRules()
+	 * @see #getConstraint()
+	 * @generated
+	 */
+	EAttribute getConstraint_Rules();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.RandomType <em>Random Type</em>}'.
@@ -7022,6 +7160,71 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getReferenceRemove();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.RetypeObjectMutator <em>Retype Object Mutator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Retype Object Mutator</em>'.
+	 * @see mutatorenvironment.RetypeObjectMutator
+	 * @generated
+	 */
+	EClass getRetypeObjectMutator();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link mutatorenvironment.RetypeObjectMutator#getObject <em>Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Object</em>'.
+	 * @see mutatorenvironment.RetypeObjectMutator#getObject()
+	 * @see #getRetypeObjectMutator()
+	 * @generated
+	 */
+	EReference getRetypeObjectMutator_Object();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link mutatorenvironment.RetypeObjectMutator#getContainer <em>Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Container</em>'.
+	 * @see mutatorenvironment.RetypeObjectMutator#getContainer()
+	 * @see #getRetypeObjectMutator()
+	 * @generated
+	 */
+	EReference getRetypeObjectMutator_Container();
+
+	/**
+	 * Returns the meta object for the reference '{@link mutatorenvironment.RetypeObjectMutator#getRefType <em>Ref Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Type</em>'.
+	 * @see mutatorenvironment.RetypeObjectMutator#getRefType()
+	 * @see #getRetypeObjectMutator()
+	 * @generated
+	 */
+	EReference getRetypeObjectMutator_RefType();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link mutatorenvironment.RetypeObjectMutator#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
+	 * @see mutatorenvironment.RetypeObjectMutator#getAttributes()
+	 * @see #getRetypeObjectMutator()
+	 * @generated
+	 */
+	EReference getRetypeObjectMutator_Attributes();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link mutatorenvironment.RetypeObjectMutator#getReferences <em>References</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>References</em>'.
+	 * @see mutatorenvironment.RetypeObjectMutator#getReferences()
+	 * @see #getRetypeObjectMutator()
+	 * @generated
+	 */
+	EReference getRetypeObjectMutator_References();
 
 	/**
 	 * Returns the meta object for enum '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}'.
@@ -8509,12 +8712,20 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EReference CONSTRAINT__TYPE = eINSTANCE.getConstraint_Type();
 
 		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Expressions</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CONSTRAINT__RULE = eINSTANCE.getConstraint_Rule();
+		EReference CONSTRAINT__EXPRESSIONS = eINSTANCE.getConstraint_Expressions();
+
+		/**
+		 * The meta object literal for the '<em><b>Rules</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONSTRAINT__RULES = eINSTANCE.getConstraint_Rules();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.RandomTypeImpl <em>Random Type</em>}' class.
@@ -8851,6 +9062,56 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EClass REFERENCE_REMOVE = eINSTANCE.getReferenceRemove();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.RetypeObjectMutatorImpl <em>Retype Object Mutator</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.RetypeObjectMutatorImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRetypeObjectMutator()
+		 * @generated
+		 */
+		EClass RETYPE_OBJECT_MUTATOR = eINSTANCE.getRetypeObjectMutator();
+
+		/**
+		 * The meta object literal for the '<em><b>Object</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RETYPE_OBJECT_MUTATOR__OBJECT = eINSTANCE.getRetypeObjectMutator_Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Container</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RETYPE_OBJECT_MUTATOR__CONTAINER = eINSTANCE.getRetypeObjectMutator_Container();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RETYPE_OBJECT_MUTATOR__REF_TYPE = eINSTANCE.getRetypeObjectMutator_RefType();
+
+		/**
+		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RETYPE_OBJECT_MUTATOR__ATTRIBUTES = eINSTANCE.getRetypeObjectMutator_Attributes();
+
+		/**
+		 * The meta object literal for the '<em><b>References</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RETYPE_OBJECT_MUTATOR__REFERENCES = eINSTANCE.getRetypeObjectMutator_References();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.

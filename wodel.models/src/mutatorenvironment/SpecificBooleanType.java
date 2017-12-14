@@ -10,10 +10,10 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.SpecificBooleanType#isValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificBooleanType()
  * @model

@@ -36,14 +36,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import wodel.synthesizer.utils.MultiLineStringFieldEditor;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 
+/**
+ * @author Pablo Gomez-Abajo - Wodel seed models synthesizer Wizard page.
+ * 
+ */
 
 public class GenerateWodelWizardPage extends WizardPage {
-
+	
 	private String[] extensions;
 	public String file;
 	private Label label;
@@ -52,6 +58,7 @@ public class GenerateWodelWizardPage extends WizardPage {
 	private Button button;
 	private StringFieldEditor numberOfSeedsFieldEditor;
 	private MultiLineStringFieldEditor customOCLFieldEditor;
+	private Button forceSeedRoot;
 	private Label separator;
 	private Composite container;
 	private ScrolledComposite scrolledComposite;
@@ -61,9 +68,9 @@ public class GenerateWodelWizardPage extends WizardPage {
 	private String metamodel;
 
 	/**
-	 * Constructor for WodelWizardPage.
+	 * Constructor for GenerateWodelWizardPage.
 	 * 
-	 * @param pageName
+	 * @param selection
 	 */
 	public GenerateWodelWizardPage(ISelection selection) {
 		super("wizardPage");
@@ -75,9 +82,11 @@ public class GenerateWodelWizardPage extends WizardPage {
 	
 	public boolean valid = false;
 	
-	public int numSeeds = 5;
+	public int numSeeds = 3;
 	
 	public String customOCL = "";
+	
+	public boolean forceRoot = true;
 
 	/**
 	 * Create contents of the wizard.
@@ -116,6 +125,20 @@ public class GenerateWodelWizardPage extends WizardPage {
 				numSeeds = Integer.parseInt(event.getNewValue().toString()); 
 			}
 		});
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		forceSeedRoot = new Button(shell, SWT.CHECK);
+		forceSeedRoot.setText("Force the root object");
+		forceSeedRoot.setSelection(true);
+		forceSeedRoot.addSelectionListener(new SelectionAdapter() {
+			@Override
+		    public void widgetSelected(SelectionEvent e)
+		    {
+		        Button button = (Button) e.widget;
+		        forceRoot = button.getSelection();
+		    }
+		});
+		forceSeedRoot.setParent(container);
+		
 		separator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
@@ -127,7 +150,6 @@ public class GenerateWodelWizardPage extends WizardPage {
 			public void propertyChange(PropertyChangeEvent event) {
 				// TODO Auto-generated method stub
 				customOCL = event.getNewValue().toString();
-				System.out.println(customOCL);
 			}
 		});
 		separator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -224,9 +246,9 @@ public class GenerateWodelWizardPage extends WizardPage {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			if (valid != true) {
-				updateStatus("The model is not valid.");
+				if (valid != true) {
+					updateStatus("The model is not valid.");
+				}
 			}
 			else {
 				updateStatus(null);

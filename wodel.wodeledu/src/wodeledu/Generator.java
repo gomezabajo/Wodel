@@ -2,55 +2,53 @@ package wodeledu;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
 
+import manager.IOUtils;
 import manager.ModelManager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.osgi.framework.Bundle;
 
 import wodeledu.dsls.ModelTextUtils;
 import wodeledu.dsls.MutaTextUtils;
-import appliedMutations.AppMutation;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-import com.google.inject.Inject;
 
 import exceptions.MetaModelNotFoundException;
 import generator.IGenerator;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * Wodel-edu: Wodel postprocessing application
+ * extension for the automated generation of exercises
+ * 
+ */
 public class Generator implements IGenerator {
 
 
@@ -72,78 +70,6 @@ public class Generator implements IGenerator {
 		String idelemsFileName = fileName.replace(fileExtension, "modeltext");
 		String cfgoptsFileName = fileName.replace(fileExtension, "mutatext");
 		
-//		final IFolder resourcesFolder = mutProject.getFolder(new Path("resources"));
-//		try {
-//			final File jarFile = new File(AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-//			String srcName = "";
-//			if (jarFile.isFile()) {
-//				final JarFile jar = new JarFile(jarFile);
-//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-//				while(entries.hasMoreElements()) {
-//					JarEntry entry = entries.nextElement();
-//					if (! entry.isDirectory()) {
-//						if (entry.getName().startsWith("models") && entry.getName().endsWith("AppliedMutations.ecore")) {
-//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-//							InputStream input = jar.getInputStream(entry);
-//							FileOutputStream output = new FileOutputStream(dest);
-//							while (input.available() > 0) {
-//								output.write(input.read());
-//							}
-//							output.close();
-//							input.close();
-//						}
-//						if (entry.getName().startsWith("models") && entry.getName().endsWith("ModelText.ecore")) {
-//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-//							InputStream input = jar.getInputStream(entry);
-//							FileOutputStream output = new FileOutputStream(dest);
-//							while (input.available() > 0) {
-//								output.write(input.read());
-//							}
-//							output.close();
-//							input.close();
-//						}
-//						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutaText.ecore")) {
-//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-//							InputStream input = jar.getInputStream(entry);
-//							FileOutputStream output = new FileOutputStream(dest);
-//							while (input.available() > 0) {
-//								output.write(input.read());
-//							}
-//							output.close();
-//							input.close();
-//						}
-//					}
-//				}
-//				jar.close();
-//		    }
-//			else {
-//				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/AppliedMutations.ecore";
-//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/AppliedMutations.ecore";
-//				File src = new Path(srcName).toFile();
-//				File dest = new Path(tarName).toFile();
-//				if ((src != null) && (dest != null)) {
-//					ModelManager.copyFile(src, dest);
-//				}
-//				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/ModelText.ecore";
-//				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/ModelText.ecore";
-//				src = new Path(srcName).toFile();
-//				dest = new Path(tarName).toFile();
-//				if ((src != null) && (dest != null)) {
-//					ModelManager.copyFile(src, dest);
-//				}
-//				srcName = AppMutation.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutaText.ecore";
-//				tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutaText.ecore";
-//				src = new Path(srcName).toFile();
-//				dest = new Path(tarName).toFile();
-//				if ((src != null) && (dest != null)) {
-//					ModelManager.copyFile(src, dest);
-//				}
-//			}
-//		} catch (IOException e) {
-//		}
 		final IFile graphFile = srcPath.getFile(new Path(graphFileName));
 		try {
 			InputStream stream = openContentStream();
@@ -156,7 +82,7 @@ public class Generator implements IGenerator {
 			}
 			
 			if (metamodel != null) {
-				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
+				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
 				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(1);
 				EList<EAttribute> eatts = eclass.getEAllAttributes();
@@ -240,7 +166,7 @@ public class Generator implements IGenerator {
 			}
 			
 			if (metamodel != null) {
-				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
+				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
 				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(0);
 				EList<EAttribute> eatts = eclass.getEAllAttributes();
@@ -293,42 +219,6 @@ public class Generator implements IGenerator {
 				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
 			}
 			
-			if (metamodel != null) {
-				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(project) + "/" + metamodel);
-				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
-				EClass eclass = eclasses.get(0);
-//				Bundle bundle = Platform.getBundle("wodel.models");
-//				URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
-//				ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(FileLocator.resolve(fileURL).getFile());
-//				ArrayList<EClass> registryeclasses = ModelManager.getEClasses(registrypackages);
-//				EClass registryeclass = registryeclasses.get(0);
-//				EList<EAttribute> registryeatts = registryeclass.getEAllAttributes();
-//				EAttribute registryeatt = null;
-//				if (registryeatts != null) {
-//					if (registryeatts.size() > 0) {
-//						registryeatt = registryeatts.get(0);
-//					}
-//				}
-//				EList<EReference> registryerefs = registryeclass.getEAllReferences();
-//				EReference registryeref = null;
-//				if (registryerefs != null) {
-//					if (registryerefs.size() > 0) {
-//						registryeref = registryerefs.get(0);
-//					}
-//				}
-//				if ((registryeatt != null) && (registryeref != null)) {
-//					def += ">" + registryeclass.getName() + "(" + eclass.getName() + "): This is the text for the right options of the mutation on the attribute %attName and on the reference %refName /\n";
-//					def += "\t\tThis is the text for the wrong options of the mutation on the attribute %attName and on the reference %refName\n";
-//				}
-//				if (registryeatt != null) {
-//					def += ">" + registryeclass.getName() + "(" + eclass.getName() + "): This is the text for the right options of the mutation on the attribute %attName /\n";
-//					def += "\t\tThis is the text for the wrong options of the mutation on the attribute %attName\n";
-//				}
-//				if (registryeref != null) {
-//					def += ">" + registryeclass.getName() + "(" + eclass.getName() + "): This is the text for the right options of the mutation on the reference %refName /\n";
-//					def += "\t\tThis is the text for the wrong options of the mutation on the reference %refName\n";
-//				}
-			}
 			def += "//>RegistryClassName(ClassName): (LeftOptionOkText %variable RightOptionOkText)+ /\n";
 			def += "//\t\t(LeftOptionWrongText %variable RightOptionWrongText)+";
 			if (cfgoptsFile.exists()) {
@@ -341,9 +231,6 @@ public class Generator implements IGenerator {
 				cfgoptsFile.create(stream, true, monitor);
 			}
 			stream.close();
-		} catch (MetaModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
@@ -391,7 +278,6 @@ public class Generator implements IGenerator {
 		    	JarEntry entry = entries.nextElement();
 		    	if (! entry.isDirectory()) {
 		    		if (entry.getName().startsWith("content")) {
-		    			final String name = entry.getName();
 		    			final File f = htmlFolder.getRawLocation().makeAbsolute().toFile();
 		    			File path = new File(f.getPath() + '/' + entry.getName().replace("content/", "").split("/")[0]);
 		    			if (!path.exists()) {
@@ -412,12 +298,10 @@ public class Generator implements IGenerator {
 		}
 		else {
 			srcName = Generator.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "content";
-			//String srcName = FileLocator.resolve(fileURL).getFile();
-			//System.out.println("srcNameOtro" + srcNameOtro);
 			final File src = new Path(srcName).toFile();
 			final File dest = htmlFolder.getRawLocation().makeAbsolute().toFile();
 			if ((src != null) && (dest != null)) {
-				ModelManager.copyFolder(src, dest);
+				IOUtils.copyFolder(src, dest);
 			}
 		}
 		} catch (IOException e) {
@@ -436,7 +320,8 @@ public class Generator implements IGenerator {
 			cls = Class.forName(classname);
 		} catch (ClassNotFoundException e) {
 		}
-		
+
+		URLClassLoader classLoader = null;
 		if (cls == null) {
 			try {
 				IProject project = file.getProject();
@@ -457,7 +342,7 @@ public class Generator implements IGenerator {
 							.getClassLoader();
 					URL[] urls = (URL[]) urlList
 							.toArray(new URL[urlList.size()]);
-					URLClassLoader classLoader = new URLClassLoader(urls,
+					classLoader = new URLClassLoader(urls,
 							parentClassLoader);
 					// load class
 					cls = classLoader.loadClass(classname);
@@ -492,7 +377,12 @@ public class Generator implements IGenerator {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
-
+		
+		try {
+			classLoader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 DFAAutomaton.ecore" xmi:id="_uNXHoJCeEeeCaaMc_PqxqA" name="dfa4">
+  <states xmi:id="_wCbL0JCeEeeCaaMc_PqxqA" name="q4" isInitial="true"/>
+  <states xmi:id="_yxW3QJCeEeeCaaMc_PqxqA" name="q5" isFinal="true"/>
+  <states xmi:id="_1EPf4JCeEeeCaaMc_PqxqA" name="q6"/>
+  <states xmi:id="_1_MsQJCeEeeCaaMc_PqxqA" name="q7" isFinal="true"/>
+  <transitions xmi:id="_7j9VUJCeEeeCaaMc_PqxqA" src="_wCbL0JCeEeeCaaMc_PqxqA" tar="_yxW3QJCeEeeCaaMc_PqxqA" symbol="_508OwJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_9iI5QJCeEeeCaaMc_PqxqA" src="_wCbL0JCeEeeCaaMc_PqxqA" tar="_1EPf4JCeEeeCaaMc_PqxqA" symbol="_6iLvQJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="__i2MwJCeEeeCaaMc_PqxqA" src="_yxW3QJCeEeeCaaMc_PqxqA" tar="_1_MsQJCeEeeCaaMc_PqxqA" symbol="_508OwJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_CgXGwJCfEeeCaaMc_PqxqA" src="_yxW3QJCeEeeCaaMc_PqxqA" tar="_1_MsQJCeEeeCaaMc_PqxqA" symbol="_6iLvQJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_FJz1QJCfEeeCaaMc_PqxqA" src="_1EPf4JCeEeeCaaMc_PqxqA" tar="_1_MsQJCeEeeCaaMc_PqxqA" symbol="_508OwJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_HZO6MJCfEeeCaaMc_PqxqA" src="_1EPf4JCeEeeCaaMc_PqxqA" tar="_1EPf4JCeEeeCaaMc_PqxqA" symbol="_6iLvQJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_JcZEwJCfEeeCaaMc_PqxqA" src="_1_MsQJCeEeeCaaMc_PqxqA" tar="_1_MsQJCeEeeCaaMc_PqxqA" symbol="_508OwJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_KyTu0JCfEeeCaaMc_PqxqA" src="_1_MsQJCeEeeCaaMc_PqxqA" tar="_1_MsQJCeEeeCaaMc_PqxqA" symbol="_6iLvQJCeEeeCaaMc_PqxqA"/>
+  <alphabet xmi:id="_508OwJCeEeeCaaMc_PqxqA" symbol="a"/>
+  <alphabet xmi:id="_6iLvQJCeEeeCaaMc_PqxqA" symbol="b"/>
+</DFAAutomaton:Automaton>

@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getName <em>Name</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getCommands <em>Commands</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getFixed <em>Fixed</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

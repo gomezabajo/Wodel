@@ -11,12 +11,12 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.CreateReferenceMutator#getSource <em>Source</em>}</li>
  *   <li>{@link mutatorenvironment.CreateReferenceMutator#getTarget <em>Target</em>}</li>
  *   <li>{@link mutatorenvironment.CreateReferenceMutator#getRefType <em>Ref Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getCreateReferenceMutator()
  * @model

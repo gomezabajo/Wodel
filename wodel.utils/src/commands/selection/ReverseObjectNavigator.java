@@ -27,7 +27,7 @@ public class ReverseObjectNavigator extends ObjectNavigator{
 	 * @param object
 	 * Normal constructor
 	 */
-	public ReverseObjectNavigator(ArrayList<EPackage> metaModel, Resource model,
+	public ReverseObjectNavigator(List<EPackage> metaModel, Resource model,
 			String reference, EObject object) {
 		super(metaModel, model, reference, object);
 	}

@@ -18,6 +18,13 @@ import org.eclipse.xtext.serializer.impl.Serializer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import mutatorenvironment.miniOCL.InvariantCS;
+
+/**
+ * @author Pablo Gomez-Abajo - Utils for serialize and deserialize Wodel programs
+ * 
+ */
+
 public class WodelUtils {
 
 	/**
@@ -31,8 +38,6 @@ public class WodelUtils {
 		
 		Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
 		ResourceSet xTextRS = injector.getInstance(XtextResourceSet.class);
-		System.out.println("xTextURI: " + xTextURI);
-		System.out.println("outputURI: " + outputURI);
 		XtextResource xtextInput = (XtextResource)xTextRS.getResource(URI.createURI(xTextURI), true);
 		EcoreUtil.resolveAll(xtextInput);
 		
@@ -55,5 +60,13 @@ public class WodelUtils {
 		Injector injector = Guice.createInjector(new  wodel.dsls.WodelRuntimeModule());  
 		Serializer serializer = injector.getInstance(Serializer.class);  
 		return serializer.serialize(eObject);
+	}
+	
+	public static String getConstraintText(InvariantCS expression) {
+		return WodelUtils.deserialize(expression).
+				replaceAll("(\\r|\\n)", "").
+				replaceAll("\\$", "").
+				replaceAll(";", "").
+				trim();
 	}
 }

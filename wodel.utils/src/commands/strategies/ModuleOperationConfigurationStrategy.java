@@ -1,6 +1,6 @@
 package commands.strategies;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import manager.ModelManager;
 
@@ -11,12 +11,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * ModuleOperationConfigurationStrategy arithmetic module operation
+ *  
+ */
+
 public class ModuleOperationConfigurationStrategy extends ArithmeticOperationConfigurationStrategy {
 	
 	private int intValue = 0;
 	private EAttribute attribute = null;
 
-	public ModuleOperationConfigurationStrategy(ArrayList<EPackage> packages, Resource model, String className, String a2m, EObject object, Object value) {
+	public ModuleOperationConfigurationStrategy(List<EPackage> packages, Resource model, String className, String a2m, EObject object, Object value) {
 		super(a2m, object, value);
 		EClass eClass = ModelManager.getEClassByName(packages, className);
 		for (EAttribute att : eClass.getEAllAttributes()) {

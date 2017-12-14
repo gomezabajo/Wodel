@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.CloneObjectMutatorImpl#isContents <em>Contents</em>}</li>
  *   <li>{@link mutatorenvironment.impl.CloneObjectMutatorImpl#getObject <em>Object</em>}</li>
@@ -38,7 +39,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatorenvironment.impl.CloneObjectMutatorImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link mutatorenvironment.impl.CloneObjectMutatorImpl#getReferences <em>References</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

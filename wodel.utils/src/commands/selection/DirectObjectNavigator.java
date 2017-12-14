@@ -1,22 +1,24 @@
 package commands.selection;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * DirectObjectNavigator gives us the child object of an object given a reference
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public class DirectObjectNavigator extends ObjectNavigator{
 
@@ -27,7 +29,7 @@ public class DirectObjectNavigator extends ObjectNavigator{
 	 * @param object
 	 * Normal constructor
 	 */
-	public DirectObjectNavigator(ArrayList<EPackage> metaModel, Resource model,
+	public DirectObjectNavigator(List<EPackage> metaModel, Resource model,
 			String reference, EObject object) {
 		super(metaModel, model, reference, object);
 	}
@@ -63,9 +65,4 @@ public class DirectObjectNavigator extends ObjectNavigator{
 		}		
 	}
 
-	//@Override
-	//public boolean sameType(EClassifier c) throws ReferenceNonExistingException {
-	//	if(c.getInstanceClassName().equals(this.getObject().eClass().getInstanceClassName())) return true;
-	//	return false;
-	//}
 }

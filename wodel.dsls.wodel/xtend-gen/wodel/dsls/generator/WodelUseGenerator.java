@@ -5,28 +5,18 @@ package wodel.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import manager.ModelManager;
+import manager.UseGeneratorUtils;
 import manager.WodelContext;
-import mutator.MutatorUtils;
 import mutatorenvironment.Block;
-import mutatorenvironment.CloneObjectMutator;
-import mutatorenvironment.CreateObjectMutator;
-import mutatorenvironment.CreateReferenceMutator;
+import mutatorenvironment.Constraint;
 import mutatorenvironment.Definition;
-import mutatorenvironment.ModifyInformationMutator;
-import mutatorenvironment.ModifySourceReferenceMutator;
-import mutatorenvironment.ModifyTargetReferenceMutator;
-import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
-import mutatorenvironment.ObSelectionStrategy;
-import mutatorenvironment.RemoveCompleteReferenceMutator;
-import mutatorenvironment.RemoveObjectMutator;
-import mutatorenvironment.SelectObjectMutator;
-import mutatorenvironment.SelectSampleMutator;
+import mutatorenvironment.miniOCL.InvariantCS;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.emf.common.util.EList;
@@ -37,18 +27,21 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import use.UseUtils;
+import wodel.dsls.WodelUtils;
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - Wodel USE code generator.
  * 
- * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
+ * Generates the USE code and the .properties file for
+ * the seeds synthesizer.
  */
 @SuppressWarnings("all")
 public class WodelUseGenerator implements IGenerator {
@@ -60,7 +53,7 @@ public class WodelUseGenerator implements IGenerator {
   
   private String fileName;
   
-  private String className;
+  private String modelName;
   
   private String useName;
   
@@ -72,15 +65,21 @@ public class WodelUseGenerator implements IGenerator {
   
   private String dummyClassName = "Dummy";
   
-  private HashMap<String, HashMap<String, String>> useReferences = new HashMap<String, HashMap<String, String>>();
+  private HashMap<URI, HashMap<URI, Map.Entry<String, String>>> useReferences = new HashMap<URI, HashMap<URI, Map.Entry<String, String>>>();
   
   private int maxInteger;
   
   private int minInteger;
   
+  private int maxReal;
+  
+  private int minReal;
+  
   private int maxString;
   
-  private int maxCardinality;
+  private int maxObjectsCardinality;
+  
+  private int maxAssociationsCardinality;
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
@@ -105,25 +104,37 @@ public class WodelUseGenerator implements IGenerator {
         int _parseInt_1 = Integer.parseInt(_string_1);
         this.minInteger = _parseInt_1;
         IPreferencesService _preferencesService_2 = Platform.getPreferencesService();
-        String _string_2 = _preferencesService_2.getString("wodel.dsls.Wodel", "Maximum string value", "10", null);
+        String _string_2 = _preferencesService_2.getString("wodel.dsls.Wodel", "Maximum real value", "100", null);
         int _parseInt_2 = Integer.parseInt(_string_2);
-        this.maxString = _parseInt_2;
+        this.maxReal = _parseInt_2;
         IPreferencesService _preferencesService_3 = Platform.getPreferencesService();
-        String _string_3 = _preferencesService_3.getString("wodel.dsls.Wodel", "Maximum cardinality value", "10", null);
+        String _string_3 = _preferencesService_3.getString("wodel.dsls.Wodel", "Minimum real value", "0", null);
         int _parseInt_3 = Integer.parseInt(_string_3);
-        this.maxCardinality = _parseInt_3;
+        this.minReal = _parseInt_3;
+        IPreferencesService _preferencesService_4 = Platform.getPreferencesService();
+        String _string_4 = _preferencesService_4.getString("wodel.dsls.Wodel", "Maximum string value", "10", null);
+        int _parseInt_4 = Integer.parseInt(_string_4);
+        this.maxString = _parseInt_4;
+        IPreferencesService _preferencesService_5 = Platform.getPreferencesService();
+        String _string_5 = _preferencesService_5.getString("wodel.dsls.Wodel", "Maximum cardinality for objects value", "10", null);
+        int _parseInt_5 = Integer.parseInt(_string_5);
+        this.maxObjectsCardinality = _parseInt_5;
+        IPreferencesService _preferencesService_6 = Platform.getPreferencesService();
+        String _string_6 = _preferencesService_6.getString("wodel.dsls.Wodel", "Maximum cardinality for associations value", "10", null);
+        int _parseInt_6 = Integer.parseInt(_string_6);
+        this.maxAssociationsCardinality = _parseInt_6;
         URI _uRI = resource.getURI();
         String _lastSegment = _uRI.lastSegment();
         this.fileName = _lastSegment;
         String _replaceAll = this.fileName.replaceAll(".mutator", ".java");
         this.fileName = _replaceAll;
         String _replaceAll_1 = this.fileName.replaceAll(".java", "");
-        this.className = _replaceAll_1;
+        this.modelName = _replaceAll_1;
         String _replaceAll_2 = this.fileName.replaceAll(".java", ".use");
         this.useName = _replaceAll_2;
         String _replaceAll_3 = this.fileName.replaceAll(".java", ".properties");
         this.propertiesName = _replaceAll_3;
-        CharSequence _use = this.use(e);
+        CharSequence _use = this.use(e, resource);
         CharSequence _removeComments = this.removeComments(_use, "use");
         fsa.generateFile(this.useName, _removeComments);
         CharSequence _properties = this.properties(e);
@@ -163,32 +174,32 @@ public class WodelUseGenerator implements IGenerator {
   }
   
   public void incContainers(final EClass eclass, final HashMap<String, WodelUseGenerator.Cardinality> classes, final List<EPackage> packages, final EClass root) {
-    String _name = eclass.getName();
-    List<EClassifier> containers = ModelManager.getContainerTypes(packages, _name);
+    URI _uRI = EcoreUtil.getURI(eclass);
+    List<EClassifier> containers = ModelManager.getContainerTypes(packages, _uRI);
     for (final EClassifier container : containers) {
       boolean _and = false;
-      String _name_1 = container.getName();
-      String _name_2 = root.getName();
-      boolean _equals = _name_1.equals(_name_2);
+      String _name = container.getName();
+      String _name_1 = root.getName();
+      boolean _equals = _name.equals(_name_1);
       boolean _not = (!_equals);
       if (!_not) {
         _and = false;
       } else {
-        String _name_3 = container.getName();
-        String _name_4 = eclass.getName();
-        boolean _equals_1 = _name_3.equals(_name_4);
+        String _name_2 = container.getName();
+        String _name_3 = eclass.getName();
+        boolean _equals_1 = _name_2.equals(_name_3);
         boolean _not_1 = (!_equals_1);
         _and = _not_1;
       }
       if (_and) {
-        String _name_5 = container.getName();
-        WodelUseGenerator.Cardinality cardinality = classes.get(_name_5);
+        String _name_4 = container.getName();
+        WodelUseGenerator.Cardinality cardinality = classes.get(_name_4);
         EList<EReference> _eAllReferences = ((EClass) container).getEAllReferences();
         for (final EReference ref : _eAllReferences) {
           EClassifier _eType = ref.getEType();
-          String _name_6 = _eType.getName();
-          String _name_7 = eclass.getName();
-          boolean _equals_2 = _name_6.equals(_name_7);
+          String _name_5 = _eType.getName();
+          String _name_6 = eclass.getName();
+          boolean _equals_2 = _name_5.equals(_name_6);
           if (_equals_2) {
             boolean _isContainment = ref.isContainment();
             if (_isContainment) {
@@ -198,220 +209,9 @@ public class WodelUseGenerator implements IGenerator {
             }
           }
         }
-        String _name_8 = container.getName();
-        classes.put(_name_8, cardinality);
+        String _name_7 = container.getName();
+        classes.put(_name_7, cardinality);
         this.incContainers(((EClass) container), classes, packages, root);
-      }
-    }
-  }
-  
-  public void process(final HashMap<String, WodelUseGenerator.Cardinality> classes, final List<Mutator> commands, final ArrayList<EPackage> packages) {
-    for (final Mutator mut : commands) {
-      {
-        if ((mut instanceof CreateObjectMutator)) {
-          EClass _type = ((CreateObjectMutator)mut).getType();
-          boolean _notEquals = (!Objects.equal(_type, null));
-          if (_notEquals) {
-            EClass _type_1 = ((CreateObjectMutator)mut).getType();
-            String name = _type_1.getName();
-            List<EClassifier> containers = ModelManager.getContainerTypes(packages, name);
-            for (final EClassifier container : containers) {
-              {
-                EReference containerReference = null;
-                EList<EReference> _eAllReferences = ((EClass) container).getEAllReferences();
-                for (final EReference ref : _eAllReferences) {
-                  boolean _and = false;
-                  EClassifier _eType = ref.getEType();
-                  String _name = _eType.getName();
-                  boolean _equals = _name.equals(name);
-                  if (!_equals) {
-                    _and = false;
-                  } else {
-                    boolean _isContainment = ref.isContainment();
-                    _and = _isContainment;
-                  }
-                  if (_and) {
-                    containerReference = ref;
-                  }
-                }
-              }
-            }
-          }
-        }
-        if ((mut instanceof RemoveObjectMutator)) {
-          ObSelectionStrategy _object = ((RemoveObjectMutator)mut).getObject();
-          boolean _notEquals_1 = (!Objects.equal(_object, null));
-          if (_notEquals_1) {
-            ObSelectionStrategy _object_1 = ((RemoveObjectMutator)mut).getObject();
-            String name_1 = MutatorUtils.getTypeName(_object_1);
-            boolean _containsKey = classes.containsKey(name_1);
-            if (_containsKey) {
-              WodelUseGenerator.Cardinality cardinality = classes.get(name_1);
-              if ((cardinality.min == 0)) {
-                cardinality.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof CreateReferenceMutator)) {
-          ObSelectionStrategy _target = ((CreateReferenceMutator)mut).getTarget();
-          boolean _notEquals_2 = (!Objects.equal(_target, null));
-          if (_notEquals_2) {
-            ObSelectionStrategy _target_1 = ((CreateReferenceMutator)mut).getTarget();
-            String name_2 = MutatorUtils.getTypeName(_target_1);
-            boolean _containsKey_1 = classes.containsKey(name_2);
-            if (_containsKey_1) {
-              WodelUseGenerator.Cardinality cardinality_1 = classes.get(name_2);
-              if ((cardinality_1.min == 0)) {
-                cardinality_1.min++;
-              }
-            }
-          }
-          ObSelectionStrategy _source = ((CreateReferenceMutator)mut).getSource();
-          boolean _notEquals_3 = (!Objects.equal(_source, null));
-          if (_notEquals_3) {
-            ObSelectionStrategy _source_1 = ((CreateReferenceMutator)mut).getSource();
-            String name_3 = MutatorUtils.getTypeName(_source_1);
-            boolean _containsKey_2 = classes.containsKey(name_3);
-            if (_containsKey_2) {
-              WodelUseGenerator.Cardinality cardinality_2 = classes.get(name_3);
-              if ((cardinality_2.min == 0)) {
-                cardinality_2.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof ModifySourceReferenceMutator)) {
-          ObSelectionStrategy _source_2 = ((ModifySourceReferenceMutator)mut).getSource();
-          boolean _notEquals_4 = (!Objects.equal(_source_2, null));
-          if (_notEquals_4) {
-            ObSelectionStrategy _source_3 = ((ModifySourceReferenceMutator)mut).getSource();
-            String name_4 = MutatorUtils.getTypeName(_source_3);
-            boolean _containsKey_3 = classes.containsKey(name_4);
-            if (_containsKey_3) {
-              WodelUseGenerator.Cardinality cardinality_3 = classes.get(name_4);
-              if ((cardinality_3.min == 0)) {
-                cardinality_3.min++;
-              }
-            }
-          }
-          ObSelectionStrategy _newSource = ((ModifySourceReferenceMutator)mut).getNewSource();
-          boolean _notEquals_5 = (!Objects.equal(_newSource, null));
-          if (_notEquals_5) {
-            ObSelectionStrategy _newSource_1 = ((ModifySourceReferenceMutator)mut).getNewSource();
-            String name_5 = MutatorUtils.getTypeName(_newSource_1);
-            boolean _containsKey_4 = classes.containsKey(name_5);
-            if (_containsKey_4) {
-              WodelUseGenerator.Cardinality cardinality_4 = classes.get(name_5);
-              if ((cardinality_4.min == 0)) {
-                cardinality_4.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof ModifyTargetReferenceMutator)) {
-          ObSelectionStrategy _source_4 = ((ModifyTargetReferenceMutator)mut).getSource();
-          boolean _notEquals_6 = (!Objects.equal(_source_4, null));
-          if (_notEquals_6) {
-            ObSelectionStrategy _source_5 = ((ModifyTargetReferenceMutator)mut).getSource();
-            String name_6 = MutatorUtils.getTypeName(_source_5);
-            boolean _containsKey_5 = classes.containsKey(name_6);
-            if (_containsKey_5) {
-              WodelUseGenerator.Cardinality cardinality_5 = classes.get(name_6);
-              if ((cardinality_5.min == 0)) {
-                cardinality_5.min++;
-              }
-            }
-          }
-          ObSelectionStrategy _newTarget = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-          boolean _notEquals_7 = (!Objects.equal(_newTarget, null));
-          if (_notEquals_7) {
-            ObSelectionStrategy _newTarget_1 = ((ModifyTargetReferenceMutator)mut).getNewTarget();
-            String name_7 = MutatorUtils.getTypeName(_newTarget_1);
-            boolean _containsKey_6 = classes.containsKey(name_7);
-            if (_containsKey_6) {
-              WodelUseGenerator.Cardinality cardinality_6 = classes.get(name_7);
-              if ((cardinality_6.min == 0)) {
-                cardinality_6.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof RemoveCompleteReferenceMutator)) {
-          EClass _type_2 = ((RemoveCompleteReferenceMutator)mut).getType();
-          boolean _notEquals_8 = (!Objects.equal(_type_2, null));
-          if (_notEquals_8) {
-            EClass _type_3 = ((RemoveCompleteReferenceMutator)mut).getType();
-            String name_8 = _type_3.getName();
-            boolean _containsKey_7 = classes.containsKey(name_8);
-            if (_containsKey_7) {
-              WodelUseGenerator.Cardinality cardinality_7 = classes.get(name_8);
-              if ((cardinality_7.min == 0)) {
-                cardinality_7.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof SelectObjectMutator)) {
-          ObSelectionStrategy _object_2 = ((SelectObjectMutator)mut).getObject();
-          boolean _notEquals_9 = (!Objects.equal(_object_2, null));
-          if (_notEquals_9) {
-            ObSelectionStrategy _object_3 = ((SelectObjectMutator)mut).getObject();
-            String name_9 = MutatorUtils.getTypeName(_object_3);
-            boolean _containsKey_8 = classes.containsKey(name_9);
-            if (_containsKey_8) {
-              WodelUseGenerator.Cardinality cardinality_8 = classes.get(name_9);
-              if ((cardinality_8.min == 0)) {
-                cardinality_8.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof SelectSampleMutator)) {
-          ObSelectionStrategy _object_4 = ((SelectSampleMutator)mut).getObject();
-          boolean _notEquals_10 = (!Objects.equal(_object_4, null));
-          if (_notEquals_10) {
-            ObSelectionStrategy _object_5 = ((SelectSampleMutator)mut).getObject();
-            String name_10 = MutatorUtils.getTypeName(_object_5);
-            boolean _containsKey_9 = classes.containsKey(name_10);
-            if (_containsKey_9) {
-              WodelUseGenerator.Cardinality cardinality_9 = classes.get(name_10);
-              if ((cardinality_9.min == 0)) {
-                cardinality_9.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof CloneObjectMutator)) {
-          ObSelectionStrategy _object_6 = ((CloneObjectMutator)mut).getObject();
-          boolean _notEquals_11 = (!Objects.equal(_object_6, null));
-          if (_notEquals_11) {
-            ObSelectionStrategy _object_7 = ((CloneObjectMutator)mut).getObject();
-            String name_11 = MutatorUtils.getTypeName(_object_7);
-            boolean _containsKey_10 = classes.containsKey(name_11);
-            if (_containsKey_10) {
-              WodelUseGenerator.Cardinality cardinality_10 = classes.get(name_11);
-              if ((cardinality_10.min == 0)) {
-                cardinality_10.min++;
-              }
-            }
-          }
-        }
-        if ((mut instanceof ModifyInformationMutator)) {
-          ObSelectionStrategy _object_8 = ((ModifyInformationMutator)mut).getObject();
-          boolean _notEquals_12 = (!Objects.equal(_object_8, null));
-          if (_notEquals_12) {
-            ObSelectionStrategy _object_9 = ((ModifyInformationMutator)mut).getObject();
-            String name_12 = MutatorUtils.getTypeName(_object_9);
-            boolean _containsKey_11 = classes.containsKey(name_12);
-            if (_containsKey_11) {
-              WodelUseGenerator.Cardinality cardinality_11 = classes.get(name_12);
-              if ((cardinality_11.min == 0)) {
-                cardinality_11.min++;
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -436,6 +236,255 @@ public class WodelUseGenerator implements IGenerator {
     }
   }
   
+  public CharSequence generate(final MutatorEnvironment e, final List<EPackage> packages, final List<EClass> eclasses, final HashMap<URI, String> classNames) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("# ");
+    HashMap<String, WodelUseGenerator.Cardinality> classes = new HashMap<String, WodelUseGenerator.Cardinality>();
+    _builder.newLineIfNotEmpty();
+    {
+      Set<URI> _keySet = classNames.keySet();
+      for(final URI classURI : _keySet) {
+        _builder.append("# ");
+        WodelUseGenerator.Cardinality cardinality = new WodelUseGenerator.Cardinality();
+        _builder.newLineIfNotEmpty();
+        _builder.append("# ");
+        _builder.append(cardinality.min = 0, "");
+        _builder.newLineIfNotEmpty();
+        {
+          URI _uRI = EcoreUtil.getURI(this.root);
+          boolean _equals = _uRI.equals(classURI);
+          if (_equals) {
+            _builder.append("# ");
+            int _plusPlus = cardinality.min++;
+            _builder.append(_plusPlus, "");
+            _builder.newLineIfNotEmpty();
+            _builder.append("# ");
+            _builder.append(cardinality.max = 1, "");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("# ");
+            _builder.append(cardinality.max = this.maxObjectsCardinality, "");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("# ");
+        String _get = classNames.get(classURI);
+        WodelUseGenerator.Cardinality _put = classes.put(_get, cardinality);
+        _builder.append(_put, "");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    {
+      EList<Block> _blocks = e.getBlocks();
+      int _size = _blocks.size();
+      boolean _greaterThan = (_size > 0);
+      if (_greaterThan) {
+        _builder.append("# ");
+        HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>> blockCardinalities = new HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>>();
+        _builder.newLineIfNotEmpty();
+        {
+          EList<Block> _blocks_1 = e.getBlocks();
+          for(final Block b : _blocks_1) {
+            _builder.append("# ");
+            HashMap<String, WodelUseGenerator.Cardinality> cls = new HashMap<String, WodelUseGenerator.Cardinality>();
+            _builder.newLineIfNotEmpty();
+            {
+              Set<URI> _keySet_1 = classNames.keySet();
+              for(final URI classURI_1 : _keySet_1) {
+                _builder.append("# ");
+                WodelUseGenerator.Cardinality cardinality_1 = new WodelUseGenerator.Cardinality();
+                _builder.newLineIfNotEmpty();
+                _builder.append("# ");
+                _builder.append(cardinality_1.min = 0, "");
+                _builder.newLineIfNotEmpty();
+                {
+                  URI _uRI_1 = EcoreUtil.getURI(this.root);
+                  boolean _equals_1 = _uRI_1.equals(classURI_1);
+                  if (_equals_1) {
+                    _builder.append("# ");
+                    int _plusPlus_1 = cardinality_1.min++;
+                    _builder.append(_plusPlus_1, "");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("# ");
+                    _builder.append(cardinality_1.max = 1, "");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("# ");
+                    _builder.append(cardinality_1.max = this.maxObjectsCardinality, "");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+            _builder.append("# ");
+            String _name = b.getName();
+            HashMap<String, WodelUseGenerator.Cardinality> _put_1 = blockCardinalities.put(_name, cls);
+            _builder.append(_put_1, "");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        _builder.append("#");
+        this.processBlocks(classes, blockCardinalities);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    {
+      Set<URI> _keySet_2 = classNames.keySet();
+      for(final URI classURI_2 : _keySet_2) {
+        String useClassName = classNames.get(classURI_2);
+        _builder.newLineIfNotEmpty();
+        String _encodeWord = UseGeneratorUtils.encodeWord(useClassName);
+        _builder.append(_encodeWord, "");
+        _builder.append("_min = ");
+        WodelUseGenerator.Cardinality _get_1 = classes.get(useClassName);
+        _builder.append(_get_1.min, "");
+        _builder.newLineIfNotEmpty();
+        String _encodeWord_1 = UseGeneratorUtils.encodeWord(useClassName);
+        _builder.append(_encodeWord_1, "");
+        _builder.append("_max = ");
+        WodelUseGenerator.Cardinality _get_2 = classes.get(useClassName);
+        _builder.append(_get_2.max, "");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("# Associations");
+    _builder.newLine();
+    _builder.append("# ");
+    HashMap<String, Integer> associationNames = new HashMap<String, Integer>();
+    _builder.newLineIfNotEmpty();
+    {
+      for(final EClass eclass : eclasses) {
+        _builder.append("# ");
+        EPackage pck = eclass.getEPackage();
+        _builder.newLineIfNotEmpty();
+        _builder.append("# ");
+        List<EReference> refs = eclass.getEAllReferences();
+        _builder.newLineIfNotEmpty();
+        {
+          int _size_1 = refs.size();
+          boolean _greaterThan_1 = (_size_1 > 0);
+          if (_greaterThan_1) {
+            {
+              for(final EReference ref : refs) {
+                _builder.append("# ");
+                EClass _eReferenceType = ref.getEReferenceType();
+                EPackage refEPackage = _eReferenceType.getEPackage();
+                _builder.newLineIfNotEmpty();
+                {
+                  boolean _notEquals = (!Objects.equal(refEPackage, null));
+                  if (_notEquals) {
+                    _builder.append("# ");
+                    String _name_1 = pck.getName();
+                    String _plus = (_name_1 + "XxxX");
+                    String _name_2 = eclass.getName();
+                    String _plus_1 = (_plus + _name_2);
+                    String _plus_2 = (_plus_1 + "XxxX");
+                    String _name_3 = refEPackage.getName();
+                    String _plus_3 = (_plus_2 + _name_3);
+                    String _plus_4 = (_plus_3 + "XxxX");
+                    EClassifier _eType = ref.getEType();
+                    String _name_4 = _eType.getName();
+                    String associationName = (_plus_4 + _name_4);
+                    _builder.newLineIfNotEmpty();
+                    {
+                      Integer _get_3 = associationNames.get(associationName);
+                      boolean _notEquals_1 = (!Objects.equal(_get_3, null));
+                      if (_notEquals_1) {
+                        _builder.append("# ");
+                        Integer _get_4 = associationNames.get(associationName);
+                        int _plus_5 = ((_get_4).intValue() + 1);
+                        Integer _put_2 = associationNames.put(associationName, Integer.valueOf(_plus_5));
+                        _builder.append(_put_2, "");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("# ");
+                        String _associationName = associationName;
+                        Integer _get_5 = associationNames.get(associationName);
+                        String _plus_6 = associationName = (_associationName + _get_5);
+                        _builder.append(_plus_6, "");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("# ");
+                        Integer _put_3 = associationNames.put(associationName, Integer.valueOf(0));
+                        _builder.append(_put_3, "");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("# ");
+                    int min = 0;
+                    _builder.newLineIfNotEmpty();
+                    {
+                      String _name_5 = refEPackage.getName();
+                      String _plus_7 = (_name_5 + "XxxX");
+                      EClassifier _eType_1 = ref.getEType();
+                      String _name_6 = _eType_1.getName();
+                      String _plus_8 = (_plus_7 + _name_6);
+                      WodelUseGenerator.Cardinality _get_6 = classes.get(_plus_8);
+                      boolean _notEquals_2 = (!Objects.equal(_get_6, null));
+                      if (_notEquals_2) {
+                        {
+                          String _name_7 = pck.getName();
+                          String _plus_9 = (_name_7 + "XxxX");
+                          String _name_8 = eclass.getName();
+                          String _plus_10 = (_plus_9 + _name_8);
+                          WodelUseGenerator.Cardinality _get_7 = classes.get(_plus_10);
+                          String _name_9 = refEPackage.getName();
+                          String _plus_11 = (_name_9 + "XxxX");
+                          EClassifier _eType_2 = ref.getEType();
+                          String _name_10 = _eType_2.getName();
+                          String _plus_12 = (_plus_11 + _name_10);
+                          WodelUseGenerator.Cardinality _get_8 = classes.get(_plus_12);
+                          if ((_get_7.min < _get_8.min)) {
+                            _builder.append("# ");
+                            String _name_11 = pck.getName();
+                            String _plus_13 = (_name_11 + "XxxX");
+                            String _name_12 = eclass.getName();
+                            String _plus_14 = (_plus_13 + _name_12);
+                            WodelUseGenerator.Cardinality _get_9 = classes.get(_plus_14);
+                            _builder.append(min = _get_9.min, "");
+                            _builder.newLineIfNotEmpty();
+                          } else {
+                            _builder.append("# ");
+                            String _name_13 = refEPackage.getName();
+                            String _plus_15 = (_name_13 + "XxxX");
+                            EClassifier _eType_3 = ref.getEType();
+                            String _name_14 = _eType_3.getName();
+                            String _plus_16 = (_plus_15 + _name_14);
+                            WodelUseGenerator.Cardinality _get_10 = classes.get(_plus_16);
+                            _builder.append(min = _get_10.min, "");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      } else {
+                        _builder.append("# ");
+                        _builder.append(min = 0, "");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    String _encodeWord_2 = UseGeneratorUtils.encodeWord(associationName);
+                    _builder.append(_encodeWord_2, "");
+                    _builder.append("_min = ");
+                    _builder.append(min, "");
+                    _builder.newLineIfNotEmpty();
+                    String _encodeWord_3 = UseGeneratorUtils.encodeWord(associationName);
+                    _builder.append(_encodeWord_3, "");
+                    _builder.append("_max = ");
+                    _builder.append(this.maxAssociationsCardinality, "");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return _builder;
+  }
+  
   public CharSequence properties(final MutatorEnvironment e) {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -447,6 +496,13 @@ public class WodelUseGenerator implements IGenerator {
       _builder.newLineIfNotEmpty();
       _builder.append("Integer_max = ");
       _builder.append(this.maxInteger, "");
+      _builder.newLineIfNotEmpty();
+      _builder.newLine();
+      _builder.append("Real_min = ");
+      _builder.append(this.minReal, "");
+      _builder.newLineIfNotEmpty();
+      _builder.append("Real_max = ");
+      _builder.append(this.maxReal, "");
       _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append("String_max = ");
@@ -463,248 +519,169 @@ public class WodelUseGenerator implements IGenerator {
       _builder.append("# ");
       Definition _definition = e.getDefinition();
       String _metamodel = _definition.getMetamodel();
-      ArrayList<EPackage> packages = ModelManager.loadMetaModel(_metamodel);
+      List<EPackage> packages = ModelManager.loadMetaModel(_metamodel);
       _builder.newLineIfNotEmpty();
       _builder.append("# ");
-      ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
+      List<EClass> eclasses = ModelManager.getEClasses(packages);
       _builder.newLineIfNotEmpty();
-      {
-        for(final EClass eclass : eclasses) {
-          _builder.append("#");
-          String _name = eclass.getName();
-          List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, _name);
-          _builder.newLineIfNotEmpty();
-          {
-            int _size = containerTypes.size();
-            boolean _equals = (_size == 0);
-            if (_equals) {
-              _builder.append("#");
-              _builder.append(this.root = eclass, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-        }
-      }
-      _builder.newLine();
       _builder.append("# ");
-      HashMap<String, WodelUseGenerator.Cardinality> classes = new HashMap<String, WodelUseGenerator.Cardinality>();
+      HashMap<URI, String> classNames = UseGeneratorUtils.buildClassNames(eclasses);
       _builder.newLineIfNotEmpty();
-      {
-        for(final EClass eclass_1 : eclasses) {
-          _builder.append("# ");
-          WodelUseGenerator.Cardinality cardinality = new WodelUseGenerator.Cardinality();
-          _builder.newLineIfNotEmpty();
-          _builder.append("# ");
-          _builder.append(cardinality.min = 0, "");
-          _builder.newLineIfNotEmpty();
-          {
-            String _name_1 = eclass_1.getName();
-            String _name_2 = this.root.getName();
-            boolean _equals_1 = _name_1.equals(_name_2);
-            if (_equals_1) {
-              _builder.append("# ");
-              int _plusPlus = cardinality.min++;
-              _builder.append(_plusPlus, "");
-              _builder.newLineIfNotEmpty();
-              _builder.append("# ");
-              _builder.append(cardinality.max = 1, "");
-              _builder.newLineIfNotEmpty();
-            } else {
-              _builder.append("# ");
-              _builder.append(cardinality.max = this.maxCardinality, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          _builder.append("# ");
-          String _name_3 = eclass_1.getName();
-          WodelUseGenerator.Cardinality _put = classes.put(_name_3, cardinality);
-          _builder.append(_put, "");
-          _builder.newLineIfNotEmpty();
-        }
-      }
-      {
-        EList<Mutator> _commands = e.getCommands();
-        int _size_1 = _commands.size();
-        boolean _greaterThan = (_size_1 > 0);
-        if (_greaterThan) {
-          _builder.append("# ");
-          EList<Mutator> _commands_1 = e.getCommands();
-          this.process(classes, _commands_1, packages);
-          _builder.newLineIfNotEmpty();
-        }
-      }
-      _builder.newLine();
-      {
-        EList<Block> _blocks = e.getBlocks();
-        int _size_2 = _blocks.size();
-        boolean _greaterThan_1 = (_size_2 > 0);
-        if (_greaterThan_1) {
-          _builder.append("# ");
-          HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>> blockCardinalities = new HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>>();
-          _builder.newLineIfNotEmpty();
-          {
-            EList<Block> _blocks_1 = e.getBlocks();
-            for(final Block b : _blocks_1) {
-              _builder.append("# ");
-              HashMap<String, WodelUseGenerator.Cardinality> cls = new HashMap<String, WodelUseGenerator.Cardinality>();
-              _builder.newLineIfNotEmpty();
-              {
-                for(final EClass eclass_2 : eclasses) {
-                  _builder.append("# ");
-                  WodelUseGenerator.Cardinality cardinality_1 = new WodelUseGenerator.Cardinality();
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("# ");
-                  _builder.append(cardinality_1.min = 0, "");
-                  _builder.newLineIfNotEmpty();
-                  {
-                    String _name_4 = eclass_2.getName();
-                    String _name_5 = this.root.getName();
-                    boolean _equals_2 = _name_4.equals(_name_5);
-                    if (_equals_2) {
-                      _builder.append("# ");
-                      int _plusPlus_1 = cardinality_1.min++;
-                      _builder.append(_plusPlus_1, "");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                  _builder.append("# ");
-                  String _name_6 = eclass_2.getName();
-                  WodelUseGenerator.Cardinality _put_1 = cls.put(_name_6, cardinality_1);
-                  _builder.append(_put_1, "");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              _builder.append("# ");
-              EList<Mutator> _commands_2 = b.getCommands();
-              this.process(cls, _commands_2, packages);
-              _builder.newLineIfNotEmpty();
-              _builder.append("# ");
-              String _name_7 = b.getName();
-              HashMap<String, WodelUseGenerator.Cardinality> _put_2 = blockCardinalities.put(_name_7, cls);
-              _builder.append(_put_2, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          _builder.newLine();
-          _builder.append("#");
-          this.processBlocks(classes, blockCardinalities);
-          _builder.newLineIfNotEmpty();
-        }
-      }
-      _builder.newLine();
-      {
-        for(final EClass eclass_3 : eclasses) {
-          String _name_8 = eclass_3.getName();
-          _builder.append(_name_8, "");
-          _builder.append("_min = ");
-          String _name_9 = eclass_3.getName();
-          WodelUseGenerator.Cardinality _get = classes.get(_name_9);
-          _builder.append(_get.min, "");
-          _builder.newLineIfNotEmpty();
-          String _name_10 = eclass_3.getName();
-          _builder.append(_name_10, "");
-          _builder.append("_max = ");
-          String _name_11 = eclass_3.getName();
-          WodelUseGenerator.Cardinality _get_1 = classes.get(_name_11);
-          _builder.append(_get_1.max, "");
-          _builder.newLineIfNotEmpty();
-        }
-      }
-      _builder.newLine();
-      _builder.append("# Associations");
-      _builder.newLine();
       _builder.append("# ");
-      HashMap<String, Integer> associationNames = new HashMap<String, Integer>();
+      EClass _rootEClass = ModelManager.getRootEClass(packages);
+      _builder.append(this.root = _rootEClass, "");
       _builder.newLineIfNotEmpty();
-      {
-        for(final EClass eclass_4 : eclasses) {
-          _builder.append("# ");
-          List<EReference> refs = eclass_4.getEReferences();
-          _builder.newLineIfNotEmpty();
-          {
-            int _size_3 = refs.size();
-            boolean _greaterThan_2 = (_size_3 > 0);
-            if (_greaterThan_2) {
-              {
-                for(final EReference ref : refs) {
-                  _builder.append("# ");
-                  String _name_12 = eclass_4.getName();
-                  EClassifier _eType = ref.getEType();
-                  String _name_13 = _eType.getName();
-                  String associationName = (_name_12 + _name_13);
-                  _builder.newLineIfNotEmpty();
-                  {
-                    Integer _get_2 = associationNames.get(associationName);
-                    boolean _notEquals = (!Objects.equal(_get_2, null));
-                    if (_notEquals) {
-                      _builder.append("# ");
-                      Integer _get_3 = associationNames.get(associationName);
-                      int _plus = ((_get_3).intValue() + 1);
-                      Integer _put_3 = associationNames.put(associationName, Integer.valueOf(_plus));
-                      _builder.append(_put_3, "");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("# ");
-                      String _associationName = associationName;
-                      Integer _get_4 = associationNames.get(associationName);
-                      String _plus_1 = associationName = (_associationName + _get_4);
-                      _builder.append(_plus_1, "");
-                      _builder.newLineIfNotEmpty();
-                    } else {
-                      _builder.append("# ");
-                      Integer _put_4 = associationNames.put(associationName, Integer.valueOf(0));
-                      _builder.append(_put_4, "");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                  _builder.append("# ");
-                  int min = 0;
-                  _builder.newLineIfNotEmpty();
-                  {
-                    String _name_14 = eclass_4.getName();
-                    WodelUseGenerator.Cardinality _get_5 = classes.get(_name_14);
-                    EClassifier _eType_1 = ref.getEType();
-                    String _name_15 = _eType_1.getName();
-                    WodelUseGenerator.Cardinality _get_6 = classes.get(_name_15);
-                    if ((_get_5.min < _get_6.min)) {
-                      _builder.append("# ");
-                      String _name_16 = eclass_4.getName();
-                      WodelUseGenerator.Cardinality _get_7 = classes.get(_name_16);
-                      _builder.append(min = _get_7.min, "");
-                      _builder.newLineIfNotEmpty();
-                    } else {
-                      _builder.append("# ");
-                      EClassifier _eType_2 = ref.getEType();
-                      String _name_17 = _eType_2.getName();
-                      WodelUseGenerator.Cardinality _get_8 = classes.get(_name_17);
-                      _builder.append(min = _get_8.min, "");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                  _builder.append(associationName, "");
-                  _builder.append("_min = ");
-                  _builder.append(min, "");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append(associationName, "");
-                  _builder.append("_max = ");
-                  _builder.append(this.maxCardinality, "");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-            }
-          }
-        }
-      }
+      _builder.newLine();
+      CharSequence _generate = this.generate(e, packages, eclasses, classNames);
+      _builder.append(_generate, "");
+      _builder.newLineIfNotEmpty();
+      _builder.append("aggregationcyclefreeness = on");
+      _builder.newLine();
+      _builder.append("forbiddensharing = on");
+      _builder.newLine();
+      _builder.newLine();
       return _builder;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
   }
   
-  public CharSequence use(final MutatorEnvironment e) {
+  public CharSequence use(final MutatorEnvironment e, final Resource model) {
     StringConcatenation _builder = new StringConcatenation();
-    String _generateUSE = UseUtils.generateUSE(e, this.className, this.useReferences);
+    String _generateUSE = UseGeneratorUtils.generateUSE(model, e, this.modelName, this.useReferences);
     _builder.append(_generateUSE, "");
     _builder.newLineIfNotEmpty();
+    int i = 0;
+    _builder.newLineIfNotEmpty();
+    {
+      EList<Constraint> _constraints = e.getConstraints();
+      for(final Constraint constraint : _constraints) {
+        {
+          EList<InvariantCS> _expressions = constraint.getExpressions();
+          boolean _notEquals = (!Objects.equal(_expressions, null));
+          if (_notEquals) {
+            {
+              EList<InvariantCS> _expressions_1 = constraint.getExpressions();
+              for(final InvariantCS inv : _expressions_1) {
+                String constraintText = WodelUtils.getConstraintText(inv);
+                _builder.newLineIfNotEmpty();
+                {
+                  int _length = constraintText.length();
+                  boolean _greaterThan = (_length > 0);
+                  if (_greaterThan) {
+                    int _indexOf = constraintText.indexOf("->");
+                    String feature = constraintText.substring(0, _indexOf);
+                    _builder.newLineIfNotEmpty();
+                    EClass eclass = constraint.getType();
+                    _builder.newLineIfNotEmpty();
+                    EClass featureclass = null;
+                    _builder.newLineIfNotEmpty();
+                    {
+                      EList<EStructuralFeature> _eAllStructuralFeatures = eclass.getEAllStructuralFeatures();
+                      for(final EStructuralFeature sf : _eAllStructuralFeatures) {
+                        {
+                          String _name = sf.getName();
+                          boolean _equals = _name.equals(feature);
+                          if (_equals) {
+                            _builder.append("-- ");
+                            EClassifier _eType = sf.getEType();
+                            _builder.append(featureclass = ((EClass) _eType), "");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      }
+                    }
+                    {
+                      boolean _notEquals_1 = (!Objects.equal(featureclass, null));
+                      if (_notEquals_1) {
+                        _builder.append("inv mutcode");
+                        _builder.append(i, "");
+                        _builder.append(" : ");
+                        String _name_1 = featureclass.getName();
+                        _builder.append(_name_1, "");
+                        _builder.append(".allInstances()->");
+                        int _indexOf_1 = constraintText.indexOf("->");
+                        int _length_1 = "->".length();
+                        int _plus = (_indexOf_1 + _length_1);
+                        int _length_2 = constraintText.length();
+                        String _substring = constraintText.substring(_plus, _length_2);
+                        _builder.append(_substring, "");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("-- ");
+                        int _plusPlus = i++;
+                        _builder.append(_plusPlus, "");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        {
+          EList<String> _rules = constraint.getRules();
+          boolean _notEquals_2 = (!Objects.equal(_rules, null));
+          if (_notEquals_2) {
+            {
+              EList<String> _rules_1 = constraint.getRules();
+              for(final String rule : _rules_1) {
+                {
+                  int _length_3 = rule.length();
+                  boolean _greaterThan_1 = (_length_3 > 0);
+                  if (_greaterThan_1) {
+                    int _indexOf_2 = rule.indexOf("->");
+                    String feature_1 = rule.substring(0, _indexOf_2);
+                    _builder.newLineIfNotEmpty();
+                    EClass eclass_1 = constraint.getType();
+                    _builder.newLineIfNotEmpty();
+                    EClass featureclass_1 = null;
+                    _builder.newLineIfNotEmpty();
+                    {
+                      EList<EStructuralFeature> _eAllStructuralFeatures_1 = eclass_1.getEAllStructuralFeatures();
+                      for(final EStructuralFeature sf_1 : _eAllStructuralFeatures_1) {
+                        {
+                          String _name_2 = sf_1.getName();
+                          boolean _equals_1 = _name_2.equals(feature_1);
+                          if (_equals_1) {
+                            _builder.append("-- ");
+                            EClassifier _eType_1 = sf_1.getEType();
+                            _builder.append(featureclass_1 = ((EClass) _eType_1), "");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      }
+                    }
+                    {
+                      boolean _notEquals_3 = (!Objects.equal(featureclass_1, null));
+                      if (_notEquals_3) {
+                        _builder.append("inv mutcode");
+                        _builder.append(i, "");
+                        _builder.append(" : ");
+                        String _name_3 = featureclass_1.getName();
+                        _builder.append(_name_3, "");
+                        _builder.append(".allInstances()->");
+                        int _indexOf_3 = rule.indexOf("->");
+                        int _length_4 = "->".length();
+                        int _plus_1 = (_indexOf_3 + _length_4);
+                        int _length_5 = rule.length();
+                        String _substring_1 = rule.substring(_plus_1, _length_5);
+                        _builder.append(_substring_1, "");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("-- ");
+                        int _plusPlus_1 = i++;
+                        _builder.append(_plusPlus_1, "");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     return _builder;
   }
 }

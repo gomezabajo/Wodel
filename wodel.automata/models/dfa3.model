@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 DFAAutomaton.ecore" xmi:id="_APrTAJCeEeeCaaMc_PqxqA" name="dfa3">
+  <states xmi:id="_CxehYJCeEeeCaaMc_PqxqA" name="q0" isInitial="true"/>
+  <states xmi:id="_Eeqb8JCeEeeCaaMc_PqxqA" name="q1" isFinal="true"/>
+  <states xmi:id="_GRkkAJCeEeeCaaMc_PqxqA" name="q2"/>
+  <states xmi:id="_H3pJ8JCeEeeCaaMc_PqxqA" name="q3"/>
+  <transitions xmi:id="_O4U-cJCeEeeCaaMc_PqxqA" src="_CxehYJCeEeeCaaMc_PqxqA" tar="_Eeqb8JCeEeeCaaMc_PqxqA" symbol="_NNIA4JCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_SCHZ4JCeEeeCaaMc_PqxqA" src="_CxehYJCeEeeCaaMc_PqxqA" tar="_GRkkAJCeEeeCaaMc_PqxqA" symbol="_N8hdgJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_X5kVcJCeEeeCaaMc_PqxqA" src="_Eeqb8JCeEeeCaaMc_PqxqA" tar="_Eeqb8JCeEeeCaaMc_PqxqA" symbol="_NNIA4JCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_Zb5q4JCeEeeCaaMc_PqxqA" src="_Eeqb8JCeEeeCaaMc_PqxqA" tar="_Eeqb8JCeEeeCaaMc_PqxqA" symbol="_N8hdgJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_bobz4JCeEeeCaaMc_PqxqA" src="_GRkkAJCeEeeCaaMc_PqxqA" tar="_H3pJ8JCeEeeCaaMc_PqxqA" symbol="_NNIA4JCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_dzwb8JCeEeeCaaMc_PqxqA" src="_GRkkAJCeEeeCaaMc_PqxqA" tar="_GRkkAJCeEeeCaaMc_PqxqA" symbol="_N8hdgJCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_gucEYJCeEeeCaaMc_PqxqA" src="_H3pJ8JCeEeeCaaMc_PqxqA" tar="_H3pJ8JCeEeeCaaMc_PqxqA" symbol="_NNIA4JCeEeeCaaMc_PqxqA"/>
+  <transitions xmi:id="_iRADUJCeEeeCaaMc_PqxqA" src="_H3pJ8JCeEeeCaaMc_PqxqA" tar="_H3pJ8JCeEeeCaaMc_PqxqA" symbol="_N8hdgJCeEeeCaaMc_PqxqA"/>
+  <alphabet xmi:id="_NNIA4JCeEeeCaaMc_PqxqA" symbol="a"/>
+  <alphabet xmi:id="_N8hdgJCeEeeCaaMc_PqxqA" symbol="b"/>
+</DFAAutomaton:Automaton>

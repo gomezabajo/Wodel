@@ -1,15 +1,20 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * RandomSelection selects a random object
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public abstract class RandomSelection extends ObSelectionStrategy{
 
 	/**
@@ -17,7 +22,7 @@ public abstract class RandomSelection extends ObSelectionStrategy{
 	 * @param model
 	 * Normal constructor
 	 */
-	public RandomSelection(ArrayList<EPackage> metaModel, Resource model) {
+	public RandomSelection(List<EPackage> metaModel, Resource model) {
 		super(metaModel, model);
 	}
 }

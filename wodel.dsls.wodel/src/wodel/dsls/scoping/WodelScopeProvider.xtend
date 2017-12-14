@@ -61,26 +61,43 @@ import mutatorenvironment.SpecificClosureSelection
 import mutatorenvironment.SelectSampleMutator
 import mutatorenvironment.ReferenceAdd
 import mutatorenvironment.ReferenceRemove
-import mutator.MutatorUtils
+import manager.MutatorUtils
+import mutatorenvironment.miniOCL.PathElementCS
+import mutatorenvironment.miniOCL.CallExpCS
+import mutatorenvironment.miniOCL.InvariantCS
+import mutatorenvironment.miniOCL.NameExpCS
+import org.eclipse.emf.ecore.util.EcoreUtil
+import mutatorenvironment.RetypeObjectMutator
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo - Wodel editor scope provider
  * 
- * see : http://www.eclipse.org/Xtext/documentation.html#scoping
- * on how and when to use it 
- *
+ * Scope provider for the Wodel language.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	/**
-	 * CreateObjetMutator.type can contain any EClass from the input meta-model.
+	 * ObjectEmitter.type can contain any EClass from the input meta-model.
+	 * Except the RetypeObjectMutator that can contain any compatible EClass.
 	 */
 	def IScope scope_ObjectEmitter_type(ObjectEmitter obj, EReference ref) {
-		System.out.println("1.")
 		val MutatorEnvironment env = getMutatorEnvironment(obj)
         val Definition  definition = env.definition
+        var List<EClass> classes = null
        	// add metamodel classes to scope
-       	Scopes.scopeFor( getEClasses(definition.metamodel) )   
+       	if (obj instanceof RetypeObjectMutator) {
+       		val RetypeObjectMutator retypeObjectMutator = obj as RetypeObjectMutator
+       		classes = ModelManager.getSiblingEClasses(definition.metamodel, MutatorUtils.getStrategyType(retypeObjectMutator.object))
+       	}
+       	else {
+       		classes = getEClasses(definition.metamodel)
+       	}
+       	Scopes.scopeFor( classes )   
 	}				
 	
 	/**
@@ -88,12 +105,11 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * can contain any previous object whose type is a container for the created object. 
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(CreateObjectMutator com, EReference ref) {				
-		System.out.println("2.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
         
-        val List<EClass> containers  = getEContainers(definition.metamodel, com.type.name)
+        val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
         val List<EReference> references = getEReferences(definition.metamodel, com.type.name)
@@ -110,7 +126,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) { 
         	if (mutator.name!=null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof CloneObjectMutator) &&
+        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
         		scontainers.contains(mutator.type.name))
 			scope.add(mutator)
 		}
@@ -121,15 +137,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	/**
 	 * SelectObjectMutator.container, when a specific object is used as a container,
-	 * can contain any previous object whose type is a container for the created object. 
+	 * can contain any previous object whose type is a container for the selected object. 
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(SelectObjectMutator com, EReference ref) {				
-		System.out.println("2b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
         
-        val List<EClass> containers  = getEContainers(definition.metamodel, com.type.name)
+        val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -143,7 +158,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) {
         	if (mutator.name != null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof CloneObjectMutator) &&
+        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
         		scontainers.contains(mutator.type.name)) 
 				scope.add(mutator)
 		}
@@ -157,12 +172,11 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * can contain any previous object whose type is a container for the created object. 
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(CreateObjectMutator com, EReference ref) {				
-		System.out.println("2c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
         
-        val List<EClass> containers  = getEContainers(definition.metamodel, com.type.name)
+        val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
         val List<EReference> references = getEReferences(definition.metamodel, com.type.name)
@@ -179,7 +193,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) { 
         	if (mutator.name!=null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator) &&
+        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
         		scontainers.contains(mutator.type.name))
 			scope.add(mutator)
 		}
@@ -190,15 +204,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	/**
 	 * SelectObjectMutator.container, when a specific object is used as a container,
-	 * can contain any previous object whose type is a container for the created object. 
+	 * can contain any previous object whose type is a container for the selected object. 
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(SelectObjectMutator com, EReference ref) {				
-		System.out.println("2d.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
         
-        val List<EClass> containers  = getEContainers(definition.metamodel, com.type.name)
+        val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
 
@@ -212,7 +225,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) {
         	if (mutator.name != null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator) &&
+        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
         		scontainers.contains(mutator.type.name)) 
 				scope.add(mutator)
 		}
@@ -224,7 +237,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * CompleteTypeSelection.type can contain any EClass from the input meta-model.
 	 */
 	def IScope scope_CompleteTypeSelection_type(CompleteTypeSelection com, EReference ref) {
-		System.out.println("3.")
 		anyTypeSelection (com);
 	}
 	
@@ -232,7 +244,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * RandomTypeSelection.type can contain any EClass from the input meta-model.
 	 */
 	def IScope scope_RandomTypeSelection_type(RandomTypeSelection com, EReference ref) {
-		System.out.println("4.")
 		anyTypeSelection (com);
 	}
 
@@ -240,7 +251,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * OtherTypeSelection.type can contain any EClass from the input meta-model.
 	 */
 	def IScope scope_OtherTypeSelection_type(OtherTypeSelection com, EReference ref) {
-		System.out.println("4b.")
 		anyTypeSelection (com);
 	}
 	
@@ -274,7 +284,8 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 			     com.eContainer instanceof CreateObjectMutator ||
 			     com.eContainer instanceof SelectObjectMutator ||
 			     com.eContainer instanceof SelectSampleMutator ||
-			     com.eContainer instanceof CloneObjectMutator) {
+			     com.eContainer instanceof CloneObjectMutator ||
+			     com.eContainer instanceof RetypeObjectMutator) {
        		// add metamodel classes to scope
         	scope.addAll(getEClasses(definition.metamodel))
 		}       
@@ -286,7 +297,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * SpecificObjectSelection.objSel can contain any EClass from the input meta-model.
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(SpecificObjectSelection com, EReference ref) {
-		System.out.println("5.")		
    		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<Mutator> scope = new ArrayList<Mutator>()
@@ -303,7 +313,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -321,7 +331,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainments.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -343,7 +353,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -361,7 +371,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainments.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -377,7 +387,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * SpecificObjectSelection.objSel can contain any EClass from the input meta-model.
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(SpecificClosureSelection com, EReference ref) {
-		System.out.println("5b.")		
    		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<Mutator> scope = new ArrayList<Mutator>()
@@ -394,7 +403,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator ||  mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator ||  mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -412,7 +421,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainments.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -434,7 +443,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -452,7 +461,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (c : commands) {
         			if (c.name != null && 
         				commands.indexOf(c) < commands.indexOf(mutator) &&
-        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(c instanceof CreateObjectMutator || c instanceof SelectObjectMutator || c instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainments.contains(c.type.name)){ 
 						scope.add(c)
 					}
@@ -469,51 +478,56 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * can contain any EClass which is a container for the created object.
 	 */
 	def IScope scope_RandomTypeSelection_type(CreateObjectMutator com, EReference ref) {
-		System.out.println("6.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
-        Scopes.scopeFor( getEContainers(definition.metamodel, com.type.name) )              
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
 	}
 	
 	/**
 	 * SelectObjectMutator.container, when a random type is used as a container, 
-	 * can contain any EClass which is a container for the created object.
+	 * can contain any EClass which is a container for the selected object.
 	 */
 	def IScope scope_RandomTypeSelection_type(SelectObjectMutator com, EReference ref) {
-		System.out.println("6b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
-        Scopes.scopeFor( getEContainers(definition.metamodel, com.type.name) )              
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
 	}
 	
 	/**
-	 * SelectObjectMutator.container, when a random type is used as a container, 
-	 * can contain any EClass which is a container for the created object.
+	 * SelectSampleMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected objects.
 	 */
 	def IScope scope_RandomTypeSelection_type(SelectSampleMutator com, EReference ref) {
-		System.out.println("6bb.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
-        Scopes.scopeFor( getEContainers(definition.metamodel, com.type.name) )              
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
 	}
 	
 	/**
 	 * CloneObjectMutator.container, when a random type is used as a container, 
-	 * can contain any EClass which is a container for the created object.
+	 * can contain any EClass which is a container for the cloned object.
 	 */
 	def IScope scope_RandomTypeSelection_type(CloneObjectMutator com, EReference ref) {
-		System.out.println("6c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
-        Scopes.scopeFor( getEContainers(definition.metamodel, com.type.name) )              
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
 	}
 	
 	/**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * RetypeObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the retyped object.
+	 */
+	def IScope scope_RandomTypeSelection_type(RetypeObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is CreateObjetMutator.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(CreateObjectMutator com, EReference ref) {
-		System.out.println("7.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -536,9 +550,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-       				sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+       				sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -552,9 +569,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-       				sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+       				sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
        			}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -572,11 +592,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
    /**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is ReferenceInit.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(ReferenceInit com, EReference ref) {
-		System.out.println("7b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -598,9 +617,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -613,9 +635,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -627,11 +652,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is ReferenceAdd.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(ReferenceAdd com, EReference ref) {
-		System.out.println("7c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -653,9 +677,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -668,9 +695,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -682,11 +712,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is ReferenceRemove.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(ReferenceRemove com, EReference ref) {
-		System.out.println("7c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -708,9 +737,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -723,9 +755,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -737,11 +772,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
 	/**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is ReferenceEvaluation.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(ReferenceEvaluation refEv, EReference ref) {
-		System.out.println("7a.")
         val List<EReference> scope = new ArrayList<EReference>()
 		var EObject container = refEv.eContainer
 		while (container instanceof Mutator == false && container != null) {
@@ -761,9 +795,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 					className = (selection.objSel as SelectObjectMutator).object.type.name
 				}
 				if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
 				if (selection.objSel instanceof CloneObjectMutator) {
+					className = selection.objSel.type.name
+				}
+				if (selection.objSel instanceof RetypeObjectMutator) {
 					className = selection.objSel.type.name
 				}
 				// add references to scope
@@ -779,9 +816,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 					className = (selection.objSel as SelectObjectMutator).object.type.name
 				}
 				if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
 				if (selection.objSel instanceof CloneObjectMutator) {
+					className = selection.objSel.type.name
+				}
+				if (selection.objSel instanceof RetypeObjectMutator) {
 					className = selection.objSel.type.name
 				}
 				// add references to scope
@@ -792,11 +832,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
 
 	/**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is SelectObjetMutator.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(SelectObjectMutator com, EReference ref) {
-		System.out.println("7b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -819,9 +858,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -835,9 +877,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -893,6 +938,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
        		}
        		if (com.object instanceof SpecificClosureSelection) {
        			val SpecificClosureSelection selection = com.object as SpecificClosureSelection
@@ -905,6 +953,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
        		}
        		
        		// 	add references to scope
@@ -914,11 +965,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
 
 	/**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is CloneObjetMutator.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(CloneObjectMutator com, EReference ref) {
-		System.out.println("7c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -941,9 +991,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -956,9 +1009,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -985,6 +1041,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
        		}
        		if (com.object instanceof SpecificClosureSelection) {
        			val SpecificClosureSelection selection = com.object as SpecificClosureSelection
@@ -997,6 +1056,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
        		}
        		// 	add references to scope
        		scope.addAll(getEReferences(definition.metamodel, className))
@@ -1005,11 +1067,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is RemoveObjetMutator.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(RemoveObjectMutator com, EReference ref) {
-		System.out.println("7d.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -1032,9 +1093,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -1047,9 +1111,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				sourceClassName = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					sourceClassName = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					sourceClassName = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				sourceClassName = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				sourceClassName = selection.objSel.type.name
        			}
        		}
@@ -1102,7 +1169,13 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selection.objSel instanceof SelectObjectMutator) {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
+       			if (selection.objSel instanceof SelectSampleMutator) {
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
+				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -1114,7 +1187,13 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selection.objSel instanceof SelectObjectMutator) {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
+       			if (selection.objSel instanceof SelectSampleMutator) {
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
+				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -1126,11 +1205,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 
 
     /**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * ObSelectionStrategy.refType can contain any EReference defined by the 
+	 * SelectedObject.eContainer whose type is SelectSampleMutator.type.
 	 */
     def IScope scope_ObSelectionStrategy_refType(SelectSampleMutator com, EReference ref) {
-		System.out.println("7e.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -1153,9 +1231,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -1168,9 +1249,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
+       				className = selection.objSel.type.name
+       			}
+       			if (selection.objSel instanceof RetypeObjectMutator) {
        				className = selection.objSel.type.name
        			}
        		}
@@ -1185,8 +1269,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * ModifySourceReferenceMutator.refType can contain any EReference in the metamodel.
 	 */
 	def IScope scope_ModifySourceReferenceMutator_refType(ModifySourceReferenceMutator com, EReference ref) {
-		System.out.println("8.")
-		System.out.println("AQUI 1.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -1210,6 +1292,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        			if (selected instanceof CloneObjectMutator) {
 					scope.addAll(getEReferences(definition.metamodel, selected.type.name))
         		}
+        		if (selected instanceof RetypeObjectMutator) {
+					scope.addAll(getEReferences(definition.metamodel, selected.type.name))
+        		}
         	}
         	if (source instanceof SpecificClosureSelection) {
         		scope.addAll(getEReferences(definition.metamodel, (source as SpecificClosureSelection).objSel.type.name))
@@ -1226,7 +1311,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * ModifyTargetReferenceMutator.refType can contain any EReference in the metamodel.
 	 */
 	def IScope scope_ModifyTargetReferenceMutator_refType(ModifyTargetReferenceMutator com, EReference ref) {
-		System.out.println("9.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         
@@ -1255,7 +1339,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * CreateReferenceMutator.refType can contain any EReference in the metamodel.
 	 */
 	def IScope scope_CreateReferenceMutator_refType(CreateReferenceMutator com, EReference ref) {
-		System.out.println("10.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EReference> scope = new ArrayList<EReference>()
@@ -1284,8 +1367,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * object is used as from/to, can contain any previous object defining the modified reference. 
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(ModifySourceReferenceMutator com, EReference ref) {				
-		System.out.println("11.")
-		System.out.println("AQUI 2.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
@@ -1298,7 +1379,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) {
         	if (mutator.name != null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        		(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         		scontainers.contains(mutator.type.name)) 
 				scope.add(mutator) // add object to scope
 		}
@@ -1311,8 +1392,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * object is used as from/to, can contain any previous object defining the modified reference. 
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(ModifySourceReferenceMutator com, EReference ref) {				
-		System.out.println("11b.")
-		System.out.println("AQUI 2b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
@@ -1325,7 +1404,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) {
         	if (mutator.name != null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        		(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         		scontainers.contains(mutator.type.name)) 
 				scope.add(mutator) // add object to scope
 		}
@@ -1337,15 +1416,16 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * type is used as from/to, can contain any EClass which defines the modified reference.
 	 */
 	def IScope scope_RandomTypeSelection_type(ModifySourceReferenceMutator com, EReference ref) {
-		System.out.println("12.")
-		System.out.println("AQUI 3.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         
         Scopes.scopeFor( getESources(definition.metamodel, com.refType.name) )              
 	}
 	
-	def private ArrayList<EClass> HelperRandomTypeSelectionModelEClasses(Definition definition, Program program) {
+	/**
+	 * Helper to get all the EClasses contained in the processed models. 
+	 */
+	def private List<EClass> HelperRandomTypeSelectionModelEClasses(Definition definition, Program program) {
 		val scope = new ArrayList()
 		/*if (program.source.multiple == false) {*/
 		if (!program.source.path.endsWith('/')) {
@@ -1369,7 +1449,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * RemoveObjectMutator.object, when a random type is used.
 	 */
 	def IScope scope_RandomTypeSelection_type(RemoveObjectMutator com, EReference ref) {
-		System.out.println("13.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1383,7 +1462,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * RemoveObjectMutator.object, when a specific selection strategy is used.
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(RemoveObjectMutator com, EReference ref) {
-		System.out.println("14.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -1394,10 +1472,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a specific selection strategy is used.
+	 * RemoveObjectMutator.object, when a specific closure selection strategy is used.
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(RemoveObjectMutator com, EReference ref) {
-		System.out.println("14b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -1408,10 +1485,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a complete type is used.
+	 * RemoveObjectMutator.object, when a complete type selection is used.
 	 */
 	def IScope scope_CompleteTypeSelection_type(RemoveObjectMutator com, EReference ref) {
-		System.out.println("15.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1423,11 +1499,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 
 	/**
-	 * ModifyInformationMutator.object, when a specific 
-	 * object is used, can contain any previous object defining the modified reference. 
+	 * ObjectEmitter.type, when a specific selection type
+	 * is used, can be of any EClass defined in the meta-model. 
 	 */
 	def IScope scope_ObjectEmitter_type(SpecificObjectSelection com, EReference ref) {
-		System.out.println("16.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1436,11 +1511,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * ModifyInformationMutator.object, when a specific 
-	 * object is used, can contain any previous object defining the modified reference. 
+	 * ObjectEmitter.type, when a specific closure selection type
+	 * is used, can be of any EClass defined in the meta-model. 
 	 */
 	def IScope scope_ObjectEmitter_type(SpecificClosureSelection com, EReference ref) {
-		System.out.println("16b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1453,7 +1527,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * object is used, can contain any previous object defining the modified reference. 
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(ModifyInformationMutator com, EReference ref) {
-		System.out.println("17.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
@@ -1470,7 +1543,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		        	for (mutator : commands) {
     	    		if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				sclasses.contains(mutator.type.name)) 
 						objects.add(mutator)
 					}
@@ -1499,7 +1572,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		        	for (mutator : commands) {
     	    		if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				sclasses.contains(mutator.type.name)) 
 						objects.add(mutator)
 					}
@@ -1512,11 +1585,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 
 	/**
-	 * ModifyInformationMutator.object, when a specific 
+	 * ModifyInformationMutator.object, when a specific closure 
 	 * object is used, can contain any previous object defining the modified reference. 
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(ModifyInformationMutator com, EReference ref) {
-		System.out.println("17b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
@@ -1533,7 +1605,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		        	for (mutator : commands) {
     	    		if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				sclasses.contains(mutator.type.name)) 
 						objects.add(mutator)
 					}
@@ -1562,7 +1634,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		        	for (mutator : commands) {
     	    		if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				sclasses.contains(mutator.type.name)) 
 						objects.add(mutator)
 					}
@@ -1575,10 +1647,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * ModifyInformationMutator.object, when a random type is used.
+	 * ModifyInformationMutator.type, when a random type is used.
 	 */
 	def IScope scope_RandomTypeSelection_type(ModifyInformationMutator com, EReference ref) {
-		System.out.println("18.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if (definition instanceof Program) {
@@ -1587,10 +1658,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a random type is used.
+	 * RemoveRandomReferenceMutator.refType.
 	 */
 	def IScope scope_RemoveRandomReferenceMutator_refType(RemoveRandomReferenceMutator com, EReference ref) {
-		System.out.println("19.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1600,10 +1670,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a random type is used.
+	 * RemoveRandomReferenceMutator.type.
 	 */
 	def IScope scope_RemoveRandomReferenceMutator_type(RemoveRandomReferenceMutator com, EReference ref) {
-		System.out.println("20.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1612,6 +1681,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }          
 	}
 	
+	/**
+	 * Helper to get all the EClasses contained in the processed models that contain a refTypeName reference. 
+	 */
 	def private ArrayList<EClass> HelperRandomTypeSelectionModelESources(Definition definition, Program program, String refTypeName) {
 		val scope = new ArrayList()
 		if (!program.source.path.endsWith('/')) {
@@ -1633,11 +1705,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveReferenceMutator.container, when a random 
+	 * RemoveRandomReferenceMutator.container, when a random 
 	 * type is used, can contain any EClass which defines the modified reference.
 	 */
 	def IScope scope_RandomTypeSelection_type(RemoveRandomReferenceMutator com, EReference ref) {
-		System.out.println("21.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1648,10 +1719,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a random type is used.
+	 * RemoveCompleteReferenceMutator.refType.
 	 */
 	def IScope scope_RemoveCompleteReferenceMutator_refType(RemoveCompleteReferenceMutator com, EReference ref) {
-		System.out.println("22.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1663,10 +1733,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a random type is used.
+	 * RemoveCompleteReferenceMutator.type.
 	 */
 	def IScope scope_RemoveCompleteReferenceMutator_type(RemoveCompleteReferenceMutator com, EReference ref) {
-		System.out.println("23.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1676,11 +1745,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveReferenceMutator.container, when a random 
+	 * RemoveCompleteReferenceMutator.container, when a random 
 	 * type is used, can contain any EClass which defines the modified reference.
 	 */
 	def IScope scope_RandomTypeSelection_type(RemoveCompleteReferenceMutator com, EReference ref) {
-		System.out.println("24.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1691,10 +1759,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 
 	/**
-	 * RemoveObjectMutator.object, when a random type is used.
+	 * RemoveSpecificReferenceMutatorMutator.refType.
 	 */
 	def IScope scope_RemoveSpecificReferenceMutator_refType(RemoveSpecificReferenceMutator com, EReference ref) {
-		System.out.println("25.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1704,10 +1771,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveObjectMutator.object, when a random type is used.
+	 * RemoveSpecificReferenceMutator.container.
 	 */
 	def IScope scope_RemoveSpecificReferenceMutator_container(RemoveSpecificReferenceMutator com, EReference ref) {
-		System.out.println("26.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         if(definition instanceof Program) {
@@ -1715,12 +1781,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         	Scopes.scopeFor( getEClasses(definition.metamodel) )    
         }          
 	}
+	
 	/**
-	 * RemoveReferenceMutator.container, when a specific 
+	 * RemoveSpecificReferenceMutator.container, when a specific 
 	 * object is used, can contain any previous object defining the modified reference. 
 	 */
 	def IScope scope_SpecificObjectSelection_objSel(RemoveSpecificReferenceMutator com, EReference ref) {				
-		System.out.println("27.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
@@ -1737,7 +1803,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (mutator : commands) {
         			if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(mutator.type.name)) 
 						objects.add(mutator)
 				}
@@ -1764,7 +1830,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (mutator : commands) {
         			if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(mutator.type.name)) 
 						objects.add(mutator)
 				}
@@ -1775,11 +1841,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * RemoveReferenceMutator.container, when a specific 
+	 * RemoveSpecificReferenceMutator.container, when a specific closure 
 	 * object is used, can contain any previous object defining the modified reference. 
 	 */
 	def IScope scope_SpecificClosureSelection_objSel(RemoveSpecificReferenceMutator com, EReference ref) {				
-		System.out.println("27b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
@@ -1796,7 +1861,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (mutator : commands) {
         			if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(mutator.type.name)) 
 						objects.add(mutator)
 				}
@@ -1823,7 +1888,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         		for (mutator : commands) {
         			if (mutator.name != null && 
         				commands.indexOf(mutator) < commands.indexOf(com) &&
-        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator) && 
+        				(mutator instanceof CreateObjectMutator || mutator instanceof SelectObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) && 
         				scontainers.contains(mutator.type.name)) 
 						objects.add(mutator)
 				}
@@ -1837,17 +1902,15 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * CreateObjectMutator.attributes must contain attributes of the CreateObjetMutator.type type. 
      */
     def IScope scope_AttributeSet_attribute(CreateObjectMutator com, EReference ref) {
-		System.out.println("28.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
        	Scopes.scopeFor( getEAttributes(definition.metamodel, com.type.name) )              
     }
     
     /**
-     * CreateObjectMutator.attributes must contain attributes of the CreateObjetMutator.type type. 
+     * CreateObjectMutator.references must contain references of the CreateObjetMutator.type type. 
      */  
     def IScope scope_ReferenceSet_reference(CreateObjectMutator com, EReference ref) {
-		System.out.println("28b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
        	Scopes.scopeFor( getEReferences(definition.metamodel, com.type.name) )              
@@ -1857,7 +1920,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
      */
     def IScope scope_AttributeSet_attribute(ModifyInformationMutator com, EReference ref) {
-		System.out.println("29.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -1874,26 +1936,25 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
-       			System.out.println("attribute: "+ eatt.name)
-       		}
+       		//for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
+       		//	System.out.println("attribute: "+ eatt.name)
+       		//}
 			scope.addAll(getEAttributes(definition.metamodel, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
-       			System.out.println("attribute: "+ eatt.name)
-       		}
+       		//for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
+       		//	System.out.println("attribute: "+ eatt.name)
+       		//}
 			scope.addAll(getEAttributes(definition.metamodel, name))
        	}
        	Scopes.scopeFor(scope)              
     }
 
     /**
-     * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
-     */
+     * ModifyInformationMutator.references must contain references of the ModifyInformationMutator.type type. 
+     */  
     def IScope scope_ReferenceSet_reference(ModifyInformationMutator com, EReference ref) {
-		System.out.println("29b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -1910,26 +1971,25 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-       			System.out.println("reference: "+ eref.name)
-       		}
+       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//	System.out.println("reference: "+ eref.name)
+       		//}
 			scope.addAll(getEReferences(definition.metamodel, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-       			System.out.println("reference: "+ eref.name)
-       		}
+       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//	System.out.println("reference: "+ eref.name)
+       		//}
 			scope.addAll(getEReferences(definition.metamodel, name))
        	}
        	Scopes.scopeFor(scope)       
     }
 
     /**
-     * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
+     * CloneObjectMutator.attributes must contain attributes of the CloneObjectMutator.object type. 
      */
     def IScope scope_AttributeSet_attribute(CloneObjectMutator com, EReference ref) {
-		System.out.println("29c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -1946,26 +2006,25 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
-       			System.out.println("attribute: "+ eatt.name)
-       		}
+       		//for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
+       		//	System.out.println("attribute: "+ eatt.name)
+       		//}
 			scope.addAll(getEAttributes(definition.metamodel, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
-       			System.out.println("attribute: "+ eatt.name)
-       		}
+       		//for (EAttribute eatt: getEAttributes(definition.metamodel, name)) {
+       		//	System.out.println("attribute: "+ eatt.name)
+       		//}
 			scope.addAll(getEAttributes(definition.metamodel, name))
        	}
        	Scopes.scopeFor(scope)              
     }
 
     /**
-     * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
-     */
+     * CloneObjectMutator.references must contain references of the CloneObjectMutator.type type. 
+     */  
     def IScope scope_ReferenceSet_reference(CloneObjectMutator com, EReference ref) {
-		System.out.println("29d.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -1982,26 +2041,43 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-       			System.out.println("reference: "+ eref.name)
-       		}
+       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//	System.out.println("reference: "+ eref.name)
+       		//}
 			scope.addAll(getEReferences(definition.metamodel, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-       			System.out.println("reference: "+ eref.name)
-       		}
+       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//	System.out.println("reference: "+ eref.name)
+       		//}
 			scope.addAll(getEReferences(definition.metamodel, name))
        	}
        	Scopes.scopeFor(scope)       
     }
     
     /**
+     * RetypeObjectMutator.attributes must contain attributes of the CloneObjectMutator.object type. 
+     */
+    def IScope scope_AttributeSet_attribute(RetypeObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+       	Scopes.scopeFor(getEAttributes(definition?.metamodel, getType(com)))              
+    }
+
+    /**
+     * RetypeObjectMutator.references must contain references of the CloneObjectMutator.type type. 
+     */  
+    def IScope scope_ReferenceSet_reference(RetypeObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+       	Scopes.scopeFor(getEReferences(definition?.metamodel, getType(com)))              
+    }
+
+    /**
      * ReferenceInit.refType must contain references of the type of ReferenceInit.object. 
      */
     def IScope scope_ReferenceSet_refType (ReferenceInit com, EReference container) {
-    	System.out.println("30a.")    	
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2028,7 +2104,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * or of the type of the mutator if no object is specified. 
      */
     def IScope scope_ReferenceSet_reference (ReferenceSwap com, EReference container) {
-    	System.out.println("30b.")    	
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2052,10 +2127,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
 
     /**
-     * ReferenceInit.attType must contain references of the type of ReferenceInit.reference. 
+     * ReferenceAtt.attribute must contain attributes of the type of ReferenceAtt.reference. 
      */
     def IScope scope_ReferenceAtt_attribute (ReferenceAtt com, EReference container) {
-    	System.out.println("30c.")  
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
     	var ArrayList<EAttribute> atts = new ArrayList<EAttribute>()
 		if (env!=null) {
@@ -2069,10 +2143,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-     * ReferenceInit.refType must contain references of the type of ReferenceInit.object. 
+     * ReferenceAdd.refType must contain references of the type of ReferenceAdd.object. 
      */
     def IScope scope_ReferenceSet_refType (ReferenceAdd com, EReference container) {
-    	System.out.println("30d.")    	
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2094,10 +2167,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-     * ReferenceInit.refType must contain references of the type of ReferenceInit.object. 
+     * ReferenceRemove.refType must contain references of the type of ReferenceRemove.object. 
      */
     def IScope scope_ReferenceSet_refType (ReferenceRemove com, EReference container) {
-    	System.out.println("30e.")    	
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2122,7 +2194,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * ReferenceEvaluation.name must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_name(RandomTypeSelection com, EReference ref) {
-    	System.out.println("31a.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env!=null) {
         	val Definition  definition = env.definition
@@ -2136,7 +2207,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * ReferenceEvaluation.name must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_name(CompleteTypeSelection com, EReference ref) {
-    	System.out.println("31b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env!=null) {
         	val Definition  definition = env.definition
@@ -2147,10 +2217,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
   	/**
-     * ReferenceEvaluation.name must contain the references defined by ... 
+     * ReferenceEvaluation.name must contain the references defined by com.type
      */
      def IScope scope_ReferenceEvaluation_name(SpecificObjectSelection com, EReference ref) {
-    	System.out.println("31c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2172,10 +2241,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-     * ReferenceEvaluation.name must contain the references defined by ... 
+     * ReferenceEvaluation.name must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_name(SpecificClosureSelection com, EReference ref) {
-    	System.out.println("31d.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2200,7 +2268,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * AttributeEvaluation.name must contain the attributes defined by com.type 
      */
     def IScope scope_AttributeEvaluation_name(RandomTypeSelection com, EReference ref) {
-    	System.out.println("32a.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env!=null) {
         	val Definition  definition = env.definition
@@ -2214,7 +2281,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * AttributeEvaluation.name must contain the attributes defined by com.type 
      */
      def IScope scope_AttributeEvaluation_name(CompleteTypeSelection com, EReference ref) {
-    	System.out.println("32b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env!=null) {
         	val Definition  definition = env.definition
@@ -2225,52 +2291,60 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }    
 
   	/**
-     * AttributeEvaluation.name must contain the attributes defined by ...
+     * AttributeEvaluation.name must contain the attributes defined by com.type
      */
      def IScope scope_AttributeEvaluation_name(SpecificObjectSelection com, EReference ref) {
-    	System.out.println("32c.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
 			
 			// obtain mutator that contains the specific object selection
-			val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
-			val List<Mutator> commands = getCommands(currentMutator)
-			val String      objectName = com.objSel?.name
-			
-			// search specific selected object among the previous commands
-			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-			if (command!=null) return Scopes.scopeFor( getEAttributes(definition?.metamodel, getType(command)) )
+			if (com.refType == null) {
+				val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
+				val List<Mutator> commands = getCommands(currentMutator)
+				val String      objectName = com.objSel?.name
+				
+			// 	search specific selected object among the previous commands
+				var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
+				if (command!=null) return Scopes.scopeFor( getEAttributes(definition?.metamodel, getType(command)) )
+		
+			}
+			else {
+				return Scopes.scopeFor (getEAttributes(definition?.metamodel, com.refType.EType.name))
+			}
        	}
        	Scopes.scopeFor(new ArrayList())
     }
     
     /**
-     * AttributeEvaluation.name must contain the attributes defined by ...
+     * AttributeEvaluation.name must contain the attributes defined by com.type
      */
      def IScope scope_AttributeEvaluation_name(SpecificClosureSelection com, EReference ref) {
-    	System.out.println("32d.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
 			
 			// obtain mutator that contains the specific object selection
-			val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
-			val List<Mutator> commands = getCommands(currentMutator)
-			val String      objectName = com.objSel?.name
+			if (com.refType == null) {
+				val Mutator currentMutator = EcoreUtil2.getContainerOfType(com, Mutator)
+				val List<Mutator> commands = getCommands(currentMutator)
+				val String      objectName = com.objSel?.name
 			
-			// search specific selected object among the previous commands
-			var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
-			if (command!=null) return Scopes.scopeFor( getEAttributes(definition?.metamodel, getType(command)) )
+				// search specific selected object among the previous commands
+				var command = getCommand (objectName, commands, commands.indexOf(currentMutator))
+				if (command!=null) return Scopes.scopeFor( getEAttributes(definition?.metamodel, getType(command)) )
+			}
+			else {
+				return Scopes.scopeFor (getEAttributes(definition?.metamodel, com.refType.EType.name))
+			}
        	}
        	Scopes.scopeFor(new ArrayList())
     }
 
 //  	/**
-//     * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
+//     * SelectObjectMutator.refType must be of the SelectObjectMutator.object type. 
 //     */
 //    def IScope scope_ObSelectionStrategy_refType(SelectObjectMutator com, EReference ref) {
-//		System.out.println("33.")
 //		val MutatorEnvironment env = getMutatorEnvironment(com) 
 //		val List<Mutator> commands = getCommands(com)
 //        val Definition  definition = env.definition
@@ -2283,26 +2357,25 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 //       	}
 //        else if(com.object instanceof CompleteTypeSelection){
 //       		name = (com.object as CompleteTypeSelection).type.name
-//       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-//       			System.out.println("reference: "+ eref.name)
-//       		}
+//       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+//       		//	System.out.println("reference: "+ eref.name)
+//       		//}
 //			scope.addAll(getEReferences(definition.metamodel, name))
 //       	}
 //       	else if(com.object instanceof RandomTypeSelection){
 //       		name = (com.object as RandomTypeSelection).type.name
-//       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-//       			System.out.println("reference: "+ eref.name)
-//       		}
+//       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+//       		//	System.out.println("reference: "+ eref.name)
+//       		//}
 //			scope.addAll(getEReferences(definition.metamodel, name))
 //       	}
 //       	Scopes.scopeFor(scope)              
 //    }
 //    
     /**
-     * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
+     * ModifyInformationMutator.refType must be of the ModifyInformationMutator.object type. 
      */
     def IScope scope_ObSelectionStrategy_refType(ModifyInformationMutator com, EReference ref) {
-		System.out.println("33b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		val List<Mutator> commands = getCommands(com)
         val Definition  definition = env.definition
@@ -2319,26 +2392,25 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	}
         else if(com.object instanceof CompleteTypeSelection){
        		val String name = (com.object as CompleteTypeSelection).type.name
-       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-       			System.out.println("reference: "+ eref.name)
-       		}
+       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//	System.out.println("reference: "+ eref.name)
+       		//}
 			scope.addAll(getEReferences(definition.metamodel, name))
        	}
        	else if(com.object instanceof RandomTypeSelection){
        		val String name = (com.object as RandomTypeSelection).type.name
-       		for (EReference eref: getEReferences(definition.metamodel, name)) {
-       			System.out.println("reference: "+ eref.name)
-       		}
+       		//for (EReference eref: getEReferences(definition.metamodel, name)) {
+       		//	System.out.println("reference: "+ eref.name)
+       		//}
 			scope.addAll(getEReferences(definition.metamodel, name))
        	}
        	Scopes.scopeFor(scope)              
     }
     
     /**
-     * ModifyInformationMutator.attributes must contain attributes of the ModifyInformationMutator.object type. 
+     * ReferenceEvaluation.refType must be of com.type. 
      */
     def IScope scope_ReferenceEvaluation_refType(RandomTypeSelection com, EReference ref) {
-		System.out.println("33c.")
    		val scope = new ArrayList()
       	
       	var EObject mut = null
@@ -2367,7 +2439,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		        		if (first.value instanceof SpecificObjectSelection) {
 		    				if ((first.value as SpecificObjectSelection).objSel != null) {
 			       				val String name = (first.value as SpecificObjectSelection).objSel.name
-			       				System.out.println("name: " + name);
 	       						var command = getCommand (name, commands, commands.indexOf(mut))
 	       						if (command!=null) scope.addAll( getEReferences(definition?.metamodel, getType(command)) )
 		        			}
@@ -2391,11 +2462,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	Scopes.scopeFor(scope)             
     }
     
-  	/**
-     * ReferenceEvaluation.name must contain the references defined by com.type 
+    /**
+     * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(RandomTypeSelection com, EReference ref) {
-    	System.out.println("33d.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env!=null) {
         	val Definition  definition = env.definition
@@ -2407,11 +2477,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
   	/**
-     * ReferenceEvaluation.name must contain the references defined by com.type 
+     * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(CompleteTypeSelection com, EReference ref) {
-    	System.out.println("33e.")
-		val MutatorEnvironment env = getMutatorEnvironment(com)
+    	val MutatorEnvironment env = getMutatorEnvironment(com)
 		if (env!=null) {
         	val Definition  definition = env.definition
    			val EReference   reference = (com.expression?.first as ReferenceEvaluation).name
@@ -2422,10 +2491,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
   	/**
-     * ReferenceEvaluation.name must contain the references defined by ... 
+     * ReferenceEvaluation.refName must contain the references defined by com.type 
      */
      def IScope scope_ReferenceEvaluation_refName(SpecificObjectSelection com, EReference ref) {
-    	System.out.println("33f.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2440,7 +2508,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
      * ReferenceEvaluation.name must contain the references defined by ... 
      */
      def IScope scope_ReferenceEvaluation_refName(SpecificClosureSelection com, EReference ref) {
-    	System.out.println("33g.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
 		if (env!=null) {
 			val Definition  definition = env.definition
@@ -2455,7 +2522,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * Constraint.type can contain any EClass from the input meta-model.
 	 */
 	def IScope scope_Constraint_type(Constraint c, EReference ref) {
-		System.out.println("34.")
 		val MutatorEnvironment env = getMutatorEnvironment(c)
         val Definition  definition = env.definition
        	// add metamodel classes to scope
@@ -2466,7 +2532,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * ListType.value can contain any EEnumLiteral from the input EEnum.
 	 */
 	def IScope scope_ListType_value(ReferenceAtt refAtt, EReference ref) {
-		System.out.println("35a.")
 		var ArrayList<EObject> values = new ArrayList<EObject>()
        	var EAttribute attribute = refAtt.attribute;
 		if (attribute.getEType instanceof EEnum) {
@@ -2481,7 +2546,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * ListType.value can contain any EEnumLiteral from the input EEnum.
 	 */
 	def IScope scope_ListType_value(AttributeEvaluation attEv, EReference ref) {
-		System.out.println("35b.")
 		var ArrayList<EObject> values = new ArrayList<EObject>()
        	var EAttribute attribute = attEv.name;
 		if (attribute.getEType instanceof EEnum) {
@@ -2496,7 +2560,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * ListType.value can contain any EEnumLiteral from the input EEnum.
 	 */
 	def IScope scope_ListType_value(AttributeScalar attScal, EReference ref) {
-		System.out.println("35c.")
 		var ArrayList<EObject> values = new ArrayList<EObject>()
        	var EAttribute attribute = attScal.attribute.get(0);
 		if (attribute.getEType instanceof EEnum) {
@@ -2508,16 +2571,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * CreateObjectMutator.container, when a specific object is used as a container,
-	 * can contain any previous object whose type is a container for the created object. 
+	 * ObjectAttributeType.objSel can contain the previous defined mutators 
 	 */
 	def IScope scope_ObjectAttributeType_objSel(SelectObjectMutator com, EReference ref) {				
-		System.out.println("36.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
         
-        val List<EClass> containers  = getEContainers(definition.metamodel, com.type.name)
+        val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
         val List<EReference> references = getEReferences(definition.metamodel, com.type.name)
@@ -2534,7 +2595,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) { 
         	if (mutator.name!=null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator) &&
+        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
         		scontainers.contains(mutator.type.name))
 			scope.add(mutator)
 		}
@@ -2544,16 +2605,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-	 * CreateObjectMutator.container, when a specific object is used as a container,
-	 * can contain any previous object whose type is a container for the created object. 
+	 * ObjectAttributeType.objSel can contain the previous defined mutators 
 	 */
 	def IScope scope_ObjectAttributeType_objSel(ModifyInformationMutator com, EReference ref) {				
-		System.out.println("36b.")
 		val MutatorEnvironment env = getMutatorEnvironment(com)
         val List<Mutator> commands = getCommands(com)
         val Definition definition  = env.definition
         
-        val List<EClass> containers  = getEContainers(definition.metamodel, com.type.name)
+        val List<EClass> containers  = getEContainers(definition.metamodel, com.type)
         val List<String> scontainers = new ArrayList<String>()
         for (EClassifier cl : containers) scontainers.add(cl.name)
         val List<EReference> references = getEReferences(definition.metamodel, com.type.name)
@@ -2570,7 +2629,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         for (mutator : commands) { 
         	if (mutator.name!=null && 
         		commands.indexOf(mutator) < commands.indexOf(com) &&
-        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator) &&
+        		(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
         		scontainers.contains(mutator.type.name))
 			scope.add(mutator)
 		}
@@ -2580,10 +2639,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	/**
-     * ReferenceEvaluation.name must contain the references defined by com.type 
-     */
+	 * ObjectAttributeType.attribute must be of the type defined by com.type 
+	 */
      def IScope scope_ObjectAttributeType_attribute(ObjectAttributeType com, EReference ref) {
-    	System.out.println("37.")
 		val MutatorEnvironment env = getMutatorEnvironment(com.objSel)
 		var Mutator mut = null
 		var EObject container = com.eContainer
@@ -2607,11 +2665,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        	else Scopes.scopeFor(new ArrayList())
     }
     
-    /**
-     * ReferenceEvaluation.name must contain the references defined by com.type 
-     */
+	/**
+	 * MinValueType.attribute must be of the type defined by com.type 
+	 */
      def IScope scope_MinValueType_attribute(MinValueType com, EReference ref) {
-    	System.out.println("38.")
 		
 		var ArrayList<EAttribute> scopes = new ArrayList<EAttribute>()
        	
@@ -2639,9 +2696,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2654,9 +2714,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2679,9 +2742,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2694,9 +2760,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2720,9 +2789,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2735,9 +2807,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2757,11 +2832,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		Scopes.scopeFor( scopes )
     }
     
-    /**
-     * ReferenceEvaluation.name must contain the references defined by com.type 
-     */
+	/**
+	 * MaxValueType.attribute must be of the type defined by com.type 
+	 */
      def IScope scope_MaxValueType_attribute(MaxValueType com, EReference ref) {
-    	System.out.println("38b.")
 		
 		var ArrayList<EAttribute> scopes = new ArrayList<EAttribute>()
        	
@@ -2789,9 +2863,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2804,9 +2881,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2829,9 +2909,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2844,9 +2927,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2870,9 +2956,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2885,9 +2974,12 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
+       					className = selection.objSel.type.name
+       				}
+       				if (selection.objSel instanceof RetypeObjectMutator) {
        					className = selection.objSel.type.name
        				}
        			}
@@ -2907,11 +2999,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		Scopes.scopeFor( scopes )
     }
 
-     /**
-     * ReferenceEvaluation.name must contain the references defined by com.type 
-     */
+	/**
+	 * RandomNumberType.attribute must be of the type defined by com.type 
+	 */
      def IScope scope_RandomNumberType_max(RandomNumberType com, EReference ref) {
-    	System.out.println("39.")
 		
 		var ArrayList<EAttribute> scopes = new ArrayList<EAttribute>()
 		var String className = null
@@ -2936,11 +3027,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
-					}
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
+				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+   				if (selection.objSel instanceof RetypeObjectMutator) {
+   					className = selection.objSel.type.name
+   				}
        		}
        		if (com.object instanceof SpecificClosureSelection) {
     	   		val SpecificClosureSelection selection = com.object as SpecificClosureSelection
@@ -2951,11 +3045,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+   				if (selection.objSel instanceof RetypeObjectMutator) {
+   					className = selection.objSel.type.name
+   				}
        		}
        		if (com.object instanceof RandomTypeSelection) {
        			val RandomTypeSelection selection = com.object as RandomTypeSelection
@@ -2971,11 +3068,9 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     /**
-	 * RandomTypeSelection.refType can contain any EReference defined by the 
-	 * RandomTypeSelection.eContainer whose type is CreateObjetMutator.type.
+	 * SelectSampleMutator.features must be features of the type defined by com.type
 	 */
     def IScope scope_SelectSampleMutator_features(SelectSampleMutator com, EReference ref) {
-		System.out.println("40.")
 		val MutatorEnvironment env = getMutatorEnvironment(com) 
         val Definition  definition = env.definition
         val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
@@ -2999,11 +3094,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        					className = (selection.objSel as SelectObjectMutator).object.type.name
        				}
        				if (selection.objSel instanceof SelectSampleMutator) {
-						className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+						className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 					}
        				if (selection.objSel instanceof CloneObjectMutator) {
        					className = selection.objSel.type.name
        				}
+					if (selection.objSel instanceof RetypeObjectMutator) {
+   						className = selection.objSel.type.name
+   					}
        			}
        			else {
        				className = selection.refType.EType.name
@@ -3019,11 +3117,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
        				className = (selection.objSel as SelectObjectMutator).object.type.name
        			}
        			if (selection.objSel instanceof SelectSampleMutator) {
-					className = MutatorUtils.selectSampleMutatorHelper(selection.objSel as SelectSampleMutator)
+					className = MutatorUtils.selectSampleMutatorHelperName(selection.objSel as SelectSampleMutator)
 				}
        			if (selection.objSel instanceof CloneObjectMutator) {
        				className = selection.objSel.type.name
        			}
+   				if (selection.objSel instanceof RetypeObjectMutator) {
+   					className = selection.objSel.type.name
+   				}
        		}
         	
 	       	// 	add references to scope
@@ -3031,6 +3132,46 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    	   		scope.addAll(getEReferences(definition.metamodel, className))
        	}
    		Scopes.scopeFor( scope )  
+    }
+    
+
+    /**
+     * PathElementCS.pathName can contain any EStructuralFeature defined by the
+     * constraint.type.name
+     */
+    def IScope scope_PathElementCS_pathName(Constraint constraint, EReference ref) {
+    	val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
+    	var EObject container = constraint.eContainer
+    	while (container != null && (container instanceof MutatorEnvironment) == false) {
+    		container = container.eContainer
+    	}
+    	val MutatorEnvironment env = container as MutatorEnvironment
+    	val Definition definition = env.definition
+    	scope.addAll(getEStructuralFeatures(definition.metamodel, constraint.type.name))
+    	Scopes.scopeFor( scope )
+    }
+    
+    /**
+     * PathElementCS.pathName can contain any EStructuralFeature defined by the
+     * expression variable
+     */
+    def IScope scope_NavigationPathElementCS_pathName(InvariantCS invariant, EReference ref) {
+    	val List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>()
+    	var EObject container = invariant.eContainer
+    	while (container != null && (container instanceof MutatorEnvironment) == false) {
+    		container = container.eContainer
+    	}
+    	val MutatorEnvironment env = container as MutatorEnvironment
+    	val Definition definition = env.definition
+   		if (invariant.exp instanceof CallExpCS) {
+   			val CallExpCS callExpCS = invariant.exp as CallExpCS
+   			if (callExpCS.source instanceof NameExpCS) {
+   				val NameExpCS nameExpCS = callExpCS.source as NameExpCS
+	    		val PathElementCS pathElementCS = nameExpCS.expName.path.get(0) as PathElementCS
+    			scope.addAll(getEStructuralFeatures(definition.metamodel, pathElementCS.pathName.EType.name))
+   			}
+    	}
+    	Scopes.scopeFor( scope )
     }
     
  	//--------------------------------------------------------------------------------------
@@ -3063,6 +3204,57 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     def private String getType (Mutator mutator) {
     	if (mutator instanceof SelectObjectMutator)
     	      return (mutator as SelectObjectMutator).object?.type?.name
+    	if (mutator instanceof SelectSampleMutator) {
+			if ((mutator as SelectSampleMutator).object instanceof RandomTypeSelection) {
+				return (mutator as SelectSampleMutator).object?.type?.name
+			}
+			if ((mutator as SelectSampleMutator).object instanceof SpecificObjectSelection) {
+				if (((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType == null) {
+					val ObjectEmitter o = ((mutator as SelectSampleMutator).object as SpecificObjectSelection).objSel
+					if (o instanceof SelectObjectMutator) {
+						return (o as SelectObjectMutator).object?.type?.name
+					}
+					if (o instanceof CreateObjectMutator) {
+						return (o as CreateObjectMutator).type?.name
+					}
+	       			if (o instanceof SelectSampleMutator) {
+						return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+					}
+					if (o instanceof CloneObjectMutator) {
+						return (o as CloneObjectMutator).object?.type?.name
+					}
+	   				if (o instanceof RetypeObjectMutator) {
+   						return (o as RetypeObjectMutator).object?.type?.name
+   					}
+				}
+				else {
+					return ((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType.EType.name
+				}
+			}
+			if ((mutator as SelectSampleMutator).object instanceof SpecificClosureSelection) {
+				if (((mutator as SelectSampleMutator).object as SpecificObjectSelection).refType == null) {
+					val ObjectEmitter o = ((mutator as SelectSampleMutator).object as SpecificClosureSelection).objSel
+					if (o instanceof SelectObjectMutator) {
+						return (o as SelectObjectMutator).object?.type?.name
+					}
+					if (o instanceof CreateObjectMutator) {
+						return (o as CreateObjectMutator).type?.name
+					}
+					if (o instanceof SelectSampleMutator) {
+						return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+					}
+					if (o instanceof CloneObjectMutator) {
+						return (o as CloneObjectMutator).object?.type?.name
+					}
+	   				if (o instanceof RetypeObjectMutator) {
+   						return (o as RetypeObjectMutator).object?.type?.name
+   					}
+				}
+				else {
+					return ((mutator as SelectSampleMutator).object as SpecificClosureSelection).refType.EType.name
+				}
+			}
+		}
 		if (mutator instanceof ModifyInformationMutator) {
 			if ((mutator as ModifyInformationMutator).object instanceof RandomTypeSelection) {
 				return (mutator as ModifyInformationMutator).object?.type?.name
@@ -3075,8 +3267,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				if (o instanceof CreateObjectMutator) {
 					return (o as CreateObjectMutator).type?.name
 				}
+				if (o instanceof SelectSampleMutator) {
+					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+				}
 				if (o instanceof CloneObjectMutator) {
 					return (o as CloneObjectMutator).object?.type?.name
+				}
+   				if (o instanceof RetypeObjectMutator) {
+					return (o as RetypeObjectMutator).object?.type?.name
 				}
 			}
 			if ((mutator as ModifyInformationMutator).object instanceof SpecificClosureSelection) {
@@ -3087,8 +3285,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 				if (o instanceof CreateObjectMutator) {
 					return (o as CreateObjectMutator).type?.name
 				}
+				if (o instanceof SelectSampleMutator) {
+					return MutatorUtils.selectSampleMutatorHelperName(o as SelectSampleMutator)
+				}
 				if (o instanceof CloneObjectMutator) {
 					return (o as CloneObjectMutator).object?.type?.name
+				}
+   				if (o instanceof RetypeObjectMutator) {
+					return (o as RetypeObjectMutator).object?.type?.name
 				}
 			}
 		}
@@ -3107,6 +3311,23 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 		}
 		return command;
     }
+    
+    /**
+     * Gets the EClass list defined in the given meta-model
+     */
+    
+    def private List<EClass> getEClassesHelper(List<EPackage> packages) {
+    	var List<EClass> classes = new ArrayList<EClass>()
+    	for (EPackage pck : packages) {
+          for (EClassifier cl : pck.EClassifiers)
+            if (cl instanceof EClass)
+              classes.add(cl as EClass)
+          if (pck.ESubpackages != null) {
+    	  	classes.addAll(getEClassesHelper(pck.ESubpackages))
+    	  }
+    	}
+    	return classes
+    }
 
 	/** 
 	 * It returns the list of classes defined in a meta-model.
@@ -3116,10 +3337,14 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 def private List<EClass> getEClasses (String metamodelFile) {
         val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
         val List<EClass>   classes   = new ArrayList<EClass>()
-        for (EPackage pck : metamodel)
+        for (EPackage pck : metamodel) {
           for (EClassifier cl : pck.EClassifiers)
             if (cl instanceof EClass)
               classes.add(cl as EClass)
+          if (pck.ESubpackages != null) {
+          	classes.addAll(getEClassesHelper(pck.ESubpackages))
+          }
+        }
         return classes
 	 }
 	 
@@ -3129,7 +3354,7 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 * @return List<EClass>
 	 */
 	 def private List<EClass> getModelEClasses (String metamodelFile, String modelFile) {
-        val ArrayList<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
+        val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
         val Resource model = ModelManager.loadModel(metamodel, modelFile)
         val List<EObject>   classes = ModelManager.getAllObjects(model)
         val List<EClass>   ret   = new ArrayList<EClass>()
@@ -3147,10 +3372,15 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	 def private List<EReference> getEReferences (String metamodelFile) {
         val List<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
         val List<EReference> references = new ArrayList<EReference>()
-        for (EPackage pck : metamodel)
+        for (EPackage pck : metamodel) {
           for (EClassifier cl : pck.EClassifiers)
             if (cl instanceof EClass)
               references.addAll((cl as EClass).EReferences)
+          for (EPackage spck : pck.ESubpackages)
+	        for (EClassifier cl : spck.EClassifiers)
+    	      if (cl instanceof EClass)
+        	    references.addAll((cl as EClass).EReferences)
+        }
         return references
 	 }
 	 
@@ -3160,10 +3390,10 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	  * @param String class name
 	  * @return List<EClass> list of containers
 	  */
-	  def private List<EClass> getEContainers (String metamodelFile, String eclassName) {
+	  def private List<EClass> getEContainers (String metamodelFile, EClass eclass) {
 	  	// get all container eclassifiers
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
-        val List<EClassifier> containers = ModelManager.getContainerTypes(metamodel, eclassName)
+        val List<EClassifier> containers = ModelManager.getContainerTypes(metamodel, EcoreUtil.getURI(eclass))
         
         // filter to keep only eclasses
         val List<EClass> classes = new ArrayList<EClass>()
@@ -3184,7 +3414,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	  	// filter to keep only eclasses which define the received reference
 	  	val List<EClass> esources = new ArrayList<EClass>()
 	  	for (EClass cl : eclasses) {
-	    	System.out.println("class: " + cl.getName())
 	  	  	if (cl.getEStructuralFeature(ereferenceName)!=null)
 	  	    	esources.add(cl)
 	  	    }
@@ -3282,7 +3511,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	   * @return List<EAttribute> list of attributes
 	   */ 
 	   def private List<EAttribute> getEAttributes (String metamodelFile, String eclassName) {
-	   	System.out.println("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile + ", String eclassName=" + eclassName + ")")
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
 	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
 	  	if (eclass!=null) {
@@ -3300,7 +3528,6 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	   * @return List<EAttribute> list of attributes
 	   */ 
 	   def private List<EReference> getEReferences (String metamodelFile, String eclassName) {
-	   	System.out.println("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile + ", String eclassName=" + eclassName + ")")
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
 	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
 	  	if (eclass!=null) {
@@ -3309,5 +3536,25 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	  	else {
 	  		return new ArrayList<EReference>()
 	  	}
+	  	
+	  }
+
+	  /**
+	   * It return the list of structural features of a class.
+	   * @param String file containing the metamodel
+	   * @param String class name
+	   * @return List<EAttribute> list of attributes
+	   */ 
+	   def private List<EStructuralFeature> getEStructuralFeatures (String metamodelFile, String eclassName) {
+	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
+	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
+	  	if (eclass!=null) {
+	  		return eclass.EAllStructuralFeatures
+		}
+	  	else {
+	  		return new ArrayList<EStructuralFeature>()
+  		}
+  	
   	}
+
 }

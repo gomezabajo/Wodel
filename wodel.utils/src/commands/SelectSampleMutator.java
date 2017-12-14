@@ -25,9 +25,15 @@ import exceptions.WrongAttributeTypeException;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * SelectSampleMutator sample set object selection
+ *  
+ */
+
 public class SelectSampleMutator extends Mutator {
 
-	
 	/**
 	 * Object that will be selected
 	 */
@@ -56,7 +62,7 @@ public class SelectSampleMutator extends Mutator {
 	 * @param attributeConfig
 	 * Normal constructor
 	 */
-	public SelectSampleMutator(Resource model, ArrayList<EPackage> metaModel,
+	public SelectSampleMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy referenceSelection, ObSelectionStrategy object, EObject obj, boolean equals, List<String> features){
 		super(model, metaModel, "SampleSelected");
 		this.referenceSelection = referenceSelection;
@@ -74,13 +80,199 @@ public class SelectSampleMutator extends Mutator {
 	 * @param attributeConfig
 	 * Normal constructor
 	 */
-	public SelectSampleMutator(Resource model, ArrayList<EPackage> metaModel,
+	public SelectSampleMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy referenceSelection, ObSelectionStrategy object, boolean equals, List<String> features){
 		super(model, metaModel, "SampleSelected");
 		this.referenceSelection = referenceSelection;
 		this.objectSelection = object;
 		this.equals = equals;
 		this.features = features;
+	}
+	
+	private void selectSampleDifferentFeaturesOneObjectHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, List<EObject>> hmEObjects) {
+		List<String> otherFeatures = null;
+		for (String feature : features) {
+			otherFeatures = new ArrayList<String>();
+			otherFeatures.addAll(features);
+			otherFeatures.remove(feature);
+			for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
+				if (feat.getName().equals(feature)) {
+					for (Object key : classify.get(feat).keySet()) {
+						HashMap<Object, List<EObject>> others = classify.get(feat);
+						others.remove(key);
+						List<EObject> lo = classify.get(feat).get(key);
+						for (EObject o1 : lo) {
+							List<EObject> sel = new ArrayList<EObject>();
+							List<EObject> rej = new ArrayList<EObject>();
+							List<EObject> lo1 = new ArrayList<EObject>();
+							lo1.addAll(lo);
+							lo1.remove(o1);
+							rej.addAll(lo1);
+							for (Object key1 : others.keySet()) {
+								List<EObject> lo2 = others.get(key1);
+								for (EObject o2 : lo2) {
+									if (rej.contains(o2) != true) {
+										for (String of : otherFeatures) {
+											for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
+												if (f2.getName().equals(of)) {
+													if (o2.eGet(f2).equals(o1.eGet(f2))) {
+														rej.add(o2);
+													}
+												}
+											}
+										}
+										if (rej.contains(o2) != true) {
+											sel.add(o2);
+										}
+									}
+								}
+							}
+							hmEObjects.put(o1, sel);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private void selectSampleEqualFeaturesOneObjectHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, List<EObject>> hmEObjects) {
+		for (String feature : features) {
+			for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
+				if (feat.getName().equals(feature)) {
+					Iterator<List<EObject>> iterator = classify.get(feat).values().iterator();
+					while (iterator.hasNext()) {
+						List<EObject> lo = iterator.next();
+						List<EObject> sel = new ArrayList<EObject>();
+						EObject o = lo.get(0);
+						List<EObject> lo1 = new ArrayList<EObject>();
+						lo1.addAll(lo);
+						lo1.remove(o);
+						hmEObjects.put(o, sel);
+					}
+				}
+			}
+		}
+	}
+	
+	private void selectSampleDifferentFeaturesObjectsHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects) {
+		List<String> otherFeatures = null;
+		for (String feature : features) {
+			otherFeatures = new ArrayList<String>();
+			otherFeatures.addAll(features);
+			otherFeatures.remove(feature);
+			for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
+				if (feat.getName().equals(feature)) {
+					for (Object key : classify.get(feat).keySet()) {
+						HashMap<Object, List<EObject>> others = (HashMap<Object, List<EObject>>) classify.get(feat).clone();
+						others.remove(key);
+						List<EObject> lo = classify.get(feat).get(key);
+						for (EObject o1 : lo) {
+							HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
+							List<EObject> rej = new ArrayList<EObject>();
+							List<EObject> lo1 = new ArrayList<EObject>();
+							lo1.addAll(lo);
+							lo1.remove(o1);
+							rej.addAll(lo1);
+							if (others.size() > 0) {
+								for (Object key1 : others.keySet()) {
+									List<EObject> keySelected = new ArrayList<EObject>();
+									List<EObject> lo2 = others.get(key1);
+									if (lo2.size() > 0) {
+										for (EObject o2 : lo2) {
+											//EObject o2 = lo2.get(ModelManager.getRandomIndex(lo2));
+											if (rej.contains(o2) != true) {
+												for (String of : otherFeatures) {
+													for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
+														if (f2.getName().equals(of)) {
+															if (o2.eGet(f2).equals(o1.eGet(f2))) {
+																rej.add(o2);
+															}
+														}
+													}
+												}
+												if (keySelected.contains(o2) != true) {
+													keySelected.add(o2);
+												}
+											}
+										}
+									}
+									sel.put(key1, keySelected);
+								}
+							}
+							else {
+								sel.put(feature, lo);
+							}
+							hmEObjects.put(o1, sel);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private void selectSampleEqualFeaturesObjectsHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects, List<EObject> objects) {
+		if (features.size() > 0) {
+			for (String feature : features) {
+				for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
+					if (feat.getName().equals(feature)) {
+						Iterator<List<EObject>> iterator = classify.get(feat).values().iterator();
+						while (iterator.hasNext()) {
+							List<EObject> lo = iterator.next();
+							//List<EObject> sel = new ArrayList<EObject>();
+							HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
+							EObject o = lo.get(0);
+							List<EObject> lo1 = new ArrayList<EObject>();
+							lo1.addAll(lo);
+							lo1.remove(o);
+							hmEObjects.put(o, sel);
+						}
+					}
+				}
+			}
+		}
+		else {
+			HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
+			sel.put(null, objects.subList(1, objects.size() -1));
+			hmEObjects.put(objects.get(0), sel);
+		}
+	}
+	
+	private List<List<EObject>> getCandidates(HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects) {
+		int max = Integer.MIN_VALUE;
+		List<List<EObject>> candidates = new ArrayList<List<EObject>>();
+		for (EObject key : hmEObjects.keySet()) {
+			Map<Object, List<EObject>> sorted = hmEObjects.get(key).entrySet().stream()
+					.sorted(comparingInt(e->e.getValue().size()))
+					.collect(toMap(
+							Map.Entry::getKey,
+							Map.Entry::getValue,
+							(a,b) -> {throw new AssertionError();},
+							LinkedHashMap::new
+							)); 
+
+			ListIterator<Object> iter = new ArrayList<>(sorted.keySet()).listIterator(sorted.size());
+
+			while (iter.hasPrevious()) {
+				if (max == Integer.MIN_VALUE) {
+					Object previous = iter.previous();
+					max = sorted.get(previous).size();
+					List<EObject> candidate = new ArrayList<EObject>();
+					candidate.add(key);
+					candidate.addAll(sorted.get(previous));
+					candidates.add(candidate);
+				}
+				else {
+					Object previous = iter.previous();
+					if (sorted.get(previous).size() == max) {
+						List<EObject> candidate = new ArrayList<EObject>();
+						candidate.add(key);
+						candidate.addAll(sorted.get(previous));
+						candidates.add(candidate);
+					}
+				}
+			}
+		}
+		return candidates;
 	}
 	
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
@@ -104,6 +296,7 @@ public class SelectSampleMutator extends Mutator {
 		if (referenceSelection != null) {
 			reference = (EReference) referenceSelection.getObject();
 		}
+		//only one object
 		if (object != null) {
 			if (reference != null) {
 				for (EReference ref : object.eClass().getEAllReferences()) {
@@ -122,123 +315,80 @@ public class SelectSampleMutator extends Mutator {
 							if (selected.size() > 0) {
 								EClass eClass = selected.get(0).eClass();
 								LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify = new LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>>();
-								for (String feature : features) {
-									for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
-										if (feat.getName().equals(feature)) {
-											for (EObject sel : selected) {
-												Object value = sel.eGet(feat);
-												HashMap<Object, List<EObject>> sameValue = null;
-												if (classify.get(feat) == null) {
-													sameValue = new HashMap<Object, List<EObject>>();
-												}
-												else {
-													sameValue = classify.get(feat);
-												}
-												List<EObject> objs = null;
-												if (sameValue.get(value) == null) {
-													objs = new ArrayList<EObject>();
-												}
-												else {
-													objs = sameValue.get(value);
-												}
-												objs.add(sel);
-												sameValue.put(value, objs);
-												classify.put(feat, sameValue);
-											}
-										}
-									}
-								}
-								HashMap<EObject, List<EObject>> hmEObjects = new HashMap<EObject, List<EObject>>();
-								List<EObject> listObjects = null;
-								//distinct
-								if (equals == false) {
-									List<String> otherFeatures = null;
+								if (features.size() > 0) {
 									for (String feature : features) {
-										otherFeatures = new ArrayList<String>();
-										otherFeatures.addAll(features);
-										otherFeatures.remove(feature);
 										for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
 											if (feat.getName().equals(feature)) {
-												for (Object key : classify.get(feat).keySet()) {
-													HashMap<Object, List<EObject>> others = classify.get(feat);
-													others.remove(key);
-													List<EObject> lo = classify.get(feat).get(key);
-													for (EObject o1 : lo) {
-														List<EObject> sel = new ArrayList<EObject>();
-														List<EObject> rej = new ArrayList<EObject>();
-														List<EObject> lo1 = new ArrayList<EObject>();
-														lo1.addAll(lo);
-														lo1.remove(o1);
-														rej.addAll(lo1);
-														for (Object key1 : others.keySet()) {
-															List<EObject> lo2 = others.get(key1);
-															for (EObject o2 : lo2) {
-																if (rej.contains(o2) != true) {
-																	for (String of : otherFeatures) {
-																		for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
-																			if (f2.getName().equals(of)) {
-																				if (o2.eGet(f2).equals(o1.eGet(f2))) {
-																					rej.add(o2);
-																				}
-																			}
-																		}
-																	}
-																	if (rej.contains(o2) != true) {
-																		sel.add(o2);
-																	}
-																}
-															}
-														}
-														hmEObjects.put(o1, sel);
+												for (EObject sel : selected) {
+													Object value = sel.eGet(feat);
+													HashMap<Object, List<EObject>> sameValue = null;
+													if (classify.get(feat) == null) {
+														sameValue = new HashMap<Object, List<EObject>>();
 													}
+													else {
+														sameValue = classify.get(feat);
+													}
+													List<EObject> objs = null;
+													if (sameValue.get(value) == null) {
+														objs = new ArrayList<EObject>();
+													}
+													else {
+														objs = sameValue.get(value);
+													}
+													objs.add(sel);
+													sameValue.put(value, objs);
+													classify.put(feat, sameValue);
 												}
 											}
 										}
 									}
-								}
-								//equals
-								if (equals == true) {
-									for (String feature : features) {
-										for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
-											if (feat.getName().equals(feature)) {
-												Iterator<List<EObject>> iterator = classify.get(feat).values().iterator();
-												while (iterator.hasNext()) {
-													List<EObject> lo = iterator.next();
-													List<EObject> sel = new ArrayList<EObject>();
-													EObject o = lo.get(0);
-													List<EObject> lo1 = new ArrayList<EObject>();
-													lo1.addAll(lo);
-													lo1.remove(o);
-													hmEObjects.put(o, sel);
-												}
-											}
-										}
+									HashMap<EObject, List<EObject>> hmEObjects = new HashMap<EObject, List<EObject>>();
+									List<EObject> listObjects = null;
+									//distinct
+									if (equals == false) {
+										selectSampleDifferentFeaturesOneObjectHelper(eClass, classify, hmEObjects);
 									}
-								}
-								EObject key = null;
-								for (EObject o1 : hmEObjects.keySet()) {
-									if (key == null) {
-										key = o1;
+									//equals
+									if (equals == true) {
+										selectSampleEqualFeaturesOneObjectHelper(eClass, classify, hmEObjects);
 									}
-									else {
-										if (hmEObjects.get(o1).size() > hmEObjects.get(key).size()) {
+									EObject key = null;
+									for (EObject o1 : hmEObjects.keySet()) {
+										if (key == null) {
 											key = o1;
 										}
+										else {
+											if (hmEObjects.get(o1).size() > hmEObjects.get(key).size()) {
+												key = o1;
+											}
+										}
+									}
+									listObjects = new ArrayList<EObject>();
+									listObjects.add(key);
+									listObjects.addAll(hmEObjects.get(key));
+									result.addAll(listObjects);
+								}
+								else {
+									Object value = object.eGet(ref);
+									if (value != null) {
+										if (value instanceof EObject) {
+											result.add((EObject) value);
+										}
+										if (value instanceof List<?>) {
+											result.addAll((List<EObject>)value);
+										}
 									}
 								}
-								listObjects = new ArrayList<EObject>();
-								listObjects.add(key);
-								listObjects.addAll(hmEObjects.get(key));
-								result.addAll(listObjects);
 							}
 						}
 					}
 				}
 			}
 		}
+		// a list of objects
 		if (objects != null) {
 			List<EObject> selected = objects;
-			if (selected.size() > 0) {
+			if (selected.size() > 1) {
 				EClass eClass = selected.get(0).eClass();
 				LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify = new LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>>();
 				for (String feature : features) {
@@ -270,122 +420,19 @@ public class SelectSampleMutator extends Mutator {
 				HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects = new HashMap<EObject, HashMap<Object, List<EObject>>>();
 				//distinct
 				if (equals == false) {
-					List<String> otherFeatures = null;
-					for (String feature : features) {
-						otherFeatures = new ArrayList<String>();
-						otherFeatures.addAll(features);
-						otherFeatures.remove(feature);
-						for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
-							if (feat.getName().equals(feature)) {
-								for (Object key : classify.get(feat).keySet()) {
-									HashMap<Object, List<EObject>> others = (HashMap<Object, List<EObject>>) classify.get(feat).clone();
-									others.remove(key);
-									List<EObject> lo = classify.get(feat).get(key);
-									for (EObject o1 : lo) {
-										//List<EObject> sel = new ArrayList<EObject>();
-										//List<EObject> rej = new ArrayList<EObject>();
-										//List<EObject> lo1 = new ArrayList<EObject>();
-										HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
-										List<EObject> rej = new ArrayList<EObject>();
-										List<EObject> lo1 = new ArrayList<EObject>();
-										lo1.addAll(lo);
-										lo1.remove(o1);
-										rej.addAll(lo1);
-										for (Object key1 : others.keySet()) {
-											List<EObject> keySelected = new ArrayList<EObject>();
-											List<EObject> lo2 = others.get(key1);
-											if (lo2.size() > 0) {
-												for (EObject o2 : lo2) {
-													//EObject o2 = lo2.get(ModelManager.getRandomIndex(lo2));
-													if (rej.contains(o2) != true) {
-														for (String of : otherFeatures) {
-															for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
-																if (f2.getName().equals(of)) {
-																	if (o2.eGet(f2).equals(o1.eGet(f2))) {
-																		rej.add(o2);
-																	}
-																}
-															}
-														}
-														if (keySelected.contains(o2) != true) {
-															keySelected.add(o2);
-														}
-													}
-												}
-											}
-											sel.put(key1, keySelected);
-										}
-										hmEObjects.put(o1, sel);
-									}
-								}
-							}
-						}
-					}
+					selectSampleDifferentFeaturesObjectsHelper(eClass, classify, hmEObjects);
 				}
 				//equals
 				if (equals == true) {
-					if (features.size() > 0) {
-						for (String feature : features) {
-							for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
-								if (feat.getName().equals(feature)) {
-									Iterator<List<EObject>> iterator = classify.get(feat).values().iterator();
-									while (iterator.hasNext()) {
-										List<EObject> lo = iterator.next();
-										//List<EObject> sel = new ArrayList<EObject>();
-										HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
-										EObject o = lo.get(0);
-										List<EObject> lo1 = new ArrayList<EObject>();
-										lo1.addAll(lo);
-										lo1.remove(o);
-										hmEObjects.put(o, sel);
-									}
-								}
-							}
-						}
-					}
-					else {
-						HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
-						sel.put(null, objects.subList(1, objects.size() -1));
-						hmEObjects.put(objects.get(0), sel);
-					}
+					selectSampleEqualFeaturesObjectsHelper(eClass, classify, hmEObjects, objects);
 				}
-				int max = Integer.MIN_VALUE;
-				List<List<EObject>> candidates = new ArrayList<List<EObject>>();
-				for (EObject key : hmEObjects.keySet()) {
-					Map<Object, List<EObject>> sorted = hmEObjects.get(key).entrySet().stream()
-							.sorted(comparingInt(e->e.getValue().size()))
-							.collect(toMap(
-									Map.Entry::getKey,
-									Map.Entry::getValue,
-									(a,b) -> {throw new AssertionError();},
-									LinkedHashMap::new
-									)); 
-
-					ListIterator<Object> iter = new ArrayList<>(sorted.keySet()).listIterator(sorted.size());
-
-					while (iter.hasPrevious()) {
-						if (max == Integer.MIN_VALUE) {
-							Object previous = iter.previous();
-							max = sorted.get(previous).size();
-							List<EObject> candidate = new ArrayList<EObject>();
-							candidate.add(key);
-							candidate.addAll(sorted.get(previous));
-							candidates.add(candidate);
-						}
-						else {
-							Object previous = iter.previous();
-							if (sorted.get(previous).size() == max) {
-								List<EObject> candidate = new ArrayList<EObject>();
-								candidate.add(key);
-								candidate.addAll(sorted.get(previous));
-								candidates.add(candidate);
-							}
-						}
-					}
-				}
+				List<List<EObject>> candidates = getCandidates(hmEObjects);
 				if (candidates.size() > 0) {
 					result = candidates.get(ModelManager.getRandomIndex(candidates));
 				}
+			}
+			else {
+				result = selected;
 			}
 		}
 		

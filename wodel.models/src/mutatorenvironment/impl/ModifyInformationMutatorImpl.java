@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ModifyInformationMutatorImpl#getObject <em>Object</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ModifyInformationMutatorImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ModifyInformationMutatorImpl#getReferences <em>References</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

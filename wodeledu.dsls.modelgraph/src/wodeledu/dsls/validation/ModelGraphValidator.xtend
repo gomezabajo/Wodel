@@ -9,6 +9,7 @@ import org.eclipse.xtext.validation.Check
 import manager.ModelManager
 import exceptions.MetaModelNotFoundException
 import modelgraph.MutatorGraph
+import java.util.List
 
 //import org.eclipse.xtext.validation.Check
 
@@ -20,7 +21,7 @@ import modelgraph.MutatorGraph
 class ModelGraphValidator extends AbstractModelGraphValidator {
 
     public static val INVALID_METAMODEL = 'invalidMetamodel'
-    ArrayList<EPackage> packages
+    List<EPackage> packages
     String lastMetamodel = '' 
     
     @Check // checks the meta-model

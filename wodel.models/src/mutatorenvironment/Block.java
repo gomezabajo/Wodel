@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.Block#getName <em>Name</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getCommands <em>Commands</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link mutatorenvironment.Block#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getFixed <em>Fixed</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getBlock()
  * @model

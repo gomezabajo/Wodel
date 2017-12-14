@@ -4,13 +4,9 @@ import manager.ModelManager;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.dialogs.IPageChangeProvider;
-import org.eclipse.jface.dialogs.IPageChangedListener;
-import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -32,11 +28,14 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 
 /**
- * The "New" wizard page allows setting the container for the new file as well
- * as the file name. The page will only accept file name without the extension
- * OR with the extension that matches the expected one (mpe).
+ * @author Pablo Gomez-Abajo - Wodel new project meta-model selection Wizard page.
+ * 
+ * Wodel project meta-model selection wizard page.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
-
 public class WodelWizardMetamodelPage extends WizardPage {
 
 	private String[] extensions;
@@ -216,7 +215,7 @@ public class WodelWizardMetamodelPage extends WizardPage {
 				return;
 			Object obj = ssel.getFirstElement();
 			if (obj instanceof IResource) {
-				IContainer container;
+				IContainer container = null;
 				if (obj instanceof IContainer)
 					container = (IContainer) obj;
 				else

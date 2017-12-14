@@ -3,7 +3,7 @@ package wodel.metrics.fixed.views;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -18,12 +18,13 @@ import java.util.List;
 import java.util.Set;
 
 import manager.ModelManager;
-import metrics.StaticMutatorMetrics;
+import wodel.metrics.fixed.MetaModelMutatorMetrics;
 import manager.WodelContext;
-import metrics.StaticMutatorMetrics.WodelMetricAttribute;
-import metrics.StaticMutatorMetrics.WodelMetricClass;
-import metrics.StaticMutatorMetrics.WodelMetricFeature;
-import metrics.StaticMutatorMetrics.WodelMetricReference;
+import manager.StaticMutatorMetrics.WodelMetric;
+import manager.StaticMutatorMetrics.WodelMetricAttribute;
+import manager.StaticMutatorMetrics.WodelMetricClass;
+import manager.StaticMutatorMetrics.WodelMetricFeature;
+import manager.StaticMutatorMetrics.WodelMetricReference;
 
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.command.CreateRepresentationCommand;
@@ -61,11 +62,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.*;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -89,8 +92,6 @@ import org.eclipse.gmf.runtime.notation.LayoutConstraint;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.events.TreeEvent;
-import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -98,7 +99,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 import org.osgi.framework.Bundle;
 
@@ -114,21 +114,8 @@ import exceptions.MetaModelNotFoundException;
 
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+ * @author Pablo Gomez-Abajo - Wodel meta-model static footprints view
+ * 
  */
 
 public class WodelMetricsFixedView extends ViewPart implements ISelectionChangedListener, IEditorActionDelegate {
@@ -157,7 +144,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 	
 	private static List<WodelMetricClass> metrics = null;
 	
-	private static PrintWriter writer = null;
+	//private static PrintWriter writer = null;
 	
 	class ViewLabelProvider extends LabelProvider implements ILabelProvider {
 		public String getColumnText(Object obj, int index) {
@@ -178,9 +165,16 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 		WodelContext.setProject(null);
 		String output = ModelManager.getOutputPath();
 		String metamodel = ModelManager.getMetaModel();
-		String xmiFileName = "file:/" + output +  "/" + manager.WodelContext.getProject() + ".model";
+		String fileName = manager.WodelContext.getFileName();
+		if (fileName.endsWith(".mutator") == false) {
+			MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+			msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
+			msgbox.open();
+			return;
+		}
+		String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");
 		metrics = new ArrayList<WodelMetricClass>();
-		metrics.addAll(Arrays.asList(StaticMutatorMetrics.createWodelStaticMetrics(xmiFileName, metamodel)));
+		metrics.addAll(Arrays.asList(MetaModelMutatorMetrics.createWodelStaticMetrics(xmiFileName, metamodel)));
 
 		Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION);
@@ -291,9 +285,6 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 	                    			}
 	                    		}
 	                    	}
-	                        //System.out.println("item clicked. " + item.getText());
-	                        //System.out.println("item parent. " + item.getParentItem());
-	                        //System.out.println("column is " + col);
 	                    }
 	                }
 	            }
@@ -362,151 +353,153 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 		createActions(new File(metamodel));
 		createToolbar();
 		//m_treeViewer.expandAll();
-		try {
-			writer = new PrintWriter( output +  "/" + manager.WodelContext.getProject() + "_metrics.txt");
-			writer.println("Class/Attributes/References;" + 
-					String.format("C.: %1$d%%", (creation*100/metrics.size())) + ";" +
-					String.format("M.: %1$d%%", (modification*100/metrics.size())) + ";" +
-					String.format("D.: %1$d%%", (deletion*100/metrics.size())) + ";" +
-					String.format("IC.: %1$d%%", (icreation*100/metrics.size())) + ";" +
-					String.format("IM.: %1$d%%", (imodification*100/metrics.size())) + ";" +
-					String.format("ID.: %1$d%%", (ideletion*100/metrics.size())) + ";");
-			for (TreeItem item : addressTree.getItems()) {
-				String text = item.getText(0);
-				for (int col = 1; col < addressTree.getColumnCount(); col++) {
-					text += ";" + item.getText(col);
-				}
-				writer.println(text);
-				if (item.getData() instanceof WodelMetricClass) {
-					WodelMetricClass metricClass = (WodelMetricClass) item.getData();
-					WodelMetricFeature[] metricFeatures = metricClass.getFeatures();
-					for (WodelMetricFeature metricFeature : metricFeatures) {
-						String subText = "";
-						if (metricFeature.getName().equals("Attributes")) {
-							if (metricFeature.getAttributes().length > 0) {
-								subText += "Attributes;";
-								if (metricFeature.getAttributesCreation() != 0) {
-									subText += metricFeature.getAttributesCreation();
-								}
-								subText += ";";
-								if (metricFeature.getAttributesModification() != 0) {
-									subText += metricFeature.getAttributesModification();
-								}
-								subText += ";";
-								if (metricFeature.getAttributesDeletion() != 0) {
-									subText += metricFeature.getAttributesDeletion();
-								}
-								subText += ";";
-								if (metricFeature.getAttributesImplicitCreation() != 0) {
-									subText += metricFeature.getAttributesImplicitCreation();
-								}
-								subText += ";";
-								if (metricFeature.getAttributesImplicitModification() != 0) {
-									subText += metricFeature.getAttributesImplicitModification();
-								}
-								subText += ";";
-								if (metricFeature.getAttributesImplicitDeletion() != 0) {
-									subText += metricFeature.getAttributesImplicitDeletion();
-								}
-								writer.println(subText);
-								for (WodelMetricAttribute metricAttribute : metricFeature.getAttributes()) {
-									String attText = metricAttribute.getName() + ";";
-									if (metricAttribute.creation != 0) {
-										attText += metricAttribute.creation;
-									}
-									attText += ";";
-									if (metricAttribute.modification != 0) {
-										attText += metricAttribute.modification;
-									}
-									attText += ";";
-									if (metricAttribute.deletion != 0) {
-										attText += metricAttribute.deletion;
-									}
-									attText += ";";
-									if (metricAttribute.icreation != 0) {
-										attText += metricAttribute.icreation;
-									}
-									attText += ";";
-									if (metricAttribute.imodification != 0) {
-										attText += metricAttribute.imodification;
-									}
-									attText += ";";
-									if (metricAttribute.ideletion != 0) {
-										attText += metricAttribute.ideletion;
-									}
-									writer.println(attText);
-								}
-							}
-						}
-						subText = "";
-						if (metricFeature.getName().equals("References")) {
-							if (metricFeature.getReferences().length > 0) {
-								subText += "References;";
-								if (metricFeature.getReferencesCreation() != 0) {
-									subText += metricFeature.getReferencesCreation();
-								}
-								subText += ";";
-								if (metricFeature.getReferencesModification() != 0) {
-									subText += metricFeature.getReferencesModification();
-								}
-								subText += ";";
-								if (metricFeature.getReferencesDeletion() != 0) {
-									subText += metricFeature.getReferencesDeletion();
-								}
-								subText += ";";
-								if (metricFeature.getReferencesImplicitCreation() != 0) {
-									subText += metricFeature.getReferencesImplicitCreation();
-								}								
-								subText += ";";
-								if (metricFeature.getReferencesImplicitModification() != 0) {
-									subText += metricFeature.getReferencesImplicitModification();
-								}
-								subText += ";";
-								if (metricFeature.getReferencesImplicitDeletion() != 0) {
-									subText += metricFeature.getReferencesImplicitDeletion();
-								}
-								writer.println(subText);
-								for (WodelMetricReference metricReference : metricFeature.getReferences()) {
-									String refText = metricReference.getName() + ";";
-									if (metricReference.creation != 0) {
-										refText += metricReference.creation;
-									}
-									refText += ";";
-									if (metricReference.modification != 0) {
-										refText += metricReference.modification;
-									}
-									refText += ";";
-									if (metricReference.deletion != 0) {
-										refText += metricReference.deletion;
-									}
-									refText += ";";
-									if (metricReference.icreation != 0) {
-										refText += metricReference.icreation;
-									}
-									refText += ";";
-									if (metricReference.imodification != 0) {
-										refText += metricReference.imodification;
-									}
-									refText += ";";
-									if (metricReference.ideletion != 0) {
-										refText += metricReference.ideletion;
-									}
-									writer.println(refText);
-								}
-							}
-						}
-					}
-				}
-			}
-			writer.close();
-		}
-		catch (IOException e) {
-			
-		}
+//		try {
+//			writer = new PrintWriter( output +  "/" + manager.WodelContext.getProject() + "_metrics.txt");
+//			writer.println("Class/Attributes/References;" + 
+//					String.format("C.: %1$d%%", (creation*100/metrics.size())) + ";" +
+//					String.format("M.: %1$d%%", (modification*100/metrics.size())) + ";" +
+//					String.format("D.: %1$d%%", (deletion*100/metrics.size())) + ";" +
+//					String.format("IC.: %1$d%%", (icreation*100/metrics.size())) + ";" +
+//					String.format("IM.: %1$d%%", (imodification*100/metrics.size())) + ";" +
+//					String.format("ID.: %1$d%%", (ideletion*100/metrics.size())) + ";");
+//			for (TreeItem item : addressTree.getItems()) {
+//				String text = item.getText(0);
+//				for (int col = 1; col < addressTree.getColumnCount(); col++) {
+//					text += ";" + item.getText(col);
+//				}
+//				writer.println(text);
+//				if (item.getData() instanceof WodelMetricClass) {
+//					WodelMetricClass metricClass = (WodelMetricClass) item.getData();
+//					WodelMetricFeature[] metricFeatures = metricClass.getFeatures();
+//					for (WodelMetricFeature metricFeature : metricFeatures) {
+//						String subText = "";
+//						if (metricFeature.getName().equals("Attributes")) {
+//							if (metricFeature.getAttributes().length > 0) {
+//								subText += "Attributes;";
+//								if (metricFeature.getAttributesCreation() != 0) {
+//									subText += metricFeature.getAttributesCreation();
+//								}
+//								subText += ";";
+//								if (metricFeature.getAttributesModification() != 0) {
+//									subText += metricFeature.getAttributesModification();
+//								}
+//								subText += ";";
+//								if (metricFeature.getAttributesDeletion() != 0) {
+//									subText += metricFeature.getAttributesDeletion();
+//								}
+//								subText += ";";
+//								if (metricFeature.getAttributesImplicitCreation() != 0) {
+//									subText += metricFeature.getAttributesImplicitCreation();
+//								}
+//								subText += ";";
+//								if (metricFeature.getAttributesImplicitModification() != 0) {
+//									subText += metricFeature.getAttributesImplicitModification();
+//								}
+//								subText += ";";
+//								if (metricFeature.getAttributesImplicitDeletion() != 0) {
+//									subText += metricFeature.getAttributesImplicitDeletion();
+//								}
+//								writer.println(subText);
+//								for (WodelMetricAttribute metricAttribute : metricFeature.getAttributes()) {
+//									String attText = metricAttribute.getName() + ";";
+//									if (metricAttribute.creation != 0) {
+//										attText += metricAttribute.creation;
+//									}
+//									attText += ";";
+//									if (metricAttribute.modification != 0) {
+//										attText += metricAttribute.modification;
+//									}
+//									attText += ";";
+//									if (metricAttribute.deletion != 0) {
+//										attText += metricAttribute.deletion;
+//									}
+//									attText += ";";
+//									if (metricAttribute.icreation != 0) {
+//										attText += metricAttribute.icreation;
+//									}
+//									attText += ";";
+//									if (metricAttribute.imodification != 0) {
+//										attText += metricAttribute.imodification;
+//									}
+//									attText += ";";
+//									if (metricAttribute.ideletion != 0) {
+//										attText += metricAttribute.ideletion;
+//									}
+//									writer.println(attText);
+//								}
+//							}
+//						}
+//						subText = "";
+//						if (metricFeature.getName().equals("References")) {
+//							if (metricFeature.getReferences().length > 0) {
+//								subText += "References;";
+//								if (metricFeature.getReferencesCreation() != 0) {
+//									subText += metricFeature.getReferencesCreation();
+//								}
+//								subText += ";";
+//								if (metricFeature.getReferencesModification() != 0) {
+//									subText += metricFeature.getReferencesModification();
+//								}
+//								subText += ";";
+//								if (metricFeature.getReferencesDeletion() != 0) {
+//									subText += metricFeature.getReferencesDeletion();
+//								}
+//								subText += ";";
+//								if (metricFeature.getReferencesImplicitCreation() != 0) {
+//									subText += metricFeature.getReferencesImplicitCreation();
+//								}								
+//								subText += ";";
+//								if (metricFeature.getReferencesImplicitModification() != 0) {
+//									subText += metricFeature.getReferencesImplicitModification();
+//								}
+//								subText += ";";
+//								if (metricFeature.getReferencesImplicitDeletion() != 0) {
+//									subText += metricFeature.getReferencesImplicitDeletion();
+//								}
+//								writer.println(subText);
+//								for (WodelMetricReference metricReference : metricFeature.getReferences()) {
+//									String refText = metricReference.getName() + ";";
+//									if (metricReference.creation != 0) {
+//										refText += metricReference.creation;
+//									}
+//									refText += ";";
+//									if (metricReference.modification != 0) {
+//										refText += metricReference.modification;
+//									}
+//									refText += ";";
+//									if (metricReference.deletion != 0) {
+//										refText += metricReference.deletion;
+//									}
+//									refText += ";";
+//									if (metricReference.icreation != 0) {
+//										refText += metricReference.icreation;
+//									}
+//									refText += ";";
+//									if (metricReference.imodification != 0) {
+//										refText += metricReference.imodification;
+//									}
+//									refText += ";";
+//									if (metricReference.ideletion != 0) {
+//										refText += metricReference.ideletion;
+//									}
+//									writer.println(refText);
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//			writer.close();
+//		}
+//		catch (IOException e) {
+//			
+//		}
 	}
 
 	public void setFocus() {
-		m_treeViewer.getControl().setFocus();
+		if (m_treeViewer.getControl() != null) {
+			m_treeViewer.getControl().setFocus();
+		}
 	}
 	
 	/**
@@ -539,7 +532,6 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
         		URI anfileURI = converter.normalize(URI.createFileURI(file.getAbsolutePath()));
         		String metamodel = file.getPath();
         		ExecuteAndInitializeAfterCreateFile(anfileURI, metamodel);
-        		System.out.println("Sirius Editor: " + file.toString());
         	}
         };
         showFixedVisualMetrics.setImageDescriptor(getImageDescriptor("wodel4.jpg"));
@@ -653,17 +645,11 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 		public String getColumnText(Object element, int columnIndex) {
 			switch (columnIndex) {
 			case 0:
-				if (element instanceof WodelMetricClass) {
-					return ((WodelMetricClass) element).getName();
+				if (element instanceof WodelMetric) {
+					return ((WodelMetric) element).getName();
 				}
 				if (element instanceof WodelMetricFeature) {
 					return ((WodelMetricFeature) element).getName();
-				}
-				if (element instanceof WodelMetricAttribute) {
-					return ((WodelMetricAttribute) element).getName();
-				}
-				if (element instanceof WodelMetricReference) {
-					return ((WodelMetricReference) element).getName();
 				}
 				break;
 			case 1:
@@ -689,14 +675,8 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int creation = ((WodelMetricAttribute) element).creation;
-					if (creation > 0) {
-						return String.format("%1$d", creation);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int creation = ((WodelMetricReference) element).creation;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int creation = ((WodelMetric) element).creation;
 					if (creation > 0) {
 						return String.format("%1$d", creation);
 					}
@@ -725,14 +705,8 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int modification = ((WodelMetricAttribute) element).modification;
-					if (modification > 0) {
-						return String.format("%1$d", modification);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int modification = ((WodelMetricReference) element).modification;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int modification = ((WodelMetric) element).modification;
 					if (modification > 0) {
 						return String.format("%1$d", modification);
 					}
@@ -761,14 +735,8 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int deletion = ((WodelMetricAttribute) element).deletion;
-					if (deletion > 0) {
-						return String.format("%1$d", deletion);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int deletion = ((WodelMetricReference) element).deletion;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int deletion = ((WodelMetric) element).deletion;
 					if (deletion > 0) {
 						return String.format("%1$d", deletion);
 					}
@@ -797,14 +765,8 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int icreation = ((WodelMetricAttribute) element).icreation;
-					if (icreation > 0) {
-						return String.format("%1$d", icreation);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int icreation = ((WodelMetricReference) element).icreation;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int icreation = ((WodelMetric) element).icreation;
 					if (icreation > 0) {
 						return String.format("%1$d", icreation);
 					}
@@ -833,14 +795,8 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int imodification = ((WodelMetricAttribute) element).imodification;
-					if (imodification > 0) {
-						return String.format("%1$d", imodification);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int imodification = ((WodelMetricReference) element).imodification;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int imodification = ((WodelMetric) element).imodification;
 					if (imodification > 0) {
 						return String.format("%1$d", imodification);
 					}
@@ -869,14 +825,8 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int ideletion = ((WodelMetricAttribute) element).ideletion;
-					if (ideletion > 0) {
-						return String.format("%1$d", ideletion);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int ideletion = ((WodelMetricReference) element).ideletion;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int ideletion = ((WodelMetric) element).ideletion;
 					if (ideletion > 0) {
 						return String.format("%1$d", ideletion);
 					}
@@ -906,14 +856,12 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			return null;
 		}
 
-		@Override
-		public Color getBackground(Object element, int columnIndex) {
-			switch (columnIndex) {
-			case 0:
-				break;
-			case 1:
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
+		private Color getColumnBackground(Object element, int cmd) {
+			if (element instanceof WodelMetricClass ||
+					element instanceof WodelMetricAttribute ||
+					element instanceof WodelMetricReference) {
+				WodelMetric item = (WodelMetric) element;
+				if (cmd == 0) {
 					if (item.creation == 0 && item.ccreation == 0) {
 						return GRAY;
 					}
@@ -921,47 +869,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						return GREEN;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
-						if (feature.getAttributesCreation() == 0) {
-							return GRAY;
-						}
-						else {
-							return GREEN;
-						}
-					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesCreation() == 0) {
-							return GRAY;
-						}
-						else {
-							return GREEN;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.creation == 0) {
-						return GRAY;
-					}
-					else {
-						return GREEN;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.creation == 0) {
-						return GRAY;
-					}
-					else {
-						return GREEN;
-					}
-				}
-				break;
-			case 2:
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
+				if (cmd == 1) {
 					if (item.modification == 0 && item.mmodification == 0) {
 						return GRAY;
 					}
@@ -969,47 +877,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						return AMBAR;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
-						if (feature.getAttributesModification() == 0) {
-							return GRAY;
-						}
-						else {
-							return AMBAR;
-						}
-					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesModification() == 0) {
-							return GRAY;
-						}
-						else {
-							return AMBAR;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.modification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.modification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				break;
-			case 3:
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
+				if (cmd == 2) {
 					if (item.deletion == 0 && item.ddeletion == 0) {
 						return GRAY;
 					}
@@ -1017,47 +885,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						return RED;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
-						if (feature.getAttributesDeletion() == 0) {
-							return GRAY;
-						}
-						else {
-							return RED;
-						}
-					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesDeletion() == 0) {
-							return GRAY;
-						}
-						else {
-							return RED;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.deletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.deletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				break;
-			case 4:
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
+				if (cmd == 3) {
 					if (item.icreation == 0 && item.iccreation == 0) {
 						return GRAY;
 					}
@@ -1065,47 +893,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						return PURPLE;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
-						if (feature.getAttributesImplicitCreation() == 0) {
-							return GRAY;
-						}
-						else {
-							return PURPLE;
-						}
-					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesImplicitCreation() == 0) {
-							return GRAY;
-						}
-						else {
-							return PURPLE;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.icreation == 0) {
-						return GRAY;
-					}
-					else {
-						return PURPLE;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.icreation == 0) {
-						return GRAY;
-					}
-					else {
-						return PURPLE;
-					}
-				}
-				break;
-			case 5:
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
+				if (cmd == 4) {
 					if (item.imodification == 0 && item.immodification == 0) {
 						return GRAY;
 					}
@@ -1113,47 +901,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						return BROWN;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
-						if (feature.getAttributesImplicitModification() == 0) {
-							return GRAY;
-						}
-						else {
-							return BROWN;
-						}
-					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesImplicitModification() == 0) {
-							return GRAY;
-						}
-						else {
-							return BROWN;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.imodification == 0) {
-						return GRAY;
-					}
-					else {
-						return BROWN;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.imodification == 0) {
-						return GRAY;
-					}
-					else {
-						return BROWN;
-					}
-				}
-				break;
-			case 6:
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
+				if (cmd == 5) {
 					if (item.ideletion == 0 && item.iddeletion == 0) {
 						return GRAY;
 					}
@@ -1161,9 +909,51 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						return BLUE;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+			}
+			if (element instanceof WodelMetricFeature) {
+				WodelMetricFeature feature = (WodelMetricFeature) element;
+				if (feature.getName().equals("Attributes")) {
+					if (cmd == 0) {
+						if (feature.getAttributesCreation() == 0) {
+							return GRAY;
+						}
+						else {
+							return GREEN;
+						}
+					}
+					if (cmd == 1) {
+						if (feature.getAttributesModification() == 0) {
+							return GRAY;
+						}
+						else {
+							return AMBAR;
+						}
+					}
+					if (cmd == 2) {
+						if (feature.getAttributesDeletion() == 0) {
+							return GRAY;
+						}
+						else {
+							return RED;
+						}
+					}
+					if (cmd == 3) {
+						if (feature.getAttributesImplicitCreation() == 0) {
+							return GRAY;
+						}
+						else {
+							return PURPLE;
+						}
+					}
+					if (cmd == 4) {
+						if (feature.getAttributesImplicitModification() == 0) {
+							return GRAY;
+						}
+						else {
+							return BROWN;
+						}
+					}
+					if (cmd == 5) {
 						if (feature.getAttributesImplicitDeletion() == 0) {
 							return GRAY;
 						}
@@ -1171,7 +961,49 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 							return BLUE;
 						}
 					}
-					if (feature.getName().equals("References")) {
+				}
+				if (feature.getName().equals("References")) {
+					if (cmd == 0) {
+						if (feature.getReferencesCreation() == 0) {
+							return GRAY;
+						}
+						else {
+							return GREEN;
+						}
+					}
+					if (cmd == 1) {
+						if (feature.getReferencesModification() == 0) {
+							return GRAY;
+						}
+						else {
+							return AMBAR;
+						}
+					}
+					if (cmd == 2) {
+						if (feature.getReferencesDeletion() == 0) {
+							return GRAY;
+						}
+						else {
+							return RED;
+						}
+					}
+					if (cmd == 3) {
+						if (feature.getReferencesImplicitCreation() == 0) {
+							return GRAY;
+						}
+						else {
+							return PURPLE;
+						}
+					}
+					if (cmd == 4) {
+						if (feature.getReferencesImplicitModification() == 0) {
+							return GRAY;
+						}
+						else {
+							return BROWN;
+						}
+					}
+					if (cmd == 5) {
 						if (feature.getReferencesImplicitDeletion() == 0) {
 							return GRAY;
 						}
@@ -1180,24 +1012,17 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.ideletion == 0) {
-						return GRAY;
-					}
-					else {
-						return BLUE;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.ideletion == 0) {
-						return GRAY;
-					}
-					else {
-						return BLUE;
-					}
-				}
+			}
+			return null;
+		}
+
+		@Override
+		public Color getBackground(Object element, int columnIndex) {
+			switch (columnIndex) {
+			case 0:
+				break;
+			default:
+				return getColumnBackground(element, columnIndex - 1);
 			}
 			
 			return null;
@@ -1312,7 +1137,7 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			
 			IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(createdSession, dRepresentation, monitor);
 				
-			ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			ArrayList<EClass> listEClasses = ModelManager.getEClasses(packages);
 			DSemanticDiagramSpec semanticDiagram = (DSemanticDiagramSpec) dRepresentation;
 			Iterator<EClass> itEClass = listEClasses.iterator();
@@ -1400,7 +1225,33 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 
 		//Save session and Refresh workspace		
 			//Includes the mutation metrics
-			String project = "/" + WodelContext.getProject();
+			//Generate metrics model
+			Bundle bundle = Platform.getBundle("wodel.project");
+		   	URL fileURL = bundle.getEntry("/icons/metrics/creation.jpg");
+		   	java.net.URI base = new File(new File(WodelMetricsFixedView.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParent()).toURI();
+		   	final String creationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/modification.jpg");
+		   	final String modificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/deletion.jpg");
+		   	final String deletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/creation_modification.jpg");
+		   	final String creationModificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/creation_deletion.jpg");
+		   	final String creationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/creation_modification_deletion.jpg");
+		   	final String creationModificationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/attcreation.jpg");
+		   	final String attCreationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/attmodification.jpg");
+		   	final String attModificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/attdeletion.jpg");
+		   	final String attDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/attcreation_modification.jpg");
+		   	final String attCreationModificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/attcreation_deletion.jpg");
+		   	final String attCreationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+		   	fileURL = bundle.getEntry("/icons/metrics/attcreation_modification_deletion.jpg");
+		   	final String attCreationModificationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
 
 			RecordingCommand includeMetricsCommand = new RecordingCommand(domain) {
 				@Override
@@ -1410,22 +1261,22 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 							if (metricClass.getEClass().getName().equals(eClass.getName())) {
 								DNodeList nodeList = eClassNodes.get(eClass);
 								if (metricClass.ccreation > 0 && metricClass.mmodification == 0 && metricClass.ddeletion == 0) {
-									nodeList.getOwnedStyle().setIconPath(project + "/data/icons/creation.jpg");
+									nodeList.getOwnedStyle().setIconPath(creationIconPath);
 								}
 								if (metricClass.ccreation == 0 && metricClass.mmodification > 0 && metricClass.ddeletion == 0) {
-									nodeList.getOwnedStyle().setIconPath(project + "/data/icons/modification.jpg");
+									nodeList.getOwnedStyle().setIconPath(modificationIconPath);
 								}
 								if (metricClass.ccreation == 0 && metricClass.mmodification == 0 && metricClass.ddeletion > 0) {
-									nodeList.getOwnedStyle().setIconPath(project + "/data/icons/deletion.jpg");
+									nodeList.getOwnedStyle().setIconPath(deletionIconPath);
 								}
 								if (metricClass.ccreation > 0 && metricClass.mmodification > 0 && metricClass.ddeletion == 0) {
-									nodeList.getOwnedStyle().setIconPath(project + "/data/icons/creation_modification.jpg");
+									nodeList.getOwnedStyle().setIconPath(creationModificationIconPath);
 								}
 								if (metricClass.ccreation > 0 && metricClass.mmodification == 0 && metricClass.ddeletion > 0) {
-									nodeList.getOwnedStyle().setIconPath(project + "/data/icons/creation_deletion.jpg");
+									nodeList.getOwnedStyle().setIconPath(creationDeletionIconPath);
 								}
 								if (metricClass.ccreation > 0 && metricClass.mmodification > 0 && metricClass.ddeletion > 0) {
-									nodeList.getOwnedStyle().setIconPath(project + "/data/icons/creation_modification_deletion.jpg");
+									nodeList.getOwnedStyle().setIconPath(creationModificationDeletionIconPath);
 								}
 								List<DNodeListElement> nodeListElements = nodeList.getOwnedElements();
 								for (DNodeListElement nodeListElement : nodeListElements) {
@@ -1435,22 +1286,22 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 										for (WodelMetricAttribute metricAttribute : metricClass.getAttributes()) {
 											if (targetAttribute.getName().equals(metricAttribute.getName())) {
 												if (metricAttribute.creation > 0 && metricAttribute.modification == 0 && metricAttribute.deletion == 0) {
-													nodeListElement.getOwnedStyle().setIconPath(project + "/data/icons/attcreation.jpg");
+													nodeListElement.getOwnedStyle().setIconPath(attCreationIconPath);
 												}
 												if (metricAttribute.creation == 0 && metricAttribute.modification > 0 && metricAttribute.deletion == 0) {
-													nodeListElement.getOwnedStyle().setIconPath(project + "/data/icons/attmodification.jpg");
+													nodeListElement.getOwnedStyle().setIconPath(attModificationIconPath);
 												}
 												if (metricAttribute.creation == 0 && metricAttribute.modification == 0 && metricAttribute.deletion > 0) {
-													nodeListElement.getOwnedStyle().setIconPath(project + "/data/icons/attdeletion.jpg");
+													nodeListElement.getOwnedStyle().setIconPath(attDeletionIconPath);
 												}
 												if (metricAttribute.creation > 0 && metricAttribute.modification > 0 && metricAttribute.deletion == 0) {
-													nodeListElement.getOwnedStyle().setIconPath(project + "/data/icons/attcreation_modification.jpg");
+													nodeListElement.getOwnedStyle().setIconPath(attCreationModificationIconPath);
 												}
 												if (metricAttribute.creation > 0 && metricAttribute.modification == 0 && metricAttribute.deletion > 0) {
-													nodeListElement.getOwnedStyle().setIconPath(project + "/data/icons/attcreation_deletion.jpg");
+													nodeListElement.getOwnedStyle().setIconPath(attCreationDeletionIconPath);
 												}
 												if (metricAttribute.creation > 0 && metricAttribute.modification > 0 && metricAttribute.deletion > 0) {
-													nodeListElement.getOwnedStyle().setIconPath(project + "/data/icons/attcreation_modification_deletion.jpg");
+													nodeListElement.getOwnedStyle().setIconPath(attCreationModificationDeletionIconPath);
 												}
 												break;
 											}
@@ -1510,8 +1361,6 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}			
-
-		System.out.println("Create *.aird and Representation Command");
 	}
 	
 	private static DiagramDescription getDiagramDescription(DView dView) {

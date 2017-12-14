@@ -5,6 +5,7 @@ import java.util.List;
 
 import manager.ModelManager;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -16,9 +17,16 @@ import commands.selection.strategies.ObSelectionStrategy;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero RemoveReferenceMutator removes references from
- *         the diagram
+ * @author Pablo Gomez-Abajo
+ * 
+ * RemoveReferenceMutator removes references from
+ * the diagram
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class RemoveReferenceMutator extends Mutator {
 
 	/**
@@ -44,6 +52,16 @@ public class RemoveReferenceMutator extends Mutator {
 	 * Saved objects
 	 */
 	private List<EObject> saved;
+	
+	/**
+	 * Identification
+	 */
+	private List<String> identification;
+	
+	/**
+	 * URI
+	 */
+	private List<URI> uri;
 
 	/**
 	 * @param model
@@ -53,11 +71,13 @@ public class RemoveReferenceMutator extends Mutator {
 	 *            Normal constructor
 	 */
 	public RemoveReferenceMutator(Resource model,
-			ArrayList<EPackage> metaModel,
+			List<EPackage> metaModel,
 			ObSelectionStrategy containerSelection, String refType) {
 		super(model, metaModel, "ReferenceRemoved");
 		this.containerSelection = containerSelection;
 		this.refType = refType;
+		this.identification = new ArrayList<String>();
+		this.uri = new ArrayList<URI>();
 	}
 
 	/**
@@ -68,10 +88,12 @@ public class RemoveReferenceMutator extends Mutator {
 	 *            Normal constructor
 	 */
 	public RemoveReferenceMutator(Resource model,
-			ArrayList<EPackage> metaModel, EObject obj, String refType) {
+			List<EPackage> metaModel, EObject obj, String refType) {
 		super(model, metaModel, "ReferenceRemoved");
 		this.obj = obj;
 		this.refType = refType;
+		this.identification = new ArrayList<String>();
+		this.uri = new ArrayList<URI>();
 	}
 
 	@Override
@@ -120,7 +142,9 @@ public class RemoveReferenceMutator extends Mutator {
 				result = null;
 				return null;
 			}
-			
+			for (EObject oo : o) {
+				identification.add(EcoreUtil.getIdentification(oo));
+			}
 			saved.addAll(EcoreUtil.copyAll(o));
 
 			o.clear();
@@ -166,4 +190,26 @@ public class RemoveReferenceMutator extends Mutator {
 		return saved;
 	}
 	// END GETTERS AND SETTERS
+
+	public List<EObject> getObjectsByID() {
+		List<EObject> objects = new ArrayList<EObject>();
+		for (String id : identification) {
+			EObject o = ModelManager.getObjectByID(this.getModel(), id);
+			if (o != null) {
+				objects.add(o);
+			}
+		}
+		return objects;
+	}
+	
+	public List<EObject> getObjectsByURI() {
+		List<EObject> objects = new ArrayList<EObject>();
+		for (URI u : uri) {
+			EObject o = ModelManager.getObjectByURI(this.getModel(), u);
+			if (o != null) {
+				objects.add(o);
+			}
+		}
+		return objects;
+	}
 }

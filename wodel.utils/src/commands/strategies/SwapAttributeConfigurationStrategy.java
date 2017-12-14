@@ -7,15 +7,17 @@ import manager.ModelManager;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * SwapAttributeConfigurationStrategy attribute swap
+ *  
+ */
+
 public class SwapAttributeConfigurationStrategy extends AttributeConfigurationStrategy {
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	protected EAttribute source;
 	protected EAttribute target;
 	protected EObject eobj;
@@ -23,19 +25,9 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		if (source.getEType().equals(target.getEType())) {
+		if (EcoreUtil.equals(source.getEType(), target.getEType())) {
 			return true;
 		}
-		//Object src = eobj.eGet(source);
-		//Object tar = eobj.eGet(target);
-		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
-		//if ((c.getInstanceClassName().toLowerCase().equals(src.getClass().getSimpleName().toLowerCase())) && (c.getInstanceClassName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase()))) {
-		//	return true;
-		//}
-		//System.out.println("c: " + c.getInstanceClass().toString() + ", source: " + src.getClass().toString() + ", target:" + tar.getClass().toString());
-		//if ((c.getInstanceClass() == src.getClass()) && (c.getInstanceClass() == tar.getClass())) {
-		//	return true;
-		//}
 		return false;
 	}
 
@@ -94,14 +86,12 @@ public class SwapAttributeConfigurationStrategy extends AttributeConfigurationSt
 		super("");
 		for (EAttribute a : obj_src.eClass().getEAllAttributes()) {
 			if (a.getName().equals(source)) {
-				System.out.println("SOURCE: " + source + ", VALUE: " + obj_src.eGet(a));
 				this.source = a;
 				break;
 			}
 		}
 		for (EAttribute a : obj_tar.eClass().getEAllAttributes()) {
 			if (a.getName().equals(target)) {
-				System.out.println("TARGET: " + target + ", VALUE: " + obj_tar.eGet(a));
 				this.target = a;
 				break;
 			}

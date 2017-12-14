@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="wodel.comparation.MutComparation">
-      <comparation
-            class="synctactic.SynctacticComparation">
-      </comparation>
+         point="wodel.comparison.MutComparison">
+      <comparison
+            class="synctactic.SynctacticComparison">
+      </comparison>
    </extension>
 
 </plugin>

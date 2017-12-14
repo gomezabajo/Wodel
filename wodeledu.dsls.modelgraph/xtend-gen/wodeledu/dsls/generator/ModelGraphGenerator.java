@@ -5,6 +5,7 @@ package wodeledu.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import manager.JavaUtils;
 import manager.ModelManager;
 import manager.WodelContext;
 import modelgraph.BooleanAttribute;
@@ -37,9 +38,10 @@ import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - modelGraph code generator.
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
+ * Generates the Java code for the graphical
+ * representation of the models.
  */
 @SuppressWarnings("all")
 public class ModelGraphGenerator implements IGenerator {
@@ -72,7 +74,8 @@ public class ModelGraphGenerator implements IGenerator {
         String _replaceAll = this.fileName.replaceAll(".java", "");
         this.className = _replaceAll;
         CharSequence _compile = this.compile(e);
-        fsa.generateFile(this.fileName, _compile);
+        CharSequence _format = JavaUtils.format(_compile, false);
+        fsa.generateFile(this.fileName, _format);
         i++;
       }
     }
@@ -694,7 +697,7 @@ public class ModelGraphGenerator implements IGenerator {
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             _builder.append("\t");
-            _builder.append("private static void generateNodes(ArrayList<EPackage> packages, Resource model, HashMap<EObject, LabelStyle> dotnodes, HashMap<String, ArrayList<HashMap<String, String>>> dotrels) {");
+            _builder.append("private static void generateNodes(List<EPackage> packages, Resource model, HashMap<EObject, LabelStyle> dotnodes, HashMap<String, ArrayList<HashMap<String, String>>> dotrels) {");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("\t");
@@ -1167,13 +1170,6 @@ public class ModelGraphGenerator implements IGenerator {
                                                 _builder.append("\t\t");
                                                 _builder.append("\t");
                                                 _builder.append("String label = \"\";");
-                                                _builder.newLine();
-                                                _builder.append("\t");
-                                                _builder.append("\t");
-                                                _builder.append("\t");
-                                                _builder.append("\t\t");
-                                                _builder.append("\t");
-                                                _builder.append("System.out.println(\"ref: \" + ref);");
                                                 _builder.newLine();
                                                 _builder.append("\t");
                                                 _builder.append("\t");
@@ -3099,7 +3095,7 @@ public class ModelGraphGenerator implements IGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("public static void generateGraphs(File file, String folder, ArrayList<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException {");
+    _builder.append("public static void generateGraphs(File file, String folder, List<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("if (file.isFile()) {");
@@ -3154,12 +3150,6 @@ public class ModelGraphGenerator implements IGenerator {
     CharSequence _generate = this.generate(graph, folder);
     _builder.append(_generate, "\t\t\t\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t");
-    _builder.append("System.out.println(dotcode);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("System.out.println(dotfile);");
-    _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("File diagramsfolder = new File(\"");
     _builder.append(folder, "\t\t\t\t");
@@ -3222,9 +3212,6 @@ public class ModelGraphGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("System.out.println(\"path: \" + path);");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("PrintWriter dotwriter = new PrintWriter(dotfile);");
@@ -3337,7 +3324,7 @@ public class ModelGraphGenerator implements IGenerator {
     _builder.append("\";");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
-    _builder.append("ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);");
+    _builder.append("List<EPackage> packages = ModelManager.loadMetaModel(metamodel);");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("// GENERATES PNG FILES FROM SOURCE MODELS");
@@ -3388,12 +3375,6 @@ public class ModelGraphGenerator implements IGenerator {
     CharSequence _generate_1 = this.generate(graph, folder);
     _builder.append(_generate_1, "\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("System.out.println(dotcode);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.append("System.out.println(dotfile);");
-    _builder.newLine();
     _builder.append("\t\t\t\t\t");
     _builder.append("File diagramsfolder = new File(\"");
     _builder.append(folder, "\t\t\t\t\t");
@@ -3547,12 +3528,6 @@ public class ModelGraphGenerator implements IGenerator {
     CharSequence _generate_2 = this.generate(graph, folder);
     _builder.append(_generate_2, "\t\t\t\t\t\t\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("System.out.println(dotcode);");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t\t\t");
-    _builder.append("System.out.println(dotfile);");
-    _builder.newLine();
     _builder.append("\t\t\t\t\t\t\t");
     _builder.append("File diagramsfolder = new File(\"");
     _builder.append(folder, "\t\t\t\t\t\t\t");

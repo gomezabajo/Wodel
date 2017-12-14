@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ExpressionImpl#getFirst <em>First</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ExpressionImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ExpressionImpl#getSecond <em>Second</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

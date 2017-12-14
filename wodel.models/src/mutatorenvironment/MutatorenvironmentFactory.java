@@ -616,6 +616,15 @@ public interface MutatorenvironmentFactory extends EFactory {
 	ReferenceRemove createReferenceRemove();
 
 	/**
+	 * Returns a new object of class '<em>Retype Object Mutator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Retype Object Mutator</em>'.
+	 * @generated
+	 */
+	RetypeObjectMutator createRetypeObjectMutator();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

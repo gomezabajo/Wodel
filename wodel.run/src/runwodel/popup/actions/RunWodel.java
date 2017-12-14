@@ -3,6 +3,7 @@ package runwodel.popup.actions;
 import generator.IGenerator;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -14,13 +15,15 @@ import java.util.List;
 import java.util.Set;
 
 import manager.ModelManager;
-import mutator.MutatorUtils;
+import manager.MutatorUtils;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
@@ -33,13 +36,20 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 import postprocessor.run.IPostprocessor;
 import registry.run.IRegistryPostprocessor;
+
+/**
+ * @author Pablo Gomez-Abajo - Wodel mutations executor
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
+ */
 
 public class RunWodel implements IObjectActionDelegate {
 
@@ -51,16 +61,8 @@ public class RunWodel implements IObjectActionDelegate {
 	}
 
 	private static class RunWodelWithProgress implements IRunnableWithProgress {
-		private Shell shell;
 		private static IFile file;
 
-
-		/**
-		 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-		 */
-		public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-			shell = targetPart.getSite().getShell();
-		}
 
 		/**
 		 * @see IActionDelegate#run(IAction)
@@ -68,7 +70,6 @@ public class RunWodel implements IObjectActionDelegate {
 		@Override
 		public void run(IProgressMonitor monitor) throws InvocationTargetException,
 		InterruptedException {
-			System.out.println("file=" + file);
 			Class<?> cls = null;
 			String fileName = file.getName();
 			String classname = fileName.replaceAll(".mutator", "");
@@ -77,10 +78,11 @@ public class RunWodel implements IObjectActionDelegate {
 				cls = Class.forName(classname);
 			} catch (ClassNotFoundException e) {
 			}
-
+			
+			IProject project = file.getProject();
+			URLClassLoader classLoader = null;
 			if (cls == null) {
 				try {
-					IProject project = file.getProject();
 					if (project.hasNature(JavaCore.NATURE_ID)) {
 						IJavaProject javaProject = JavaCore.create(project);
 						// read class path entries of the project
@@ -98,7 +100,7 @@ public class RunWodel implements IObjectActionDelegate {
 								.getClassLoader();
 						URL[] urls = (URL[]) urlList
 								.toArray(new URL[urlList.size()]);
-						URLClassLoader classLoader = new URLClassLoader(urls,
+						classLoader = new URLClassLoader(urls,
 								parentClassLoader);
 						// load class
 						cls = classLoader.loadClass(classname);
@@ -120,8 +122,8 @@ public class RunWodel implements IObjectActionDelegate {
 				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
-				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate mutant metrics", false, null);
-				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant metrics", false, null);
+				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
+				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
 				m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, monitor);
 				// ime = (IMutatorExecutor)ob;
 			} catch (Exception e) {
@@ -133,7 +135,7 @@ public class RunWodel implements IObjectActionDelegate {
 				HashMap<String, Resource> hashmap_regpostseed = new HashMap<String, Resource>();
 				HashMap<String, Resource> hashmap_regpostmutant = new HashMap<String, Resource>();
 				String metamodel = ModelManager.getMetaModel();
-				ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 				List<String> modelpaths = ModelManager.getModels();
 				for (String ecoreURI : modelpaths) {
 					Resource modelfile = ModelManager.loadModel(packages, ecoreURI);
@@ -163,7 +165,6 @@ public class RunWodel implements IObjectActionDelegate {
 													if (pathfile.endsWith(".model") == true) {
 														Resource blockmodelfile = ModelManager.loadModel(packages, ecoreURI);
 														hashmap_regpostseed.put(pathfile, blockmodelfile);
-														System.out.println(files[i].getPath() + "/" + regfiles[k].getName().replace("Registry", ""));
 														Resource mutant = ModelManager.loadModel(packages, files[i].getPath() + "/" + regfiles[k].getName().replace("Registry", "")); 
 														hashmap_regpostmutant.put(pathfile, mutant);
 													}
@@ -209,7 +210,7 @@ public class RunWodel implements IObjectActionDelegate {
 				String metamodelpath = ModelManager.getMetaModelPath();
 				String metamodel = ModelManager.getMetaModel();
 				HashMap<Resource, String> hashmap_postproc = new HashMap<Resource, String>();
-				ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 				File[] files = null;
 				List<String> modelpaths = ModelManager.getModels();
 				File[] sourcefiles = new File(metamodelpath).listFiles();
@@ -224,7 +225,6 @@ public class RunWodel implements IObjectActionDelegate {
 					}
 				}
 				for (String ecoreURI : modelpaths) {
-					System.out.println("FOLDER: " + ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length()));
 					files = new File(ModelManager.getOutputPath() + "/" + ecoreURI.substring(ecoreURI.lastIndexOf(File.separator) + 1, ecoreURI.length() - ".model".length())).listFiles();
 					if (files != null) {
 						for (int i = 0; i < files.length; i++) {
@@ -248,7 +248,7 @@ public class RunWodel implements IObjectActionDelegate {
 											}
 										}
 										else {
-											MutatorUtils.generateJSONPaths(filesBlock[j], packages, hashmap_postproc);
+											MutatorUtils.generatePostprocessingPaths(filesBlock[j], packages, hashmap_postproc);
 										}
 									}
 								}
@@ -302,6 +302,17 @@ public class RunWodel implements IObjectActionDelegate {
 						e1.printStackTrace();
 					}
 				}
+			}
+			
+			try {
+				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			} catch (CoreException ex) {
+				ex.printStackTrace();
+			}
+			try {
+				classLoader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 

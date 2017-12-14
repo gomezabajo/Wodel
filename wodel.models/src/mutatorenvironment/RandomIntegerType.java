@@ -10,12 +10,12 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RandomIntegerType#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.RandomIntegerType#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.RandomIntegerType#isAllowsNull <em>Allows Null</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRandomIntegerType()
  * @model

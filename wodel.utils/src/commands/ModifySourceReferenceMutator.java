@@ -14,9 +14,16 @@ import commands.selection.strategies.ObSelectionStrategy;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero ModifySourceReferenceMutator Modify the source of
- *         references
+ * @author Pablo Gomez-Abajo
+ * 
+ * ModifySourceReferenceMutator Modify the source of
+ * references
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class ModifySourceReferenceMutator extends Mutator {
 
 	/**
@@ -50,7 +57,7 @@ public class ModifySourceReferenceMutator extends Mutator {
 	 *            Normal constructor
 	 */
 	public ModifySourceReferenceMutator(Resource model,
-			ArrayList<EPackage> metaModel, ObSelectionStrategy source,
+			List<EPackage> metaModel, ObSelectionStrategy source,
 			ObSelectionStrategy newSource, String refType) {
 		super(model, metaModel, "SourceReferenceChanged");
 		this.source = source;

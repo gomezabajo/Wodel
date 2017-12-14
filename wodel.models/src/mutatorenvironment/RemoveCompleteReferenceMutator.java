@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RemoveCompleteReferenceMutator#getRefType <em>Ref Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRemoveCompleteReferenceMutator()
  * @model

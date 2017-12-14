@@ -1,6 +1,5 @@
 package staticpost;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,6 +20,11 @@ import postprocessor.run.IPostprocessor;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * @author Pablo Gomez-Abajo - Wodel postprocessing extension to convert mutants to json format
+ * 
+ */
 
 public class StaticPostprocessor implements IPostprocessor {
 

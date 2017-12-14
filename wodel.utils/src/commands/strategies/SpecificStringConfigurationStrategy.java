@@ -1,15 +1,16 @@
 package commands.strategies;
 
 /**
- * @author Victor Lopez Rivero
- * StringConfigurationStrategy configures the String attributes
+ * @author Pablo Gomez-Abajo
+ * 
+ * SpecificStringConfigurationStrategy configures the String attributes
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public class SpecificStringConfigurationStrategy extends StringConfigurationStrategy{
 	
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	public SpecificStringConfigurationStrategy(String value){
 		super("");
 		this.value = value;

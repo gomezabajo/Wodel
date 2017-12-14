@@ -23,6 +23,14 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MutatorEnvironment -->
+      <package
+            uri="http://www.ac.uk/york/cs/miniocl/MiniOCLCS"
+            class="mutatorenvironment.miniOCL.MiniOCLPackage"
+            genModel="models/MutatorEnvironment.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MutatorTests -->
       <package
             uri="http://edutest/1.0"

@@ -2,6 +2,10 @@
  */
 package mutatorenvironment;
 
+import mutatorenvironment.miniOCL.InvariantCS;
+
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -12,12 +16,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.Constraint#getId <em>Id</em>}</li>
  *   <li>{@link mutatorenvironment.Constraint#getType <em>Type</em>}</li>
- *   <li>{@link mutatorenvironment.Constraint#getRule <em>Rule</em>}</li>
+ *   <li>{@link mutatorenvironment.Constraint#getExpressions <em>Expressions</em>}</li>
+ *   <li>{@link mutatorenvironment.Constraint#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getConstraint()
  * @model
@@ -77,29 +82,35 @@ public interface Constraint extends EObject {
 	void setType(EClass value);
 
 	/**
-	 * Returns the value of the '<em><b>Rule</b></em>' attribute.
+	 * Returns the value of the '<em><b>Expressions</b></em>' containment reference list.
+	 * The list contents are of type {@link mutatorenvironment.miniOCL.InvariantCS}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Rule</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Expressions</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rule</em>' attribute.
-	 * @see #setRule(String)
-	 * @see mutatorenvironment.MutatorenvironmentPackage#getConstraint_Rule()
-	 * @model required="true"
+	 * @return the value of the '<em>Expressions</em>' containment reference list.
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getConstraint_Expressions()
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
-	String getRule();
+	EList<InvariantCS> getExpressions();
 
 	/**
-	 * Sets the value of the '{@link mutatorenvironment.Constraint#getRule <em>Rule</em>}' attribute.
+	 * Returns the value of the '<em><b>Rules</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Rules</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rule</em>' attribute.
-	 * @see #getRule()
+	 * @return the value of the '<em>Rules</em>' attribute list.
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getConstraint_Rules()
+	 * @model
 	 * @generated
 	 */
-	void setRule(String value);
+	EList<String> getRules();
 
 } // Constraint

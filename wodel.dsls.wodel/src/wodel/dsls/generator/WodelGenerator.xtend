@@ -9,11 +9,13 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - Main Wodel code generator.
  * 
- * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
+ * It calls WodelMutatorGenerator to generate the Java code for the mutations,
+ * and WodelUseGenerator to generate the USE code for the seeds synthesizer. 
  */
-class WodelGenerator implements IGenerator {
+
+ class WodelGenerator implements IGenerator {
 
   @Inject WodelMutatorGenerator mutatorGenerator
   @Inject WodelUseGenerator useGenerator

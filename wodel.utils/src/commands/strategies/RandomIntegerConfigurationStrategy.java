@@ -1,36 +1,26 @@
 package commands.strategies;
 
-import manager.ModelManager;
+import manager.MutatorUtils;
 
 /**
- * @author Victor Lopez Rivero
- * IntegerConfigurationStrategy configures the int attributes
+ * @author Pablo Gomez-Abajo
+ * 
+ * RandomIntegerConfigurationStrategy random int attribute
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class RandomIntegerConfigurationStrategy extends IntegerConfigurationStrategy {
 		
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
  	public RandomIntegerConfigurationStrategy(int min, int max, boolean allowsNull) {
 		super("");
-		if (min == 0 && max == 0) {
-			this.value = 0;
-		}
-		else {
-			this.value = ModelManager.rn.nextInt(max-min)+min;
-		}
-		// TO-DO: consider allowsNull
+		this.value = MutatorUtils.getRandomInt(min, max);
 	}
  	
  	public RandomIntegerConfigurationStrategy(int min, int max, boolean allowsNull, String a2m) {
 		super(a2m);
-		if (min == 0 && max == 0) {
-			this.value = 0;
-		}
-		else {
-			this.value = ModelManager.rn.nextInt(max-min)+min;
-		}
-		// TO-DO: consider allowsNull
+		this.value = MutatorUtils.getRandomInt(min, max);
 	}
 }

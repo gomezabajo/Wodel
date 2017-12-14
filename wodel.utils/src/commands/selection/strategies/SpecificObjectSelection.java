@@ -3,9 +3,6 @@ package commands.selection.strategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import manager.ModelManager;
-
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -16,8 +13,13 @@ import commands.ObjectEmitter;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero
- * SpecificSelection selects an specific object
+ * @author Pablo Gomez-Abajo
+ * 
+ * SpecificObjectSelection selects an specific object
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public class SpecificObjectSelection extends SpecificSelection{
 	
@@ -43,40 +45,40 @@ public class SpecificObjectSelection extends SpecificSelection{
 	 * @param obj
 	 * Normal constructor
 	 */
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, EObject obj){
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, EObject obj){
 		super(metaModel, model);
 		this.obj = obj;
 	}
 	
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, List<EObject> objs){
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, List<EObject> objs){
 		super(metaModel, model);
 		this.objs = objs;
 	}
 
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, ObjectEmitter oe){
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe){
 		super(metaModel, model);
 		this.oe = oe;
 	}
 
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, EObject obj, String refType){
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, EObject obj, String refType){
 		super(metaModel, model);
 		this.obj = obj;
 		this.refType = refType;
 	}
 	
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, List<EObject> objs, String refType){
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, List<EObject> objs, String refType){
 		super(metaModel, model);
 		this.objs = objs;
 		this.refType = refType;
 	}
 	
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, ObjectEmitter oe, String refType){
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe, String refType){
 		super(metaModel, model);
 		this.oe = oe;
 		this.refType = refType;
 	}
 	
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(metaModel, model);
 		this.obj = obj;
 		try {
@@ -88,7 +90,7 @@ public class SpecificObjectSelection extends SpecificSelection{
 		}
 	}
 	
-	public SpecificObjectSelection(ArrayList<EPackage> metaModel, Resource model, List<EObject> objs, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, List<EObject> objs, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(metaModel, model);
 		this.objs = objs;
 		try {
@@ -108,15 +110,14 @@ public class SpecificObjectSelection extends SpecificSelection{
 				if (this.refType != null) {
 					for (EReference ref : obj.eClass().getEAllReferences()) {
 						if (ref.getName().equals(this.refType)) {
+							if (obj.eGet(ref) == null) {
+								return null;
+							}
 							if (obj.eGet(ref) instanceof EObject) {
 								return (EObject) obj.eGet(ref);
 							}
-							else {
-								// correct this
-								if (((List<EObject>) obj.eGet(ref)).size() > 0) {
-									return ((List<EObject>) obj.eGet(ref)).get(0);
-								}
-								return null;
+							if ((obj.eGet(ref) instanceof List<?>) && (((List<EObject>) obj.eGet(ref)).size() > 0)) {
+								return ((List<EObject>) obj.eGet(ref)).get(0);
 							}
 						}
 					}
@@ -129,15 +130,14 @@ public class SpecificObjectSelection extends SpecificSelection{
 				if (this.refType != null) {
 					for (EReference ref : oe.getObject().eClass().getEAllReferences()) {
 						if (ref.getName().equals(this.refType)) {
+							if (obj.eGet(ref) == null) {
+								return null;
+							}
 							if (obj.eGet(ref) instanceof EObject) {
 								return (EObject) obj.eGet(ref);
 							}
-							else {
-								// correct this
-								if (((List<EObject>) obj.eGet(ref)).size() > 0) {
-									return ((List<EObject>) obj.eGet(ref)).get(0);
-								}
-								return null;
+							if ((obj.eGet(ref) instanceof List<?>) && (((List<EObject>) obj.eGet(ref)).size() > 0)) {
+								return ((List<EObject>) obj.eGet(ref)).get(0);
 							}
 						}
 					}
@@ -175,11 +175,13 @@ public class SpecificObjectSelection extends SpecificSelection{
 					for (EObject obj : objs) {
 						for (EReference ref : obj.eClass().getEAllReferences()) {
 							if (ref.getName().equals(this.refType)) {
-								if (obj.eGet(ref) instanceof EObject) {
-									objects.add((EObject) obj.eGet(ref));
-								}
-								else {
-									objects.addAll((List<EObject>) obj.eGet(ref));
+								if (obj.eGet(ref) != null) {
+									if (obj.eGet(ref) instanceof EObject) {
+										objects.add((EObject) obj.eGet(ref));
+									}
+									else {
+										objects.addAll((List<EObject>) obj.eGet(ref));
+									}
 								}
 							}
 						}

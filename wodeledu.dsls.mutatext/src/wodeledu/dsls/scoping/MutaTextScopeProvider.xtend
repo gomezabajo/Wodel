@@ -14,23 +14,18 @@ import org.eclipse.emf.ecore.EPackage
 import manager.ModelManager
 import java.util.ArrayList
 import org.eclipse.emf.ecore.EClassifier
-import org.eclipse.emf.ecore.EAttribute
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.EObject
 import org.osgi.framework.Bundle
 import org.eclipse.core.runtime.Platform
 import java.net.URL
 import org.eclipse.core.runtime.FileLocator
 import mutatext.Configuration
-import java.io.File
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the mutaText language.
  *
- */
+ */ 
 class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	/**
@@ -42,23 +37,6 @@ class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
 	   	val String ecore = FileLocator.resolve(fileURL).getFile()
        	Scopes.scopeFor(getEClasses(ecore))   
 	}
-	
-	/**
-	 * Variable.object can refer to any EAttribute or EReference in the variable object.
-	 */
-//	def IScope scope_Variable_object(Variable variable, EReference ref) {
-//		val scope = new ArrayList<EStructuralFeature>()
-//		if (variable.eContainer != null) {
-//			if (variable.eContainer.eContainer instanceof Option) {
-//				var Option opt = variable.eContainer.eContainer as Option
-//				if (opt.type != null) {
-//					scope.addAll(getEAttributes(getMetamodelFilename, (opt.type as EClass).name))
-//					scope.addAll(getEReferences(getMetamodelFilename, (opt.type as EClass).name))
-//				}
-//			}
-//		}
-//       	Scopes.scopeFor(scope)   
-//	}
 	
 	/**
 	 * Option.object is an optional argument that can be any EClass in the metamodel.
@@ -81,52 +59,4 @@ class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
            		classes.add(cl as EClass)
         return classes
 	 }
-	 
-	 /**
-	   * It return the list of attributes of a class.
-	   * @param String file containing the metamodel
-	   * @param String class name
-	   * @return List<EAttribute> list of attributes
-	   */ 
-	 def private List<EAttribute> getEAttributes (String metamodelFile, String eclassName) {
-	   	System.out.println("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile + ", String eclassName=" + eclassName + ")")
-	  	val ArrayList<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
-	  	val Resource model = ModelManager.loadModel(metamodel, metamodelFile)
-	  	val EClass eclass = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
-	  	val List<EObject> containers = ModelManager.getContainerObjects(model, eclassName)
-	  	var ArrayList<EAttribute> atts = new ArrayList<EAttribute>()
-	  	if (eclass!=null) {
-	  		atts.addAll(eclass.EAllAttributes)
-	  		if (containers != null) {
-	  			for (EObject cont : containers) {
-	  				atts.addAll((cont as EClass).EAllAttributes)
-	  			}
-	  		}
-		}
-		return atts
-  	}
-  	
-  	/** 
-	 * It returns the list of references of a class.
-	 * @param String file containing the metamodel
-	 * @param String class name
-	 * @return List<EReference>
-	 */
-	 def private List<EReference> getEReferences (String metamodelFile, String eclassName) {
-        val ArrayList<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
-		val Resource model = ModelManager.loadModel(metamodel, metamodelFile)
-	  	val EClass eclass = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
-	  	val List<EObject> containers = ModelManager.getContainerObjects(model, eclassName)
-	  	var ArrayList<EReference> refs = new ArrayList<EReference>()
-        if (eclass != null) {
-        	refs.addAll(eclass.EAllReferences)
-        	if (containers != null) {
-        		for (EObject cont : containers) {
-        			refs.addAll((cont as EClass).EAllReferences)
-        		}
-        	}
-        }
-        return refs
-	 }
-	 
 }

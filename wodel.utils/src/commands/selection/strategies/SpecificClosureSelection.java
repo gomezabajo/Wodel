@@ -16,9 +16,12 @@ import commands.ObjectEmitter;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero
- * SpecificSelection selects an specific object
+ * @author Pablo Gomez-Abajo
+ * 
+ * SpecificClosureSelection selects an specific object
+ * contained in the given reference
  */
+
 public class SpecificClosureSelection extends SpecificSelection{
 	
 	/**
@@ -41,29 +44,29 @@ public class SpecificClosureSelection extends SpecificSelection{
 	 * @param obj
 	 * Normal constructor
 	 */
-	public SpecificClosureSelection(ArrayList<EPackage> metaModel, Resource model, EObject obj){
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, EObject obj){
 		super(metaModel, model);
 		this.obj = obj;
 	}
 	
-	public SpecificClosureSelection(ArrayList<EPackage> metaModel, Resource model, ObjectEmitter oe){
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe){
 		super(metaModel, model);
 		this.oe = oe;
 	}
 
-	public SpecificClosureSelection(ArrayList<EPackage> metaModel, Resource model, EObject obj, String refType){
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, EObject obj, String refType){
 		super(metaModel, model);
 		this.obj = obj;
 		this.refType = refType;
 	}
 	
-	public SpecificClosureSelection(ArrayList<EPackage> metaModel, Resource model, ObjectEmitter oe, String refType){
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe, String refType){
 		super(metaModel, model);
 		this.oe = oe;
 		this.refType = refType;
 	}
 	
-	public SpecificClosureSelection(ArrayList<EPackage> metaModel, Resource model, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+	public SpecificClosureSelection(List<EPackage> metaModel, Resource model, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(metaModel, model);
 		this.obj = obj;
 		try {

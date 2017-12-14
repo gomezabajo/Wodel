@@ -18,9 +18,16 @@ import exceptions.ObjectNoTargetableException;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero ModifyTargetReferenceMutator Modify the target of
- *         references
+ * @author Pablo Gomez-Abajo
+ * 
+ * ModifyTargetReferenceMutator Modify the target of
+ * references
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class ModifyTargetReferenceMutator extends Mutator {
 
 	/**
@@ -70,7 +77,7 @@ public class ModifyTargetReferenceMutator extends Mutator {
 	 *            Normal constructor
 	 */
 	public ModifyTargetReferenceMutator(Resource model,
-			ArrayList<EPackage> metaModel, ObSelectionStrategy source,
+			List<EPackage> metaModel, ObSelectionStrategy source,
 			ObSelectionStrategy newTarget, String refType) {
 		super(model, metaModel, "TargetReferenceChanged");
 		this.source = source;
@@ -164,7 +171,6 @@ public class ModifyTargetReferenceMutator extends Mutator {
 
 		// Multivalued
 		if (ref.getUpperBound() > 1 || ref.getUpperBound() < 0) {
-			System.out.println("Multivalued");
 			List<EObject> aux = null;
 			try {
 				// We get the referenced objects of the source
@@ -192,8 +198,6 @@ public class ModifyTargetReferenceMutator extends Mutator {
 
 		// Monovalued
 		else {
-			System.out.println("Monovalued");
-			System.out.println("ref: " + ref + ", newTarget: " + newTarget);
 			try {
 				container.eSet(ref, newTarget);
 			}

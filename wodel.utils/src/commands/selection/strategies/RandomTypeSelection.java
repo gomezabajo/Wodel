@@ -5,7 +5,6 @@ import java.util.List;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -15,8 +14,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * RandomTypeSelection selects a random object
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public class RandomTypeSelection extends RandomSelection{
 	
@@ -35,7 +39,7 @@ public class RandomTypeSelection extends RandomSelection{
 	 * @param type
 	 * Normal constructor
 	 */
-	public RandomTypeSelection(ArrayList<EPackage> metaModel, Resource model, String type){
+	public RandomTypeSelection(List<EPackage> metaModel, Resource model, String type){
 		super(metaModel, model);
 		this.type = type;
 	}
@@ -46,7 +50,7 @@ public class RandomTypeSelection extends RandomSelection{
 	 * @param type
 	 * Normal constructor
 	 */
-	public RandomTypeSelection(ArrayList<EPackage> metaModel, Resource model, String type, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection){
+	public RandomTypeSelection(List<EPackage> metaModel, Resource model, String type, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection){
 		super(metaModel, model);
 		try {
 			this.type = type;
@@ -66,7 +70,6 @@ public class RandomTypeSelection extends RandomSelection{
 		if ((container == null) && (reference == null)) {
 			ret.addAll(l);
 		}
-		System.out.println("ret.size(): " + ret.size());
 		if ((container != null) && (reference != null)) {
 			if (container.eGet(reference) instanceof List<?>) {
 				List<EObject> objects = (List<EObject>) container.eGet(reference);

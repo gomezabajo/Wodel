@@ -10,10 +10,10 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RandomDoubleNumberType#getMin <em>Min</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRandomDoubleNumberType()
  * @model

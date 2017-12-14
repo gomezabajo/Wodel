@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.RandomDoubleTypeImpl#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.impl.RandomDoubleTypeImpl#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.impl.RandomDoubleTypeImpl#isAllowsNull <em>Allows Null</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

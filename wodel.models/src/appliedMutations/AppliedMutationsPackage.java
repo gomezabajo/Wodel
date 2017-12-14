@@ -209,13 +209,22 @@ public interface AppliedMutationsPackage extends EPackage {
 	int OBJECT_REMOVED__OBJECT = APP_MUTATION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_REMOVED__TYPE = APP_MUTATION_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Object Removed</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_REMOVED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 1;
+	int OBJECT_REMOVED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Object Removed</em>' class.
@@ -1180,6 +1189,80 @@ public interface AppliedMutationsPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link appliedMutations.impl.ObjectRetypedImpl <em>Object Retyped</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see appliedMutations.impl.ObjectRetypedImpl
+	 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getObjectRetyped()
+	 * @generated
+	 */
+	int OBJECT_RETYPED = 16;
+
+	/**
+	 * The feature id for the '<em><b>Def</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED__DEF = APP_MUTATION__DEF;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED__OBJECT = APP_MUTATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Removed Object</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED__REMOVED_OBJECT = APP_MUTATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED__TYPE = APP_MUTATION_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>New Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED__NEW_TYPE = APP_MUTATION_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Object Retyped</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED_FEATURE_COUNT = APP_MUTATION_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Object Retyped</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_RETYPED_OPERATION_COUNT = APP_MUTATION_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link appliedMutations.Mutations <em>Mutations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1262,6 +1345,17 @@ public interface AppliedMutationsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getObjectRemoved_Object();
+
+	/**
+	 * Returns the meta object for the reference '{@link appliedMutations.ObjectRemoved#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see appliedMutations.ObjectRemoved#getType()
+	 * @see #getObjectRemoved()
+	 * @generated
+	 */
+	EReference getObjectRemoved_Type();
 
 	/**
 	 * Returns the meta object for class '{@link appliedMutations.ReferenceChanged <em>Reference Changed</em>}'.
@@ -1747,6 +1841,60 @@ public interface AppliedMutationsPackage extends EPackage {
 	EReference getObjectCloned_Object();
 
 	/**
+	 * Returns the meta object for class '{@link appliedMutations.ObjectRetyped <em>Object Retyped</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Object Retyped</em>'.
+	 * @see appliedMutations.ObjectRetyped
+	 * @generated
+	 */
+	EClass getObjectRetyped();
+
+	/**
+	 * Returns the meta object for the reference list '{@link appliedMutations.ObjectRetyped#getObject <em>Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Object</em>'.
+	 * @see appliedMutations.ObjectRetyped#getObject()
+	 * @see #getObjectRetyped()
+	 * @generated
+	 */
+	EReference getObjectRetyped_Object();
+
+	/**
+	 * Returns the meta object for the reference list '{@link appliedMutations.ObjectRetyped#getRemovedObject <em>Removed Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Removed Object</em>'.
+	 * @see appliedMutations.ObjectRetyped#getRemovedObject()
+	 * @see #getObjectRetyped()
+	 * @generated
+	 */
+	EReference getObjectRetyped_RemovedObject();
+
+	/**
+	 * Returns the meta object for the reference '{@link appliedMutations.ObjectRetyped#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see appliedMutations.ObjectRetyped#getType()
+	 * @see #getObjectRetyped()
+	 * @generated
+	 */
+	EReference getObjectRetyped_Type();
+
+	/**
+	 * Returns the meta object for the reference '{@link appliedMutations.ObjectRetyped#getNewType <em>New Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>New Type</em>'.
+	 * @see appliedMutations.ObjectRetyped#getNewType()
+	 * @see #getObjectRetyped()
+	 * @generated
+	 */
+	EReference getObjectRetyped_NewType();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1840,6 +1988,14 @@ public interface AppliedMutationsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OBJECT_REMOVED__OBJECT = eINSTANCE.getObjectRemoved_Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_REMOVED__TYPE = eINSTANCE.getObjectRemoved_Type();
 
 		/**
 		 * The meta object literal for the '{@link appliedMutations.impl.ReferenceChangedImpl <em>Reference Changed</em>}' class.
@@ -2224,6 +2380,48 @@ public interface AppliedMutationsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OBJECT_CLONED__OBJECT = eINSTANCE.getObjectCloned_Object();
+
+		/**
+		 * The meta object literal for the '{@link appliedMutations.impl.ObjectRetypedImpl <em>Object Retyped</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see appliedMutations.impl.ObjectRetypedImpl
+		 * @see appliedMutations.impl.AppliedMutationsPackageImpl#getObjectRetyped()
+		 * @generated
+		 */
+		EClass OBJECT_RETYPED = eINSTANCE.getObjectRetyped();
+
+		/**
+		 * The meta object literal for the '<em><b>Object</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_RETYPED__OBJECT = eINSTANCE.getObjectRetyped_Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Removed Object</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_RETYPED__REMOVED_OBJECT = eINSTANCE.getObjectRetyped_RemovedObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_RETYPED__TYPE = eINSTANCE.getObjectRetyped_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>New Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_RETYPED__NEW_TYPE = eINSTANCE.getObjectRetyped_NewType();
 
 	}
 

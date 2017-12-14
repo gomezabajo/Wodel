@@ -21,6 +21,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ObjectRemoved" eSuperTypes="#//AppMutation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceChanged" eSuperTypes="#//AppMutation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
@@ -107,5 +108,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="ObjectCloned" eSuperTypes="#//AppMutation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectRetyped" eSuperTypes="#//AppMutation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="removedObject" ordered="false"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
   </eClassifiers>
 </ecore:EPackage>

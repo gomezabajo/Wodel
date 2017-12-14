@@ -132,6 +132,10 @@ public class AppliedMutationsAdapterFactory extends AdapterFactoryImpl {
 				return createObjectClonedAdapter();
 			}
 			@Override
+			public Adapter caseObjectRetyped(ObjectRetyped object) {
+				return createObjectRetypedAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -372,6 +376,20 @@ public class AppliedMutationsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createObjectClonedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link appliedMutations.ObjectRetyped <em>Object Retyped</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see appliedMutations.ObjectRetyped
+	 * @generated
+	 */
+	public Adapter createObjectRetypedAdapter() {
 		return null;
 	}
 

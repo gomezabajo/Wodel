@@ -11,46 +11,60 @@
 package wodel.synthesizer.generator;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import kodkod.ast.Relation;
 import kodkod.instance.TupleSet;
 import manager.IOUtils;
 import manager.ModelManager;
-import use.UseUtils;
+import manager.UseGeneratorUtils;
 import manager.WodelContext;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -62,6 +76,7 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.tzi.use.kodkod.UseScrollingKodkodModelValidator;
 import org.tzi.use.kodkod.plugin.KodkodScrollingValidateCmd;
+import org.tzi.use.kodkod.plugin.PluginModelFactory;
 import org.tzi.use.main.Session;
 import org.tzi.use.main.shell.Shell;
 import org.tzi.use.main.shell.runtime.IPluginShellCmd;
@@ -70,25 +85,16 @@ import org.tzi.use.uml.mm.MAttribute;
 import org.tzi.use.uml.ocl.value.Value;
 import org.tzi.use.uml.sys.MLink;
 import org.tzi.use.uml.sys.MObject;
-import org.tzi.use.uml.sys.MObjectState;
 import org.tzi.use.uml.sys.MSystemState;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-
-import commands.CreateObjectMutator;
-import commands.selection.strategies.ObSelectionStrategy;
-import commands.selection.strategies.SpecificObjectSelection;
-import commands.selection.strategies.SpecificReferenceSelection;
-import commands.strategies.AttributeConfigurationStrategy;
-import exceptions.AbstractCreationException;
 import exceptions.ContainerNotFoundException;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
-import exceptions.ObjectNotContainedException;
-import exceptions.ReferenceNonExistingException;
-import exceptions.USEImportException;
-import exceptions.WrongAttributeTypeException;
+
+/**
+ * @author Pablo Gomez-Abajo - Wodel seed models synthesizer Wizard.
+ * 
+ */
 
 public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	
@@ -100,9 +106,14 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	
 	private static String initialPath = "";
 	private static IFile file;
-	private static int numSeeds = 5;
+	private static int numSeeds = 3;
 	private static String customOCL = "";
-
+	private static boolean forceRoot = true;
+	
+	private static StringAdapter adapter = null;
+	
+	private static IStatus status = null;
+	
 	/**
 	 * Adding the page to the wizard.
 	 */
@@ -129,13 +140,21 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 			initialPath = mainPage.file;
 			numSeeds = mainPage.numSeeds;
 			customOCL = mainPage.customOCL;
-	
+			forceRoot = mainPage.forceRoot;
+			
 			GenerateWodelWithProgress generateWodelWithProgress = new GenerateWodelWithProgress();
 			new ProgressMonitorDialog(new org.eclipse.swt.widgets.Shell()).run(true, true, generateWodelWithProgress);
+
+			IProject project = file.getProject();
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			ErrorDialog.openError(new org.eclipse.swt.widgets.Shell(), "Error on USE command", e.getMessage(), status);
+		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -146,13 +165,10 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 		return true;
 	}
 
-	private void doFinish(IProgressMonitor monitor) {
-	}
-
 	private static class GenerateWodelWithProgress implements IRunnableWithProgress {
 
 
-		private int timeOut = 600;
+		private int timeOut = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Seed models generation timeout", "600", null));
 
 		private static class WrapperErrorConsole extends PrintStream {
 
@@ -209,192 +225,371 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 			}
 		}
 
-		private void setAttributes(MObject mObject, EObject object, MObjectState mObjectState) {
-			Map<MAttribute, Value> attributeValueMap = mObjectState.attributeValueMap();
-			for (MAttribute mAtt : attributeValueMap.keySet()) {
-				Value value = attributeValueMap.get(mAtt);
-				System.out.println(mAtt.type().toString());
-				if (mAtt.type().toString().equals("String")) {
-					ModelManager.setStringAttribute(mAtt.name(), object, value.toString().replaceAll("'", ""));
-				}
-				if (mAtt.type().toString().equals("Boolean")) {
-					ModelManager.setBooleanAttribute(mAtt.name(), object, Boolean.parseBoolean(value.toString()));
+//		private static void setAttributes(MObject mObject, EObject object, MObjectState mObjectState) {
+//			Map<MAttribute, Value> attributeValueMap = mObjectState.attributeValueMap();
+//			for (MAttribute mAtt : attributeValueMap.keySet()) {
+//				Value value = attributeValueMap.get(mAtt);
+//				if (value != null && object != null) {
+//					if (mAtt.type().toString().equals("String")) {
+//						ModelManager.setStringAttribute(mAtt.name(), object, value.toString().replaceAll("'", ""));
+//					}
+//					if (mAtt.type().toString().equals("Boolean")) {
+//						ModelManager.setBooleanAttribute(mAtt.name(), object, Boolean.parseBoolean(value.toString()));
+//					}
+//					if (mAtt.type().toString().equals("Real")) {
+//						ModelManager.setDoubleAttribute(mAtt.name(), object, Double.parseDouble(value.toString()));
+//					}
+//					if (mAtt.type().toString().equals("Integer")) {
+//						boolean eenum = false;
+//						for (EAttribute att : object.eClass().getEAllAttributes()) {
+//							if (att.getName().equals(mAtt.name()) && (att.getEType() instanceof EEnum)) {
+//								eenum = true;
+//								ModelManager.setEEnumAttribute(mAtt.name(), object, (EEnum) att.getEType(), Integer.parseInt(value.toString()));
+//								break;
+//							}
+//						}
+//						if (eenum == false) {
+//							ModelManager.setIntAttribute(mAtt.name(), object, Integer.parseInt(value.toString()));
+//						}
+//					}
+//				}
+//			}
+//		}
+		
+		// used by method parseOutput2Emf: it removes the initial an final quotes of a phrase 
+		private static String trim (String phrase) {
+			while (phrase.startsWith("'")) phrase = phrase.substring(1);
+			while (phrase.endsWith("'"))   phrase = phrase.substring(0, phrase.length()-1);
+			return phrase;
+		}
+		
+		// used by method parseOutput2Emf: it checks whether an object defines a containment reference with the given name
+		private static boolean isContainment (EObject object, String refname) {
+			return EMFUtils.hasReference(object, refname)? ((EReference) object.eClass().getEStructuralFeature(refname)).isContainment() : false;
+		}
+		
+		private static String[] decode (List<EPackage> packages, String name) {
+			String[] decoded = USEUtils.decodeClassName(name);
+			String packageName = null;
+			String className = null;
+			if (decoded.length > 1) {
+				packageName = decoded[0];
+				className = decoded[1];
+			}
+			if (packageName == null || className == null) {
+				return null;
+			}
+			return decoded;
+		}
+		
+		private static String decode (String name) {
+			String[] decoded = name.split("xxxx");
+			if (decoded.length > 0) {
+				return decoded[decoded.length - 1];
+			}
+			return null;
+		}
+		
+		private static EObject getRootEObject(Collection<EObject> eobjects, EClass rootClass) {
+			for (EObject eobject : eobjects) {
+				if (EcoreUtil.equals(eobject.eClass(), rootClass)) {
+					return eobject;
 				}
 			}
+			return null;
 		}
-
-		private EObject createObject(EClass containerClass, EClass targetClass, MObject mObject, HashMap<MObject, EObject> hmObjects, ArrayList<EPackage> packages, Resource seed) {
-			EObject newObject = null;
-			try {
-				if (UseUtils.decodeWord(mObject.cls().name()).equals(targetClass.getName())) {
-					ObSelectionStrategy containerSelection = null;
-					if (containerClass != null) {
-						List<EObject> containers = ModelManager.getObjectsOfType(containerClass.getName(), seed);
-						if (containers.size() > 0) {
-							containerSelection = new SpecificObjectSelection(packages, seed, containers.get(ModelManager.getRandomIndex(containers)));
-							SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(packages, seed, null, null);
-							HashMap<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
-							HashMap<String, ObSelectionStrategy> refs = new HashMap<String, ObSelectionStrategy>();
-							CreateObjectMutator mut = new CreateObjectMutator(seed, packages, referenceSelection, containerSelection, atts, refs, targetClass.getName());
-							mut.mutate();
-							newObject = mut.getObject();
-						}
+		
+		private static void getReferenceName(String linkend0, String linkend1, EClass eClass1, EClass eClass2, HashMap<URI, Entry<String, String>> useReferencesClass, String[] linkend) {
+			if (useReferencesClass == null) {
+				linkend[0] = decode(linkend0);
+				linkend[1] = decode(linkend1);
+				return;
+			}
+			for (URI refUri : useReferencesClass.keySet()) {
+				Entry<String, String> entry = useReferencesClass.get(refUri);
+				if (entry.getKey().equals(linkend0)) {
+					EReference ref = ModelManager.getReferenceByURI(refUri, eClass1);
+					if (ref != null) {
+						linkend[0] = ref.getName();
+					}
+					ref = ModelManager.getReferenceByURI(refUri, eClass2);
+					if (ref != null) {
+						linkend[0] = ref.getName();
 					}
 				}
-			} catch (ReferenceNonExistingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (WrongAttributeTypeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (AbstractCreationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ObjectNotContainedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (entry.getValue().equals(linkend1)) {
+					EReference ref = ModelManager.getReferenceByURI(refUri, eClass1);
+					if (ref != null) {
+						linkend[1] = ref.getName();
+					}
+					ref = ModelManager.getReferenceByURI(refUri, eClass2);
+					if (ref != null) {
+						linkend[1] = ref.getName();
+					}
+				}
 			}
-			return newObject;
 		}
+		
+		private static boolean hasContainer(Resource model, EObject eobject) {
+			return ModelManager.getContainer(model, eobject) != null ? true : false;
+		}
+		
+		private static void removeContainedEObjectsFromList(Resource model, List<EObject> objects) {
+			List<EObject> baseObjects = new ArrayList<EObject>();
+			baseObjects.addAll(objects);
+			for (EObject object : baseObjects) {
+				if (hasContainer(model, object)) objects.remove(object);
+			}
+		}
+		
+		/**
+		 * It returns the EMF model file that corresponds to the output generated by USE (a model in memory, stored in attribute state).
+		 * @param metamodel
+		 * @param output_file: this parameter is not used, it is here just for compatibility reasons with the interface
+		 * @return name of generated emf file
+		 * @throws transException 
+		 */
+		protected static Resource parseOutput2Emf(List<EPackage> packages, String emf_file, MSystemState result, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, boolean forceRootEObject) {
+			
+			int i = 0;
+			Resource model = null;
+			
+			try {
 
-		private void createObjects(EObject object, HashMap<EClass, List<EObject>> hmEClass, HashMap<MObject, EObject> hmObjects, Set<MObject> mObjects, MSystemState mSystemState, ArrayList<EPackage> packages, Resource seed) {
-			for (EReference ref : object.eClass().getEReferences()) {
-				EClass cl = (EClass) ref.getEType();
-				List<EObject> objects = null;
-				if (hmEClass.get(cl) == null) {
-					objects = new ArrayList<EObject>();
-				}
-				else {
-					objects = hmEClass.get(cl);
-				}
-				for (MObject mObject : mObjects) {
-					if (hmObjects.get(mObject) == null) {
-						if (UseUtils.decodeWord(mObject.cls().name()).equals(cl.getName())) {
+				// create emf model
+				ResourceSet resourceSet = new ResourceSetImpl();
+				EPackage.Registry ePackageRegistry = resourceSet.getPackageRegistry();
+				ePackageRegistry.put(packages.get(0).getNsURI(), packages.get(0));
+				model  = resourceSet.createResource(URI.createFileURI(emf_file));
+				//model = ModelManager.createModel(emf_file);
+				
+				Hashtable<String,EObject> eobjects  = new Hashtable<String,EObject>();
 
-							MObjectState mObjectState = mObject.state(mSystemState);
-							List<EClassifier> containers = ModelManager.getContainerTypes(packages, cl.getName());
-							EClass container = null;
-							while (container == null && containers.size() > 0) {
-								container = (EClass) containers.get(ModelManager.getRandomIndex(containers));
-								if (container.getName().equals(cl.getName())) {
-									containers.remove(container);
-									container = null;
+				// parse objects
+				for (MObject useObject : result.allObjects()) {
+
+					String[] decoded = decode(packages, useObject.cls().name());
+					if (decoded == null) {
+						continue;
+					}
+					EPackage pck = ModelManager.getEPackage(packages, decoded[0]);
+					if (pck == null) {
+						return null;
+					}
+					//EClass eClass = ModelManager.getEClassFromEPackage(pck, decoded[1]);
+					EObject object = EMFUtils.createEObject(pck, decoded[1]);
+					//EObject object = EcoreUtil.create(eClass);
+					// TODO: asignar id
+					eobjects.put(useObject.name(), object);
+					model.getContents().add(object);
+					
+					//setAttributes(useObject, object, useObject.state(result));
+
+					// parse attributes
+					Map<MAttribute, Value> attributes = useObject.state(result).attributeValueMap();
+					for (MAttribute attribute : attributes.keySet()) {
+						String field = attribute.name();
+						String value = trim( attributes.get(attribute).toString() );
+						if (!value.equals("Undefined")) {
+							String values[] = {value};
+							if (value.startsWith("Set{")) values = value.substring(4,value.length()-1).split(",");
+							if  (EMFUtils.hasAttribute(object, field))
+								for (String v : values) EMFUtils.setAttribute(pck, object, field, adapter.adapt_use_string( v ));
+							else for (String v : values) {
+								if (!v.isEmpty()) {
+									EObject object2 = eobjects.get(v.substring(1));
+									EMFUtils.setReference(pck, object, field, object2);
+									if (isContainment(object, field) && hasContainer(model, object2)) model.getContents().remove(object2);
 								}
 							}
-							EObject newObject = null;
-							while (newObject == null && containers.size() > 0) {
-								newObject = createObject(container, cl, mObject, hmObjects, packages, seed);
-								if (newObject == null) {
-									containers.remove(container);
-									if (containers.size() > 0) {
-										container = (EClass) containers.get(ModelManager.getRandomIndex(containers));
+						}
+						// we assign a random string value
+						else EMFUtils.setAttribute(pck, object, field, /*"s"+*/""+(i++));
+					}
+				}
+
+				
+				EClass rootClass = ModelManager.getRootEClass(packages);
+				EObject root = getRootEObject(eobjects.values(), rootClass);
+				// parse links
+				for (MLink useLink : result.allLinks()) {
+					EObject object1 = eobjects.get(useLink.linkedObjects().get(1/*0*/).name()); // TODO: check whether this works in general
+					EObject object2 = eobjects.get(useLink.linkedObjects().get(0/*1*/).name());
+					EClass eClass1 = object1.eClass();
+					EClass eClass2 = object2.eClass();
+					HashMap<URI, Entry<String, String>> useReferencesClass1 = useReferences.get(EcoreUtil.getURI(eClass1));
+					HashMap<URI, Entry<String, String>> useReferencesClass2 = useReferences.get(EcoreUtil.getURI(eClass2));
+					String linkend0 = useLink.association().associationEnds().get(0).name();
+					String linkend1 = useLink.association().associationEnds().get(1).name();
+					String[] linkend = new String[2];
+					getReferenceName(linkend0, linkend1, eClass1, eClass2, useReferencesClass1, linkend);
+					getReferenceName(linkend0, linkend1, eClass1, eClass2, useReferencesClass2, linkend);
+
+					if (EMFUtils.hasReference(object1, linkend[0])) {
+						if (!EcoreUtil.equals(root, object2)) {
+							EMFUtils.setReference(packages, object1, linkend[0], object2);
+							if (isContainment(object1, linkend[0]) && hasContainer(model, object2)) model.getContents().remove(object2);
+							if (isContainment(object2, linkend[1]) && hasContainer(model, object1)) model.getContents().remove(object1);
+						}
+					}
+					else if (EMFUtils.hasReference(object2, linkend[0])) {
+						if (!EcoreUtil.equals(root, object1)) {
+							EMFUtils.setReference(packages, object2, linkend[0], object1);
+							if (isContainment(object2, linkend[0]) && hasContainer(model, object1)) model.getContents().remove(object1);
+							if (isContainment(object1, linkend[1]) && hasContainer(model, object2)) model.getContents().remove(object2);
+						}
+					}
+//					else if (linkend0.startsWith("xxxx")) {
+//						EMFUtils.setReference(packages, object2/*1*/, linkend1, object1/*2*/);
+//						if (isContainment(object2/*1*/, linkend1)) model.getContents().remove(object1/*2*/);
+//					}
+//					else if (linkend1.startsWith("xxxx")) {
+//						EMFUtils.setReference(metamodel, object1/*2*/, linkend0, object2/*1*/);
+//						if (isContainment(object1/*2*/, linkend0)) model.getContents().remove(object2/*1*/);
+//					}
+				}
+
+				// completes containment references
+				if (forceRootEObject == true) {
+
+					List<EObject> values = new ArrayList<EObject>();
+					values.addAll(eobjects.values());
+					values.remove(root);
+
+					for (EObject eobject : values) {
+						if (!hasContainer(model, eobject)) {
+							List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eobject.eClass()));
+							boolean found = false;
+							for (EClassifier containerClass : containers) {
+								List<EObject> candidates = ModelManager.getObjectsOfType(containerClass.getName(), model);
+								candidates.remove(eobject);
+								if (candidates.size() == 0) {
+									continue;
+								}
+								Collections.shuffle(candidates);
+								for (EObject candidate : candidates) {
+									List<EReference> refs = ModelManager.getContainmentReferencesOfType(packages, candidate, eobject);
+									Collections.shuffle(refs);
+									for (EReference ref : refs) {
+										Object value = candidate.eGet(ref);
+										if (value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) value;
+											objects.add(eobject);
+											found = true;
+											break;
+										}
+										else {
+											if (value == null) {
+												EMFUtils.setReference(packages, candidate, ref.getName(), eobject);
+												found = true;
+												break;
+											}
+										}
+									}
+									if (found == true) {
+										break;
 									}
 								}
+								if (found == true) {
+									break;
+								}
 							}
-							setAttributes(mObject, newObject, mObjectState);
-							objects.add(newObject);
-							hmObjects.put(mObject, newObject);
-							hmEClass.put(cl, objects);
-							createObjects(newObject, hmEClass, hmObjects, mObjects, mSystemState, packages, seed);
+							if (found == true) {
+								model.getContents().remove(eobject);
+							}
 						}
 					}
 				}
-
+				
+				// complete mandatory non containment references
+				List<EObject> objects = ModelManager.getAllObjects(model);
+				for (EObject obj : objects) {
+					for (EReference ref : obj.eClass().getEAllReferences()) {
+						if (ref.isChangeable() && ref.getLowerBound() > 0 && obj.eGet(ref) == null) {
+							EClass type = ref.getEReferenceType();
+							List<EObject> candidates = ModelManager.getObjectsOfType(type.getName(), model);
+							if (ref.isContainment()) {
+								removeContainedEObjectsFromList(model, candidates);
+							}
+							if (candidates.size() > 0) {
+								EMFUtils.setReference(packages, obj, ref.getName(), candidates.get(ModelManager.getRandomIndex(candidates)));
+							}
+						}
+					}
+				}
+				
+				// save model
+				if (model.getContents().isEmpty())
+					 emf_file = null;
+				else model.save(null);
+			} 
+			catch (IOException exception) {
+				exception.printStackTrace();
 			}
+		
+		    return model;
 		}
-
-		private boolean completeModel(MLink activeLink, HashMap<MObject, EObject> hmObjects, ArrayList<EPackage> packages, Resource seed, MSystemState mSystemState, HashMap<EClass, List<EObject>> hmEClass) throws ContainerNotFoundException {
+		
+		private void processUSEFiles(List<EPackage> packages, Path procUseFilename, Path procPropertiesFilename, HashMap<URI, String> classNames, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
 			try {
-				MObject activeMObject = activeLink.linkedObjects().get(0);
-				EObject activeObject = hmObjects.get(activeMObject);
-				MObjectState mObjectState = activeMObject.state(mSystemState);
-				String refName = activeLink.association().roleNames().get(1);
-				if (activeObject == null) {
-					EClass cl = ModelManager.getEClassByName(packages, UseUtils.decodeWord(activeMObject.cls().name()));
-					List<EClassifier> containers = ModelManager.getContainerTypes(packages, cl.getName());
-					EClass container = null;
-					while (container == null && containers.size() > 0) {
-						container = (EClass) containers.get(ModelManager.getRandomIndex(containers));
-						boolean b = false;
-						for (EReference ref : container.getEAllReferences()) {
-							if (refName.startsWith(ref.getName())) {
-								b = true;
-								break;
-							}
-						}
-						if (b == false) {
-							containers.remove(container);
-							container = null;
-						}
-					}
-					activeObject = createObject(container, cl, activeMObject, hmObjects, packages, seed);
-					if (activeObject != null) {
-						List<EObject> objects = null;
-						if (hmEClass.get(activeObject.eClass()) == null) {
-							objects = new ArrayList<EObject>();
-						}
-						else {
-							objects = hmEClass.get(cl);
-						}
-						setAttributes(activeMObject, activeObject, mObjectState);
-						objects.add(activeObject);
-						hmObjects.put(activeMObject, activeObject);
-						hmEClass.put(cl, objects);
-					}
+				// adds the necessary ocl constraints and properties info for the selected initial model
+				String oclNames = "";
+				if (initialPath != null && initialPath.length() > 0) {
+					Resource initial = ModelManager.loadModel(packages, initialPath);
+					String oclText = "inv initial_model : " + USEUtils.xmi2ocl(initial, classNames, useReferences);
+					File useFile = procUseFilename.toFile();
+					PrintWriter pw = new PrintWriter(new FileWriter(useFile, true));
+					pw.println(oclText);
+					pw.close();
+					oclNames = USEUtils.xmi2oclNames(initial, classNames);
 				}
-				if (activeObject == null) {
-					return false;
+				oclNames = USEUtils.oclAddNames(USEUtils.wodel2useNames(), oclNames);
+				if (customOCL != null & customOCL.length() > 0) {
+					String oclText = "inv custom_ocl : " + USEUtils.ocl2use(packages, customOCL, useReferences);
+					File useFile = procUseFilename.toFile();
+					PrintWriter pw = new PrintWriter(new FileWriter(useFile, true));
+					pw.println(oclText);
+					pw.close();
+					oclNames = USEUtils.oclAddNames(oclNames, oclText);
 				}
-				MObject tarMObject = activeLink.linkedObjects().get(1);
-				EObject tarObject = hmObjects.get(tarMObject);
-				if (tarObject == null) {
-					for (EReference ref : activeObject.eClass().getEReferences()) {
-						if (refName.startsWith(ref.getName())) {
-							mObjectState = tarMObject.state(mSystemState);
-							EClass cl = (EClass) ref.getEType();
-							tarObject = createObject(activeObject.eClass(), cl, tarMObject, hmObjects, packages, seed);
-							setAttributes(tarMObject, tarObject, mObjectState);
-							List<EObject> objects = null;
-							if (hmEClass.get(cl) == null) {
-								objects = new ArrayList<EObject>();
-							}	
-							else {
-								objects = hmEClass.get(cl);
-							}
-							objects.add(tarObject);
-							hmObjects.put(tarMObject, tarObject);
-							hmEClass.put(cl, objects);
-							break;
-						}
+				if (oclNames != null && oclNames.length() > 0) {
+					File propertiesFile = procPropertiesFilename.toFile();
+					PrintWriter pw = new PrintWriter(new FileWriter(propertiesFile, true));
+					pw.println(oclNames);
+					pw.close();
+				}
+
+				if (forceRoot == false) {
+					File propertiesFile = procPropertiesFilename.toFile();
+					BufferedReader br = new BufferedReader(new FileReader(propertiesFile));
+					EClass rootEClass = ModelManager.getRootEClass(packages);
+					//int max = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum cardinality value", "10", null));
+					List<String> lines = new ArrayList<String>();
+					String line = null;
+					while ((line = br.readLine()) != null) {
+						line = line.replace(rootEClass.getName() + "_min = 1", rootEClass.getName() + "_min = 0");
+						//line = line.replace(rootEClass.getName() + "_max = 1", rootEClass.getName() + "_max = " + max);
+						//line = line.replace(rootEClass.getName() + "_max = 1", rootEClass.getName() + "_max = 0");
+						lines.add(line);
 					}
-				}
-				else {
-					for (EReference ref : activeObject.eClass().getEReferences()) {
-						if (refName.startsWith(ref.getName())) {
-							if (activeObject.eGet(ref) instanceof List<?>) {
-								List<EObject> activeTars = ModelManager.getReferences(ref.getName(), activeObject);
-								activeTars.add(tarObject);
-							}
-							else {
-								ModelManager.setReference(ref.getName(), activeObject, tarObject);
-							}
-							break;
-						}
+					br.close();
+					PrintWriter pw = new PrintWriter(new FileWriter(propertiesFile, false));
+					for (String l : lines) {
+						pw.println(l);
 					}
+					pw.close();
 				}
-			} catch (ReferenceNonExistingException e) {
+			} catch (ModelNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (WrongAttributeTypeException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return true;
 		}
 
 		@Override
-		public void run(IProgressMonitor monitor) throws InvocationTargetException,
-		InterruptedException {
+		public void run(IProgressMonitor monitor) throws InvocationTargetException,	InterruptedException {
 			final String fileName = file.getName();
 			final IProgressMonitor progressMonitor = monitor;
 			final int numModels = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of seed models", "10", null));
@@ -404,11 +599,11 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 			PrintWriter fLogWriter = null;
 			java.nio.file.Path useFilename = null;
 			java.nio.file.Path procUseFilename = null;
-			java.nio.file.Path propertiesFilename = null;
 			java.nio.file.Path procPropertiesFilename = null;
 			final Session fSession = new Session();
 			String project = "";
 			fSession.reset();
+			adapter = new StringAdapter();
 			try {
 				//String log4jConfigFileName = FileLocator.resolve(Platform.getBundle("org.tzi.use").getEntry("/log4j/log4j.xml")).getFile();
 				//PropertyConfigurator.configure(log4jConfigFileName);
@@ -420,167 +615,88 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				String procUseFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", "_proc.use");
 				procUseFilename =Paths.get(procUseFilePath);
 				String propertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", ".properties");
-				propertiesFilename = Paths.get(propertiesFilePath);
 				String procPropertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", "_proc.properties");
 				procPropertiesFilename = Paths.get(procPropertiesFilePath);
 				final String metamodel = ModelManager.getMetaModel();
-				final ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				HashMap<String, HashMap<String, String>> useReferences = UseUtils.getUseReferences(packages);
-				
-				// refresh the use generated file
-				try {
-					InputStream stream = file.getContents();
-					if (file.exists()) {
-						String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-						stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
-						file.setContents(stream, true, true, null);
-					}
-					stream.close();
-				} catch (CoreException e) {
-				} catch (IOException e) {
-				}
+				final List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+				List<EClass> classes = ModelManager.getEClasses(packages);
+				HashMap<URI, String> classNames = UseGeneratorUtils.buildClassNames(classes);
+				HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = UseGeneratorUtils.getUseReferences(packages, classNames);
 				
 				// creates a new use file to operate with the seed models synthesizer
+				try {
+					FileReader fr = new FileReader (new File(useFilename.toAbsolutePath().toString()));
+					BufferedReader br = new BufferedReader(fr);
+					br.close();
+				} catch (FileNotFoundException e1) {
+					status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "File not found", null);
+					throw new InterruptedException("USE file not found");
+				} catch (IOException e) {
+				}
+
 				IOUtils.copyFile(useFilePath, procUseFilePath);
 				// creates a new properties file to operate with the seed models synthesizer
 				IOUtils.copyFile(propertiesFilePath, procPropertiesFilePath);
 
-				// adds the necessary ocl constraints and properties info for the selected initial model
-				String oclNames = "";
-				if (initialPath != null && initialPath.length() > 0) {
-					Resource initial = ModelManager.loadModel(packages, initialPath);
-					String oclText = "inv initial_model : " + UseUtils.xmi2ocl(initial, useReferences);
-					File useFile = procUseFilename.toFile();
-					PrintWriter pw = new PrintWriter(new FileWriter(useFile, true));
-					pw.println(oclText);
-					pw.close();
-					oclNames = UseUtils.xmi2oclNames(initial);
-				}
-				if (customOCL != null & customOCL.length() > 0) {
-					String oclText = "inv custom_ocl : " + UseUtils.ocl2use(customOCL, useReferences);
-					File useFile = procUseFilename.toFile();
-					PrintWriter pw = new PrintWriter(new FileWriter(useFile, true));
-					pw.println(oclText);
-					pw.close();
-					oclNames = UseUtils.oclAddNames(oclNames, oclText);
-				}
-				if (oclNames != null && oclNames.length() > 0) {
-					File propertiesFile = procPropertiesFilename.toFile();
-					PrintWriter pw = new PrintWriter(new FileWriter(propertiesFile, true));
-					pw.println(oclNames);
-					pw.close();
-				}
+				// process the .use and the .properties files
+				processUSEFiles(packages, procUseFilename, procPropertiesFilename, classNames, useReferences);
 				
 				Shell.createInstance(fSession, PluginRuntime.getInstance());
 				WrapperErrorConsole.start();  // wrapper for standard error console
-				Shell.getInstance().processLineSafely("open " + procUseFilename.toAbsolutePath().toString());
+				final String use_file = procUseFilename.toAbsolutePath().toString();
+				Shell.getInstance().processLineSafely("open " + use_file);
 				String error = WrapperErrorConsole.read();
 
-				Status status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "Invalid USE file", null);
-				if (!fSession.hasSystem()) ErrorDialog.openError(null, "Invalid USE file", "USE file contains errors: " + error, status);
-				String root = null;
-				try {
-					FileReader fr = new FileReader (new File(useFilename.toAbsolutePath().toString()));
-					BufferedReader br = new BufferedReader(fr);
-					root = br.readLine().split(" ")[1];
-					br.close();
-				} catch (FileNotFoundException e1) {
-					status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "File not found", null);
-					ErrorDialog.openError(null, "File not found", "USE file not found", status);
-				} catch (IOException e) {}
-
+				if (!fSession.hasSystem()) {
+					status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "Invalid USE file", null);
+					throw new InterruptedException("USE file contains errors: " + error);
+				}
 				final String properties_file = procPropertiesFilename.toAbsolutePath().toString();
 				WrapperErrorConsole.finish(); // restore standard error console
 
 				final KodkodScrollingValidateCmd c = new KodkodScrollingValidateCmd() {
 					@Override
 					public void performCommand(IPluginShellCmd pluginCommand) {
+						initialize(fSession);
 						mSystem = fSession.system();
 						mModel = mSystem.model();
-						String arguments = " "+properties_file;
+						//String arguments = " " + properties_file;
+						PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null);
+						String[] arguments = {properties_file};
 						handleArguments(arguments);
-						System.out.println("current operation: " + mSystem.getCurrentOperation());
+						//System.out.println("current operation: " + mSystem.getCurrentOperation());
 						mSystem.registerPPCHandlerOverride(Shell.getInstance());
 
 						try {
-							Field solutionsField = UseScrollingKodkodModelValidator.class.getDeclaredField("solutions");
-							solutionsField.setAccessible(true);
-
-							int solutionsSize = 0;
-							for (int i = 0; i < numSeedModels; i++) {
+							int i = 0;
+							while (i < numSeedModels) {
+								Field solutionsField = UseScrollingKodkodModelValidator.class.getDeclaredField("solutions");
+								solutionsField.setAccessible(true);
 								List<Map<Relation, TupleSet>> solutions = (List<Map<Relation, TupleSet>>) solutionsField.get(validator);
-								int inc = solutions.size();
-								// Checks if it is a new solution
-								if (inc > solutionsSize) {
-									solutionsSize = inc;
-								}
-								else {
-									break;
-								}
-								MSystemState mSystemState = mSystem.state();
-								System.out.println("MObjects:");
-								for (MObject mObject : mSystemState.allObjects()) {
-									System.out.println(mObject.name());
-								}
-								String xmiFileName = fileName.replaceAll(".mutator", i + ".model");
-								String seedPath = ModelManager.getMetaModelPath() + "/" + xmiFileName;
-								progressMonitor.subTask("Seed " + (i + 1) + "/" + numSeedModels + ": " + seedPath);
-								List<EClass> classes = ModelManager.getEClasses(packages);
-								EClass rootClass = null;
-								for (EClass cl : classes) {
-									List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, cl.getName());
-									if (containerTypes.size() == 0) {
-										rootClass = cl;
+								if (solutions.size() > 0) {
+									MSystemState mSystemState = mSystem.state();
+									String xmiFileName = fileName.replaceAll(".mutator", i + ".model");
+									String seedPath = ModelManager.getMetaModelPath() + "/" + xmiFileName;
+									progressMonitor.subTask("Seed " + (i + 1) + "/" + numSeedModels + ": " + seedPath);
+									Resource seed = parseOutput2Emf(packages, seedPath, mSystemState, useReferences, forceRoot);
+									if (seed != null) {
+										boolean valid = ModelManager.validateModel(metamodel, seedPath);
+										if (valid == true) {
+											progressMonitor.worked(1);
+											i++;
+										}
+									}
+									if (progressMonitor.isCanceled()) {
+										progressMonitor.done();
 										break;
 									}
-								}
-								Set<MObject> mObjects = mSystemState.allObjects();
-								HashMap<MObject, EObject> hmObjects = new HashMap<MObject, EObject>();
-								HashMap<EClass, List<EObject>> hmEClass = new HashMap<EClass, List<EObject>>();
-								EObject rootEObject = null;
-								for (MObject mObject : mObjects) {
-									MObjectState mObjectState = mObject.state(mSystemState);
-									if (UseUtils.decodeWord(mObject.cls().name()).equals(rootClass.getName())) {
-										List<EObject> objects = null;
-										if (hmEClass.get(rootClass) == null) {
-											objects = new ArrayList<EObject>();
-										}
-										else {
-											objects = hmEClass.get(rootClass);
-										}
-										rootEObject = EcoreUtil.create(rootClass);
-										setAttributes(mObject, rootEObject, mObjectState);
-										objects.add(rootEObject);
-										hmObjects.put(mObject, rootEObject);
-										hmEClass.put(rootClass, objects);
-										break;
+									if (i < numSeedModels) {
+										validator.nextSolution();
 									}
 								}
-								Resource seed = ModelManager.createAndLoadModel(rootEObject, seedPath);
-								Set<MLink> mLinks = mSystemState.allLinks();
-								createObjects(rootEObject, hmEClass, hmObjects, mObjects, mSystemState, packages, seed);
-								List<MLink> tmpMLinks = new ArrayList<MLink>();
-								tmpMLinks.addAll(mLinks);
-								while (mLinks.size() > 0) {
-									int size = mLinks.size();
-									for (MLink mLink : tmpMLinks) {
-										if (completeModel(mLink, hmObjects, packages, seed, mSystemState, hmEClass) == true) {
-											mLinks.remove(mLink);
-										}
-									}
-									if (mLinks.size() == size) {
-										throw new USEImportException(xmiFileName);
-									}
-									tmpMLinks.clear();
-									tmpMLinks.addAll(mLinks);
-								}
-								seed.getContents().clear();
-								seed.getContents().add(rootEObject);
-								ModelManager.saveOutModel(seed, seedPath);
-								progressMonitor.worked(1);
-								validator.nextSolution();
 							}
-							System.out.println("done.");
+							finalize();
+							//System.out.println("done.");
 						} catch (ContainerNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -596,7 +712,10 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 						} catch (IllegalAccessException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						} catch (USEImportException e) {
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (Throwable e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -604,14 +723,30 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 
 				};
 				
-				c.performCommand(null);
+				ExecutorService executor = Executors.newCachedThreadPool();
+				Callable<Object> task = new Callable<Object>() {
+				   public Object call() {
+				      c.performCommand(null);
+				      return null;
+				   }
+				};
+				
+				Future<Object> future = executor.submit(task);
+				try {
+				   Object result = future.get(timeOut, TimeUnit.SECONDS); 
+				} catch (TimeoutException ex) {
+				   // handle the timeout
+				} catch (InterruptedException e) {
+				   // handle the interrupts
+				} catch (ExecutionException e) {
+				   // handle other exceptions
+				} finally {
+				   future.cancel(true); // may or may not desire this
+				}
 
 			} catch (IOException ex) {
 				fLogWriter.println("File '" + useFilename.toAbsolutePath().toString() + "' not found.");
 			} catch (MetaModelNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ModelNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

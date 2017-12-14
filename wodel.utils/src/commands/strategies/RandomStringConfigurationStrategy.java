@@ -1,11 +1,17 @@
 package commands.strategies;
 
-import manager.ModelManager;
+import manager.MutatorUtils;
 
 /**
- * @author Victor Lopez Rivero
- * StringConfigurationStrategy configures the String attributes
+ * @author Pablo Gomez-Abajo
+ * 
+ * RandomStringConfigurationStrategy random string configuration
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class RandomStringConfigurationStrategy extends StringConfigurationStrategy{
 	
 	/**
@@ -14,27 +20,11 @@ public class RandomStringConfigurationStrategy extends StringConfigurationStrate
 	 */
 	public RandomStringConfigurationStrategy(int min, int max, boolean allowsNull){
 		super("");
-		int size = ModelManager.rn.nextInt(max-min)+min;
-		this.value = "";
-		for (int i=0; i<size; i++) {
-			int newchar = ModelManager.rn.nextInt(94)+32;
-			while (!Character.isLetter(newchar)) {
-				newchar = ModelManager.rn.nextInt(94)+32;
-			}
-			this.value = this.value + String.valueOf((char)newchar);
-		}		
+		this.value = MutatorUtils.getRandomString(min, max);
 	}
 
 	public RandomStringConfigurationStrategy(int min, int max, boolean allowsNull, String a2m){
 		super(a2m);
-		int size = ModelManager.rn.nextInt(max-min)+min;
-		this.value = "";
-		for (int i=0; i<size; i++) {
-			int newchar = ModelManager.rn.nextInt(94)+32;
-			while (!Character.isLetter(newchar)) {
-				newchar = ModelManager.rn.nextInt(94)+32;
-			}
-			this.value = this.value + String.valueOf((char)newchar);
-		}		
+		this.value = MutatorUtils.getRandomString(min, max);
 	}
 }

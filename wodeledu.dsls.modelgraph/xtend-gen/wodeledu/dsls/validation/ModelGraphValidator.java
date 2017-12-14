@@ -4,7 +4,7 @@
 package wodeledu.dsls.validation;
 
 import exceptions.MetaModelNotFoundException;
-import java.util.ArrayList;
+import java.util.List;
 import manager.ModelManager;
 import modelgraph.MutatorGraph;
 import org.eclipse.emf.ecore.EPackage;
@@ -21,25 +21,25 @@ import wodeledu.dsls.validation.AbstractModelGraphValidator;
 public class ModelGraphValidator extends AbstractModelGraphValidator {
   public final static String INVALID_METAMODEL = "invalidMetamodel";
   
-  private ArrayList<EPackage> packages;
+  private List<EPackage> packages;
   
   private String lastMetamodel = "";
   
   @Check
-  public ArrayList<EPackage> checkMutatorGraphMetaModel(final MutatorGraph mutatorgraph) {
-    ArrayList<EPackage> _xblockexpression = null;
+  public List<EPackage> checkMutatorGraphMetaModel(final MutatorGraph mutatorgraph) {
+    List<EPackage> _xblockexpression = null;
     {
       String path = mutatorgraph.getMetamodel();
-      ArrayList<EPackage> _xtrycatchfinallyexpression = null;
+      List<EPackage> _xtrycatchfinallyexpression = null;
       try {
-        ArrayList<EPackage> _xifexpression = null;
+        List<EPackage> _xifexpression = null;
         boolean _equals = this.lastMetamodel.equals(path);
         boolean _not = (!_equals);
         if (_not) {
-          ArrayList<EPackage> _xblockexpression_1 = null;
+          List<EPackage> _xblockexpression_1 = null;
           {
             this.lastMetamodel = path;
-            ArrayList<EPackage> _loadMetaModel = ModelManager.loadMetaModel(path);
+            List<EPackage> _loadMetaModel = ModelManager.loadMetaModel(path);
             _xblockexpression_1 = this.packages = _loadMetaModel;
           }
           _xifexpression = _xblockexpression_1;

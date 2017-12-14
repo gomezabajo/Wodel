@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.CloneObjectMutator#isContents <em>Contents</em>}</li>
  *   <li>{@link mutatorenvironment.CloneObjectMutator#getObject <em>Object</em>}</li>
@@ -21,7 +22,6 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link mutatorenvironment.CloneObjectMutator#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link mutatorenvironment.CloneObjectMutator#getReferences <em>References</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getCloneObjectMutator()
  * @model
@@ -41,6 +41,7 @@ public interface CloneObjectMutator extends Mutator {
 	 * @see #setContents(boolean)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getCloneObjectMutator_Contents()
 	 * @model default="false" required="true"
+	 *        annotation="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName body='ListType' unique='false' upper='*'"
 	 * @generated
 	 */
 	boolean isContents();

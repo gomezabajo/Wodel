@@ -17,21 +17,19 @@ Require-Bundle: org.eclipse.core.runtime,
  wodel.models,
  com.google.guava,
  org.eclipse.jdt.core,
- org.eclipse.jdt.launching
+ org.eclipse.jdt.launching,
+ org.eclipse.text
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.emf.codegen.ecore.generator,
+Import-Package: comparison.run,
+ org.eclipse.emf.codegen.ecore.generator,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.ecore.xmi.impl,
- comparation.run
+ org.eclipse.emf.ecore.xmi.impl
 Export-Package: commands,
  commands.selection.strategies,
  commands.strategies,
  exceptions,
- manager,
- metrics,
- mutator,
- use
+ manager
 
 

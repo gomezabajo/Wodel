@@ -110,11 +110,11 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="WodelProject"
+            id="wodel.project.WodelProject"
             name="Wodel">
       </category>
       <wizard
-            category="WodelProject"
+            category="wodel.project.WodelProject"
             class="wizards.WodelWizard"
             icon="icons/wodel4.jpg"
             id="mutatorproject.wizards.WodelWizard"
@@ -122,5 +122,4 @@
             project="true">
       </wizard>
    </extension>
-
 </plugin>

@@ -81,7 +81,7 @@
     <extension
             point="org.eclipse.ui.preferencePages">
         <page
-            class="wodel.dsls.ui.WodelExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            class="wodel.dsls.ui.WodelExecutableExtensionFactory:wodel.dsls.ui.customize.WodelGeneralPreferencePage"
             id="wodel.dsls.Wodel"
             name="Wodel">
             <keywordReference id="wodel.dsls.ui.keyword_Wodel"/>
@@ -98,6 +98,20 @@
             class="wodel.dsls.ui.WodelExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
             id="wodel.dsls.Wodel.templates"
             name="Templates">
+            <keywordReference id="wodel.dsls.ui.keyword_Wodel"/>
+        </page>
+        <page
+            category="wodel.dsls.Wodel"
+            class="wodel.dsls.ui.WodelExecutableExtensionFactory:wodel.dsls.ui.customize.WodelFootprintsPreferencePage"
+            id="wodel.dsls.Wodel.footprints"
+            name="Footprints">
+            <keywordReference id="wodel.dsls.ui.keyword_Wodel"/>
+        </page>
+        <page
+            category="wodel.dsls.Wodel"
+            class="wodel.dsls.ui.WodelExecutableExtensionFactory:wodel.dsls.ui.customize.WodelSeedsPreferencePage"
+            id="wodel.dsls.Wodel.seeds"
+            name="Seed Generation">
             <keywordReference id="wodel.dsls.ui.keyword_Wodel"/>
         </page>
     </extension>

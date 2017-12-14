@@ -77,6 +77,7 @@ import mutatorenvironment.RemoveReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
 import mutatorenvironment.Repeat;
 import mutatorenvironment.ReplaceStringType;
+import mutatorenvironment.RetypeObjectMutator;
 import mutatorenvironment.SampleClause;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SelectSampleMutator;
@@ -91,6 +92,10 @@ import mutatorenvironment.SpecificSelection;
 import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.StringType;
 import mutatorenvironment.UpperStringType;
+
+import mutatorenvironment.miniOCL.MiniOCLPackage;
+
+import mutatorenvironment.miniOCL.impl.MiniOCLPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -686,6 +691,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass retypeObjectMutatorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum logicOperatorEEnum = null;
 
 	/**
@@ -762,11 +774,16 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		isInited = true;
 
+		// Obtain or create and register interdependencies
+		MiniOCLPackageImpl theMiniOCLPackage = (MiniOCLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI) instanceof MiniOCLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI) : MiniOCLPackage.eINSTANCE);
+
 		// Create package meta-data objects
 		theMutatorenvironmentPackage.createPackageContents();
+		theMiniOCLPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMutatorenvironmentPackage.initializePackageContents();
+		theMiniOCLPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMutatorenvironmentPackage.freeze();
@@ -2222,8 +2239,17 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConstraint_Rule() {
-		return (EAttribute)constraintEClass.getEStructuralFeatures().get(2);
+	public EReference getConstraint_Expressions() {
+		return (EReference)constraintEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConstraint_Rules() {
+		return (EAttribute)constraintEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2573,6 +2599,60 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRetypeObjectMutator() {
+		return retypeObjectMutatorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRetypeObjectMutator_Object() {
+		return (EReference)retypeObjectMutatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRetypeObjectMutator_Container() {
+		return (EReference)retypeObjectMutatorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRetypeObjectMutator_RefType() {
+		return (EReference)retypeObjectMutatorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRetypeObjectMutator_Attributes() {
+		return (EReference)retypeObjectMutatorEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRetypeObjectMutator_References() {
+		return (EReference)retypeObjectMutatorEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getLogicOperator() {
 		return logicOperatorEEnum;
 	}
@@ -2866,7 +2946,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		constraintEClass = createEClass(CONSTRAINT);
 		createEAttribute(constraintEClass, CONSTRAINT__ID);
 		createEReference(constraintEClass, CONSTRAINT__TYPE);
-		createEAttribute(constraintEClass, CONSTRAINT__RULE);
+		createEReference(constraintEClass, CONSTRAINT__EXPRESSIONS);
+		createEAttribute(constraintEClass, CONSTRAINT__RULES);
 
 		randomTypeEClass = createEClass(RANDOM_TYPE);
 
@@ -2922,6 +3003,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		referenceRemoveEClass = createEClass(REFERENCE_REMOVE);
 
+		retypeObjectMutatorEClass = createEClass(RETYPE_OBJECT_MUTATOR);
+		createEReference(retypeObjectMutatorEClass, RETYPE_OBJECT_MUTATOR__OBJECT);
+		createEReference(retypeObjectMutatorEClass, RETYPE_OBJECT_MUTATOR__CONTAINER);
+		createEReference(retypeObjectMutatorEClass, RETYPE_OBJECT_MUTATOR__REF_TYPE);
+		createEReference(retypeObjectMutatorEClass, RETYPE_OBJECT_MUTATOR__ATTRIBUTES);
+		createEReference(retypeObjectMutatorEClass, RETYPE_OBJECT_MUTATOR__REFERENCES);
+
 		// Create enums
 		logicOperatorEEnum = createEEnum(LOGIC_OPERATOR);
 		operatorEEnum = createEEnum(OPERATOR);
@@ -2952,6 +3040,12 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		setName(eNAME);
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
+
+		// Obtain other dependent packages
+		MiniOCLPackage theMiniOCLPackage = (MiniOCLPackage)EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI);
+
+		// Add subpackages
+		getESubpackages().add(theMiniOCLPackage);
 
 		// Create type parameters
 
@@ -3027,6 +3121,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		selectSampleMutatorEClass.getESuperTypes().add(this.getMutator());
 		referenceAddEClass.getESuperTypes().add(this.getReferenceSet());
 		referenceRemoveEClass.getESuperTypes().add(this.getReferenceSet());
+		retypeObjectMutatorEClass.getESuperTypes().add(this.getMutator());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutatorEnvironmentEClass, MutatorEnvironment.class, "MutatorEnvironment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3254,7 +3349,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConstraint_Id(), ecorePackage.getEString(), "id", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getConstraint_Type(), ecorePackage.getEClass(), null, "type", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getConstraint_Rule(), ecorePackage.getEString(), "rule", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConstraint_Expressions(), theMiniOCLPackage.getInvariantCS(), null, "expressions", null, 0, -1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getConstraint_Rules(), ecorePackage.getEString(), "rules", null, 0, -1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(randomTypeEClass, RandomType.class, "RandomType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -3310,6 +3406,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 
 		initEClass(referenceRemoveEClass, ReferenceRemove.class, "ReferenceRemove", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(retypeObjectMutatorEClass, RetypeObjectMutator.class, "RetypeObjectMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRetypeObjectMutator_Object(), this.getObSelectionStrategy(), null, "object", null, 0, 1, RetypeObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRetypeObjectMutator_Container(), this.getObSelectionStrategy(), null, "container", null, 0, 1, RetypeObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRetypeObjectMutator_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, 1, RetypeObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRetypeObjectMutator_Attributes(), this.getAttributeSet(), null, "attributes", null, 0, -1, RetypeObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRetypeObjectMutator_References(), this.getReferenceSet(), null, "references", null, 0, -1, RetypeObjectMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(logicOperatorEEnum, LogicOperator.class, "LogicOperator");
 		addEEnumLiteral(logicOperatorEEnum, LogicOperator.AND);
@@ -3341,6 +3444,8 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		// Create annotations
 		// http://www.eclipse.org/OCL/Import
 		createImportAnnotations();
+		// http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName
+		createEmofAnnotations();
 	}
 
 	/**
@@ -3356,6 +3461,32 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		   source, 
 		   new String[] {
 			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createEmofAnnotations() {
+		String source = "http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName";	
+		addAnnotation
+		  (getCloneObjectMutator_Contents(), 
+		   source, 
+		   new String[] {
+			 "body", "ListType",
+			 "unique", "false",
+			 "upper", "*"
+		   });	
+		addAnnotation
+		  (getRandomIntegerNumberType_Min(), 
+		   source, 
+		   new String[] {
+			 "body", "SpecificClosureSelection",
+			 "unique", "false",
+			 "upper", "*"
 		   });
 	}
 

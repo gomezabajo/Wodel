@@ -6,7 +6,7 @@ package wodel.dsls.validation;
 import com.google.common.base.Objects;
 import exceptions.MetaModelNotFoundException;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 import manager.ModelManager;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeReverse;
@@ -34,9 +34,12 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import wodel.dsls.validation.AbstractWodelValidator;
 
 /**
- * Custom validation rules.
+ * @author Pablo Gomez-Abajo - Wodel editor validator.
  * 
- * see http://www.eclipse.org/Xtext/documentation.html#validation
+ * Validates the Wodel code.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
  */
 @SuppressWarnings("all")
 public class WodelValidator extends AbstractWodelValidator {
@@ -60,7 +63,7 @@ public class WodelValidator extends AbstractWodelValidator {
   
   public final static String INVALID_REVERSE = "invalidReverse";
   
-  private ArrayList<EPackage> packages;
+  private List<EPackage> packages;
   
   private String lastMetamodel = "";
   
@@ -113,20 +116,20 @@ public class WodelValidator extends AbstractWodelValidator {
   }
   
   @Check
-  public ArrayList<EPackage> checkProgramMetaModel(final Program p) {
-    ArrayList<EPackage> _xblockexpression = null;
+  public List<EPackage> checkProgramMetaModel(final Program p) {
+    List<EPackage> _xblockexpression = null;
     {
       String path = p.getMetamodel();
-      ArrayList<EPackage> _xtrycatchfinallyexpression = null;
+      List<EPackage> _xtrycatchfinallyexpression = null;
       try {
-        ArrayList<EPackage> _xifexpression = null;
+        List<EPackage> _xifexpression = null;
         boolean _equals = this.lastMetamodel.equals(path);
         boolean _not = (!_equals);
         if (_not) {
-          ArrayList<EPackage> _xblockexpression_1 = null;
+          List<EPackage> _xblockexpression_1 = null;
           {
             this.lastMetamodel = path;
-            ArrayList<EPackage> _loadMetaModel = ModelManager.loadMetaModel(path);
+            List<EPackage> _loadMetaModel = ModelManager.loadMetaModel(path);
             _xblockexpression_1 = this.packages = _loadMetaModel;
           }
           _xifexpression = _xblockexpression_1;
@@ -185,7 +188,6 @@ public class WodelValidator extends AbstractWodelValidator {
           }
         }
         if ((attset instanceof AttributeSwap)) {
-          System.out.println(("SWAP: attset: " + attset));
           EList<EAttribute> _attribute_1 = ((AttributeSwap)attset).getAttribute();
           EAttribute att0 = _attribute_1.get(0);
           EList<EAttribute> _attribute_2 = ((AttributeSwap)attset).getAttribute();
@@ -200,7 +202,6 @@ public class WodelValidator extends AbstractWodelValidator {
           }
         }
         if ((attset instanceof AttributeCopy)) {
-          System.out.println(("COPY: attset: " + attset));
           EList<EAttribute> _attribute_3 = ((AttributeCopy)attset).getAttribute();
           EAttribute att0_1 = _attribute_3.get(0);
           EList<EAttribute> _attribute_4 = ((AttributeCopy)attset).getAttribute();
@@ -266,21 +267,17 @@ public class WodelValidator extends AbstractWodelValidator {
             }
           }
           if ((att_type instanceof DoubleType)) {
+            boolean _and_3 = false;
             EClassifier _eType_9 = att0_2.getEType();
             String _instanceClassName_5 = _eType_9.getInstanceClassName();
-            String _plus = ("DoubleType: " + _instanceClassName_5);
-            System.out.println(_plus);
-            boolean _and_3 = false;
-            EClassifier _eType_10 = att0_2.getEType();
-            String _instanceClassName_6 = _eType_10.getInstanceClassName();
-            boolean _equals_7 = _instanceClassName_6.equals("double");
+            boolean _equals_7 = _instanceClassName_5.equals("double");
             boolean _not_5 = (!_equals_7);
             if (!_not_5) {
               _and_3 = false;
             } else {
-              EClassifier _eType_11 = att0_2.getEType();
-              String _instanceClassName_7 = _eType_11.getInstanceClassName();
-              boolean _equals_8 = _instanceClassName_7.equals("java.lang.Double");
+              EClassifier _eType_10 = att0_2.getEType();
+              String _instanceClassName_6 = _eType_10.getInstanceClassName();
+              boolean _equals_8 = _instanceClassName_6.equals("java.lang.Double");
               boolean _not_6 = (!_equals_8);
               _and_3 = _not_6;
             }
@@ -289,9 +286,9 @@ public class WodelValidator extends AbstractWodelValidator {
             }
           }
           if ((att_type instanceof ListStringType)) {
-            EClassifier _eType_12 = att0_2.getEType();
-            String _instanceClassName_8 = _eType_12.getInstanceClassName();
-            boolean _equals_9 = _instanceClassName_8.equals("java.lang.String");
+            EClassifier _eType_11 = att0_2.getEType();
+            String _instanceClassName_7 = _eType_11.getInstanceClassName();
+            boolean _equals_9 = _instanceClassName_7.equals("java.lang.String");
             boolean _not_7 = (!_equals_9);
             if (_not_7) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);
@@ -335,7 +332,6 @@ public class WodelValidator extends AbstractWodelValidator {
           }
         }
         if ((attset instanceof AttributeSwap)) {
-          System.out.println(("SWAP: attset: " + attset));
           EList<EAttribute> _attribute_1 = ((AttributeSwap)attset).getAttribute();
           EAttribute att0 = _attribute_1.get(0);
           EList<EAttribute> _attribute_2 = ((AttributeSwap)attset).getAttribute();
@@ -350,7 +346,6 @@ public class WodelValidator extends AbstractWodelValidator {
           }
         }
         if ((attset instanceof AttributeCopy)) {
-          System.out.println(("COPY: attset: " + attset));
           EList<EAttribute> _attribute_3 = ((AttributeCopy)attset).getAttribute();
           EAttribute att0_1 = _attribute_3.get(0);
           EList<EAttribute> _attribute_4 = ((AttributeCopy)attset).getAttribute();
@@ -390,7 +385,6 @@ public class WodelValidator extends AbstractWodelValidator {
           if ((att_type instanceof BooleanType)) {
             EClassifier _eType_6 = att0_2.getEType();
             String className = _eType_6.getInstanceClassName();
-            System.out.println(className);
             boolean _and_2 = false;
             EClassifier _eType_7 = att0_2.getEType();
             String _instanceClassName_2 = _eType_7.getInstanceClassName();
@@ -419,21 +413,17 @@ public class WodelValidator extends AbstractWodelValidator {
             }
           }
           if ((att_type instanceof DoubleType)) {
+            boolean _and_3 = false;
             EClassifier _eType_10 = att0_2.getEType();
             String _instanceClassName_5 = _eType_10.getInstanceClassName();
-            String _plus = ("DoubleType: " + _instanceClassName_5);
-            System.out.println(_plus);
-            boolean _and_3 = false;
-            EClassifier _eType_11 = att0_2.getEType();
-            String _instanceClassName_6 = _eType_11.getInstanceClassName();
-            boolean _equals_7 = _instanceClassName_6.equals("double");
+            boolean _equals_7 = _instanceClassName_5.equals("double");
             boolean _not_5 = (!_equals_7);
             if (!_not_5) {
               _and_3 = false;
             } else {
-              EClassifier _eType_12 = att0_2.getEType();
-              String _instanceClassName_7 = _eType_12.getInstanceClassName();
-              boolean _equals_8 = _instanceClassName_7.equals("java.lang.Double");
+              EClassifier _eType_11 = att0_2.getEType();
+              String _instanceClassName_6 = _eType_11.getInstanceClassName();
+              boolean _equals_8 = _instanceClassName_6.equals("java.lang.Double");
               boolean _not_6 = (!_equals_8);
               _and_3 = _not_6;
             }
@@ -442,9 +432,9 @@ public class WodelValidator extends AbstractWodelValidator {
             }
           }
           if ((att_type instanceof ListStringType)) {
-            EClassifier _eType_13 = att0_2.getEType();
-            String _instanceClassName_8 = _eType_13.getInstanceClassName();
-            boolean _equals_9 = _instanceClassName_8.equals("java.lang.String");
+            EClassifier _eType_12 = att0_2.getEType();
+            String _instanceClassName_7 = _eType_12.getInstanceClassName();
+            boolean _equals_9 = _instanceClassName_7.equals("java.lang.String");
             boolean _not_7 = (!_equals_9);
             if (_not_7) {
               this.error("The attributes are not of the same type", null, WodelValidator.INVALID_TYPE);

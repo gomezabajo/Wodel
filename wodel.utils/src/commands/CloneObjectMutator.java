@@ -1,16 +1,15 @@
 package commands;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -23,6 +22,11 @@ import exceptions.AbstractCreationException;
 import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
+
+/**
+ * @author Pablo Gomez-Abajo - Clone object mutation.
+ * 
+ */
 
 public class CloneObjectMutator extends Mutator {
 	/**
@@ -57,8 +61,6 @@ public class CloneObjectMutator extends Mutator {
 	 * If the reference points to an abstract class, we need to specify the name if the new class
 	 */
 	private String objName = null;
-	
-	private String refType = null;
 
 	/**
 	 * @param model
@@ -68,7 +70,7 @@ public class CloneObjectMutator extends Mutator {
 	 * @param attributeConfig
 	 * Normal constructor
 	 */
-	public CloneObjectMutator(Resource model, ArrayList<EPackage> metaModel, EObject object, boolean contents,
+	public CloneObjectMutator(Resource model, List<EPackage> metaModel, EObject object, boolean contents,
 			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig){
 		super(model, metaModel, "ObjectCreated");
 		this.object = object;
@@ -87,7 +89,7 @@ public class CloneObjectMutator extends Mutator {
 	 * @param inheritedName
 	 * Constructor that specifies the class name
 	 */
-	public CloneObjectMutator(Resource model, ArrayList<EPackage> metaModel, EObject object, boolean contents, ObSelectionStrategy referenceSelection, 
+	public CloneObjectMutator(Resource model, List<EPackage> metaModel, EObject object, boolean contents, ObSelectionStrategy referenceSelection, 
 			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, String objName){
 		super(model, metaModel, "ObjectCreated");
 		this.object = object;
@@ -107,7 +109,7 @@ public class CloneObjectMutator extends Mutator {
 	 * @param inheritedName
 	 * Constructor that specifies the class name
 	 */
-	public CloneObjectMutator(Resource model, ArrayList<EPackage> metaModel, EObject object, boolean contents, ObSelectionStrategy referenceSelection, 
+	public CloneObjectMutator(Resource model, List<EPackage> metaModel, EObject object, boolean contents, ObSelectionStrategy referenceSelection, 
 			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig, String objName){
 		super(model, metaModel, "ObjectCreated");
 		this.object = object;
@@ -119,28 +121,6 @@ public class CloneObjectMutator extends Mutator {
 		this.objName = objName;
 	}
 	
-	/**
-	 * @param model
-	 * @param metaModel
-	 * @param referenceSelection
-	 * @param containerSelection
-	 * @param attributeConfig
-	 * @param inheritedName
-	 * Constructor that specifies the class name
-	 */
-	public CloneObjectMutator(Resource model, ArrayList<EPackage> metaModel, EObject object, boolean contents, ObSelectionStrategy referenceSelection, 
-			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig, String objName, String refType){
-		super(model, metaModel, "ObjectCreated");
-		this.object = object;
-		this.contents = contents;
-		this.referenceSelection = referenceSelection;
-		this.containerSelection = containerSelection;
-		this.attributeConfig = attributeConfig;
-		this.referenceConfig = referenceConfig;
-		this.objName = objName;
-		this.refType = refType;
-	}
-
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
@@ -164,7 +144,16 @@ public class CloneObjectMutator extends Mutator {
 		//If there is not a selected reference we choose a random one
 		if(reference == null && objName != null){
 			ArrayList<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
-			reference = refs.get(ModelManager.getRandomIndex(refs));
+			Collections.shuffle(refs);
+			for (EReference ref : refs) {
+				if (ref.getEType().getName().equals(objName)) {
+					reference = ref;
+					break;
+				}
+			}
+			if (reference == null) {
+				reference = refs.get(ModelManager.getRandomIndex(refs));
+			}
 		}
 
 		
@@ -178,9 +167,7 @@ public class CloneObjectMutator extends Mutator {
 			}
 		}
 
-		boolean sup = false;
 		if(!reference.getEType().getName().equals(newObj.eClass().getName())){
-			
 			/*for (EClass c : newObj.eClass().getEAllSuperTypes()){
 				if(reference.getEType().getName().equals(c.getName())){
 					sup=true;
@@ -193,16 +180,16 @@ public class CloneObjectMutator extends Mutator {
 		}
 		
 		//Attributes configuration
-		Iterator it = this.attributeConfig.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, AttributeConfigurationStrategy> e = (Map.Entry<String, AttributeConfigurationStrategy>)it.next();			
+		Iterator<Entry<String, AttributeConfigurationStrategy>> att = this.attributeConfig.entrySet().iterator();
+		while (att.hasNext()) {
+			Map.Entry<String, AttributeConfigurationStrategy> e = att.next();			
 			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
 		}
 		
 		//Reference configuration
-		it = this.referenceConfig.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)it.next();
+		Iterator<Entry<String, ObSelectionStrategy>> ref = this.referenceConfig.entrySet().iterator();
+		while (ref.hasNext()) {
+			Map.Entry<String, ObSelectionStrategy> e = ref.next();
 			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
 				ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
 			}
@@ -232,12 +219,7 @@ public class CloneObjectMutator extends Mutator {
 				result=null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
-			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
-				container.eSet(reference, newObj);
-			}
-			else {
-				container.eSet(reference, obj);
-			}
+			container.eSet(reference, newObj);
 			this.result = newObj;
 		}
 		

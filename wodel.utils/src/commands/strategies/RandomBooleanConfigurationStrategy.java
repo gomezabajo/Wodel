@@ -8,10 +8,6 @@ import manager.ModelManager;
  */
 public class RandomBooleanConfigurationStrategy extends BooleanConfigurationStrategy {
 	
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	public RandomBooleanConfigurationStrategy(){
 		super("");
 		this.value = ModelManager.rn.nextBoolean();

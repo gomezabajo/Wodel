@@ -1,9 +1,10 @@
 package wodel.metrics.fixed.wizards;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import manager.ModelManager;
-import mutator.MutatorUtils;
+import manager.MutatorUtils;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -23,6 +24,11 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+
+/**
+ * @author Pablo Gomez-Abajo - Wodel meta-model static footprints creation class wizard page
+ * 
+ */
 
 public class WodelMetricsFixedWizardCreationClassPage extends WizardPage {
 	
@@ -46,16 +52,16 @@ public class WodelMetricsFixedWizardCreationClassPage extends WizardPage {
 	
 	public String feature = null;
 	
-	private ArrayList<EPackage> mutatorPackages = null;
+	private List<EPackage> mutatorPackages = null;
 	
-	private ArrayList<EPackage> packages = null;
+	private List<EPackage> packages = null;
 	
 	private Combo blockCombo = null;
 	private Combo mainCombo = null;
 	private Combo subCombo = null;
 	private Combo featuresCombo = null;
 	
-	public WodelMetricsFixedWizardCreationClassPage(ISelection selection, ArrayList<EPackage> mutatorPackages, Resource model, ArrayList<EPackage> packages, String className) {
+	public WodelMetricsFixedWizardCreationClassPage(ISelection selection, List<EPackage> mutatorPackages, Resource model, List<EPackage> packages, String className) {
 		super("wizardMetricsFixedCreationClassPage");
 		setTitle("Wodel Mutation Creation Tool");
 		setDescription("Wodel Mutation Creation Tool");

@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ReplaceStringTypeImpl#getOldstring <em>Oldstring</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ReplaceStringTypeImpl#getNewstring <em>Newstring</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.RandomNumberTypeImpl#getObject <em>Object</em>}</li>
  *   <li>{@link mutatorenvironment.impl.RandomNumberTypeImpl#getMax <em>Max</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

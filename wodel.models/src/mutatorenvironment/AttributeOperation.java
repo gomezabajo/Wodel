@@ -10,11 +10,11 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.AttributeOperation#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.AttributeOperation#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getAttributeOperation()
  * @model

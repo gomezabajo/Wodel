@@ -47,7 +47,7 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -709,6 +709,14 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				ReferenceRemove referenceRemove = (ReferenceRemove)theEObject;
 				T result = caseReferenceRemove(referenceRemove);
 				if (result == null) result = caseReferenceSet(referenceRemove);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.RETYPE_OBJECT_MUTATOR: {
+				RetypeObjectMutator retypeObjectMutator = (RetypeObjectMutator)theEObject;
+				T result = caseRetypeObjectMutator(retypeObjectMutator);
+				if (result == null) result = caseMutator(retypeObjectMutator);
+				if (result == null) result = caseObjectEmitter(retypeObjectMutator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1943,6 +1951,21 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseReferenceRemove(ReferenceRemove object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Retype Object Mutator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Retype Object Mutator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRetypeObjectMutator(RetypeObjectMutator object) {
 		return null;
 	}
 

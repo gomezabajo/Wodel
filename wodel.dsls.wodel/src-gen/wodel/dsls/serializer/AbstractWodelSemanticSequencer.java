@@ -57,6 +57,7 @@ import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RemoveRandomReferenceMutator;
 import mutatorenvironment.RemoveSpecificReferenceMutator;
 import mutatorenvironment.ReplaceStringType;
+import mutatorenvironment.RetypeObjectMutator;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SelectSampleMutator;
 import mutatorenvironment.Source;
@@ -67,6 +68,28 @@ import mutatorenvironment.SpecificIntegerType;
 import mutatorenvironment.SpecificObjectSelection;
 import mutatorenvironment.SpecificStringType;
 import mutatorenvironment.UpperStringType;
+import mutatorenvironment.miniOCL.AccVarCS;
+import mutatorenvironment.miniOCL.BooleanExpCS;
+import mutatorenvironment.miniOCL.CallExpCS;
+import mutatorenvironment.miniOCL.CollectExpCS;
+import mutatorenvironment.miniOCL.ExistsExpCS;
+import mutatorenvironment.miniOCL.ForAllExpCS;
+import mutatorenvironment.miniOCL.IntLiteralExpCS;
+import mutatorenvironment.miniOCL.InvariantCS;
+import mutatorenvironment.miniOCL.IterateExpCS;
+import mutatorenvironment.miniOCL.IteratorVarCS;
+import mutatorenvironment.miniOCL.LogicExpCS;
+import mutatorenvironment.miniOCL.MiniOCLPackage;
+import mutatorenvironment.miniOCL.NameExpCS;
+import mutatorenvironment.miniOCL.NavigationNameExpCS;
+import mutatorenvironment.miniOCL.NavigationPathElementCS;
+import mutatorenvironment.miniOCL.NavigationPathNameCS;
+import mutatorenvironment.miniOCL.NavigationPathVariableCS;
+import mutatorenvironment.miniOCL.PathElementCS;
+import mutatorenvironment.miniOCL.PathNameCS;
+import mutatorenvironment.miniOCL.PathVariableCS;
+import mutatorenvironment.miniOCL.RoundedBracketClauseCS;
+import mutatorenvironment.miniOCL.StringLiteralExpCS;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
@@ -88,7 +111,72 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	@Override
 	public void createSequence(EObject context, EObject semanticObject) {
-		if(semanticObject.eClass().getEPackage() == MutatorenvironmentPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+		if(semanticObject.eClass().getEPackage() == MiniOCLPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+			case MiniOCLPackage.ACC_VAR_CS:
+				sequence_AccVarCS(context, (AccVarCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.BOOLEAN_EXP_CS:
+				sequence_BooleanLiteralExpCS(context, (BooleanExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.CALL_EXP_CS:
+				sequence_CallExpCS(context, (CallExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.COLLECT_EXP_CS:
+				sequence_CollectExpCS(context, (CollectExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.EXISTS_EXP_CS:
+				sequence_ExistsExpCS(context, (ExistsExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.FOR_ALL_EXP_CS:
+				sequence_ForAllExpCS(context, (ForAllExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.INT_LITERAL_EXP_CS:
+				sequence_IntLiteralExpCS(context, (IntLiteralExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.INVARIANT_CS:
+				sequence_InvariantCS(context, (InvariantCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.ITERATE_EXP_CS:
+				sequence_IterateExpCS(context, (IterateExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.ITERATOR_VAR_CS:
+				sequence_IteratorVarCS(context, (IteratorVarCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.LOGIC_EXP_CS:
+				sequence_LogicExpCS(context, (LogicExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.NAME_EXP_CS:
+				sequence_NameExpCS(context, (NameExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.NAVIGATION_NAME_EXP_CS:
+				sequence_NavigationNameExpCS(context, (NavigationNameExpCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.NAVIGATION_PATH_ELEMENT_CS:
+				sequence_NavigationPathElementCS(context, (NavigationPathElementCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.NAVIGATION_PATH_NAME_CS:
+				sequence_NavigationPathNameCS(context, (NavigationPathNameCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.NAVIGATION_PATH_VARIABLE_CS:
+				sequence_NavigationPathVariableCS(context, (NavigationPathVariableCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.PATH_ELEMENT_CS:
+				sequence_PathElementCS(context, (PathElementCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.PATH_NAME_CS:
+				sequence_PathNameCS(context, (PathNameCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.PATH_VARIABLE_CS:
+				sequence_PathVariableCS(context, (PathVariableCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.ROUNDED_BRACKET_CLAUSE_CS:
+				sequence_RoundedBracketClauseCS(context, (RoundedBracketClauseCS) semanticObject); 
+				return; 
+			case MiniOCLPackage.STRING_LITERAL_EXP_CS:
+				sequence_StringLiteralExpCS(context, (StringLiteralExpCS) semanticObject); 
+				return; 
+			}
+		else if(semanticObject.eClass().getEPackage() == MutatorenvironmentPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
 			case MutatorenvironmentPackage.ATTRIBUTE_COPY:
 				sequence_AttributeCopy(context, (AttributeCopy) semanticObject); 
 				return; 
@@ -242,6 +330,9 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			case MutatorenvironmentPackage.REPLACE_STRING_TYPE:
 				sequence_ReplaceStringType(context, (ReplaceStringType) semanticObject); 
 				return; 
+			case MutatorenvironmentPackage.RETYPE_OBJECT_MUTATOR:
+				sequence_RetypeObjectMutator(context, (RetypeObjectMutator) semanticObject); 
+				return; 
 			case MutatorenvironmentPackage.SELECT_OBJECT_MUTATOR:
 				sequence_SelectObjectMutator(context, (SelectObjectMutator) semanticObject); 
 				return; 
@@ -275,6 +366,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 			}
 		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
+	
+	/**
+	 * Constraint:
+	 *     (accVarName=ID accType=PathNameCS? accInitExp=ExpCS?)
+	 */
+	protected void sequence_AccVarCS(EObject context, AccVarCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
 	
 	/**
 	 * Constraint:
@@ -383,6 +483,24 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (boolSymbol?='true'?)
+	 */
+	protected void sequence_BooleanLiteralExpCS(EObject context, BooleanExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (source=CallExpCS_CallExpCS_1_0 (op='.' | op='->') navExp=NavigationExpCS)
+	 */
+	protected void sequence_CallExpCS(EObject context, CallExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (operator=Operator value=EString)
 	 */
 	protected void sequence_CatEndStringType(EObject context, CatEndStringType semanticObject) {
@@ -437,6 +555,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (itVar=IteratorVarCS? exp+=ExpCS ((logicOp+='or' | logicOp+='and') exp+=ExpCS)*)
+	 */
+	protected void sequence_CollectExpCS(EObject context, CollectExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (type=[EClass|ID] refType=[EReference|ID]? expression=Expression?)
 	 */
 	protected void sequence_CompleteTypeSelection(EObject context, CompleteTypeSelection semanticObject) {
@@ -455,23 +582,10 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
-	 *     (type=[EClass|ID] id=EString rule=EString)
+	 *     (type=[EClass|ID] id=EString (expressions+=InvariantCS+ | rules+=EString+))
 	 */
 	protected void sequence_Constraint(EObject context, Constraint semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__ID) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__ID));
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__TYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__TYPE));
-			if(transientValues.isValueTransient(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__RULE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MutatorenvironmentPackage.Literals.CONSTRAINT__RULE));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getConstraintAccess().getTypeEClassIDTerminalRuleCall_1_0_1(), semanticObject.getType());
-		feeder.accept(grammarAccess.getConstraintAccess().getIdEStringParserRuleCall_2_0(), semanticObject.getId());
-		feeder.accept(grammarAccess.getConstraintAccess().getRuleEStringParserRuleCall_4_0(), semanticObject.getRule());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -501,9 +615,70 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (accVars+=AccVarCS accVars+=AccVarCS* exp+=ExpCS ((logicOp+='or' | logicOp+='and') exp+=ExpCS)*)
+	 */
+	protected void sequence_ExistsExpCS(EObject context, ExistsExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (first=Evaluation (operator+=BinaryOperator second+=Evaluation)*)
 	 */
 	protected void sequence_Expression(EObject context, Expression semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (accVars+=AccVarCS accVars+=AccVarCS* exp+=ExpCS ((logicOp+='or' | logicOp+='and') exp+=ExpCS)*)
+	 */
+	protected void sequence_ForAllExpCS(EObject context, ForAllExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     intSymbol=INT
+	 */
+	protected void sequence_IntLiteralExpCS(EObject context, IntLiteralExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     exp=ExpCS
+	 */
+	protected void sequence_InvariantCS(EObject context, InvariantCS semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MiniOCLPackage.Literals.INVARIANT_CS__EXP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MiniOCLPackage.Literals.INVARIANT_CS__EXP));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getInvariantCSAccess().getExpExpCSParserRuleCall_0_0(), semanticObject.getExp());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (itVar=IteratorVarCS accVar=AccVarCS exp+=ExpCS ((logicOp+='or' | logicOp+='and') exp+=ExpCS)*)
+	 */
+	protected void sequence_IterateExpCS(EObject context, IterateExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (itName=ID itType=PathNameCS?)
+	 */
+	protected void sequence_IteratorVarCS(EObject context, IteratorVarCS semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -555,6 +730,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
 		feeder.accept(grammarAccess.getLoadAccess().getFileEStringParserRuleCall_2_0(), semanticObject.getFile());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (left=LogicExpCS_LogicExpCS_1_0 (op='=' | op='<>') right=CallExpCS)
+	 */
+	protected void sequence_LogicExpCS(EObject context, LogicExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -653,6 +837,65 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (expName=PathNameCS roundedBrackets=RoundedBracketClauseCS? callExp=CallExpCS?)
+	 */
+	protected void sequence_NameExpCS(EObject context, NameExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (expName=NavigationPathNameCS roundedBrackets=RoundedBracketClauseCS? callExp=CallExpCS?)
+	 */
+	protected void sequence_NavigationNameExpCS(EObject context, NavigationNameExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     pathName=[EStructuralFeature|ID]
+	 */
+	protected void sequence_NavigationPathElementCS(EObject context, NavigationPathElementCS semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MiniOCLPackage.Literals.NAVIGATION_PATH_ELEMENT_CS__PATH_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MiniOCLPackage.Literals.NAVIGATION_PATH_ELEMENT_CS__PATH_NAME));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getNavigationPathElementCSAccess().getPathNameEStructuralFeatureIDTerminalRuleCall_0_1(), semanticObject.getPathName());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (path+=NavigationPathCS path+=NavigationPathCS*)
+	 */
+	protected void sequence_NavigationPathNameCS(EObject context, NavigationPathNameCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     varName=EString
+	 */
+	protected void sequence_NavigationPathVariableCS(EObject context, NavigationPathVariableCS semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MiniOCLPackage.Literals.NAVIGATION_PATH_VARIABLE_CS__VAR_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MiniOCLPackage.Literals.NAVIGATION_PATH_VARIABLE_CS__VAR_NAME));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getNavigationPathVariableCSAccess().getVarNameEStringParserRuleCall_1_0(), semanticObject.getVarName());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (operator=Operator objSel=[ObjectEmitter|ID] attribute=[EAttribute|ID])
 	 */
 	protected void sequence_ObjectAttributeType(EObject context, ObjectAttributeType semanticObject) {
@@ -679,6 +922,47 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	 */
 	protected void sequence_OtherTypeSelection(EObject context, OtherTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     pathName=[EStructuralFeature|ID]
+	 */
+	protected void sequence_PathElementCS(EObject context, PathElementCS semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MiniOCLPackage.Literals.PATH_ELEMENT_CS__PATH_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MiniOCLPackage.Literals.PATH_ELEMENT_CS__PATH_NAME));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getPathElementCSAccess().getPathNameEStructuralFeatureIDTerminalRuleCall_0_1(), semanticObject.getPathName());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (path+=PathCS path+=PathCS*)
+	 */
+	protected void sequence_PathNameCS(EObject context, PathNameCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     varName=EString
+	 */
+	protected void sequence_PathVariableCS(EObject context, PathVariableCS semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MiniOCLPackage.Literals.PATH_VARIABLE_CS__VAR_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MiniOCLPackage.Literals.PATH_VARIABLE_CS__VAR_NAME));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getPathVariableCSAccess().getVarNameEStringParserRuleCall_1_0(), semanticObject.getVarName());
+		feeder.finish();
 	}
 	
 	
@@ -884,6 +1168,31 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 	
 	/**
 	 * Constraint:
+	 *     (
+	 *         name=ID? 
+	 *         object=ObSelectionStrategy 
+	 *         container=ObSelectionStrategy? 
+	 *         type=[EClass|ID] 
+	 *         ((attributes+=AttributeSet | references+=ReferenceSet)? (attributes+=AttributeSet | references+=ReferenceSet)*)? 
+	 *         (min=EInt? max=MaxCardinality)?
+	 *     )
+	 */
+	protected void sequence_RetypeObjectMutator(EObject context, RetypeObjectMutator semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     ((args+=ExpCS args+=ExpCS*)?)
+	 */
+	protected void sequence_RoundedBracketClauseCS(EObject context, RoundedBracketClauseCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (name=ID object=ObSelectionStrategy container=ObSelectionStrategy?)
 	 */
 	protected void sequence_SelectObjectMutator(EObject context, SelectObjectMutator semanticObject) {
@@ -1007,6 +1316,15 @@ public abstract class AbstractWodelSemanticSequencer extends AbstractDelegatingS
 		feeder.accept(grammarAccess.getSpecificStringTypeAccess().getOperatorOperatorEnumRuleCall_1_0(), semanticObject.getOperator());
 		feeder.accept(grammarAccess.getSpecificStringTypeAccess().getValueSTRINGTerminalRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     stringSymbol=STRING
+	 */
+	protected void sequence_StringLiteralExpCS(EObject context, StringLiteralExpCS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

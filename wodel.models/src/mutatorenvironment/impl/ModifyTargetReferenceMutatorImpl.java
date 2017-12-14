@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ModifyTargetReferenceMutatorImpl#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ModifyTargetReferenceMutatorImpl#getSource <em>Source</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ModifyTargetReferenceMutatorImpl#getNewTarget <em>New Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

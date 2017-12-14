@@ -10,11 +10,11 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RemoveObjectMutator#getObject <em>Object</em>}</li>
  *   <li>{@link mutatorenvironment.RemoveObjectMutator#getContainer <em>Container</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRemoveObjectMutator()
  * @model

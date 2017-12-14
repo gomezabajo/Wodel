@@ -1,17 +1,21 @@
 package commands.selection;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import commands.selection.strategies.ObSelectionStrategy;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * ObjectNavigator navigates through the pointed objects by a reference (in both ways)
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public abstract class ObjectNavigator extends ObSelectionStrategy{
 	
@@ -31,7 +35,7 @@ public abstract class ObjectNavigator extends ObSelectionStrategy{
 	 * @param object
 	 * Normal constructor
 	 */
-	public ObjectNavigator(ArrayList<EPackage> metaModel, Resource model, String reference, EObject object) {
+	public ObjectNavigator(List<EPackage> metaModel, Resource model, String reference, EObject object) {
 		super(metaModel, model);
 		this.reference = reference;
 		this.object = object;

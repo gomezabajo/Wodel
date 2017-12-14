@@ -181,6 +181,13 @@ public class AppliedMutationsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AppliedMutationsPackage.OBJECT_RETYPED: {
+				ObjectRetyped objectRetyped = (ObjectRetyped)theEObject;
+				T result = caseObjectRetyped(objectRetyped);
+				if (result == null) result = caseAppMutation(objectRetyped);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -422,6 +429,21 @@ public class AppliedMutationsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseObjectCloned(ObjectCloned object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Object Retyped</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Object Retyped</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseObjectRetyped(ObjectRetyped object) {
 		return null;
 	}
 

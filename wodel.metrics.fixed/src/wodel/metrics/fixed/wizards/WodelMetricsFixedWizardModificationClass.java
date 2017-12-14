@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import manager.ModelManager;
-import mutator.MutatorUtils;
+import manager.MutatorUtils;
 import manager.WodelContext;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeScalar;
@@ -55,6 +55,11 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import exceptions.ReferenceNonExistingException;
 
+/**
+ * @author Pablo Gomez-Abajo - Wodel meta-model static footprints modification class wizard
+ * 
+ */
+
 public class WodelMetricsFixedWizardModificationClass extends Wizard implements INewWizard {
 	
 	private ISelection selection;
@@ -72,9 +77,9 @@ public class WodelMetricsFixedWizardModificationClass extends Wizard implements 
 	
 	private static final String OUTPUT = ModelManager.getOutputPath();
 	
-	private static ArrayList<EPackage> mutatorPackages = null;
+	private static List<EPackage> mutatorPackages = null;
 	
-	private static ArrayList<EPackage> packages = null;
+	private static List<EPackage> packages = null;
 	
 	private static Resource model = null;
 	

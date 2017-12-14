@@ -5,6 +5,8 @@ import java.util.List;
 
 import manager.ModelManager;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -15,9 +17,16 @@ import commands.selection.strategies.ObSelectionStrategy;
 import exceptions.ReferenceNonExistingException;
 
 /**
- * @author Victor Lopez Rivero RemoveObjectMutator removes objects from the
- *         diagram
+ * @author Pablo Gomez-Abajo
+ * 
+ * RemoveObjectMutator removes objects from the
+ * diagram
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class RemoveObjectMutator extends Mutator {
 
 	/**
@@ -49,17 +58,33 @@ public class RemoveObjectMutator extends Mutator {
 	private EObject saved;
 	
 	/**
+	 * Identification
+	 */
+	private String identification;
+	
+	/**
+	 * URI
+	 */
+	private URI uri;
+	
+	/**
+	 * Type of the removed object 
+	 */
+	private EClass eType;
+	
+	/**
 	 * @param model
 	 * @param metaModel
 	 * @param objSelection
 	 *            Normal constructor
 	 */
-	public RemoveObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+	public RemoveObjectMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy objSelection, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(model, metaModel, "ObjectRemoved");
 		this.objSelection = objSelection;
 		this.referenceSelection = referenceSelection;
 		this.containerSelection = containerSelection;
+		this.identification = "";
 	}
 	
 	/**
@@ -68,12 +93,13 @@ public class RemoveObjectMutator extends Mutator {
 	 * @param objSelection
 	 *            Normal constructor
 	 */
-	public RemoveObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+	public RemoveObjectMutator(Resource model, List<EPackage> metaModel,
 			EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(model, metaModel, "ObjectRemoved");
 		this.obj = obj;
 		this.referenceSelection = referenceSelection;
 		this.containerSelection = containerSelection;
+		this.identification = "";
 	}
 
 	/**
@@ -82,10 +108,11 @@ public class RemoveObjectMutator extends Mutator {
 	 * @param objSelection
 	 *            Normal constructor
 	 */
-	public RemoveObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+	public RemoveObjectMutator(Resource model, List<EPackage> metaModel,
 			EObject obj) {
 		super(model, metaModel, "ObjectRemoved");
 		this.obj = obj;
+		this.identification = "";
 	}
 
 	@Override
@@ -121,6 +148,9 @@ public class RemoveObjectMutator extends Mutator {
 		}
 		
 		saved = EcoreUtil.copy(deletedObj);
+		identification = EcoreUtil.getIdentification(deletedObj);
+		uri = EcoreUtil.getURI(deletedObj);
+		eType = deletedObj.eClass();
 		
 		if ((container == null) && (reference == null)) {
 			EcoreUtil.remove(deletedObj);
@@ -176,7 +206,7 @@ public class RemoveObjectMutator extends Mutator {
 			else {
 				EObject obj = (EObject) container.eGet(reference);
 				if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(deletedObj))) {
-					ModelManager.unsetReference(reference.getName(), obj);
+					ModelManager.unsetReference(reference.getName(), container);
 				}
 			}
 		}
@@ -187,7 +217,19 @@ public class RemoveObjectMutator extends Mutator {
 
 	// GETTERS AND SETTERS
 	public EObject getObject() {
-		return saved;
+		return result;
 	}
 	// END GETTERS AND SETTERS
+	
+	public EObject getObjectByID() {
+		return ModelManager.getObjectByID(this.getModel(), identification);
+	}
+
+	public EObject getObjectByURI() {
+		return ModelManager.getObjectByURI(this.getModel(), uri);
+	}
+	
+	public EClass getEType() {
+		return eType;
+	}
 }

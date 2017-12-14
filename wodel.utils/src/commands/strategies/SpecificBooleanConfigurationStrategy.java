@@ -1,15 +1,17 @@
 package commands.strategies;
 
 /**
- * @author Victor Lopez Rivero
- * BooleanConfigurationStrategy configures the boolean attributes
+ * @author Pablo Gomez-Abajo
+ * 
+ * SpecificBooleanConfigurationStrategy specific boolean configuration
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class SpecificBooleanConfigurationStrategy extends BooleanConfigurationStrategy {
 	
-/**
-	 * @param value
-	 * Normal constructor
-	 */
 	public SpecificBooleanConfigurationStrategy(boolean value){
 		super("");
 		this.value = value;		

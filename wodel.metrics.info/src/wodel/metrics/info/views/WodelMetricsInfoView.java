@@ -10,18 +10,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import manager.ModelManager;
-import mutator.MutatorInfo;
-import mutator.MutatorInfo.MutatorInfoFeature;
-import mutator.MutatorInfo.MutatorInfoMutant;
-import mutator.MutatorInfo.MutatorInfoSeed;
-import mutator.MutatorUtils;
+import manager.MutatorUtils;
 import manager.WodelContext;
-import mutator.MutatorInfo.MutatorInfoClass;
 import mutatorenvironment.MutatorEnvironment;
+import wodel.metrics.info.MutatorInfo;
+import wodel.metrics.info.MutatorInfo.MutatorInfoClass;
+import wodel.metrics.info.MutatorInfo.MutatorInfoFeature;
+import wodel.metrics.info.MutatorInfo.MutatorInfoMutant;
+import wodel.metrics.info.MutatorInfo.MutatorInfoSeed;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.*;
@@ -43,21 +44,8 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+ * @author Pablo Gomez-Abajo - Wodel applied mutations information view
+ * 
  */
 
 public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedListener, IEditorActionDelegate {
@@ -95,46 +83,53 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
 
 	public void createPartControl(Composite parent) {
 		try {
-		WodelContext.setProject(null);
-		String output = ModelManager.getOutputPath();
-		String metamodel = ModelManager.getMetaModel();
-		String xmiFileName = "file:/" + output +  "/" + manager.WodelContext.getProject() + ".model";
-		metrics = new ArrayList<MutatorInfoClass>();
-		metrics.addAll(Arrays.asList(MutatorInfo.createMutatorInfoMetrics(xmiFileName, metamodel)));
-		
-		Bundle bundle = Platform.getBundle("wodel.models");
-   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
-   		String mutatorecore = FileLocator.resolve(fileURL).getFile();
-   		ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
-		Resource program = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-		String path = ModelManager.getWorkspaceAbsolutePath() + '/' + manager.WodelContext.getProject();
-		numberOfSeedModels = MutatorUtils.getNumberOfSeedModels((MutatorEnvironment) ModelManager.getRoot(program), path);
-
-		Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.FULL_SELECTION);
-		addressTree.setHeaderVisible(true);
-		addressTree.setLinesVisible(true);
-		addressTree.addListener(SWT.MouseDoubleClick, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
+			WodelContext.setProject(null);
+			String output = ModelManager.getOutputPath();
+			String metamodel = ModelManager.getMetaModel();
+			String fileName = manager.WodelContext.getFileName();
+			if (fileName.endsWith(".mutator") == false) {
+				MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+				msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
+				msgbox.open();
+				return;
 			}
-		});
-		m_treeViewer = new TreeViewer(addressTree);
-		TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
-		column1.setAlignment(SWT.LEFT);
-		column1.setText("Operator/Seed");
-		column1.setWidth(300);
-		TreeColumn column2 = new TreeColumn(addressTree, SWT.RIGHT | SWT.FULL_SELECTION);
-		column2.setAlignment(SWT.LEFT);
-		column2.setText("Mutants");
-		column2.setWidth(300);
+			String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");
+			metrics = new ArrayList<MutatorInfoClass>();
+			metrics.addAll(Arrays.asList(MutatorInfo.createMutatorInfoMetrics(xmiFileName, metamodel)));
 
-		m_treeViewer.setContentProvider(new WodelMetricsContentProvider());
-		m_treeViewer.setLabelProvider(new TableLabelProvider());
-		m_treeViewer.setInput(metrics);
-		m_treeViewer.collapseAll();
-		createActions(new File(metamodel));
-		//m_treeViewer.expandAll();
+			Bundle bundle = Platform.getBundle("wodel.models");
+			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+			String mutatorecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+			Resource program = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
+			String path = ModelManager.getWorkspaceAbsolutePath() + '/' + manager.WodelContext.getProject();
+			numberOfSeedModels = MutatorUtils.getNumberOfSeedModels((MutatorEnvironment) ModelManager.getRoot(program), path);
+
+			Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
+					| SWT.V_SCROLL | SWT.FULL_SELECTION);
+			addressTree.setHeaderVisible(true);
+			addressTree.setLinesVisible(true);
+			addressTree.addListener(SWT.MouseDoubleClick, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+				}
+			});
+			m_treeViewer = new TreeViewer(addressTree);
+			TreeColumn column1 = new TreeColumn(addressTree, SWT.LEFT);
+			column1.setAlignment(SWT.LEFT);
+			column1.setText("Operator/Seed");
+			column1.setWidth(300);
+			TreeColumn column2 = new TreeColumn(addressTree, SWT.RIGHT | SWT.FULL_SELECTION);
+			column2.setAlignment(SWT.LEFT);
+			column2.setText("Mutants");
+			column2.setWidth(300);
+
+			m_treeViewer.setContentProvider(new WodelMetricsContentProvider());
+			m_treeViewer.setLabelProvider(new TableLabelProvider());
+			m_treeViewer.setInput(metrics);
+			m_treeViewer.collapseAll();
+			createActions(new File(metamodel));
+			//m_treeViewer.expandAll();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,7 +143,9 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
 	}
 
 	public void setFocus() {
-		m_treeViewer.getControl().setFocus();
+		if (m_treeViewer.getControl() != null) {
+			m_treeViewer.getControl().setFocus();
+		}
 	}
 	
 	public void createActions(File file) {
@@ -246,7 +243,6 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
     private ImageDescriptor getImageDescriptor(String relativePath) {
     	String iconPath = "icons/";
         try {
-        	@SuppressWarnings("restriction")
         	Bundle bundle = Platform.getBundle("wodel.metrics.info");
         	URL installURL = bundle.getEntry("/");
 			URL url = new URL(installURL, iconPath + relativePath);

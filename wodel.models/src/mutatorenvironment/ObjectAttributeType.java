@@ -11,12 +11,12 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.ObjectAttributeType#getObjSel <em>Obj Sel</em>}</li>
  *   <li>{@link mutatorenvironment.ObjectAttributeType#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link mutatorenvironment.ObjectAttributeType#getOperator <em>Operator</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getObjectAttributeType()
  * @model

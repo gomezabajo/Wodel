@@ -8,19 +8,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import metrics.DebugMutatorMetrics;
+import wodel.metrics.debug.DebugMutatorMetrics;
 import manager.ModelManager;
 import manager.WodelContext;
-import metrics.DebugMutatorMetrics.WodelMetricAttribute;
-import metrics.DebugMutatorMetrics.WodelMetricBlock;
-import metrics.DebugMutatorMetrics.WodelMetricClass;
-import metrics.DebugMutatorMetrics.WodelMetricClassifier;
-import metrics.DebugMutatorMetrics.WodelMetricFeature;
-import metrics.DebugMutatorMetrics.WodelMetricItem;
-import metrics.DebugMutatorMetrics.WodelMetricModel;
-import metrics.DebugMutatorMetrics.WodelMetricMutant;
-import metrics.DebugMutatorMetrics.WodelMetricMutantsBlock;
-import metrics.DebugMutatorMetrics.WodelMetricReference;
+import manager.DynamicMutatorMetrics.WodelMetric;
+import manager.DynamicMutatorMetrics.WodelMetricAttribute;
+import manager.DynamicMutatorMetrics.WodelMetricBlock;
+import manager.DynamicMutatorMetrics.WodelMetricClass;
+import manager.DynamicMutatorMetrics.WodelMetricClassifier;
+import manager.DynamicMutatorMetrics.WodelMetricFeature;
+import manager.DynamicMutatorMetrics.WodelMetricItem;
+import manager.DynamicMutatorMetrics.WodelMetricModel;
+import manager.DynamicMutatorMetrics.WodelMetricMutant;
+import manager.DynamicMutatorMetrics.WodelMetricMutantsBlock;
+import manager.DynamicMutatorMetrics.WodelMetricReference;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -41,9 +42,8 @@ import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.SWT;
 import org.osgi.framework.Bundle;
 
@@ -51,21 +51,8 @@ import exceptions.MetaModelNotFoundException;
 
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+ * @author Pablo Gomez-Abajo - Wodel debug dynamic footprints view
+ * 
  */
 
 public class WodelMetricsDebugView extends ViewPart implements ISelectionChangedListener, IEditorActionDelegate {
@@ -135,15 +122,28 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 		try {
 			WodelContext.setProject(null);
 			String output = ModelManager.getOutputPath();
-			String project = manager.WodelContext.getProject();
+			String fileName = manager.WodelContext.getFileName();
+			if (fileName.endsWith(".mutator") == false) {
+				MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+				msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
+				msgbox.open();
+				return;
+			}
 			Bundle bundle = Platform.getBundle("wodel.models");
 	   		URL fileURL = bundle.getEntry("/models/MutatorMetrics.ecore");
 	   		String metricsmetamodel = FileLocator.resolve(fileURL).getFile();
 			//String metricsmetamodel = ModelManager.getWorkspaceAbsolutePath() + "/" + project + "/resources/MutatorMetrics.ecore";
-			ArrayList<EPackage> metricspackages = ModelManager.loadMetaModel(metricsmetamodel);
+			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsmetamodel);
 			String metamodel = ModelManager.getMetaModel();
-			ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-			String model = "file:/" + output +  "/" + project + "_debugMetrics.model";
+			String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			String model = "file:/" + output +  "/" + fileName.replace(".mutator", "") + "_debugMetrics.model";
+			if (new File(output +  "/" + fileName.replace(".mutator", "") + "_debugMetrics.model").exists() == false) {
+				MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+				msgbox.setMessage("The debug footprint model has not been generated. Check Wodel Footprints Preferences page");
+				msgbox.open();
+				return;
+			}
 			List<WodelMetricClassifier> classifiers = new ArrayList<WodelMetricClassifier>();
 			classifiers.addAll(Arrays.asList(DebugMutatorMetrics.createWodelDebugMetrics(model, metricspackages, packages)));
 
@@ -196,15 +196,30 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 					}
 				}
 			}
-			column2.setText(String.format("C.: %1$d%%", (creation*100/total)));
+			if (total != 0) {
+				column2.setText(String.format("C.: %1$d%%", (creation*100/total)));
+			}
+			else {
+				column2.setText(String.format("C.: %1$d%%", 0));
+			}
 			column2.setWidth(60);
 			TreeColumn column3 = new TreeColumn(addressTree, SWT.RIGHT);
 			column3.setAlignment(SWT.LEFT);
-			column3.setText(String.format("M.: %1$d%%", (modification*100/total)));
+			if (total != 0) {
+				column3.setText(String.format("M.: %1$d%%", (modification*100/total)));
+			}
+			else {
+				column3.setText(String.format("M.: %1$d%%", 0));
+			}
 			column3.setWidth(60);
 			TreeColumn column4 = new TreeColumn(addressTree, SWT.RIGHT);
 			column4.setAlignment(SWT.LEFT);
-			column4.setText(String.format("D.: %1$d%%", (deletion*100/total)));
+			if (total != 0) {
+				column4.setText(String.format("D.: %1$d%%", (deletion*100/total)));
+			}
+			else {
+				column4.setText(String.format("D.: %1$d%%", 0));
+			}
 			column4.setWidth(60);
 
 			m_treeViewer.setContentProvider(new WodelMetricsContentProvider());
@@ -225,7 +240,9 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 
 	@Override
 	public void setFocus() {
-		m_treeViewer.getControl().setFocus();
+		if (m_treeViewer.getControl() != null) {
+			m_treeViewer.getControl().setFocus();
+		}
 	}
 	
 	public void createActions(File file) {
@@ -249,7 +266,6 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						String path = itemToShow.getPath();
 						String projectName = WodelContext.getProject();
 						String substringPath = path.substring(path.indexOf(projectName) + projectName.length() + 1);
-						System.out.println(substringPath);
 						IResource resource = null;
 						if (itemToShow.isFile()) {
 							resource = project.getFile(substringPath);
@@ -505,14 +521,8 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int creation = ((WodelMetricAttribute) element).creation;
-					if (creation > 0) {
-						return String.format("%1$d", creation);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int creation = ((WodelMetricReference) element).creation;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int creation = ((WodelMetric) element).creation;
 					if (creation > 0) {
 						return String.format("%1$d", creation);
 					}
@@ -559,14 +569,8 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int modification = ((WodelMetricAttribute) element).modification;
-					if (modification > 0) {
-						return String.format("%1$d", modification);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int modification = ((WodelMetricReference) element).modification;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int modification = ((WodelMetric) element).modification;
 					if (modification > 0) {
 						return String.format("%1$d", modification);
 					}
@@ -613,14 +617,8 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int deletion = ((WodelMetricAttribute) element).deletion;
-					if (deletion > 0) {
-						return String.format("%1$d", deletion);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int deletion = ((WodelMetricReference) element).deletion;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int deletion = ((WodelMetric) element).deletion;
 					if (deletion > 0) {
 						return String.format("%1$d", deletion);
 					}
@@ -706,18 +704,9 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.creation == 0) {
-						return GRAY;
-					}
-					else {
-						return GREEN;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.creation == 0) {
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					WodelMetric feature = (WodelMetric) element;
+					if (feature.creation == 0) {
 						return GRAY;
 					}
 					else {
@@ -774,18 +763,9 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.modification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.modification == 0) {
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					WodelMetric feature = (WodelMetric) element;
+					if (feature.modification == 0) {
 						return GRAY;
 					}
 					else {
@@ -842,18 +822,9 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.deletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.deletion == 0) {
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					WodelMetric feature = (WodelMetric) element;
+					if (feature.deletion == 0) {
 						return GRAY;
 					}
 					else {

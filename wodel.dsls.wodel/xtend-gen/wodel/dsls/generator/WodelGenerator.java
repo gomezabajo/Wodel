@@ -11,9 +11,10 @@ import wodel.dsls.generator.WodelMutatorGenerator;
 import wodel.dsls.generator.WodelUseGenerator;
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - Main Wodel code generator.
  * 
- * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
+ * It calls WodelMutatorGenerator to generate the Java code for the mutations,
+ * and WodelUseGenerator to generate the USE code for the seeds synthesizer.
  */
 @SuppressWarnings("all")
 public class WodelGenerator implements IGenerator {

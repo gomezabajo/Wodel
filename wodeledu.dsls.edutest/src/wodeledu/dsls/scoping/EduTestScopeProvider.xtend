@@ -19,14 +19,14 @@ import org.osgi.framework.Bundle
 import org.eclipse.core.runtime.Platform
 import java.net.URL
 import org.eclipse.core.runtime.FileLocator
+import java.util.List
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the eduTest language.
  *
- */
+ */ 
 class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	/**
@@ -37,7 +37,7 @@ class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
 		val Bundle bundle = Platform.getBundle("wodel.models")
 	   	val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
 	   	val String ecore = FileLocator.resolve(fileURL).getFile()
-		val ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
+		val List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore)
 		val Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString)
 		val ArrayList<EObject> eobjects = ModelManager.getObjectsOfType("Block", mutatormodel)
 		var ArrayList<Block> blocks = null;

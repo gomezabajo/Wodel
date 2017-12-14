@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="minioclcs" nsURI="http://www.eclipse.org/qvtd/doc/MiniOCLCS"
+    nsPrefix="minioclcs">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="RootCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="#//ImportCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="#//PackageCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
+        eType="#//ConstraintsDefCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="CallExp"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="Class"/>
+        <details key="unique" value="false"/>
+        <details key="upper" value="*"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="#//PackageCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+        eType="#//ClassCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="CollectionLiteralExp"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//PropertyCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//OperationCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="CollectionItem"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiplicity" eType="#//MultiplicityCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiplicityCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mandatory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerInt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperInt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperMult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="CollectionRange"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//ParameterCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultRef" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//ExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="Constraint"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//PathNameCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstraintsDefCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invariants" upperBound="-1"
+        eType="#//InvariantCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InvariantCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//ExpCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpCS" eSuperTypes="#//CSTrace"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualityExpCS" eSuperTypes="#//ExpCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//EqualityExpCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//CallExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CallExpCS" eSuperTypes="#//EqualityExpCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//CallExpCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="navExp" eType="#//NavigationExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimaryExpCS" eSuperTypes="#//CallExpCS"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SelfExpCS" eSuperTypes="#//PrimaryExpCS"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NavigationExpCS" eSuperTypes="#//CSTrace"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LoopExpCS" eSuperTypes="#//NavigationExpCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itVar" eType="#//IteratorVarCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//ExpCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollectExpCS" eSuperTypes="#//LoopExpCS"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IteratorVarCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="itName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="IterateExpCS"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itType" eType="#//PathNameCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IterateExpCS" eSuperTypes="#//LoopExpCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accVar" eType="#//AccVarCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AccVarCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="NameExpCS"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accType" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accInitExp" eType="#//ExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NameExpCS" eSuperTypes="#//PrimaryExpCS #//NavigationExpCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expName" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roundedBrackets" eType="#//RoundedBracketClauseCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoundedBracketClauseCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="args" upperBound="-1" eType="#//ExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralExpCS" eSuperTypes="#//PrimaryExpCS"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntLiteralExpCS" eSuperTypes="#//LiteralExpCS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intSymbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="Operation"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteralExpCS" eSuperTypes="#//LiteralExpCS"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NullLiteralExpCS" eSuperTypes="#//LiteralExpCS"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="CollectionKindCS">
+    <eLiterals name="Collection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollectionLiteralExpCS" eSuperTypes="#//LiteralExpCS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//CollectionKindCS">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="CollectionLiteralPartCS"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parts" upperBound="-1"
+        eType="#//CollectionLiteralPartCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollectionLiteralPartCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="first" eType="#//ExpCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="last" eType="#//ExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LetExpCS" eSuperTypes="#//PrimaryExpCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="letVars" upperBound="-1"
+        eType="#//LetVarCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inExp" eType="#//ExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LetVarCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="PathNameCS"/>
+      </eAnnotations>
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="Variable"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//PathNameCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initExp" eType="#//ExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathNameCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pathElements" upperBound="-1"
+        eType="#//PathElementCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathElementCS" eSuperTypes="#//CSTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elementName" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanExpCS" eSuperTypes="#//BooleanLiteralExpCS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boolSymbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="TypedElement"/>
+        <details key="unique" value="false"/>
+        <details key="upper" value="*"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CSTrace" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ast" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        transient="true"/>
+  </eClassifiers>
+</ecore:EPackage>

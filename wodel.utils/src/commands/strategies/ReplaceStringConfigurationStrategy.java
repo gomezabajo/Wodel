@@ -3,6 +3,13 @@ package commands.strategies;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * ReplaceStringConfigurationStrategy string replacement configuration
+ * 
+ */
+
 public class ReplaceStringConfigurationStrategy extends
 		StringConfigurationStrategy {
 

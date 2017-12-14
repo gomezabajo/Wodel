@@ -1,7 +1,9 @@
 	package commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -13,9 +15,15 @@ import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * Mutator is the father class of all the commands/mutations.  
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public abstract class Mutator implements Cloneable, ObjectEmitter{
 	
 	/**
@@ -25,7 +33,7 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 	/**
 	 * Loades metamodel
 	 */
-	private ArrayList<EPackage> metaModel;
+	private List<EPackage> metaModel;
 	
 	/**
 	 * Mutator identifier
@@ -35,14 +43,14 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 	/**
 	 * Mutator type
 	 */
-	private String type;	
+	private String type;
 	
 	/**
 	 * @param model
 	 * @param mtaModel
 	 * Normal constructor
 	 */
-	public Mutator(Resource model, ArrayList<EPackage> metaModel, String type){
+	public Mutator(Resource model, List<EPackage> metaModel, String type){
 		this.metaModel = metaModel;
 		this.model = model;
 		this.type = type;
@@ -65,13 +73,16 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 	public EObject getObject(){
 		return null;
 	}
+	public List<EObject> getObjects(){
+		return null;
+	}
 	public Resource getModel() {
 		return model;
 	}
 	public void setModel(Resource model) {
 		this.model = model;
 	}
-	public ArrayList<EPackage> getMetaModel() {
+	public List<EPackage> getMetaModel() {
 		return metaModel;
 	}
 	public void setMetaModel(ArrayList<EPackage> metaModel) {
@@ -89,6 +100,26 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public EObject getObjectByID(){
+		return null;
+	}
+	public EObject getObjectByURI(){
+		return null;
+	}
+	public List<EObject> getObjectsByIdentification(){
+		return null;
+	}
+	public EObject getRemovedObject() {
+		return null;
+	}
+	
+	public EClass getEType() {
+		return null;
+	}
+	
+	public EClass getNewEType() {
+		return null;
 	}
 	//END GETTERS AND SETTERS
 

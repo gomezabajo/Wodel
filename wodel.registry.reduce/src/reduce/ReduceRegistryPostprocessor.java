@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import manager.ModelManager;
+import manager.MutatorUtils;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -29,6 +31,7 @@ import appliedMutations.InformationChanged;
 import appliedMutations.Mutations;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
+import appliedMutations.ObjectRetyped;
 import appliedMutations.ReferenceChanged;
 import appliedMutations.ReferenceCreated;
 import appliedMutations.ReferenceRemoved;
@@ -36,6 +39,10 @@ import appliedMutations.ReferenceSwap;
 import appliedMutations.SourceReferenceChanged;
 import appliedMutations.TargetReferenceChanged;
 
+/**
+ * @author Pablo Gomez-Abajo - Wodel compact registry extension
+ * 
+ */
 public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 
 	@Override
@@ -44,9 +51,9 @@ public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 		// TODO Auto-generated method stub
 	}
 	
-	private void processRegistry(AppMutation mut, HashMap<EObject, HashMap<String, ArrayList<AppMutation>>> dependencies, Resource seed, Resource mutant) {
-		HashMap<String, ArrayList<AppMutation>> dependency = null;
-		ArrayList<AppMutation> lmut = null;
+	private void processRegistry(AppMutation mut, HashMap<EObject, HashMap<String, List<AppMutation>>> dependencies, Resource seed, Resource mutant) {
+		HashMap<String, List<AppMutation>> dependency = null;
+		List<AppMutation> lmut = null;
 		EList<EObject> objs = null;
 		EObject obj = null;
 		EObject o = null;
@@ -62,6 +69,13 @@ public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 			if (objs.size() > 0) {
 				obj = objs.get(0);
 				o = ModelManager.getObject(seed, obj);
+			}
+		}
+		if (mut instanceof ObjectRetyped) {
+			objs = ((ObjectRetyped) mut).getObject();
+			if (objs.size() > 0) {
+				obj = objs.get(0);
+				o = ModelManager.getObject(mutant, obj);
 			}
 		}
 		if (mut instanceof ReferenceCreated) {
@@ -106,7 +120,7 @@ public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 		if (o != null) {
 			if (obj != null) {
 				if (dependencies.get(obj) == null) {
-					dependency = new HashMap<String, ArrayList<AppMutation>>();
+					dependency = new HashMap<String, List<AppMutation>>();
 					lmut = new ArrayList<AppMutation>();
 				}
 				else {
@@ -125,34 +139,38 @@ public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 		}
 	}
 	
-	private void reduceRegistry(HashMap<String, ArrayList<AppMutation>> dependency, Mutations muts) {
+	private void reduceRegistry(HashMap<String, List<AppMutation>> dependency, Mutations muts) {
 		if (dependency != null) {
 			if (dependency.get("ObjectCreated") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("ObjectCreated");
+				List<AppMutation> lmut = dependency.get("ObjectCreated");
 				muts.getMuts().add(lmut.get(0));
 			}
 			if (dependency.get("ObjectRemoved") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("ObjectRemoved");
+				List<AppMutation> lmut = dependency.get("ObjectRemoved");
+				muts.getMuts().add(lmut.get(0));
+			}
+			if (dependency.get("ObjectRetyped") != null) {
+				List<AppMutation> lmut = dependency.get("ObjectRetyped");
 				muts.getMuts().add(lmut.get(0));
 			}
 			if (dependency.get("ReferenceCreated") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("ReferenceCreated");
+				List<AppMutation> lmut = dependency.get("ReferenceCreated");
 				muts.getMuts().add(lmut.get(0));
 			}
 			if (dependency.get("ReferenceRemoved") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("ReferenceRemoved");
+				List<AppMutation> lmut = dependency.get("ReferenceRemoved");
 				muts.getMuts().add(lmut.get(0));
 			}
 			if (dependency.get("TargetReferenceChanged") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("TargetReferenceChanged");
+				List<AppMutation> lmut = dependency.get("TargetReferenceChanged");
 				muts.getMuts().add(lmut.get(lmut.size() - 1));
 			}
 			if (dependency.get("SourceReferenceChanged") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("SourceReferenceChanged");
+				List<AppMutation> lmut = dependency.get("SourceReferenceChanged");
 				muts.getMuts().add(lmut.get(lmut.size() - 1));
 			}
 			if (dependency.get("InformationChanged") != null) {
-				ArrayList<AppMutation> lmut = dependency.get("InformationChanged");
+				List<AppMutation> lmut = dependency.get("InformationChanged");
 				HashMap<String, String[]> catts = new HashMap<String, String[]>();
 				ArrayList<Object[]> satts = new ArrayList<Object[]>();
 				ArrayList<Object[]> srefs = new ArrayList<Object[]>();
@@ -308,13 +326,13 @@ public class ReduceRegistryPostprocessor implements IRegistryPostprocessor {
 	   		URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
 	   		String ecore = FileLocator.resolve(fileURL).getFile();
 	   		
-			ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore);
+			List<EPackage> packages = ModelManager.loadMetaModel(ecore);
 			Resource registry = ModelManager.loadModel(packages, filename);
 			
-			ArrayList<EObject> objs = ModelManager.getMutations(ModelManager.getAllObjects(registry));
+			List<EObject> objs = MutatorUtils.getMutations(ModelManager.getAllObjects(registry));
 			
 			Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
-			HashMap<EObject, HashMap<String, ArrayList<AppMutation>>> dependencies = new HashMap<EObject, HashMap<String, ArrayList<AppMutation>>>();
+			HashMap<EObject, HashMap<String, List<AppMutation>>> dependencies = new HashMap<EObject, HashMap<String, List<AppMutation>>>();
 			for (EObject obj : objs) {
 				processRegistry((AppMutation) obj, dependencies, seed, mutant);
 			}

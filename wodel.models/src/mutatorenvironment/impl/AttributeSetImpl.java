@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.AttributeSetImpl#getAttribute <em>Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

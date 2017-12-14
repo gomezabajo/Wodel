@@ -9,6 +9,14 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * CopyReferenceConfigurationStrategy copies a reference value
+ * to the given reference
+ *  
+ */
+
 public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationStrategy{
 
 	/**
@@ -26,49 +34,42 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 	
 	@Override
 	public boolean sameType() {
-		Object src = eobjsrc.eGet(source);
-		Object tar = eobjsrc.eGet(target);
-		//System.out.println("c: " + c.getInstanceClassName().toLowerCase() + ", source: " + src.getClass().getSimpleName().toLowerCase() + ", target:" + tar.getClass().getSimpleName().toLowerCase());
-		if (src.getClass().getSimpleName().toLowerCase().equals(tar.getClass().getSimpleName().toLowerCase())) {
+		if (EcoreUtil.equals(source.getEReferenceType(), target.getEReferenceType())) {
 			return true;
 		}
-		//System.out.println("c: " + c.getInstanceClass().toString() + ", source: " + src.getClass().toString() + ", target:" + tar.getClass().toString());
-		//if ((c.getInstanceClass() == src.getClass()) && (c.getInstanceClass() == tar.getClass())) {
-		//	return true;
-		//}
 		return false;
 	}
 
-	public CopyReferenceConfigurationStrategy(EObject o, String target, String source) {
+	public CopyReferenceConfigurationStrategy(EObject o, String targetName, String sourceName) {
 		super("");
 		for (EReference a : o.eClass().getEAllReferences()) {
-			if (a.getName().equals(source)) {
+			if (a.getName().equals(sourceName)) {
 				this.source = a;
 				break;
 			}
 		}
 		for (EReference a : o.eClass().getEAllReferences()) {
-			if (a.getName().equals(target)) {
+			if (a.getName().equals(targetName)) {
 				this.target = a;
 				break;
 			}
 		}
 		
 		for (EReference r : ModelManager.getReferences(o)) {
-			if (r.getName().equals(source)) {
+			if (r.getName().equals(sourceName)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) o.eGet(this.source)).eClass().getName())) {
+			if (EcoreUtil.equals(r.getEReferenceType(), this.source)) {
 				othereobjsrc = (EObject) o.eGet(r, true);
 				othereobjsrcname = r.getName();
 			}
 		}
 				
 		for (EReference r : ModelManager.getReferences(o)) {
-			if (r.getName().equals(target)) {
+			if (r.getName().equals(targetName)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) o.eGet(this.target)).eClass().getName())) {
+			if (EcoreUtil.equals(r.getEReferenceType(), this.target)) {
 				othereobjtar = (EObject) o.eGet(r, true);
 				othereobjtarname = r.getName();
 			}
@@ -104,7 +105,7 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 			if (r.getName().equals(source)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
+			if (EcoreUtil.equals(r.getEReferenceType(), this.source)) {
 				othereobjsrc = (EObject) obj_src.eGet(r, true);
 				othereobjsrcname = r.getName();
 			}
@@ -114,7 +115,7 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 			if (r.getName().equals(target)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
+			if (EcoreUtil.equals(r.getEReferenceType(), this.target)) {
 				othereobjtar = (EObject) obj_tar.eGet(r, true);
 				othereobjtarname = r.getName();
 			}
@@ -126,39 +127,36 @@ public class CopyReferenceConfigurationStrategy extends	ReferenceConfigurationSt
 		obj_tar.eSet(this.target, eobjsrc.eGet(this.source));
 	}
 
-	public CopyReferenceConfigurationStrategy(EObject obj_tar, EObject obj_src, String target, String source) {
+	public CopyReferenceConfigurationStrategy(EObject obj_tar, EObject obj_src, String targetName, String sourceName) {
 		super("");
 		for (EReference a : obj_src.eClass().getEAllReferences()) {
-			if (a.getName().equals(source)) {
-				System.out.println("SOURCE: " + source + ", VALUE: " + obj_src.eGet(a));
+			if (a.getName().equals(sourceName)) {
 				this.source = a;
 				break;
 			}
 		}
 		for (EReference a : obj_tar.eClass().getEAllReferences()) {
-			if (a.getName().equals(target)) {
-				System.out.println("TARGET: " + target + ", VALUE: " + obj_tar.eGet(a));
+			if (a.getName().equals(targetName)) {
 				this.target = a;
 				break;
 			}
 		}
 		
 		for (EReference r : ModelManager.getReferences(obj_src)) {
-			if (r.getName().equals(source)) {
+			if (r.getName().equals(sourceName)) {
 				continue;
 			}
-			System.out.println("obj_src.eGet(r): " + obj_src.eGet(r));
-			if (r.getEType().getName().equals(((EObject) obj_src.eGet(this.source)).eClass().getName())) {
+			if (EcoreUtil.equals(r.getEReferenceType(), this.source)) {
 				othereobjsrc = (EObject) obj_src.eGet(r, true);
 				othereobjsrcname = r.getName();
 			}
 		}
 				
 		for (EReference r : ModelManager.getReferences(obj_tar)) {
-			if (r.getName().equals(target)) {
+			if (r.getName().equals(targetName)) {
 				continue;
 			}
-			if (r.getEType().getName().equals(((EObject) obj_tar.eGet(this.target)).eClass().getName())) {
+			if (EcoreUtil.equals(r.getEReferenceType(), this.target)) {
 				othereobjtar = (EObject) obj_tar.eGet(r, true);
 				othereobjtarname = r.getName();
 			}

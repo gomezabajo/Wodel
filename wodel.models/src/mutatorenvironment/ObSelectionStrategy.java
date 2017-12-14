@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.ObSelectionStrategy#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.ObSelectionStrategy#getExpression <em>Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getObSelectionStrategy()
  * @model abstract="true"

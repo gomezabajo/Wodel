@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dfa
+Bundle-SymbolicName: wodel.automata;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: automata.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ wodel.comparison,
+ wodel.utils
+Import-Package: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: automata

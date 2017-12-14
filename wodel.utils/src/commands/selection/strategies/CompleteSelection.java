@@ -1,16 +1,20 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import exceptions.ReferenceNonExistingException;
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * CompleteSelection selects all objects that match the given parameters
+ *  
+ */
 
 public abstract class CompleteSelection extends ObSelectionStrategy {
 
-	public CompleteSelection(ArrayList<EPackage> metaModel, Resource model) {
+	public CompleteSelection(List<EPackage> metaModel, Resource model) {
 		super(metaModel, model);
 	}
 }

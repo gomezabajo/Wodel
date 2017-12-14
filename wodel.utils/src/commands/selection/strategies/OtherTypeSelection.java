@@ -1,17 +1,20 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import exceptions.ReferenceNonExistingException;
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * OtherTypeSelection selects a different object with the same
+ * type of the given object
+ * 
+ */
 
 public class OtherTypeSelection extends OtherSelection {
 	/**
@@ -26,7 +29,7 @@ public class OtherTypeSelection extends OtherSelection {
 	 * @param type
 	 * Normal constructor
 	 */
-	public OtherTypeSelection(ArrayList<EPackage> metaModel, Resource model, String type, Object obj){
+	public OtherTypeSelection(List<EPackage> metaModel, Resource model, String type, Object obj){
 		super(metaModel, model);
 		this.type = type;
 		this.obj = obj;

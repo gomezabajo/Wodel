@@ -1,6 +1,6 @@
 package commands.strategies;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import manager.ModelManager;
 
@@ -11,13 +11,20 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * DivideOperationConfigurationStrategy arithmetic divide operation
+ *  
+ */
+
 public class DivideOperationConfigurationStrategy extends ArithmeticOperationConfigurationStrategy {
 
 	private int intValue = 0;
 	private double doubleValue = 0.0;
 	private EAttribute attribute = null;
 	
-	public DivideOperationConfigurationStrategy(ArrayList<EPackage> packages, Resource model, String className, String a2m, EObject object, Object value) {
+	public DivideOperationConfigurationStrategy(List<EPackage> packages, Resource model, String className, String a2m, EObject object, Object value) {
 		super(a2m, object, value);
 		EClass eClass = ModelManager.getEClassByName(packages, className);
 		for (EAttribute att : eClass.getEAllAttributes()) {
@@ -27,12 +34,12 @@ public class DivideOperationConfigurationStrategy extends ArithmeticOperationCon
 			}
 		}
 		if (attribute.getEType().getName().equals("EInt")) {
-			if (value instanceof Integer) {
+			if (value instanceof Integer && ((int) value != 0)) {
 				intValue = ModelManager.getIntAttribute(a2m, object) / (int) value;
 			}
 		}
 		if (attribute.getEType().getName().equals("EDouble")) {
-			if (value instanceof Double) {
+			if (value instanceof Double && ((double) value != 0.0)) {
 				doubleValue = ModelManager.getDoubleAttribute(a2m, object) / (double) value;
 			}
 		}

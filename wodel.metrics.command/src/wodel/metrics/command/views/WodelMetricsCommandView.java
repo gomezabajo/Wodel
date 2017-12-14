@@ -1,22 +1,23 @@
 package wodel.metrics.command.views;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import metrics.CommandMutatorMetrics;
+import wodel.metrics.command.CommandMutatorMetrics;
 import manager.WodelContext;
-import metrics.CommandMutatorMetrics.WodelMetricClass;
-import metrics.CommandMutatorMetrics.WodelMetricCommand;
-import metrics.CommandMutatorMetrics.WodelMetricFeature;
-import metrics.CommandMutatorMetrics.WodelMetricAttribute;
-import metrics.CommandMutatorMetrics.WodelMetricReference;
+import manager.StaticMutatorMetrics.WodelMetric;
+import manager.StaticMutatorMetrics.WodelMetricAttribute;
+import manager.StaticMutatorMetrics.WodelMetricClass;
+import manager.StaticMutatorMetrics.WodelMetricFeature;
+import manager.StaticMutatorMetrics.WodelMetricReference;
+import wodel.metrics.command.CommandMutatorMetrics.WodelMetricCommand;
 import manager.ModelManager;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.part.*;
@@ -29,21 +30,8 @@ import org.eclipse.swt.SWT;
 
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+ * @author Pablo Gomez-Abajo - Wodel operator static footprints view
+ * 
  */
 
 public class WodelMetricsCommandView extends ViewPart implements IEditorActionDelegate {
@@ -89,7 +77,14 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 		WodelContext.setProject(null);
 		String output = ModelManager.getOutputPath();
 		String metamodel = ModelManager.getMetaModel();
-		String xmiFileName = "file:/" + output +  "/" + manager.WodelContext.getProject() + ".model";
+		String fileName = manager.WodelContext.getFileName();
+		if (fileName.endsWith(".mutator") == false) {
+			MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+			msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
+			msgbox.open();
+			return;
+		}
+		String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");
 		List<WodelMetricCommand> metrics = new ArrayList<WodelMetricCommand>();
 		metrics.addAll(Arrays.asList(CommandMutatorMetrics.createWodelCommandMetrics(xmiFileName, metamodel)));
 
@@ -306,15 +301,14 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 			// TODO Auto-generated method stub
 			return null;
 		}
-
-		@Override
-		public Color getBackground(Object element, int columnIndex) {
-			switch (columnIndex) {
-			case 0:
-				break;
-			case 1:
-				if (element instanceof WodelMetricCommand) {
-					WodelMetricCommand item = (WodelMetricCommand) element;
+		
+		private Color getColumnBackground(Object element, int cmd) {
+			if (element instanceof WodelMetricCommand ||
+					element instanceof WodelMetricClass ||
+					element instanceof WodelMetricAttribute ||
+					element instanceof WodelMetricReference) {
+				WodelMetric item = (WodelMetric) element;
+				if (cmd == 0) {
 					if (item.creation == 0 && item.ccreation == 0) {
 						return GRAY;
 					}
@@ -322,18 +316,51 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						return GREEN;
 					}
 				}
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
-					if (item.creation == 0 && item.ccreation == 0) {
+				if (cmd == 1) {
+					if (item.modification == 0 && item.mmodification == 0) {
 						return GRAY;
 					}
 					else {
-						return GREEN;
+						return AMBAR;
 					}
 				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+				if (cmd == 2) {
+					if (item.deletion == 0 && item.ddeletion == 0) {
+						return GRAY;
+					}
+					else {
+						return RED;
+					}
+				}
+				if (cmd == 3) {
+					if (item.icreation == 0 && item.iccreation == 0) {
+						return GRAY;
+					}
+					else {
+						return PURPLE;
+					}
+				}
+				if (cmd == 4) {
+					if (item.imodification == 0 && item.immodification == 0) {
+						return GRAY;
+					}
+					else {
+						return BROWN;
+					}
+				}
+				if (cmd == 5) {
+					if (item.ideletion == 0 && item.iddeletion == 0) {
+						return GRAY;
+					}
+					else {
+						return BLUE;
+					}
+				}
+			}
+			if (element instanceof WodelMetricFeature) {
+				WodelMetricFeature feature = (WodelMetricFeature) element;
+				if (feature.getName().equals("Attributes")) {
+					if (cmd == 0) {
 						if (feature.getAttributesCreation() == 0) {
 							return GRAY;
 						}
@@ -341,56 +368,7 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 							return GREEN;
 						}
 					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesCreation() == 0) {
-							return GRAY;
-						}
-						else {
-							return GREEN;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.creation == 0) {
-						return GRAY;
-					}
-					else {
-						return GREEN;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.creation == 0) {
-						return GRAY;
-					}
-					else {
-						return GREEN;
-					}
-				}
-				break;
-			case 2:
-				if (element instanceof WodelMetricCommand) {
-					WodelMetricCommand item = (WodelMetricCommand) element;
-					if (item.modification == 0 && item.mmodification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
-					if (item.modification == 0 && item.mmodification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+					if (cmd == 1) {
 						if (feature.getAttributesModification() == 0) {
 							return GRAY;
 						}
@@ -398,56 +376,7 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 							return AMBAR;
 						}
 					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesModification() == 0) {
-							return GRAY;
-						}
-						else {
-							return AMBAR;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.modification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.modification == 0) {
-						return GRAY;
-					}
-					else {
-						return AMBAR;
-					}
-				}
-				break;
-			case 3:
-				if (element instanceof WodelMetricCommand) {
-					WodelMetricCommand item = (WodelMetricCommand) element;
-					if (item.deletion == 0 && item.ddeletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
-					if (item.deletion == 0 && item.ddeletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+					if (cmd == 2) {
 						if (feature.getAttributesDeletion() == 0) {
 							return GRAY;
 						}
@@ -455,56 +384,7 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 							return RED;
 						}
 					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesDeletion() == 0) {
-							return GRAY;
-						}
-						else {
-							return RED;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.deletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.deletion == 0) {
-						return GRAY;
-					}
-					else {
-						return RED;
-					}
-				}
-				break;
-			case 4:
-				if (element instanceof WodelMetricCommand) {
-					WodelMetricCommand item = (WodelMetricCommand) element;
-					if (item.icreation == 0 && item.iccreation == 0) {
-						return GRAY;
-					}
-					else {
-						return PURPLE;
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
-					if (item.icreation == 0 && item.iccreation == 0) {
-						return GRAY;
-					}
-					else {
-						return PURPLE;
-					}
-				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+					if (cmd == 3) {
 						if (feature.getAttributesImplicitCreation() == 0) {
 							return GRAY;
 						}
@@ -512,56 +392,7 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 							return PURPLE;
 						}
 					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesImplicitCreation() == 0) {
-							return GRAY;
-						}
-						else {
-							return PURPLE;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.icreation == 0) {
-						return GRAY;
-					}
-					else {
-						return PURPLE;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.icreation == 0) {
-						return GRAY;
-					}
-					else {
-						return PURPLE;
-					}
-				}
-				break;
-			case 5:
-				if (element instanceof WodelMetricCommand) {
-					WodelMetricCommand item = (WodelMetricCommand) element;
-					if (item.imodification == 0 && item.immodification == 0) {
-						return GRAY;
-					}
-					else {
-						return BROWN;
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
-					if (item.imodification == 0 && item.immodification == 0) {
-						return GRAY;
-					}
-					else {
-						return BROWN;
-					}
-				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+					if (cmd == 4) {
 						if (feature.getAttributesImplicitModification() == 0) {
 							return GRAY;
 						}
@@ -569,56 +400,7 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 							return BROWN;
 						}
 					}
-					if (feature.getName().equals("References")) {
-						if (feature.getReferencesImplicitModification() == 0) {
-							return GRAY;
-						}
-						else {
-							return BROWN;
-						}
-					}
-				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.imodification == 0) {
-						return GRAY;
-					}
-					else {
-						return BROWN;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.imodification == 0) {
-						return GRAY;
-					}
-					else {
-						return BROWN;
-					}
-				}
-				break;
-			case 6:
-				if (element instanceof WodelMetricCommand) {
-					WodelMetricCommand item = (WodelMetricCommand) element;
-					if (item.ideletion == 0 && item.iddeletion == 0) {
-						return GRAY;
-					}
-					else {
-						return BLUE;
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					WodelMetricClass item = (WodelMetricClass) element;
-					if (item.ideletion == 0 && item.iddeletion == 0) {
-						return GRAY;
-					}
-					else {
-						return BLUE;
-					}
-				}
-				if (element instanceof WodelMetricFeature) {
-					WodelMetricFeature feature = (WodelMetricFeature) element;
-					if (feature.getName().equals("Attributes")) {
+					if (cmd == 5) {
 						if (feature.getAttributesImplicitDeletion() == 0) {
 							return GRAY;
 						}
@@ -626,7 +408,49 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 							return BLUE;
 						}
 					}
-					if (feature.getName().equals("References")) {
+				}
+				if (feature.getName().equals("References")) {
+					if (cmd == 0) {
+						if (feature.getReferencesCreation() == 0) {
+							return GRAY;
+						}
+						else {
+							return GREEN;
+						}
+					}
+					if (cmd == 1) {
+						if (feature.getReferencesModification() == 0) {
+							return GRAY;
+						}
+						else {
+							return AMBAR;
+						}
+					}
+					if (cmd == 2) {
+						if (feature.getReferencesDeletion() == 0) {
+							return GRAY;
+						}
+						else {
+							return RED;
+						}
+					}
+					if (cmd == 3) {
+						if (feature.getReferencesImplicitCreation() == 0) {
+							return GRAY;
+						}
+						else {
+							return PURPLE;
+						}
+					}
+					if (cmd == 4) {
+						if (feature.getReferencesImplicitModification() == 0) {
+							return GRAY;
+						}
+						else {
+							return BROWN;
+						}
+					}
+					if (cmd == 5) {
 						if (feature.getReferencesImplicitDeletion() == 0) {
 							return GRAY;
 						}
@@ -635,24 +459,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					WodelMetricAttribute attribute = (WodelMetricAttribute) element;
-					if (attribute.ideletion == 0) {
-						return GRAY;
-					}
-					else {
-						return BLUE;
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					WodelMetricReference reference = (WodelMetricReference) element;
-					if (reference.ideletion == 0) {
-						return GRAY;
-					}
-					else {
-						return BLUE;
-					}
-				}
+			}
+			return null;
+		}
+		
+		@Override
+		public Color getBackground(Object element, int columnIndex) {
+			switch (columnIndex) {
+			case 0:
+				break;
+			default:
+				return getColumnBackground(element, columnIndex - 1);
 			}
 			return null;
 		}
@@ -667,33 +484,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 		public String getColumnText(Object element, int columnIndex) {
 			switch (columnIndex) {
 			case 0:
-				if (element instanceof WodelMetricCommand) {
-					return ((WodelMetricCommand) element).getName();
-				}
-				if (element instanceof WodelMetricClass) {
-					return ((WodelMetricClass) element).getName();
+				if (element instanceof WodelMetric) {
+					return ((WodelMetric) element).getName();
 				}
 				if (element instanceof WodelMetricFeature) {
 					return ((WodelMetricFeature) element).getName();
 				}
-				if (element instanceof WodelMetricAttribute) {
-					return ((WodelMetricAttribute) element).getName();
-				}
-				if (element instanceof WodelMetricReference) {
-					return ((WodelMetricReference) element).getName();
-				}
 				break;
 			case 1:
-				if (element instanceof WodelMetricCommand) {
-					int creation = ((WodelMetricCommand) element).creation;
-					int ccreation = ((WodelMetricCommand) element).ccreation;
-					if (creation > 0 || ccreation > 0) {
-						return String.format("%1$d", ccreation) + "c " + String.format("%1$d", creation) + "f";
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					int creation = ((WodelMetricClass) element).creation;
-					int ccreation = ((WodelMetricClass) element).ccreation;
+				if (element instanceof WodelMetricCommand || element instanceof WodelMetricClass) {
+					int creation = ((WodelMetric) element).creation;
+					int ccreation = ((WodelMetric) element).ccreation;
 					if (creation > 0 || ccreation > 0) {
 						return String.format("%1$d", ccreation) + "c " + String.format("%1$d", creation) + "f";
 					}
@@ -713,30 +514,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int creation = ((WodelMetricAttribute) element).creation;
-					if (creation > 0) {
-						return String.format("%1$d", creation);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int creation = ((WodelMetricReference) element).creation;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int creation = ((WodelMetric) element).creation;
 					if (creation > 0) {
 						return String.format("%1$d", creation);
 					}
 				}
 				break;
 			case 2:
-				if (element instanceof WodelMetricCommand) {
-					int modification = ((WodelMetricCommand) element).modification;
-					int mmodification = ((WodelMetricCommand) element).mmodification;
-					if (modification > 0 || mmodification > 0) {
-						return String.format("%1$d", mmodification) + "c " + String.format("%1$d", modification) + "f";
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					int modification = ((WodelMetricClass) element).modification;
-					int mmodification = ((WodelMetricClass) element).mmodification;
+				if (element instanceof WodelMetricCommand || element instanceof WodelMetricClass) {
+					int modification = ((WodelMetric) element).modification;
+					int mmodification = ((WodelMetric) element).mmodification;
 					if (modification > 0 || mmodification > 0) {
 						return String.format("%1$d", mmodification) + "c " + String.format("%1$d", modification) + "f";
 					}
@@ -756,30 +544,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int modification = ((WodelMetricAttribute) element).modification;
-					if (modification > 0) {
-						return String.format("%1$d", modification);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int modification = ((WodelMetricReference) element).modification;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int modification = ((WodelMetric) element).modification;
 					if (modification > 0) {
 						return String.format("%1$d", modification);
 					}
 				}
 				break;
 			case 3:
-				if (element instanceof WodelMetricCommand) {
-					int deletion = ((WodelMetricCommand) element).deletion;
-					int ddeletion = ((WodelMetricCommand) element).ddeletion;
-					if (deletion > 0 || ddeletion > 0) {
-						return String.format("%1$d", ddeletion) + "c " + String.format("%1$d", deletion) + "f";
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					int deletion = ((WodelMetricClass) element).deletion;
-					int ddeletion = ((WodelMetricClass) element).ddeletion;
+				if (element instanceof WodelMetricCommand || element instanceof WodelMetricClass) {
+					int deletion = ((WodelMetric) element).deletion;
+					int ddeletion = ((WodelMetric) element).ddeletion;
 					if (deletion > 0 || ddeletion > 0) {
 						return String.format("%1$d", ddeletion) + "c " + String.format("%1$d", deletion) + "f";
 					}
@@ -799,30 +574,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int deletion = ((WodelMetricAttribute) element).deletion;
-					if (deletion > 0) {
-						return String.format("%1$d", deletion);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int deletion = ((WodelMetricReference) element).deletion;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int deletion = ((WodelMetric) element).deletion;
 					if (deletion > 0) {
 						return String.format("%1$d", deletion);
 					}
 				}
 				break;
 			case 4:
-				if (element instanceof WodelMetricCommand) {
-					int icreation = ((WodelMetricCommand) element).icreation;
-					int iccreation = ((WodelMetricCommand) element).iccreation;
-					if (icreation > 0 || iccreation > 0) {
-						return String.format("%1$d", iccreation) + "c " + String.format("%1$d", icreation) + "f";
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					int icreation = ((WodelMetricClass) element).icreation;
-					int iccreation = ((WodelMetricClass) element).iccreation;
+				if (element instanceof WodelMetricCommand || element instanceof WodelMetricClass) {
+					int icreation = ((WodelMetric) element).icreation;
+					int iccreation = ((WodelMetric) element).iccreation;
 					if (icreation > 0 || iccreation > 0) {
 						return String.format("%1$d", iccreation) + "c " + String.format("%1$d", icreation) + "f";
 					}
@@ -842,30 +604,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int icreation = ((WodelMetricAttribute) element).icreation;
-					if (icreation > 0) {
-						return String.format("%1$d", icreation);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int icreation = ((WodelMetricReference) element).icreation;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int icreation = ((WodelMetric) element).icreation;
 					if (icreation > 0) {
 						return String.format("%1$d", icreation);
 					}
 				}
 				break;
 			case 5:
-				if (element instanceof WodelMetricCommand) {
-					int imodification = ((WodelMetricCommand) element).imodification;
-					int immodification = ((WodelMetricCommand) element).immodification;
-					if (imodification > 0 || immodification > 0) {
-						return String.format("%1$d", immodification) + "c " + String.format("%1$d", imodification) + "f";
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					int imodification = ((WodelMetricClass) element).imodification;
-					int immodification = ((WodelMetricClass) element).immodification;
+				if (element instanceof WodelMetricCommand || element instanceof WodelMetricClass) {
+					int imodification = ((WodelMetric) element).imodification;
+					int immodification = ((WodelMetric) element).immodification;
 					if (imodification > 0 || immodification > 0) {
 						return String.format("%1$d", immodification) + "c " + String.format("%1$d", imodification) + "f";
 					}
@@ -885,30 +634,17 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int imodification = ((WodelMetricAttribute) element).imodification;
-					if (imodification > 0) {
-						return String.format("%1$d", imodification);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int imodification = ((WodelMetricReference) element).imodification;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int imodification = ((WodelMetric) element).imodification;
 					if (imodification > 0) {
 						return String.format("%1$d", imodification);
 					}
 				}
 				break;
 			case 6:
-				if (element instanceof WodelMetricCommand) {
-					int ideletion = ((WodelMetricCommand) element).ideletion;
-					int iddeletion = ((WodelMetricCommand) element).iddeletion;
-					if (ideletion > 0 || iddeletion > 0) {
-						return String.format("%1$d", iddeletion) + "c " + String.format("%1$d", ideletion) + "f";
-					}
-				}
-				if (element instanceof WodelMetricClass) {
-					int ideletion = ((WodelMetricClass) element).ideletion;
-					int iddeletion = ((WodelMetricClass) element).iddeletion;
+				if (element instanceof WodelMetricCommand || element instanceof WodelMetricClass) {
+					int ideletion = ((WodelMetric) element).ideletion;
+					int iddeletion = ((WodelMetric) element).iddeletion;
 					if (ideletion > 0 || iddeletion > 0) {
 						return String.format("%1$d", iddeletion) + "c " + String.format("%1$d", ideletion) + "f";
 					}
@@ -928,14 +664,8 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 						}
 					}
 				}
-				if (element instanceof WodelMetricAttribute) {
-					int ideletion = ((WodelMetricAttribute) element).ideletion;
-					if (ideletion > 0) {
-						return String.format("%1$d", ideletion);
-					}
-				}
-				if (element instanceof WodelMetricReference) {
-					int ideletion = ((WodelMetricReference) element).ideletion;
+				if (element instanceof WodelMetricAttribute || element instanceof WodelMetricReference) {
+					int ideletion = ((WodelMetric) element).ideletion;
 					if (ideletion > 0) {
 						return String.format("%1$d", ideletion);
 					}
@@ -948,8 +678,9 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-		
+		if (m_treeViewer.getControl() != null) {
+			m_treeViewer.getControl().setFocus();
+		}
 	}
 	
 	@Override

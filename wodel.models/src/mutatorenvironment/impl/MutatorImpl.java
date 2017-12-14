@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getFixed <em>Fixed</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

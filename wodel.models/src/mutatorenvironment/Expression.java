@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.Expression#getFirst <em>First</em>}</li>
  *   <li>{@link mutatorenvironment.Expression#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.Expression#getSecond <em>Second</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getExpression()
  * @model

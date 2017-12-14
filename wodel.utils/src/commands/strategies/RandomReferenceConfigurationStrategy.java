@@ -5,25 +5,21 @@ import java.util.List;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import exceptions.ReferenceNonExistingException;
-import exceptions.WrongAttributeTypeException;
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * RandomReferenceConfigurationStrategy random reference configuration
+ *  
+ */
 
 public class RandomReferenceConfigurationStrategy extends
 		ReferenceConfigurationStrategy {
 
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	protected EReference reference;
 	protected EObject object;
 	protected EObject obj;
@@ -31,9 +27,6 @@ public class RandomReferenceConfigurationStrategy extends
 	protected EObject target;
 	protected List<EObject> o;
 	protected boolean removal = false;
-	/**
-	 * Source reference name of the relation
-	 */
 	private String srcRefType;
 	
 	@Override
@@ -44,7 +37,7 @@ public class RandomReferenceConfigurationStrategy extends
 					return true;
 				}
 				if (this.source instanceof List<?>) {
-					if (this.reference.getEType().getName().equals(this.target.eClass().getName())) {
+					if (EcoreUtil.equals(this.reference.getEReferenceType(), this.target.eClass())) {
 						return true;
 					}
 				}
@@ -52,7 +45,7 @@ public class RandomReferenceConfigurationStrategy extends
 		}
 		else {
 			if (this.target != null) {
-				if (this.reference.getEType().getName().equals(this.target.eClass().getName())) {
+				if (EcoreUtil.equals(this.reference.getEReferenceType(), this.target.eClass())) {
 					return true;
 				}
 			}

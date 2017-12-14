@@ -237,7 +237,8 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//Constraint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/id"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Constraint/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/rule"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Constraint/expressions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/rules"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomType"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//CloneObjectMutator">
@@ -288,5 +289,132 @@
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceAdd"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceRemove"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//RetypeObjectMutator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/object"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/container"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/refType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/references"/>
+    </genClasses>
+    <nestedGenPackages prefix="MiniOCL" disposableProviderFactory="true" ecorePackage="MutatorEnvironment.ecore#//miniOCL">
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/RootCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/RootCS/packages"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/RootCS/contraints"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PackageCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/PackageCS/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/PackageCS/packages"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/PackageCS/classes"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/ClassCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/ClassCS/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ClassCS/extends"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ClassCS/properties"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ClassCS/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PropertyCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/PropertyCS/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/PropertyCS/typeRef"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/OperationCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/OperationCS/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/OperationCS/params"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/OperationCS/resultRef"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/OperationCS/body"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/ParameterCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/ParameterCS/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ParameterCS/typeRef"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/ConstraintCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ConstraintCS/typeRef"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ConstraintCS/invariants"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/InvariantCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/InvariantCS/exp"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/ExpCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/LogicExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/LogicExpCS/left"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/LogicExpCS/op"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/LogicExpCS/right"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/CallExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/CallExpCS/source"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/CallExpCS/navExp"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PrimaryExpCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NavigationExpCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NameExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NameExpCS/expName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NameExpCS/roundedBrackets"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NameExpCS/callExp"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/LoopExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/LoopExpCS/itVar"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/LoopExpCS/logicOp"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/LoopExpCS/exp"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/CollectExpCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/IteratorVarCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/IteratorVarCS/itName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/IteratorVarCS/itType"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/IterateExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/IterateExpCS/accVar"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/AccVarCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/AccVarCS/accVarName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/AccVarCS/accType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/AccVarCS/accInitExp"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/RoundedBracketClauseCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/RoundedBracketClauseCS/args"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/LiteralExpCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/IntLiteralExpCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/IntLiteralExpCS/intSymbol"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/StringLiteralExpCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/StringLiteralExpCS/stringSymbol"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/BooleanLiteralExpCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PathNameCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/PathNameCS/path"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PathCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PathVariableCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/PathVariableCS/varName"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/PathElementCS">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/PathElementCS/pathName"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/BooleanExpCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/BooleanExpCS/boolSymbol"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/ExistsExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ExistsExpCS/accVars"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NavigationNameExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NavigationNameExpCS/expName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NavigationNameExpCS/roundedBrackets"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NavigationNameExpCS/callExp"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NavigationPathNameCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NavigationPathNameCS/path"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NavigationPathCS"/>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NavigationPathVariableCS">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//miniOCL/NavigationPathVariableCS/varName"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/NavigationPathElementCS">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/NavigationPathElementCS/pathName"/>
+      </genClasses>
+      <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/ForAllExpCS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//miniOCL/ForAllExpCS/accVars"/>
+      </genClasses>
+    </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

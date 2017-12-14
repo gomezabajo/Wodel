@@ -1,9 +1,15 @@
 package commands.strategies;
 
 /**
- * @author Victor Lopez Rivero
- * DoubleConfigurationStrategy configures the Double attributes
+ * @author Pablo Gomez-Abajo
+ * 
+ * DoubleConfigurationStrategy specific double configuration
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class SpecificDoubleConfigurationStrategy extends DoubleConfigurationStrategy {
 	
 	/**

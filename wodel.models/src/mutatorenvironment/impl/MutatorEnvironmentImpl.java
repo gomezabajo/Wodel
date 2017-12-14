@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getDefinition <em>Definition</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getCommands <em>Commands</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getBlocks <em>Blocks</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorEnvironmentImpl#getConstraints <em>Constraints</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

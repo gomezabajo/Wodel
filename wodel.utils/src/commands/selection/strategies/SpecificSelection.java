@@ -1,24 +1,22 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import manager.ModelManager;
-
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import commands.ObjectEmitter;
-import exceptions.ReferenceNonExistingException;
-
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * SpecificSelection selects an specific object
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public abstract class SpecificSelection extends ObSelectionStrategy{
 	
-	public SpecificSelection(ArrayList<EPackage> metaModel, Resource model){
+	public SpecificSelection(List<EPackage> metaModel, Resource model){
 		super(metaModel, model);
 	}
 }

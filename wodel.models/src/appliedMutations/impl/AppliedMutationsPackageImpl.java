@@ -13,6 +13,7 @@ import appliedMutations.Mutations;
 import appliedMutations.ObjectCloned;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
+import appliedMutations.ObjectRetyped;
 import appliedMutations.ReferenceAtt;
 import appliedMutations.ReferenceChanged;
 import appliedMutations.ReferenceCreated;
@@ -146,6 +147,13 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	private EClass objectClonedEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass objectRetypedEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -276,6 +284,15 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 */
 	public EReference getObjectRemoved_Object() {
 		return (EReference)objectRemovedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectRemoved_Type() {
+		return (EReference)objectRemovedEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -688,6 +705,51 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getObjectRetyped() {
+		return objectRetypedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectRetyped_Object() {
+		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectRetyped_RemovedObject() {
+		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectRetyped_Type() {
+		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObjectRetyped_NewType() {
+		return (EReference)objectRetypedEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AppliedMutationsFactory getAppliedMutationsFactory() {
 		return (AppliedMutationsFactory)getEFactoryInstance();
 	}
@@ -722,6 +784,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 
 		objectRemovedEClass = createEClass(OBJECT_REMOVED);
 		createEReference(objectRemovedEClass, OBJECT_REMOVED__OBJECT);
+		createEReference(objectRemovedEClass, OBJECT_REMOVED__TYPE);
 
 		referenceChangedEClass = createEClass(REFERENCE_CHANGED);
 		createEReference(referenceChangedEClass, REFERENCE_CHANGED__OBJECT);
@@ -779,6 +842,12 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 
 		objectClonedEClass = createEClass(OBJECT_CLONED);
 		createEReference(objectClonedEClass, OBJECT_CLONED__OBJECT);
+
+		objectRetypedEClass = createEClass(OBJECT_RETYPED);
+		createEReference(objectRetypedEClass, OBJECT_RETYPED__OBJECT);
+		createEReference(objectRetypedEClass, OBJECT_RETYPED__REMOVED_OBJECT);
+		createEReference(objectRetypedEClass, OBJECT_RETYPED__TYPE);
+		createEReference(objectRetypedEClass, OBJECT_RETYPED__NEW_TYPE);
 	}
 
 	/**
@@ -823,6 +892,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 		attributeSwapEClass.getESuperTypes().add(this.getAttributeChanged());
 		compositeMutationEClass.getESuperTypes().add(this.getAppMutation());
 		objectClonedEClass.getESuperTypes().add(this.getAppMutation());
+		objectRetypedEClass.getESuperTypes().add(this.getAppMutation());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mutationsEClass, Mutations.class, "Mutations", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -836,6 +906,7 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 
 		initEClass(objectRemovedEClass, ObjectRemoved.class, "ObjectRemoved", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getObjectRemoved_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ObjectRemoved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getObjectRemoved_Type(), ecorePackage.getEClass(), null, "type", null, 0, 1, ObjectRemoved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(referenceChangedEClass, ReferenceChanged.class, "ReferenceChanged", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceChanged_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ReferenceChanged.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -893,6 +964,12 @@ public class AppliedMutationsPackageImpl extends EPackageImpl implements Applied
 
 		initEClass(objectClonedEClass, ObjectCloned.class, "ObjectCloned", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getObjectCloned_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ObjectCloned.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(objectRetypedEClass, ObjectRetyped.class, "ObjectRetyped", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getObjectRetyped_Object(), ecorePackage.getEObject(), null, "object", null, 0, -1, ObjectRetyped.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getObjectRetyped_RemovedObject(), ecorePackage.getEObject(), null, "removedObject", null, 0, -1, ObjectRetyped.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getObjectRetyped_Type(), ecorePackage.getEClass(), null, "type", null, 0, 1, ObjectRetyped.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObjectRetyped_NewType(), ecorePackage.getEClass(), null, "newType", null, 0, 1, ObjectRetyped.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

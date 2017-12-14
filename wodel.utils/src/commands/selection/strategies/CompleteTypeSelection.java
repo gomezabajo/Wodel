@@ -1,16 +1,21 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import exceptions.ReferenceNonExistingException;
+
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * CompleteTypeSelection selects all objects that match the given parameters
+ *  
+ */
 
 public class CompleteTypeSelection extends CompleteSelection {
 
@@ -25,7 +30,7 @@ public class CompleteTypeSelection extends CompleteSelection {
 	 * @param type
 	 * Normal constructor
 	 */
-	public CompleteTypeSelection(ArrayList<EPackage> metaModel, Resource model, String type){
+	public CompleteTypeSelection(List<EPackage> metaModel, Resource model, String type){
 		super(metaModel, model);
 		this.type = type;
 	}

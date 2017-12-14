@@ -4,8 +4,13 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * StringConfigurationStrategy configures the String attributes
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
 public abstract class StringConfigurationStrategy extends AttributeConfigurationStrategy{
 	
@@ -25,8 +30,6 @@ public abstract class StringConfigurationStrategy extends AttributeConfiguration
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		//if(c.getInstanceClass() == value.getClass()) {
-		System.out.println("c.getInstanceClass(): " + c.getInstanceClass() + ", value.getClass(): " + value.getClass());
 		if (c.getInstanceClass()== value.getClass()) {
 			return true;
 		}
@@ -39,5 +42,4 @@ public abstract class StringConfigurationStrategy extends AttributeConfiguration
 	public String getValue(EObject o){
 		return value;
 	}
-
 }

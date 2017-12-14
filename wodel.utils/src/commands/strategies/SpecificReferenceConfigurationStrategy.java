@@ -1,29 +1,21 @@
 package commands.strategies;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import manager.ModelManager;
-
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import exceptions.ReferenceNonExistingException;
-import exceptions.WrongAttributeTypeException;
-
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * SpecificReferenceConfigurationStrategy specific reference configuration
+ * 
+ */
 public class SpecificReferenceConfigurationStrategy extends
 		ReferenceConfigurationStrategy {
 
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	protected EReference reference;
 	protected EObject object;
 	protected EObject target;
@@ -38,7 +30,7 @@ public class SpecificReferenceConfigurationStrategy extends
 	@Override
 	public boolean sameType() {
 		if (this.reference != null && this.target != null) {
-			if (this.reference.getEType().getName().toLowerCase().equals(this.target.eClass().getName().toLowerCase())) {
+			if (EcoreUtil.equals(this.reference.getEReferenceType(), this.target.eClass())) {
 				return true;
 			}
 		}

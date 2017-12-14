@@ -10,12 +10,12 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.Mutator#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.Mutator#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.Mutator#getFixed <em>Fixed</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getMutator()
  * @model abstract="true"

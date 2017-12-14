@@ -10,11 +10,11 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.ReplaceStringType#getOldstring <em>Oldstring</em>}</li>
  *   <li>{@link mutatorenvironment.ReplaceStringType#getNewstring <em>Newstring</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getReplaceStringType()
  * @model

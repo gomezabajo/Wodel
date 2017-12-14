@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.SelectObjectMutatorImpl#getContainer <em>Container</em>}</li>
  *   <li>{@link mutatorenvironment.impl.SelectObjectMutatorImpl#getObject <em>Object</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

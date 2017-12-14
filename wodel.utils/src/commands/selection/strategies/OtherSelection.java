@@ -1,16 +1,22 @@
 package commands.selection.strategies;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import exceptions.ReferenceNonExistingException;
+
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * OtherSelection selects a different object with the same
+ * type of the given object
+ *  
+ */
 
 public abstract class OtherSelection extends ObSelectionStrategy {
 	
-	public OtherSelection(ArrayList<EPackage> metaModel, Resource model) {
+	public OtherSelection(List<EPackage> metaModel, Resource model) {
 		super(metaModel, model);
 	}
 }

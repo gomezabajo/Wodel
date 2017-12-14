@@ -1,16 +1,23 @@
 package wodel.synthesizer.popup.actions;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.wizards.IWizardDescriptor;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 
 import wodel.synthesizer.generator.GenerateWodelWizard;
 
@@ -47,7 +54,20 @@ public class GenerateWodel implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		wizard.setFile((IFile) ((IStructuredSelection) selection).getFirstElement());
+		IFile file = (IFile) ((IStructuredSelection) selection).getFirstElement();
+		// refresh the use generated file
+		try {
+			InputStream stream = file.getContents();
+			if (file.exists()) {
+				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+				stream = new ByteArrayInputStream(content.getBytes(Charsets.UTF_8));
+				file.setContents(stream, true, true, null);
+			}
+			stream.close();
+		} catch (CoreException e) {
+		} catch (IOException e) {
+		}
+		wizard.setFile(file);
 	}
 
 }

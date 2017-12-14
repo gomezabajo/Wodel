@@ -6,6 +6,7 @@ package wodeledu.dsls.scoping;
 import edutest.MutatorTests;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import manager.ModelManager;
 import manager.WodelContext;
 import mutatorenvironment.Block;
@@ -23,10 +24,9 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.osgi.framework.Bundle;
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the eduTest language.
  */
 @SuppressWarnings("all")
 public class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
@@ -55,7 +55,7 @@ public class EduTestScopeProvider extends AbstractDeclarativeScopeProvider {
         final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
         URL _resolve = FileLocator.resolve(fileURL);
         final String ecore = _resolve.getFile();
-        final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
+        final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
         URI _createURI = URI.createURI(xmiFileName);
         String _fileString = _createURI.toFileString();
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, _fileString);

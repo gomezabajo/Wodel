@@ -8,6 +8,13 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * RandomConfigurationStrategy configures a random attribute numeric or literal
+ * 
+ */
+
 public class RandomConfigurationStrategy extends AttributeConfigurationStrategy {
 	
 	protected Object value;
@@ -25,12 +32,11 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 	@Override
 	public boolean sameType(EClassifier c) {
 		if (c.getInstanceClass() != null) {
-			System.out.println("RANDOM: c.getInstanceClass().getSimpleName().toLowerCase(): " + c.getInstanceClass().getSimpleName().toLowerCase());
-			String className = c.getInstanceClass().getSimpleName().toLowerCase();
-			if (className.equals("int") ||
-				className.equals("double") ||
-				className.equals("string") ||
-				className.equals("boolean"))
+			String className = c.getInstanceClassName();
+			if (className.equals("int") || className.equals("java.lang.Integer") ||
+				className.equals("double") || className.equals("java.lang.Double") ||
+				className.equals("string") || className.equals("java.lang.String") ||
+				className.equals("boolean") || className.equals("java.lang.Boolean"))
 			return true;
 		}
 		if (c.getClass().getSimpleName().toLowerCase().equals("eenumimpl")) {
@@ -42,7 +48,6 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 	public Object getValue() {
 		Object ret = null;
 		int max = 10;
-		System.out.println("RANDOM: this.value.getClass().getSimpleName().toLowerCase(): " + this.value.getClass().getSimpleName().toLowerCase());
 		String className = this.value.getClass().getSimpleName().toLowerCase();
 		if (className.equals("integer")) {
 			int i = 0;
@@ -95,7 +100,6 @@ public class RandomConfigurationStrategy extends AttributeConfigurationStrategy 
 	public Object getValue(EObject o){
 		Object ret = null;
 		int max = 10;
-		System.out.println("RANDOM: this.value.getClass().getSimpleName().toLowerCase(): " + this.value.getClass().getSimpleName().toLowerCase());
 		if (this.value.getClass().getSimpleName().toLowerCase().equals("integer")) {
 			int i = 0;
 			do {

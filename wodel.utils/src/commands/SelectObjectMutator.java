@@ -1,28 +1,26 @@
 package commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import manager.ModelManager;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import commands.selection.strategies.ObSelectionStrategy;
-import commands.strategies.AttributeConfigurationStrategy;
 import exceptions.AbstractCreationException;
-import exceptions.ObjectNoTargetableException;
 import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
+
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * SelectObjectMutator selects an object
+ *  
+ */
 
 public class SelectObjectMutator extends Mutator {
 
@@ -53,7 +51,7 @@ public class SelectObjectMutator extends Mutator {
 	 * @param attributeConfig
 	 * Normal constructor
 	 */
-	public SelectObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+	public SelectObjectMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, ObSelectionStrategy object){
 		super(model, metaModel, "ObjectSelected");
 		this.referenceSelection = referenceSelection;
@@ -69,7 +67,7 @@ public class SelectObjectMutator extends Mutator {
 	 * @param attributeConfig
 	 * Normal constructor
 	 */
-	public SelectObjectMutator(Resource model, ArrayList<EPackage> metaModel,
+	public SelectObjectMutator(Resource model, List<EPackage> metaModel,
 			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, EObject obj){
 		super(model, metaModel, "ObjectSelected");
 		this.referenceSelection = referenceSelection;
@@ -84,7 +82,7 @@ public class SelectObjectMutator extends Mutator {
 		}
 		EObject object = null;
 		if (objectSelection != null) {
-		 object = objectSelection.getObject();
+			object = objectSelection.getObject();
 		}
 		if (selectedObject != null) {
 			object = selectedObject;
@@ -104,8 +102,6 @@ public class SelectObjectMutator extends Mutator {
 				if (container.eGet(reference) instanceof List<?>) {
 					List<EObject> objects = (List<EObject>) container.eGet(reference);
 					for (EObject obj : objects) {
-						System.out.println(ModelManager.getStringAttribute("name", obj));
-						System.out.println(ModelManager.getStringAttribute("name", object));
 						if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(object))) {
 							object = obj;
 							break;

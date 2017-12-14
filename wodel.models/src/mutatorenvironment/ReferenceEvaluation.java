@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getName <em>Name</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefName <em>Ref Name</em>}</li>
@@ -18,7 +19,6 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getValue <em>Value</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefType <em>Ref Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation()
  * @model

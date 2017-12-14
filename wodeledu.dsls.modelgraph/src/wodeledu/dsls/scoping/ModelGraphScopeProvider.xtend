@@ -25,12 +25,11 @@ import modelgraph.NodeEnumerator
 import modelgraph.Content
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the modelGraph language.
  *
- */
+ */ 
 class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def IScope scope_Item_name(MutatorGraph graph, EReference ref) {
@@ -172,10 +171,10 @@ class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
 	 def private List<EClass> getEClasses (String metamodelFile) {
         val List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile)
         val List<EClass>   classes   = new ArrayList<EClass>()
-        for (EPackage pck : metamodel)
-          for (EClassifier cl : pck.EClassifiers)
-            if (cl instanceof EClass)
-           		classes.add(cl as EClass)
+   	    for (EPackage pck : metamodel)
+       	  for (EClassifier cl : pck.EClassifiers)
+           	if (cl instanceof EClass)
+      			classes.add(cl as EClass)
         return classes
 	 }
 	 
@@ -186,7 +185,6 @@ class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
 	   * @return List<EAttribute> list of attributes
 	   */ 
 	 def private List<EAttribute> getEAttributes (String metamodelFile, String eclassName) {
-	   	System.out.println("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile + ", String eclassName=" + eclassName + ")")
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
 	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
         val ArrayList<EAttribute> atts = new ArrayList<EAttribute>()

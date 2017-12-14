@@ -3,6 +3,14 @@ package commands.strategies;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * CatEndStringConfigurationStrategy concatenates a string
+ * at the end of the given one
+ *  
+ */
+
 public class CatEndStringConfigurationStrategy extends StringConfigurationStrategy {
 	/**
 	 * @param value

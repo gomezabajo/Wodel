@@ -5,9 +5,15 @@ import java.util.ArrayList;
 import commands.Mutator;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * CommandLog Storage for commands
+ *  
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class CommandLog {
 	
 	/**

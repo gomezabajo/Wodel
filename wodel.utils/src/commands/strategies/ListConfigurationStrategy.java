@@ -9,12 +9,15 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * ListConfigurationStrategy configures the eenum literal list attribute
+ * 
+ */
+
 public class ListConfigurationStrategy extends AttributeConfigurationStrategy {
 
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
 	protected String value;
 	
 	protected String att;
@@ -38,6 +41,9 @@ public class ListConfigurationStrategy extends AttributeConfigurationStrategy {
 		if (value != null) {
             value = value.trim().replaceAll("'", "").replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", ""); 
             String[] values = value.split(",");
+            for (int i = 0; i < values.length; i++) {
+            	values[i] = values[i].trim();
+            }
             ArrayList<String> vals = new ArrayList<String>();
             if (oldValue != null) {
            		if (oldValue instanceof EEnumLiteral) {
@@ -69,8 +75,6 @@ public class ListConfigurationStrategy extends AttributeConfigurationStrategy {
 
 	@Override
 	public boolean sameType(EClassifier c) {
-		System.out.println("Classifier: " + c);
-		System.out.println("value: " + value);
 		if(c.getInstanceClass() == value.getClass()) {
 			return true;
 		}

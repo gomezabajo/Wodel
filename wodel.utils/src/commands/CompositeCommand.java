@@ -14,10 +14,16 @@ import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * CompositeClass gathers commands to execute them together and then
  * create different actions over the model.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class CompositeCommand extends Mutator{
 
 	/**
@@ -28,7 +34,7 @@ public class CompositeCommand extends Mutator{
 	/**
 	 * Constructor. initializes the ArrayLists
 	 */
-	public CompositeCommand(Resource model, ArrayList<EPackage> metaModel) {
+	public CompositeCommand(Resource model, List<EPackage> metaModel) {
 		super(model, metaModel, "Composite");
 		commands = new ArrayList<Mutator>();
 		

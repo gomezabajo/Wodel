@@ -3,7 +3,6 @@
  */
 package wodeledu.dsls.scoping;
 
-import com.google.common.base.Objects;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +12,11 @@ import mutatext.Option;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
@@ -27,10 +24,9 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.osgi.framework.Bundle;
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the mutaText language.
  */
 @SuppressWarnings("all")
 public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
@@ -82,71 +78,6 @@ public class MutaTextScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       }
       return classes;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
-  }
-  
-  /**
-   * It return the list of attributes of a class.
-   * @param String file containing the metamodel
-   * @param String class name
-   * @return List<EAttribute> list of attributes
-   */
-  private List<EAttribute> getEAttributes(final String metamodelFile, final String eclassName) {
-    try {
-      System.out.println((((("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile) + ", String eclassName=") + eclassName) + ")"));
-      final ArrayList<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      final Resource model = ModelManager.loadModel(metamodel, metamodelFile);
-      EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
-      final EClass eclass = ((EClass) _objectOfType);
-      final List<EObject> containers = ModelManager.getContainerObjects(model, eclassName);
-      ArrayList<EAttribute> atts = new ArrayList<EAttribute>();
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
-        EList<EAttribute> _eAllAttributes = eclass.getEAllAttributes();
-        atts.addAll(_eAllAttributes);
-        boolean _notEquals_1 = (!Objects.equal(containers, null));
-        if (_notEquals_1) {
-          for (final EObject cont : containers) {
-            EList<EAttribute> _eAllAttributes_1 = ((EClass) cont).getEAllAttributes();
-            atts.addAll(_eAllAttributes_1);
-          }
-        }
-      }
-      return atts;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
-  }
-  
-  /**
-   * It returns the list of references of a class.
-   * @param String file containing the metamodel
-   * @param String class name
-   * @return List<EReference>
-   */
-  private List<EReference> getEReferences(final String metamodelFile, final String eclassName) {
-    try {
-      final ArrayList<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
-      final Resource model = ModelManager.loadModel(metamodel, metamodelFile);
-      EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
-      final EClass eclass = ((EClass) _objectOfType);
-      final List<EObject> containers = ModelManager.getContainerObjects(model, eclassName);
-      ArrayList<EReference> refs = new ArrayList<EReference>();
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
-        EList<EReference> _eAllReferences = eclass.getEAllReferences();
-        refs.addAll(_eAllReferences);
-        boolean _notEquals_1 = (!Objects.equal(containers, null));
-        if (_notEquals_1) {
-          for (final EObject cont : containers) {
-            EList<EReference> _eAllReferences_1 = ((EClass) cont).getEAllReferences();
-            refs.addAll(_eAllReferences_1);
-          }
-        }
-      }
-      return refs;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

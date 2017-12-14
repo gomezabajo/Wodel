@@ -11,7 +11,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
- * Use this class to register components to be used within the IDE.
+ * @author Pablo Gomez-Abajo - Wodel UI Module
+ * 
+ * Wodel User Interface contributions.
+ *
  */
 public class WodelUiModule extends wodel.dsls.ui.AbstractWodelUiModule {
 	public WodelUiModule(AbstractUIPlugin plugin) {
@@ -20,6 +23,6 @@ public class WodelUiModule extends wodel.dsls.ui.AbstractWodelUiModule {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener, IResourceChangeEvent.POST_CHANGE);
 	}
 	public Class<? extends org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage> bindLanguageRootPreferencePage() {
-	    return wodel.dsls.ui.customize.CustomizeWodelPreferencePage.class;
+	    return wodel.dsls.ui.customize.WodelGeneralPreferencePage.class;
 	}
 }

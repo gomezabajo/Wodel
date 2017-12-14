@@ -24,6 +24,7 @@ public abstract class AbstractWodelSyntacticSequencer extends AbstractSyntacticS
 	protected AbstractElementAlias match_CloneObjectMutator___WithKeyword_5_0_LeftCurlyBracketKeyword_5_1_RightCurlyBracketKeyword_5_4__q;
 	protected AbstractElementAlias match_CreateObjectMutator___WithKeyword_4_0_LeftCurlyBracketKeyword_4_1_RightCurlyBracketKeyword_4_4__q;
 	protected AbstractElementAlias match_ModifyInformationMutator___WithKeyword_3_0_LeftCurlyBracketKeyword_3_1_RightCurlyBracketKeyword_3_4__q;
+	protected AbstractElementAlias match_RetypeObjectMutator___WithKeyword_6_0_LeftCurlyBracketKeyword_6_1_RightCurlyBracketKeyword_6_4__q;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
@@ -31,6 +32,7 @@ public abstract class AbstractWodelSyntacticSequencer extends AbstractSyntacticS
 		match_CloneObjectMutator___WithKeyword_5_0_LeftCurlyBracketKeyword_5_1_RightCurlyBracketKeyword_5_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCloneObjectMutatorAccess().getWithKeyword_5_0()), new TokenAlias(false, false, grammarAccess.getCloneObjectMutatorAccess().getLeftCurlyBracketKeyword_5_1()), new TokenAlias(false, false, grammarAccess.getCloneObjectMutatorAccess().getRightCurlyBracketKeyword_5_4()));
 		match_CreateObjectMutator___WithKeyword_4_0_LeftCurlyBracketKeyword_4_1_RightCurlyBracketKeyword_4_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCreateObjectMutatorAccess().getWithKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getCreateObjectMutatorAccess().getLeftCurlyBracketKeyword_4_1()), new TokenAlias(false, false, grammarAccess.getCreateObjectMutatorAccess().getRightCurlyBracketKeyword_4_4()));
 		match_ModifyInformationMutator___WithKeyword_3_0_LeftCurlyBracketKeyword_3_1_RightCurlyBracketKeyword_3_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getModifyInformationMutatorAccess().getWithKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getModifyInformationMutatorAccess().getLeftCurlyBracketKeyword_3_1()), new TokenAlias(false, false, grammarAccess.getModifyInformationMutatorAccess().getRightCurlyBracketKeyword_3_4()));
+		match_RetypeObjectMutator___WithKeyword_6_0_LeftCurlyBracketKeyword_6_1_RightCurlyBracketKeyword_6_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getRetypeObjectMutatorAccess().getWithKeyword_6_0()), new TokenAlias(false, false, grammarAccess.getRetypeObjectMutatorAccess().getLeftCurlyBracketKeyword_6_1()), new TokenAlias(false, false, grammarAccess.getRetypeObjectMutatorAccess().getRightCurlyBracketKeyword_6_4()));
 	}
 	
 	@Override
@@ -51,6 +53,8 @@ public abstract class AbstractWodelSyntacticSequencer extends AbstractSyntacticS
 				emit_CreateObjectMutator___WithKeyword_4_0_LeftCurlyBracketKeyword_4_1_RightCurlyBracketKeyword_4_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if(match_ModifyInformationMutator___WithKeyword_3_0_LeftCurlyBracketKeyword_3_1_RightCurlyBracketKeyword_3_4__q.equals(syntax))
 				emit_ModifyInformationMutator___WithKeyword_3_0_LeftCurlyBracketKeyword_3_1_RightCurlyBracketKeyword_3_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if(match_RetypeObjectMutator___WithKeyword_6_0_LeftCurlyBracketKeyword_6_1_RightCurlyBracketKeyword_6_4__q.equals(syntax))
+				emit_RetypeObjectMutator___WithKeyword_6_0_LeftCurlyBracketKeyword_6_1_RightCurlyBracketKeyword_6_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else acceptNodes(getLastNavigableState(), syntaxNodes);
 		}
 	}
@@ -97,6 +101,19 @@ public abstract class AbstractWodelSyntacticSequencer extends AbstractSyntacticS
 	 *     object=ObSelectionStrategy (ambiguity) (rule end)
 	 */
 	protected void emit_ModifyInformationMutator___WithKeyword_3_0_LeftCurlyBracketKeyword_3_1_RightCurlyBracketKeyword_3_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Ambiguous syntax:
+	 *     ('with' '{' '}')?
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     type=[EClass|ID] (ambiguity) '[' max=MaxCardinality
+	 *     type=[EClass|ID] (ambiguity) '[' min=EInt
+	 *     type=[EClass|ID] (ambiguity) (rule end)
+	 */
+	protected void emit_RetypeObjectMutator___WithKeyword_6_0_LeftCurlyBracketKeyword_6_1_RightCurlyBracketKeyword_6_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

@@ -4,9 +4,15 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * IntegerConfigurationStrategy configures the int attributes
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public abstract class IntegerConfigurationStrategy extends AttributeConfigurationStrategy {
 	
 	/**
@@ -25,7 +31,7 @@ public abstract class IntegerConfigurationStrategy extends AttributeConfiguratio
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		if(c.getInstanceClassName().equals("int")) return true;
+		if(c.getInstanceClassName().equals("int") || c.getInstanceClassName().equals("java.lang.Integer")) return true;
 		return false;
 	}
 	

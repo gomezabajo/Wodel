@@ -270,7 +270,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="Constraint">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rule" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        upperBound="-1" eType="#//miniOCL/InvariantCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rules" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Repeat">
     <eLiterals name="yes"/>
@@ -279,7 +282,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="RandomType" eSuperTypes="#//AttributeType"/>
   <eClassifiers xsi:type="ecore:EClass" name="CloneObjectMutator" eSuperTypes="#//Mutator">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="contents" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="ListType"/>
+        <details key="unique" value="false"/>
+        <details key="upper" value="*"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//ObSelectionStrategy"
@@ -319,11 +328,11 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ArithmeticOperator">
-    <eLiterals name="add" literal="add"/>
-    <eLiterals name="subtract" value="1" literal="subtract"/>
-    <eLiterals name="multiply" value="2" literal="multiply"/>
-    <eLiterals name="divide" value="3" literal="divide"/>
-    <eLiterals name="module" value="4" literal="module"/>
+    <eLiterals name="add"/>
+    <eLiterals name="subtract" value="1"/>
+    <eLiterals name="multiply" value="2"/>
+    <eLiterals name="divide" value="3"/>
+    <eLiterals name="module" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RandomNumberType" abstract="true" eSuperTypes="#//NumberType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
@@ -334,7 +343,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RandomIntegerNumberType" eSuperTypes="#//RandomNumberType">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+        <details key="body" value="SpecificClosureSelection"/>
+        <details key="unique" value="false"/>
+        <details key="upper" value="*"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpecificClosureSelection" eSuperTypes="#//SpecificSelection">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objSel" lowerBound="1"
@@ -353,4 +368,175 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceAdd" eSuperTypes="#//ReferenceSet"/>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceRemove" eSuperTypes="#//ReferenceSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RetypeObjectMutator" eSuperTypes="#//Mutator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//ObSelectionStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//ObSelectionStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//AttributeSet" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//ReferenceSet" containment="true"/>
+  </eClassifiers>
+  <eSubpackages name="miniOCL" nsURI="http://www.ac.uk/york/cs/miniocl/MiniOCLCS"
+      nsPrefix="miniOCL">
+    <eClassifiers xsi:type="ecore:EClass" name="RootCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+          eType="#//miniOCL/PackageCS" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="contraints" upperBound="-1"
+          eType="#//miniOCL/ConstraintCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PackageCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+          eType="#//miniOCL/PackageCS" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+          eType="#//miniOCL/ClassCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+          eType="#//miniOCL/PropertyCS" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+          eType="#//miniOCL/OperationCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PropertyCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+          eType="#//miniOCL/ParameterCS" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resultRef" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//miniOCL/ExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParameterCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstraintCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typeRef" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invariants" upperBound="-1"
+          eType="#//miniOCL/InvariantCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvariantCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exp" eType="#//miniOCL/ExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExpCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LogicExpCS" eSuperTypes="#//miniOCL/ExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//miniOCL/LogicExpCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//miniOCL/CallExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CallExpCS" eSuperTypes="#//miniOCL/LogicExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//miniOCL/CallExpCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="navExp" eType="#//miniOCL/NavigationExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PrimaryExpCS" eSuperTypes="#//miniOCL/CallExpCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationExpCS" eSuperTypes="#//miniOCL/PrimaryExpCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NameExpCS" eSuperTypes="#//miniOCL/NavigationExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="expName" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roundedBrackets" eType="#//miniOCL/RoundedBracketClauseCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="callExp" eType="#//miniOCL/CallExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LoopExpCS" eSuperTypes="#//miniOCL/NavigationExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="itVar" eType="#//miniOCL/IteratorVarCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="logicOp" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exp" upperBound="-1"
+          eType="#//miniOCL/ExpCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CollectExpCS" eSuperTypes="#//miniOCL/LoopExpCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IteratorVarCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="itName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="itType" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IterateExpCS" eSuperTypes="#//miniOCL/LoopExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="accVar" eType="#//miniOCL/AccVarCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AccVarCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="accVarName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="accType" eType="#//miniOCL/PathNameCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="accInitExp" eType="#//miniOCL/ExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RoundedBracketClauseCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="args" upperBound="-1"
+          eType="#//miniOCL/ExpCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LiteralExpCS" eSuperTypes="#//miniOCL/PrimaryExpCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IntLiteralExpCS" eSuperTypes="#//miniOCL/LiteralExpCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intSymbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StringLiteralExpCS" eSuperTypes="#//miniOCL/LiteralExpCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringSymbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteralExpCS" eSuperTypes="#//miniOCL/LiteralExpCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PathNameCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="path" upperBound="-1"
+          eType="#//miniOCL/PathCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PathCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PathVariableCS" eSuperTypes="#//miniOCL/PathCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="varName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PathElementCS" eSuperTypes="#//miniOCL/PathCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pathName" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanExpCS" eSuperTypes="#//miniOCL/BooleanLiteralExpCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="boolSymbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+          <details key="body" value="ExistsExpCS"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExistsExpCS" eSuperTypes="#//miniOCL/LoopExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="accVars" upperBound="-1"
+          eType="#//miniOCL/AccVarCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationNameExpCS" eSuperTypes="#//miniOCL/NavigationExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="expName" eType="#//miniOCL/NavigationPathNameCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roundedBrackets" eType="#//miniOCL/RoundedBracketClauseCS"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="callExp" eType="#//miniOCL/CallExpCS"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationPathNameCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="path" upperBound="-1"
+          eType="#//miniOCL/NavigationPathCS" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationPathCS"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationPathVariableCS" eSuperTypes="#//miniOCL/NavigationPathCS">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="varName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationPathElementCS" eSuperTypes="#//miniOCL/NavigationPathCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pathName" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForAllExpCS" eSuperTypes="#//miniOCL/LoopExpCS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="accVars" upperBound="-1"
+          eType="#//miniOCL/AccVarCS" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

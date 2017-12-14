@@ -2,10 +2,17 @@
  */
 package mutatorenvironment.impl;
 
+import java.util.Collection;
+
 import mutatorenvironment.Constraint;
 import mutatorenvironment.MutatorenvironmentPackage;
 
+import mutatorenvironment.miniOCL.InvariantCS;
+
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -13,18 +20,23 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Constraint</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ConstraintImpl#getId <em>Id</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ConstraintImpl#getType <em>Type</em>}</li>
- *   <li>{@link mutatorenvironment.impl.ConstraintImpl#getRule <em>Rule</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ConstraintImpl#getExpressions <em>Expressions</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ConstraintImpl#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -60,24 +72,24 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 	protected EClass type;
 
 	/**
-	 * The default value of the '{@link #getRule() <em>Rule</em>}' attribute.
+	 * The cached value of the '{@link #getExpressions() <em>Expressions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRule()
+	 * @see #getExpressions()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String RULE_EDEFAULT = null;
+	protected EList<InvariantCS> expressions;
 
 	/**
-	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
+	 * The cached value of the '{@link #getRules() <em>Rules</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRule()
+	 * @see #getRules()
 	 * @generated
 	 * @ordered
 	 */
-	protected String rule = RULE_EDEFAULT;
+	protected EList<String> rules;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -162,8 +174,11 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getRule() {
-		return rule;
+	public EList<InvariantCS> getExpressions() {
+		if (expressions == null) {
+			expressions = new EObjectContainmentEList<InvariantCS>(InvariantCS.class, this, MutatorenvironmentPackage.CONSTRAINT__EXPRESSIONS);
+		}
+		return expressions;
 	}
 
 	/**
@@ -171,11 +186,25 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRule(String newRule) {
-		String oldRule = rule;
-		rule = newRule;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.CONSTRAINT__RULE, oldRule, rule));
+	public EList<String> getRules() {
+		if (rules == null) {
+			rules = new EDataTypeUniqueEList<String>(String.class, this, MutatorenvironmentPackage.CONSTRAINT__RULES);
+		}
+		return rules;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case MutatorenvironmentPackage.CONSTRAINT__EXPRESSIONS:
+				return ((InternalEList<?>)getExpressions()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -191,8 +220,10 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 			case MutatorenvironmentPackage.CONSTRAINT__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
-			case MutatorenvironmentPackage.CONSTRAINT__RULE:
-				return getRule();
+			case MutatorenvironmentPackage.CONSTRAINT__EXPRESSIONS:
+				return getExpressions();
+			case MutatorenvironmentPackage.CONSTRAINT__RULES:
+				return getRules();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,6 +233,7 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -211,8 +243,13 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 			case MutatorenvironmentPackage.CONSTRAINT__TYPE:
 				setType((EClass)newValue);
 				return;
-			case MutatorenvironmentPackage.CONSTRAINT__RULE:
-				setRule((String)newValue);
+			case MutatorenvironmentPackage.CONSTRAINT__EXPRESSIONS:
+				getExpressions().clear();
+				getExpressions().addAll((Collection<? extends InvariantCS>)newValue);
+				return;
+			case MutatorenvironmentPackage.CONSTRAINT__RULES:
+				getRules().clear();
+				getRules().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -232,8 +269,11 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 			case MutatorenvironmentPackage.CONSTRAINT__TYPE:
 				setType((EClass)null);
 				return;
-			case MutatorenvironmentPackage.CONSTRAINT__RULE:
-				setRule(RULE_EDEFAULT);
+			case MutatorenvironmentPackage.CONSTRAINT__EXPRESSIONS:
+				getExpressions().clear();
+				return;
+			case MutatorenvironmentPackage.CONSTRAINT__RULES:
+				getRules().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -251,8 +291,10 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case MutatorenvironmentPackage.CONSTRAINT__TYPE:
 				return type != null;
-			case MutatorenvironmentPackage.CONSTRAINT__RULE:
-				return RULE_EDEFAULT == null ? rule != null : !RULE_EDEFAULT.equals(rule);
+			case MutatorenvironmentPackage.CONSTRAINT__EXPRESSIONS:
+				return expressions != null && !expressions.isEmpty();
+			case MutatorenvironmentPackage.CONSTRAINT__RULES:
+				return rules != null && !rules.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -269,8 +311,8 @@ public class ConstraintImpl extends MinimalEObjectImpl.Container implements Cons
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
-		result.append(", rule: ");
-		result.append(rule);
+		result.append(", rules: ");
+		result.append(rules);
 		result.append(')');
 		return result.toString();
 	}

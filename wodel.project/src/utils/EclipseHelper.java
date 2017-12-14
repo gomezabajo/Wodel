@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -32,13 +33,39 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-
+import org.eclipse.xtext.ui.XtextProjectHelper;
 import builder.SampleBuilder;
 import builder.SampleNature;
+
+/**
+ * @author Pablo Gomez-Abajo - Wodel project creation Eclipse Helper.
+ * 
+ * Wodel project creation.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
+ */
 
 public class EclipseHelper {
 
 	public static final String ISO_8859_1 = "iso-8859-1";
+	
+	public static void addXtextNature(IProject project) {
+		try {
+			IProjectDescription description = project.getDescription();
+			String natures[] = description.getNatureIds();
+			if (!Arrays.asList(natures).contains(XtextProjectHelper.NATURE_ID)) {
+				int newNaturesLength = natures.length + 1;
+				String newNatures[] = new String[newNaturesLength];
+				System.arraycopy(natures, 0, newNatures, 0, natures.length);
+				newNatures[natures.length] = XtextProjectHelper.NATURE_ID;
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public static IProject createWodelProject(final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles, final Set<String> importPackages,
@@ -84,7 +111,7 @@ public class EclipseHelper {
 			}
 
 			projectDescription.setNatureIds(new String[] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", SampleNature.NATURE_ID });
-
+			
 			final ICommand java = projectDescription.newCommand();
 			java.setBuilderName(JavaCore.BUILDER_ID);
 
@@ -101,6 +128,7 @@ public class EclipseHelper {
 
 			project.open(new SubProgressMonitor(progressMonitor, 1));
 			project.setDescription(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+			addXtextNature(project);
 
 			Collections.reverse(srcFolders);
 			for (final String src : srcFolders) {

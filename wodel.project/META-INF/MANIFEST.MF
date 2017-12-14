@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  com.google.guava,
  org.eclipse.jface,
  wodel.dsls.wodel,
- wodel.models
+ wodel.models,
+ org.eclipse.xtext.xtext.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: generator,

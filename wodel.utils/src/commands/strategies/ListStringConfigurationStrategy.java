@@ -5,21 +5,18 @@ import java.util.Arrays;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * ListStringConfigurationStrategy configures the string list attribute
+ * 
+ */
 
 public class ListStringConfigurationStrategy extends AttributeConfigurationStrategy {
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
+
 	protected String value;
 	
 	protected String att;
@@ -65,11 +62,10 @@ public class ListStringConfigurationStrategy extends AttributeConfigurationStrat
 
 	@Override
 	public boolean sameType(EClassifier c) {
-		System.out.println("Classifier: " + c);
-		System.out.println("value: " + value);
 		if(c.getInstanceClass() == value.getClass()) {
 			return true;
 		}
 		return false;
-	}	
+	}
+
 }

@@ -1,28 +1,14 @@
 package wizards;
 
 import manager.ModelManager;
-import manager.WodelContext;
-import mutatorenvironment.MutatorEnvironment;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseTrackListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.core.runtime.*;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.*;
-import org.eclipse.jface.resource.ImageDescriptor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -34,19 +20,11 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.eclipse.jface.dialogs.IDialogPage;
-import org.eclipse.jface.dialogs.IPageChangedListener;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 
-import java.awt.Composite;
 import java.io.*;
 
 import org.eclipse.ui.*;
@@ -54,7 +32,6 @@ import org.eclipse.ui.ide.IDE;
 
 import utils.EclipseHelper;
 import wodel.dsls.WodelUtils;
-import builder.SampleNature;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
@@ -63,14 +40,14 @@ import exceptions.MetaModelNotFoundException;
 import generator.IGenerator;
 
 /**
- * This is a sample new wizard. Its role is to create a new file resource in the
- * provided container. If the container resource (a folder or a project) is
- * selected in the workspace when the wizard is opened, it will accept it as the
- * target container. The wizard creates one file with the extension "mpe". If a
- * sample multi-page editor (also available as a template) is registered for the
- * same extension, it will be able to open it.
+ * @author Pablo Gomez-Abajo - Wodel new project Wizard.
+ * 
+ * Wodel new project Wizard.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
-
 public class WodelWizard extends Wizard implements INewWizard {
 	private ISelection selection;
 
@@ -175,6 +152,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.ocl.ecore;bundle-version=\"3.3.100\"");
 		requiredBundles.add("org.eclipse.emf.common");
 		requiredBundles.add("org.eclipse.core.runtime;bundle-version=\"3.10.0\"");
+		requiredBundles.add("org.eclipse.text");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
@@ -199,118 +177,6 @@ public class WodelWizard extends Wizard implements INewWizard {
 			stream.close();
 		} catch (IOException e) {
 		}
-		
-//		monitor.beginTask("Creating resources folder", 8);
-//		final IFolder resourcesFolder = project.getFolder(new Path("resources"));
-//		resourcesFolder.create(true, true, monitor);
-//		
-//		try {
-//			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-//			String srcName = "";
-//			if (jarFile.isFile()) {
-//				final JarFile jar = new JarFile(jarFile);
-//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-//				while(entries.hasMoreElements()) {
-//					JarEntry entry = entries.nextElement();
-//					if (! entry.isDirectory()) {
-//						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutatorEnvironment.ecore")) {
-//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-//							InputStream input = jar.getInputStream(entry);
-//							FileOutputStream output = new FileOutputStream(dest);
-//							while (input.available() > 0) {
-//								output.write(input.read());
-//							}
-//							output.close();
-//							input.close();
-//						}
-//					}
-//				}
-//				jar.close();
-//		    }
-//			else {
-//				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutatorEnvironment.ecore";
-//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutatorEnvironment.ecore";
-//				final File src = new Path(srcName).toFile();
-//				final File dest = new Path(tarName).toFile();
-//				if ((src != null) && (dest != null)) {
-//					ModelManager.copyFile(src, dest);
-//				}
-//			}
-//		} catch (IOException e) {
-//		}
-//		
-//		try {
-//			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-//			String srcName = "";
-//			if (jarFile.isFile()) {
-//				final JarFile jar = new JarFile(jarFile);
-//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-//				while(entries.hasMoreElements()) {
-//					JarEntry entry = entries.nextElement();
-//					if (! entry.isDirectory()) {
-//						if (entry.getName().startsWith("models") && entry.getName().endsWith("AppliedMutations.ecore")) {
-//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-//							InputStream input = jar.getInputStream(entry);
-//							FileOutputStream output = new FileOutputStream(dest);
-//							while (input.available() > 0) {
-//								output.write(input.read());
-//							}
-//							output.close();
-//							input.close();
-//						}
-//					}
-//				}
-//				jar.close();
-//		    }
-//			else {
-//				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/AppliedMutations.ecore";
-//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/AppliedMutations.ecore";
-//				final File src = new Path(srcName).toFile();
-//				final File dest = new Path(tarName).toFile();
-//				if ((src != null) && (dest != null)) {
-//					ModelManager.copyFile(src, dest);
-//				}
-//			}
-//		} catch (IOException e) {
-//		}
-//		
-//		try {
-//			final File jarFile = new File(MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-//			String srcName = "";
-//			if (jarFile.isFile()) {
-//				final JarFile jar = new JarFile(jarFile);
-//				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-//				while(entries.hasMoreElements()) {
-//					JarEntry entry = entries.nextElement();
-//					if (! entry.isDirectory()) {
-//						if (entry.getName().startsWith("models") && entry.getName().endsWith("MutatorMetrics.ecore")) {
-//							final File f = resourcesFolder.getRawLocation().makeAbsolute().toFile();
-//							File dest = new File(f.getPath() + '/' + entry.getName().replace("models/", ""));
-//							InputStream input = jar.getInputStream(entry);
-//							FileOutputStream output = new FileOutputStream(dest);
-//							while (input.available() > 0) {
-//								output.write(input.read());
-//							}
-//							output.close();
-//							input.close();
-//						}
-//					}
-//				}
-//				jar.close();
-//		    }
-//			else {
-//				srcName = MutatorEnvironment.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "models/MutatorMetrics.ecore";
-//				String tarName = resourcesFolder.getRawLocation().makeAbsolute().toFile().getPath() + "/MutatorMetrics.ecore";
-//				final File src = new Path(srcName).toFile();
-//				final File dest = new Path(tarName).toFile();
-//				if ((src != null) && (dest != null)) {
-//					ModelManager.copyFile(src, dest);
-//				}
-//			}
-//		} catch (IOException e) {
-//		}
 		
 		monitor.beginTask("Creating model folder", 8);
 		final IFolder modelFolder = project.getFolder(new Path(modelName));
@@ -361,7 +227,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 				def += "metamodel \"\" //fill this with the path to the meta-model\n\n";
 			}
 			if (metamodel != null) {
-				ArrayList<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(projectName) + "/" + metamodel);
+				List<EPackage> packages = ModelManager.loadMetaModel(ModelManager.getMetaModelPath(projectName) + "/" + metamodel);
 				ArrayList<EClass> eclasses = ModelManager.getEClasses(packages);
 				EClass eclass = eclasses.get(0);
 				def += "with commands {\n";
@@ -391,8 +257,8 @@ public class WodelWizard extends Wizard implements INewWizard {
 		WodelUtils.serialize(xTextFileName, xmiFileName);
 
 
-		if (Platform.getExtensionRegistry() != null) {
-			IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		if (registry != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry().getConfigurationElementsFor(
 							"wodel.extension.MutApplication");
@@ -429,57 +295,6 @@ public class WodelWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		
-		final IFolder iconsFolder = dataFolder.getFolder(new Path("icons"));
-		iconsFolder.create(true, true, monitor);
-
-		monitor.beginTask("Creating icons folder", 8);
-		try {
-			iconsFolder.create(true, true, monitor);
-		} catch (CoreException e) {
-		}
-		try {
-		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
-		//URL fileURL = bundle.getEntry("content");
-		final File jarFile = new File(WodelWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-		String srcName = "";
-		if (jarFile.isFile()) {
-			final JarFile jar = new JarFile(jarFile);
-			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-		    while(entries.hasMoreElements()) {
-		    	JarEntry entry = entries.nextElement();
-		    	if (! entry.isDirectory()) {
-		    		if (entry.getName().startsWith("icons/metrics")) {
-		    			final File f = iconsFolder.getRawLocation().makeAbsolute().toFile();
-		    			File path = new File(f.getPath() + '/' + entry.getName().replace("icons/metrics/", "").split("/")[0]);
-		    			if (!path.exists()) {
-		    				path.mkdir();
-		    			}
-		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("icons/metrics/", ""));
-		    			InputStream input = jar.getInputStream(entry);
-		    			FileOutputStream output = new FileOutputStream(dest);
-		    			while (input.available() > 0) {
-		    				output.write(input.read());
-		    			}
-		    			output.close();
-		    			input.close();
-		    		}
-	    		}
-		    }
-		    jar.close();
-		}
-		else {
-			srcName = WodelWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "icons/metrics";
-			//String srcName = FileLocator.resolve(fileURL).getFile();
-			//System.out.println("srcNameOtro" + srcNameOtro);
-			final File src = new Path(srcName).toFile();
-			final File dest = iconsFolder.getRawLocation().makeAbsolute().toFile();
-			if ((src != null) && (dest != null)) {
-				ModelManager.copyFolder(src, dest);
-			}
-		}
-		} catch (IOException e) {
-		}
-
 		monitor.worked(1);
 		monitor.setTaskName("Opening file for editing...");
 		getShell().getDisplay().asyncExec(new Runnable() {
@@ -493,6 +308,12 @@ public class WodelWizard extends Wizard implements INewWizard {
 			}
 		});
 		monitor.worked(1);
+		
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException ex) {
+			ex.printStackTrace();
+		}
 
 	}
 	
@@ -535,12 +356,6 @@ public class WodelWizard extends Wizard implements INewWizard {
 	private InputStream openTestStream() {
 		String contents = "";
 		return new ByteArrayInputStream(contents.getBytes());
-	}
-
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "MutatorProject",
-				IStatus.OK, message, null);
-		throw new CoreException(status);
 	}
 
 	/**

@@ -28,8 +28,6 @@ public class MutaTextUtils {
 		
 		Injector injector = new MutaTextStandaloneSetup().createInjectorAndDoEMFRegistration();
 		ResourceSet xTextRS = injector.getInstance(XtextResourceSet.class);
-		System.out.println("xTextURI: " + xTextURI);
-		System.out.println("outputURI: " + outputURI);
 		XtextResource xtextInput = (XtextResource)xTextRS.getResource(URI.createURI(xTextURI), true);
 		EcoreUtil.resolveAll(xtextInput);
 		

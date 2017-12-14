@@ -29,10 +29,9 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the modelGraph language.
  */
 @SuppressWarnings("all")
 public class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
@@ -391,7 +390,6 @@ public class ModelGraphScopeProvider extends AbstractDeclarativeScopeProvider {
    */
   private List<EAttribute> getEAttributes(final String metamodelFile, final String eclassName) {
     try {
-      System.out.println((((("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile) + ", String eclassName=") + eclassName) + ")"));
       final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);

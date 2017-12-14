@@ -1,10 +1,10 @@
 package commands;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import manager.ModelManager;
 
@@ -12,7 +12,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -28,9 +27,16 @@ import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 
 /**
- * @author Victor Lopez Rivero ModifyInformationMutator Modify the attributes of
- *         the objects
+ * @author Pablo Gomez-Abajo
+ * 
+ * ModifyInformationMutator Modify the attributes of
+ * the objects
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public class ModifyInformationMutator extends Mutator {
 
 	/**
@@ -50,10 +56,6 @@ public class ModifyInformationMutator extends Mutator {
 	 */
 	private EObject result;
 
-	//private Object oldAttValue;
-
-	//private Object newAttValue;
-
 	private EObject previous;
 	
 	private EObject next;
@@ -63,20 +65,20 @@ public class ModifyInformationMutator extends Mutator {
 	
 	private EObject eobjref;
 	
-	private EObject eobject;
-	
 	private EObject othereobjsrc;
 	private String othereobjsrcname;
 	private EObject othereobjtar;
 	private String othereobjtarname;
 	
-	private ArrayList<EObject> objsAttRef;
+	private List<EObject> objsAttRef;
 	private HashMap<String, List<AttributeConfigurationStrategy>> attsRef;
 	
 	private EObject objRefAttOld;
 	private EObject objRefAttNew;
 	
 	private String srcRefType;
+	
+	private int index = 0;
 
 	/**
 	 * @param model
@@ -86,7 +88,7 @@ public class ModifyInformationMutator extends Mutator {
 	 *            Normal constructor
 	 */
 	public ModifyInformationMutator(Resource model,
-			ArrayList<EPackage> metaModel, ObSelectionStrategy object,
+			List<EPackage> metaModel, ObSelectionStrategy object,
 			HashMap<String, List<AttributeConfigurationStrategy>> newAttributeConfig,
 			HashMap<String, List<ReferenceConfigurationStrategy>> newReferenceConfig) {
 		super(model, metaModel, "InformationChanged");
@@ -103,10 +105,10 @@ public class ModifyInformationMutator extends Mutator {
 	 *            Normal constructor
 	 */
 	public ModifyInformationMutator(Resource model,
-			ArrayList<EPackage> metaModel, ObSelectionStrategy object,
+			List<EPackage> metaModel, ObSelectionStrategy object,
 			HashMap<String, List<AttributeConfigurationStrategy>> newAttributeConfig,
 			HashMap<String, List<ReferenceConfigurationStrategy>> newReferenceConfig,
-			ArrayList<EObject> objsAttRef,
+			List<EObject> objsAttRef,
 			HashMap<String, List<AttributeConfigurationStrategy>> attsRef) {
 		super(model, metaModel, "InformationChanged");
 		this.object = object;
@@ -123,14 +125,19 @@ public class ModifyInformationMutator extends Mutator {
 			return null;
 		}
 		EObject object = this.object.getObject();
+		if (object == null) {
+			List<EObject> objects = this.object.getObjects();
+			if (objects != null) {
+				index = ModelManager.getRandomIndex(objects);
+				object = objects.get(index);
+			}
+		}
 		if (object != null) {
-			eobject = EcoreUtil.copy(object);
 			// Attributes setting
 			if (this.newAttributeConfig != null) {
-				Iterator it = this.newAttributeConfig.entrySet().iterator();
-				while (it.hasNext()) {
-					Map.Entry<String, List<AttributeConfigurationStrategy>> e = (Map.Entry<String, List<AttributeConfigurationStrategy>>) it
-							.next();
+				Iterator<Entry<String, List<AttributeConfigurationStrategy>>> atts = this.newAttributeConfig.entrySet().iterator();
+				while (atts.hasNext()) {
+					Map.Entry<String, List<AttributeConfigurationStrategy>> e = atts.next();
 					for (AttributeConfigurationStrategy attConfig : e.getValue()) {
 						if (attConfig instanceof SwapAttributeConfigurationStrategy) {
 							SwapAttributeConfigurationStrategy sacs = (SwapAttributeConfigurationStrategy) attConfig;
@@ -156,6 +163,7 @@ public class ModifyInformationMutator extends Mutator {
 						} else {
 							ModelManager.setAttribute(e.getKey(), object, attConfig);
 							//newAttValue = ModelManager.getAttribute(e.getKey(), object);
+
 						}
 					}
 				}
@@ -163,10 +171,9 @@ public class ModifyInformationMutator extends Mutator {
 			}
 			if (this.newReferenceConfig != null) {
 				// References setting
-				Iterator it = this.newReferenceConfig.entrySet().iterator();
-				while (it.hasNext()) {
-					Map.Entry<String, List<ReferenceConfigurationStrategy>> e = (Map.Entry<String, List<ReferenceConfigurationStrategy>>) it
-							.next();
+				Iterator<Entry<String, List<ReferenceConfigurationStrategy>>> refs = this.newReferenceConfig.entrySet().iterator();
+				while (refs.hasNext()) {
+					Map.Entry<String, List<ReferenceConfigurationStrategy>> e = refs.next();
 					for (ReferenceConfigurationStrategy refConfig : e.getValue()) {
 						if (refConfig instanceof SwapReferenceConfigurationStrategy) {
 							SwapReferenceConfigurationStrategy srcf = (SwapReferenceConfigurationStrategy) refConfig;
@@ -232,10 +239,9 @@ public class ModifyInformationMutator extends Mutator {
 				if (this.objsAttRef.size() > 0 && this.attsRef.size() > 0) {
 					for (EObject obj : this.objsAttRef) {
 						objRefAttOld = EcoreUtil.copy(obj);
-						Iterator it = this.attsRef.entrySet().iterator();
-						while (it.hasNext()) {
-							Map.Entry<String, List<AttributeConfigurationStrategy>> e = (Map.Entry<String, List<AttributeConfigurationStrategy>>) it
-									.next();
+						Iterator<Entry<String, List<AttributeConfigurationStrategy>>> atts = this.attsRef.entrySet().iterator();
+						while (atts.hasNext()) {
+							Map.Entry<String, List<AttributeConfigurationStrategy>> e = atts.next();
 							for (AttributeConfigurationStrategy attConfig : e.getValue()) {
 								if (attConfig == null) {
 									ModelManager.unsetAttribute(e.getKey(), obj);
@@ -256,7 +262,11 @@ public class ModifyInformationMutator extends Mutator {
 
 	public EObject getObject() {
 		try {
-			return object.getObject();
+			Object obj = object.getObject();
+			if (obj == null && object.getObjects() != null) {
+				obj = object.getObjects().get(index);
+			}
+			return (EObject) obj;
 		} catch (ReferenceNonExistingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -269,9 +279,6 @@ public class ModifyInformationMutator extends Mutator {
 		EList<EAttribute> atts = ModelManager.getAttributes(eobjatt);
 		for (EAttribute att : atts) {
 			if (att.getName().equals(attName)) {
-				System.out.println("attName: " + attName);
-				System.out.println("eobjatt: " + eobjatt);
-				System.out.println("eobjatt.eGet(att): " + eobjatt.eGet(att));
 				return eobjatt.eGet(att);
 			}
 		}

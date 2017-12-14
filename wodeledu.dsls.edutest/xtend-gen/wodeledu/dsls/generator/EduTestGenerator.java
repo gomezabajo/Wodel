@@ -3,17 +3,6 @@
  */
 package wodeledu.dsls.generator;
 
-import appliedMutations.AttributeChanged;
-import appliedMutations.AttributeSwap;
-import appliedMutations.InformationChanged;
-import appliedMutations.ObjectCreated;
-import appliedMutations.ObjectRemoved;
-import appliedMutations.ReferenceChanged;
-import appliedMutations.ReferenceCreated;
-import appliedMutations.ReferenceRemoved;
-import appliedMutations.ReferenceSwap;
-import appliedMutations.SourceReferenceChanged;
-import appliedMutations.TargetReferenceChanged;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import edutest.AlternativeResponse;
@@ -29,36 +18,22 @@ import edutest.ProgramConfiguration;
 import edutest.Test;
 import edutest.TestConfiguration;
 import exceptions.ModelNotFoundException;
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import manager.ModelManager;
-import manager.TestUtils;
 import manager.WodelContext;
-import modeltext.Attribute;
-import modeltext.Element;
-import mutatext.Constant;
-import mutatext.Option;
-import mutatext.Text;
-import mutatext.Variable;
-import mutatext.VariableType;
-import mutatext.Word;
-import mutatorenvironment.Block;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
@@ -67,40 +42,29 @@ import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.framework.Bundle;
+import wodeledu.dsls.generator.EduTestUtils;
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - eduTest code generator.
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
+ * Generates the javascript and html code for the
+ * test exercises application
  */
 @SuppressWarnings("all")
-public class EduTestGenerator implements IGenerator {
+public class EduTestGenerator extends EduTestUtils implements IGenerator {
   private String fileName;
   
   private String pageName;
   
   private int num;
   
-  private HashMap<MutatorTests, HashMap<Test, ArrayList<String>>> diagrams;
+  private List<EObject> blocks;
   
-  private HashMap<MutatorTests, HashMap<Test, ArrayList<String>>> rand;
-  
-  private HashMap<MutatorTests, HashMap<Test, TestUtils.Registry>> dataRegistry;
-  
-  private HashMap<MutatorTests, HashMap<Test, Double>> puntuation;
-  
-  private HashMap<MutatorTests, HashMap<Test, Double>> penalty;
-  
-  private HashMap<MutatorTests, Integer> total;
-  
-  private HashMap<MutatorTests, ArrayList<Test>> tests;
-  
-  private HashMap<MutatorTests, HashMap<Test, ArrayList<TestUtils.TestOption>>> options;
-  
-  private ArrayList<EObject> blocks;
-  
-  public Resource loadResource(final Resource resource, final String ext, final String metamodel) {
-    return null;
+  public CharSequence removeComments(final CharSequence contents) {
+    String _string = contents.toString();
+    String _replaceAll = _string.replaceAll("//.*", "");
+    String _replaceAll_1 = _replaceAll.replaceAll("<!--.*-->", "");
+    return _replaceAll_1.replaceAll("(?m)^[ \t]*\r?\n", "");
   }
   
   @Override
@@ -126,7 +90,7 @@ public class EduTestGenerator implements IGenerator {
         final URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
         URL _resolve = FileLocator.resolve(fileURL);
         final String mutatorecore = _resolve.getFile();
-        final ArrayList<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+        final List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
         URI _createURI = URI.createURI(xmiFileName);
         String _fileString = _createURI.toFileString();
         final Resource mutatormodel = ModelManager.loadModel(mutatorpackages, _fileString);
@@ -138,26 +102,35 @@ public class EduTestGenerator implements IGenerator {
         for (final Program p : _filter) {
           {
             if ((i == 0)) {
-              String _project_1 = WodelContext.getProject();
-              String _plus_6 = ("html/" + _project_1);
+              URI _uRI_1 = resource.getURI();
+              String _lastSegment_1 = _uRI_1.lastSegment();
+              String _replaceAll_1 = _lastSegment_1.replaceAll(".test", "");
+              String _plus_6 = ("html/" + _replaceAll_1);
               String _plus_7 = (_plus_6 + ".html");
               this.fileName = _plus_7;
-              String _project_2 = WodelContext.getProject();
-              String _plus_8 = (_project_2 + ".html");
+              URI _uRI_2 = resource.getURI();
+              String _lastSegment_2 = _uRI_2.lastSegment();
+              String _replaceAll_2 = _lastSegment_2.replaceAll(".test", "");
+              String _plus_8 = (_replaceAll_2 + ".html");
               this.pageName = _plus_8;
             } else {
-              String _project_3 = WodelContext.getProject();
-              String _plus_9 = ("html/" + _project_3);
+              URI _uRI_3 = resource.getURI();
+              String _lastSegment_3 = _uRI_3.lastSegment();
+              String _replaceAll_3 = _lastSegment_3.replaceAll(".test", "");
+              String _plus_9 = ("html/" + _replaceAll_3);
               String _plus_10 = (_plus_9 + Integer.valueOf(i));
               String _plus_11 = (_plus_10 + ".html");
               this.fileName = _plus_11;
-              String _project_4 = WodelContext.getProject();
-              String _plus_12 = (_project_4 + Integer.valueOf(i));
+              URI _uRI_4 = resource.getURI();
+              String _lastSegment_4 = _uRI_4.lastSegment();
+              String _replaceAll_4 = _lastSegment_4.replaceAll(".test", "");
+              String _plus_12 = (_replaceAll_4 + Integer.valueOf(i));
               String _plus_13 = (_plus_12 + ".html");
               this.pageName = _plus_13;
             }
             CharSequence _compile = this.compile(p, resource);
-            fsa.generateFile(this.fileName, _compile);
+            CharSequence _removeComments = this.removeComments(_compile);
+            fsa.generateFile(this.fileName, _removeComments);
             i++;
           }
         }
@@ -173,7519 +146,1410 @@ public class EduTestGenerator implements IGenerator {
     }
   }
   
-  public boolean subsumeRadio(final ArrayList<TestUtils.TestOption> testOptions, final TestUtils.TestOption opt) {
-    for (final TestUtils.TestOption optCheck : testOptions) {
-      {
-        ArrayList<String> textOptions = new ArrayList<String>();
-        textOptions.addAll(optCheck.text);
-        int equals = 0;
-        for (final String text : optCheck.text) {
-          for (final String newText : opt.text) {
-            boolean _equals = text.equals(newText);
-            if (_equals) {
-              equals++;
-            }
-          }
-        }
-        int _size = optCheck.text.size();
-        boolean _equals_1 = (equals == _size);
-        if (_equals_1) {
-          if ((optCheck.solution == false)) {
-            testOptions.remove(optCheck);
-            return false;
-          } else {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-  
-  public boolean subsumeCheckbox(final ArrayList<TestUtils.TestOption> testOptions, final TestUtils.TestOption opt) {
-    for (final TestUtils.TestOption optCheck : testOptions) {
-      int _size = optCheck.text.size();
-      boolean _greaterThan = (_size > 0);
-      if (_greaterThan) {
-        String textOption = optCheck.text.get(0);
-        String newText = opt.text.get(0);
-        boolean _equals = newText.equals(textOption);
-        if (_equals) {
-          if ((optCheck.solution == false)) {
-            testOptions.remove(optCheck);
-            return false;
-          } else {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-  
-  public CharSequence process(final MutatorTests exercise, final Resource resource) {
-    StringConcatenation _builder = new StringConcatenation();
-    return _builder;
-  }
-  
   public CharSequence compile(final Program program, final Resource resource) {
-    try {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("<!--TESTS: ");
-      HashMap<MutatorTests, ArrayList<Test>> _hashMap = new HashMap<MutatorTests, ArrayList<Test>>();
-      _builder.append(this.tests = _hashMap, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--DIAGRAMS: ");
-      HashMap<MutatorTests, HashMap<Test, ArrayList<String>>> _hashMap_1 = new HashMap<MutatorTests, HashMap<Test, ArrayList<String>>>();
-      _builder.append(this.diagrams = _hashMap_1, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--RANDOM ARRAY: ");
-      HashMap<MutatorTests, HashMap<Test, ArrayList<String>>> _hashMap_2 = new HashMap<MutatorTests, HashMap<Test, ArrayList<String>>>();
-      _builder.append(this.rand = _hashMap_2, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--REGISTRY: ");
-      HashMap<MutatorTests, HashMap<Test, TestUtils.Registry>> _hashMap_3 = new HashMap<MutatorTests, HashMap<Test, TestUtils.Registry>>();
-      _builder.append(this.dataRegistry = _hashMap_3, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--PUNTUATION: ");
-      HashMap<MutatorTests, HashMap<Test, Double>> _hashMap_4 = new HashMap<MutatorTests, HashMap<Test, Double>>();
-      _builder.append(this.puntuation = _hashMap_4, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--PENALTY: ");
-      HashMap<MutatorTests, HashMap<Test, Double>> _hashMap_5 = new HashMap<MutatorTests, HashMap<Test, Double>>();
-      _builder.append(this.penalty = _hashMap_5, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--TOTAL: ");
-      HashMap<MutatorTests, Integer> _hashMap_6 = new HashMap<MutatorTests, Integer>();
-      _builder.append(this.total = _hashMap_6, "");
-      _builder.append("-->\t\t");
-      _builder.newLineIfNotEmpty();
-      _builder.append("<!--OPTIONS: ");
-      HashMap<MutatorTests, HashMap<Test, ArrayList<TestUtils.TestOption>>> _hashMap_7 = new HashMap<MutatorTests, HashMap<Test, ArrayList<TestUtils.TestOption>>>();
-      _builder.append(this.options = _hashMap_7, "");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      {
-        EList<MutatorTests> _exercises = program.getExercises();
-        for(final MutatorTests exercise : _exercises) {
-          _builder.append("<!--");
-          Integer _put = this.total.put(exercise, Integer.valueOf(0));
-          _builder.append(_put, "");
-          _builder.append("-->");
-          _builder.newLineIfNotEmpty();
-          _builder.append("<!--");
-          HashMap<Test, ArrayList<String>> diags = new HashMap<Test, ArrayList<String>>();
-          _builder.append("-->");
-          _builder.newLineIfNotEmpty();
-          {
-            if ((exercise instanceof AlternativeResponse)) {
-              _builder.append("<!--");
-              _builder.newLine();
-              {
-                EList<Test> _tests = ((AlternativeResponse)exercise).getTests();
-                for(final Test test : _tests) {
-                  _builder.append("\t   \t\t");
-                  String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
-                  String _plus = (_workspaceAbsolutePath + "/");
-                  String _project = WodelContext.getProject();
-                  String _plus_1 = (_plus + _project);
-                  String _plus_2 = (_plus_1 + "/src-gen/html/diagrams/");
-                  String _source = test.getSource();
-                  String _replace = _source.replace(".model", "");
-                  String _plus_3 = (_plus_2 + _replace);
-                  File folder = new File(_plus_3);
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t   \t\t");
-                  ArrayList<String> fileNames = new ArrayList<String>();
-                  _builder.newLineIfNotEmpty();
-                  {
-                    boolean _isDirectory = folder.isDirectory();
-                    boolean _equals = (_isDirectory == true);
-                    if (_equals) {
-                      {
-                        File[] _listFiles = folder.listFiles();
-                        for(final File f : _listFiles) {
-                          {
-                            String _name = f.getName();
-                            boolean _endsWith = _name.endsWith(".png");
-                            if (_endsWith) {
-                              String _name_1 = f.getName();
-                              boolean _add = fileNames.add(_name_1);
-                              _builder.append(_add, "");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    Block _block = ((AlternativeResponse)exercise).getBlock();
-                    boolean _notEquals = (!Objects.equal(_block, null));
-                    if (_notEquals) {
-                      String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_4 = (_workspaceAbsolutePath_1 + "/");
-                      String _project_1 = WodelContext.getProject();
-                      String _plus_5 = (_plus_4 + _project_1);
-                      String _plus_6 = (_plus_5 + "/src-gen/html/diagrams/");
-                      String _source_1 = test.getSource();
-                      String _replace_1 = _source_1.replace(".model", "");
-                      String _plus_7 = (_plus_6 + _replace_1);
-                      String _plus_8 = (_plus_7 + "/");
-                      Block _block_1 = ((AlternativeResponse)exercise).getBlock();
-                      String _name_2 = _block_1.getName();
-                      String _plus_9 = (_plus_8 + _name_2);
-                      File _file = new File(_plus_9);
-                      _builder.append(folder = _file, "");
-                      _builder.newLineIfNotEmpty();
-                      {
-                        boolean _isDirectory_1 = folder.isDirectory();
-                        boolean _equals_1 = (_isDirectory_1 == true);
-                        if (_equals_1) {
-                          {
-                            File[] _listFiles_1 = folder.listFiles();
-                            for(final File f_1 : _listFiles_1) {
-                              {
-                                String _name_3 = f_1.getName();
-                                boolean _endsWith_1 = _name_3.endsWith(".png");
-                                if (_endsWith_1) {
-                                  Block _block_2 = ((AlternativeResponse)exercise).getBlock();
-                                  String _name_4 = _block_2.getName();
-                                  String _plus_10 = (_name_4 + "/");
-                                  String _name_5 = f_1.getName();
-                                  String _plus_11 = (_plus_10 + _name_5);
-                                  boolean _add_1 = fileNames.add(_plus_11);
-                                  _builder.append(_add_1, "");
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      {
-                        Block _block_3 = ((AlternativeResponse)exercise).getBlock();
-                        EList<Block> _from = _block_3.getFrom();
-                        int _length = ((Object[])Conversions.unwrapArray(_from, Object.class)).length;
-                        boolean _greaterThan = (_length > 0);
-                        if (_greaterThan) {
-                          {
-                            Block _block_4 = ((AlternativeResponse)exercise).getBlock();
-                            EList<Block> _from_1 = _block_4.getFrom();
-                            for(final Block b : _from_1) {
-                              String _workspaceAbsolutePath_2 = ModelManager.getWorkspaceAbsolutePath();
-                              String _plus_12 = (_workspaceAbsolutePath_2 + "/");
-                              String _project_2 = WodelContext.getProject();
-                              String _plus_13 = (_plus_12 + _project_2);
-                              String _plus_14 = (_plus_13 + "/src-gen/html/diagrams/");
-                              String _source_2 = test.getSource();
-                              String _replace_2 = _source_2.replace(".model", "");
-                              String _plus_15 = (_plus_14 + _replace_2);
-                              String _plus_16 = (_plus_15 + "/");
-                              String _name_6 = b.getName();
-                              String _plus_17 = (_plus_16 + _name_6);
-                              String _plus_18 = (_plus_17 + "/");
-                              Block _block_5 = ((AlternativeResponse)exercise).getBlock();
-                              String _name_7 = _block_5.getName();
-                              String _plus_19 = (_plus_18 + _name_7);
-                              File wrongFolder = new File(_plus_19);
-                              _builder.newLineIfNotEmpty();
-                              {
-                                boolean _isDirectory_2 = wrongFolder.isDirectory();
-                                boolean _equals_2 = (_isDirectory_2 == true);
-                                if (_equals_2) {
-                                  {
-                                    File[] _listFiles_2 = wrongFolder.listFiles();
-                                    for(final File f_2 : _listFiles_2) {
-                                      {
-                                        boolean _isDirectory_3 = f_2.isDirectory();
-                                        boolean _equals_3 = (_isDirectory_3 == true);
-                                        if (_equals_3) {
-                                          {
-                                            File[] _listFiles_3 = f_2.listFiles();
-                                            for(final File w : _listFiles_3) {
-                                              {
-                                                String _name_8 = w.getName();
-                                                boolean _endsWith_2 = _name_8.endsWith(".png");
-                                                if (_endsWith_2) {
-                                                  String _name_9 = b.getName();
-                                                  String _plus_20 = (_name_9 + "/");
-                                                  Block _block_6 = ((AlternativeResponse)exercise).getBlock();
-                                                  String _name_10 = _block_6.getName();
-                                                  String _plus_21 = (_plus_20 + _name_10);
-                                                  String _plus_22 = (_plus_21 + "/");
-                                                  String _name_11 = f_2.getName();
-                                                  String _plus_23 = (_plus_22 + _name_11);
-                                                  String _plus_24 = (_plus_23 + "/");
-                                                  String _name_12 = w.getName();
-                                                  String _plus_25 = (_plus_24 + _name_12);
-                                                  boolean _add_2 = fileNames.add(_plus_25);
-                                                  _builder.append(_add_2, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  ArrayList<String> _put_1 = diags.put(test, fileNames);
-                  _builder.append(_put_1, "");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              _builder.append("    \t");
-              _builder.append("-->");
-              _builder.newLine();
-              _builder.append("\t    ");
-              _builder.append("<!--");
-              HashMap<Test, ArrayList<String>> _put_2 = this.diagrams.put(exercise, diags);
-              _builder.append(_put_2, "\t    ");
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-              _builder.append("   \t\t");
-              _builder.append("<!--RANDOM: ");
-              HashMap<Test, ArrayList<String>> random = new HashMap<Test, ArrayList<String>>();
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-              {
-                EList<Test> _tests_1 = ((AlternativeResponse)exercise).getTests();
-                for(final Test test_1 : _tests_1) {
-                  _builder.append("<!--RANDOM ARRAY: ");
-                  HashMap<Test, ArrayList<String>> _get = this.diagrams.get(exercise);
-                  ArrayList<String> entry = _get.get(test_1);
-                  _builder.newLineIfNotEmpty();
-                  Collections.shuffle(entry);
-                  _builder.newLineIfNotEmpty();
-                  ArrayList<String> _put_3 = random.put(test_1, entry);
-                  _builder.append(_put_3, "");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("   \t\t");
-                  _builder.append("-->");
-                  _builder.newLine();
-                }
-              }
-              _builder.append("   \t\t");
-              _builder.append("<!--");
-              HashMap<Test, ArrayList<String>> _put_4 = this.rand.put(exercise, random);
-              _builder.append(_put_4, "   \t\t");
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          {
-            if ((exercise instanceof MultiChoiceDiagram)) {
-              _builder.append("<!--");
-              _builder.newLine();
-              {
-                EList<Test> _tests_2 = ((MultiChoiceDiagram)exercise).getTests();
-                for(final Test test_2 : _tests_2) {
-                  _builder.append("\t   \t\t");
-                  String _workspaceAbsolutePath_3 = ModelManager.getWorkspaceAbsolutePath();
-                  String _plus_26 = (_workspaceAbsolutePath_3 + "/");
-                  String _project_3 = WodelContext.getProject();
-                  String _plus_27 = (_plus_26 + _project_3);
-                  String _plus_28 = (_plus_27 + "/src-gen/html/diagrams/");
-                  String _source_3 = test_2.getSource();
-                  String _replace_3 = _source_3.replace(".model", "");
-                  String _plus_29 = (_plus_28 + _replace_3);
-                  File folder_1 = new File(_plus_29);
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t   \t\t");
-                  ArrayList<String> fileNames_1 = new ArrayList<String>();
-                  _builder.newLineIfNotEmpty();
-                  {
-                    boolean _isDirectory_4 = folder_1.isDirectory();
-                    boolean _equals_4 = (_isDirectory_4 == true);
-                    if (_equals_4) {
-                      {
-                        File[] _listFiles_4 = folder_1.listFiles();
-                        for(final File f_3 : _listFiles_4) {
-                          {
-                            String _name_13 = f_3.getName();
-                            boolean _endsWith_3 = _name_13.endsWith(".png");
-                            if (_endsWith_3) {
-                              String _name_14 = f_3.getName();
-                              boolean _add_3 = fileNames_1.add(_name_14);
-                              _builder.append(_add_3, "");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    Block _block_7 = ((MultiChoiceDiagram)exercise).getBlock();
-                    boolean _notEquals_1 = (!Objects.equal(_block_7, null));
-                    if (_notEquals_1) {
-                      String _workspaceAbsolutePath_4 = ModelManager.getWorkspaceAbsolutePath();
-                      String _plus_30 = (_workspaceAbsolutePath_4 + "/");
-                      String _project_4 = WodelContext.getProject();
-                      String _plus_31 = (_plus_30 + _project_4);
-                      String _plus_32 = (_plus_31 + "/src-gen/html/diagrams/");
-                      String _source_4 = test_2.getSource();
-                      String _replace_4 = _source_4.replace(".model", "");
-                      String _plus_33 = (_plus_32 + _replace_4);
-                      String _plus_34 = (_plus_33 + "/");
-                      Block _block_8 = ((MultiChoiceDiagram)exercise).getBlock();
-                      String _name_15 = _block_8.getName();
-                      String _plus_35 = (_plus_34 + _name_15);
-                      File _file_1 = new File(_plus_35);
-                      _builder.append(folder_1 = _file_1, "");
-                      _builder.newLineIfNotEmpty();
-                      {
-                        boolean _isDirectory_5 = folder_1.isDirectory();
-                        boolean _equals_5 = (_isDirectory_5 == true);
-                        if (_equals_5) {
-                          {
-                            File[] _listFiles_5 = folder_1.listFiles();
-                            for(final File f_4 : _listFiles_5) {
-                              {
-                                String _name_16 = f_4.getName();
-                                boolean _endsWith_4 = _name_16.endsWith(".png");
-                                if (_endsWith_4) {
-                                  Block _block_9 = ((MultiChoiceDiagram)exercise).getBlock();
-                                  String _name_17 = _block_9.getName();
-                                  String _plus_36 = (_name_17 + "/");
-                                  String _name_18 = f_4.getName();
-                                  String _plus_37 = (_plus_36 + _name_18);
-                                  boolean _add_4 = fileNames_1.add(_plus_37);
-                                  _builder.append(_add_4, "");
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      {
-                        Block _block_10 = ((MultiChoiceDiagram)exercise).getBlock();
-                        EList<Block> _from_2 = _block_10.getFrom();
-                        int _length_1 = ((Object[])Conversions.unwrapArray(_from_2, Object.class)).length;
-                        boolean _greaterThan_1 = (_length_1 > 0);
-                        if (_greaterThan_1) {
-                          {
-                            Block _block_11 = ((MultiChoiceDiagram)exercise).getBlock();
-                            EList<Block> _from_3 = _block_11.getFrom();
-                            for(final Block b_1 : _from_3) {
-                              String _workspaceAbsolutePath_5 = ModelManager.getWorkspaceAbsolutePath();
-                              String _plus_38 = (_workspaceAbsolutePath_5 + "/");
-                              String _project_5 = WodelContext.getProject();
-                              String _plus_39 = (_plus_38 + _project_5);
-                              String _plus_40 = (_plus_39 + "/src-gen/html/diagrams/");
-                              String _source_5 = test_2.getSource();
-                              String _replace_5 = _source_5.replace(".model", "");
-                              String _plus_41 = (_plus_40 + _replace_5);
-                              String _plus_42 = (_plus_41 + "/");
-                              String _name_19 = b_1.getName();
-                              String _plus_43 = (_plus_42 + _name_19);
-                              String _plus_44 = (_plus_43 + "/");
-                              Block _block_12 = ((MultiChoiceDiagram)exercise).getBlock();
-                              String _name_20 = _block_12.getName();
-                              String _plus_45 = (_plus_44 + _name_20);
-                              File wrongFolder_1 = new File(_plus_45);
-                              _builder.newLineIfNotEmpty();
-                              {
-                                boolean _isDirectory_6 = wrongFolder_1.isDirectory();
-                                boolean _equals_6 = (_isDirectory_6 == true);
-                                if (_equals_6) {
-                                  {
-                                    File[] _listFiles_6 = wrongFolder_1.listFiles();
-                                    for(final File f_5 : _listFiles_6) {
-                                      {
-                                        boolean _isDirectory_7 = f_5.isDirectory();
-                                        boolean _equals_7 = (_isDirectory_7 == true);
-                                        if (_equals_7) {
-                                          {
-                                            File[] _listFiles_7 = f_5.listFiles();
-                                            for(final File w_1 : _listFiles_7) {
-                                              {
-                                                String _name_21 = w_1.getName();
-                                                boolean _endsWith_5 = _name_21.endsWith(".png");
-                                                if (_endsWith_5) {
-                                                  String _name_22 = b_1.getName();
-                                                  String _plus_46 = (_name_22 + "/");
-                                                  Block _block_13 = ((MultiChoiceDiagram)exercise).getBlock();
-                                                  String _name_23 = _block_13.getName();
-                                                  String _plus_47 = (_plus_46 + _name_23);
-                                                  String _plus_48 = (_plus_47 + "/");
-                                                  String _name_24 = f_5.getName();
-                                                  String _plus_49 = (_plus_48 + _name_24);
-                                                  String _plus_50 = (_plus_49 + "/");
-                                                  String _name_25 = w_1.getName();
-                                                  String _plus_51 = (_plus_50 + _name_25);
-                                                  boolean _add_5 = fileNames_1.add(_plus_51);
-                                                  _builder.append(_add_5, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  ArrayList<String> _put_5 = diags.put(test_2, fileNames_1);
-                  _builder.append(_put_5, "");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              _builder.append("    \t");
-              _builder.append("-->");
-              _builder.newLine();
-              _builder.append("\t    ");
-              _builder.append("<!--");
-              HashMap<Test, ArrayList<String>> _put_6 = this.diagrams.put(exercise, diags);
-              _builder.append(_put_6, "\t    ");
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-              _builder.append("   \t\t");
-              _builder.append("<!--RANDOM: ");
-              HashMap<Test, ArrayList<String>> random_1 = new HashMap<Test, ArrayList<String>>();
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-              {
-                EList<Test> _tests_3 = ((MultiChoiceDiagram)exercise).getTests();
-                for(final Test test_3 : _tests_3) {
-                  _builder.append("<!--RANDOM ARRAY: ");
-                  HashMap<Test, ArrayList<String>> _get_1 = this.diagrams.get(exercise);
-                  ArrayList<String> entry_1 = _get_1.get(test_3);
-                  _builder.newLineIfNotEmpty();
-                  Collections.shuffle(entry_1);
-                  _builder.newLineIfNotEmpty();
-                  ArrayList<String> _put_7 = random_1.put(test_3, entry_1);
-                  _builder.append(_put_7, "");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("   \t\t");
-                  _builder.append("-->");
-                  _builder.newLine();
-                }
-              }
-              _builder.append("   \t\t");
-              _builder.append("<!--");
-              HashMap<Test, ArrayList<String>> _put_8 = this.rand.put(exercise, random_1);
-              _builder.append(_put_8, "   \t\t");
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          {
-            if ((exercise instanceof MultiChoiceEmendation)) {
-              _builder.append("<!-- REGISTRY: ");
-              HashMap<Test, TestUtils.Registry> dataReg = new HashMap<Test, TestUtils.Registry>();
-              _builder.newLineIfNotEmpty();
-              final Bundle bundle = Platform.getBundle("wodel.models");
-              _builder.newLineIfNotEmpty();
-              String _metaModel = ModelManager.getMetaModel();
-              final String ecore = _metaModel.replace("\\", "/");
-              _builder.newLineIfNotEmpty();
-              final ArrayList<EPackage> packages = ModelManager.loadMetaModel(ecore);
-              _builder.newLineIfNotEmpty();
-              URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
-              _builder.newLineIfNotEmpty();
-              URL _resolve = FileLocator.resolve(fileURL);
-              final String registryecore = _resolve.getFile();
-              _builder.newLineIfNotEmpty();
-              final ArrayList<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
-              _builder.newLineIfNotEmpty();
-              _builder.newLine();
-              String _workspaceAbsolutePath_6 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_52 = ("file:/" + _workspaceAbsolutePath_6);
-              String _plus_53 = (_plus_52 + "/");
-              String _project_6 = WodelContext.getProject();
-              String _plus_54 = (_plus_53 + _project_6);
-              String _plus_55 = (_plus_54 + 
-                "/");
-              String _outputFolder = ModelManager.getOutputFolder();
-              String _plus_56 = (_plus_55 + _outputFolder);
-              String _plus_57 = (_plus_56 + "/");
-              URI _uRI = resource.getURI();
-              String _lastSegment = _uRI.lastSegment();
-              String _replaceAll = _lastSegment.replaceAll(".test", "_modeltext.model");
-              String xmiFileName = (_plus_57 + _replaceAll);
-              _builder.newLineIfNotEmpty();
-              URL _entry = bundle.getEntry("/models/ModelText.ecore");
-              _builder.append(fileURL = _entry, "");
-              _builder.newLineIfNotEmpty();
-              URL _resolve_1 = FileLocator.resolve(fileURL);
-              final String idelemsecore = _resolve_1.getFile();
-              _builder.newLineIfNotEmpty();
-              final ArrayList<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
-              _builder.newLineIfNotEmpty();
-              URI _createURI = URI.createURI(xmiFileName);
-              String _fileString = _createURI.toFileString();
-              final Resource idelemsresource = ModelManager.loadModel(idelemspackages, _fileString);
-              _builder.newLineIfNotEmpty();
-              _builder.newLine();
-              String _workspaceAbsolutePath_7 = ModelManager.getWorkspaceAbsolutePath();
-              String _plus_58 = ("file:/" + _workspaceAbsolutePath_7);
-              String _plus_59 = (_plus_58 + "/");
-              String _project_7 = WodelContext.getProject();
-              String _plus_60 = (_plus_59 + _project_7);
-              String _plus_61 = (_plus_60 + 
-                "/");
-              String _outputFolder_1 = ModelManager.getOutputFolder();
-              String _plus_62 = (_plus_61 + _outputFolder_1);
-              String _plus_63 = (_plus_62 + "/");
-              URI _uRI_1 = resource.getURI();
-              String _lastSegment_1 = _uRI_1.lastSegment();
-              String _replaceAll_1 = _lastSegment_1.replaceAll(".test", "_mutatext.model");
-              String _plus_64 = (_plus_63 + _replaceAll_1);
-              _builder.append(xmiFileName = _plus_64, "");
-              _builder.newLineIfNotEmpty();
-              URL _entry_1 = bundle.getEntry("/models/MutaText.ecore");
-              _builder.append(fileURL = _entry_1, "");
-              _builder.newLineIfNotEmpty();
-              URL _resolve_2 = FileLocator.resolve(fileURL);
-              final String cfgoptsecore = _resolve_2.getFile();
-              _builder.newLineIfNotEmpty();
-              final ArrayList<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
-              _builder.newLineIfNotEmpty();
-              URI _createURI_1 = URI.createURI(xmiFileName);
-              String _fileString_1 = _createURI_1.toFileString();
-              final Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, _fileString_1);
-              _builder.newLineIfNotEmpty();
-              _builder.append("-->");
-              _builder.newLine();
-              _builder.append("<!--");
-              _builder.newLine();
-              {
-                EList<Test> _tests_4 = ((MultiChoiceEmendation)exercise).getTests();
-                for(final Test test_4 : _tests_4) {
-                  TestUtils.Registry _registry = TestUtils.getRegistry(((MultiChoiceEmendation)exercise), test_4, this.blocks, packages, registrypackages);
-                  TestUtils.Registry _put_9 = dataReg.put(test_4, _registry);
-                  _builder.append(_put_9, "");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              _builder.append("-->");
-              _builder.newLine();
-              _builder.append("<!--");
-              HashMap<Test, TestUtils.Registry> _put_10 = this.dataRegistry.put(exercise, dataReg);
-              _builder.append(_put_10, "");
-              _builder.append("-->");
-              _builder.newLineIfNotEmpty();
-              _builder.append("<!--");
-              HashMap<Test, ArrayList<TestUtils.TestOption>> testOptions = new HashMap<Test, ArrayList<TestUtils.TestOption>>();
-              _builder.newLineIfNotEmpty();
-              {
-                EList<Test> _tests_5 = ((MultiChoiceEmendation)exercise).getTests();
-                for(final Test test_5 : _tests_5) {
-                  {
-                    HashMap<Test, TestUtils.Registry> _get_2 = this.dataRegistry.get(exercise);
-                    TestUtils.Registry _get_3 = _get_2.get(test_5);
-                    int _size = _get_3.mutants.size();
-                    boolean _greaterThan_2 = (_size > 0);
-                    if (_greaterThan_2) {
-                      HashMap<Test, TestUtils.Registry> _get_4 = this.dataRegistry.get(exercise);
-                      TestUtils.Registry _get_5 = _get_4.get(test_5);
-                      int rnd = ModelManager.getRandomIndex(_get_5.mutants);
-                      _builder.newLineIfNotEmpty();
-                      TestUtils.TestOption opt = new TestUtils.TestOption();
-                      _builder.newLineIfNotEmpty();
-                      HashMap<Test, TestUtils.Registry> _get_6 = this.dataRegistry.get(exercise);
-                      TestUtils.Registry reg = _get_6.get(test_5);
-                      _builder.newLineIfNotEmpty();
-                      Resource _get_7 = reg.mutants.get(rnd);
-                      URI _uRI_2 = _get_7.getURI();
-                      String _path = _uRI_2.path();
-                      System.out.println(_path);
-                      _builder.newLineIfNotEmpty();
-                      String diagramPath = "";
-                      _builder.newLineIfNotEmpty();
-                      {
-                        String _outputPath = ModelManager.getOutputPath();
-                        int _indexOf = _outputPath.indexOf(":");
-                        boolean _notEquals_2 = (_indexOf != (-1));
-                        if (_notEquals_2) {
-                          Resource _get_8 = reg.mutants.get(rnd);
-                          URI _uRI_3 = _get_8.getURI();
-                          String _path_1 = _uRI_3.path();
-                          String _outputPath_1 = ModelManager.getOutputPath();
-                          String _outputPath_2 = ModelManager.getOutputPath();
-                          int _length_2 = _outputPath_2.length();
-                          String _substring = _outputPath_1.substring(2, _length_2);
-                          String _replace_6 = _path_1.replace(_substring, "");
-                          String _replace_7 = _replace_6.replace(".model", ".png");
-                          _builder.append(diagramPath = _replace_7, "");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          Resource _get_9 = reg.mutants.get(rnd);
-                          URI _uRI_4 = _get_9.getURI();
-                          String _path_2 = _uRI_4.path();
-                          String _outputPath_3 = ModelManager.getOutputPath();
-                          String _replace_8 = _path_2.replace(_outputPath_3, "");
-                          String _replace_9 = _replace_8.replace(".model", ".png");
-                          _builder.append(diagramPath = _replace_9, "");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                      _builder.append(opt.path = ("diagrams" + diagramPath), "");
-                      _builder.newLineIfNotEmpty();
-                      Resource _get_10 = reg.history.get(rnd);
-                      _builder.append(opt.resource = _get_10, "");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append(opt.seed = reg.seed, "");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append(opt.solution = true, "");
-                      _builder.newLineIfNotEmpty();
-                      ArrayList<TestUtils.TestOption> opts = new ArrayList<TestUtils.TestOption>();
-                      _builder.newLineIfNotEmpty();
-                      boolean _add_6 = opts.add(opt);
-                      _builder.append(_add_6, "");
-                      _builder.newLineIfNotEmpty();
-                      {
-                        HashMap<Test, TestUtils.Registry> _get_11 = this.dataRegistry.get(exercise);
-                        TestUtils.Registry _get_12 = _get_11.get(test_5);
-                        Resource _get_13 = reg.mutants.get(rnd);
-                        ArrayList<TestUtils.Registry> _get_14 = _get_12.wrong.get(_get_13);
-                        for(final TestUtils.Registry wrongRegistry : _get_14) {
-                          {
-                            int _size_1 = wrongRegistry.mutants.size();
-                            boolean _greaterThan_3 = (_size_1 > 0);
-                            if (_greaterThan_3) {
-                              int _randomIndex = ModelManager.getRandomIndex(wrongRegistry.mutants);
-                              _builder.append(rnd = _randomIndex, "");
-                              _builder.newLineIfNotEmpty();
-                              TestUtils.TestOption _testOption = new TestUtils.TestOption();
-                              _builder.append(opt = _testOption, "");
-                              _builder.newLineIfNotEmpty();
-                              Resource _get_15 = wrongRegistry.mutants.get(rnd);
-                              URI _uRI_5 = _get_15.getURI();
-                              String _path_3 = _uRI_5.path();
-                              String _outputPath_4 = ModelManager.getOutputPath();
-                              String _outputPath_5 = ModelManager.getOutputPath();
-                              int _length_3 = _outputPath_5.length();
-                              String _substring_1 = _outputPath_4.substring(2, _length_3);
-                              String _replace_10 = _path_3.replace(_substring_1, "");
-                              String _replace_11 = _replace_10.replace(".model", ".png");
-                              String _plus_65 = ("diagrams" + _replace_11);
-                              _builder.append(opt.path = _plus_65, "");
-                              _builder.newLineIfNotEmpty();
-                              Resource _get_16 = wrongRegistry.history.get(rnd);
-                              _builder.append(opt.resource = _get_16, "");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append(opt.seed = wrongRegistry.seed, "");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append(opt.solution = false, "");
-                              _builder.newLineIfNotEmpty();
-                              boolean _add_7 = opts.add(opt);
-                              _builder.append(_add_7, "");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                      ArrayList<TestUtils.TestOption> _put_11 = testOptions.put(test_5, opts);
-                      _builder.append(_put_11, "");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                }
-              }
-              HashMap<Test, ArrayList<TestUtils.TestOption>> _put_12 = this.options.put(exercise, testOptions);
-              _builder.append(_put_12, "");
-              _builder.newLineIfNotEmpty();
-              {
-                MultiChoiceEmConfig _config = ((MultiChoiceEmendation)exercise).getConfig();
-                Mode _mode = _config.getMode();
-                boolean _equals_8 = Objects.equal(_mode, Mode.RADIOBUTTON);
-                if (_equals_8) {
-                  {
-                    EList<Test> _tests_6 = ((MultiChoiceEmendation)exercise).getTests();
-                    for(final Test test_6 : _tests_6) {
-                      ArrayList<TestUtils.TestOption> opts_1 = new ArrayList<TestUtils.TestOption>();
-                      _builder.newLineIfNotEmpty();
-                      {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_17 = this.options.get(exercise);
-                        ArrayList<TestUtils.TestOption> _get_18 = _get_17.get(test_6);
-                        boolean _notEquals_3 = (!Objects.equal(_get_18, null));
-                        if (_notEquals_3) {
-                          {
-                            HashMap<Test, ArrayList<TestUtils.TestOption>> _get_19 = this.options.get(exercise);
-                            ArrayList<TestUtils.TestOption> _get_20 = _get_19.get(test_6);
-                            for(final TestUtils.TestOption opt_1 : _get_20) {
-                              ArrayList<String> _arrayList = new ArrayList<String>();
-                              _builder.append(opt_1.text = _arrayList, "");
-                              _builder.newLineIfNotEmpty();
-                              ArrayList<EObject> _objects = ModelManager.getObjects(opt_1.resource);
-                              ArrayList<EObject> mutations = ModelManager.getMutations(_objects);
-                              _builder.newLineIfNotEmpty();
-                              {
-                                for(final EObject mutation : mutations) {
-                                  String text = "";
-                                  _builder.newLineIfNotEmpty();
-                                  EClass _eClass = mutation.eClass();
-                                  List<EClass> superTypes = _eClass.getEAllSuperTypes();
-                                  _builder.newLineIfNotEmpty();
-                                  boolean flag = false;
-                                  _builder.newLineIfNotEmpty();
-                                  {
-                                    for(final EClass cl : superTypes) {
-                                      {
-                                        String _name_26 = cl.getName();
-                                        boolean _equals_9 = _name_26.equals("AppMutation");
-                                        if (_equals_9) {
-                                          _builder.append(flag = true, "");
-                                          _builder.newLineIfNotEmpty();
-                                        }
-                                      }
-                                    }
-                                  }
-                                  {
-                                    if ((flag == true)) {
-                                      {
-                                        if ((mutation instanceof ObjectCreated)) {
-                                          ObjectCreated objectCreated = ((ObjectCreated) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          _builder.newLine();
-                                          Option cfgopt = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object = objectCreated.getObject();
-                                          EObject _get_21 = _object.get(0);
-                                          EObject object = ModelManager.getEObject(_get_21, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Element element = ModelManager.getElement(object, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Text t = null;
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            if ((opt_1.solution == true)) {
-                                              Text _valid = cfgopt.getValid();
-                                              _builder.append(t = _valid, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            } else {
-                                              Text _invalid = cfgopt.getInvalid();
-                                              _builder.append(t = _invalid, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            }
-                                          }
-                                          {
-                                            EList<Word> _words = t.getWords();
-                                            for(final Word w_2 : _words) {
-                                              {
-                                                if ((w_2 instanceof Constant)) {
-                                                  String _text = text;
-                                                  String _value = ((Constant)w_2).getValue();
-                                                  String _plus_66 = (_value + " ");
-                                                  String _plus_67 = text = (_text + _plus_66);
-                                                  _builder.append(_plus_67, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                              {
-                                                if ((w_2 instanceof Variable)) {
-                                                  Variable variable = ((Variable) w_2);
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    VariableType _type = variable.getType();
-                                                    boolean _equals_10 = Objects.equal(_type, VariableType.OBJECT);
-                                                    if (_equals_10) {
-                                                      {
-                                                        EList<modeltext.Word> _words_1 = element.getWords();
-                                                        for(final modeltext.Word v : _words_1) {
-                                                          {
-                                                            if ((v instanceof modeltext.Constant)) {
-                                                              String _text_1 = text;
-                                                              String _value_1 = ((modeltext.Constant)v).getValue();
-                                                              String _plus_68 = (_value_1 + " ");
-                                                              String _plus_69 = text = (_text_1 + _plus_68);
-                                                              _builder.append(_plus_69, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v instanceof modeltext.Variable)) {
-                                                              EObject o = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref = ((modeltext.Variable) v).getRef();
-                                                                boolean _equals_11 = Objects.equal(_ref, null);
-                                                                if (_equals_11) {
-                                                                  _builder.append(o = object, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_1 = ((modeltext.Variable) v).getRef();
-                                                                  String _name_27 = _ref_1.getName();
-                                                                  EStructuralFeature _referenceByName = ModelManager.getReferenceByName(_name_27, object);
-                                                                  Object _eGet = object.eGet(_referenceByName);
-                                                                  _builder.append(o = ((EObject) _eGet), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_4 = (!Objects.equal(o, null));
-                                                                if (_notEquals_4) {
-                                                                  String _text_2 = text;
-                                                                  EAttribute _id = ((modeltext.Variable) v).getId();
-                                                                  String _name_28 = _id.getName();
-                                                                  EStructuralFeature _attributeByName = ModelManager.getAttributeByName(_name_28, o);
-                                                                  Object _eGet_1 = o.eGet(_attributeByName);
-                                                                  String _plus_70 = (_eGet_1 + " ");
-                                                                  String _plus_71 = text = (_text_2 + _plus_70);
-                                                                  _builder.append(_plus_71, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            boolean _contains = opt_1.text.contains(text);
-                                            boolean _notEquals_5 = (_contains != true);
-                                            if (_notEquals_5) {
-                                              boolean _add_8 = opt_1.text.add(text);
-                                              _builder.append(_add_8, "");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof ObjectRemoved)) {
-                                          ObjectRemoved objectRemoved = ((ObjectRemoved) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          _builder.newLine();
-                                          Option cfgopt_1 = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_1 = objectRemoved.getObject();
-                                          EObject _get_22 = _object_1.get(0);
-                                          EObject object_1 = ModelManager.getEObject(_get_22, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Element element_1 = ModelManager.getElement(object_1, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Text t_1 = null;
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            if ((opt_1.solution == true)) {
-                                              Text _valid_1 = cfgopt_1.getValid();
-                                              _builder.append(t_1 = _valid_1, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            } else {
-                                              Text _invalid_1 = cfgopt_1.getInvalid();
-                                              _builder.append(t_1 = _invalid_1, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            }
-                                          }
-                                          {
-                                            EList<Word> _words_2 = t_1.getWords();
-                                            for(final Word w_3 : _words_2) {
-                                              {
-                                                if ((w_3 instanceof Constant)) {
-                                                  String _text_3 = text;
-                                                  String _value_2 = ((Constant)w_3).getValue();
-                                                  String _plus_72 = (_value_2 + " ");
-                                                  String _plus_73 = text = (_text_3 + _plus_72);
-                                                  _builder.append(_plus_73, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                              {
-                                                if ((w_3 instanceof Variable)) {
-                                                  Variable variable_1 = ((Variable) w_3);
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    VariableType _type_1 = variable_1.getType();
-                                                    boolean _equals_12 = Objects.equal(_type_1, VariableType.OBJECT);
-                                                    if (_equals_12) {
-                                                      {
-                                                        EList<modeltext.Word> _words_3 = element_1.getWords();
-                                                        for(final modeltext.Word v_1 : _words_3) {
-                                                          {
-                                                            if ((v_1 instanceof modeltext.Constant)) {
-                                                              String _text_4 = text;
-                                                              String _value_3 = ((modeltext.Constant)v_1).getValue();
-                                                              String _plus_74 = (_value_3 + " ");
-                                                              String _plus_75 = text = (_text_4 + _plus_74);
-                                                              _builder.append(_plus_75, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_1 instanceof modeltext.Variable)) {
-                                                              EObject o_1 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_2 = ((modeltext.Variable) v_1).getRef();
-                                                                boolean _equals_13 = Objects.equal(_ref_2, null);
-                                                                if (_equals_13) {
-                                                                  _builder.append(o_1 = object_1, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_3 = ((modeltext.Variable) v_1).getRef();
-                                                                  String _name_29 = _ref_3.getName();
-                                                                  EStructuralFeature _referenceByName_1 = ModelManager.getReferenceByName(_name_29, object_1);
-                                                                  Object _eGet_2 = object_1.eGet(_referenceByName_1);
-                                                                  _builder.append(o_1 = ((EObject) _eGet_2), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_6 = (!Objects.equal(o_1, null));
-                                                                if (_notEquals_6) {
-                                                                  String _text_5 = text;
-                                                                  EAttribute _id_1 = ((modeltext.Variable) v_1).getId();
-                                                                  String _name_30 = _id_1.getName();
-                                                                  EStructuralFeature _attributeByName_1 = ModelManager.getAttributeByName(_name_30, o_1);
-                                                                  Object _eGet_3 = o_1.eGet(_attributeByName_1);
-                                                                  String _plus_76 = (_eGet_3 + " ");
-                                                                  String _plus_77 = text = (_text_5 + _plus_76);
-                                                                  _builder.append(_plus_77, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            boolean _contains_1 = opt_1.text.contains(text);
-                                            boolean _notEquals_7 = (_contains_1 != true);
-                                            if (_notEquals_7) {
-                                              boolean _add_9 = opt_1.text.add(text);
-                                              _builder.append(_add_9, "");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof SourceReferenceChanged)) {
-                                          SourceReferenceChanged sourceReferenceChanged = ((SourceReferenceChanged) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          Option cfgopt_2 = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EObject _from_4 = sourceReferenceChanged.getFrom();
-                                          EObject from = ModelManager.getEObject(_from_4, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          String _refName = sourceReferenceChanged.getRefName();
-                                          String refName = ((String) _refName);
-                                          _builder.newLineIfNotEmpty();
-                                          EClass _eClass_1 = from.eClass();
-                                          EStructuralFeature srcRef = _eClass_1.getEStructuralFeature(refName);
-                                          _builder.newLineIfNotEmpty();
-                                          Object _eGet_4 = from.eGet(srcRef);
-                                          Element refElement = ModelManager.getRefElement(((EObject) _eGet_4), srcRef, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Object _eGet_5 = from.eGet(srcRef);
-                                          Element srcElement = ModelManager.getElement(((EObject) _eGet_5), idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EObject _to = sourceReferenceChanged.getTo();
-                                          EObject to = ModelManager.getEObject(_to, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          EClass _eClass_2 = to.eClass();
-                                          EStructuralFeature tarRef = _eClass_2.getEStructuralFeature(refName);
-                                          _builder.newLineIfNotEmpty();
-                                          Object _eGet_6 = to.eGet(tarRef);
-                                          Element tarElement = ModelManager.getElement(((EObject) _eGet_6), idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Text t_2 = null;
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            if ((opt_1.solution == true)) {
-                                              Text _valid_2 = cfgopt_2.getValid();
-                                              _builder.append(t_2 = _valid_2, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            } else {
-                                              Text _invalid_2 = cfgopt_2.getInvalid();
-                                              _builder.append(t_2 = _invalid_2, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            }
-                                          }
-                                          {
-                                            EList<Word> _words_4 = t_2.getWords();
-                                            for(final Word w_4 : _words_4) {
-                                              {
-                                                if ((w_4 instanceof Constant)) {
-                                                  String _text_6 = text;
-                                                  String _value_4 = ((Constant)w_4).getValue();
-                                                  String _plus_78 = (_value_4 + " ");
-                                                  String _plus_79 = text = (_text_6 + _plus_78);
-                                                  _builder.append(_plus_79, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                              {
-                                                if ((w_4 instanceof Variable)) {
-                                                  Variable variable_2 = ((Variable) w_4);
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    VariableType _type_2 = variable_2.getType();
-                                                    boolean _equals_14 = Objects.equal(_type_2, VariableType.OLD_FROM_OBJECT);
-                                                    if (_equals_14) {
-                                                      {
-                                                        EList<modeltext.Word> _words_5 = srcElement.getWords();
-                                                        for(final modeltext.Word v_2 : _words_5) {
-                                                          {
-                                                            if ((v_2 instanceof modeltext.Constant)) {
-                                                              String _text_7 = text;
-                                                              String _value_5 = ((modeltext.Constant)v_2).getValue();
-                                                              String _plus_80 = (_value_5 + " ");
-                                                              String _plus_81 = text = (_text_7 + _plus_80);
-                                                              _builder.append(_plus_81, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_2 instanceof modeltext.Variable)) {
-                                                              EObject o_2 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_4 = ((modeltext.Variable) v_2).getRef();
-                                                                boolean _equals_15 = Objects.equal(_ref_4, null);
-                                                                if (_equals_15) {
-                                                                  Object _eGet_7 = from.eGet(srcRef);
-                                                                  _builder.append(o_2 = ((EObject) _eGet_7), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  Object _eGet_8 = from.eGet(srcRef);
-                                                                  EReference _ref_5 = ((modeltext.Variable) v_2).getRef();
-                                                                  String _name_31 = _ref_5.getName();
-                                                                  Object _eGet_9 = from.eGet(srcRef);
-                                                                  EStructuralFeature _referenceByName_2 = ModelManager.getReferenceByName(_name_31, ((EObject) _eGet_9));
-                                                                  Object _eGet_10 = ((EObject) _eGet_8).eGet(_referenceByName_2);
-                                                                  _builder.append(o_2 = ((EObject) _eGet_10), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_8 = (!Objects.equal(o_2, null));
-                                                                if (_notEquals_8) {
-                                                                  String _text_8 = text;
-                                                                  EAttribute _id_2 = ((modeltext.Variable) v_2).getId();
-                                                                  String _name_32 = _id_2.getName();
-                                                                  EStructuralFeature _attributeByName_2 = ModelManager.getAttributeByName(_name_32, o_2);
-                                                                  Object _eGet_11 = o_2.eGet(_attributeByName_2);
-                                                                  String _plus_82 = (_eGet_11 + " ");
-                                                                  String _plus_83 = text = (_text_8 + _plus_82);
-                                                                  _builder.append(_plus_83, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_3 = variable_2.getType();
-                                                    boolean _equals_16 = Objects.equal(_type_3, VariableType.FROM_OBJECT);
-                                                    if (_equals_16) {
-                                                      {
-                                                        EList<modeltext.Word> _words_6 = tarElement.getWords();
-                                                        for(final modeltext.Word v_3 : _words_6) {
-                                                          {
-                                                            if ((v_3 instanceof modeltext.Constant)) {
-                                                              String _text_9 = text;
-                                                              String _value_6 = ((modeltext.Constant)v_3).getValue();
-                                                              String _plus_84 = (_value_6 + " ");
-                                                              String _plus_85 = text = (_text_9 + _plus_84);
-                                                              _builder.append(_plus_85, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_3 instanceof modeltext.Variable)) {
-                                                              EObject o_3 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_6 = ((modeltext.Variable) v_3).getRef();
-                                                                boolean _equals_17 = Objects.equal(_ref_6, null);
-                                                                if (_equals_17) {
-                                                                  Object _eGet_12 = to.eGet(tarRef);
-                                                                  _builder.append(o_3 = ((EObject) _eGet_12), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  Object _eGet_13 = to.eGet(tarRef);
-                                                                  EReference _ref_7 = ((modeltext.Variable) v_3).getRef();
-                                                                  String _name_33 = _ref_7.getName();
-                                                                  Object _eGet_14 = to.eGet(tarRef);
-                                                                  EStructuralFeature _referenceByName_3 = ModelManager.getReferenceByName(_name_33, ((EObject) _eGet_14));
-                                                                  Object _eGet_15 = ((EObject) _eGet_13).eGet(_referenceByName_3);
-                                                                  _builder.append(o_3 = ((EObject) _eGet_15), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_9 = (!Objects.equal(o_3, null));
-                                                                if (_notEquals_9) {
-                                                                  String _text_10 = text;
-                                                                  EAttribute _id_3 = ((modeltext.Variable) v_3).getId();
-                                                                  String _name_34 = _id_3.getName();
-                                                                  EStructuralFeature _attributeByName_3 = ModelManager.getAttributeByName(_name_34, o_3);
-                                                                  Object _eGet_16 = o_3.eGet(_attributeByName_3);
-                                                                  String _plus_86 = (_eGet_16 + " ");
-                                                                  String _plus_87 = text = (_text_10 + _plus_86);
-                                                                  _builder.append(_plus_87, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_4 = variable_2.getType();
-                                                    boolean _equals_18 = Objects.equal(_type_4, VariableType.REF_NAME);
-                                                    if (_equals_18) {
-                                                      {
-                                                        EList<modeltext.Word> _words_7 = refElement.getWords();
-                                                        for(final modeltext.Word v_4 : _words_7) {
-                                                          {
-                                                            if ((v_4 instanceof modeltext.Constant)) {
-                                                              String _text_11 = text;
-                                                              String _value_7 = ((modeltext.Constant)v_4).getValue();
-                                                              String _plus_88 = (_value_7 + " ");
-                                                              String _plus_89 = text = (_text_11 + _plus_88);
-                                                              _builder.append(_plus_89, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            boolean _contains_2 = opt_1.text.contains(text);
-                                            boolean _notEquals_10 = (_contains_2 != true);
-                                            if (_notEquals_10) {
-                                              boolean _add_10 = opt_1.text.add(text);
-                                              _builder.append(_add_10, "");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof TargetReferenceChanged)) {
-                                          TargetReferenceChanged targetReferenceChanged = ((TargetReferenceChanged) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          Option cfgopt_3 = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_2 = targetReferenceChanged.getObject();
-                                          EObject _get_23 = _object_2.get(0);
-                                          EObject object_2 = ModelManager.getEObject(_get_23, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Element element_2 = ModelManager.getElement(object_2, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          String refName_1 = targetReferenceChanged.getRefName();
-                                          _builder.newLineIfNotEmpty();
-                                          EStructuralFeature refSrc = ModelManager.getReferenceByName(refName_1, object_2);
-                                          _builder.newLineIfNotEmpty();
-                                          Element refSrcElement = ModelManager.getRefElement(object_2, refSrc, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EStructuralFeature refTar = ModelManager.getReferenceByName(refName_1, object_2);
-                                          _builder.newLineIfNotEmpty();
-                                          Element refTarElement = ModelManager.getRefElement(object_2, refTar, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EObject _from_5 = targetReferenceChanged.getFrom();
-                                          EObject from_1 = ModelManager.getEObject(_from_5, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Element fromElement = ModelManager.getElement(from_1, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EObject _to_1 = targetReferenceChanged.getTo();
-                                          EObject to_1 = ModelManager.getEObject(_to_1, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Element toElement = ModelManager.getElement(to_1, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EObject _oldTo = targetReferenceChanged.getOldTo();
-                                          EObject oldTo = ModelManager.getEObject(_oldTo, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Element oldToElement = ModelManager.getElement(oldTo, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Text t_3 = null;
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            if ((opt_1.solution == true)) {
-                                              Text _valid_3 = cfgopt_3.getValid();
-                                              _builder.append(t_3 = _valid_3, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            } else {
-                                              Text _invalid_3 = cfgopt_3.getInvalid();
-                                              _builder.append(t_3 = _invalid_3, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            }
-                                          }
-                                          {
-                                            EList<Word> _words_8 = t_3.getWords();
-                                            for(final Word w_5 : _words_8) {
-                                              {
-                                                if ((w_5 instanceof Constant)) {
-                                                  String _text_12 = text;
-                                                  String _value_8 = ((Constant)w_5).getValue();
-                                                  String _plus_90 = (_value_8 + " ");
-                                                  String _plus_91 = text = (_text_12 + _plus_90);
-                                                  _builder.append(_plus_91, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                              {
-                                                if ((w_5 instanceof Variable)) {
-                                                  Variable variable_3 = ((Variable) w_5);
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    VariableType _type_5 = variable_3.getType();
-                                                    boolean _equals_19 = Objects.equal(_type_5, VariableType.OBJECT);
-                                                    if (_equals_19) {
-                                                      {
-                                                        EList<modeltext.Word> _words_9 = element_2.getWords();
-                                                        for(final modeltext.Word v_5 : _words_9) {
-                                                          {
-                                                            if ((v_5 instanceof modeltext.Constant)) {
-                                                              String _text_13 = text;
-                                                              String _value_9 = ((modeltext.Constant)v_5).getValue();
-                                                              String _plus_92 = (_value_9 + " ");
-                                                              String _plus_93 = text = (_text_13 + _plus_92);
-                                                              _builder.append(_plus_93, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_5 instanceof modeltext.Variable)) {
-                                                              EObject o_4 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_8 = ((modeltext.Variable) v_5).getRef();
-                                                                boolean _equals_20 = Objects.equal(_ref_8, null);
-                                                                if (_equals_20) {
-                                                                  _builder.append(o_4 = object_2, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_9 = ((modeltext.Variable) v_5).getRef();
-                                                                  String _name_35 = _ref_9.getName();
-                                                                  EStructuralFeature _referenceByName_4 = ModelManager.getReferenceByName(_name_35, object_2);
-                                                                  Object _eGet_17 = object_2.eGet(_referenceByName_4);
-                                                                  _builder.append(o_4 = ((EObject) _eGet_17), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_11 = (!Objects.equal(o_4, null));
-                                                                if (_notEquals_11) {
-                                                                  String _text_14 = text;
-                                                                  EAttribute _id_4 = ((modeltext.Variable) v_5).getId();
-                                                                  String _name_36 = _id_4.getName();
-                                                                  EStructuralFeature _attributeByName_4 = ModelManager.getAttributeByName(_name_36, o_4);
-                                                                  Object _eGet_18 = o_4.eGet(_attributeByName_4);
-                                                                  String _plus_94 = (_eGet_18 + " ");
-                                                                  String _plus_95 = text = (_text_14 + _plus_94);
-                                                                  _builder.append(_plus_95, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_6 = variable_3.getType();
-                                                    boolean _equals_21 = Objects.equal(_type_6, VariableType.FROM_OBJECT);
-                                                    if (_equals_21) {
-                                                      {
-                                                        EList<modeltext.Word> _words_10 = fromElement.getWords();
-                                                        for(final modeltext.Word v_6 : _words_10) {
-                                                          {
-                                                            if ((v_6 instanceof modeltext.Constant)) {
-                                                              String _text_15 = text;
-                                                              String _value_10 = ((modeltext.Constant)v_6).getValue();
-                                                              String _plus_96 = (_value_10 + " ");
-                                                              String _plus_97 = text = (_text_15 + _plus_96);
-                                                              _builder.append(_plus_97, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_6 instanceof modeltext.Variable)) {
-                                                              EObject o_5 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_10 = ((modeltext.Variable) v_6).getRef();
-                                                                boolean _equals_22 = Objects.equal(_ref_10, null);
-                                                                if (_equals_22) {
-                                                                  _builder.append(o_5 = from_1, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_11 = ((modeltext.Variable) v_6).getRef();
-                                                                  String _name_37 = _ref_11.getName();
-                                                                  EStructuralFeature _referenceByName_5 = ModelManager.getReferenceByName(_name_37, from_1);
-                                                                  Object _eGet_19 = from_1.eGet(_referenceByName_5);
-                                                                  _builder.append(o_5 = ((EObject) _eGet_19), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_12 = (!Objects.equal(o_5, null));
-                                                                if (_notEquals_12) {
-                                                                  String _text_16 = text;
-                                                                  EAttribute _id_5 = ((modeltext.Variable) v_6).getId();
-                                                                  String _name_38 = _id_5.getName();
-                                                                  EStructuralFeature _attributeByName_5 = ModelManager.getAttributeByName(_name_38, o_5);
-                                                                  Object _eGet_20 = o_5.eGet(_attributeByName_5);
-                                                                  String _plus_98 = (_eGet_20 + " ");
-                                                                  String _plus_99 = text = (_text_16 + _plus_98);
-                                                                  _builder.append(_plus_99, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_7 = variable_3.getType();
-                                                    boolean _equals_23 = Objects.equal(_type_7, VariableType.TO_OBJECT);
-                                                    if (_equals_23) {
-                                                      {
-                                                        EList<modeltext.Word> _words_11 = toElement.getWords();
-                                                        for(final modeltext.Word v_7 : _words_11) {
-                                                          {
-                                                            if ((v_7 instanceof modeltext.Constant)) {
-                                                              String _text_17 = text;
-                                                              String _value_11 = ((modeltext.Constant)v_7).getValue();
-                                                              String _plus_100 = (_value_11 + " ");
-                                                              String _plus_101 = text = (_text_17 + _plus_100);
-                                                              _builder.append(_plus_101, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_7 instanceof modeltext.Variable)) {
-                                                              EObject o_6 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_12 = ((modeltext.Variable) v_7).getRef();
-                                                                boolean _equals_24 = Objects.equal(_ref_12, null);
-                                                                if (_equals_24) {
-                                                                  _builder.append(o_6 = to_1, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_13 = ((modeltext.Variable) v_7).getRef();
-                                                                  Object _eGet_21 = to_1.eGet(_ref_13);
-                                                                  _builder.append(o_6 = ((EObject) _eGet_21), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_13 = (!Objects.equal(o_6, null));
-                                                                if (_notEquals_13) {
-                                                                  String _text_18 = text;
-                                                                  EAttribute _id_6 = ((modeltext.Variable) v_7).getId();
-                                                                  String _name_39 = _id_6.getName();
-                                                                  EStructuralFeature _attributeByName_6 = ModelManager.getAttributeByName(_name_39, o_6);
-                                                                  Object _eGet_22 = o_6.eGet(_attributeByName_6);
-                                                                  String _plus_102 = (_eGet_22 + " ");
-                                                                  String _plus_103 = text = (_text_18 + _plus_102);
-                                                                  _builder.append(_plus_103, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_8 = variable_3.getType();
-                                                    boolean _equals_25 = Objects.equal(_type_8, VariableType.OLD_TO_OBJECT);
-                                                    if (_equals_25) {
-                                                      {
-                                                        EList<modeltext.Word> _words_12 = oldToElement.getWords();
-                                                        for(final modeltext.Word v_8 : _words_12) {
-                                                          {
-                                                            if ((v_8 instanceof modeltext.Constant)) {
-                                                              String _text_19 = text;
-                                                              String _value_12 = ((modeltext.Constant)v_8).getValue();
-                                                              String _plus_104 = (_value_12 + " ");
-                                                              String _plus_105 = text = (_text_19 + _plus_104);
-                                                              _builder.append(_plus_105, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_8 instanceof modeltext.Variable)) {
-                                                              EObject o_7 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_14 = ((modeltext.Variable) v_8).getRef();
-                                                                boolean _equals_26 = Objects.equal(_ref_14, null);
-                                                                if (_equals_26) {
-                                                                  _builder.append(o_7 = oldTo, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_15 = ((modeltext.Variable) v_8).getRef();
-                                                                  Object _eGet_23 = oldTo.eGet(_ref_15);
-                                                                  _builder.append(o_7 = ((EObject) _eGet_23), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_14 = (!Objects.equal(o_7, null));
-                                                                if (_notEquals_14) {
-                                                                  String _text_20 = text;
-                                                                  EAttribute _id_7 = ((modeltext.Variable) v_8).getId();
-                                                                  String _name_40 = _id_7.getName();
-                                                                  EStructuralFeature _attributeByName_7 = ModelManager.getAttributeByName(_name_40, o_7);
-                                                                  Object _eGet_24 = o_7.eGet(_attributeByName_7);
-                                                                  String _plus_106 = (_eGet_24 + " ");
-                                                                  String _plus_107 = text = (_text_20 + _plus_106);
-                                                                  _builder.append(_plus_107, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_9 = variable_3.getType();
-                                                    boolean _equals_27 = Objects.equal(_type_9, VariableType.REF_NAME);
-                                                    if (_equals_27) {
-                                                      {
-                                                        EList<modeltext.Word> _words_13 = refTarElement.getWords();
-                                                        for(final modeltext.Word v_9 : _words_13) {
-                                                          {
-                                                            if ((v_9 instanceof modeltext.Constant)) {
-                                                              String _text_21 = text;
-                                                              String _value_13 = ((modeltext.Constant)v_9).getValue();
-                                                              String _plus_108 = (_value_13 + " ");
-                                                              String _plus_109 = text = (_text_21 + _plus_108);
-                                                              _builder.append(_plus_109, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_10 = variable_3.getType();
-                                                    boolean _equals_28 = Objects.equal(_type_10, VariableType.SRC_REF_NAME);
-                                                    if (_equals_28) {
-                                                      {
-                                                        EList<modeltext.Word> _words_14 = refSrcElement.getWords();
-                                                        for(final modeltext.Word v_10 : _words_14) {
-                                                          {
-                                                            if ((v_10 instanceof modeltext.Constant)) {
-                                                              String _text_22 = text;
-                                                              String _value_14 = ((modeltext.Constant)v_10).getValue();
-                                                              String _plus_110 = (_value_14 + " ");
-                                                              String _plus_111 = text = (_text_22 + _plus_110);
-                                                              _builder.append(_plus_111, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            boolean _contains_3 = opt_1.text.contains(text);
-                                            boolean _notEquals_15 = (_contains_3 != true);
-                                            if (_notEquals_15) {
-                                              boolean _add_11 = opt_1.text.add(text);
-                                              _builder.append(_add_11, "");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof ReferenceSwap)) {
-                                          ReferenceSwap referenceSwap = ((ReferenceSwap) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                          _builder.newLine();
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof ReferenceCreated)) {
-                                          ReferenceCreated referenceCreated = ((ReferenceCreated) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          Option cfgopt_4 = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_3 = referenceCreated.getObject();
-                                          EObject _get_24 = _object_3.get(0);
-                                          EObject object_3 = ModelManager.getEObject(_get_24, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EReference> _ref_16 = referenceCreated.getRef();
-                                          EReference _get_25 = _ref_16.get(0);
-                                          EObject ref = ModelManager.getEObject(_get_25, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          String refName_2 = referenceCreated.getRefName();
-                                          _builder.newLineIfNotEmpty();
-                                          Element element_3 = ModelManager.getElement(object_3, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Text t_4 = null;
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            if ((opt_1.solution == true)) {
-                                              Text _valid_4 = cfgopt_4.getValid();
-                                              _builder.append(t_4 = _valid_4, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            } else {
-                                              Text _invalid_4 = cfgopt_4.getInvalid();
-                                              _builder.append(t_4 = _invalid_4, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            }
-                                          }
-                                          {
-                                            EList<Word> _words_15 = t_4.getWords();
-                                            for(final Word w_6 : _words_15) {
-                                              {
-                                                if ((w_6 instanceof Constant)) {
-                                                  String _text_23 = text;
-                                                  String _value_15 = ((Constant)w_6).getValue();
-                                                  String _plus_112 = (_value_15 + " ");
-                                                  String _plus_113 = text = (_text_23 + _plus_112);
-                                                  _builder.append(_plus_113, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                              {
-                                                if ((w_6 instanceof Variable)) {
-                                                  Variable variable_4 = ((Variable) w_6);
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    VariableType _type_11 = variable_4.getType();
-                                                    boolean _equals_29 = Objects.equal(_type_11, VariableType.OBJECT);
-                                                    if (_equals_29) {
-                                                      {
-                                                        EList<modeltext.Word> _words_16 = element_3.getWords();
-                                                        for(final modeltext.Word v_11 : _words_16) {
-                                                          {
-                                                            if ((v_11 instanceof modeltext.Constant)) {
-                                                              String _text_24 = text;
-                                                              String _value_16 = ((modeltext.Constant)v_11).getValue();
-                                                              String _plus_114 = (_value_16 + " ");
-                                                              String _plus_115 = text = (_text_24 + _plus_114);
-                                                              _builder.append(_plus_115, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_11 instanceof modeltext.Variable)) {
-                                                              EObject o_8 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_17 = ((modeltext.Variable) v_11).getRef();
-                                                                boolean _equals_30 = Objects.equal(_ref_17, null);
-                                                                if (_equals_30) {
-                                                                  _builder.append(o_8 = object_3, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_18 = ((modeltext.Variable) v_11).getRef();
-                                                                  String _name_41 = _ref_18.getName();
-                                                                  EStructuralFeature _referenceByName_6 = ModelManager.getReferenceByName(_name_41, object_3);
-                                                                  Object _eGet_25 = object_3.eGet(_referenceByName_6);
-                                                                  _builder.append(o_8 = ((EObject) _eGet_25), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_16 = (!Objects.equal(o_8, null));
-                                                                if (_notEquals_16) {
-                                                                  String _text_25 = text;
-                                                                  EAttribute _id_8 = ((modeltext.Variable) v_11).getId();
-                                                                  String _name_42 = _id_8.getName();
-                                                                  EStructuralFeature _attributeByName_8 = ModelManager.getAttributeByName(_name_42, o_8);
-                                                                  Object _eGet_26 = o_8.eGet(_attributeByName_8);
-                                                                  String _plus_116 = (_eGet_26 + " ");
-                                                                  String _plus_117 = text = (_text_25 + _plus_116);
-                                                                  _builder.append(_plus_117, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_12 = variable_4.getType();
-                                                    boolean _equals_31 = Objects.equal(_type_12, VariableType.REF_NAME);
-                                                    if (_equals_31) {
-                                                      String _text_26 = text;
-                                                      String _plus_118 = text = (_text_26 + (refName_2 + " "));
-                                                      _builder.append(_plus_118, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            boolean _contains_4 = opt_1.text.contains(text);
-                                            boolean _notEquals_17 = (_contains_4 != true);
-                                            if (_notEquals_17) {
-                                              boolean _add_12 = opt_1.text.add(text);
-                                              _builder.append(_add_12, "");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof ReferenceRemoved)) {
-                                          ReferenceRemoved referenceRemoved = ((ReferenceRemoved) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          Option cfgopt_5 = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EObject> _object_4 = referenceRemoved.getObject();
-                                          EObject _get_26 = _object_4.get(0);
-                                          EObject object_4 = ModelManager.getEObject(_get_26, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          EList<EReference> _ref_19 = referenceRemoved.getRef();
-                                          EReference _get_27 = _ref_19.get(0);
-                                          EObject ref_1 = ModelManager.getEObject(_get_27, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          Object _attribute = ModelManager.getAttribute("name", ref_1);
-                                          String refName_3 = ((String) _attribute);
-                                          _builder.newLineIfNotEmpty();
-                                          Element element_4 = ModelManager.getElement(object_4, idelemsresource);
-                                          _builder.newLineIfNotEmpty();
-                                          Text t_5 = null;
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            if ((opt_1.solution == true)) {
-                                              Text _valid_5 = cfgopt_5.getValid();
-                                              _builder.append(t_5 = _valid_5, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            } else {
-                                              Text _invalid_5 = cfgopt_5.getInvalid();
-                                              _builder.append(t_5 = _invalid_5, "");
-                                              _builder.newLineIfNotEmpty();
-                                              _builder.newLine();
-                                            }
-                                          }
-                                          {
-                                            EList<Word> _words_17 = t_5.getWords();
-                                            for(final Word w_7 : _words_17) {
-                                              {
-                                                if ((w_7 instanceof Constant)) {
-                                                  String _text_27 = text;
-                                                  String _value_17 = ((Constant)w_7).getValue();
-                                                  String _plus_119 = (_value_17 + " ");
-                                                  String _plus_120 = text = (_text_27 + _plus_119);
-                                                  _builder.append(_plus_120, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                              {
-                                                if ((w_7 instanceof Variable)) {
-                                                  Variable variable_5 = ((Variable) w_7);
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    VariableType _type_13 = variable_5.getType();
-                                                    boolean _equals_32 = Objects.equal(_type_13, VariableType.OBJECT);
-                                                    if (_equals_32) {
-                                                      {
-                                                        EList<modeltext.Word> _words_18 = element_4.getWords();
-                                                        for(final modeltext.Word v_12 : _words_18) {
-                                                          {
-                                                            if ((v_12 instanceof modeltext.Constant)) {
-                                                              String _text_28 = text;
-                                                              String _value_18 = ((modeltext.Constant)v_12).getValue();
-                                                              String _plus_121 = (_value_18 + " ");
-                                                              String _plus_122 = text = (_text_28 + _plus_121);
-                                                              _builder.append(_plus_122, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((v_12 instanceof modeltext.Variable)) {
-                                                              EObject o_9 = null;
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EReference _ref_20 = ((modeltext.Variable) v_12).getRef();
-                                                                boolean _equals_33 = Objects.equal(_ref_20, null);
-                                                                if (_equals_33) {
-                                                                  _builder.append(o_9 = object_4, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                } else {
-                                                                  EReference _ref_21 = ((modeltext.Variable) v_12).getRef();
-                                                                  String _name_43 = _ref_21.getName();
-                                                                  EStructuralFeature _referenceByName_7 = ModelManager.getReferenceByName(_name_43, object_4);
-                                                                  Object _eGet_27 = object_4.eGet(_referenceByName_7);
-                                                                  _builder.append(o_9 = ((EObject) _eGet_27), "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                              {
-                                                                boolean _notEquals_18 = (!Objects.equal(o_9, null));
-                                                                if (_notEquals_18) {
-                                                                  String _text_29 = text;
-                                                                  EAttribute _id_9 = ((modeltext.Variable) v_12).getId();
-                                                                  String _name_44 = _id_9.getName();
-                                                                  EStructuralFeature _attributeByName_9 = ModelManager.getAttributeByName(_name_44, o_9);
-                                                                  Object _eGet_28 = o_9.eGet(_attributeByName_9);
-                                                                  String _plus_123 = (_eGet_28 + " ");
-                                                                  String _plus_124 = text = (_text_29 + _plus_123);
-                                                                  _builder.append(_plus_124, "");
-                                                                  _builder.newLineIfNotEmpty();
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    VariableType _type_14 = variable_5.getType();
-                                                    boolean _equals_34 = Objects.equal(_type_14, VariableType.REF_NAME);
-                                                    if (_equals_34) {
-                                                      String _text_30 = text;
-                                                      String _plus_125 = text = (_text_30 + (refName_3 + " "));
-                                                      _builder.append(_plus_125, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            boolean _contains_5 = opt_1.text.contains(text);
-                                            boolean _notEquals_19 = (_contains_5 != true);
-                                            if (_notEquals_19) {
-                                              boolean _add_13 = opt_1.text.add(text);
-                                              _builder.append(_add_13, "");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                      {
-                                        if ((mutation instanceof InformationChanged)) {
-                                          InformationChanged informationChanged = ((InformationChanged) mutation);
-                                          _builder.newLineIfNotEmpty();
-                                          _builder.newLine();
-                                          List<AttributeChanged> attChanges = informationChanged.getAttChanges();
-                                          _builder.newLineIfNotEmpty();
-                                          EObject _object_5 = informationChanged.getObject();
-                                          EObject object_5 = ModelManager.getEObject(_object_5, opt_1.seed);
-                                          _builder.newLineIfNotEmpty();
-                                          ArrayList<String> attributes = new ArrayList<String>();
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            for(final AttributeChanged att : attChanges) {
-                                              _builder.append(text = "", "");
-                                              _builder.newLineIfNotEmpty();
-                                              {
-                                                if ((att instanceof AttributeSwap)) {
-                                                  AttributeSwap attSwap = ((AttributeSwap) att);
-                                                  _builder.newLineIfNotEmpty();
-                                                  String attName = attSwap.getAttName();
-                                                  _builder.newLineIfNotEmpty();
-                                                  EClass _eClass_3 = object_5.eClass();
-                                                  EStructuralFeature attributeName = _eClass_3.getEStructuralFeature(attName);
-                                                  _builder.newLineIfNotEmpty();
-                                                  EObject _attObject = attSwap.getAttObject();
-                                                  EObject attObject = ModelManager.getEObject(_attObject, opt_1.seed);
-                                                  _builder.newLineIfNotEmpty();
-                                                  String firstName = attSwap.getFirstName();
-                                                  _builder.newLineIfNotEmpty();
-                                                  String newVal = attSwap.getNewVal();
-                                                  _builder.newLineIfNotEmpty();
-                                                  _builder.newLine();
-                                                  Option cfgopt_6 = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element firstElement = ModelManager.getElement(object_5, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element secondElement = ModelManager.getElement(attObject, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Text t_6 = null;
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    if ((opt_1.solution == true)) {
-                                                      Text _valid_6 = cfgopt_6.getValid();
-                                                      _builder.append(t_6 = _valid_6, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                      _builder.newLine();
-                                                    } else {
-                                                      Text _invalid_6 = cfgopt_6.getInvalid();
-                                                      _builder.append(t_6 = _invalid_6, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                      _builder.newLine();
-                                                    }
-                                                  }
-                                                  {
-                                                    EList<Word> _words_19 = t_6.getWords();
-                                                    for(final Word w_8 : _words_19) {
-                                                      {
-                                                        if ((w_8 instanceof Constant)) {
-                                                          String _text_31 = text;
-                                                          String _value_19 = ((Constant)w_8).getValue();
-                                                          String _plus_126 = (_value_19 + " ");
-                                                          String _plus_127 = text = (_text_31 + _plus_126);
-                                                          _builder.append(_plus_127, "");
-                                                          _builder.newLineIfNotEmpty();
-                                                        }
-                                                      }
-                                                      {
-                                                        if ((w_8 instanceof Variable)) {
-                                                          Variable variable_6 = ((Variable) w_8);
-                                                          _builder.newLineIfNotEmpty();
-                                                          {
-                                                            VariableType _type_15 = variable_6.getType();
-                                                            boolean _equals_35 = Objects.equal(_type_15, VariableType.FIRST_OBJECT);
-                                                            if (_equals_35) {
-                                                              {
-                                                                EList<modeltext.Word> _words_20 = firstElement.getWords();
-                                                                for(final modeltext.Word v_13 : _words_20) {
-                                                                  {
-                                                                    if ((v_13 instanceof modeltext.Constant)) {
-                                                                      String _text_32 = text;
-                                                                      String _value_20 = ((modeltext.Constant)v_13).getValue();
-                                                                      String _plus_128 = (_value_20 + " ");
-                                                                      String _plus_129 = text = (_text_32 + _plus_128);
-                                                                      _builder.append(_plus_129, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_13 instanceof modeltext.Variable)) {
-                                                                      EObject o_10 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_22 = ((modeltext.Variable) v_13).getRef();
-                                                                        boolean _equals_36 = Objects.equal(_ref_22, null);
-                                                                        if (_equals_36) {
-                                                                          _builder.append(o_10 = object_5, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EReference _ref_23 = ((modeltext.Variable) v_13).getRef();
-                                                                          String _name_45 = _ref_23.getName();
-                                                                          EStructuralFeature _referenceByName_8 = ModelManager.getReferenceByName(_name_45, object_5);
-                                                                          Object _eGet_29 = object_5.eGet(_referenceByName_8);
-                                                                          _builder.append(o_10 = ((EObject) _eGet_29), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_20 = (!Objects.equal(o_10, null));
-                                                                        if (_notEquals_20) {
-                                                                          String _text_33 = text;
-                                                                          EAttribute _id_10 = ((modeltext.Variable) v_13).getId();
-                                                                          String _name_46 = _id_10.getName();
-                                                                          EStructuralFeature _attributeByName_10 = ModelManager.getAttributeByName(_name_46, o_10);
-                                                                          Object _eGet_30 = o_10.eGet(_attributeByName_10);
-                                                                          String _plus_130 = (_eGet_30 + " ");
-                                                                          String _plus_131 = text = (_text_33 + _plus_130);
-                                                                          _builder.append(_plus_131, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_16 = variable_6.getType();
-                                                            boolean _equals_37 = Objects.equal(_type_16, VariableType.SECOND_OBJECT);
-                                                            if (_equals_37) {
-                                                              {
-                                                                EList<modeltext.Word> _words_21 = secondElement.getWords();
-                                                                for(final modeltext.Word v_14 : _words_21) {
-                                                                  {
-                                                                    if ((v_14 instanceof modeltext.Constant)) {
-                                                                      String _text_34 = text;
-                                                                      String _value_21 = ((modeltext.Constant)v_14).getValue();
-                                                                      String _plus_132 = (_value_21 + " ");
-                                                                      String _plus_133 = text = (_text_34 + _plus_132);
-                                                                      _builder.append(_plus_133, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_14 instanceof modeltext.Variable)) {
-                                                                      EObject o_11 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_24 = ((modeltext.Variable) v_14).getRef();
-                                                                        boolean _equals_38 = Objects.equal(_ref_24, null);
-                                                                        if (_equals_38) {
-                                                                          _builder.append(o_11 = attObject, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EReference _ref_25 = ((modeltext.Variable) v_14).getRef();
-                                                                          Object _eGet_31 = attObject.eGet(_ref_25);
-                                                                          _builder.append(o_11 = ((EObject) _eGet_31), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_21 = (!Objects.equal(o_11, null));
-                                                                        if (_notEquals_21) {
-                                                                          String _text_35 = text;
-                                                                          EAttribute _id_11 = ((modeltext.Variable) v_14).getId();
-                                                                          String _name_47 = _id_11.getName();
-                                                                          EStructuralFeature _attributeByName_11 = ModelManager.getAttributeByName(_name_47, o_11);
-                                                                          Object _eGet_32 = o_11.eGet(_attributeByName_11);
-                                                                          String _plus_134 = (_eGet_32 + " ");
-                                                                          String _plus_135 = text = (_text_35 + _plus_134);
-                                                                          _builder.append(_plus_135, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_17 = variable_6.getType();
-                                                            boolean _equals_39 = Objects.equal(_type_17, VariableType.FIRST_ATT_NAME);
-                                                            if (_equals_39) {
-                                                              String _text_36 = text;
-                                                              String _plus_136 = text = (_text_36 + (attName + " "));
-                                                              _builder.append(_plus_136, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_18 = variable_6.getType();
-                                                            boolean _equals_40 = Objects.equal(_type_18, VariableType.SECOND_ATT_NAME);
-                                                            if (_equals_40) {
-                                                              String _text_37 = text;
-                                                              String _plus_137 = text = (_text_37 + (firstName + " "));
-                                                              _builder.append(_plus_137, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_19 = variable_6.getType();
-                                                            boolean _equals_41 = Objects.equal(_type_19, VariableType.FIRST_VALUE);
-                                                            if (_equals_41) {
-                                                              String _text_38 = text;
-                                                              Object _eGet_33 = object_5.eGet(attributeName);
-                                                              String _plus_138 = (_eGet_33 + " ");
-                                                              String _plus_139 = text = (_text_38 + _plus_138);
-                                                              _builder.append(_plus_139, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_20 = variable_6.getType();
-                                                            boolean _equals_42 = Objects.equal(_type_20, VariableType.SECOND_VALUE);
-                                                            if (_equals_42) {
-                                                              String _text_39 = text;
-                                                              String _plus_140 = text = (_text_39 + (newVal + " "));
-                                                              _builder.append(_plus_140, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    boolean _contains_6 = attributes.contains(text);
-                                                    boolean _notEquals_22 = (_contains_6 != true);
-                                                    if (_notEquals_22) {
-                                                      boolean _add_14 = attributes.add(text);
-                                                      _builder.append(_add_14, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                    }
-                                                  }
-                                                } else {
-                                                  AttributeChanged attributeChanged = ((AttributeChanged) att);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Option cfgopt_7 = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  String attName_1 = attributeChanged.getAttName();
-                                                  _builder.newLineIfNotEmpty();
-                                                  String oldVal = attributeChanged.getOldVal();
-                                                  _builder.newLineIfNotEmpty();
-                                                  String newVal_1 = attributeChanged.getNewVal();
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element element_5 = ModelManager.getElement(object_5, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Text t_7 = null;
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    if ((opt_1.solution == true)) {
-                                                      Text _valid_7 = cfgopt_7.getValid();
-                                                      _builder.append(t_7 = _valid_7, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                      _builder.newLine();
-                                                    } else {
-                                                      Text _invalid_7 = cfgopt_7.getInvalid();
-                                                      _builder.append(t_7 = _invalid_7, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                      _builder.newLine();
-                                                    }
-                                                  }
-                                                  {
-                                                    EList<Word> _words_22 = t_7.getWords();
-                                                    for(final Word w_9 : _words_22) {
-                                                      {
-                                                        if ((w_9 instanceof Constant)) {
-                                                          String _text_40 = text;
-                                                          String _value_22 = ((Constant)w_9).getValue();
-                                                          String _plus_141 = (_value_22 + " ");
-                                                          String _plus_142 = text = (_text_40 + _plus_141);
-                                                          _builder.append(_plus_142, "");
-                                                          _builder.newLineIfNotEmpty();
-                                                        }
-                                                      }
-                                                      {
-                                                        if ((w_9 instanceof Variable)) {
-                                                          Variable variable_7 = ((Variable) w_9);
-                                                          _builder.newLineIfNotEmpty();
-                                                          {
-                                                            VariableType _type_21 = variable_7.getType();
-                                                            boolean _equals_43 = Objects.equal(_type_21, VariableType.OBJECT);
-                                                            if (_equals_43) {
-                                                              {
-                                                                EList<modeltext.Word> _words_23 = element_5.getWords();
-                                                                for(final modeltext.Word v_15 : _words_23) {
-                                                                  {
-                                                                    if ((v_15 instanceof modeltext.Constant)) {
-                                                                      String _text_41 = text;
-                                                                      String _value_23 = ((modeltext.Constant)v_15).getValue();
-                                                                      String _plus_143 = (_value_23 + " ");
-                                                                      String _plus_144 = text = (_text_41 + _plus_143);
-                                                                      _builder.append(_plus_144, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                  {
-                                                                    if ((v_15 instanceof modeltext.Variable)) {
-                                                                      EObject o_12 = null;
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        EReference _ref_26 = ((modeltext.Variable) v_15).getRef();
-                                                                        boolean _equals_44 = Objects.equal(_ref_26, null);
-                                                                        if (_equals_44) {
-                                                                          _builder.append(o_12 = object_5, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        } else {
-                                                                          EReference _ref_27 = ((modeltext.Variable) v_15).getRef();
-                                                                          String _name_48 = _ref_27.getName();
-                                                                          EStructuralFeature _referenceByName_9 = ModelManager.getReferenceByName(_name_48, object_5);
-                                                                          Object _eGet_34 = object_5.eGet(_referenceByName_9);
-                                                                          _builder.append(o_12 = ((EObject) _eGet_34), "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        boolean _notEquals_23 = (!Objects.equal(o_12, null));
-                                                                        if (_notEquals_23) {
-                                                                          String _text_42 = text;
-                                                                          EAttribute _id_12 = ((modeltext.Variable) v_15).getId();
-                                                                          String _name_49 = _id_12.getName();
-                                                                          EStructuralFeature _attributeByName_12 = ModelManager.getAttributeByName(_name_49, o_12);
-                                                                          Object _eGet_35 = o_12.eGet(_attributeByName_12);
-                                                                          String _plus_145 = (_eGet_35 + " ");
-                                                                          String _plus_146 = text = (_text_42 + _plus_145);
-                                                                          _builder.append(_plus_146, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_22 = variable_7.getType();
-                                                            boolean _equals_45 = Objects.equal(_type_22, VariableType.ATT_NAME);
-                                                            if (_equals_45) {
-                                                              String _text_43 = text;
-                                                              String _plus_147 = text = (_text_43 + (attName_1 + " "));
-                                                              _builder.append(_plus_147, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_23 = variable_7.getType();
-                                                            boolean _equals_46 = Objects.equal(_type_23, VariableType.OLD_VALUE);
-                                                            if (_equals_46) {
-                                                              String _text_44 = text;
-                                                              String _plus_148 = text = (_text_44 + (oldVal + " "));
-                                                              _builder.append(_plus_148, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            VariableType _type_24 = variable_7.getType();
-                                                            boolean _equals_47 = Objects.equal(_type_24, VariableType.NEW_VALUE);
-                                                            if (_equals_47) {
-                                                              String _text_45 = text;
-                                                              String _plus_149 = text = (_text_45 + (newVal_1 + " "));
-                                                              _builder.append(_plus_149, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                  {
-                                                    boolean _contains_7 = attributes.contains(text);
-                                                    boolean _notEquals_24 = (_contains_7 != true);
-                                                    if (_notEquals_24) {
-                                                      boolean _add_15 = attributes.add(text);
-                                                      _builder.append(_add_15, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            for(final String txt : attributes) {
-                                              {
-                                                boolean _contains_8 = opt_1.text.contains(txt);
-                                                boolean _notEquals_25 = (_contains_8 != true);
-                                                if (_notEquals_25) {
-                                                  boolean _add_16 = opt_1.text.add(txt);
-                                                  _builder.append(_add_16, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                            }
-                                          }
-                                          List<EObject> _references = ModelManager.getReferences("refChanges", mutation);
-                                          List<EObject> refChanges = ((List<EObject>) _references);
-                                          _builder.newLineIfNotEmpty();
-                                          ArrayList<String> references = new ArrayList<String>();
-                                          _builder.newLineIfNotEmpty();
-                                          {
-                                            for(final EObject ref_2 : refChanges) {
-                                              _builder.append(text = "", "");
-                                              _builder.newLineIfNotEmpty();
-                                              {
-                                                if ((ref_2 instanceof ReferenceChanged)) {
-                                                  ReferenceChanged referenceChanged = ((ReferenceChanged) ref_2);
-                                                  _builder.newLineIfNotEmpty();
-                                                  _builder.append(text = "", "");
-                                                  _builder.newLineIfNotEmpty();
-                                                  Option cfgopt_8 = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element element_6 = ModelManager.getElement(object_5, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  String srcRefName = ((ReferenceChanged)ref_2).getSrcRefName();
-                                                  _builder.newLineIfNotEmpty();
-                                                  EClass _eClass_4 = object_5.eClass();
-                                                  EStructuralFeature refSrc_1 = _eClass_4.getEStructuralFeature(srcRefName);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element refSrcElement_1 = ModelManager.getRefElement(object_5, refSrc_1, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  String refName_4 = ((ReferenceChanged)ref_2).getRefName();
-                                                  _builder.newLineIfNotEmpty();
-                                                  EStructuralFeature refTar_1 = ModelManager.getReferenceByName(refName_4, object_5);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element refTarElement_1 = ModelManager.getRefElement(object_5, refTar_1, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  EObject _from_6 = ((ReferenceChanged)ref_2).getFrom();
-                                                  EObject from_2 = ModelManager.getEObject(_from_6, opt_1.seed);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element fromElement_1 = ModelManager.getElement(from_2, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  EObject _to_2 = ((ReferenceChanged)ref_2).getTo();
-                                                  EObject to_2 = ModelManager.getEObject(_to_2, opt_1.seed);
-                                                  _builder.newLineIfNotEmpty();
-                                                  Element toElement_1 = ModelManager.getElement(to_2, idelemsresource);
-                                                  _builder.newLineIfNotEmpty();
-                                                  _builder.newLine();
-                                                  _builder.newLine();
-                                                  _builder.newLine();
-                                                  _builder.newLine();
-                                                  Text t_8 = null;
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    if ((opt_1.solution == true)) {
-                                                      Text _valid_8 = cfgopt_8.getValid();
-                                                      _builder.append(t_8 = _valid_8, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                      _builder.newLine();
-                                                    } else {
-                                                      Text _invalid_8 = cfgopt_8.getInvalid();
-                                                      _builder.append(t_8 = _invalid_8, "");
-                                                      _builder.newLineIfNotEmpty();
-                                                      _builder.newLine();
-                                                    }
-                                                  }
-                                                  boolean older = (!Objects.equal(fromElement_1, null));
-                                                  _builder.newLineIfNotEmpty();
-                                                  boolean newer = (!Objects.equal(toElement_1, null));
-                                                  _builder.newLineIfNotEmpty();
-                                                  {
-                                                    if (((older == true) && (newer == true))) {
-                                                      {
-                                                        EList<Word> _words_24 = t_8.getWords();
-                                                        for(final Word w_10 : _words_24) {
-                                                          {
-                                                            if ((w_10 instanceof Constant)) {
-                                                              String _text_46 = text;
-                                                              String _value_24 = ((Constant)w_10).getValue();
-                                                              String _plus_150 = (_value_24 + " ");
-                                                              String _plus_151 = text = (_text_46 + _plus_150);
-                                                              _builder.append(_plus_151, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                            }
-                                                          }
-                                                          {
-                                                            if ((w_10 instanceof Variable)) {
-                                                              Variable variable_8 = ((Variable) w_10);
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                VariableType _type_25 = variable_8.getType();
-                                                                boolean _equals_48 = Objects.equal(_type_25, VariableType.OBJECT);
-                                                                if (_equals_48) {
-                                                                  {
-                                                                    EList<modeltext.Word> _words_25 = element_6.getWords();
-                                                                    for(final modeltext.Word v_16 : _words_25) {
-                                                                      {
-                                                                        if ((v_16 instanceof modeltext.Constant)) {
-                                                                          String _text_47 = text;
-                                                                          String _value_25 = ((modeltext.Constant)v_16).getValue();
-                                                                          String _plus_152 = (_value_25 + " ");
-                                                                          String _plus_153 = text = (_text_47 + _plus_152);
-                                                                          _builder.append(_plus_153, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        if ((v_16 instanceof modeltext.Variable)) {
-                                                                          EReference _ref_28 = ((modeltext.Variable) v_16).getRef();
-                                                                          String _plus_154 = ("REF: " + _ref_28);
-                                                                          System.out.println(_plus_154);
-                                                                          _builder.newLineIfNotEmpty();
-                                                                          EObject o_13 = null;
-                                                                          _builder.newLineIfNotEmpty();
-                                                                          {
-                                                                            EReference _ref_29 = ((modeltext.Variable) v_16).getRef();
-                                                                            boolean _equals_49 = Objects.equal(_ref_29, null);
-                                                                            if (_equals_49) {
-                                                                              _builder.append(o_13 = object_5, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            } else {
-                                                                              EReference _ref_30 = ((modeltext.Variable) v_16).getRef();
-                                                                              String _name_50 = _ref_30.getName();
-                                                                              EStructuralFeature _referenceByName_10 = ModelManager.getReferenceByName(_name_50, object_5);
-                                                                              Object _eGet_36 = object_5.eGet(_referenceByName_10);
-                                                                              _builder.append(o_13 = ((EObject) _eGet_36), "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                          {
-                                                                            boolean _notEquals_26 = (!Objects.equal(o_13, null));
-                                                                            if (_notEquals_26) {
-                                                                              String _text_48 = text;
-                                                                              EAttribute _id_13 = ((modeltext.Variable) v_16).getId();
-                                                                              String _name_51 = _id_13.getName();
-                                                                              EStructuralFeature _attributeByName_13 = ModelManager.getAttributeByName(_name_51, o_13);
-                                                                              Object _eGet_37 = o_13.eGet(_attributeByName_13);
-                                                                              String _plus_155 = (_eGet_37 + " ");
-                                                                              String _plus_156 = text = (_text_48 + _plus_155);
-                                                                              _builder.append(_plus_156, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              {
-                                                                VariableType _type_26 = variable_8.getType();
-                                                                boolean _equals_50 = Objects.equal(_type_26, VariableType.FROM_OBJECT);
-                                                                if (_equals_50) {
-                                                                  {
-                                                                    EList<modeltext.Word> _words_26 = fromElement_1.getWords();
-                                                                    for(final modeltext.Word v_17 : _words_26) {
-                                                                      {
-                                                                        if ((v_17 instanceof modeltext.Constant)) {
-                                                                          String _text_49 = text;
-                                                                          String _value_26 = ((modeltext.Constant)v_17).getValue();
-                                                                          String _plus_157 = (_value_26 + " ");
-                                                                          String _plus_158 = text = (_text_49 + _plus_157);
-                                                                          _builder.append(_plus_158, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        if ((v_17 instanceof modeltext.Variable)) {
-                                                                          EObject o_14 = null;
-                                                                          _builder.newLineIfNotEmpty();
-                                                                          {
-                                                                            EReference _ref_31 = ((modeltext.Variable) v_17).getRef();
-                                                                            boolean _equals_51 = Objects.equal(_ref_31, null);
-                                                                            if (_equals_51) {
-                                                                              _builder.append(o_14 = from_2, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            } else {
-                                                                              EReference _ref_32 = ((modeltext.Variable) v_17).getRef();
-                                                                              String _name_52 = _ref_32.getName();
-                                                                              EStructuralFeature _referenceByName_11 = ModelManager.getReferenceByName(_name_52, from_2);
-                                                                              Object _eGet_38 = from_2.eGet(_referenceByName_11);
-                                                                              _builder.append(o_14 = ((EObject) _eGet_38), "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                          {
-                                                                            boolean _notEquals_27 = (!Objects.equal(o_14, null));
-                                                                            if (_notEquals_27) {
-                                                                              String _text_50 = text;
-                                                                              EAttribute _id_14 = ((modeltext.Variable) v_17).getId();
-                                                                              String _name_53 = _id_14.getName();
-                                                                              EStructuralFeature _attributeByName_14 = ModelManager.getAttributeByName(_name_53, o_14);
-                                                                              Object _eGet_39 = o_14.eGet(_attributeByName_14);
-                                                                              String _plus_159 = (_eGet_39 + " ");
-                                                                              String _plus_160 = text = (_text_50 + _plus_159);
-                                                                              _builder.append(_plus_160, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              {
-                                                                VariableType _type_27 = variable_8.getType();
-                                                                boolean _equals_52 = Objects.equal(_type_27, VariableType.TO_OBJECT);
-                                                                if (_equals_52) {
-                                                                  {
-                                                                    EList<modeltext.Word> _words_27 = toElement_1.getWords();
-                                                                    for(final modeltext.Word v_18 : _words_27) {
-                                                                      {
-                                                                        if ((v_18 instanceof modeltext.Constant)) {
-                                                                          String _text_51 = text;
-                                                                          String _value_27 = ((modeltext.Constant)v_18).getValue();
-                                                                          String _plus_161 = (_value_27 + " ");
-                                                                          String _plus_162 = text = (_text_51 + _plus_161);
-                                                                          _builder.append(_plus_162, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        if ((v_18 instanceof modeltext.Variable)) {
-                                                                          EObject o_15 = null;
-                                                                          _builder.newLineIfNotEmpty();
-                                                                          {
-                                                                            EReference _ref_33 = ((modeltext.Variable) v_18).getRef();
-                                                                            boolean _equals_53 = Objects.equal(_ref_33, null);
-                                                                            if (_equals_53) {
-                                                                              _builder.append(o_15 = to_2, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            } else {
-                                                                              EReference _ref_34 = ((modeltext.Variable) v_18).getRef();
-                                                                              Object _eGet_40 = to_2.eGet(_ref_34);
-                                                                              _builder.append(o_15 = ((EObject) _eGet_40), "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                          {
-                                                                            boolean _notEquals_28 = (!Objects.equal(o_15, null));
-                                                                            if (_notEquals_28) {
-                                                                              String _text_52 = text;
-                                                                              EAttribute _id_15 = ((modeltext.Variable) v_18).getId();
-                                                                              String _name_54 = _id_15.getName();
-                                                                              EStructuralFeature _attributeByName_15 = ModelManager.getAttributeByName(_name_54, o_15);
-                                                                              Object _eGet_41 = o_15.eGet(_attributeByName_15);
-                                                                              String _plus_163 = (_eGet_41 + " ");
-                                                                              String _plus_164 = text = (_text_52 + _plus_163);
-                                                                              _builder.append(_plus_164, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              {
-                                                                VariableType _type_28 = variable_8.getType();
-                                                                boolean _equals_54 = Objects.equal(_type_28, VariableType.REF_NAME);
-                                                                if (_equals_54) {
-                                                                  {
-                                                                    boolean _notEquals_29 = (!Objects.equal(refTarElement_1, null));
-                                                                    if (_notEquals_29) {
-                                                                      {
-                                                                        EList<modeltext.Word> _words_28 = refTarElement_1.getWords();
-                                                                        for(final modeltext.Word v_19 : _words_28) {
-                                                                          {
-                                                                            if ((v_19 instanceof modeltext.Constant)) {
-                                                                              String _text_53 = text;
-                                                                              String _value_28 = ((modeltext.Constant)v_19).getValue();
-                                                                              String _plus_165 = (_value_28 + " ");
-                                                                              String _plus_166 = text = (_text_53 + _plus_165);
-                                                                              _builder.append(_plus_166, "");
-                                                                              _builder.newLineIfNotEmpty();
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              {
-                                                                VariableType _type_29 = variable_8.getType();
-                                                                boolean _equals_55 = Objects.equal(_type_29, VariableType.SRC_REF_NAME);
-                                                                if (_equals_55) {
-                                                                  {
-                                                                    EList<modeltext.Word> _words_29 = refSrcElement_1.getWords();
-                                                                    for(final modeltext.Word v_20 : _words_29) {
-                                                                      {
-                                                                        if ((v_20 instanceof modeltext.Constant)) {
-                                                                          String _text_54 = text;
-                                                                          String _value_29 = ((modeltext.Constant)v_20).getValue();
-                                                                          String _plus_167 = (_value_29 + " ");
-                                                                          String _plus_168 = text = (_text_54 + _plus_167);
-                                                                          _builder.append(_plus_168, "");
-                                                                          _builder.newLineIfNotEmpty();
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                      {
-                                                        if ((older == false)) {
-                                                          {
-                                                            if ((opt_1.solution == true)) {
-                                                              String _text_55 = text;
-                                                              String _plus_169 = text = (_text_55 + "Delete ");
-                                                              _builder.append(_plus_169, "");
-                                                              _builder.append(" ");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<modeltext.Word> _words_30 = refSrcElement_1.getWords();
-                                                                for(final modeltext.Word v_21 : _words_30) {
-                                                                  {
-                                                                    if ((v_21 instanceof modeltext.Constant)) {
-                                                                      String _text_56 = text;
-                                                                      String _value_30 = ((modeltext.Constant)v_21).getValue();
-                                                                      String _plus_170 = (_value_30 + " ");
-                                                                      String _plus_171 = text = (_text_56 + _plus_170);
-                                                                      _builder.append(_plus_171, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              String _text_57 = text;
-                                                              String _plus_172 = text = (_text_57 + " from ");
-                                                              _builder.append(_plus_172, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<Word> _words_31 = t_8.getWords();
-                                                                for(final Word w_11 : _words_31) {
-                                                                  {
-                                                                    if ((w_11 instanceof Variable)) {
-                                                                      Variable variable_9 = ((Variable) w_11);
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        VariableType _type_30 = variable_9.getType();
-                                                                        boolean _equals_56 = Objects.equal(_type_30, VariableType.OBJECT);
-                                                                        if (_equals_56) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_32 = element_6.getWords();
-                                                                            for(final modeltext.Word v_22 : _words_32) {
-                                                                              {
-                                                                                if ((v_22 instanceof modeltext.Variable)) {
-                                                                                  EReference _ref_35 = ((modeltext.Variable) v_22).getRef();
-                                                                                  String _plus_173 = ("REF: " + _ref_35);
-                                                                                  System.out.println(_plus_173);
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  EObject o_16 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_36 = ((modeltext.Variable) v_22).getRef();
-                                                                                    boolean _equals_57 = Objects.equal(_ref_36, null);
-                                                                                    if (_equals_57) {
-                                                                                      _builder.append(o_16 = object_5, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_37 = ((modeltext.Variable) v_22).getRef();
-                                                                                      String _name_55 = _ref_37.getName();
-                                                                                      EStructuralFeature _referenceByName_12 = ModelManager.getReferenceByName(_name_55, object_5);
-                                                                                      Object _eGet_42 = object_5.eGet(_referenceByName_12);
-                                                                                      _builder.append(o_16 = ((EObject) _eGet_42), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_30 = (!Objects.equal(o_16, null));
-                                                                                    if (_notEquals_30) {
-                                                                                      String _text_58 = text;
-                                                                                      EAttribute _id_16 = ((modeltext.Variable) v_22).getId();
-                                                                                      String _name_56 = _id_16.getName();
-                                                                                      EStructuralFeature _attributeByName_16 = ModelManager.getAttributeByName(_name_56, o_16);
-                                                                                      Object _eGet_43 = o_16.eGet(_attributeByName_16);
-                                                                                      String _plus_174 = (_eGet_43 + " ");
-                                                                                      String _plus_175 = text = (_text_58 + _plus_174);
-                                                                                      _builder.append(_plus_175, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        VariableType _type_31 = variable_9.getType();
-                                                                        boolean _equals_58 = Objects.equal(_type_31, VariableType.TO_OBJECT);
-                                                                        if (_equals_58) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_33 = toElement_1.getWords();
-                                                                            for(final modeltext.Word v_23 : _words_33) {
-                                                                              {
-                                                                                if ((v_23 instanceof modeltext.Variable)) {
-                                                                                  EObject o_17 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_38 = ((modeltext.Variable) v_23).getRef();
-                                                                                    boolean _equals_59 = Objects.equal(_ref_38, null);
-                                                                                    if (_equals_59) {
-                                                                                      _builder.append(o_17 = to_2, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_39 = ((modeltext.Variable) v_23).getRef();
-                                                                                      Object _eGet_44 = to_2.eGet(_ref_39);
-                                                                                      _builder.append(o_17 = ((EObject) _eGet_44), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_31 = (!Objects.equal(o_17, null));
-                                                                                    if (_notEquals_31) {
-                                                                                      String _text_59 = text;
-                                                                                      EAttribute _id_17 = ((modeltext.Variable) v_23).getId();
-                                                                                      String _name_57 = _id_17.getName();
-                                                                                      EStructuralFeature _attributeByName_17 = ModelManager.getAttributeByName(_name_57, o_17);
-                                                                                      Object _eGet_45 = o_17.eGet(_attributeByName_17);
-                                                                                      String _plus_176 = ("to " + _eGet_45);
-                                                                                      String _plus_177 = (_plus_176 + " ");
-                                                                                      String _plus_178 = text = (_text_59 + _plus_177);
-                                                                                      _builder.append(_plus_178, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            } else {
-                                                              String _text_60 = text;
-                                                              String _plus_179 = text = (_text_60 + "Create ");
-                                                              _builder.append(_plus_179, "");
-                                                              _builder.append(" ");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<modeltext.Word> _words_34 = refSrcElement_1.getWords();
-                                                                for(final modeltext.Word v_24 : _words_34) {
-                                                                  {
-                                                                    if ((v_24 instanceof modeltext.Constant)) {
-                                                                      String _text_61 = text;
-                                                                      String _value_31 = ((modeltext.Constant)v_24).getValue();
-                                                                      String _plus_180 = (_value_31 + " ");
-                                                                      String _plus_181 = text = (_text_61 + _plus_180);
-                                                                      _builder.append(_plus_181, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              String _text_62 = text;
-                                                              String _plus_182 = text = (_text_62 + " from ");
-                                                              _builder.append(_plus_182, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<Word> _words_35 = t_8.getWords();
-                                                                for(final Word w_12 : _words_35) {
-                                                                  {
-                                                                    if ((w_12 instanceof Variable)) {
-                                                                      Variable variable_10 = ((Variable) w_12);
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        VariableType _type_32 = variable_10.getType();
-                                                                        boolean _equals_60 = Objects.equal(_type_32, VariableType.OBJECT);
-                                                                        if (_equals_60) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_36 = element_6.getWords();
-                                                                            for(final modeltext.Word v_25 : _words_36) {
-                                                                              {
-                                                                                if ((v_25 instanceof modeltext.Variable)) {
-                                                                                  EReference _ref_40 = ((modeltext.Variable) v_25).getRef();
-                                                                                  String _plus_183 = ("REF: " + _ref_40);
-                                                                                  System.out.println(_plus_183);
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  EObject o_18 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_41 = ((modeltext.Variable) v_25).getRef();
-                                                                                    boolean _equals_61 = Objects.equal(_ref_41, null);
-                                                                                    if (_equals_61) {
-                                                                                      _builder.append(o_18 = object_5, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_42 = ((modeltext.Variable) v_25).getRef();
-                                                                                      String _name_58 = _ref_42.getName();
-                                                                                      EStructuralFeature _referenceByName_13 = ModelManager.getReferenceByName(_name_58, object_5);
-                                                                                      Object _eGet_46 = object_5.eGet(_referenceByName_13);
-                                                                                      _builder.append(o_18 = ((EObject) _eGet_46), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_32 = (!Objects.equal(o_18, null));
-                                                                                    if (_notEquals_32) {
-                                                                                      String _text_63 = text;
-                                                                                      EAttribute _id_18 = ((modeltext.Variable) v_25).getId();
-                                                                                      String _name_59 = _id_18.getName();
-                                                                                      EStructuralFeature _attributeByName_18 = ModelManager.getAttributeByName(_name_59, o_18);
-                                                                                      Object _eGet_47 = o_18.eGet(_attributeByName_18);
-                                                                                      String _plus_184 = (_eGet_47 + " ");
-                                                                                      String _plus_185 = text = (_text_63 + _plus_184);
-                                                                                      _builder.append(_plus_185, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        VariableType _type_33 = variable_10.getType();
-                                                                        boolean _equals_62 = Objects.equal(_type_33, VariableType.TO_OBJECT);
-                                                                        if (_equals_62) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_37 = toElement_1.getWords();
-                                                                            for(final modeltext.Word v_26 : _words_37) {
-                                                                              {
-                                                                                if ((v_26 instanceof modeltext.Variable)) {
-                                                                                  EObject o_19 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_43 = ((modeltext.Variable) v_26).getRef();
-                                                                                    boolean _equals_63 = Objects.equal(_ref_43, null);
-                                                                                    if (_equals_63) {
-                                                                                      _builder.append(o_19 = to_2, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_44 = ((modeltext.Variable) v_26).getRef();
-                                                                                      Object _eGet_48 = to_2.eGet(_ref_44);
-                                                                                      _builder.append(o_19 = ((EObject) _eGet_48), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_33 = (!Objects.equal(o_19, null));
-                                                                                    if (_notEquals_33) {
-                                                                                      String _text_64 = text;
-                                                                                      EAttribute _id_19 = ((modeltext.Variable) v_26).getId();
-                                                                                      String _name_60 = _id_19.getName();
-                                                                                      EStructuralFeature _attributeByName_19 = ModelManager.getAttributeByName(_name_60, o_19);
-                                                                                      Object _eGet_49 = o_19.eGet(_attributeByName_19);
-                                                                                      String _plus_186 = ("to " + _eGet_49);
-                                                                                      String _plus_187 = (_plus_186 + " ");
-                                                                                      String _plus_188 = text = (_text_64 + _plus_187);
-                                                                                      _builder.append(_plus_188, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                      {
-                                                        if ((newer == false)) {
-                                                          {
-                                                            if ((opt_1.solution == true)) {
-                                                              String _text_65 = text;
-                                                              String _plus_189 = text = (_text_65 + "Create ");
-                                                              _builder.append(_plus_189, "");
-                                                              _builder.append(" ");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<modeltext.Word> _words_38 = refSrcElement_1.getWords();
-                                                                for(final modeltext.Word v_27 : _words_38) {
-                                                                  {
-                                                                    if ((v_27 instanceof modeltext.Constant)) {
-                                                                      String _text_66 = text;
-                                                                      String _value_32 = ((modeltext.Constant)v_27).getValue();
-                                                                      String _plus_190 = (_value_32 + " ");
-                                                                      String _plus_191 = text = (_text_66 + _plus_190);
-                                                                      _builder.append(_plus_191, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              String _text_67 = text;
-                                                              String _plus_192 = text = (_text_67 + " from ");
-                                                              _builder.append(_plus_192, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<Word> _words_39 = t_8.getWords();
-                                                                for(final Word w_13 : _words_39) {
-                                                                  {
-                                                                    if ((w_13 instanceof Variable)) {
-                                                                      Variable variable_11 = ((Variable) w_13);
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        VariableType _type_34 = variable_11.getType();
-                                                                        boolean _equals_64 = Objects.equal(_type_34, VariableType.FROM_OBJECT);
-                                                                        if (_equals_64) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_40 = fromElement_1.getWords();
-                                                                            for(final modeltext.Word v_28 : _words_40) {
-                                                                              {
-                                                                                if ((v_28 instanceof modeltext.Variable)) {
-                                                                                  EObject o_20 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_45 = ((modeltext.Variable) v_28).getRef();
-                                                                                    boolean _equals_65 = Objects.equal(_ref_45, null);
-                                                                                    if (_equals_65) {
-                                                                                      _builder.append(o_20 = from_2, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_46 = ((modeltext.Variable) v_28).getRef();
-                                                                                      String _name_61 = _ref_46.getName();
-                                                                                      EStructuralFeature _referenceByName_14 = ModelManager.getReferenceByName(_name_61, from_2);
-                                                                                      Object _eGet_50 = from_2.eGet(_referenceByName_14);
-                                                                                      _builder.append(o_20 = ((EObject) _eGet_50), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_34 = (!Objects.equal(o_20, null));
-                                                                                    if (_notEquals_34) {
-                                                                                      String _text_68 = text;
-                                                                                      EAttribute _id_20 = ((modeltext.Variable) v_28).getId();
-                                                                                      String _name_62 = _id_20.getName();
-                                                                                      EStructuralFeature _attributeByName_20 = ModelManager.getAttributeByName(_name_62, o_20);
-                                                                                      Object _eGet_51 = o_20.eGet(_attributeByName_20);
-                                                                                      String _plus_193 = (_eGet_51 + " ");
-                                                                                      String _plus_194 = text = (_text_68 + _plus_193);
-                                                                                      _builder.append(_plus_194, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        VariableType _type_35 = variable_11.getType();
-                                                                        boolean _equals_66 = Objects.equal(_type_35, VariableType.OBJECT);
-                                                                        if (_equals_66) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_41 = toElement_1.getWords();
-                                                                            for(final modeltext.Word v_29 : _words_41) {
-                                                                              {
-                                                                                if ((v_29 instanceof modeltext.Variable)) {
-                                                                                  EObject o_21 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_47 = ((modeltext.Variable) v_29).getRef();
-                                                                                    boolean _equals_67 = Objects.equal(_ref_47, null);
-                                                                                    if (_equals_67) {
-                                                                                      _builder.append(o_21 = object_5, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_48 = ((modeltext.Variable) v_29).getRef();
-                                                                                      String _name_63 = _ref_48.getName();
-                                                                                      EStructuralFeature _referenceByName_15 = ModelManager.getReferenceByName(_name_63, object_5);
-                                                                                      Object _eGet_52 = object_5.eGet(_referenceByName_15);
-                                                                                      _builder.append(o_21 = ((EObject) _eGet_52), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_35 = (!Objects.equal(o_21, null));
-                                                                                    if (_notEquals_35) {
-                                                                                      String _text_69 = text;
-                                                                                      EAttribute _id_21 = ((modeltext.Variable) v_29).getId();
-                                                                                      String _name_64 = _id_21.getName();
-                                                                                      EStructuralFeature _attributeByName_21 = ModelManager.getAttributeByName(_name_64, o_21);
-                                                                                      Object _eGet_53 = o_21.eGet(_attributeByName_21);
-                                                                                      String _plus_195 = ("to " + _eGet_53);
-                                                                                      String _plus_196 = (_plus_195 + " ");
-                                                                                      String _plus_197 = text = (_text_69 + _plus_196);
-                                                                                      _builder.append(_plus_197, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            } else {
-                                                              String _text_70 = text;
-                                                              String _plus_198 = text = (_text_70 + "Delete ");
-                                                              _builder.append(_plus_198, "");
-                                                              _builder.append(" ");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<modeltext.Word> _words_42 = refSrcElement_1.getWords();
-                                                                for(final modeltext.Word v_30 : _words_42) {
-                                                                  {
-                                                                    if ((v_30 instanceof modeltext.Constant)) {
-                                                                      String _text_71 = text;
-                                                                      String _value_33 = ((modeltext.Constant)v_30).getValue();
-                                                                      String _plus_199 = (_value_33 + " ");
-                                                                      String _plus_200 = text = (_text_71 + _plus_199);
-                                                                      _builder.append(_plus_200, "");
-                                                                      _builder.newLineIfNotEmpty();
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                              String _text_72 = text;
-                                                              String _plus_201 = text = (_text_72 + " from ");
-                                                              _builder.append(_plus_201, "");
-                                                              _builder.newLineIfNotEmpty();
-                                                              {
-                                                                EList<Word> _words_43 = t_8.getWords();
-                                                                for(final Word w_14 : _words_43) {
-                                                                  {
-                                                                    if ((w_14 instanceof Variable)) {
-                                                                      Variable variable_12 = ((Variable) w_14);
-                                                                      _builder.newLineIfNotEmpty();
-                                                                      {
-                                                                        VariableType _type_36 = variable_12.getType();
-                                                                        boolean _equals_68 = Objects.equal(_type_36, VariableType.FROM_OBJECT);
-                                                                        if (_equals_68) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_44 = fromElement_1.getWords();
-                                                                            for(final modeltext.Word v_31 : _words_44) {
-                                                                              {
-                                                                                if ((v_31 instanceof modeltext.Variable)) {
-                                                                                  EObject o_22 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_49 = ((modeltext.Variable) v_31).getRef();
-                                                                                    boolean _equals_69 = Objects.equal(_ref_49, null);
-                                                                                    if (_equals_69) {
-                                                                                      _builder.append(o_22 = from_2, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_50 = ((modeltext.Variable) v_31).getRef();
-                                                                                      String _name_65 = _ref_50.getName();
-                                                                                      EStructuralFeature _referenceByName_16 = ModelManager.getReferenceByName(_name_65, from_2);
-                                                                                      Object _eGet_54 = from_2.eGet(_referenceByName_16);
-                                                                                      _builder.append(o_22 = ((EObject) _eGet_54), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_36 = (!Objects.equal(o_22, null));
-                                                                                    if (_notEquals_36) {
-                                                                                      String _text_73 = text;
-                                                                                      EAttribute _id_22 = ((modeltext.Variable) v_31).getId();
-                                                                                      String _name_66 = _id_22.getName();
-                                                                                      EStructuralFeature _attributeByName_22 = ModelManager.getAttributeByName(_name_66, o_22);
-                                                                                      Object _eGet_55 = o_22.eGet(_attributeByName_22);
-                                                                                      String _plus_202 = (_eGet_55 + " ");
-                                                                                      String _plus_203 = text = (_text_73 + _plus_202);
-                                                                                      _builder.append(_plus_203, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                      {
-                                                                        VariableType _type_37 = variable_12.getType();
-                                                                        boolean _equals_70 = Objects.equal(_type_37, VariableType.OBJECT);
-                                                                        if (_equals_70) {
-                                                                          {
-                                                                            EList<modeltext.Word> _words_45 = toElement_1.getWords();
-                                                                            for(final modeltext.Word v_32 : _words_45) {
-                                                                              {
-                                                                                if ((v_32 instanceof modeltext.Variable)) {
-                                                                                  EObject o_23 = null;
-                                                                                  _builder.newLineIfNotEmpty();
-                                                                                  {
-                                                                                    EReference _ref_51 = ((modeltext.Variable) v_32).getRef();
-                                                                                    boolean _equals_71 = Objects.equal(_ref_51, null);
-                                                                                    if (_equals_71) {
-                                                                                      _builder.append(o_23 = object_5, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    } else {
-                                                                                      EReference _ref_52 = ((modeltext.Variable) v_32).getRef();
-                                                                                      String _name_67 = _ref_52.getName();
-                                                                                      EStructuralFeature _referenceByName_17 = ModelManager.getReferenceByName(_name_67, object_5);
-                                                                                      Object _eGet_56 = object_5.eGet(_referenceByName_17);
-                                                                                      _builder.append(o_23 = ((EObject) _eGet_56), "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                  {
-                                                                                    boolean _notEquals_37 = (!Objects.equal(o_23, null));
-                                                                                    if (_notEquals_37) {
-                                                                                      String _text_74 = text;
-                                                                                      EAttribute _id_23 = ((modeltext.Variable) v_32).getId();
-                                                                                      String _name_68 = _id_23.getName();
-                                                                                      EStructuralFeature _attributeByName_23 = ModelManager.getAttributeByName(_name_68, o_23);
-                                                                                      Object _eGet_57 = o_23.eGet(_attributeByName_23);
-                                                                                      String _plus_204 = ("to " + _eGet_57);
-                                                                                      String _plus_205 = (_plus_204 + " ");
-                                                                                      String _plus_206 = text = (_text_74 + _plus_205);
-                                                                                      _builder.append(_plus_206, "");
-                                                                                      _builder.newLineIfNotEmpty();
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                      {
-                                                        boolean _contains_9 = references.contains(text);
-                                                        boolean _notEquals_38 = (_contains_9 != true);
-                                                        if (_notEquals_38) {
-                                                          boolean _add_17 = references.add(text);
-                                                          _builder.append(_add_17, "");
-                                                          _builder.newLineIfNotEmpty();
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                          {
-                                            for(final String txt_1 : references) {
-                                              {
-                                                boolean _contains_10 = opt_1.text.contains(txt_1);
-                                                boolean _notEquals_39 = (_contains_10 != true);
-                                                if (_notEquals_39) {
-                                                  boolean _add_18 = opt_1.text.add(txt_1);
-                                                  _builder.append(_add_18, "");
-                                                  _builder.newLineIfNotEmpty();
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                  _builder.newLine();
-                                  {
-                                    boolean _notEquals_40 = (!Objects.equal(opt_1.text, null));
-                                    if (_notEquals_40) {
-                                      boolean isRepeated = this.subsumeRadio(opts_1, opt_1);
-                                      _builder.newLineIfNotEmpty();
-                                      {
-                                        if ((isRepeated == false)) {
-                                          Integer _get_28 = this.total.get(exercise);
-                                          int _plus_207 = ((_get_28).intValue() + 1);
-                                          Integer _put_13 = this.total.put(exercise, Integer.valueOf(_plus_207));
-                                          _builder.append(_put_13, "");
-                                          _builder.newLineIfNotEmpty();
-                                          boolean _add_19 = opts_1.add(opt_1);
-                                          _builder.append(_add_19, "");
-                                          _builder.newLineIfNotEmpty();
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                          Collections.shuffle(opts_1);
-                          _builder.newLineIfNotEmpty();
-                          ArrayList<TestUtils.TestOption> _put_14 = testOptions.put(test_6, opts_1);
-                          _builder.append(_put_14, "");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                    }
-                  }
-                } else {
-                  MultiChoiceEmConfig _config_1 = ((MultiChoiceEmendation)exercise).getConfig();
-                  Mode _mode_1 = _config_1.getMode();
-                  boolean _equals_72 = Objects.equal(_mode_1, Mode.CHECKBOX);
-                  if (_equals_72) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<!--");
+    this.buildOptions(program, resource, this.blocks);
+    _builder.append("-->");
+    _builder.newLineIfNotEmpty();
+    _builder.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
+    _builder.newLine();
+    _builder.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+    _builder.newLine();
+    _builder.append("<head>");
+    _builder.newLine();
+    _builder.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />");
+    _builder.newLine();
+    _builder.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"css/wodel.css\" />");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"css/menu.css\" />");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"css/table.css\" />");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("<title>Wodel</title>");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("</head>");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("<body style=\"background-color: white;\">");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("<script src=\"js/jquery-2.1.4.min.js\" type=\"text/javascript\"></script>");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("<script language=\"javascript\" type=\"text/javascript\">");
+    _builder.newLine();
+    _builder.append("if (!String.prototype.startsWith) {");
+    _builder.newLine();
+    _builder.append("  \t\t\t");
+    _builder.append("String.prototype.startsWith = function(searchString, position) {");
+    _builder.newLine();
+    _builder.append("    \t\t\t");
+    _builder.append("position = position || 0;");
+    _builder.newLine();
+    _builder.append("    \t\t\t");
+    _builder.append("return this.indexOf(searchString, position) === position;");
+    _builder.newLine();
+    _builder.append("  \t\t\t");
+    _builder.append("};");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("// Pass the checkbox name to the function");
+    _builder.newLine();
+    _builder.append("function getCheckedBoxes(chkboxName) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("var checkboxes = document.getElementsByName(chkboxName);");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("var checkboxesChecked = [];");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("// loop over them all");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("for (var i=0; i<checkboxes.length; i++) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("// And stick the checked ones onto an array...");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (checkboxes[i].checked) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("checkboxesChecked.push(checkboxes[i]);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("// Return the array if it is non-empty, or null");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return checkboxesChecked.length > 0 ? checkboxesChecked : null;");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("   \t\t");
+    _builder.append("function show(part) {");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("//");
+    int part = 0;
+    _builder.newLineIfNotEmpty();
+    {
+      EList<MutatorTests> _exercises = program.getExercises();
+      for(final MutatorTests exercise : _exercises) {
+        _builder.append("    \t\t");
+        _builder.append("//");
+        int _plusPlus = part++;
+        _builder.append(_plusPlus, "    \t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("   \t\t\t");
+        _builder.append("var test = document.getElementById(\'table-test-");
+        _builder.append(part, "   \t\t\t");
+        _builder.append("\');");
+        _builder.newLineIfNotEmpty();
+        _builder.append("   \t\t\t");
+        _builder.append("if (test != null) {");
+        _builder.newLine();
+        _builder.append("\t    \t\t");
+        _builder.append("if (part == ");
+        _builder.append(part, "\t    \t\t");
+        _builder.append(") {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("    \t\t");
+        _builder.append("\t\t");
+        _builder.append("test.style.display = \'block\';");
+        _builder.newLine();
+        _builder.append("    \t\t");
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t    \t\t");
+        _builder.append("else {");
+        _builder.newLine();
+        _builder.append("\t    \t\t\t");
+        _builder.append("test.style.display = \'none\';");
+        _builder.newLine();
+        _builder.append("\t    \t\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("    \t\t");
+        _builder.append("}");
+        _builder.newLine();
+      }
+    }
+    _builder.append("    \t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t    ");
+    _builder.append("//");
+    _builder.append(part = 0, "\t    ");
+    _builder.newLineIfNotEmpty();
+    {
+      EList<MutatorTests> _exercises_1 = program.getExercises();
+      for(final MutatorTests exercise_1 : _exercises_1) {
+        _builder.append("//");
+        int _plusPlus_1 = part++;
+        _builder.append(_plusPlus_1, "");
+        _builder.newLineIfNotEmpty();
+        _builder.append("//");
+        ArrayList<Test> ltests = new ArrayList<Test>();
+        _builder.newLineIfNotEmpty();
+        {
+          if ((exercise_1 instanceof MultiChoiceEmendation)) {
+            _builder.newLine();
+            _builder.append("//");
+            HashMap<Test, Double> points = new HashMap<Test, Double>();
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Test> _tests = ((MultiChoiceEmendation)exercise_1).getTests();
+              for(final Test test : _tests) {
+                {
+                  Map<Test, List<EduTestUtils.TestOption>> _get = this.options.get(exercise_1);
+                  List<EduTestUtils.TestOption> _get_1 = _get.get(test);
+                  boolean _notEquals = (!Objects.equal(_get_1, null));
+                  if (_notEquals) {
                     {
-                      EList<Test> _tests_7 = ((MultiChoiceEmendation)exercise).getTests();
-                      for(final Test test_7 : _tests_7) {
-                        ArrayList<TestUtils.TestOption> opts_2 = new ArrayList<TestUtils.TestOption>();
+                      Integer _get_2 = this.total.get(exercise_1);
+                      boolean _notEquals_1 = (!Objects.equal(_get_2, null));
+                      if (_notEquals_1) {
+                        _builder.append("//");
+                        Map<Test, List<EduTestUtils.TestOption>> _get_3 = this.options.get(exercise_1);
+                        List<EduTestUtils.TestOption> _get_4 = _get_3.get(test);
+                        int _size = _get_4.size();
+                        double _multiply = (1.0 * _size);
+                        Integer _get_5 = this.total.get(exercise_1);
+                        double _divide = (_multiply / (_get_5).intValue());
+                        Double _put = points.put(test, Double.valueOf(_divide));
+                        _builder.append(_put, "");
                         _builder.newLineIfNotEmpty();
-                        {
-                          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_29 = this.options.get(exercise);
-                          ArrayList<TestUtils.TestOption> _get_30 = _get_29.get(test_7);
-                          boolean _notEquals_41 = (!Objects.equal(_get_30, null));
-                          if (_notEquals_41) {
-                            {
-                              HashMap<Test, ArrayList<TestUtils.TestOption>> _get_31 = this.options.get(exercise);
-                              ArrayList<TestUtils.TestOption> _get_32 = _get_31.get(test_7);
-                              for(final TestUtils.TestOption opt_2 : _get_32) {
-                                ArrayList<EObject> _objects_1 = ModelManager.getObjects(opt_2.resource);
-                                ArrayList<EObject> mutations_1 = ModelManager.getMutations(_objects_1);
-                                _builder.newLineIfNotEmpty();
-                                {
-                                  for(final EObject mutation_1 : mutations_1) {
-                                    System.out.println(("mutation: " + mutation_1));
-                                    _builder.newLineIfNotEmpty();
-                                    String text_1 = "";
-                                    _builder.newLineIfNotEmpty();
-                                    EClass _eClass_5 = mutation_1.eClass();
-                                    List<EClass> superTypes_1 = _eClass_5.getEAllSuperTypes();
-                                    _builder.newLineIfNotEmpty();
-                                    boolean flag_1 = false;
-                                    _builder.newLineIfNotEmpty();
-                                    {
-                                      for(final EClass cl_1 : superTypes_1) {
-                                        {
-                                          String _name_69 = cl_1.getName();
-                                          boolean _equals_73 = _name_69.equals("AppMutation");
-                                          if (_equals_73) {
-                                            _builder.append(flag_1 = true, "");
-                                            _builder.newLineIfNotEmpty();
-                                          }
-                                        }
-                                      }
-                                    }
-                                    {
-                                      if ((flag_1 == true)) {
-                                        {
-                                          if ((mutation_1 instanceof ObjectCreated)) {
-                                            ObjectCreated objectCreated_1 = ((ObjectCreated) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            _builder.newLine();
-                                            Option cfgopt_9 = ModelManager.getConfigureOption("ObjectCreated", cfgoptsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_6 = objectCreated_1.getObject();
-                                            EObject _get_33 = _object_6.get(0);
-                                            EObject object_6 = ModelManager.getEObject(_get_33, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Element element_7 = ModelManager.getElement(object_6, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Text t_9 = null;
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((opt_2.solution == true)) {
-                                                Text _valid_9 = cfgopt_9.getValid();
-                                                _builder.append(t_9 = _valid_9, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              } else {
-                                                Text _invalid_9 = cfgopt_9.getInvalid();
-                                                _builder.append(t_9 = _invalid_9, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              }
-                                            }
-                                            {
-                                              EList<Word> _words_46 = t_9.getWords();
-                                              for(final Word w_15 : _words_46) {
-                                                {
-                                                  if ((w_15 instanceof Constant)) {
-                                                    String _text_75 = text_1;
-                                                    String _value_34 = ((Constant)w_15).getValue();
-                                                    String _plus_208 = (_value_34 + " ");
-                                                    String _plus_209 = text_1 = (_text_75 + _plus_208);
-                                                    _builder.append(_plus_209, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                  }
-                                                }
-                                                {
-                                                  if ((w_15 instanceof Variable)) {
-                                                    Variable variable_13 = ((Variable) w_15);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      VariableType _type_38 = variable_13.getType();
-                                                      boolean _equals_74 = Objects.equal(_type_38, VariableType.OBJECT);
-                                                      if (_equals_74) {
-                                                        {
-                                                          EList<modeltext.Word> _words_47 = element_7.getWords();
-                                                          for(final modeltext.Word v_33 : _words_47) {
-                                                            {
-                                                              if ((v_33 instanceof modeltext.Constant)) {
-                                                                String _text_76 = text_1;
-                                                                String _value_35 = ((modeltext.Constant)v_33).getValue();
-                                                                String _plus_210 = (_value_35 + " ");
-                                                                String _plus_211 = text_1 = (_text_76 + _plus_210);
-                                                                _builder.append(_plus_211, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_33 instanceof modeltext.Variable)) {
-                                                                EObject o_24 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_53 = ((modeltext.Variable) v_33).getRef();
-                                                                  boolean _equals_75 = Objects.equal(_ref_53, null);
-                                                                  if (_equals_75) {
-                                                                    _builder.append(o_24 = object_6, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    EReference _ref_54 = ((modeltext.Variable) v_33).getRef();
-                                                                    String _name_70 = _ref_54.getName();
-                                                                    EStructuralFeature _referenceByName_18 = ModelManager.getReferenceByName(_name_70, object_6);
-                                                                    Object _eGet_58 = object_6.eGet(_referenceByName_18);
-                                                                    _builder.append(o_24 = ((EObject) _eGet_58), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_42 = (!Objects.equal(o_24, null));
-                                                                  if (_notEquals_42) {
-                                                                    String _text_77 = text_1;
-                                                                    EAttribute _id_24 = ((modeltext.Variable) v_33).getId();
-                                                                    String _name_71 = _id_24.getName();
-                                                                    EStructuralFeature _attributeByName_24 = ModelManager.getAttributeByName(_name_71, o_24);
-                                                                    Object _eGet_59 = o_24.eGet(_attributeByName_24);
-                                                                    String _plus_212 = (_eGet_59 + " ");
-                                                                    String _plus_213 = text_1 = (_text_77 + _plus_212);
-                                                                    _builder.append(_plus_213, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            ArrayList<String> _arrayList_1 = new ArrayList<String>();
-                                            _builder.append(opt_2.text = _arrayList_1, "");
-                                            _builder.newLineIfNotEmpty();
-                                            boolean _add_20 = opt_2.text.add(text_1);
-                                            _builder.append(_add_20, "");
-                                            _builder.newLineIfNotEmpty();
-                                            Object _clone = opt_2.clone();
-                                            TestUtils.TestOption optClone = ((TestUtils.TestOption) _clone);
-                                            _builder.newLineIfNotEmpty();
-                                            boolean isRepeated_1 = this.subsumeCheckbox(opts_2, optClone);
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((isRepeated_1 == false)) {
-                                                Integer _get_34 = this.total.get(exercise);
-                                                int _plus_214 = ((_get_34).intValue() + 1);
-                                                Integer _put_15 = this.total.put(exercise, Integer.valueOf(_plus_214));
-                                                _builder.append(_put_15, "");
-                                                _builder.newLineIfNotEmpty();
-                                                boolean _add_21 = opts_2.add(optClone);
-                                                _builder.append(_add_21, "");
-                                                _builder.newLineIfNotEmpty();
-                                              }
-                                            }
-                                          }
-                                        }
-                                        {
-                                          if ((mutation_1 instanceof ObjectRemoved)) {
-                                            ObjectRemoved objectRemoved_1 = ((ObjectRemoved) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            _builder.newLine();
-                                            Option cfgopt_10 = ModelManager.getConfigureOption("ObjectRemoved", cfgoptsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_7 = objectRemoved_1.getObject();
-                                            EObject _get_35 = _object_7.get(0);
-                                            EObject object_7 = ModelManager.getEObject(_get_35, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Element element_8 = ModelManager.getElement(object_7, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Text t_10 = null;
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((opt_2.solution == true)) {
-                                                Text _valid_10 = cfgopt_10.getValid();
-                                                _builder.append(t_10 = _valid_10, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              } else {
-                                                Text _invalid_10 = cfgopt_10.getInvalid();
-                                                _builder.append(t_10 = _invalid_10, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              }
-                                            }
-                                            {
-                                              EList<Word> _words_48 = t_10.getWords();
-                                              for(final Word w_16 : _words_48) {
-                                                {
-                                                  if ((w_16 instanceof Constant)) {
-                                                    String _text_78 = text_1;
-                                                    String _value_36 = ((Constant)w_16).getValue();
-                                                    String _plus_215 = (_value_36 + " ");
-                                                    String _plus_216 = text_1 = (_text_78 + _plus_215);
-                                                    _builder.append(_plus_216, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                  }
-                                                }
-                                                {
-                                                  if ((w_16 instanceof Variable)) {
-                                                    Variable variable_14 = ((Variable) w_16);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      VariableType _type_39 = variable_14.getType();
-                                                      boolean _equals_76 = Objects.equal(_type_39, VariableType.OBJECT);
-                                                      if (_equals_76) {
-                                                        {
-                                                          EList<modeltext.Word> _words_49 = element_8.getWords();
-                                                          for(final modeltext.Word v_34 : _words_49) {
-                                                            {
-                                                              if ((v_34 instanceof modeltext.Constant)) {
-                                                                String _text_79 = text_1;
-                                                                String _value_37 = ((modeltext.Constant)v_34).getValue();
-                                                                String _plus_217 = (_value_37 + " ");
-                                                                String _plus_218 = text_1 = (_text_79 + _plus_217);
-                                                                _builder.append(_plus_218, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_34 instanceof modeltext.Variable)) {
-                                                                EObject o_25 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_55 = ((modeltext.Variable) v_34).getRef();
-                                                                  boolean _equals_77 = Objects.equal(_ref_55, null);
-                                                                  if (_equals_77) {
-                                                                    _builder.append(o_25 = object_7, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    EReference _ref_56 = ((modeltext.Variable) v_34).getRef();
-                                                                    String _name_72 = _ref_56.getName();
-                                                                    EStructuralFeature _referenceByName_19 = ModelManager.getReferenceByName(_name_72, object_7);
-                                                                    Object _eGet_60 = object_7.eGet(_referenceByName_19);
-                                                                    _builder.append(o_25 = ((EObject) _eGet_60), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_43 = (!Objects.equal(o_25, null));
-                                                                  if (_notEquals_43) {
-                                                                    String _text_80 = text_1;
-                                                                    EAttribute _id_25 = ((modeltext.Variable) v_34).getId();
-                                                                    String _name_73 = _id_25.getName();
-                                                                    EStructuralFeature _attributeByName_25 = ModelManager.getAttributeByName(_name_73, o_25);
-                                                                    Object _eGet_61 = o_25.eGet(_attributeByName_25);
-                                                                    String _plus_219 = (_eGet_61 + " ");
-                                                                    String _plus_220 = text_1 = (_text_80 + _plus_219);
-                                                                    _builder.append(_plus_220, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                        ArrayList<String> _arrayList_2 = new ArrayList<String>();
-                                                        _builder.append(opt_2.text = _arrayList_2, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        boolean _add_22 = opt_2.text.add(text_1);
-                                                        _builder.append(_add_22, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        Object _clone_1 = opt_2.clone();
-                                                        TestUtils.TestOption optClone_1 = ((TestUtils.TestOption) _clone_1);
-                                                        _builder.newLineIfNotEmpty();
-                                                        boolean isRepeated_2 = this.subsumeCheckbox(opts_2, optClone_1);
-                                                        _builder.newLineIfNotEmpty();
-                                                        {
-                                                          if ((isRepeated_2 == false)) {
-                                                            Integer _get_36 = this.total.get(exercise);
-                                                            int _plus_221 = ((_get_36).intValue() + 1);
-                                                            Integer _put_16 = this.total.put(exercise, Integer.valueOf(_plus_221));
-                                                            _builder.append(_put_16, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                            boolean _add_23 = opts_2.add(optClone_1);
-                                                            _builder.append(_add_23, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            {
-                                              boolean _contains_11 = opt_2.text.contains(text_1);
-                                              boolean _notEquals_44 = (_contains_11 != true);
-                                              if (_notEquals_44) {
-                                                boolean _add_24 = opt_2.text.add(text_1);
-                                                _builder.append(_add_24, "");
-                                                _builder.newLineIfNotEmpty();
-                                              }
-                                            }
-                                          }
-                                        }
-                                        {
-                                          if ((mutation_1 instanceof SourceReferenceChanged)) {
-                                            SourceReferenceChanged sourceReferenceChanged_1 = ((SourceReferenceChanged) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            Option cfgopt_11 = ModelManager.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EObject _from_7 = sourceReferenceChanged_1.getFrom();
-                                            EObject from_3 = ModelManager.getEObject(_from_7, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            String refName_5 = sourceReferenceChanged_1.getRefName();
-                                            _builder.newLineIfNotEmpty();
-                                            EClass _eClass_6 = from_3.eClass();
-                                            EStructuralFeature srcRef_1 = _eClass_6.getEStructuralFeature(refName_5);
-                                            _builder.newLineIfNotEmpty();
-                                            Object _eGet_62 = from_3.eGet(srcRef_1);
-                                            Element refElement_1 = ModelManager.getRefElement(((EObject) _eGet_62), srcRef_1, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Object _eGet_63 = from_3.eGet(srcRef_1);
-                                            Element srcElement_1 = ModelManager.getElement(((EObject) _eGet_63), idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EObject _to_3 = sourceReferenceChanged_1.getTo();
-                                            EObject to_3 = ModelManager.getEObject(_to_3, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            EClass _eClass_7 = to_3.eClass();
-                                            EStructuralFeature tarRef_1 = _eClass_7.getEStructuralFeature(refName_5);
-                                            _builder.newLineIfNotEmpty();
-                                            Object _eGet_64 = to_3.eGet(tarRef_1);
-                                            Element tarElement_1 = ModelManager.getElement(((EObject) _eGet_64), idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Text t_11 = null;
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((opt_2.solution == true)) {
-                                                Text _valid_11 = cfgopt_11.getValid();
-                                                _builder.append(t_11 = _valid_11, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              } else {
-                                                Text _invalid_11 = cfgopt_11.getInvalid();
-                                                _builder.append(t_11 = _invalid_11, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              }
-                                            }
-                                            {
-                                              EList<Word> _words_50 = t_11.getWords();
-                                              for(final Word w_17 : _words_50) {
-                                                {
-                                                  if ((w_17 instanceof Constant)) {
-                                                    String _text_81 = text_1;
-                                                    String _value_38 = ((Constant)w_17).getValue();
-                                                    String _plus_222 = (_value_38 + " ");
-                                                    String _plus_223 = text_1 = (_text_81 + _plus_222);
-                                                    _builder.append(_plus_223, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                  }
-                                                }
-                                                {
-                                                  if ((w_17 instanceof Variable)) {
-                                                    Variable variable_15 = ((Variable) w_17);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      VariableType _type_40 = variable_15.getType();
-                                                      boolean _equals_78 = Objects.equal(_type_40, VariableType.OLD_FROM_OBJECT);
-                                                      if (_equals_78) {
-                                                        {
-                                                          EList<modeltext.Word> _words_51 = srcElement_1.getWords();
-                                                          for(final modeltext.Word v_35 : _words_51) {
-                                                            {
-                                                              if ((v_35 instanceof modeltext.Constant)) {
-                                                                String _text_82 = text_1;
-                                                                String _value_39 = ((modeltext.Constant)v_35).getValue();
-                                                                String _plus_224 = (_value_39 + " ");
-                                                                String _plus_225 = text_1 = (_text_82 + _plus_224);
-                                                                _builder.append(_plus_225, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_35 instanceof modeltext.Variable)) {
-                                                                EObject o_26 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_57 = ((modeltext.Variable) v_35).getRef();
-                                                                  boolean _equals_79 = Objects.equal(_ref_57, null);
-                                                                  if (_equals_79) {
-                                                                    Object _eGet_65 = from_3.eGet(srcRef_1);
-                                                                    _builder.append(o_26 = ((EObject) _eGet_65), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    Object _eGet_66 = from_3.eGet(srcRef_1);
-                                                                    EReference _ref_58 = ((modeltext.Variable) v_35).getRef();
-                                                                    String _name_74 = _ref_58.getName();
-                                                                    Object _eGet_67 = from_3.eGet(srcRef_1);
-                                                                    EStructuralFeature _referenceByName_20 = ModelManager.getReferenceByName(_name_74, ((EObject) _eGet_67));
-                                                                    Object _eGet_68 = ((EObject) _eGet_66).eGet(_referenceByName_20);
-                                                                    _builder.append(o_26 = ((EObject) _eGet_68), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_45 = (!Objects.equal(o_26, null));
-                                                                  if (_notEquals_45) {
-                                                                    String _text_83 = text_1;
-                                                                    EAttribute _id_26 = ((modeltext.Variable) v_35).getId();
-                                                                    String _name_75 = _id_26.getName();
-                                                                    EStructuralFeature _attributeByName_26 = ModelManager.getAttributeByName(_name_75, o_26);
-                                                                    Object _eGet_69 = o_26.eGet(_attributeByName_26);
-                                                                    String _plus_226 = (_eGet_69 + " ");
-                                                                    String _plus_227 = text_1 = (_text_83 + _plus_226);
-                                                                    _builder.append(_plus_227, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_41 = variable_15.getType();
-                                                      boolean _equals_80 = Objects.equal(_type_41, VariableType.FROM_OBJECT);
-                                                      if (_equals_80) {
-                                                        {
-                                                          EList<modeltext.Word> _words_52 = tarElement_1.getWords();
-                                                          for(final modeltext.Word v_36 : _words_52) {
-                                                            {
-                                                              if ((v_36 instanceof modeltext.Constant)) {
-                                                                String _text_84 = text_1;
-                                                                String _value_40 = ((modeltext.Constant)v_36).getValue();
-                                                                String _plus_228 = (_value_40 + " ");
-                                                                String _plus_229 = text_1 = (_text_84 + _plus_228);
-                                                                _builder.append(_plus_229, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_36 instanceof modeltext.Variable)) {
-                                                                EObject o_27 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_59 = ((modeltext.Variable) v_36).getRef();
-                                                                  boolean _equals_81 = Objects.equal(_ref_59, null);
-                                                                  if (_equals_81) {
-                                                                    Object _eGet_70 = to_3.eGet(tarRef_1);
-                                                                    _builder.append(o_27 = ((EObject) _eGet_70), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    Object _eGet_71 = to_3.eGet(tarRef_1);
-                                                                    EReference _ref_60 = ((modeltext.Variable) v_36).getRef();
-                                                                    String _name_76 = _ref_60.getName();
-                                                                    Object _eGet_72 = to_3.eGet(tarRef_1);
-                                                                    EStructuralFeature _referenceByName_21 = ModelManager.getReferenceByName(_name_76, ((EObject) _eGet_72));
-                                                                    Object _eGet_73 = ((EObject) _eGet_71).eGet(_referenceByName_21);
-                                                                    _builder.append(o_27 = ((EObject) _eGet_73), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_46 = (!Objects.equal(o_27, null));
-                                                                  if (_notEquals_46) {
-                                                                    String _text_85 = text_1;
-                                                                    EAttribute _id_27 = ((modeltext.Variable) v_36).getId();
-                                                                    String _name_77 = _id_27.getName();
-                                                                    EStructuralFeature _attributeByName_27 = ModelManager.getAttributeByName(_name_77, o_27);
-                                                                    Object _eGet_74 = o_27.eGet(_attributeByName_27);
-                                                                    String _plus_230 = (_eGet_74 + " ");
-                                                                    String _plus_231 = text_1 = (_text_85 + _plus_230);
-                                                                    _builder.append(_plus_231, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_42 = variable_15.getType();
-                                                      boolean _equals_82 = Objects.equal(_type_42, VariableType.REF_NAME);
-                                                      if (_equals_82) {
-                                                        {
-                                                          EList<modeltext.Word> _words_53 = refElement_1.getWords();
-                                                          for(final modeltext.Word v_37 : _words_53) {
-                                                            {
-                                                              if ((v_37 instanceof modeltext.Constant)) {
-                                                                String _text_86 = text_1;
-                                                                String _value_41 = ((modeltext.Constant)v_37).getValue();
-                                                                String _plus_232 = (_value_41 + " ");
-                                                                String _plus_233 = text_1 = (_text_86 + _plus_232);
-                                                                _builder.append(_plus_233, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            ArrayList<String> _arrayList_3 = new ArrayList<String>();
-                                            _builder.append(opt_2.text = _arrayList_3, "");
-                                            _builder.newLineIfNotEmpty();
-                                            boolean _add_25 = opt_2.text.add(text_1);
-                                            _builder.append(_add_25, "");
-                                            _builder.newLineIfNotEmpty();
-                                            Object _clone_2 = opt_2.clone();
-                                            TestUtils.TestOption optClone_2 = ((TestUtils.TestOption) _clone_2);
-                                            _builder.newLineIfNotEmpty();
-                                            boolean isRepeated_3 = this.subsumeCheckbox(opts_2, optClone_2);
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((isRepeated_3 == false)) {
-                                                Integer _get_37 = this.total.get(exercise);
-                                                int _plus_234 = ((_get_37).intValue() + 1);
-                                                Integer _put_17 = this.total.put(exercise, Integer.valueOf(_plus_234));
-                                                _builder.append(_put_17, "");
-                                                _builder.newLineIfNotEmpty();
-                                                boolean _add_26 = opts_2.add(optClone_2);
-                                                _builder.append(_add_26, "");
-                                                _builder.newLineIfNotEmpty();
-                                              }
-                                            }
-                                          }
-                                        }
-                                        EClass _eClass_8 = mutation_1.eClass();
-                                        String _name_78 = _eClass_8.getName();
-                                        String _plus_235 = ("mutation.eClass.name: " + _name_78);
-                                        System.out.println(_plus_235);
-                                        _builder.newLineIfNotEmpty();
-                                        {
-                                          if ((mutation_1 instanceof TargetReferenceChanged)) {
-                                            TargetReferenceChanged targetReferenceChanged_1 = ((TargetReferenceChanged) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            Option cfgopt_12 = ModelManager.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_8 = targetReferenceChanged_1.getObject();
-                                            EObject _get_38 = _object_8.get(0);
-                                            EObject object_8 = ModelManager.getEObject(_get_38, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Element element_9 = ModelManager.getElement(object_8, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            String refName_6 = targetReferenceChanged_1.getRefName();
-                                            _builder.newLineIfNotEmpty();
-                                            EStructuralFeature refSrc_2 = ModelManager.getReferenceByName(refName_6, object_8);
-                                            _builder.newLineIfNotEmpty();
-                                            Element refSrcElement_2 = ModelManager.getRefElement(object_8, refSrc_2, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EStructuralFeature refTar_2 = ModelManager.getReferenceByName(refName_6, object_8);
-                                            _builder.newLineIfNotEmpty();
-                                            Element refTarElement_2 = ModelManager.getRefElement(object_8, refTar_2, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EObject _from_8 = targetReferenceChanged_1.getFrom();
-                                            EObject from_4 = ModelManager.getEObject(_from_8, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Element fromElement_2 = ModelManager.getElement(from_4, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EObject _to_4 = targetReferenceChanged_1.getTo();
-                                            EObject to_4 = ModelManager.getEObject(_to_4, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Element toElement_2 = ModelManager.getElement(to_4, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EObject _oldTo_1 = targetReferenceChanged_1.getOldTo();
-                                            EObject oldTo_1 = ModelManager.getEObject(_oldTo_1, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Element oldToElement_1 = ModelManager.getElement(oldTo_1, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Text t_12 = null;
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((opt_2.solution == true)) {
-                                                Text _valid_12 = cfgopt_12.getValid();
-                                                _builder.append(t_12 = _valid_12, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              } else {
-                                                Text _invalid_12 = cfgopt_12.getInvalid();
-                                                _builder.append(t_12 = _invalid_12, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              }
-                                            }
-                                            {
-                                              EList<Word> _words_54 = t_12.getWords();
-                                              for(final Word w_18 : _words_54) {
-                                                {
-                                                  if ((w_18 instanceof Constant)) {
-                                                    String _text_87 = text_1;
-                                                    String _value_42 = ((Constant)w_18).getValue();
-                                                    String _plus_236 = (_value_42 + " ");
-                                                    String _plus_237 = text_1 = (_text_87 + _plus_236);
-                                                    _builder.append(_plus_237, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                  }
-                                                }
-                                                {
-                                                  if ((w_18 instanceof Variable)) {
-                                                    Variable variable_16 = ((Variable) w_18);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      VariableType _type_43 = variable_16.getType();
-                                                      boolean _equals_83 = Objects.equal(_type_43, VariableType.OBJECT);
-                                                      if (_equals_83) {
-                                                        {
-                                                          boolean _notEquals_47 = (!Objects.equal(element_9, null));
-                                                          if (_notEquals_47) {
-                                                            {
-                                                              Attribute _att = element_9.getAtt();
-                                                              boolean _equals_84 = Objects.equal(_att, null);
-                                                              if (_equals_84) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_55 = element_9.getWords();
-                                                                  for(final modeltext.Word v_38 : _words_55) {
-                                                                    {
-                                                                      if ((v_38 instanceof modeltext.Constant)) {
-                                                                        String _text_88 = text_1;
-                                                                        String _value_43 = ((modeltext.Constant)v_38).getValue();
-                                                                        String _plus_238 = (_value_43 + " ");
-                                                                        String _plus_239 = text_1 = (_text_88 + _plus_238);
-                                                                        _builder.append(_plus_239, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_38 instanceof modeltext.Variable)) {
-                                                                        EObject o_28 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_61 = ((modeltext.Variable) v_38).getRef();
-                                                                          boolean _equals_85 = Objects.equal(_ref_61, null);
-                                                                          if (_equals_85) {
-                                                                            _builder.append(o_28 = object_8, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_62 = ((modeltext.Variable) v_38).getRef();
-                                                                            String _name_79 = _ref_62.getName();
-                                                                            EStructuralFeature _referenceByName_22 = ModelManager.getReferenceByName(_name_79, object_8);
-                                                                            Object _eGet_75 = object_8.eGet(_referenceByName_22);
-                                                                            _builder.append(o_28 = ((EObject) _eGet_75), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_48 = (!Objects.equal(o_28, null));
-                                                                          if (_notEquals_48) {
-                                                                            String _text_89 = text_1;
-                                                                            EAttribute _id_28 = ((modeltext.Variable) v_38).getId();
-                                                                            String _name_80 = _id_28.getName();
-                                                                            EStructuralFeature _attributeByName_28 = ModelManager.getAttributeByName(_name_80, o_28);
-                                                                            Object _eGet_76 = o_28.eGet(_attributeByName_28);
-                                                                            String _plus_240 = (_eGet_76 + " ");
-                                                                            String _plus_241 = text_1 = (_text_89 + _plus_240);
-                                                                            _builder.append(_plus_241, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_44 = variable_16.getType();
-                                                      boolean _equals_86 = Objects.equal(_type_44, VariableType.FROM_OBJECT);
-                                                      if (_equals_86) {
-                                                        {
-                                                          boolean _notEquals_49 = (!Objects.equal(fromElement_2, null));
-                                                          if (_notEquals_49) {
-                                                            {
-                                                              EList<modeltext.Word> _words_56 = fromElement_2.getWords();
-                                                              for(final modeltext.Word v_39 : _words_56) {
-                                                                {
-                                                                  if ((v_39 instanceof modeltext.Constant)) {
-                                                                    String _text_90 = text_1;
-                                                                    String _value_44 = ((modeltext.Constant)v_39).getValue();
-                                                                    String _plus_242 = (_value_44 + " ");
-                                                                    String _plus_243 = text_1 = (_text_90 + _plus_242);
-                                                                    _builder.append(_plus_243, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  if ((v_39 instanceof modeltext.Variable)) {
-                                                                    EObject o_29 = null;
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      EReference _ref_63 = ((modeltext.Variable) v_39).getRef();
-                                                                      boolean _equals_87 = Objects.equal(_ref_63, null);
-                                                                      if (_equals_87) {
-                                                                        _builder.append(o_29 = from_4, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      } else {
-                                                                        EReference _ref_64 = ((modeltext.Variable) v_39).getRef();
-                                                                        String _name_81 = _ref_64.getName();
-                                                                        EStructuralFeature _referenceByName_23 = ModelManager.getReferenceByName(_name_81, from_4);
-                                                                        Object _eGet_77 = from_4.eGet(_referenceByName_23);
-                                                                        _builder.append(o_29 = ((EObject) _eGet_77), "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      boolean _notEquals_50 = (!Objects.equal(o_29, null));
-                                                                      if (_notEquals_50) {
-                                                                        String _text_91 = text_1;
-                                                                        EAttribute _id_29 = ((modeltext.Variable) v_39).getId();
-                                                                        String _name_82 = _id_29.getName();
-                                                                        EStructuralFeature _attributeByName_29 = ModelManager.getAttributeByName(_name_82, o_29);
-                                                                        Object _eGet_78 = o_29.eGet(_attributeByName_29);
-                                                                        String _plus_244 = (_eGet_78 + " ");
-                                                                        String _plus_245 = text_1 = (_text_91 + _plus_244);
-                                                                        _builder.append(_plus_245, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_45 = variable_16.getType();
-                                                      boolean _equals_88 = Objects.equal(_type_45, VariableType.TO_OBJECT);
-                                                      if (_equals_88) {
-                                                        {
-                                                          boolean _notEquals_51 = (!Objects.equal(toElement_2, null));
-                                                          if (_notEquals_51) {
-                                                            {
-                                                              EList<modeltext.Word> _words_57 = toElement_2.getWords();
-                                                              for(final modeltext.Word v_40 : _words_57) {
-                                                                {
-                                                                  if ((v_40 instanceof modeltext.Constant)) {
-                                                                    String _text_92 = text_1;
-                                                                    String _value_45 = ((modeltext.Constant)v_40).getValue();
-                                                                    String _plus_246 = (_value_45 + " ");
-                                                                    String _plus_247 = text_1 = (_text_92 + _plus_246);
-                                                                    _builder.append(_plus_247, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  if ((v_40 instanceof modeltext.Variable)) {
-                                                                    EObject o_30 = null;
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      EReference _ref_65 = ((modeltext.Variable) v_40).getRef();
-                                                                      boolean _equals_89 = Objects.equal(_ref_65, null);
-                                                                      if (_equals_89) {
-                                                                        _builder.append(o_30 = to_4, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      } else {
-                                                                        EReference _ref_66 = ((modeltext.Variable) v_40).getRef();
-                                                                        Object _eGet_79 = to_4.eGet(_ref_66);
-                                                                        _builder.append(o_30 = ((EObject) _eGet_79), "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      boolean _notEquals_52 = (!Objects.equal(o_30, null));
-                                                                      if (_notEquals_52) {
-                                                                        String _text_93 = text_1;
-                                                                        EAttribute _id_30 = ((modeltext.Variable) v_40).getId();
-                                                                        String _name_83 = _id_30.getName();
-                                                                        EStructuralFeature _attributeByName_30 = ModelManager.getAttributeByName(_name_83, o_30);
-                                                                        Object _eGet_80 = o_30.eGet(_attributeByName_30);
-                                                                        String _plus_248 = (_eGet_80 + " ");
-                                                                        String _plus_249 = text_1 = (_text_93 + _plus_248);
-                                                                        _builder.append(_plus_249, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_46 = variable_16.getType();
-                                                      boolean _equals_90 = Objects.equal(_type_46, VariableType.OLD_TO_OBJECT);
-                                                      if (_equals_90) {
-                                                        {
-                                                          boolean _notEquals_53 = (!Objects.equal(oldToElement_1, null));
-                                                          if (_notEquals_53) {
-                                                            {
-                                                              EList<modeltext.Word> _words_58 = oldToElement_1.getWords();
-                                                              for(final modeltext.Word v_41 : _words_58) {
-                                                                {
-                                                                  if ((v_41 instanceof modeltext.Constant)) {
-                                                                    String _text_94 = text_1;
-                                                                    String _value_46 = ((modeltext.Constant)v_41).getValue();
-                                                                    String _plus_250 = (_value_46 + " ");
-                                                                    String _plus_251 = text_1 = (_text_94 + _plus_250);
-                                                                    _builder.append(_plus_251, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  if ((v_41 instanceof modeltext.Variable)) {
-                                                                    EObject o_31 = null;
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      EReference _ref_67 = ((modeltext.Variable) v_41).getRef();
-                                                                      boolean _equals_91 = Objects.equal(_ref_67, null);
-                                                                      if (_equals_91) {
-                                                                        _builder.append(o_31 = oldTo_1, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      } else {
-                                                                        EReference _ref_68 = ((modeltext.Variable) v_41).getRef();
-                                                                        Object _eGet_81 = oldTo_1.eGet(_ref_68);
-                                                                        _builder.append(o_31 = ((EObject) _eGet_81), "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      boolean _notEquals_54 = (!Objects.equal(o_31, null));
-                                                                      if (_notEquals_54) {
-                                                                        String _text_95 = text_1;
-                                                                        EAttribute _id_31 = ((modeltext.Variable) v_41).getId();
-                                                                        String _name_84 = _id_31.getName();
-                                                                        EStructuralFeature _attributeByName_31 = ModelManager.getAttributeByName(_name_84, o_31);
-                                                                        Object _eGet_82 = o_31.eGet(_attributeByName_31);
-                                                                        String _plus_252 = (_eGet_82 + " ");
-                                                                        String _plus_253 = text_1 = (_text_95 + _plus_252);
-                                                                        _builder.append(_plus_253, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_47 = variable_16.getType();
-                                                      boolean _equals_92 = Objects.equal(_type_47, VariableType.REF_NAME);
-                                                      if (_equals_92) {
-                                                        {
-                                                          boolean _notEquals_55 = (!Objects.equal(refTarElement_2, null));
-                                                          if (_notEquals_55) {
-                                                            {
-                                                              EList<modeltext.Word> _words_59 = refTarElement_2.getWords();
-                                                              for(final modeltext.Word v_42 : _words_59) {
-                                                                {
-                                                                  if ((v_42 instanceof modeltext.Constant)) {
-                                                                    String _text_96 = text_1;
-                                                                    String _value_47 = ((modeltext.Constant)v_42).getValue();
-                                                                    String _plus_254 = (_value_47 + " ");
-                                                                    String _plus_255 = text_1 = (_text_96 + _plus_254);
-                                                                    _builder.append(_plus_255, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_48 = variable_16.getType();
-                                                      boolean _equals_93 = Objects.equal(_type_48, VariableType.SRC_REF_NAME);
-                                                      if (_equals_93) {
-                                                        {
-                                                          EList<modeltext.Word> _words_60 = refSrcElement_2.getWords();
-                                                          for(final modeltext.Word v_43 : _words_60) {
-                                                            {
-                                                              if ((v_43 instanceof modeltext.Constant)) {
-                                                                String _text_97 = text_1;
-                                                                String _value_48 = ((modeltext.Constant)v_43).getValue();
-                                                                String _plus_256 = (_value_48 + " ");
-                                                                String _plus_257 = text_1 = (_text_97 + _plus_256);
-                                                                _builder.append(_plus_257, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            ArrayList<String> _arrayList_4 = new ArrayList<String>();
-                                            _builder.append(opt_2.text = _arrayList_4, "");
-                                            _builder.newLineIfNotEmpty();
-                                            boolean _add_27 = opt_2.text.add(text_1);
-                                            _builder.append(_add_27, "");
-                                            _builder.newLineIfNotEmpty();
-                                            Object _clone_3 = opt_2.clone();
-                                            TestUtils.TestOption optClone_3 = ((TestUtils.TestOption) _clone_3);
-                                            _builder.newLineIfNotEmpty();
-                                            boolean isRepeated_4 = this.subsumeCheckbox(opts_2, optClone_3);
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((isRepeated_4 == false)) {
-                                                Integer _get_39 = this.total.get(exercise);
-                                                int _plus_258 = ((_get_39).intValue() + 1);
-                                                Integer _put_18 = this.total.put(exercise, Integer.valueOf(_plus_258));
-                                                _builder.append(_put_18, "");
-                                                _builder.newLineIfNotEmpty();
-                                                boolean _add_28 = opts_2.add(optClone_3);
-                                                _builder.append(_add_28, "");
-                                                _builder.newLineIfNotEmpty();
-                                              }
-                                            }
-                                          }
-                                        }
-                                        {
-                                          if ((mutation_1 instanceof ReferenceSwap)) {
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                            _builder.newLine();
-                                          }
-                                        }
-                                        {
-                                          if ((mutation_1 instanceof ReferenceCreated)) {
-                                            ReferenceCreated referenceCreated_1 = ((ReferenceCreated) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            Option cfgopt_13 = ModelManager.getConfigureOption("ReferenceCreated", cfgoptsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_9 = referenceCreated_1.getObject();
-                                            EObject _get_40 = _object_9.get(0);
-                                            EObject object_9 = ModelManager.getEObject(_get_40, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EReference> _ref_69 = referenceCreated_1.getRef();
-                                            EReference _get_41 = _ref_69.get(0);
-                                            EObject ref_3 = ModelManager.getEObject(_get_41, opt_2.seed);
-                                            _builder.newLineIfNotEmpty();
-                                            Object _attribute_1 = ModelManager.getAttribute("name", ref_3);
-                                            String refName_7 = ((String) _attribute_1);
-                                            _builder.newLineIfNotEmpty();
-                                            Element element_10 = ModelManager.getElement(object_9, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Text t_13 = null;
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((opt_2.solution == true)) {
-                                                Text _valid_13 = cfgopt_13.getValid();
-                                                _builder.append(t_13 = _valid_13, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              } else {
-                                                Text _invalid_13 = cfgopt_13.getInvalid();
-                                                _builder.append(t_13 = _invalid_13, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              }
-                                            }
-                                            {
-                                              EList<Word> _words_61 = t_13.getWords();
-                                              for(final Word w_19 : _words_61) {
-                                                {
-                                                  if ((w_19 instanceof Constant)) {
-                                                    String _text_98 = text_1;
-                                                    String _value_49 = ((Constant)w_19).getValue();
-                                                    String _plus_259 = (_value_49 + " ");
-                                                    String _plus_260 = text_1 = (_text_98 + _plus_259);
-                                                    _builder.append(_plus_260, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                  }
-                                                }
-                                                {
-                                                  if ((w_19 instanceof Variable)) {
-                                                    Variable variable_17 = ((Variable) w_19);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      VariableType _type_49 = variable_17.getType();
-                                                      boolean _equals_94 = Objects.equal(_type_49, VariableType.OBJECT);
-                                                      if (_equals_94) {
-                                                        {
-                                                          EList<modeltext.Word> _words_62 = element_10.getWords();
-                                                          for(final modeltext.Word v_44 : _words_62) {
-                                                            {
-                                                              if ((v_44 instanceof modeltext.Constant)) {
-                                                                String _text_99 = text_1;
-                                                                String _value_50 = ((modeltext.Constant)v_44).getValue();
-                                                                String _plus_261 = (_value_50 + " ");
-                                                                String _plus_262 = text_1 = (_text_99 + _plus_261);
-                                                                _builder.append(_plus_262, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_44 instanceof modeltext.Variable)) {
-                                                                EObject o_32 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_70 = ((modeltext.Variable) v_44).getRef();
-                                                                  boolean _equals_95 = Objects.equal(_ref_70, null);
-                                                                  if (_equals_95) {
-                                                                    _builder.append(o_32 = object_9, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    EReference _ref_71 = ((modeltext.Variable) v_44).getRef();
-                                                                    String _name_85 = _ref_71.getName();
-                                                                    EStructuralFeature _referenceByName_24 = ModelManager.getReferenceByName(_name_85, object_9);
-                                                                    Object _eGet_83 = object_9.eGet(_referenceByName_24);
-                                                                    _builder.append(o_32 = ((EObject) _eGet_83), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_56 = (!Objects.equal(o_32, null));
-                                                                  if (_notEquals_56) {
-                                                                    String _text_100 = text_1;
-                                                                    EAttribute _id_32 = ((modeltext.Variable) v_44).getId();
-                                                                    String _name_86 = _id_32.getName();
-                                                                    EStructuralFeature _attributeByName_32 = ModelManager.getAttributeByName(_name_86, o_32);
-                                                                    Object _eGet_84 = o_32.eGet(_attributeByName_32);
-                                                                    String _plus_263 = (_eGet_84 + " ");
-                                                                    String _plus_264 = text_1 = (_text_100 + _plus_263);
-                                                                    _builder.append(_plus_264, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_50 = variable_17.getType();
-                                                      boolean _equals_96 = Objects.equal(_type_50, VariableType.REF_NAME);
-                                                      if (_equals_96) {
-                                                        String _text_101 = text_1;
-                                                        String _plus_265 = text_1 = (_text_101 + (refName_7 + " "));
-                                                        _builder.append(_plus_265, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            ArrayList<String> _arrayList_5 = new ArrayList<String>();
-                                            _builder.append(opt_2.text = _arrayList_5, "");
-                                            _builder.newLineIfNotEmpty();
-                                            boolean _add_29 = opt_2.text.add(text_1);
-                                            _builder.append(_add_29, "");
-                                            _builder.newLineIfNotEmpty();
-                                            Object _clone_4 = opt_2.clone();
-                                            TestUtils.TestOption optClone_4 = ((TestUtils.TestOption) _clone_4);
-                                            _builder.newLineIfNotEmpty();
-                                            boolean isRepeated_5 = this.subsumeCheckbox(opts_2, optClone_4);
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((isRepeated_5 == false)) {
-                                                Integer _get_42 = this.total.get(exercise);
-                                                int _plus_266 = ((_get_42).intValue() + 1);
-                                                Integer _put_19 = this.total.put(exercise, Integer.valueOf(_plus_266));
-                                                _builder.append(_put_19, "");
-                                                _builder.newLineIfNotEmpty();
-                                                boolean _add_30 = opts_2.add(optClone_4);
-                                                _builder.append(_add_30, "");
-                                                _builder.newLineIfNotEmpty();
-                                              }
-                                            }
-                                          }
-                                        }
-                                        {
-                                          if ((mutation_1 instanceof ReferenceRemoved)) {
-                                            ReferenceRemoved referenceRemoved_1 = ((ReferenceRemoved) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            Option cfgopt_14 = ModelManager.getConfigureOption("ReferenceRemoved", cfgoptsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EObject> _object_10 = referenceRemoved_1.getObject();
-                                            EObject object_10 = _object_10.get(0);
-                                            _builder.newLineIfNotEmpty();
-                                            EList<EReference> _ref_72 = referenceRemoved_1.getRef();
-                                            EObject ref_4 = _ref_72.get(0);
-                                            _builder.newLineIfNotEmpty();
-                                            String _refName_1 = referenceRemoved_1.getRefName();
-                                            String refName_8 = ((String) _refName_1);
-                                            _builder.newLineIfNotEmpty();
-                                            Element element_11 = ModelManager.getElement(object_10, idelemsresource);
-                                            _builder.newLineIfNotEmpty();
-                                            Text t_14 = null;
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              if ((opt_2.solution == true)) {
-                                                Text _valid_14 = cfgopt_14.getValid();
-                                                _builder.append(t_14 = _valid_14, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              } else {
-                                                Text _invalid_14 = cfgopt_14.getInvalid();
-                                                _builder.append(t_14 = _invalid_14, "");
-                                                _builder.newLineIfNotEmpty();
-                                                _builder.newLine();
-                                              }
-                                            }
-                                            {
-                                              EList<Word> _words_63 = t_14.getWords();
-                                              for(final Word w_20 : _words_63) {
-                                                {
-                                                  if ((w_20 instanceof Constant)) {
-                                                    String _text_102 = text_1;
-                                                    String _value_51 = ((Constant)w_20).getValue();
-                                                    String _plus_267 = (_value_51 + " ");
-                                                    String _plus_268 = text_1 = (_text_102 + _plus_267);
-                                                    _builder.append(_plus_268, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                  }
-                                                }
-                                                {
-                                                  if ((w_20 instanceof Variable)) {
-                                                    Variable variable_18 = ((Variable) w_20);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      VariableType _type_51 = variable_18.getType();
-                                                      boolean _equals_97 = Objects.equal(_type_51, VariableType.OBJECT);
-                                                      if (_equals_97) {
-                                                        {
-                                                          EList<modeltext.Word> _words_64 = element_11.getWords();
-                                                          for(final modeltext.Word v_45 : _words_64) {
-                                                            {
-                                                              if ((v_45 instanceof modeltext.Constant)) {
-                                                                String _text_103 = text_1;
-                                                                String _value_52 = ((modeltext.Constant)v_45).getValue();
-                                                                String _plus_269 = (_value_52 + " ");
-                                                                String _plus_270 = text_1 = (_text_103 + _plus_269);
-                                                                _builder.append(_plus_270, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((v_45 instanceof modeltext.Variable)) {
-                                                                EObject o_33 = null;
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  EReference _ref_73 = ((modeltext.Variable) v_45).getRef();
-                                                                  boolean _equals_98 = Objects.equal(_ref_73, null);
-                                                                  if (_equals_98) {
-                                                                    _builder.append(o_33 = object_10, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  } else {
-                                                                    EReference _ref_74 = ((modeltext.Variable) v_45).getRef();
-                                                                    String _name_87 = _ref_74.getName();
-                                                                    EStructuralFeature _referenceByName_25 = ModelManager.getReferenceByName(_name_87, object_10);
-                                                                    Object _eGet_85 = object_10.eGet(_referenceByName_25);
-                                                                    _builder.append(o_33 = ((EObject) _eGet_85), "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                                {
-                                                                  boolean _notEquals_57 = (!Objects.equal(o_33, null));
-                                                                  if (_notEquals_57) {
-                                                                    String _text_104 = text_1;
-                                                                    EAttribute _id_33 = ((modeltext.Variable) v_45).getId();
-                                                                    String _name_88 = _id_33.getName();
-                                                                    EStructuralFeature _attributeByName_33 = ModelManager.getAttributeByName(_name_88, o_33);
-                                                                    Object _eGet_86 = o_33.eGet(_attributeByName_33);
-                                                                    String _plus_271 = (_eGet_86 + " ");
-                                                                    String _plus_272 = text_1 = (_text_104 + _plus_271);
-                                                                    _builder.append(_plus_272, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      VariableType _type_52 = variable_18.getType();
-                                                      boolean _equals_99 = Objects.equal(_type_52, VariableType.REF_NAME);
-                                                      if (_equals_99) {
-                                                        String _text_105 = text_1;
-                                                        String _plus_273 = text_1 = (_text_105 + (refName_8 + " "));
-                                                        _builder.append(_plus_273, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            {
-                                              boolean _contains_12 = opt_2.text.contains(text_1);
-                                              boolean _notEquals_58 = (_contains_12 != true);
-                                              if (_notEquals_58) {
-                                                boolean _add_31 = opt_2.text.add(text_1);
-                                                _builder.append(_add_31, "");
-                                                _builder.newLineIfNotEmpty();
-                                              }
-                                            }
-                                          }
-                                        }
-                                        {
-                                          if ((mutation_1 instanceof InformationChanged)) {
-                                            InformationChanged informationChanged_1 = ((InformationChanged) mutation_1);
-                                            _builder.newLineIfNotEmpty();
-                                            List<AttributeChanged> attChanges_1 = informationChanged_1.getAttChanges();
-                                            _builder.newLineIfNotEmpty();
-                                            EObject _object_11 = informationChanged_1.getObject();
-                                            EObject object_11 = ModelManager.getEObject(_object_11, opt_2.seed);
-                                            _builder.append(" ");
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              for(final AttributeChanged att_1 : attChanges_1) {
-                                                _builder.append(text_1 = "", "");
-                                                _builder.newLineIfNotEmpty();
-                                                {
-                                                  if ((att_1 instanceof AttributeSwap)) {
-                                                    AttributeSwap attributeSwap = ((AttributeSwap) att_1);
-                                                    _builder.newLineIfNotEmpty();
-                                                    String _attName = attributeSwap.getAttName();
-                                                    String attName_2 = ((String) _attName);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EClass _eClass_9 = object_11.eClass();
-                                                    EStructuralFeature attributeName_1 = _eClass_9.getEStructuralFeature(attName_2);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject attObject_1 = attributeSwap.getAttObject();
-                                                    _builder.newLineIfNotEmpty();
-                                                    String firstName_1 = attributeSwap.getFirstName();
-                                                    _builder.newLineIfNotEmpty();
-                                                    String newVal_2 = attributeSwap.getNewVal();
-                                                    _builder.newLineIfNotEmpty();
-                                                    Option cfgopt_15 = ModelManager.getConfigureOption("AttributeSwap", cfgoptsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element firstElement_1 = ModelManager.getElement(object_11, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element secondElement_1 = ModelManager.getElement(attObject_1, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Text t_15 = null;
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((opt_2.solution == true)) {
-                                                        Text _valid_15 = cfgopt_15.getValid();
-                                                        _builder.append(t_15 = _valid_15, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      } else {
-                                                        Text _invalid_15 = cfgopt_15.getInvalid();
-                                                        _builder.append(t_15 = _invalid_15, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      }
-                                                    }
-                                                    {
-                                                      EList<Word> _words_65 = t_15.getWords();
-                                                      for(final Word w_21 : _words_65) {
-                                                        {
-                                                          if ((w_21 instanceof Constant)) {
-                                                            String _text_106 = text_1;
-                                                            String _value_53 = ((Constant)w_21).getValue();
-                                                            String _plus_274 = (_value_53 + " ");
-                                                            String _plus_275 = text_1 = (_text_106 + _plus_274);
-                                                            _builder.append(_plus_275, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                          }
-                                                        }
-                                                        {
-                                                          if ((w_21 instanceof Variable)) {
-                                                            Variable variable_19 = ((Variable) w_21);
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              VariableType _type_53 = variable_19.getType();
-                                                              boolean _equals_100 = Objects.equal(_type_53, VariableType.FIRST_OBJECT);
-                                                              if (_equals_100) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_66 = firstElement_1.getWords();
-                                                                  for(final modeltext.Word v_46 : _words_66) {
-                                                                    {
-                                                                      if ((v_46 instanceof modeltext.Constant)) {
-                                                                        String _text_107 = text_1;
-                                                                        String _value_54 = ((modeltext.Constant)v_46).getValue();
-                                                                        String _plus_276 = (_value_54 + " ");
-                                                                        String _plus_277 = text_1 = (_text_107 + _plus_276);
-                                                                        _builder.append(_plus_277, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_46 instanceof modeltext.Variable)) {
-                                                                        EObject o_34 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_75 = ((modeltext.Variable) v_46).getRef();
-                                                                          boolean _equals_101 = Objects.equal(_ref_75, null);
-                                                                          if (_equals_101) {
-                                                                            _builder.append(o_34 = object_11, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_76 = ((modeltext.Variable) v_46).getRef();
-                                                                            String _name_89 = _ref_76.getName();
-                                                                            EStructuralFeature _referenceByName_26 = ModelManager.getReferenceByName(_name_89, object_11);
-                                                                            Object _eGet_87 = object_11.eGet(_referenceByName_26);
-                                                                            _builder.append(o_34 = ((EObject) _eGet_87), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_59 = (!Objects.equal(o_34, null));
-                                                                          if (_notEquals_59) {
-                                                                            String _text_108 = text_1;
-                                                                            EAttribute _id_34 = ((modeltext.Variable) v_46).getId();
-                                                                            String _name_90 = _id_34.getName();
-                                                                            EStructuralFeature _attributeByName_34 = ModelManager.getAttributeByName(_name_90, o_34);
-                                                                            Object _eGet_88 = o_34.eGet(_attributeByName_34);
-                                                                            String _plus_278 = (_eGet_88 + " ");
-                                                                            String _plus_279 = text_1 = (_text_108 + _plus_278);
-                                                                            _builder.append(_plus_279, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_54 = variable_19.getType();
-                                                              boolean _equals_102 = Objects.equal(_type_54, VariableType.SECOND_OBJECT);
-                                                              if (_equals_102) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_67 = secondElement_1.getWords();
-                                                                  for(final modeltext.Word v_47 : _words_67) {
-                                                                    {
-                                                                      if ((v_47 instanceof modeltext.Constant)) {
-                                                                        String _text_109 = text_1;
-                                                                        String _value_55 = ((modeltext.Constant)v_47).getValue();
-                                                                        String _plus_280 = (_value_55 + " ");
-                                                                        String _plus_281 = text_1 = (_text_109 + _plus_280);
-                                                                        _builder.append(_plus_281, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_47 instanceof modeltext.Variable)) {
-                                                                        EObject o_35 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_77 = ((modeltext.Variable) v_47).getRef();
-                                                                          boolean _equals_103 = Objects.equal(_ref_77, null);
-                                                                          if (_equals_103) {
-                                                                            _builder.append(o_35 = attObject_1, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_78 = ((modeltext.Variable) v_47).getRef();
-                                                                            Object _eGet_89 = attObject_1.eGet(_ref_78);
-                                                                            _builder.append(o_35 = ((EObject) _eGet_89), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_60 = (!Objects.equal(o_35, null));
-                                                                          if (_notEquals_60) {
-                                                                            String _text_110 = text_1;
-                                                                            EAttribute _id_35 = ((modeltext.Variable) v_47).getId();
-                                                                            String _name_91 = _id_35.getName();
-                                                                            EStructuralFeature _attributeByName_35 = ModelManager.getAttributeByName(_name_91, o_35);
-                                                                            Object _eGet_90 = o_35.eGet(_attributeByName_35);
-                                                                            String _plus_282 = (_eGet_90 + " ");
-                                                                            String _plus_283 = text_1 = (_text_110 + _plus_282);
-                                                                            _builder.append(_plus_283, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_55 = variable_19.getType();
-                                                              boolean _equals_104 = Objects.equal(_type_55, VariableType.FIRST_ATT_NAME);
-                                                              if (_equals_104) {
-                                                                String _text_111 = text_1;
-                                                                String _plus_284 = text_1 = (_text_111 + (attName_2 + " "));
-                                                                _builder.append(_plus_284, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_56 = variable_19.getType();
-                                                              boolean _equals_105 = Objects.equal(_type_56, VariableType.SECOND_ATT_NAME);
-                                                              if (_equals_105) {
-                                                                String _text_112 = text_1;
-                                                                String _plus_285 = text_1 = (_text_112 + (firstName_1 + " "));
-                                                                _builder.append(_plus_285, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_57 = variable_19.getType();
-                                                              boolean _equals_106 = Objects.equal(_type_57, VariableType.FIRST_VALUE);
-                                                              if (_equals_106) {
-                                                                String _text_113 = text_1;
-                                                                Object _eGet_91 = object_11.eGet(attributeName_1);
-                                                                String _plus_286 = (_eGet_91 + " ");
-                                                                String _plus_287 = text_1 = (_text_113 + _plus_286);
-                                                                _builder.append(_plus_287, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_58 = variable_19.getType();
-                                                              boolean _equals_107 = Objects.equal(_type_58, VariableType.SECOND_VALUE);
-                                                              if (_equals_107) {
-                                                                String _text_114 = text_1;
-                                                                String _plus_288 = text_1 = (_text_114 + (newVal_2 + " "));
-                                                                _builder.append(_plus_288, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    ArrayList<String> _arrayList_6 = new ArrayList<String>();
-                                                    _builder.append(opt_2.text = _arrayList_6, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean _add_32 = opt_2.text.add(text_1);
-                                                    _builder.append(_add_32, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    Object _clone_5 = opt_2.clone();
-                                                    TestUtils.TestOption optClone_5 = ((TestUtils.TestOption) _clone_5);
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean isRepeated_6 = this.subsumeCheckbox(opts_2, optClone_5);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((isRepeated_6 == false)) {
-                                                        Integer _get_43 = this.total.get(exercise);
-                                                        int _plus_289 = ((_get_43).intValue() + 1);
-                                                        Integer _put_20 = this.total.put(exercise, Integer.valueOf(_plus_289));
-                                                        _builder.append(_put_20, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        boolean _add_33 = opts_2.add(optClone_5);
-                                                        _builder.append(_add_33, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                      }
-                                                    }
-                                                  } else {
-                                                    AttributeChanged attributeChanged_1 = ((AttributeChanged) att_1);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Option cfgopt_16 = ModelManager.getConfigureOption("AttributeChanged", cfgoptsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    String attName_3 = attributeChanged_1.getAttName();
-                                                    _builder.newLineIfNotEmpty();
-                                                    String oldVal_1 = attributeChanged_1.getOldVal();
-                                                    _builder.newLineIfNotEmpty();
-                                                    String newVal_3 = attributeChanged_1.getNewVal();
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element element_12 = ModelManager.getElement(object_11, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Text t_16 = null;
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((opt_2.solution == true)) {
-                                                        Text _valid_16 = cfgopt_16.getValid();
-                                                        _builder.append(t_16 = _valid_16, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      } else {
-                                                        Text _invalid_16 = cfgopt_16.getInvalid();
-                                                        _builder.append(t_16 = _invalid_16, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      }
-                                                    }
-                                                    {
-                                                      EList<Word> _words_68 = t_16.getWords();
-                                                      for(final Word w_22 : _words_68) {
-                                                        {
-                                                          if ((w_22 instanceof Constant)) {
-                                                            String _text_115 = text_1;
-                                                            String _value_56 = ((Constant)w_22).getValue();
-                                                            String _plus_290 = (_value_56 + " ");
-                                                            String _plus_291 = text_1 = (_text_115 + _plus_290);
-                                                            _builder.append(_plus_291, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                          }
-                                                        }
-                                                        {
-                                                          if ((w_22 instanceof Variable)) {
-                                                            Variable variable_20 = ((Variable) w_22);
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              VariableType _type_59 = variable_20.getType();
-                                                              boolean _equals_108 = Objects.equal(_type_59, VariableType.OBJECT);
-                                                              if (_equals_108) {
-                                                                {
-                                                                  boolean _notEquals_61 = (!Objects.equal(element_12, null));
-                                                                  if (_notEquals_61) {
-                                                                    {
-                                                                      EList<modeltext.Word> _words_69 = element_12.getWords();
-                                                                      for(final modeltext.Word v_48 : _words_69) {
-                                                                        {
-                                                                          if ((v_48 instanceof modeltext.Constant)) {
-                                                                            String _text_116 = text_1;
-                                                                            String _value_57 = ((modeltext.Constant)v_48).getValue();
-                                                                            String _plus_292 = (_value_57 + " ");
-                                                                            String _plus_293 = text_1 = (_text_116 + _plus_292);
-                                                                            _builder.append(_plus_293, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          if ((v_48 instanceof modeltext.Variable)) {
-                                                                            EObject o_36 = null;
-                                                                            _builder.newLineIfNotEmpty();
-                                                                            {
-                                                                              EReference _ref_79 = ((modeltext.Variable) v_48).getRef();
-                                                                              boolean _equals_109 = Objects.equal(_ref_79, null);
-                                                                              if (_equals_109) {
-                                                                                _builder.append(o_36 = object_11, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              } else {
-                                                                                EReference _ref_80 = ((modeltext.Variable) v_48).getRef();
-                                                                                String _name_92 = _ref_80.getName();
-                                                                                EStructuralFeature _referenceByName_27 = ModelManager.getReferenceByName(_name_92, object_11);
-                                                                                Object _eGet_92 = object_11.eGet(_referenceByName_27);
-                                                                                _builder.append(o_36 = ((EObject) _eGet_92), "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                            {
-                                                                              boolean _notEquals_62 = (!Objects.equal(o_36, null));
-                                                                              if (_notEquals_62) {
-                                                                                String _text_117 = text_1;
-                                                                                EAttribute _id_36 = ((modeltext.Variable) v_48).getId();
-                                                                                String _name_93 = _id_36.getName();
-                                                                                EStructuralFeature _attributeByName_36 = ModelManager.getAttributeByName(_name_93, o_36);
-                                                                                Object _eGet_93 = o_36.eGet(_attributeByName_36);
-                                                                                String _plus_294 = (_eGet_93 + " ");
-                                                                                String _plus_295 = text_1 = (_text_117 + _plus_294);
-                                                                                _builder.append(_plus_295, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_60 = variable_20.getType();
-                                                              boolean _equals_110 = Objects.equal(_type_60, VariableType.ATT_NAME);
-                                                              if (_equals_110) {
-                                                                String _text_118 = text_1;
-                                                                String _plus_296 = text_1 = (_text_118 + (attName_3 + " "));
-                                                                _builder.append(_plus_296, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_61 = variable_20.getType();
-                                                              boolean _equals_111 = Objects.equal(_type_61, VariableType.OLD_VALUE);
-                                                              if (_equals_111) {
-                                                                String _text_119 = text_1;
-                                                                String _plus_297 = text_1 = (_text_119 + (oldVal_1 + " "));
-                                                                _builder.append(_plus_297, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_62 = variable_20.getType();
-                                                              boolean _equals_112 = Objects.equal(_type_62, VariableType.NEW_VALUE);
-                                                              if (_equals_112) {
-                                                                String _text_120 = text_1;
-                                                                String _plus_298 = text_1 = (_text_120 + (newVal_3 + " "));
-                                                                _builder.append(_plus_298, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    ArrayList<String> _arrayList_7 = new ArrayList<String>();
-                                                    _builder.append(opt_2.text = _arrayList_7, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean _add_34 = opt_2.text.add(text_1);
-                                                    _builder.append(_add_34, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    Object _clone_6 = opt_2.clone();
-                                                    TestUtils.TestOption optClone_6 = ((TestUtils.TestOption) _clone_6);
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean isRepeated_7 = this.subsumeCheckbox(opts_2, optClone_6);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((isRepeated_7 == false)) {
-                                                        Integer _get_44 = this.total.get(exercise);
-                                                        int _plus_299 = ((_get_44).intValue() + 1);
-                                                        Integer _put_21 = this.total.put(exercise, Integer.valueOf(_plus_299));
-                                                        _builder.append(_put_21, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        boolean _add_35 = opts_2.add(optClone_6);
-                                                        _builder.append(_add_35, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                            List<ReferenceChanged> refChanges_1 = informationChanged_1.getRefChanges();
-                                            _builder.newLineIfNotEmpty();
-                                            {
-                                              for(final ReferenceChanged ref_5 : refChanges_1) {
-                                                _builder.append(text_1 = "", "");
-                                                _builder.newLineIfNotEmpty();
-                                                {
-                                                  if ((ref_5 instanceof ReferenceChanged)) {
-                                                    ReferenceChanged referenceChanged_1 = ((ReferenceChanged) ref_5);
-                                                    _builder.newLineIfNotEmpty();
-                                                    _builder.newLine();
-                                                    _builder.newLine();
-                                                    _builder.newLine();
-                                                    Option cfgopt_17 = ModelManager.getConfigureOption("ReferenceChanged", cfgoptsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element element_13 = ModelManager.getElement(object_11, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    String srcRefName_1 = referenceChanged_1.getSrcRefName();
-                                                    _builder.newLineIfNotEmpty();
-                                                    EClass _eClass_10 = object_11.eClass();
-                                                    EStructuralFeature refSrc_3 = _eClass_10.getEStructuralFeature(srcRefName_1);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element refSrcElement_3 = ModelManager.getRefElement(object_11, refSrc_3, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    String _refName_2 = referenceChanged_1.getRefName();
-                                                    String refName_9 = ((String) _refName_2);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EStructuralFeature refTar_3 = ModelManager.getReferenceByName(refName_9, object_11);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element refTarElement_3 = ModelManager.getRefElement(object_11, refTar_3, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _from_9 = referenceChanged_1.getFrom();
-                                                    EObject from_5 = ModelManager.getEObject(_from_9, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element fromElement_3 = ModelManager.getElement(from_5, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _to_5 = ref_5.getTo();
-                                                    EObject to_5 = ModelManager.getEObject(_to_5, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element toElement_3 = ModelManager.getElement(to_5, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Text t_17 = null;
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((opt_2.solution == true)) {
-                                                        Text _valid_17 = cfgopt_17.getValid();
-                                                        _builder.append(t_17 = _valid_17, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      } else {
-                                                        Text _invalid_17 = cfgopt_17.getInvalid();
-                                                        _builder.append(t_17 = _invalid_17, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      }
-                                                    }
-                                                    boolean older_1 = (!Objects.equal(fromElement_3, null));
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean newer_1 = (!Objects.equal(toElement_3, null));
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if (((older_1 == true) && (newer_1 == true))) {
-                                                        {
-                                                          EList<Word> _words_70 = t_17.getWords();
-                                                          for(final Word w_23 : _words_70) {
-                                                            {
-                                                              if ((w_23 instanceof Constant)) {
-                                                                String _text_121 = text_1;
-                                                                String _value_58 = ((Constant)w_23).getValue();
-                                                                String _plus_300 = (_value_58 + " ");
-                                                                String _plus_301 = text_1 = (_text_121 + _plus_300);
-                                                                _builder.append(_plus_301, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              if ((w_23 instanceof Variable)) {
-                                                                Variable variable_21 = ((Variable) w_23);
-                                                                _builder.newLineIfNotEmpty();
-                                                                {
-                                                                  VariableType _type_63 = variable_21.getType();
-                                                                  boolean _equals_113 = Objects.equal(_type_63, VariableType.OBJECT);
-                                                                  if (_equals_113) {
-                                                                    {
-                                                                      Attribute _att_1 = element_13.getAtt();
-                                                                      boolean _equals_114 = Objects.equal(_att_1, null);
-                                                                      if (_equals_114) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_71 = element_13.getWords();
-                                                                          for(final modeltext.Word v_49 : _words_71) {
-                                                                            {
-                                                                              if ((v_49 instanceof modeltext.Constant)) {
-                                                                                String _text_122 = text_1;
-                                                                                String _value_59 = ((modeltext.Constant)v_49).getValue();
-                                                                                String _plus_302 = (_value_59 + " ");
-                                                                                String _plus_303 = text_1 = (_text_122 + _plus_302);
-                                                                                _builder.append(_plus_303, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                            {
-                                                                              if ((v_49 instanceof modeltext.Variable)) {
-                                                                                EObject o_37 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_81 = ((modeltext.Variable) v_49).getRef();
-                                                                                  boolean _equals_115 = Objects.equal(_ref_81, null);
-                                                                                  if (_equals_115) {
-                                                                                    _builder.append(o_37 = object_11, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_82 = ((modeltext.Variable) v_49).getRef();
-                                                                                    String _name_94 = _ref_82.getName();
-                                                                                    EStructuralFeature _referenceByName_28 = ModelManager.getReferenceByName(_name_94, object_11);
-                                                                                    Object _eGet_94 = object_11.eGet(_referenceByName_28);
-                                                                                    _builder.append(o_37 = ((EObject) _eGet_94), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_63 = (!Objects.equal(o_37, null));
-                                                                                  if (_notEquals_63) {
-                                                                                    String _text_123 = text_1;
-                                                                                    EAttribute _id_37 = ((modeltext.Variable) v_49).getId();
-                                                                                    String _name_95 = _id_37.getName();
-                                                                                    EStructuralFeature _attributeByName_37 = ModelManager.getAttributeByName(_name_95, o_37);
-                                                                                    Object _eGet_95 = o_37.eGet(_attributeByName_37);
-                                                                                    String _plus_304 = (_eGet_95 + " ");
-                                                                                    String _plus_305 = text_1 = (_text_123 + _plus_304);
-                                                                                    _builder.append(_plus_305, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                                {
-                                                                  VariableType _type_64 = variable_21.getType();
-                                                                  boolean _equals_116 = Objects.equal(_type_64, VariableType.FROM_OBJECT);
-                                                                  if (_equals_116) {
-                                                                    {
-                                                                      EList<modeltext.Word> _words_72 = fromElement_3.getWords();
-                                                                      for(final modeltext.Word v_50 : _words_72) {
-                                                                        {
-                                                                          if ((v_50 instanceof modeltext.Constant)) {
-                                                                            String _text_124 = text_1;
-                                                                            String _value_60 = ((modeltext.Constant)v_50).getValue();
-                                                                            String _plus_306 = (_value_60 + " ");
-                                                                            String _plus_307 = text_1 = (_text_124 + _plus_306);
-                                                                            _builder.append(_plus_307, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          if ((v_50 instanceof modeltext.Variable)) {
-                                                                            EObject o_38 = null;
-                                                                            _builder.newLineIfNotEmpty();
-                                                                            {
-                                                                              EReference _ref_83 = ((modeltext.Variable) v_50).getRef();
-                                                                              boolean _equals_117 = Objects.equal(_ref_83, null);
-                                                                              if (_equals_117) {
-                                                                                _builder.append(o_38 = from_5, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              } else {
-                                                                                EReference _ref_84 = ((modeltext.Variable) v_50).getRef();
-                                                                                String _name_96 = _ref_84.getName();
-                                                                                EStructuralFeature _referenceByName_29 = ModelManager.getReferenceByName(_name_96, from_5);
-                                                                                Object _eGet_96 = from_5.eGet(_referenceByName_29);
-                                                                                _builder.append(o_38 = ((EObject) _eGet_96), "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                            {
-                                                                              boolean _notEquals_64 = (!Objects.equal(o_38, null));
-                                                                              if (_notEquals_64) {
-                                                                                String _text_125 = text_1;
-                                                                                EAttribute _id_38 = ((modeltext.Variable) v_50).getId();
-                                                                                String _name_97 = _id_38.getName();
-                                                                                EStructuralFeature _attributeByName_38 = ModelManager.getAttributeByName(_name_97, o_38);
-                                                                                Object _eGet_97 = o_38.eGet(_attributeByName_38);
-                                                                                String _plus_308 = (_eGet_97 + " ");
-                                                                                String _plus_309 = text_1 = (_text_125 + _plus_308);
-                                                                                _builder.append(_plus_309, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                                {
-                                                                  VariableType _type_65 = variable_21.getType();
-                                                                  boolean _equals_118 = Objects.equal(_type_65, VariableType.TO_OBJECT);
-                                                                  if (_equals_118) {
-                                                                    {
-                                                                      EList<modeltext.Word> _words_73 = toElement_3.getWords();
-                                                                      for(final modeltext.Word v_51 : _words_73) {
-                                                                        {
-                                                                          if ((v_51 instanceof modeltext.Constant)) {
-                                                                            String _text_126 = text_1;
-                                                                            String _value_61 = ((modeltext.Constant)v_51).getValue();
-                                                                            String _plus_310 = (_value_61 + " ");
-                                                                            String _plus_311 = text_1 = (_text_126 + _plus_310);
-                                                                            _builder.append(_plus_311, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          if ((v_51 instanceof modeltext.Variable)) {
-                                                                            EObject o_39 = null;
-                                                                            _builder.newLineIfNotEmpty();
-                                                                            {
-                                                                              EReference _ref_85 = ((modeltext.Variable) v_51).getRef();
-                                                                              boolean _equals_119 = Objects.equal(_ref_85, null);
-                                                                              if (_equals_119) {
-                                                                                _builder.append(o_39 = to_5, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              } else {
-                                                                                EReference _ref_86 = ((modeltext.Variable) v_51).getRef();
-                                                                                Object _eGet_98 = to_5.eGet(_ref_86);
-                                                                                _builder.append(o_39 = ((EObject) _eGet_98), "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                            {
-                                                                              boolean _notEquals_65 = (!Objects.equal(o_39, null));
-                                                                              if (_notEquals_65) {
-                                                                                String _text_127 = text_1;
-                                                                                EAttribute _id_39 = ((modeltext.Variable) v_51).getId();
-                                                                                String _name_98 = _id_39.getName();
-                                                                                EStructuralFeature _attributeByName_39 = ModelManager.getAttributeByName(_name_98, o_39);
-                                                                                Object _eGet_99 = o_39.eGet(_attributeByName_39);
-                                                                                String _plus_312 = (_eGet_99 + " ");
-                                                                                String _plus_313 = text_1 = (_text_127 + _plus_312);
-                                                                                _builder.append(_plus_313, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                                {
-                                                                  VariableType _type_66 = variable_21.getType();
-                                                                  boolean _equals_120 = Objects.equal(_type_66, VariableType.REF_NAME);
-                                                                  if (_equals_120) {
-                                                                    {
-                                                                      boolean _notEquals_66 = (!Objects.equal(refTarElement_3, null));
-                                                                      if (_notEquals_66) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_74 = refTarElement_3.getWords();
-                                                                          for(final modeltext.Word v_52 : _words_74) {
-                                                                            {
-                                                                              if ((v_52 instanceof modeltext.Constant)) {
-                                                                                String _text_128 = text_1;
-                                                                                String _value_62 = ((modeltext.Constant)v_52).getValue();
-                                                                                String _plus_314 = (_value_62 + " ");
-                                                                                String _plus_315 = text_1 = (_text_128 + _plus_314);
-                                                                                _builder.append(_plus_315, "");
-                                                                                _builder.newLineIfNotEmpty();
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                                {
-                                                                  VariableType _type_67 = variable_21.getType();
-                                                                  boolean _equals_121 = Objects.equal(_type_67, VariableType.SRC_REF_NAME);
-                                                                  if (_equals_121) {
-                                                                    {
-                                                                      EList<modeltext.Word> _words_75 = refSrcElement_3.getWords();
-                                                                      for(final modeltext.Word v_53 : _words_75) {
-                                                                        {
-                                                                          if ((v_53 instanceof modeltext.Constant)) {
-                                                                            String _text_129 = text_1;
-                                                                            String _value_63 = ((modeltext.Constant)v_53).getValue();
-                                                                            String _plus_316 = (_value_63 + " ");
-                                                                            String _plus_317 = text_1 = (_text_129 + _plus_316);
-                                                                            _builder.append(_plus_317, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      if ((older_1 == false)) {
-                                                        {
-                                                          if ((opt_2.solution == true)) {
-                                                            String _text_130 = text_1;
-                                                            String _plus_318 = text_1 = (_text_130 + "Delete ");
-                                                            _builder.append(_plus_318, "");
-                                                            _builder.append(" ");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<modeltext.Word> _words_76 = refSrcElement_3.getWords();
-                                                              for(final modeltext.Word v_54 : _words_76) {
-                                                                {
-                                                                  if ((v_54 instanceof modeltext.Constant)) {
-                                                                    String _text_131 = text_1;
-                                                                    String _value_64 = ((modeltext.Constant)v_54).getValue();
-                                                                    String _plus_319 = (_value_64 + " ");
-                                                                    String _plus_320 = text_1 = (_text_131 + _plus_319);
-                                                                    _builder.append(_plus_320, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            String _text_132 = text_1;
-                                                            String _plus_321 = text_1 = (_text_132 + " from ");
-                                                            _builder.append(_plus_321, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<Word> _words_77 = t_17.getWords();
-                                                              for(final Word w_24 : _words_77) {
-                                                                {
-                                                                  if ((w_24 instanceof Variable)) {
-                                                                    Variable variable_22 = ((Variable) w_24);
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      VariableType _type_68 = variable_22.getType();
-                                                                      boolean _equals_122 = Objects.equal(_type_68, VariableType.OBJECT);
-                                                                      if (_equals_122) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_78 = element_13.getWords();
-                                                                          for(final modeltext.Word v_55 : _words_78) {
-                                                                            {
-                                                                              if ((v_55 instanceof modeltext.Variable)) {
-                                                                                EObject o_40 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_87 = ((modeltext.Variable) v_55).getRef();
-                                                                                  boolean _equals_123 = Objects.equal(_ref_87, null);
-                                                                                  if (_equals_123) {
-                                                                                    _builder.append(o_40 = object_11, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_88 = ((modeltext.Variable) v_55).getRef();
-                                                                                    String _name_99 = _ref_88.getName();
-                                                                                    EStructuralFeature _referenceByName_30 = ModelManager.getReferenceByName(_name_99, from_5);
-                                                                                    Object _eGet_100 = object_11.eGet(_referenceByName_30);
-                                                                                    _builder.append(o_40 = ((EObject) _eGet_100), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_67 = (!Objects.equal(o_40, null));
-                                                                                  if (_notEquals_67) {
-                                                                                    String _text_133 = text_1;
-                                                                                    EAttribute _id_40 = ((modeltext.Variable) v_55).getId();
-                                                                                    String _name_100 = _id_40.getName();
-                                                                                    EStructuralFeature _attributeByName_40 = ModelManager.getAttributeByName(_name_100, o_40);
-                                                                                    Object _eGet_101 = o_40.eGet(_attributeByName_40);
-                                                                                    String _plus_322 = (_eGet_101 + " ");
-                                                                                    String _plus_323 = text_1 = (_text_133 + _plus_322);
-                                                                                    _builder.append(_plus_323, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      VariableType _type_69 = variable_22.getType();
-                                                                      boolean _equals_124 = Objects.equal(_type_69, VariableType.TO_OBJECT);
-                                                                      if (_equals_124) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_79 = toElement_3.getWords();
-                                                                          for(final modeltext.Word v_56 : _words_79) {
-                                                                            {
-                                                                              if ((v_56 instanceof modeltext.Variable)) {
-                                                                                EObject o_41 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_89 = ((modeltext.Variable) v_56).getRef();
-                                                                                  boolean _equals_125 = Objects.equal(_ref_89, null);
-                                                                                  if (_equals_125) {
-                                                                                    _builder.append(o_41 = to_5, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_90 = ((modeltext.Variable) v_56).getRef();
-                                                                                    Object _eGet_102 = to_5.eGet(_ref_90);
-                                                                                    _builder.append(o_41 = ((EObject) _eGet_102), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_68 = (!Objects.equal(o_41, null));
-                                                                                  if (_notEquals_68) {
-                                                                                    String _text_134 = text_1;
-                                                                                    EAttribute _id_41 = ((modeltext.Variable) v_56).getId();
-                                                                                    String _name_101 = _id_41.getName();
-                                                                                    EStructuralFeature _attributeByName_41 = ModelManager.getAttributeByName(_name_101, o_41);
-                                                                                    Object _eGet_103 = o_41.eGet(_attributeByName_41);
-                                                                                    String _plus_324 = ("to " + _eGet_103);
-                                                                                    String _plus_325 = (_plus_324 + " ");
-                                                                                    String _plus_326 = text_1 = (_text_134 + _plus_325);
-                                                                                    _builder.append(_plus_326, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          } else {
-                                                            String _text_135 = text_1;
-                                                            String _plus_327 = text_1 = (_text_135 + "Create ");
-                                                            _builder.append(_plus_327, "");
-                                                            _builder.append(" ");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<modeltext.Word> _words_80 = refSrcElement_3.getWords();
-                                                              for(final modeltext.Word v_57 : _words_80) {
-                                                                {
-                                                                  if ((v_57 instanceof modeltext.Constant)) {
-                                                                    String _text_136 = text_1;
-                                                                    String _value_65 = ((modeltext.Constant)v_57).getValue();
-                                                                    String _plus_328 = (_value_65 + " ");
-                                                                    String _plus_329 = text_1 = (_text_136 + _plus_328);
-                                                                    _builder.append(_plus_329, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            String _text_137 = text_1;
-                                                            String _plus_330 = text_1 = (_text_137 + " from ");
-                                                            _builder.append(_plus_330, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<Word> _words_81 = t_17.getWords();
-                                                              for(final Word w_25 : _words_81) {
-                                                                {
-                                                                  if ((w_25 instanceof Variable)) {
-                                                                    Variable variable_23 = ((Variable) w_25);
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      VariableType _type_70 = variable_23.getType();
-                                                                      boolean _equals_126 = Objects.equal(_type_70, VariableType.OBJECT);
-                                                                      if (_equals_126) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_82 = element_13.getWords();
-                                                                          for(final modeltext.Word v_58 : _words_82) {
-                                                                            {
-                                                                              if ((v_58 instanceof modeltext.Variable)) {
-                                                                                EObject o_42 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_91 = ((modeltext.Variable) v_58).getRef();
-                                                                                  boolean _equals_127 = Objects.equal(_ref_91, null);
-                                                                                  if (_equals_127) {
-                                                                                    _builder.append(o_42 = object_11, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_92 = ((modeltext.Variable) v_58).getRef();
-                                                                                    String _name_102 = _ref_92.getName();
-                                                                                    EStructuralFeature _referenceByName_31 = ModelManager.getReferenceByName(_name_102, from_5);
-                                                                                    Object _eGet_104 = object_11.eGet(_referenceByName_31);
-                                                                                    _builder.append(o_42 = ((EObject) _eGet_104), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_69 = (!Objects.equal(o_42, null));
-                                                                                  if (_notEquals_69) {
-                                                                                    String _text_138 = text_1;
-                                                                                    EAttribute _id_42 = ((modeltext.Variable) v_58).getId();
-                                                                                    String _name_103 = _id_42.getName();
-                                                                                    EStructuralFeature _attributeByName_42 = ModelManager.getAttributeByName(_name_103, o_42);
-                                                                                    Object _eGet_105 = o_42.eGet(_attributeByName_42);
-                                                                                    String _plus_331 = (_eGet_105 + " ");
-                                                                                    String _plus_332 = text_1 = (_text_138 + _plus_331);
-                                                                                    _builder.append(_plus_332, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      VariableType _type_71 = variable_23.getType();
-                                                                      boolean _equals_128 = Objects.equal(_type_71, VariableType.TO_OBJECT);
-                                                                      if (_equals_128) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_83 = toElement_3.getWords();
-                                                                          for(final modeltext.Word v_59 : _words_83) {
-                                                                            {
-                                                                              if ((v_59 instanceof modeltext.Variable)) {
-                                                                                EObject o_43 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_93 = ((modeltext.Variable) v_59).getRef();
-                                                                                  boolean _equals_129 = Objects.equal(_ref_93, null);
-                                                                                  if (_equals_129) {
-                                                                                    _builder.append(o_43 = to_5, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_94 = ((modeltext.Variable) v_59).getRef();
-                                                                                    Object _eGet_106 = to_5.eGet(_ref_94);
-                                                                                    _builder.append(o_43 = ((EObject) _eGet_106), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_70 = (!Objects.equal(o_43, null));
-                                                                                  if (_notEquals_70) {
-                                                                                    String _text_139 = text_1;
-                                                                                    EAttribute _id_43 = ((modeltext.Variable) v_59).getId();
-                                                                                    String _name_104 = _id_43.getName();
-                                                                                    EStructuralFeature _attributeByName_43 = ModelManager.getAttributeByName(_name_104, o_43);
-                                                                                    Object _eGet_107 = o_43.eGet(_attributeByName_43);
-                                                                                    String _plus_333 = ("to " + _eGet_107);
-                                                                                    String _plus_334 = (_plus_333 + " ");
-                                                                                    String _plus_335 = text_1 = (_text_139 + _plus_334);
-                                                                                    _builder.append(_plus_335, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    {
-                                                      if ((newer_1 == false)) {
-                                                        {
-                                                          if ((opt_2.solution == true)) {
-                                                            String _text_140 = text_1;
-                                                            String _plus_336 = text_1 = (_text_140 + "Create ");
-                                                            _builder.append(_plus_336, "");
-                                                            _builder.append(" ");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<modeltext.Word> _words_84 = refSrcElement_3.getWords();
-                                                              for(final modeltext.Word v_60 : _words_84) {
-                                                                {
-                                                                  if ((v_60 instanceof modeltext.Constant)) {
-                                                                    String _text_141 = text_1;
-                                                                    String _value_66 = ((modeltext.Constant)v_60).getValue();
-                                                                    String _plus_337 = (_value_66 + " ");
-                                                                    String _plus_338 = text_1 = (_text_141 + _plus_337);
-                                                                    _builder.append(_plus_338, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            String _text_142 = text_1;
-                                                            String _plus_339 = text_1 = (_text_142 + " from ");
-                                                            _builder.append(_plus_339, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<Word> _words_85 = t_17.getWords();
-                                                              for(final Word w_26 : _words_85) {
-                                                                {
-                                                                  if ((w_26 instanceof Variable)) {
-                                                                    Variable variable_24 = ((Variable) w_26);
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      VariableType _type_72 = variable_24.getType();
-                                                                      boolean _equals_130 = Objects.equal(_type_72, VariableType.FROM_OBJECT);
-                                                                      if (_equals_130) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_86 = fromElement_3.getWords();
-                                                                          for(final modeltext.Word v_61 : _words_86) {
-                                                                            {
-                                                                              if ((v_61 instanceof modeltext.Variable)) {
-                                                                                EObject o_44 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_95 = ((modeltext.Variable) v_61).getRef();
-                                                                                  boolean _equals_131 = Objects.equal(_ref_95, null);
-                                                                                  if (_equals_131) {
-                                                                                    _builder.append(o_44 = from_5, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_96 = ((modeltext.Variable) v_61).getRef();
-                                                                                    String _name_105 = _ref_96.getName();
-                                                                                    EStructuralFeature _referenceByName_32 = ModelManager.getReferenceByName(_name_105, from_5);
-                                                                                    Object _eGet_108 = from_5.eGet(_referenceByName_32);
-                                                                                    _builder.append(o_44 = ((EObject) _eGet_108), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_71 = (!Objects.equal(o_44, null));
-                                                                                  if (_notEquals_71) {
-                                                                                    String _text_143 = text_1;
-                                                                                    EAttribute _id_44 = ((modeltext.Variable) v_61).getId();
-                                                                                    String _name_106 = _id_44.getName();
-                                                                                    EStructuralFeature _attributeByName_44 = ModelManager.getAttributeByName(_name_106, o_44);
-                                                                                    Object _eGet_109 = o_44.eGet(_attributeByName_44);
-                                                                                    String _plus_340 = (_eGet_109 + " ");
-                                                                                    String _plus_341 = text_1 = (_text_143 + _plus_340);
-                                                                                    _builder.append(_plus_341, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      VariableType _type_73 = variable_24.getType();
-                                                                      boolean _equals_132 = Objects.equal(_type_73, VariableType.OBJECT);
-                                                                      if (_equals_132) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_87 = toElement_3.getWords();
-                                                                          for(final modeltext.Word v_62 : _words_87) {
-                                                                            {
-                                                                              if ((v_62 instanceof modeltext.Variable)) {
-                                                                                EObject o_45 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_97 = ((modeltext.Variable) v_62).getRef();
-                                                                                  boolean _equals_133 = Objects.equal(_ref_97, null);
-                                                                                  if (_equals_133) {
-                                                                                    _builder.append(o_45 = object_11, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_98 = ((modeltext.Variable) v_62).getRef();
-                                                                                    String _name_107 = _ref_98.getName();
-                                                                                    EStructuralFeature _referenceByName_33 = ModelManager.getReferenceByName(_name_107, object_11);
-                                                                                    Object _eGet_110 = object_11.eGet(_referenceByName_33);
-                                                                                    _builder.append(o_45 = ((EObject) _eGet_110), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_72 = (!Objects.equal(o_45, null));
-                                                                                  if (_notEquals_72) {
-                                                                                    String _text_144 = text_1;
-                                                                                    EAttribute _id_45 = ((modeltext.Variable) v_62).getId();
-                                                                                    String _name_108 = _id_45.getName();
-                                                                                    EStructuralFeature _attributeByName_45 = ModelManager.getAttributeByName(_name_108, o_45);
-                                                                                    Object _eGet_111 = o_45.eGet(_attributeByName_45);
-                                                                                    String _plus_342 = ("to " + _eGet_111);
-                                                                                    String _plus_343 = (_plus_342 + " ");
-                                                                                    String _plus_344 = text_1 = (_text_144 + _plus_343);
-                                                                                    _builder.append(_plus_344, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          } else {
-                                                            String _text_145 = text_1;
-                                                            String _plus_345 = text_1 = (_text_145 + "Delete ");
-                                                            _builder.append(_plus_345, "");
-                                                            _builder.append(" ");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<modeltext.Word> _words_88 = refSrcElement_3.getWords();
-                                                              for(final modeltext.Word v_63 : _words_88) {
-                                                                {
-                                                                  if ((v_63 instanceof modeltext.Constant)) {
-                                                                    String _text_146 = text_1;
-                                                                    String _value_67 = ((modeltext.Constant)v_63).getValue();
-                                                                    String _plus_346 = (_value_67 + " ");
-                                                                    String _plus_347 = text_1 = (_text_146 + _plus_346);
-                                                                    _builder.append(_plus_347, "");
-                                                                    _builder.newLineIfNotEmpty();
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            String _text_147 = text_1;
-                                                            String _plus_348 = text_1 = (_text_147 + " from ");
-                                                            _builder.append(_plus_348, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              EList<Word> _words_89 = t_17.getWords();
-                                                              for(final Word w_27 : _words_89) {
-                                                                {
-                                                                  if ((w_27 instanceof Variable)) {
-                                                                    Variable variable_25 = ((Variable) w_27);
-                                                                    _builder.newLineIfNotEmpty();
-                                                                    {
-                                                                      VariableType _type_74 = variable_25.getType();
-                                                                      boolean _equals_134 = Objects.equal(_type_74, VariableType.FROM_OBJECT);
-                                                                      if (_equals_134) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_90 = fromElement_3.getWords();
-                                                                          for(final modeltext.Word v_64 : _words_90) {
-                                                                            {
-                                                                              if ((v_64 instanceof modeltext.Variable)) {
-                                                                                EObject o_46 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_99 = ((modeltext.Variable) v_64).getRef();
-                                                                                  boolean _equals_135 = Objects.equal(_ref_99, null);
-                                                                                  if (_equals_135) {
-                                                                                    _builder.append(o_46 = from_5, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_100 = ((modeltext.Variable) v_64).getRef();
-                                                                                    String _name_109 = _ref_100.getName();
-                                                                                    EStructuralFeature _referenceByName_34 = ModelManager.getReferenceByName(_name_109, from_5);
-                                                                                    Object _eGet_112 = from_5.eGet(_referenceByName_34);
-                                                                                    _builder.append(o_46 = ((EObject) _eGet_112), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_73 = (!Objects.equal(o_46, null));
-                                                                                  if (_notEquals_73) {
-                                                                                    String _text_148 = text_1;
-                                                                                    EAttribute _id_46 = ((modeltext.Variable) v_64).getId();
-                                                                                    String _name_110 = _id_46.getName();
-                                                                                    EStructuralFeature _attributeByName_46 = ModelManager.getAttributeByName(_name_110, o_46);
-                                                                                    Object _eGet_113 = o_46.eGet(_attributeByName_46);
-                                                                                    String _plus_349 = (_eGet_113 + " ");
-                                                                                    String _plus_350 = text_1 = (_text_148 + _plus_349);
-                                                                                    _builder.append(_plus_350, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      VariableType _type_75 = variable_25.getType();
-                                                                      boolean _equals_136 = Objects.equal(_type_75, VariableType.OBJECT);
-                                                                      if (_equals_136) {
-                                                                        {
-                                                                          EList<modeltext.Word> _words_91 = toElement_3.getWords();
-                                                                          for(final modeltext.Word v_65 : _words_91) {
-                                                                            {
-                                                                              if ((v_65 instanceof modeltext.Variable)) {
-                                                                                EObject o_47 = null;
-                                                                                _builder.newLineIfNotEmpty();
-                                                                                {
-                                                                                  EReference _ref_101 = ((modeltext.Variable) v_65).getRef();
-                                                                                  boolean _equals_137 = Objects.equal(_ref_101, null);
-                                                                                  if (_equals_137) {
-                                                                                    _builder.append(o_47 = object_11, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  } else {
-                                                                                    EReference _ref_102 = ((modeltext.Variable) v_65).getRef();
-                                                                                    String _name_111 = _ref_102.getName();
-                                                                                    EStructuralFeature _referenceByName_35 = ModelManager.getReferenceByName(_name_111, object_11);
-                                                                                    Object _eGet_114 = object_11.eGet(_referenceByName_35);
-                                                                                    _builder.append(o_47 = ((EObject) _eGet_114), "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                                {
-                                                                                  boolean _notEquals_74 = (!Objects.equal(o_47, null));
-                                                                                  if (_notEquals_74) {
-                                                                                    String _text_149 = text_1;
-                                                                                    EAttribute _id_47 = ((modeltext.Variable) v_65).getId();
-                                                                                    String _name_112 = _id_47.getName();
-                                                                                    EStructuralFeature _attributeByName_47 = ModelManager.getAttributeByName(_name_112, o_47);
-                                                                                    Object _eGet_115 = o_47.eGet(_attributeByName_47);
-                                                                                    String _plus_351 = ("to " + _eGet_115);
-                                                                                    String _plus_352 = (_plus_351 + " ");
-                                                                                    String _plus_353 = text_1 = (_text_149 + _plus_352);
-                                                                                    _builder.append(_plus_353, "");
-                                                                                    _builder.newLineIfNotEmpty();
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    ArrayList<String> _arrayList_8 = new ArrayList<String>();
-                                                    _builder.append(opt_2.text = _arrayList_8, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean _add_36 = opt_2.text.add(text_1);
-                                                    _builder.append(_add_36, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    Object _clone_7 = opt_2.clone();
-                                                    TestUtils.TestOption optClone_7 = ((TestUtils.TestOption) _clone_7);
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean isRepeated_8 = this.subsumeCheckbox(opts_2, optClone_7);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((isRepeated_8 == false)) {
-                                                        Integer _get_45 = this.total.get(exercise);
-                                                        int _plus_354 = ((_get_45).intValue() + 1);
-                                                        Integer _put_22 = this.total.put(exercise, Integer.valueOf(_plus_354));
-                                                        _builder.append(_put_22, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        boolean _add_37 = opts_2.add(optClone_7);
-                                                        _builder.append(_add_37, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                                {
-                                                  if ((ref_5 instanceof ReferenceSwap)) {
-                                                    ReferenceSwap referenceSwap_1 = ((ReferenceSwap) ref_5);
-                                                    _builder.newLineIfNotEmpty();
-                                                    _builder.append(text_1 = "", "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    Option cfgopt_18 = ModelManager.getConfigureOption("ReferenceSwap", cfgoptsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element firstElement_2 = ModelManager.getElement(object_11, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    System.out.println(("firstElement: " + firstElement_2));
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _from_10 = referenceSwap_1.getFrom();
-                                                    EObject firstFrom = ModelManager.getEObject(_from_10, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element firstFromElement = ModelManager.getElement(firstFrom, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _to_6 = referenceSwap_1.getTo();
-                                                    EObject firstTo = ModelManager.getEObject(_to_6, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element firstToElement = ModelManager.getElement(firstTo, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _refObject = referenceSwap_1.getRefObject();
-                                                    EObject refObject = ModelManager.getEObject(_refObject, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element secondElement_2 = ModelManager.getElement(refObject, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    System.out.println(("secondElement: " + secondElement_2));
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _otherFrom = referenceSwap_1.getOtherFrom();
-                                                    EObject secondFrom = ModelManager.getEObject(_otherFrom, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element secondFromElement = ModelManager.getElement(secondFrom, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    EObject _otherTo = referenceSwap_1.getOtherTo();
-                                                    EObject secondTo = ModelManager.getElement(_otherTo, opt_2.seed);
-                                                    _builder.newLineIfNotEmpty();
-                                                    Element secondToElement = ModelManager.getElement(secondTo, idelemsresource);
-                                                    _builder.newLineIfNotEmpty();
-                                                    String refName_10 = ((ReferenceSwap) ref_5).getRefName();
-                                                    _builder.newLineIfNotEmpty();
-                                                    String refFirstName = ((ReferenceSwap) ref_5).getFirstName();
-                                                    _builder.newLineIfNotEmpty();
-                                                    _builder.newLine();
-                                                    _builder.newLine();
-                                                    _builder.newLine();
-                                                    _builder.newLine();
-                                                    Text t_18 = null;
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((opt_2.solution == true)) {
-                                                        Text _valid_18 = cfgopt_18.getValid();
-                                                        _builder.append(t_18 = _valid_18, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      } else {
-                                                        Text _invalid_18 = cfgopt_18.getInvalid();
-                                                        _builder.append(t_18 = _invalid_18, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        _builder.newLine();
-                                                      }
-                                                    }
-                                                    {
-                                                      EList<Word> _words_92 = t_18.getWords();
-                                                      for(final Word w_28 : _words_92) {
-                                                        {
-                                                          if ((w_28 instanceof Constant)) {
-                                                            String _text_150 = text_1;
-                                                            String _value_68 = ((Constant)w_28).getValue();
-                                                            String _plus_355 = (_value_68 + " ");
-                                                            String _plus_356 = text_1 = (_text_150 + _plus_355);
-                                                            _builder.append(_plus_356, "");
-                                                            _builder.newLineIfNotEmpty();
-                                                          }
-                                                        }
-                                                        {
-                                                          if ((w_28 instanceof Variable)) {
-                                                            Variable variable_26 = ((Variable) w_28);
-                                                            _builder.newLineIfNotEmpty();
-                                                            {
-                                                              VariableType _type_76 = variable_26.getType();
-                                                              boolean _equals_138 = Objects.equal(_type_76, VariableType.FIRST_OBJECT);
-                                                              if (_equals_138) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_93 = firstElement_2.getWords();
-                                                                  for(final modeltext.Word v_66 : _words_93) {
-                                                                    {
-                                                                      if ((v_66 instanceof modeltext.Constant)) {
-                                                                        String _text_151 = text_1;
-                                                                        String _value_69 = ((modeltext.Constant)v_66).getValue();
-                                                                        String _plus_357 = (_value_69 + " ");
-                                                                        String _plus_358 = text_1 = (_text_151 + _plus_357);
-                                                                        _builder.append(_plus_358, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_66 instanceof modeltext.Variable)) {
-                                                                        EReference _ref_103 = ((modeltext.Variable) v_66).getRef();
-                                                                        String _plus_359 = ("REF: " + _ref_103);
-                                                                        System.out.println(_plus_359);
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        EObject o_48 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_104 = ((modeltext.Variable) v_66).getRef();
-                                                                          boolean _equals_139 = Objects.equal(_ref_104, null);
-                                                                          if (_equals_139) {
-                                                                            _builder.append(o_48 = refObject, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_105 = ((modeltext.Variable) v_66).getRef();
-                                                                            String _name_113 = _ref_105.getName();
-                                                                            EStructuralFeature _referenceByName_36 = ModelManager.getReferenceByName(_name_113, refObject);
-                                                                            Object _eGet_116 = refObject.eGet(_referenceByName_36);
-                                                                            _builder.append(o_48 = ((EObject) _eGet_116), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_75 = (!Objects.equal(o_48, null));
-                                                                          if (_notEquals_75) {
-                                                                            String _text_152 = text_1;
-                                                                            EAttribute _id_48 = ((modeltext.Variable) v_66).getId();
-                                                                            String _name_114 = _id_48.getName();
-                                                                            EStructuralFeature _attributeByName_48 = ModelManager.getAttributeByName(_name_114, o_48);
-                                                                            Object _eGet_117 = o_48.eGet(_attributeByName_48);
-                                                                            String _plus_360 = (_eGet_117 + " ");
-                                                                            String _plus_361 = text_1 = (_text_152 + _plus_360);
-                                                                            _builder.append(_plus_361, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_77 = variable_26.getType();
-                                                              boolean _equals_140 = Objects.equal(_type_77, VariableType.FIRST_FROM_OBJECT);
-                                                              if (_equals_140) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_94 = firstFromElement.getWords();
-                                                                  for(final modeltext.Word v_67 : _words_94) {
-                                                                    {
-                                                                      if ((v_67 instanceof modeltext.Constant)) {
-                                                                        String _text_153 = text_1;
-                                                                        String _value_70 = ((modeltext.Constant)v_67).getValue();
-                                                                        String _plus_362 = (_value_70 + " ");
-                                                                        String _plus_363 = text_1 = (_text_153 + _plus_362);
-                                                                        _builder.append(_plus_363, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_67 instanceof modeltext.Variable)) {
-                                                                        EObject o_49 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_106 = ((modeltext.Variable) v_67).getRef();
-                                                                          boolean _equals_141 = Objects.equal(_ref_106, null);
-                                                                          if (_equals_141) {
-                                                                            _builder.append(o_49 = secondFrom, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_107 = ((modeltext.Variable) v_67).getRef();
-                                                                            String _name_115 = _ref_107.getName();
-                                                                            EStructuralFeature _referenceByName_37 = ModelManager.getReferenceByName(_name_115, secondFrom);
-                                                                            Object _eGet_118 = secondFrom.eGet(_referenceByName_37);
-                                                                            _builder.append(o_49 = ((EObject) _eGet_118), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_76 = (!Objects.equal(o_49, null));
-                                                                          if (_notEquals_76) {
-                                                                            String _text_154 = text_1;
-                                                                            EAttribute _id_49 = ((modeltext.Variable) v_67).getId();
-                                                                            String _name_116 = _id_49.getName();
-                                                                            EStructuralFeature _attributeByName_49 = ModelManager.getAttributeByName(_name_116, o_49);
-                                                                            Object _eGet_119 = o_49.eGet(_attributeByName_49);
-                                                                            String _plus_364 = (_eGet_119 + " ");
-                                                                            String _plus_365 = text_1 = (_text_154 + _plus_364);
-                                                                            _builder.append(_plus_365, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_78 = variable_26.getType();
-                                                              boolean _equals_142 = Objects.equal(_type_78, VariableType.FIRST_TO_OBJECT);
-                                                              if (_equals_142) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_95 = firstToElement.getWords();
-                                                                  for(final modeltext.Word v_68 : _words_95) {
-                                                                    {
-                                                                      if ((v_68 instanceof modeltext.Constant)) {
-                                                                        String _text_155 = text_1;
-                                                                        String _value_71 = ((modeltext.Constant)v_68).getValue();
-                                                                        String _plus_366 = (_value_71 + " ");
-                                                                        String _plus_367 = text_1 = (_text_155 + _plus_366);
-                                                                        _builder.append(_plus_367, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_68 instanceof modeltext.Variable)) {
-                                                                        EObject o_50 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_108 = ((modeltext.Variable) v_68).getRef();
-                                                                          boolean _equals_143 = Objects.equal(_ref_108, null);
-                                                                          if (_equals_143) {
-                                                                            _builder.append(o_50 = firstFrom, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_109 = ((modeltext.Variable) v_68).getRef();
-                                                                            String _name_117 = _ref_109.getName();
-                                                                            EStructuralFeature _referenceByName_38 = ModelManager.getReferenceByName(_name_117, firstFrom);
-                                                                            Object _eGet_120 = firstFrom.eGet(_referenceByName_38);
-                                                                            _builder.append(o_50 = ((EObject) _eGet_120), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_77 = (!Objects.equal(o_50, null));
-                                                                          if (_notEquals_77) {
-                                                                            String _text_156 = text_1;
-                                                                            EAttribute _id_50 = ((modeltext.Variable) v_68).getId();
-                                                                            String _name_118 = _id_50.getName();
-                                                                            EStructuralFeature _attributeByName_50 = ModelManager.getAttributeByName(_name_118, o_50);
-                                                                            Object _eGet_121 = o_50.eGet(_attributeByName_50);
-                                                                            String _plus_368 = (_eGet_121 + " ");
-                                                                            String _plus_369 = text_1 = (_text_156 + _plus_368);
-                                                                            _builder.append(_plus_369, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_79 = variable_26.getType();
-                                                              boolean _equals_144 = Objects.equal(_type_79, VariableType.SECOND_OBJECT);
-                                                              if (_equals_144) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_96 = secondElement_2.getWords();
-                                                                  for(final modeltext.Word v_69 : _words_96) {
-                                                                    {
-                                                                      if ((v_69 instanceof modeltext.Constant)) {
-                                                                        String _text_157 = text_1;
-                                                                        String _value_72 = ((modeltext.Constant)v_69).getValue();
-                                                                        String _plus_370 = (_value_72 + " ");
-                                                                        String _plus_371 = text_1 = (_text_157 + _plus_370);
-                                                                        _builder.append(_plus_371, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_69 instanceof modeltext.Variable)) {
-                                                                        EReference _ref_110 = ((modeltext.Variable) v_69).getRef();
-                                                                        String _plus_372 = ("REF: " + _ref_110);
-                                                                        System.out.println(_plus_372);
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        EObject o_51 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_111 = ((modeltext.Variable) v_69).getRef();
-                                                                          boolean _equals_145 = Objects.equal(_ref_111, null);
-                                                                          if (_equals_145) {
-                                                                            _builder.append(o_51 = refObject, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_112 = ((modeltext.Variable) v_69).getRef();
-                                                                            String _name_119 = _ref_112.getName();
-                                                                            EStructuralFeature _referenceByName_39 = ModelManager.getReferenceByName(_name_119, refObject);
-                                                                            Object _eGet_122 = refObject.eGet(_referenceByName_39);
-                                                                            _builder.append(o_51 = ((EObject) _eGet_122), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_78 = (!Objects.equal(o_51, null));
-                                                                          if (_notEquals_78) {
-                                                                            String _text_158 = text_1;
-                                                                            EAttribute _id_51 = ((modeltext.Variable) v_69).getId();
-                                                                            String _name_120 = _id_51.getName();
-                                                                            EStructuralFeature _attributeByName_51 = ModelManager.getAttributeByName(_name_120, o_51);
-                                                                            Object _eGet_123 = o_51.eGet(_attributeByName_51);
-                                                                            String _plus_373 = (_eGet_123 + " ");
-                                                                            String _plus_374 = text_1 = (_text_158 + _plus_373);
-                                                                            _builder.append(_plus_374, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_80 = variable_26.getType();
-                                                              boolean _equals_146 = Objects.equal(_type_80, VariableType.SECOND_FROM_OBJECT);
-                                                              if (_equals_146) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_97 = secondFromElement.getWords();
-                                                                  for(final modeltext.Word v_70 : _words_97) {
-                                                                    {
-                                                                      if ((v_70 instanceof modeltext.Constant)) {
-                                                                        String _text_159 = text_1;
-                                                                        String _value_73 = ((modeltext.Constant)v_70).getValue();
-                                                                        String _plus_375 = (_value_73 + " ");
-                                                                        String _plus_376 = text_1 = (_text_159 + _plus_375);
-                                                                        _builder.append(_plus_376, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_70 instanceof modeltext.Variable)) {
-                                                                        EObject o_52 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_113 = ((modeltext.Variable) v_70).getRef();
-                                                                          boolean _equals_147 = Objects.equal(_ref_113, null);
-                                                                          if (_equals_147) {
-                                                                            _builder.append(o_52 = secondTo, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_114 = ((modeltext.Variable) v_70).getRef();
-                                                                            String _name_121 = _ref_114.getName();
-                                                                            EStructuralFeature _referenceByName_40 = ModelManager.getReferenceByName(_name_121, secondTo);
-                                                                            Object _eGet_124 = secondTo.eGet(_referenceByName_40);
-                                                                            _builder.append(o_52 = ((EObject) _eGet_124), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_79 = (!Objects.equal(o_52, null));
-                                                                          if (_notEquals_79) {
-                                                                            String _text_160 = text_1;
-                                                                            EAttribute _id_52 = ((modeltext.Variable) v_70).getId();
-                                                                            String _name_122 = _id_52.getName();
-                                                                            EStructuralFeature _attributeByName_52 = ModelManager.getAttributeByName(_name_122, o_52);
-                                                                            Object _eGet_125 = o_52.eGet(_attributeByName_52);
-                                                                            String _plus_377 = (_eGet_125 + " ");
-                                                                            String _plus_378 = text_1 = (_text_160 + _plus_377);
-                                                                            _builder.append(_plus_378, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_81 = variable_26.getType();
-                                                              boolean _equals_148 = Objects.equal(_type_81, VariableType.SECOND_TO_OBJECT);
-                                                              if (_equals_148) {
-                                                                {
-                                                                  EList<modeltext.Word> _words_98 = secondToElement.getWords();
-                                                                  for(final modeltext.Word v_71 : _words_98) {
-                                                                    {
-                                                                      if ((v_71 instanceof modeltext.Constant)) {
-                                                                        String _text_161 = text_1;
-                                                                        String _value_74 = ((modeltext.Constant)v_71).getValue();
-                                                                        String _plus_379 = (_value_74 + " ");
-                                                                        String _plus_380 = text_1 = (_text_161 + _plus_379);
-                                                                        _builder.append(_plus_380, "");
-                                                                        _builder.newLineIfNotEmpty();
-                                                                      }
-                                                                    }
-                                                                    {
-                                                                      if ((v_71 instanceof modeltext.Variable)) {
-                                                                        EObject o_53 = null;
-                                                                        _builder.newLineIfNotEmpty();
-                                                                        {
-                                                                          EReference _ref_115 = ((modeltext.Variable) v_71).getRef();
-                                                                          boolean _equals_149 = Objects.equal(_ref_115, null);
-                                                                          if (_equals_149) {
-                                                                            _builder.append(o_53 = firstTo, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          } else {
-                                                                            EReference _ref_116 = ((modeltext.Variable) v_71).getRef();
-                                                                            String _name_123 = _ref_116.getName();
-                                                                            EStructuralFeature _referenceByName_41 = ModelManager.getReferenceByName(_name_123, firstTo);
-                                                                            Object _eGet_126 = firstTo.eGet(_referenceByName_41);
-                                                                            _builder.append(o_53 = ((EObject) _eGet_126), "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                        {
-                                                                          boolean _notEquals_80 = (!Objects.equal(o_53, null));
-                                                                          if (_notEquals_80) {
-                                                                            String _text_162 = text_1;
-                                                                            EAttribute _id_53 = ((modeltext.Variable) v_71).getId();
-                                                                            String _name_124 = _id_53.getName();
-                                                                            EStructuralFeature _attributeByName_53 = ModelManager.getAttributeByName(_name_124, o_53);
-                                                                            Object _eGet_127 = o_53.eGet(_attributeByName_53);
-                                                                            String _plus_381 = (_eGet_127 + " ");
-                                                                            String _plus_382 = text_1 = (_text_162 + _plus_381);
-                                                                            _builder.append(_plus_382, "");
-                                                                            _builder.newLineIfNotEmpty();
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_82 = variable_26.getType();
-                                                              boolean _equals_150 = Objects.equal(_type_82, VariableType.FIRST_REF_NAME);
-                                                              if (_equals_150) {
-                                                                String _text_163 = text_1;
-                                                                String _plus_383 = text_1 = (_text_163 + (refName_10 + " "));
-                                                                _builder.append(_plus_383, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                            {
-                                                              VariableType _type_83 = variable_26.getType();
-                                                              boolean _equals_151 = Objects.equal(_type_83, VariableType.SECOND_REF_NAME);
-                                                              if (_equals_151) {
-                                                                String _text_164 = text_1;
-                                                                String _plus_384 = text_1 = (_text_164 + (refFirstName + " "));
-                                                                _builder.append(_plus_384, "");
-                                                                _builder.newLineIfNotEmpty();
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                    ArrayList<String> _arrayList_9 = new ArrayList<String>();
-                                                    _builder.append(opt_2.text = _arrayList_9, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean _add_38 = opt_2.text.add(text_1);
-                                                    _builder.append(_add_38, "");
-                                                    _builder.newLineIfNotEmpty();
-                                                    Object _clone_8 = opt_2.clone();
-                                                    TestUtils.TestOption optClone_8 = ((TestUtils.TestOption) _clone_8);
-                                                    _builder.newLineIfNotEmpty();
-                                                    boolean isRepeated_9 = this.subsumeCheckbox(opts_2, optClone_8);
-                                                    _builder.newLineIfNotEmpty();
-                                                    {
-                                                      if ((isRepeated_9 == false)) {
-                                                        Integer _get_46 = this.total.get(exercise);
-                                                        int _plus_385 = ((_get_46).intValue() + 1);
-                                                        Integer _put_23 = this.total.put(exercise, Integer.valueOf(_plus_385));
-                                                        _builder.append(_put_23, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                        boolean _add_39 = opts_2.add(optClone_8);
-                                                        _builder.append(_add_39, "");
-                                                        _builder.newLineIfNotEmpty();
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                            Collections.shuffle(opts_2);
-                            _builder.newLineIfNotEmpty();
-                            ArrayList<TestUtils.TestOption> _put_24 = testOptions.put(test_7, opts_2);
-                            _builder.append(_put_24, "");
-                            _builder.newLineIfNotEmpty();
-                          }
-                        }
                       }
                     }
                   }
                 }
               }
-              HashMap<Test, ArrayList<TestUtils.TestOption>> _put_25 = this.options.put(exercise, testOptions);
-              _builder.append(_put_25, "");
-              _builder.newLineIfNotEmpty();
-              _builder.append("-->");
-              _builder.newLine();
+            }
+            _builder.append("//");
+            Map<Test, Double> _put_1 = this.puntuation.put(exercise_1, points);
+            _builder.append(_put_1, "");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("//");
+            HashMap<Test, Double> penal = new HashMap<Test, Double>();
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Test> _tests_1 = ((MultiChoiceEmendation)exercise_1).getTests();
+              for(final Test test_1 : _tests_1) {
+                {
+                  if ((exercise_1 instanceof MultiChoiceEmendation)) {
+                    {
+                      Map<Test, Double> _get_6 = this.puntuation.get(exercise_1);
+                      Double _get_7 = _get_6.get(test_1);
+                      boolean _notEquals_2 = (!Objects.equal(_get_7, null));
+                      if (_notEquals_2) {
+                        _builder.append("//");
+                        Map<Test, Double> _get_8 = this.puntuation.get(exercise_1);
+                        Double _get_9 = _get_8.get(test_1);
+                        MultiChoiceEmConfig _config = ((MultiChoiceEmendation)exercise_1).getConfig();
+                        double _penalty = _config.getPenalty();
+                        double _multiply_1 = ((_get_9).doubleValue() * _penalty);
+                        Double _put_2 = penal.put(test_1, Double.valueOf(_multiply_1));
+                        _builder.append(_put_2, "");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("//");
+                        Double _put_3 = penal.put(test_1, Double.valueOf(0.0));
+                        _builder.append(_put_3, "");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                  }
+                }
+                {
+                  if ((exercise_1 instanceof AlternativeResponse)) {
+                    _builder.append("//");
+                    Double _put_4 = penal.put(test_1, Double.valueOf(0.0));
+                    _builder.append(_put_4, "");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+                {
+                  if ((exercise_1 instanceof MultiChoiceDiagram)) {
+                    _builder.append("//");
+                    Double _put_5 = penal.put(test_1, Double.valueOf(0.0));
+                    _builder.append(_put_5, "");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+            _builder.append("//");
+            Map<Test, Double> _put_6 = this.penalty.put(exercise_1, penal);
+            _builder.append(_put_6, "");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            {
+              EList<Test> _tests_2 = ((MultiChoiceEmendation)exercise_1).getTests();
+              for(final Test test_2 : _tests_2) {
+                _builder.append("//");
+                boolean _add = ltests.add(test_2);
+                _builder.append(_add, "");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              MultiChoiceEmConfig _config_1 = ((MultiChoiceEmendation)exercise_1).getConfig();
+              Order _order = _config_1.getOrder();
+              boolean _equals = Objects.equal(_order, Order.FIXED);
+              if (_equals) {
+                _builder.newLine();
+              }
+            }
+            {
+              MultiChoiceEmConfig _config_2 = ((MultiChoiceEmendation)exercise_1).getConfig();
+              Order _order_1 = _config_2.getOrder();
+              boolean _equals_1 = Objects.equal(_order_1, Order.RANDOM);
+              if (_equals_1) {
+                _builder.append("//");
+                Collections.shuffle(ltests);
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              MultiChoiceEmConfig _config_3 = ((MultiChoiceEmendation)exercise_1).getConfig();
+              Order _order_2 = _config_3.getOrder();
+              boolean _equals_2 = Objects.equal(_order_2, Order.ASCENDING);
+              if (_equals_2) {
+                _builder.append("//");
+                Collections.<Test>sort(ltests, new Comparator<Test>() {
+                  @Override
+                  public int compare(final Test t1, final Test t2) {
+                    boolean _and = false;
+                    Map<Test, List<EduTestUtils.TestOption>> _get = EduTestGenerator.this.options.get(exercise_1);
+                    List<EduTestUtils.TestOption> _get_1 = _get.get(t1);
+                    boolean _notEquals = (!Objects.equal(_get_1, null));
+                    if (!_notEquals) {
+                      _and = false;
+                    } else {
+                      Map<Test, List<EduTestUtils.TestOption>> _get_2 = EduTestGenerator.this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_3 = _get_2.get(t2);
+                      boolean _notEquals_1 = (!Objects.equal(_get_3, null));
+                      _and = _notEquals_1;
+                    }
+                    if (_and) {
+                      Map<Test, List<EduTestUtils.TestOption>> _get_4 = EduTestGenerator.this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_5 = _get_4.get(t1);
+                      int _size = _get_5.size();
+                      Map<Test, List<EduTestUtils.TestOption>> _get_6 = EduTestGenerator.this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_7 = _get_6.get(t2);
+                      int _size_1 = _get_7.size();
+                      return (_size - _size_1);
+                    }
+                    return 0;
+                  }
+                });
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              MultiChoiceEmConfig _config_4 = ((MultiChoiceEmendation)exercise_1).getConfig();
+              Order _order_3 = _config_4.getOrder();
+              boolean _equals_3 = Objects.equal(_order_3, Order.DESCENDING);
+              if (_equals_3) {
+                _builder.append("//");
+                Collections.<Test>sort(ltests, new Comparator<Test>() {
+                  @Override
+                  public int compare(final Test t1, final Test t2) {
+                    boolean _and = false;
+                    Map<Test, List<EduTestUtils.TestOption>> _get = EduTestGenerator.this.options.get(exercise_1);
+                    List<EduTestUtils.TestOption> _get_1 = _get.get(t1);
+                    boolean _notEquals = (!Objects.equal(_get_1, null));
+                    if (!_notEquals) {
+                      _and = false;
+                    } else {
+                      Map<Test, List<EduTestUtils.TestOption>> _get_2 = EduTestGenerator.this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_3 = _get_2.get(t2);
+                      boolean _notEquals_1 = (!Objects.equal(_get_3, null));
+                      _and = _notEquals_1;
+                    }
+                    if (_and) {
+                      Map<Test, List<EduTestUtils.TestOption>> _get_4 = EduTestGenerator.this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_5 = _get_4.get(t2);
+                      int _size = _get_5.size();
+                      Map<Test, List<EduTestUtils.TestOption>> _get_6 = EduTestGenerator.this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_7 = _get_6.get(t1);
+                      int _size_1 = _get_7.size();
+                      return (_size - _size_1);
+                    }
+                    return 0;
+                  }
+                });
+                _builder.newLineIfNotEmpty();
+              }
             }
           }
         }
-      }
-      _builder.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
-      _builder.newLine();
-      _builder.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-      _builder.newLine();
-      _builder.append("<head>");
-      _builder.newLine();
-      _builder.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />");
-      _builder.newLine();
-      _builder.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
-      _builder.newLine();
-      _builder.append("        ");
-      _builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-      _builder.newLine();
-      _builder.append("        ");
-      _builder.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"css/wodel.css\">");
-      _builder.newLine();
-      _builder.append("        ");
-      _builder.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"css/menu.css\">");
-      _builder.newLine();
-      _builder.append("        ");
-      _builder.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"css/table.css\">");
-      _builder.newLine();
-      _builder.append("        ");
-      _builder.append("<title>Wodel</title>");
-      _builder.newLine();
-      _builder.append("    \t");
-      _builder.append("</head>");
-      _builder.newLine();
-      _builder.append("    \t");
-      _builder.append("<body style=\"background-color: white;\">");
-      _builder.newLine();
-      _builder.append("    \t");
-      _builder.append("<script src=\"js/jquery-2.1.4.min.js\" type=\"text/javascript\"></script>");
-      _builder.newLine();
-      _builder.append("    \t");
-      _builder.append("<script language=\"javascript\" type=\"text/javascript\">");
-      _builder.newLine();
-      _builder.append("if (!String.prototype.startsWith) {");
-      _builder.newLine();
-      _builder.append("  \t\t\t");
-      _builder.append("String.prototype.startsWith = function(searchString, position) {");
-      _builder.newLine();
-      _builder.append("    \t\t\t");
-      _builder.append("position = position || 0;");
-      _builder.newLine();
-      _builder.append("    \t\t\t");
-      _builder.append("return this.indexOf(searchString, position) === position;");
-      _builder.newLine();
-      _builder.append("  \t\t\t");
-      _builder.append("};");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      _builder.append("    \t");
-      _builder.append("// Pass the checkbox name to the function");
-      _builder.newLine();
-      _builder.append("function getCheckedBoxes(chkboxName) {");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("var checkboxes = document.getElementsByName(chkboxName);");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("var checkboxesChecked = [];");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("// loop over them all");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("for (var i=0; i<checkboxes.length; i++) {");
-      _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("// And stick the checked ones onto an array...");
-      _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("if (checkboxes[i].checked) {");
-      _builder.newLine();
-      _builder.append("\t\t\t");
-      _builder.append("checkboxesChecked.push(checkboxes[i]);");
-      _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("}");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("}");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("// Return the array if it is non-empty, or null");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("return checkboxesChecked.length > 0 ? checkboxesChecked : null;");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      _builder.append("   \t\t");
-      _builder.append("function show(part) {");
-      _builder.newLine();
-      _builder.append("    ");
-      _builder.append("//");
-      int part = 0;
-      _builder.newLineIfNotEmpty();
-      {
-        EList<MutatorTests> _exercises_1 = program.getExercises();
-        for(final MutatorTests exercise_1 : _exercises_1) {
-          _builder.append("    \t\t");
-          _builder.append("//");
-          int _plusPlus = part++;
-          _builder.append(_plusPlus, "    \t\t");
-          _builder.newLineIfNotEmpty();
-          _builder.append("   \t\t\t");
-          _builder.append("var test = document.getElementById(\'table-test-");
-          _builder.append(part, "   \t\t\t");
-          _builder.append("\');");
-          _builder.newLineIfNotEmpty();
-          _builder.append("   \t\t\t");
-          _builder.append("if (test != null) {");
-          _builder.newLine();
-          _builder.append("\t    \t\t");
-          _builder.append("if (part == ");
-          _builder.append(part, "\t    \t\t");
-          _builder.append(") {");
-          _builder.newLineIfNotEmpty();
-          _builder.append("    \t\t");
-          _builder.append("\t\t");
-          _builder.append("test.style.display = \'block\';");
-          _builder.newLine();
-          _builder.append("    \t\t");
-          _builder.append("\t");
-          _builder.append("}");
-          _builder.newLine();
-          _builder.append("\t    \t\t");
-          _builder.append("else {");
-          _builder.newLine();
-          _builder.append("\t    \t\t\t");
-          _builder.append("test.style.display = \'none\';");
-          _builder.newLine();
-          _builder.append("\t    \t\t");
-          _builder.append("}");
-          _builder.newLine();
-          _builder.append("    \t\t");
-          _builder.append("}");
-          _builder.newLine();
+        {
+          if ((exercise_1 instanceof AlternativeResponse)) {
+            _builder.append("//");
+            EList<Test> _tests_3 = ((AlternativeResponse)exercise_1).getTests();
+            boolean _addAll = ltests.addAll(_tests_3);
+            _builder.append(_addAll, "");
+            _builder.newLineIfNotEmpty();
+          }
         }
-      }
-      _builder.append("    \t");
-      _builder.append("}");
-      _builder.newLine();
-      _builder.append("\t    ");
-      _builder.append("//");
-      _builder.append(part = 0, "\t    ");
-      _builder.newLineIfNotEmpty();
-      {
-        EList<MutatorTests> _exercises_2 = program.getExercises();
-        for(final MutatorTests exercise_2 : _exercises_2) {
-          _builder.append("//");
-          int _plusPlus_1 = part++;
-          _builder.append(_plusPlus_1, "");
-          _builder.newLineIfNotEmpty();
-          _builder.append("//");
-          ArrayList<Test> ltests = new ArrayList<Test>();
-          _builder.newLineIfNotEmpty();
-          {
-            if ((exercise_2 instanceof MultiChoiceEmendation)) {
-              _builder.newLine();
-              _builder.append("//");
-              HashMap<Test, Double> points = new HashMap<Test, Double>();
-              _builder.newLineIfNotEmpty();
-              {
-                EList<Test> _tests_8 = ((MultiChoiceEmendation)exercise_2).getTests();
-                for(final Test test_8 : _tests_8) {
-                  {
-                    HashMap<Test, ArrayList<TestUtils.TestOption>> _get_47 = this.options.get(exercise_2);
-                    ArrayList<TestUtils.TestOption> _get_48 = _get_47.get(test_8);
-                    boolean _notEquals_81 = (!Objects.equal(_get_48, null));
-                    if (_notEquals_81) {
-                      {
-                        Integer _get_49 = this.total.get(exercise_2);
-                        boolean _notEquals_82 = (!Objects.equal(_get_49, null));
-                        if (_notEquals_82) {
-                          _builder.append("//");
-                          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_50 = this.options.get(exercise_2);
-                          ArrayList<TestUtils.TestOption> _get_51 = _get_50.get(test_8);
-                          int _size_2 = _get_51.size();
-                          double _multiply = (1.0 * _size_2);
-                          Integer _get_52 = this.total.get(exercise_2);
-                          double _divide = (_multiply / (_get_52).intValue());
-                          Double _put_26 = points.put(test_8, Double.valueOf(_divide));
-                          _builder.append(_put_26, "");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                    }
+        {
+          if ((exercise_1 instanceof MultiChoiceDiagram)) {
+            _builder.append("//");
+            EList<Test> _tests_4 = ((MultiChoiceDiagram)exercise_1).getTests();
+            boolean _addAll_1 = ltests.addAll(_tests_4);
+            _builder.append(_addAll_1, "");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("//");
+        List<Test> _put_7 = this.tests.put(exercise_1, ltests);
+        _builder.append(_put_7, "");
+        _builder.newLineIfNotEmpty();
+        _builder.append("var currentTotal");
+        _builder.append(part, "");
+        _builder.append(" = ");
+        EList<Test> _tests_5 = exercise_1.getTests();
+        int _size_1 = _tests_5.size();
+        _builder.append(_size_1, "");
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
+        _builder.append("//COUNTER: ");
+        _builder.append(this.num = 0, "");
+        _builder.newLineIfNotEmpty();
+        {
+          List<Test> _get_10 = this.tests.get(exercise_1);
+          for(final Test test_3 : _get_10) {
+            _builder.append("//COUNTER: ");
+            _builder.append(this.num = (this.num + 1), "");
+            _builder.newLineIfNotEmpty();
+            _builder.append("var exercise");
+            _builder.append(this.num, "");
+            _builder.append("_");
+            _builder.append(part, "");
+            _builder.append("Mark = false;");
+            _builder.newLineIfNotEmpty();
+            {
+              if ((exercise_1 instanceof MultiChoiceEmendation)) {
+                {
+                  Map<Test, Double> _get_11 = this.puntuation.get(exercise_1);
+                  Double _get_12 = _get_11.get(test_3);
+                  boolean _notEquals_3 = (!Objects.equal(_get_12, null));
+                  if (_notEquals_3) {
+                    _builder.append("var weight");
+                    _builder.append(this.num, "");
+                    _builder.append("_");
+                    _builder.append(part, "");
+                    _builder.append("Mark = ");
+                    Map<Test, Double> _get_13 = this.puntuation.get(exercise_1);
+                    Double _get_14 = _get_13.get(test_3);
+                    _builder.append(_get_14, "");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("var weight");
+                    _builder.append(this.num, "");
+                    _builder.append("_");
+                    _builder.append(part, "");
+                    _builder.append("Mark = 0.0;");
+                    _builder.newLineIfNotEmpty();
                   }
-                }
-              }
-              _builder.append("//");
-              HashMap<Test, Double> _put_27 = this.puntuation.put(exercise_2, points);
-              _builder.append(_put_27, "");
-              _builder.newLineIfNotEmpty();
-              _builder.newLine();
-              _builder.append("//");
-              HashMap<Test, Double> penal = new HashMap<Test, Double>();
-              _builder.newLineIfNotEmpty();
-              {
-                EList<Test> _tests_9 = ((MultiChoiceEmendation)exercise_2).getTests();
-                for(final Test test_9 : _tests_9) {
-                  {
-                    if ((exercise_2 instanceof MultiChoiceEmendation)) {
-                      {
-                        HashMap<Test, Double> _get_53 = this.puntuation.get(exercise_2);
-                        Double _get_54 = _get_53.get(test_9);
-                        boolean _notEquals_83 = (!Objects.equal(_get_54, null));
-                        if (_notEquals_83) {
-                          _builder.append("//");
-                          HashMap<Test, Double> _get_55 = this.puntuation.get(exercise_2);
-                          Double _get_56 = _get_55.get(test_9);
-                          MultiChoiceEmConfig _config_2 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                          double _penalty = _config_2.getPenalty();
-                          double _multiply_1 = ((_get_56).doubleValue() * _penalty);
-                          Double _put_28 = penal.put(test_9, Double.valueOf(_multiply_1));
-                          _builder.append(_put_28, "");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          _builder.append("//");
-                          Double _put_29 = penal.put(test_9, Double.valueOf(0.0));
-                          _builder.append(_put_29, "");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                    }
-                  }
-                  {
-                    if ((exercise_2 instanceof AlternativeResponse)) {
-                      _builder.append("//");
-                      Double _put_30 = penal.put(test_9, Double.valueOf(0.0));
-                      _builder.append(_put_30, "");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                  {
-                    if ((exercise_2 instanceof MultiChoiceDiagram)) {
-                      _builder.append("//");
-                      Double _put_31 = penal.put(test_9, Double.valueOf(0.0));
-                      _builder.append(_put_31, "");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                }
-              }
-              _builder.append("//");
-              HashMap<Test, Double> _put_32 = this.penalty.put(exercise_2, penal);
-              _builder.append(_put_32, "");
-              _builder.newLineIfNotEmpty();
-              _builder.newLine();
-              {
-                EList<Test> _tests_10 = ((MultiChoiceEmendation)exercise_2).getTests();
-                for(final Test test_10 : _tests_10) {
-                  _builder.append("//");
-                  boolean _add_40 = ltests.add(test_10);
-                  _builder.append(_add_40, "");
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              {
-                MultiChoiceEmConfig _config_3 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                Order _order = _config_3.getOrder();
-                boolean _equals_152 = Objects.equal(_order, Order.FIXED);
-                if (_equals_152) {
-                  _builder.newLine();
-                }
-              }
-              {
-                MultiChoiceEmConfig _config_4 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                Order _order_1 = _config_4.getOrder();
-                boolean _equals_153 = Objects.equal(_order_1, Order.RANDOM);
-                if (_equals_153) {
-                  _builder.append("//");
-                  Collections.shuffle(ltests);
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              {
-                MultiChoiceEmConfig _config_5 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                Order _order_2 = _config_5.getOrder();
-                boolean _equals_154 = Objects.equal(_order_2, Order.ASCENDING);
-                if (_equals_154) {
-                  _builder.append("//");
-                  Collections.<Test>sort(ltests, new Comparator<Test>() {
-                    @Override
-                    public int compare(final Test t1, final Test t2) {
-                      boolean _and = false;
-                      HashMap<Test, ArrayList<TestUtils.TestOption>> _get = EduTestGenerator.this.options.get(exercise_2);
-                      ArrayList<TestUtils.TestOption> _get_1 = _get.get(t1);
-                      boolean _notEquals = (!Objects.equal(_get_1, null));
-                      if (!_notEquals) {
-                        _and = false;
-                      } else {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_2 = EduTestGenerator.this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_3 = _get_2.get(t2);
-                        boolean _notEquals_1 = (!Objects.equal(_get_3, null));
-                        _and = _notEquals_1;
-                      }
-                      if (_and) {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_4 = EduTestGenerator.this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_5 = _get_4.get(t1);
-                        int _size = _get_5.size();
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_6 = EduTestGenerator.this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_7 = _get_6.get(t2);
-                        int _size_1 = _get_7.size();
-                        return (_size - _size_1);
-                      }
-                      return 0;
-                    }
-                  });
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              {
-                MultiChoiceEmConfig _config_6 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                Order _order_3 = _config_6.getOrder();
-                boolean _equals_155 = Objects.equal(_order_3, Order.DESCENDING);
-                if (_equals_155) {
-                  _builder.append("//");
-                  Collections.<Test>sort(ltests, new Comparator<Test>() {
-                    @Override
-                    public int compare(final Test t1, final Test t2) {
-                      boolean _and = false;
-                      HashMap<Test, ArrayList<TestUtils.TestOption>> _get = EduTestGenerator.this.options.get(exercise_2);
-                      ArrayList<TestUtils.TestOption> _get_1 = _get.get(t1);
-                      boolean _notEquals = (!Objects.equal(_get_1, null));
-                      if (!_notEquals) {
-                        _and = false;
-                      } else {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_2 = EduTestGenerator.this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_3 = _get_2.get(t2);
-                        boolean _notEquals_1 = (!Objects.equal(_get_3, null));
-                        _and = _notEquals_1;
-                      }
-                      if (_and) {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_4 = EduTestGenerator.this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_5 = _get_4.get(t2);
-                        int _size = _get_5.size();
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_6 = EduTestGenerator.this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_7 = _get_6.get(t1);
-                        int _size_1 = _get_7.size();
-                        return (_size - _size_1);
-                      }
-                      return 0;
-                    }
-                  });
-                  _builder.newLineIfNotEmpty();
                 }
               }
             }
-          }
-          {
-            if ((exercise_2 instanceof AlternativeResponse)) {
-              _builder.append("//");
-              EList<Test> _tests_11 = ((AlternativeResponse)exercise_2).getTests();
-              boolean _addAll = ltests.addAll(_tests_11);
-              _builder.append(_addAll, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          {
-            if ((exercise_2 instanceof MultiChoiceDiagram)) {
-              _builder.append("//");
-              EList<Test> _tests_12 = ((MultiChoiceDiagram)exercise_2).getTests();
-              boolean _addAll_1 = ltests.addAll(_tests_12);
-              _builder.append(_addAll_1, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          _builder.append("//");
-          ArrayList<Test> _put_33 = this.tests.put(exercise_2, ltests);
-          _builder.append(_put_33, "");
-          _builder.newLineIfNotEmpty();
-          _builder.append("var currentTotal");
-          _builder.append(part, "");
-          _builder.append(" = ");
-          EList<Test> _tests_13 = exercise_2.getTests();
-          int _size_3 = _tests_13.size();
-          _builder.append(_size_3, "");
-          _builder.append(";");
-          _builder.newLineIfNotEmpty();
-          _builder.append("//COUNTER: ");
-          _builder.append(this.num = 0, "");
-          _builder.newLineIfNotEmpty();
-          {
-            ArrayList<Test> _get_57 = this.tests.get(exercise_2);
-            for(final Test test_11 : _get_57) {
-              _builder.append("//COUNTER: ");
-              _builder.append(this.num = (this.num + 1), "");
-              _builder.newLineIfNotEmpty();
-              _builder.append("var exercise");
-              _builder.append(this.num, "");
-              _builder.append("_");
-              _builder.append(part, "");
-              _builder.append("Mark = false;");
-              _builder.newLineIfNotEmpty();
-              {
-                if ((exercise_2 instanceof MultiChoiceEmendation)) {
-                  {
-                    HashMap<Test, Double> _get_58 = this.puntuation.get(exercise_2);
-                    Double _get_59 = _get_58.get(test_11);
-                    boolean _notEquals_84 = (!Objects.equal(_get_59, null));
-                    if (_notEquals_84) {
-                      _builder.append("var weight");
-                      _builder.append(this.num, "");
-                      _builder.append("_");
-                      _builder.append(part, "");
-                      _builder.append("Mark = ");
-                      HashMap<Test, Double> _get_60 = this.puntuation.get(exercise_2);
-                      Double _get_61 = _get_60.get(test_11);
-                      _builder.append(_get_61, "");
-                      _builder.append(";");
-                      _builder.newLineIfNotEmpty();
-                    } else {
-                      _builder.append("var weight");
-                      _builder.append(this.num, "");
-                      _builder.append("_");
-                      _builder.append(part, "");
-                      _builder.append("Mark = 0.0;");
-                      _builder.newLineIfNotEmpty();
-                    }
-                  }
-                }
-              }
-              _builder.append("var answered");
-              _builder.append(this.num, "");
-              _builder.append("_");
-              _builder.append(part, "");
-              _builder.append("Exercise = false;");
-              _builder.newLineIfNotEmpty();
-              {
-                if ((exercise_2 instanceof MultiChoiceEmendation)) {
-                  {
-                    HashMap<Test, Double> _get_62 = this.penalty.get(exercise_2);
-                    Double _get_63 = _get_62.get(test_11);
-                    boolean _notEquals_85 = (!Objects.equal(_get_63, null));
-                    if (_notEquals_85) {
-                      _builder.append("var penalty");
-                      _builder.append(this.num, "");
-                      _builder.append("_");
-                      _builder.append(part, "");
-                      _builder.append("Mark = ");
-                      HashMap<Test, Double> _get_64 = this.penalty.get(exercise_2);
-                      Double _get_65 = _get_64.get(test_11);
-                      _builder.append(_get_65, "");
-                      _builder.append(";");
-                      _builder.newLineIfNotEmpty();
-                    } else {
-                      _builder.append("var penalty");
-                      _builder.append(this.num, "");
-                      _builder.append("_");
-                      _builder.append(part, "");
-                      _builder.append("Mark = 0.0;");
-                      _builder.newLineIfNotEmpty();
-                    }
+            _builder.append("var answered");
+            _builder.append(this.num, "");
+            _builder.append("_");
+            _builder.append(part, "");
+            _builder.append("Exercise = false;");
+            _builder.newLineIfNotEmpty();
+            {
+              if ((exercise_1 instanceof MultiChoiceEmendation)) {
+                {
+                  Map<Test, Double> _get_15 = this.penalty.get(exercise_1);
+                  Double _get_16 = _get_15.get(test_3);
+                  boolean _notEquals_4 = (!Objects.equal(_get_16, null));
+                  if (_notEquals_4) {
+                    _builder.append("var penalty");
+                    _builder.append(this.num, "");
+                    _builder.append("_");
+                    _builder.append(part, "");
+                    _builder.append("Mark = ");
+                    Map<Test, Double> _get_17 = this.penalty.get(exercise_1);
+                    Double _get_18 = _get_17.get(test_3);
+                    _builder.append(_get_18, "");
+                    _builder.append(";");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    _builder.append("var penalty");
+                    _builder.append(this.num, "");
+                    _builder.append("_");
+                    _builder.append(part, "");
+                    _builder.append("Mark = 0.0;");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
               }
             }
           }
-          _builder.append("   \t\t");
-          _builder.append("function show");
-          _builder.append(part, "   \t\t");
-          _builder.append("(num) {");
-          _builder.newLineIfNotEmpty();
-          _builder.append("    \t\t");
-          _builder.append("var exercise = null;");
-          _builder.newLine();
-          _builder.append("    \t\t");
-          _builder.append("//COUNTER: ");
-          _builder.append(this.num = 0, "    \t\t");
-          _builder.newLineIfNotEmpty();
-          {
-            ArrayList<Test> _get_66 = this.tests.get(exercise_2);
-            for(final Test test_12 : _get_66) {
-              _builder.append("    \t\t");
-              _builder.append("//COUNTER: ");
-              _builder.append(this.num = (this.num + 1), "    \t\t");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t\t");
-              _builder.append("exercise = document.getElementById(\'exercise-");
-              _builder.append(this.num, "    \t\t");
-              _builder.append("-");
-              _builder.append(part, "    \t\t");
-              _builder.append("\');");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t\t");
-              _builder.append("if (num == ");
-              _builder.append(this.num, "    \t\t");
-              _builder.append(") {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t\t");
-              _builder.append("\t");
-              _builder.append("exercise.style.display = \'block\';");
-              _builder.newLine();
-              _builder.append("    \t\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("    \t\t");
-              _builder.append("else {");
-              _builder.newLine();
-              _builder.append("    \t\t");
-              _builder.append("\t");
-              _builder.append("exercise.style.display = \'none\';");
-              _builder.newLine();
-              _builder.append("    \t\t");
-              _builder.append("}");
-              _builder.newLine();
-            }
+        }
+        _builder.append("   \t\t");
+        _builder.append("function show");
+        _builder.append(part, "   \t\t");
+        _builder.append("(num) {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("    \t\t");
+        _builder.append("var exercise = null;");
+        _builder.newLine();
+        _builder.append("    \t\t");
+        _builder.append("//COUNTER: ");
+        _builder.append(this.num = 0, "    \t\t");
+        _builder.newLineIfNotEmpty();
+        {
+          List<Test> _get_19 = this.tests.get(exercise_1);
+          for(final Test test_4 : _get_19) {
+            _builder.append("    \t\t");
+            _builder.append("//COUNTER: ");
+            _builder.append(this.num = (this.num + 1), "    \t\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t\t");
+            _builder.append("exercise = document.getElementById(\'exercise-");
+            _builder.append(this.num, "    \t\t");
+            _builder.append("-");
+            _builder.append(part, "    \t\t");
+            _builder.append("\');");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t\t");
+            _builder.append("if (num == ");
+            _builder.append(this.num, "    \t\t");
+            _builder.append(") {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t\t");
+            _builder.append("\t");
+            _builder.append("exercise.style.display = \'block\';");
+            _builder.newLine();
+            _builder.append("    \t\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("    \t\t");
+            _builder.append("else {");
+            _builder.newLine();
+            _builder.append("    \t\t");
+            _builder.append("\t");
+            _builder.append("exercise.style.display = \'none\';");
+            _builder.newLine();
+            _builder.append("    \t\t");
+            _builder.append("}");
+            _builder.newLine();
           }
-          _builder.append("    \t");
-          _builder.append("}");
-          _builder.newLine();
-          {
-            if ((exercise_2 instanceof AlternativeResponse)) {
-              _builder.append("    \t");
-              _builder.append("function right");
-              _builder.append(part, "    \t");
-              _builder.append("(num, diagram) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("var image = null;");
-              _builder.newLine();
-              _builder.append("\t    \t");
-              _builder.append("var currentMark = 0;");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("//COUNTER: ");
-              _builder.append(this.num = 0, "    \t\t");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              System.out.println(("exercise: " + exercise_2));
-              _builder.newLineIfNotEmpty();
-              {
-                ArrayList<Test> _get_67 = this.tests.get(exercise_2);
-                for(final Test test_13 : _get_67) {
-                  _builder.append("    \t");
-                  _builder.append("\t");
-                  System.out.println(("test: " + test_13));
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("    \t");
-                  _builder.append("\t");
-                  HashMap<Test, ArrayList<String>> _get_68 = this.rand.get(exercise_2);
-                  String _plus_386 = ("rand.get(exercise): " + _get_68);
-                  System.out.println(_plus_386);
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("    \t");
-                  _builder.append("\t");
-                  HashMap<Test, ArrayList<String>> _get_69 = this.rand.get(exercise_2);
-                  ArrayList<String> _get_70 = _get_69.get(test_13);
-                  String _plus_387 = ("rand.get(exercise).get(test): " + _get_70);
-                  System.out.println(_plus_387);
-                  _builder.newLineIfNotEmpty();
-                }
-              }
-              {
-                ArrayList<Test> _get_71 = this.tests.get(exercise_2);
-                for(final Test test_14 : _get_71) {
-                  _builder.append("    \t");
-                  _builder.append("\t");
-                  _builder.append("//COUNTER: ");
-                  _builder.append(this.num = (this.num + 1), "    \t\t");
-                  _builder.newLineIfNotEmpty();
-                  {
-                    HashMap<Test, ArrayList<String>> _get_72 = this.rand.get(exercise_2);
-                    ArrayList<String> _get_73 = _get_72.get(test_14);
-                    int _size_4 = _get_73.size();
-                    boolean _greaterThan_4 = (_size_4 > 0);
-                    if (_greaterThan_4) {
-                      _builder.append("//DIAGRAM: ");
-                      HashMap<Test, ArrayList<String>> _get_74 = this.rand.get(exercise_2);
-                      ArrayList<String> _get_75 = _get_74.get(test_14);
-                      String diagram = _get_75.get(0);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t");
-                      _builder.append("image = document.getElementById(\'td-exercise-");
-                      _builder.append(this.num, "    \t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t");
-                      _builder.append("-");
-                      String _replace_12 = diagram.replace("/", "-");
-                      _builder.append(_replace_12, "    \t\t");
-                      _builder.append("\');");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t");
-                      _builder.append("if (num == ");
-                      _builder.append(this.num, "    \t\t");
-                      _builder.append(") {");
-                      _builder.newLineIfNotEmpty();
-                      {
+        }
+        _builder.append("    \t");
+        _builder.append("}");
+        _builder.newLine();
+        {
+          if ((exercise_1 instanceof AlternativeResponse)) {
+            _builder.append("    \t");
+            _builder.append("function right");
+            _builder.append(part, "    \t");
+            _builder.append("(num, diagram) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("var image = null;");
+            _builder.newLine();
+            _builder.append("\t    \t");
+            _builder.append("var currentMark = 0;");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("//COUNTER: ");
+            _builder.append(this.num = 0, "    \t\t");
+            _builder.newLineIfNotEmpty();
+            {
+              List<Test> _get_20 = this.tests.get(exercise_1);
+              for(final Test test_5 : _get_20) {
+                _builder.append("    \t");
+                _builder.append("\t");
+                _builder.append("//COUNTER: ");
+                _builder.append(this.num = (this.num + 1), "    \t\t");
+                _builder.newLineIfNotEmpty();
+                {
+                  Map<Test, List<String>> _get_21 = this.rand.get(exercise_1);
+                  List<String> _get_22 = _get_21.get(test_5);
+                  int _size_2 = _get_22.size();
+                  boolean _greaterThan = (_size_2 > 0);
+                  if (_greaterThan) {
+                    _builder.append("//DIAGRAM: ");
+                    Map<Test, List<String>> _get_23 = this.rand.get(exercise_1);
+                    List<String> _get_24 = _get_23.get(test_5);
+                    String diagram = _get_24.get(0);
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t");
+                    _builder.append("image = document.getElementById(\'td-exercise-");
+                    _builder.append(this.num, "    \t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t");
+                    _builder.append("-");
+                    String _replace = diagram.replace("/", "-");
+                    _builder.append(_replace, "    \t\t");
+                    _builder.append("\');");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t");
+                    _builder.append("if (num == ");
+                    _builder.append(this.num, "    \t\t");
+                    _builder.append(") {");
+                    _builder.newLineIfNotEmpty();
+                    {
+                      int _indexOf = diagram.indexOf("/");
+                      boolean _greaterThan_1 = (_indexOf > 0);
+                      if (_greaterThan_1) {
+                        _builder.append("    \t\t\t");
+                        _builder.append("if (diagram == \'");
                         int _indexOf_1 = diagram.indexOf("/");
-                        boolean _greaterThan_5 = (_indexOf_1 > 0);
-                        if (_greaterThan_5) {
-                          _builder.append("    \t\t\t");
-                          _builder.append("if (diagram == \'");
-                          int _indexOf_2 = diagram.indexOf("/");
-                          int _plus_388 = (_indexOf_2 + 1);
-                          String _substring_2 = diagram.substring(_plus_388);
-                          _builder.append(_substring_2, "    \t\t\t");
-                          _builder.append("\') {");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          _builder.append("    \t\t\t");
-                          _builder.append("if (diagram == \'");
-                          _builder.append(diagram, "    \t\t\t");
-                          _builder.append("\') {");
-                          _builder.newLineIfNotEmpty();
-                        }
+                        int _plus = (_indexOf_1 + 1);
+                        String _substring = diagram.substring(_plus);
+                        _builder.append(_substring, "    \t\t\t");
+                        _builder.append("\') {");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("    \t\t\t");
+                        _builder.append("if (diagram == \'");
+                        _builder.append(diagram, "    \t\t\t");
+                        _builder.append("\') {");
+                        _builder.newLineIfNotEmpty();
                       }
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("image.style.border = \'1px solid #000000\';");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("if (diagram == \'");
-                      String _source_6 = test_14.getSource();
-                      String _replace_13 = _source_6.replace(".model", ".png");
-                      _builder.append(_replace_13, "    \t\t\t\t");
-                      _builder.append("\') {");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("exercise");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("Mark = true;");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-null-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-accept-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'block\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-wrong-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'mark-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("else {");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("exercise");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("Mark = false;");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-null-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-accept-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-wrong-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'block\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'mark-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"error\" style=\"height: 40px; width: 40px;\" />\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("\t    \t\t");
-                      _builder.append("else {");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("image.style.border = \'\';");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      {
-                        TestConfiguration _config_7 = ((AlternativeResponse)exercise_2).getConfig();
-                        boolean _isRetry = _config_7.isRetry();
-                        boolean _equals_156 = (_isRetry == false);
-                        if (_equals_156) {
-                          _builder.append("document.getElementById(\'a-right-");
-                          _builder.append(this.num, "");
-                          _builder.append("-");
-                          _builder.append(part, "");
-                          _builder.append("-");
-                          String _replace_14 = diagram.replace("/", "-");
-                          _builder.append(_replace_14, "");
-                          _builder.append("\').onclick = function() { return; }");
-                          _builder.newLineIfNotEmpty();
-                          _builder.append("document.getElementById(\'a-wrong-");
-                          _builder.append(this.num, "");
-                          _builder.append("-");
-                          _builder.append(part, "");
-                          _builder.append("-");
-                          String _replace_15 = diagram.replace("/", "-");
-                          _builder.append(_replace_15, "");
-                          _builder.append("\').onclick = function() { return; }");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                      _builder.append("    \t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("   \t\t\t");
-                      _builder.append("if (exercise");
-                      _builder.append(this.num, "   \t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "   \t\t\t");
-                      _builder.append("Mark == true) {");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("   \t\t\t\t");
-                      _builder.append("currentMark = currentMark + 1;");
-                      _builder.newLine();
-                      _builder.append("   \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
                     }
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("image.style.border = \'1px solid #000000\';");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("if (diagram == \'");
+                    String _source = test_5.getSource();
+                    String _replace_1 = _source.replace(".model", ".png");
+                    _builder.append(_replace_1, "    \t\t\t\t");
+                    _builder.append("\') {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("exercise");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("Mark = true;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-null-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-accept-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'block\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-wrong-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'mark-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("exercise");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("Mark = false;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-null-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-accept-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-wrong-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'block\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'mark-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"error\" style=\"height: 40px; width: 40px;\" />\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t    \t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("image.style.border = \'\';");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    {
+                      TestConfiguration _config_5 = ((AlternativeResponse)exercise_1).getConfig();
+                      boolean _isRetry = _config_5.isRetry();
+                      boolean _equals_4 = (_isRetry == false);
+                      if (_equals_4) {
+                        _builder.append("document.getElementById(\'a-right-");
+                        _builder.append(this.num, "");
+                        _builder.append("-");
+                        _builder.append(part, "");
+                        _builder.append("-");
+                        String _replace_2 = diagram.replace("/", "-");
+                        _builder.append(_replace_2, "");
+                        _builder.append("\').onclick = function() { return; }");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("document.getElementById(\'a-wrong-");
+                        _builder.append(this.num, "");
+                        _builder.append("-");
+                        _builder.append(part, "");
+                        _builder.append("-");
+                        String _replace_3 = diagram.replace("/", "-");
+                        _builder.append(_replace_3, "");
+                        _builder.append("\').onclick = function() { return; }");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("    \t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("   \t\t\t");
+                    _builder.append("if (exercise");
+                    _builder.append(this.num, "   \t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "   \t\t\t");
+                    _builder.append("Mark == true) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("   \t\t\t\t");
+                    _builder.append("currentMark = currentMark + 1;");
+                    _builder.newLine();
+                    _builder.append("   \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
                   }
                 }
               }
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("if (document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t");
-              _builder.append("\') != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t\t");
-              _builder.append("document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t\t");
-              _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
-              _builder.append(part, "    \t\t\t");
-              _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t\t\t");
-              _builder.append("window.location.replace(window.location);");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("function wrong");
-              _builder.append(part, "    \t");
-              _builder.append("(num, diagram) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("var image = null;");
-              _builder.newLine();
-              _builder.append("\t    \t");
-              _builder.append("var currentMark = 0;");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("//COUNTER: ");
-              _builder.append(this.num = 0, "    \t\t");
-              _builder.newLineIfNotEmpty();
-              {
-                ArrayList<Test> _get_76 = this.tests.get(exercise_2);
-                for(final Test test_15 : _get_76) {
-                  _builder.append("    \t");
-                  _builder.append("\t");
-                  _builder.append("//COUNTER: ");
-                  _builder.append(this.num = (this.num + 1), "    \t\t");
-                  _builder.newLineIfNotEmpty();
-                  {
-                    HashMap<Test, ArrayList<String>> _get_77 = this.rand.get(exercise_2);
-                    ArrayList<String> _get_78 = _get_77.get(test_15);
-                    int _size_5 = _get_78.size();
-                    boolean _greaterThan_6 = (_size_5 > 0);
-                    if (_greaterThan_6) {
-                      _builder.append("//DIAGRAM: ");
-                      HashMap<Test, ArrayList<String>> _get_79 = this.rand.get(exercise_2);
-                      ArrayList<String> _get_80 = _get_79.get(test_15);
-                      String diagram_1 = _get_80.get(0);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t");
-                      _builder.append("image = document.getElementById(\'td-exercise-");
-                      _builder.append(this.num, "    \t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t");
-                      _builder.append("-");
-                      String _replace_16 = diagram_1.replace("/", "-");
-                      _builder.append(_replace_16, "    \t\t");
-                      _builder.append("\');");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t");
-                      _builder.append("if (num == ");
-                      _builder.append(this.num, "    \t\t");
-                      _builder.append(") {");
-                      _builder.newLineIfNotEmpty();
-                      {
+            }
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("if (document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t");
+            _builder.append("\') != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t\t");
+            _builder.append("document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t\t");
+            _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
+            _builder.append(part, "    \t\t\t");
+            _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("\t\t\t");
+            _builder.append("window.location.replace(window.location);");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("function wrong");
+            _builder.append(part, "    \t");
+            _builder.append("(num, diagram) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("var image = null;");
+            _builder.newLine();
+            _builder.append("\t    \t");
+            _builder.append("var currentMark = 0;");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("//COUNTER: ");
+            _builder.append(this.num = 0, "    \t\t");
+            _builder.newLineIfNotEmpty();
+            {
+              List<Test> _get_25 = this.tests.get(exercise_1);
+              for(final Test test_6 : _get_25) {
+                _builder.append("    \t");
+                _builder.append("\t");
+                _builder.append("//COUNTER: ");
+                _builder.append(this.num = (this.num + 1), "    \t\t");
+                _builder.newLineIfNotEmpty();
+                {
+                  Map<Test, List<String>> _get_26 = this.rand.get(exercise_1);
+                  List<String> _get_27 = _get_26.get(test_6);
+                  int _size_3 = _get_27.size();
+                  boolean _greaterThan_2 = (_size_3 > 0);
+                  if (_greaterThan_2) {
+                    _builder.append("//DIAGRAM: ");
+                    Map<Test, List<String>> _get_28 = this.rand.get(exercise_1);
+                    List<String> _get_29 = _get_28.get(test_6);
+                    String diagram_1 = _get_29.get(0);
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t");
+                    _builder.append("image = document.getElementById(\'td-exercise-");
+                    _builder.append(this.num, "    \t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t");
+                    _builder.append("-");
+                    String _replace_4 = diagram_1.replace("/", "-");
+                    _builder.append(_replace_4, "    \t\t");
+                    _builder.append("\');");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t");
+                    _builder.append("if (num == ");
+                    _builder.append(this.num, "    \t\t");
+                    _builder.append(") {");
+                    _builder.newLineIfNotEmpty();
+                    {
+                      int _indexOf_2 = diagram_1.indexOf("/");
+                      boolean _greaterThan_3 = (_indexOf_2 > 0);
+                      if (_greaterThan_3) {
+                        _builder.append("    \t\t\t");
+                        _builder.append("if (diagram == \'");
                         int _indexOf_3 = diagram_1.indexOf("/");
-                        boolean _greaterThan_7 = (_indexOf_3 > 0);
-                        if (_greaterThan_7) {
-                          _builder.append("    \t\t\t");
-                          _builder.append("if (diagram == \'");
-                          int _indexOf_4 = diagram_1.indexOf("/");
-                          int _plus_389 = (_indexOf_4 + 1);
-                          String _substring_3 = diagram_1.substring(_plus_389);
-                          _builder.append(_substring_3, "    \t\t\t");
-                          _builder.append("\') {");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          _builder.append("    \t\t\t");
-                          _builder.append("if (diagram == \'");
-                          _builder.append(diagram_1, "    \t\t\t");
-                          _builder.append("\') {");
-                          _builder.newLineIfNotEmpty();
-                        }
+                        int _plus_1 = (_indexOf_3 + 1);
+                        String _substring_1 = diagram_1.substring(_plus_1);
+                        _builder.append(_substring_1, "    \t\t\t");
+                        _builder.append("\') {");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("    \t\t\t");
+                        _builder.append("if (diagram == \'");
+                        _builder.append(diagram_1, "    \t\t\t");
+                        _builder.append("\') {");
+                        _builder.newLineIfNotEmpty();
                       }
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("image.style.border = \'1px solid #000000\';");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("if (diagram != \'");
-                      String _source_7 = test_15.getSource();
-                      String _replace_17 = _source_7.replace(".model", ".png");
-                      _builder.append(_replace_17, "    \t\t\t\t");
-                      _builder.append("\') {");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("exercise");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("Mark = true;");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-null-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-accept-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'block\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-wrong-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'mark-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("else {");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("exercise");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("Mark = false;");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-null-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-accept-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-wrong-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').style.display = \'block\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t\t");
-                      _builder.append("document.getElementById(\'mark-");
-                      _builder.append(this.num, "    \t\t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t\t");
-                      _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"error\" style=\"height: 40px; width: 40px;\" />\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("\t    \t\t");
-                      _builder.append("else {");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("image.style.border = \'\';");
-                      _builder.newLine();
-                      _builder.append("    \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      {
-                        TestConfiguration _config_8 = ((AlternativeResponse)exercise_2).getConfig();
-                        boolean _isRetry_1 = _config_8.isRetry();
-                        boolean _equals_157 = (_isRetry_1 == false);
-                        if (_equals_157) {
-                          _builder.append("document.getElementById(\'a-right-");
-                          _builder.append(this.num, "");
-                          _builder.append("-");
-                          _builder.append(part, "");
-                          _builder.append("-");
-                          String _replace_18 = diagram_1.replace("/", "-");
-                          _builder.append(_replace_18, "");
-                          _builder.append("\').onclick = function() { return; }");
-                          _builder.newLineIfNotEmpty();
-                          _builder.append("document.getElementById(\'a-wrong-");
-                          _builder.append(this.num, "");
-                          _builder.append("-");
-                          _builder.append(part, "");
-                          _builder.append("-");
-                          String _replace_19 = diagram_1.replace("/", "-");
-                          _builder.append(_replace_19, "");
-                          _builder.append("\').onclick = function() { return; }");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                      _builder.append("    \t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("   \t\t\t");
-                      _builder.append("if (exercise");
-                      _builder.append(this.num, "   \t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "   \t\t\t");
-                      _builder.append("Mark == true) {");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("   \t\t\t\t");
-                      _builder.append("currentMark = currentMark + 1;");
-                      _builder.newLine();
-                      _builder.append("   \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
                     }
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("image.style.border = \'1px solid #000000\';");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("if (diagram != \'");
+                    String _source_1 = test_6.getSource();
+                    String _replace_5 = _source_1.replace(".model", ".png");
+                    _builder.append(_replace_5, "    \t\t\t\t");
+                    _builder.append("\') {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("exercise");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("Mark = true;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-null-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-accept-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'block\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-wrong-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'mark-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("exercise");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("Mark = false;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-null-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-accept-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-wrong-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').style.display = \'block\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t\t");
+                    _builder.append("document.getElementById(\'mark-");
+                    _builder.append(this.num, "    \t\t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t\t");
+                    _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"error\" style=\"height: 40px; width: 40px;\" />\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t    \t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("image.style.border = \'\';");
+                    _builder.newLine();
+                    _builder.append("    \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    {
+                      TestConfiguration _config_6 = ((AlternativeResponse)exercise_1).getConfig();
+                      boolean _isRetry_1 = _config_6.isRetry();
+                      boolean _equals_5 = (_isRetry_1 == false);
+                      if (_equals_5) {
+                        _builder.append("document.getElementById(\'a-right-");
+                        _builder.append(this.num, "");
+                        _builder.append("-");
+                        _builder.append(part, "");
+                        _builder.append("-");
+                        String _replace_6 = diagram_1.replace("/", "-");
+                        _builder.append(_replace_6, "");
+                        _builder.append("\').onclick = function() { return; }");
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("document.getElementById(\'a-wrong-");
+                        _builder.append(this.num, "");
+                        _builder.append("-");
+                        _builder.append(part, "");
+                        _builder.append("-");
+                        String _replace_7 = diagram_1.replace("/", "-");
+                        _builder.append(_replace_7, "");
+                        _builder.append("\').onclick = function() { return; }");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("    \t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("   \t\t\t");
+                    _builder.append("if (exercise");
+                    _builder.append(this.num, "   \t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "   \t\t\t");
+                    _builder.append("Mark == true) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("   \t\t\t\t");
+                    _builder.append("currentMark = currentMark + 1;");
+                    _builder.newLine();
+                    _builder.append("   \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
                   }
                 }
               }
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("if (document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t");
-              _builder.append("\') != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t\t");
-              _builder.append("document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t\t");
-              _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
-              _builder.append(part, "    \t\t\t");
-              _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t\t\t");
-              _builder.append("window.location.replace(window.location);");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("}");
-              _builder.newLine();
             }
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("if (document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t");
+            _builder.append("\') != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t\t");
+            _builder.append("document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t\t");
+            _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
+            _builder.append(part, "    \t\t\t");
+            _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("\t\t\t");
+            _builder.append("window.location.replace(window.location);");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("}");
+            _builder.newLine();
           }
-          {
-            if ((exercise_2 instanceof MultiChoiceDiagram)) {
-              _builder.append("    \t");
-              _builder.append("function check");
-              _builder.append(part, "    \t");
-              _builder.append("(num, diagram) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("var image = null;");
-              _builder.newLine();
-              _builder.append("\t    \t");
-              _builder.append("var currentMark = 0;");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("//COUNTER: ");
-              _builder.append(this.num = 0, "    \t\t");
-              _builder.newLineIfNotEmpty();
-              {
-                ArrayList<Test> _get_81 = this.tests.get(exercise_2);
-                for(final Test test_16 : _get_81) {
-                  _builder.append("    \t\t");
-                  _builder.append("//COUNTER: ");
-                  _builder.append(this.num = (this.num + 1), "    \t\t");
-                  _builder.newLineIfNotEmpty();
-                  {
-                    HashMap<Test, ArrayList<String>> _get_82 = this.diagrams.get(exercise_2);
-                    ArrayList<String> _get_83 = _get_82.get(test_16);
-                    for(final String diagram_2 : _get_83) {
-                      _builder.append("image = document.getElementById(\'td-exercise-");
-                      _builder.append(this.num, "");
-                      _builder.append("-");
-                      _builder.append(part, "");
-                      _builder.append("-");
-                      String _replace_20 = diagram_2.replace("/", "-");
-                      _builder.append(_replace_20, "");
-                      _builder.append("\');");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("if (num == ");
-                      _builder.append(this.num, "");
-                      _builder.append(") {");
-                      _builder.newLineIfNotEmpty();
-                      {
+        }
+        {
+          if ((exercise_1 instanceof MultiChoiceDiagram)) {
+            _builder.append("    \t");
+            _builder.append("function check");
+            _builder.append(part, "    \t");
+            _builder.append("(num, diagram) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("var image = null;");
+            _builder.newLine();
+            _builder.append("\t    \t");
+            _builder.append("var currentMark = 0;");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("//COUNTER: ");
+            _builder.append(this.num = 0, "    \t\t");
+            _builder.newLineIfNotEmpty();
+            {
+              List<Test> _get_30 = this.tests.get(exercise_1);
+              for(final Test test_7 : _get_30) {
+                _builder.append("    \t\t");
+                _builder.append("//COUNTER: ");
+                _builder.append(this.num = (this.num + 1), "    \t\t");
+                _builder.newLineIfNotEmpty();
+                {
+                  Map<Test, List<String>> _get_31 = this.diagrams.get(exercise_1);
+                  List<String> _get_32 = _get_31.get(test_7);
+                  for(final String diagram_2 : _get_32) {
+                    _builder.append("image = document.getElementById(\'td-exercise-");
+                    _builder.append(this.num, "");
+                    _builder.append("-");
+                    _builder.append(part, "");
+                    _builder.append("-");
+                    String _replace_8 = diagram_2.replace("/", "-");
+                    _builder.append(_replace_8, "");
+                    _builder.append("\');");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("if (num == ");
+                    _builder.append(this.num, "");
+                    _builder.append(") {");
+                    _builder.newLineIfNotEmpty();
+                    {
+                      int _indexOf_4 = diagram_2.indexOf("/");
+                      boolean _greaterThan_4 = (_indexOf_4 > 0);
+                      if (_greaterThan_4) {
+                        _builder.append("\t");
+                        _builder.append("if (diagram == \'");
                         int _indexOf_5 = diagram_2.indexOf("/");
-                        boolean _greaterThan_8 = (_indexOf_5 > 0);
-                        if (_greaterThan_8) {
-                          _builder.append("\t");
-                          _builder.append("if (diagram == \'");
-                          int _indexOf_6 = diagram_2.indexOf("/");
-                          int _plus_390 = (_indexOf_6 + 1);
-                          String _substring_4 = diagram_2.substring(_plus_390);
-                          _builder.append(_substring_4, "\t");
-                          _builder.append("\') {");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          _builder.append("\t");
-                          _builder.append("if (diagram == \'");
-                          _builder.append(diagram_2, "\t");
-                          _builder.append("\') {");
-                          _builder.newLineIfNotEmpty();
-                        }
+                        int _plus_2 = (_indexOf_5 + 1);
+                        String _substring_2 = diagram_2.substring(_plus_2);
+                        _builder.append(_substring_2, "\t");
+                        _builder.append("\') {");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("if (diagram == \'");
+                        _builder.append(diagram_2, "\t");
+                        _builder.append("\') {");
+                        _builder.newLineIfNotEmpty();
                       }
-                      _builder.append("\t\t");
-                      _builder.append("image.style.border = \'1px solid #000000\';");
-                      _builder.newLine();
-                      _builder.append("\t\t");
-                      _builder.append("if (diagram == \'");
-                      String _source_8 = test_16.getSource();
-                      String _replace_21 = _source_8.replace(".model", ".png");
-                      _builder.append(_replace_21, "\t\t");
-                      _builder.append("\') {");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("exercise");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("Mark = true;");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-null-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-accept-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').style.display = \'block\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-wrong-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'mark-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("\t\t");
-                      _builder.append("else {");
-                      _builder.newLine();
-                      _builder.append("\t\t\t");
-                      _builder.append("exercise");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("_");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("Mark = false;");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-null-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-accept-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').style.display = \'none\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'td-score-wrong-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').style.display = \'block\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t\t");
-                      _builder.append("document.getElementById(\'mark-");
-                      _builder.append(this.num, "\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "\t\t\t");
-                      _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"wrong\" style=\"height: 40px; width: 40px;\" />\';");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      _builder.append("\t    \t\t");
-                      _builder.append("else {");
-                      _builder.newLine();
-                      _builder.append("\t\t");
-                      _builder.append("image.style.border = \'\';");
-                      _builder.newLine();
-                      _builder.append("\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                      {
-                        TestConfiguration _config_9 = ((MultiChoiceDiagram)exercise_2).getConfig();
-                        boolean _isRetry_2 = _config_9.isRetry();
-                        boolean _equals_158 = (_isRetry_2 == false);
-                        if (_equals_158) {
-                          _builder.append("document.getElementById(\'a-exercise-");
-                          _builder.append(this.num, "");
-                          _builder.append("-");
-                          _builder.append(part, "");
-                          _builder.append("-");
-                          String _replace_22 = diagram_2.replace("/", "-");
-                          _builder.append(_replace_22, "");
-                          _builder.append("\').onclick = function() { return; }");
-                          _builder.newLineIfNotEmpty();
-                        }
-                      }
-                      _builder.append("}");
-                      _builder.newLine();
                     }
+                    _builder.append("\t\t");
+                    _builder.append("image.style.border = \'1px solid #000000\';");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("if (diagram == \'");
+                    String _source_2 = test_7.getSource();
+                    String _replace_9 = _source_2.replace(".model", ".png");
+                    _builder.append(_replace_9, "\t\t");
+                    _builder.append("\') {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("exercise");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("Mark = true;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-null-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-accept-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').style.display = \'block\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-wrong-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'mark-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t\t\t");
+                    _builder.append("exercise");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("_");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("Mark = false;");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-null-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-accept-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').style.display = \'none\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'td-score-wrong-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').style.display = \'block\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("document.getElementById(\'mark-");
+                    _builder.append(this.num, "\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "\t\t\t");
+                    _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"wrong\" style=\"height: 40px; width: 40px;\" />\';");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t    \t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("image.style.border = \'\';");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    {
+                      TestConfiguration _config_7 = ((MultiChoiceDiagram)exercise_1).getConfig();
+                      boolean _isRetry_2 = _config_7.isRetry();
+                      boolean _equals_6 = (_isRetry_2 == false);
+                      if (_equals_6) {
+                        _builder.append("document.getElementById(\'a-exercise-");
+                        _builder.append(this.num, "");
+                        _builder.append("-");
+                        _builder.append(part, "");
+                        _builder.append("-");
+                        String _replace_10 = diagram_2.replace("/", "-");
+                        _builder.append(_replace_10, "");
+                        _builder.append("\').onclick = function() { return; }");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("}");
+                    _builder.newLine();
                   }
-                  _builder.append("   \t\t\t");
-                  _builder.append("if (exercise");
-                  _builder.append(this.num, "   \t\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "   \t\t\t");
-                  _builder.append("Mark == true) {");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("   \t\t\t\t");
-                  _builder.append("currentMark = currentMark + 1;");
-                  _builder.newLine();
-                  _builder.append("   \t\t\t");
-                  _builder.append("}");
-                  _builder.newLine();
                 }
+                _builder.append("   \t\t\t");
+                _builder.append("if (exercise");
+                _builder.append(this.num, "   \t\t\t");
+                _builder.append("_");
+                _builder.append(part, "   \t\t\t");
+                _builder.append("Mark == true) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("   \t\t\t\t");
+                _builder.append("currentMark = currentMark + 1;");
+                _builder.newLine();
+                _builder.append("   \t\t\t");
+                _builder.append("}");
+                _builder.newLine();
               }
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("if (document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t");
-              _builder.append("\') != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t\t");
-              _builder.append("document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t\t");
-              _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
-              _builder.append(part, "    \t\t\t");
-              _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("\t\t\t");
-              _builder.append("window.location.replace(window.location);");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("}");
-              _builder.newLine();
             }
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("if (document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t");
+            _builder.append("\') != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t\t");
+            _builder.append("document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t\t");
+            _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
+            _builder.append(part, "    \t\t\t");
+            _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("\t\t\t");
+            _builder.append("window.location.replace(window.location);");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("}");
+            _builder.newLine();
           }
-          {
-            if ((exercise_2 instanceof MultiChoiceEmendation)) {
-              _builder.append("    \t");
-              _builder.append("function submit");
-              _builder.append(part, "    \t");
-              _builder.append("(num, diagram) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t    \t");
-              _builder.append("var currentMark = 0;");
-              _builder.newLine();
-              _builder.append("\t    \t");
-              _builder.append("var weightedMark = 0.0;");
-              _builder.newLine();
-              _builder.append("\t    \t");
-              _builder.append("var penaltyMark = 0.0;");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("//COUNTER: ");
-              _builder.append(this.num = 0, "    \t\t");
-              _builder.newLineIfNotEmpty();
-              {
-                ArrayList<Test> _get_84 = this.tests.get(exercise_2);
-                for(final Test test_17 : _get_84) {
-                  _builder.append("    \t\t");
-                  _builder.append("//COUNTER: ");
-                  _builder.append(this.num = (this.num + 1), "    \t\t");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("    \t\t");
-                  _builder.append("if (num == ");
-                  _builder.append(this.num, "    \t\t");
-                  _builder.append(") {");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("    \t\t\t");
-                  _builder.append("var answered");
-                  _builder.append(this.num, "    \t\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "    \t\t\t");
-                  _builder.append("Exercise = false;");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("//");
-                  String diagram_3 = "";
-                  _builder.newLineIfNotEmpty();
-                  {
-                    HashMap<Test, ArrayList<TestUtils.TestOption>> _get_85 = this.options.get(exercise_2);
-                    ArrayList<TestUtils.TestOption> _get_86 = _get_85.get(test_17);
-                    boolean _notEquals_86 = (!Objects.equal(_get_86, null));
-                    if (_notEquals_86) {
-                      {
-                        HashMap<Test, ArrayList<TestUtils.TestOption>> _get_87 = this.options.get(exercise_2);
-                        ArrayList<TestUtils.TestOption> _get_88 = _get_87.get(test_17);
-                        for(final TestUtils.TestOption opt_3 : _get_88) {
-                          {
-                            if ((opt_3.solution == true)) {
-                              _builder.append("//");
-                              _builder.append(diagram_3 = opt_3.path, "");
-                              _builder.newLineIfNotEmpty();
-                            }
+        }
+        {
+          if ((exercise_1 instanceof MultiChoiceEmendation)) {
+            _builder.append("    \t");
+            _builder.append("function submit");
+            _builder.append(part, "    \t");
+            _builder.append("(num, diagram) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t    \t");
+            _builder.append("var currentMark = 0;");
+            _builder.newLine();
+            _builder.append("\t    \t");
+            _builder.append("var weightedMark = 0.0;");
+            _builder.newLine();
+            _builder.append("\t    \t");
+            _builder.append("var penaltyMark = 0.0;");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("//COUNTER: ");
+            _builder.append(this.num = 0, "    \t\t");
+            _builder.newLineIfNotEmpty();
+            {
+              List<Test> _get_33 = this.tests.get(exercise_1);
+              for(final Test test_8 : _get_33) {
+                _builder.append("    \t\t");
+                _builder.append("//COUNTER: ");
+                _builder.append(this.num = (this.num + 1), "    \t\t");
+                _builder.newLineIfNotEmpty();
+                _builder.append("    \t\t");
+                _builder.append("if (num == ");
+                _builder.append(this.num, "    \t\t");
+                _builder.append(") {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("    \t\t\t");
+                _builder.append("var answered");
+                _builder.append(this.num, "    \t\t\t");
+                _builder.append("_");
+                _builder.append(part, "    \t\t\t");
+                _builder.append("Exercise = false;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("//");
+                String diagram_3 = "";
+                _builder.newLineIfNotEmpty();
+                {
+                  Map<Test, List<EduTestUtils.TestOption>> _get_34 = this.options.get(exercise_1);
+                  List<EduTestUtils.TestOption> _get_35 = _get_34.get(test_8);
+                  boolean _notEquals_5 = (!Objects.equal(_get_35, null));
+                  if (_notEquals_5) {
+                    {
+                      Map<Test, List<EduTestUtils.TestOption>> _get_36 = this.options.get(exercise_1);
+                      List<EduTestUtils.TestOption> _get_37 = _get_36.get(test_8);
+                      for(final EduTestUtils.TestOption opt : _get_37) {
+                        {
+                          if ((opt.solution == true)) {
+                            _builder.append("//");
+                            _builder.append(diagram_3 = opt.path, "");
+                            _builder.newLineIfNotEmpty();
                           }
                         }
                       }
                     }
                   }
-                  _builder.append("    \t\t\t");
-                  _builder.append("if (diagram == \'");
-                  String _replace_23 = diagram_3.replace("/", "-");
-                  _builder.append(_replace_23, "    \t\t\t");
-                  _builder.append("\') {");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t");
-                  _builder.append("var correction = true;");
-                  _builder.newLine();
-                  {
-                    MultiChoiceEmConfig _config_10 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                    Mode _mode_2 = _config_10.getMode();
-                    boolean _equals_159 = Objects.equal(_mode_2, Mode.CHECKBOX);
-                    if (_equals_159) {
-                      _builder.append("var checkboxes = document.getElementsByName(\'checkbox-");
+                }
+                _builder.append("    \t\t\t");
+                _builder.append("if (diagram == \'");
+                String _replace_11 = diagram_3.replace("/", "-");
+                _builder.append(_replace_11, "    \t\t\t");
+                _builder.append("\') {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("var correction = true;");
+                _builder.newLine();
+                {
+                  MultiChoiceEmConfig _config_8 = ((MultiChoiceEmendation)exercise_1).getConfig();
+                  Mode _mode = _config_8.getMode();
+                  boolean _equals_7 = Objects.equal(_mode, Mode.CHECKBOX);
+                  if (_equals_7) {
+                    _builder.append("var checkboxes = document.getElementsByName(\'checkbox-");
+                    _builder.append(this.num, "");
+                    _builder.append("-");
+                    _builder.append(part, "");
+                    _builder.append("-");
+                    String _replace_12 = diagram_3.replace("/", "-");
+                    _builder.append(_replace_12, "");
+                    _builder.append("\');");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("if (getCheckedBoxes(\'checkbox-");
+                    _builder.append(this.num, "");
+                    _builder.append("-");
+                    _builder.append(part, "");
+                    _builder.append("-");
+                    String _replace_13 = diagram_3.replace("/", "-");
+                    _builder.append(_replace_13, "");
+                    _builder.append("\') == null) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t");
+                    _builder.append("correction = false;");
+                    _builder.newLine();
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("for (var i = 0; i < checkboxes.length; i++) {");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("var value = checkboxes[i].value;");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("if (value.startsWith(\'");
+                    String _replace_14 = diagram_3.replace("/", "-");
+                    _builder.append(_replace_14, "\t\t");
+                    _builder.append("\') == true) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("\t\t\t");
+                    _builder.append("if (checkboxes[i].checked == false) {");
+                    _builder.newLine();
+                    _builder.append("\t\t\t\t");
+                    _builder.append("correction = false;");
+                    _builder.newLine();
+                    _builder.append("\t\t\t\t");
+                    _builder.append("break;");
+                    _builder.newLine();
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("else {");
+                    _builder.newLine();
+                    _builder.append("\t\t\t");
+                    _builder.append("if (checkboxes[i].checked == true) {");
+                    _builder.newLine();
+                    _builder.append("\t\t\t\t");
+                    _builder.append("correction = false;");
+                    _builder.newLine();
+                    _builder.append("\t\t\t\t");
+                    _builder.append("break;");
+                    _builder.newLine();
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("}");
+                    _builder.newLine();
+                  } else {
+                    MultiChoiceEmConfig _config_9 = ((MultiChoiceEmendation)exercise_1).getConfig();
+                    Mode _mode_1 = _config_9.getMode();
+                    boolean _equals_8 = Objects.equal(_mode_1, Mode.RADIOBUTTON);
+                    if (_equals_8) {
+                      _builder.append("var radiobuttons = document.getElementsByName(\'radiobutton-");
                       _builder.append(this.num, "");
                       _builder.append("-");
                       _builder.append(part, "");
                       _builder.append("-");
-                      String _replace_24 = diagram_3.replace("/", "-");
-                      _builder.append(_replace_24, "");
+                      String _replace_15 = diagram_3.replace("/", "-");
+                      _builder.append(_replace_15, "");
                       _builder.append("\');");
                       _builder.newLineIfNotEmpty();
-                      _builder.append("if (getCheckedBoxes(\'checkbox-");
+                      _builder.append("if (getCheckedBoxes(\'radiobutton-");
                       _builder.append(this.num, "");
                       _builder.append("-");
                       _builder.append(part, "");
                       _builder.append("-");
-                      String _replace_25 = diagram_3.replace("/", "-");
-                      _builder.append(_replace_25, "");
+                      String _replace_16 = diagram_3.replace("/", "-");
+                      _builder.append(_replace_16, "");
                       _builder.append("\') == null) {");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -7696,19 +1560,19 @@ public class EduTestGenerator implements IGenerator {
                       _builder.append("else {");
                       _builder.newLine();
                       _builder.append("\t");
-                      _builder.append("for (var i = 0; i < checkboxes.length; i++) {");
+                      _builder.append("for (var i = 0; i < radiobuttons.length; i++) {");
                       _builder.newLine();
                       _builder.append("\t\t");
-                      _builder.append("var value = checkboxes[i].value;");
+                      _builder.append("var value = radiobuttons[i].value;");
                       _builder.newLine();
                       _builder.append("\t\t");
                       _builder.append("if (value.startsWith(\'");
-                      String _replace_26 = diagram_3.replace("/", "-");
-                      _builder.append(_replace_26, "\t\t");
+                      String _replace_17 = diagram_3.replace("/", "-");
+                      _builder.append(_replace_17, "\t\t");
                       _builder.append("\') == true) {");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t\t\t");
-                      _builder.append("if (checkboxes[i].checked == false) {");
+                      _builder.append("if (radiobuttons[i].checked == false) {");
                       _builder.newLine();
                       _builder.append("\t\t\t\t");
                       _builder.append("correction = false;");
@@ -7726,7 +1590,7 @@ public class EduTestGenerator implements IGenerator {
                       _builder.append("else {");
                       _builder.newLine();
                       _builder.append("\t\t\t");
-                      _builder.append("if (checkboxes[i].checked == true) {");
+                      _builder.append("if (radiobuttons[i].checked == true) {");
                       _builder.newLine();
                       _builder.append("\t\t\t\t");
                       _builder.append("correction = false;");
@@ -7745,440 +1609,357 @@ public class EduTestGenerator implements IGenerator {
                       _builder.newLine();
                       _builder.append("}");
                       _builder.newLine();
-                    } else {
-                      MultiChoiceEmConfig _config_11 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                      Mode _mode_3 = _config_11.getMode();
-                      boolean _equals_160 = Objects.equal(_mode_3, Mode.RADIOBUTTON);
-                      if (_equals_160) {
-                        _builder.append("var radiobuttons = document.getElementsByName(\'radiobutton-");
-                        _builder.append(this.num, "");
-                        _builder.append("-");
-                        _builder.append(part, "");
-                        _builder.append("-");
-                        String _replace_27 = diagram_3.replace("/", "-");
-                        _builder.append(_replace_27, "");
-                        _builder.append("\');");
-                        _builder.newLineIfNotEmpty();
-                        _builder.append("if (getCheckedBoxes(\'radiobutton-");
-                        _builder.append(this.num, "");
-                        _builder.append("-");
-                        _builder.append(part, "");
-                        _builder.append("-");
-                        String _replace_28 = diagram_3.replace("/", "-");
-                        _builder.append(_replace_28, "");
-                        _builder.append("\') == null) {");
-                        _builder.newLineIfNotEmpty();
-                        _builder.append("\t");
-                        _builder.append("correction = false;");
-                        _builder.newLine();
-                        _builder.append("}");
-                        _builder.newLine();
-                        _builder.append("else {");
-                        _builder.newLine();
-                        _builder.append("\t");
-                        _builder.append("for (var i = 0; i < radiobuttons.length; i++) {");
-                        _builder.newLine();
-                        _builder.append("\t\t");
-                        _builder.append("var value = radiobuttons[i].value;");
-                        _builder.newLine();
-                        _builder.append("\t\t");
-                        _builder.append("if (value.startsWith(\'");
-                        String _replace_29 = diagram_3.replace("/", "-");
-                        _builder.append(_replace_29, "\t\t");
-                        _builder.append("\') == true) {");
-                        _builder.newLineIfNotEmpty();
-                        _builder.append("\t\t\t");
-                        _builder.append("if (radiobuttons[i].checked == false) {");
-                        _builder.newLine();
-                        _builder.append("\t\t\t\t");
-                        _builder.append("correction = false;");
-                        _builder.newLine();
-                        _builder.append("\t\t\t\t");
-                        _builder.append("break;");
-                        _builder.newLine();
-                        _builder.append("\t\t\t");
-                        _builder.append("}");
-                        _builder.newLine();
-                        _builder.append("\t\t");
-                        _builder.append("}");
-                        _builder.newLine();
-                        _builder.append("\t\t");
-                        _builder.append("else {");
-                        _builder.newLine();
-                        _builder.append("\t\t\t");
-                        _builder.append("if (radiobuttons[i].checked == true) {");
-                        _builder.newLine();
-                        _builder.append("\t\t\t\t");
-                        _builder.append("correction = false;");
-                        _builder.newLine();
-                        _builder.append("\t\t\t\t");
-                        _builder.append("break;");
-                        _builder.newLine();
-                        _builder.append("\t\t\t");
-                        _builder.append("}");
-                        _builder.newLine();
-                        _builder.append("\t\t");
-                        _builder.append("}");
-                        _builder.newLine();
-                        _builder.append("\t");
-                        _builder.append("}");
-                        _builder.newLine();
-                        _builder.append("}");
-                        _builder.newLine();
-                      }
-                    }
-                  }
-                  _builder.append("\t");
-                  _builder.append("if (correction == true) {");
-                  _builder.newLine();
-                  _builder.append("\t\t");
-                  _builder.append("exercise");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "\t\t");
-                  _builder.append("Mark = true;");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'td-score-null-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').style.display = \'none\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'td-score-accept-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').style.display = \'block\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'td-score-wrong-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').style.display = \'none\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'mark-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t");
-                  _builder.append("}");
-                  _builder.newLine();
-                  _builder.append("   \t\t\t\t\t");
-                  _builder.append("else {");
-                  _builder.newLine();
-                  _builder.append("\t\t");
-                  _builder.append("exercise");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "\t\t");
-                  _builder.append("Mark = false;");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'td-score-null-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').style.display = \'none\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'td-score-accept-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').style.display = \'none\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'td-score-wrong-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').style.display = \'block\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                  _builder.append("document.getElementById(\'mark-");
-                  _builder.append(this.num, "\t\t");
-                  _builder.append("-");
-                  _builder.append(part, "\t\t");
-                  _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"error\" style=\"height: 40px; width: 40px;\" />\';");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t");
-                  _builder.append("}");
-                  _builder.newLine();
-                  _builder.append("\t");
-                  _builder.append("answered");
-                  _builder.append(this.num, "\t");
-                  _builder.append("_");
-                  _builder.append(part, "\t");
-                  _builder.append("Exercise = true;");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("    \t\t\t");
-                  _builder.append("}");
-                  _builder.newLine();
-                  {
-                    MultiChoiceEmConfig _config_12 = ((MultiChoiceEmendation)exercise_2).getConfig();
-                    boolean _isRetry_3 = _config_12.isRetry();
-                    boolean _equals_161 = (_isRetry_3 == false);
-                    if (_equals_161) {
-                      _builder.append("   \t\t\t\t");
-                      _builder.append("if (document.getElementById(\'a-submit-");
-                      _builder.append(this.num, "   \t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "   \t\t\t\t");
-                      _builder.append("-");
-                      String _replace_30 = diagram_3.replace("/", "-");
-                      _builder.append(_replace_30, "   \t\t\t\t");
-                      _builder.append("\') != null) {");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t\t");
-                      _builder.append("document.getElementById(\'a-submit-");
-                      _builder.append(this.num, "    \t\t\t\t");
-                      _builder.append("-");
-                      _builder.append(part, "    \t\t\t\t");
-                      _builder.append("-");
-                      String _replace_31 = diagram_3.replace("/", "-");
-                      _builder.append(_replace_31, "    \t\t\t\t");
-                      _builder.append("\').onclick = function() { return; }");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("    \t\t\t");
-                      _builder.append("}");
-                      _builder.newLine();
-                    }
-                  }
-                  _builder.append("\t   \t\t");
-                  _builder.append("}");
-                  _builder.newLine();
-                  _builder.append("  \t\t\t");
-                  _builder.append("if (exercise");
-                  _builder.append(this.num, "  \t\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "  \t\t\t");
-                  _builder.append("Mark == true) {");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("currentMark = currentMark + 1;");
-                  _builder.newLine();
-                  _builder.append("weightedMark = weightedMark + weight");
-                  _builder.append(this.num, "");
-                  _builder.append("_");
-                  _builder.append(part, "");
-                  _builder.append("Mark;");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t\t");
-                  _builder.append("}");
-                  _builder.newLine();
-                  _builder.append("\t\t\t");
-                  _builder.append("if ((answered");
-                  _builder.append(this.num, "\t\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "\t\t\t");
-                  _builder.append("Exercise == true) && (exercise");
-                  _builder.append(this.num, "\t\t\t");
-                  _builder.append("_");
-                  _builder.append(part, "\t\t\t");
-                  _builder.append("Mark == false)) {");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("penaltyMark = penaltyMark + penalty");
-                  _builder.append(this.num, "");
-                  _builder.append("_");
-                  _builder.append(part, "");
-                  _builder.append("Mark;");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t\t");
-                  _builder.append("}");
-                  _builder.newLine();
-                }
-              }
-              _builder.append("\t\t   \t");
-              _builder.append("if (document.getElementById(\'current-mark-");
-              _builder.append(part, "\t\t   \t");
-              _builder.append("\') != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t\t");
-              _builder.append("document.getElementById(\'current-mark-");
-              _builder.append(part, "    \t\t\t");
-              _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
-              _builder.append(part, "    \t\t\t");
-              _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("var tempMark = weightedMark - penaltyMark;");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("if (tempMark < 0) {");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t\t");
-              _builder.append("tempMark = 0.0;");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("if (document.getElementById(\'weighted-mark-");
-              _builder.append(part, "    \t\t");
-              _builder.append("\') != null) {");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t\t");
-              _builder.append("document.getElementById(\'weighted-mark-");
-              _builder.append(part, "    \t\t\t");
-              _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + Math.round(tempMark * 100) + \'%</label>\';//SETS THE WEIGHTED MARK");
-              _builder.newLineIfNotEmpty();
-              _builder.append("    \t");
-              _builder.append("\t");
-              _builder.append("}");
-              _builder.newLine();
-              _builder.append("   \t\t\t");
-              _builder.append("window.location.replace(window.location);");
-              _builder.newLine();
-              _builder.append("    \t");
-              _builder.append("}");
-              _builder.newLine();
-            }
-          }
-        }
-      }
-      _builder.append("\t    ");
-      _builder.append("</script>");
-      _builder.newLine();
-      _builder.append("\t    ");
-      _builder.append("<!--");
-      _builder.append(part = 0, "\t    ");
-      _builder.append("-->");
-      _builder.newLineIfNotEmpty();
-      {
-        EList<MutatorTests> _exercises_3 = program.getExercises();
-        for(final MutatorTests exercise_3 : _exercises_3) {
-          _builder.append("<!--");
-          int _plusPlus_2 = part++;
-          _builder.append(_plusPlus_2, "");
-          _builder.append("-->");
-          _builder.newLineIfNotEmpty();
-          {
-            if ((part == 1)) {
-              _builder.append("<table class=\"table-test-");
-              _builder.append(part, "");
-              _builder.append("\" id=\"table-test-");
-              _builder.append(part, "");
-              _builder.append("\" style=\"height: 100%; display: block;\">");
-              _builder.newLineIfNotEmpty();
-            } else {
-              _builder.append("<table class=\"table-test-");
-              _builder.append(part, "");
-              _builder.append("\" id=\"table-test-");
-              _builder.append(part, "");
-              _builder.append("\" style=\"height: 100%; display: none;\">");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          {
-            ProgramConfiguration _config_13 = program.getConfig();
-            boolean _notEquals_87 = (!Objects.equal(_config_13, null));
-            if (_notEquals_87) {
-              {
-                ProgramConfiguration _config_14 = program.getConfig();
-                Navigation _navigation = _config_14.getNavigation();
-                boolean _equals_162 = Objects.equal(_navigation, Navigation.FREE);
-                if (_equals_162) {
-                  {
-                    if ((part > 1)) {
-                      _builder.append("<tr>");
-                      _builder.newLine();
-                      _builder.append("<td align=\"left\">");
-                      _builder.newLine();
-                      _builder.append("<a href=\"#\" class=\"test-back-");
-                      _builder.append((part - 1), "");
-                      _builder.append("\" id=\"test-back-");
-                      _builder.append((part - 1), "");
-                      _builder.append("\" onclick=\"show(");
-                      _builder.append((part - 1), "");
-                      _builder.append(");\"><img src=\"images/back.png\" alt=\"back\" style=\"height: 30px; width: 30px;\" /></a>");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("</td>");
-                      _builder.newLine();
-                      _builder.append("</tr>");
-                      _builder.newLine();
                     }
                   }
                 }
+                _builder.append("\t");
+                _builder.append("if (correction == true) {");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("exercise");
+                _builder.append(this.num, "\t\t");
+                _builder.append("_");
+                _builder.append(part, "\t\t");
+                _builder.append("Mark = true;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'td-score-null-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').style.display = \'none\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'td-score-accept-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').style.display = \'block\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'td-score-wrong-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').style.display = \'none\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'mark-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').innerHTML = \'<img src=\"images/accept.png\" alt=\"ok\" style=\"height: 40px; width: 40px;\" />\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("   \t\t\t\t\t");
+                _builder.append("else {");
+                _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("exercise");
+                _builder.append(this.num, "\t\t");
+                _builder.append("_");
+                _builder.append(part, "\t\t");
+                _builder.append("Mark = false;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'td-score-null-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').style.display = \'none\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'td-score-accept-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').style.display = \'none\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'td-score-wrong-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').style.display = \'block\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("document.getElementById(\'mark-");
+                _builder.append(this.num, "\t\t");
+                _builder.append("-");
+                _builder.append(part, "\t\t");
+                _builder.append("\').innerHTML = \'<img src=\"images/wrong.png\" alt=\"error\" style=\"height: 40px; width: 40px;\" />\';");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("answered");
+                _builder.append(this.num, "\t");
+                _builder.append("_");
+                _builder.append(part, "\t");
+                _builder.append("Exercise = true;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("    \t\t\t");
+                _builder.append("}");
+                _builder.newLine();
+                {
+                  MultiChoiceEmConfig _config_10 = ((MultiChoiceEmendation)exercise_1).getConfig();
+                  boolean _isRetry_3 = _config_10.isRetry();
+                  boolean _equals_9 = (_isRetry_3 == false);
+                  if (_equals_9) {
+                    _builder.append("   \t\t\t\t");
+                    _builder.append("if (document.getElementById(\'a-submit-");
+                    _builder.append(this.num, "   \t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "   \t\t\t\t");
+                    _builder.append("-");
+                    String _replace_18 = diagram_3.replace("/", "-");
+                    _builder.append(_replace_18, "   \t\t\t\t");
+                    _builder.append("\') != null) {");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t\t");
+                    _builder.append("document.getElementById(\'a-submit-");
+                    _builder.append(this.num, "    \t\t\t\t");
+                    _builder.append("-");
+                    _builder.append(part, "    \t\t\t\t");
+                    _builder.append("-");
+                    String _replace_19 = diagram_3.replace("/", "-");
+                    _builder.append(_replace_19, "    \t\t\t\t");
+                    _builder.append("\').onclick = function() { return; }");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("    \t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                  }
+                }
+                _builder.append("\t   \t\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("  \t\t\t");
+                _builder.append("if (exercise");
+                _builder.append(this.num, "  \t\t\t");
+                _builder.append("_");
+                _builder.append(part, "  \t\t\t");
+                _builder.append("Mark == true) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("currentMark = currentMark + 1;");
+                _builder.newLine();
+                _builder.append("weightedMark = weightedMark + weight");
+                _builder.append(this.num, "");
+                _builder.append("_");
+                _builder.append(part, "");
+                _builder.append("Mark;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t\t");
+                _builder.append("}");
+                _builder.newLine();
+                _builder.append("\t\t\t");
+                _builder.append("if ((answered");
+                _builder.append(this.num, "\t\t\t");
+                _builder.append("_");
+                _builder.append(part, "\t\t\t");
+                _builder.append("Exercise == true) && (exercise");
+                _builder.append(this.num, "\t\t\t");
+                _builder.append("_");
+                _builder.append(part, "\t\t\t");
+                _builder.append("Mark == false)) {");
+                _builder.newLineIfNotEmpty();
+                _builder.append("penaltyMark = penaltyMark + penalty");
+                _builder.append(this.num, "");
+                _builder.append("_");
+                _builder.append(part, "");
+                _builder.append("Mark;");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t\t");
+                _builder.append("}");
+                _builder.newLine();
               }
             }
+            _builder.append("\t\t   \t");
+            _builder.append("if (document.getElementById(\'current-mark-");
+            _builder.append(part, "\t\t   \t");
+            _builder.append("\') != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t\t");
+            _builder.append("document.getElementById(\'current-mark-");
+            _builder.append(part, "    \t\t\t");
+            _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + currentMark + \'/\' + currentTotal");
+            _builder.append(part, "    \t\t\t");
+            _builder.append(" + \'</label>\';//SETS THE CURRENT MARK");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("var tempMark = weightedMark - penaltyMark;");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("if (tempMark < 0) {");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t\t");
+            _builder.append("tempMark = 0.0;");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("if (document.getElementById(\'weighted-mark-");
+            _builder.append(part, "    \t\t");
+            _builder.append("\') != null) {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t\t");
+            _builder.append("document.getElementById(\'weighted-mark-");
+            _builder.append(part, "    \t\t\t");
+            _builder.append("\').innerHTML = \'<label class=\"text\">Current mark: \' + Math.round(tempMark * 100) + \'%</label>\';//SETS THE WEIGHTED MARK");
+            _builder.newLineIfNotEmpty();
+            _builder.append("    \t");
+            _builder.append("\t");
+            _builder.append("}");
+            _builder.newLine();
+            _builder.append("   \t\t\t");
+            _builder.append("window.location.replace(window.location);");
+            _builder.newLine();
+            _builder.append("    \t");
+            _builder.append("}");
+            _builder.newLine();
           }
-          {
-            EList<MutatorTests> _exercises_4 = program.getExercises();
-            int _length_4 = ((Object[])Conversions.unwrapArray(_exercises_4, Object.class)).length;
-            boolean _lessThan = (part < _length_4);
-            if (_lessThan) {
-              _builder.append("<tr>");
-              _builder.newLine();
-              _builder.append("<td align=\"left\">");
-              _builder.newLine();
-              _builder.append("<a href=\"#\" class=\"test-continue-");
-              _builder.append((part + 1), "");
-              _builder.append("\" id=\"test-continue-");
-              _builder.append((part + 1), "");
-              _builder.append("\" onclick=\"show(");
-              _builder.append((part + 1), "");
-              _builder.append(");\"><img src=\"images/continue.png\" alt=\"continue\" style=\"height: 30px; width: 30px;\" /></a>");
-              _builder.newLineIfNotEmpty();
-              _builder.append("</td>");
-              _builder.newLine();
-              _builder.append("</tr>");
-              _builder.newLine();
-            }
-          }
-          _builder.append("\t    ");
-          _builder.append("<tr>");
-          _builder.newLine();
-          {
-            if ((exercise_3 instanceof AlternativeResponse)) {
-              CharSequence _showone = this.showone(((AlternativeResponse)exercise_3), part);
-              _builder.append(_showone, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          {
-            if ((exercise_3 instanceof MultiChoiceDiagram)) {
-              CharSequence _showall = this.showall(((MultiChoiceDiagram)exercise_3), part);
-              _builder.append(_showall, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          {
-            if ((exercise_3 instanceof MultiChoiceEmendation)) {
-              CharSequence _show = this.show(((MultiChoiceEmendation)exercise_3), part);
-              _builder.append(_show, "");
-              _builder.newLineIfNotEmpty();
-            }
-          }
-          _builder.append("</tr>");
-          _builder.newLine();
-          _builder.append("</table>");
-          _builder.newLine();
         }
       }
-      _builder.append("</body>");
-      _builder.newLine();
-      _builder.append("</html>");
-      _builder.newLine();
-      return _builder;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
     }
+    _builder.append("\t    ");
+    _builder.append("</script>");
+    _builder.newLine();
+    _builder.append("\t    ");
+    _builder.append("<!--");
+    _builder.append(part = 0, "\t    ");
+    _builder.append("-->");
+    _builder.newLineIfNotEmpty();
+    {
+      EList<MutatorTests> _exercises_2 = program.getExercises();
+      for(final MutatorTests exercise_2 : _exercises_2) {
+        _builder.append("<!--");
+        int _plusPlus_2 = part++;
+        _builder.append(_plusPlus_2, "");
+        _builder.append("-->");
+        _builder.newLineIfNotEmpty();
+        {
+          if ((part == 1)) {
+            _builder.append("<table class=\"table-test-");
+            _builder.append(part, "");
+            _builder.append("\" id=\"table-test-");
+            _builder.append(part, "");
+            _builder.append("\" style=\"height: 100%; display: block;\">");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("<table class=\"table-test-");
+            _builder.append(part, "");
+            _builder.append("\" id=\"table-test-");
+            _builder.append(part, "");
+            _builder.append("\" style=\"height: 100%; display: none;\">");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        {
+          ProgramConfiguration _config_11 = program.getConfig();
+          boolean _notEquals_6 = (!Objects.equal(_config_11, null));
+          if (_notEquals_6) {
+            {
+              ProgramConfiguration _config_12 = program.getConfig();
+              Navigation _navigation = _config_12.getNavigation();
+              boolean _equals_10 = Objects.equal(_navigation, Navigation.FREE);
+              if (_equals_10) {
+                {
+                  if ((part > 1)) {
+                    _builder.append("<tr>");
+                    _builder.newLine();
+                    _builder.append("<td align=\"left\">");
+                    _builder.newLine();
+                    _builder.append("<a href=\"#\" class=\"test-back-");
+                    _builder.append((part - 1), "");
+                    _builder.append("\" id=\"test-back-");
+                    _builder.append((part - 1), "");
+                    _builder.append("\" onclick=\"show(");
+                    _builder.append((part - 1), "");
+                    _builder.append(");\"><img src=\"images/back.png\" alt=\"back\" style=\"height: 30px; width: 30px;\" /></a>");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("</td>");
+                    _builder.newLine();
+                    _builder.append("</tr>");
+                    _builder.newLine();
+                  }
+                }
+              }
+            }
+          }
+        }
+        {
+          EList<MutatorTests> _exercises_3 = program.getExercises();
+          int _length = ((Object[])Conversions.unwrapArray(_exercises_3, Object.class)).length;
+          boolean _lessThan = (part < _length);
+          if (_lessThan) {
+            _builder.append("<tr>");
+            _builder.newLine();
+            _builder.append("<td align=\"left\">");
+            _builder.newLine();
+            _builder.append("<a href=\"#\" class=\"test-continue-");
+            _builder.append((part + 1), "");
+            _builder.append("\" id=\"test-continue-");
+            _builder.append((part + 1), "");
+            _builder.append("\" onclick=\"show(");
+            _builder.append((part + 1), "");
+            _builder.append(");\"><img src=\"images/continue.png\" alt=\"continue\" style=\"height: 30px; width: 30px;\" /></a>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</td>");
+            _builder.newLine();
+            _builder.append("</tr>");
+            _builder.newLine();
+          }
+        }
+        _builder.append("\t    ");
+        _builder.append("<tr>");
+        _builder.newLine();
+        {
+          if ((exercise_2 instanceof AlternativeResponse)) {
+            CharSequence _showone = this.showone(((AlternativeResponse)exercise_2), part);
+            _builder.append(_showone, "");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        {
+          if ((exercise_2 instanceof MultiChoiceDiagram)) {
+            CharSequence _showall = this.showall(((MultiChoiceDiagram)exercise_2), part);
+            _builder.append(_showall, "");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        {
+          if ((exercise_2 instanceof MultiChoiceEmendation)) {
+            CharSequence _show = this.show(((MultiChoiceEmendation)exercise_2), part);
+            _builder.append(_show, "");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("</tr>");
+        _builder.newLine();
+        _builder.append("</table>");
+        _builder.newLine();
+      }
+    }
+    _builder.append("</body>");
+    _builder.newLine();
+    _builder.append("</html>");
+    _builder.newLine();
+    return _builder;
   }
   
   public CharSequence showone(final AlternativeResponse ss, final int part) {
@@ -8301,15 +2082,15 @@ public class EduTestGenerator implements IGenerator {
       EList<Test> _tests_1 = ss.getTests();
       for(final Test test_1 : _tests_1) {
         {
-          HashMap<Test, ArrayList<String>> _get = this.rand.get(ss);
-          ArrayList<String> _get_1 = _get.get(test_1);
+          Map<Test, List<String>> _get = this.rand.get(ss);
+          List<String> _get_1 = _get.get(test_1);
           int _size = _get_1.size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             _builder.append("    \t\t");
             _builder.append("<!--DIAGRAM: ");
-            HashMap<Test, ArrayList<String>> _get_2 = this.rand.get(ss);
-            ArrayList<String> _get_3 = _get_2.get(test_1);
+            Map<Test, List<String>> _get_2 = this.rand.get(ss);
+            List<String> _get_3 = _get_2.get(test_1);
             String diagram = _get_3.get(0);
             _builder.append("-->");
             _builder.newLineIfNotEmpty();
@@ -8715,8 +2496,8 @@ public class EduTestGenerator implements IGenerator {
         _builder.append("<tr>");
         _builder.newLine();
         {
-          HashMap<Test, ArrayList<String>> _get = this.rand.get(ss);
-          ArrayList<String> _get_1 = _get.get(test_1);
+          Map<Test, List<String>> _get = this.rand.get(ss);
+          List<String> _get_1 = _get.get(test_1);
           for(final String diagram : _get_1) {
             _builder.append("<td id=\"td-exercise-");
             _builder.append(this.num, "");
@@ -8863,7 +2644,7 @@ public class EduTestGenerator implements IGenerator {
     _builder.append("--> ");
     _builder.newLineIfNotEmpty();
     {
-      ArrayList<Test> _get = this.tests.get(sc);
+      List<Test> _get = this.tests.get(sc);
       for(final Test test : _get) {
         _builder.append("<!--COUNTER: ");
         _builder.append(this.num = (this.num + 1), "");
@@ -8995,21 +2776,21 @@ public class EduTestGenerator implements IGenerator {
     _builder.append("--> ");
     _builder.newLineIfNotEmpty();
     {
-      ArrayList<Test> _get_1 = this.tests.get(sc);
+      List<Test> _get_1 = this.tests.get(sc);
       for(final Test test_1 : _get_1) {
         _builder.append("<!--");
         String diagram = "";
         _builder.append("-->");
         _builder.newLineIfNotEmpty();
         {
-          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_2 = this.options.get(sc);
-          ArrayList<TestUtils.TestOption> _get_3 = _get_2.get(test_1);
+          Map<Test, List<EduTestUtils.TestOption>> _get_2 = this.options.get(sc);
+          List<EduTestUtils.TestOption> _get_3 = _get_2.get(test_1);
           boolean _notEquals = (!Objects.equal(_get_3, null));
           if (_notEquals) {
             {
-              HashMap<Test, ArrayList<TestUtils.TestOption>> _get_4 = this.options.get(sc);
-              ArrayList<TestUtils.TestOption> _get_5 = _get_4.get(test_1);
-              for(final TestUtils.TestOption opt : _get_5) {
+              Map<Test, List<EduTestUtils.TestOption>> _get_4 = this.options.get(sc);
+              List<EduTestUtils.TestOption> _get_5 = _get_4.get(test_1);
+              for(final EduTestUtils.TestOption opt : _get_5) {
                 {
                   if ((opt.solution == true)) {
                     _builder.append("<!--");
@@ -9022,8 +2803,6 @@ public class EduTestGenerator implements IGenerator {
             }
           }
         }
-        System.out.println(("diagram: " + diagram));
-        _builder.newLineIfNotEmpty();
         _builder.append("<!--COUNTER: ");
         _builder.append(this.num = (this.num + 1), "");
         _builder.append("-->");
@@ -9118,14 +2897,14 @@ public class EduTestGenerator implements IGenerator {
         _builder.append("-->");
         _builder.newLineIfNotEmpty();
         {
-          HashMap<Test, ArrayList<TestUtils.TestOption>> _get_6 = this.options.get(sc);
-          ArrayList<TestUtils.TestOption> _get_7 = _get_6.get(test_1);
+          Map<Test, List<EduTestUtils.TestOption>> _get_6 = this.options.get(sc);
+          List<EduTestUtils.TestOption> _get_7 = _get_6.get(test_1);
           boolean _notEquals_1 = (!Objects.equal(_get_7, null));
           if (_notEquals_1) {
             {
-              HashMap<Test, ArrayList<TestUtils.TestOption>> _get_8 = this.options.get(sc);
-              ArrayList<TestUtils.TestOption> _get_9 = _get_8.get(test_1);
-              for(final TestUtils.TestOption opt_1 : _get_9) {
+              Map<Test, List<EduTestUtils.TestOption>> _get_8 = this.options.get(sc);
+              List<EduTestUtils.TestOption> _get_9 = _get_8.get(test_1);
+              for(final EduTestUtils.TestOption opt_1 : _get_9) {
                 {
                   MultiChoiceEmConfig _config_2 = sc.getConfig();
                   Mode _mode = _config_2.getMode();

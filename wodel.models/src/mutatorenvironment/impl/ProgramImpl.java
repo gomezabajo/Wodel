@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ProgramImpl#getOutput <em>Output</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ProgramImpl#getNum <em>Num</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ProgramImpl#getSource <em>Source</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

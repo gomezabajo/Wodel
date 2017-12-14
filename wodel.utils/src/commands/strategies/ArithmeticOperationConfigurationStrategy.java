@@ -2,6 +2,14 @@ package commands.strategies;
 
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * ArithmeticOperationConfigurationStrategy father of all
+ * arithmetic operation strategies
+ *  
+ */
+
 public abstract class ArithmeticOperationConfigurationStrategy extends AttributeConfigurationStrategy {
 	
 	protected EObject object;

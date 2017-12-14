@@ -4,9 +4,15 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * DoubleConfigurationStrategy configures the Double attributes
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public abstract class DoubleConfigurationStrategy extends AttributeConfigurationStrategy {
 	
 	/**
@@ -25,8 +31,6 @@ public abstract class DoubleConfigurationStrategy extends AttributeConfiguration
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		System.out.println("c.getInstanceClass(): " + c.getInstanceClass() + ", value.getClass(): " + value.getClass());
-		//if(c.getInstanceClass() == value.getClass()) return true;
 		if (c.getInstanceClassName().toLowerCase().equals(value.getClass().getSimpleName().toLowerCase())) {
 			return true;
 		}

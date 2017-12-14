@@ -2,7 +2,8 @@
 grammar wodel.dsls.Wodel with org.eclipse.xtext.common.Terminals
 
 //import "http://mutatorenvironment/1.0"
-import "platform:/resource/wodel.models/models/MutatorEnvironment.ecore" 
+import "platform:/resource/wodel.models/models/MutatorEnvironment.ecore"
+import "platform:/resource/wodel.models/models/MutatorEnvironment.ecore#//miniOCL" as miniocl
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 MutatorEnvironment returns MutatorEnvironment:
@@ -39,12 +40,140 @@ Block returns Block:
 ;
 
 Constraint returns Constraint:
-	'context' type=[ecore::EClass|ID] id=EString ':' rule=EString
+	'context' type=[ecore::EClass|ID] id=EString (':' (expressions+=InvariantCS)+ | '::' (rules+=EString)+)
+;
+
+// Expressions
+InvariantCS returns miniocl::InvariantCS:	exp=ExpCS ';'
+
+;
+
+// Expressions
+ExpCS returns miniocl::ExpCS:
+	LogicExpCS
+;
+
+LogicExpCS returns miniocl::LogicExpCS:
+	CallExpCS ({miniocl::LogicExpCS.left=current} op=('=' | '<>') right=CallExpCS)*
+;
+
+CallExpCS returns miniocl::CallExpCS:
+	PrimaryExpCS ({miniocl::CallExpCS.source=current} op=('.' | '->') navExp=NavigationExpCS)*
+;
+//CallExpCS returns miniocl::CallExpCS:
+//	PrimaryExpCS ({miniocl::CallExpCS.source=current} op=('.' | '->') nameExp=NameExpCS)
+//;
+
+PrimaryExpCS returns miniocl::PrimaryExpCS:
+	NameExpCS | LiteralExpCS
+;
+
+NavigationExpCS returns miniocl::NavigationExpCS:
+  LoopExpCS | NavigationNameExpCS
+;
+
+LoopExpCS returns miniocl::LoopExpCS:
+  CollectExpCS | IterateExpCS | ExistsExpCS | ForAllExpCS
+;
+
+CollectExpCS returns miniocl::CollectExpCS:
+  'collect' '(' (itVar=IteratorVarCS '|')? exp+=ExpCS (logicOp+=('or' | 'and') exp+=ExpCS)* ')'
+;
+
+IteratorVarCS returns miniocl::IteratorVarCS:
+  itName = ID (':' itType=PathNameCS)?
+;
+
+IterateExpCS returns miniocl::IterateExpCS:
+  'iterate' '(' itVar=IteratorVarCS ';' accVar=AccVarCS '|' exp+=ExpCS (logicOp+=('or' | 'and') exp+=ExpCS)*  ')'
+;
+
+AccVarCS returns miniocl::AccVarCS:
+  '$' accVarName = ID (':' accType=PathNameCS)? ('=' accInitExp=ExpCS)?
+;
+
+ExistsExpCS returns miniocl::ExistsExpCS:
+  'exists' '(' accVars+=AccVarCS (',' accVars+=AccVarCS)* '|' exp+=ExpCS (logicOp+=('or' | 'and') exp+=ExpCS)*  ')'
+;
+
+ForAllExpCS returns miniocl::ForAllExpCS:
+  'forAll' '(' accVars+=AccVarCS (',' accVars+=AccVarCS)* '|' exp+=ExpCS (logicOp+=('or' | 'and') exp+=ExpCS)*  ')'
+;
+
+NameExpCS returns miniocl::NameExpCS:
+	expName=PathNameCS
+	(roundedBrackets=RoundedBracketClauseCS)?
+	(callExp=CallExpCS)?
+;
+
+NavigationNameExpCS returns miniocl::NavigationNameExpCS:
+	expName=NavigationPathNameCS
+	(roundedBrackets=RoundedBracketClauseCS)?
+	(callExp=CallExpCS)?
+;
+
+RoundedBracketClauseCS returns miniocl::RoundedBracketClauseCS:
+	{miniocl::RoundedBracketClauseCS}
+	'('
+		(args+=ExpCS (','args+=ExpCS)* )? 
+	')'
+;
+
+LiteralExpCS returns miniocl::LiteralExpCS:
+	IntLiteralExpCS | StringLiteralExpCS | BooleanLiteralExpCS
+;
+
+IntLiteralExpCS returns miniocl::IntLiteralExpCS:
+	intSymbol=INT
+;
+
+StringLiteralExpCS returns miniocl::StringLiteralExpCS:
+	stringSymbol=STRING
+;
+
+BooleanLiteralExpCS returns miniocl::BooleanLiteralExpCS:
+	{miniocl::BooleanExpCS}
+	(boolSymbol?='true'
+	| 'false')
+	;
+	
+PathNameCS returns miniocl::PathNameCS:
+	path+=PathCS
+	('::'path+=PathCS)*
+;
+
+NavigationPathNameCS returns miniocl::NavigationPathNameCS:
+	path+=NavigationPathCS
+	('::'path+=NavigationPathCS)*
+;
+
+PathCS returns miniocl::PathCS:
+	PathElementCS | PathVariableCS
+;
+
+NavigationPathCS returns miniocl::NavigationPathCS:
+	NavigationPathElementCS | NavigationPathVariableCS
+;
+
+PathElementCS returns miniocl::PathElementCS:
+	pathName=[ecore::EStructuralFeature|ID]
+;
+
+NavigationPathElementCS returns miniocl::NavigationPathElementCS:
+	pathName=[ecore::EStructuralFeature|ID]
+;
+
+PathVariableCS returns miniocl::PathVariableCS:
+	'$' varName=EString
+;
+
+NavigationPathVariableCS returns miniocl::NavigationPathVariableCS:
+	'$' varName=EString
 ;
 
 Mutator returns Mutator:
 	CreateObjectMutator | SelectObjectMutator | SelectSampleMutator | CompositeMutator | ModifySourceReferenceMutator | ModifyTargetReferenceMutator
-	 | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator | ModifyInformationMutator | CloneObjectMutator;
+	 | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator | ModifyInformationMutator | CloneObjectMutator | RetypeObjectMutator;
 
 ObSelectionStrategy returns ObSelectionStrategy:
 	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection;
@@ -239,6 +368,15 @@ CloneObjectMutator returns CloneObjectMutator:
 	('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ( "," (attributes+=AttributeSet | references+=ReferenceSet))* '}' )?
 	('[' (min=EInt '..')? max=MaxCardinality ']')?
 	;
+
+RetypeObjectMutator returns RetypeObjectMutator:	
+	(name=ID '=')? 'retype' object=ObSelectionStrategy
+	('in' container=ObSelectionStrategy)?
+	'as' type=[ecore::EClass|ID] 	 
+	('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ( "," (attributes+=AttributeSet | references+=ReferenceSet))* '}' )?
+	('[' (min=EInt '..')? max=MaxCardinality ']')?
+	;
+
 
 AttributeSet returns AttributeSet:
 	AttributeScalar | AttributeUnset | AttributeSwap | AttributeCopy | AttributeReverse | AttributeOperation

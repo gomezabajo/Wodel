@@ -2,6 +2,16 @@ package commands;
 
 import exceptions.MaxSmallerThanMinException;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * Execution mutator class.
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
+ */
+
 public class ExecutionMutator {
 	
 	private Mutator command;

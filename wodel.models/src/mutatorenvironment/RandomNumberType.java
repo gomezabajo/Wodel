@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RandomNumberType#getObject <em>Object</em>}</li>
  *   <li>{@link mutatorenvironment.RandomNumberType#getMax <em>Max</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRandomNumberType()
  * @model abstract="true"

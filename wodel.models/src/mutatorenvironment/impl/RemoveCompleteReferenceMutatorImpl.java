@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.RemoveCompleteReferenceMutatorImpl#getRefType <em>Ref Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

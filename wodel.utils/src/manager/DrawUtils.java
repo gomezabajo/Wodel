@@ -1,5 +1,11 @@
 package manager;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * DrawUtils Label style for the modelDraw DSL
+ * 
+ */
 public class DrawUtils {
 
 	public static class LabelStyle {

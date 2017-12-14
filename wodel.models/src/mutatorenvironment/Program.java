@@ -10,12 +10,12 @@ package mutatorenvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.Program#getOutput <em>Output</em>}</li>
  *   <li>{@link mutatorenvironment.Program#getNum <em>Num</em>}</li>
  *   <li>{@link mutatorenvironment.Program#getSource <em>Source</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getProgram()
  * @model

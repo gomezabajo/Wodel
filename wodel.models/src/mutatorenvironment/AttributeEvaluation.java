@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.AttributeEvaluation#getName <em>Name</em>}</li>
  *   <li>{@link mutatorenvironment.AttributeEvaluation#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getAttributeEvaluation()
  * @model

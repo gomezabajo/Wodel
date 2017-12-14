@@ -3,38 +3,35 @@
  */
 package wodel.dsls.generator
 
-import mutatorenvironment.CreateObjectMutator
-import mutatorenvironment.ModifySourceReferenceMutator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import mutatorenvironment.ModifyTargetReferenceMutator
-import mutatorenvironment.CreateReferenceMutator
-import mutatorenvironment.ModifyInformationMutator
-import java.util.ArrayList
 import org.eclipse.emf.ecore.EReference
 import java.util.List
 import java.util.HashMap
 import org.eclipse.emf.ecore.EPackage
 import manager.ModelManager
-import mutator.MutatorUtils
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import mutatorenvironment.MutatorEnvironment
-import mutatorenvironment.RemoveObjectMutator
-import mutatorenvironment.RemoveCompleteReferenceMutator
-import mutatorenvironment.SelectObjectMutator
-import mutatorenvironment.SelectSampleMutator
-import mutatorenvironment.CloneObjectMutator
-import use.UseUtils
-import mutatorenvironment.Mutator
 import org.eclipse.core.runtime.Platform
+import mutatorenvironment.Constraint
+import mutatorenvironment.miniOCL.InvariantCS
+import wodel.dsls.WodelUtils
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.util.EcoreUtil
+import java.util.Map.Entry
+import manager.UseGeneratorUtils
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - Wodel USE code generator.
  * 
- * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
+ * Generates the USE code and the .properties file for
+ * the seeds synthesizer.
+ *  
  */
+
 class WodelUseGenerator implements IGenerator {
 	
 	private static class Cardinality {
@@ -43,18 +40,21 @@ class WodelUseGenerator implements IGenerator {
 	}
 	
 	private String fileName
-	private String className
+	private String modelName
 	private String useName
 	private String propertiesName
 	private String path
 	private EClass root
 	private String dummyClassName = "Dummy"
-	private HashMap<String, HashMap<String, String>> useReferences = new HashMap<String, HashMap<String, String>>()
+	private HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = new HashMap<URI, HashMap<URI, Entry<String, String>>>()
 	
 	private int maxInteger
 	private int minInteger
+	private int maxReal
+	private int minReal
 	private int maxString
-	private int maxCardinality
+	private int maxObjectsCardinality
+	private int maxAssociationsCardinality
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		manager.WodelContext.setProject(null)
@@ -62,20 +62,21 @@ class WodelUseGenerator implements IGenerator {
 		path = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject		
 
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
-			
-			
 			maxInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum integer value", "100", null))
 			minInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Minimum integer value", "-100", null))
+			maxReal = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum real value", "100", null))
+			minReal = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Minimum real value", "0", null))
 			maxString = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum string value", "10", null))
-			maxCardinality = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum cardinality value", "10", null))
+			maxObjectsCardinality = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum cardinality for objects value", "10", null))
+			maxAssociationsCardinality = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum cardinality for associations value", "10", null))
 			fileName = resource.URI.lastSegment
 					
 			fileName = fileName.replaceAll(".mutator", ".java")
-			className = fileName.replaceAll(".java", "")
+			modelName = fileName.replaceAll(".java", "")
 			useName = fileName.replaceAll(".java", ".use")
-			propertiesName = fileName.replaceAll(".java", ".properties") 
-     		fsa.generateFile(useName, e.use.removeComments("use"))
-     		fsa.generateFile(propertiesName, e.properties.removeComments("properties"))
+			propertiesName = fileName.replaceAll(".java", ".properties")
+			fsa.generateFile(useName, e.use(resource).removeComments("use"))
+			fsa.generateFile(propertiesName, e.properties.removeComments("properties"))
 		}
 	}
 	
@@ -98,7 +99,7 @@ class WodelUseGenerator implements IGenerator {
 	}
 	
    def void incContainers(EClass eclass, HashMap<String, Cardinality> classes, List<EPackage> packages, EClass root) {
-   		var List<EClassifier> containers = ModelManager.getContainerTypes(packages, eclass.name)
+   		var List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eclass))
    		for (EClassifier container : containers) {
    			if (!container.name.equals(root.name) && !container.name.equals(eclass.name)) {
    				var Cardinality cardinality = classes.get(container.name)
@@ -116,153 +117,7 @@ class WodelUseGenerator implements IGenerator {
    			}
    		}
    }
-
-   def void process(HashMap<String, Cardinality> classes, List<Mutator> commands, ArrayList<EPackage> packages) {
-		for (Mutator mut : commands) {
-			if (mut instanceof CreateObjectMutator) {
-				if (mut.type != null) {
-					var String name = mut.type.name
-					var List<EClassifier> containers = ModelManager.getContainerTypes(packages, name)
-					for (EClassifier container : containers) {
-						var EReference containerReference = null
-						for (EReference ref : (container as EClass).EAllReferences) {
-							if (ref.EType.name.equals(name) && ref.isContainment()) {
-								containerReference = ref
-							}
-						}
-					}
-				}
-			}
-			if (mut instanceof RemoveObjectMutator) {
-				if (mut.object != null) {
-					var String name = MutatorUtils.getTypeName(mut.object)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof CreateReferenceMutator) {
-				if (mut.target != null) {
-					var String name = MutatorUtils.getTypeName(mut.target)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-				if (mut.source != null) {
-					var String name = MutatorUtils.getTypeName(mut.source)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof ModifySourceReferenceMutator) {
-				if (mut.source != null) {
-					var String name = MutatorUtils.getTypeName(mut.source)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-				if (mut.newSource != null) {
-					var String name = MutatorUtils.getTypeName(mut.newSource)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof ModifyTargetReferenceMutator) {
-				if (mut.source != null) {
-					var String name = MutatorUtils.getTypeName(mut.source)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++	
-						}
-					}
-				}
-				if (mut.newTarget != null) {
-					var String name = MutatorUtils.getTypeName(mut.newTarget) {
-						if (classes.containsKey(name)) {
-							var Cardinality cardinality = classes.get(name)
-							if (cardinality.min == 0) {
-								cardinality.min++
-							}
-						}
-					}
-				}
-			}
-			if (mut instanceof RemoveCompleteReferenceMutator) {
-				if (mut.type != null) {
-					var String name = mut.type.name
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof SelectObjectMutator) {
-				if (mut.object != null) {
-					var String name = MutatorUtils.getTypeName(mut.object)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof SelectSampleMutator) {
-				if (mut.object != null) {
-					var String name = MutatorUtils.getTypeName(mut.object)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof CloneObjectMutator) {
-				if (mut.object != null) {
-					var String name = MutatorUtils.getTypeName(mut.object)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-			if (mut instanceof ModifyInformationMutator) {
-				if (mut.object != null) {
-					var String name = MutatorUtils.getTypeName(mut.object)
-					if (classes.containsKey(name)) {
-						var Cardinality cardinality = classes.get(name)
-						if (cardinality.min == 0) {
-							cardinality.min++
-						}
-					}
-				}
-			}
-		}
-   }
-   
+  
    def void processBlocks(HashMap<String, Cardinality> classes, HashMap<String, HashMap<String, Cardinality>> blockCardinalities) {
 		for (String blockName : blockCardinalities.keySet()) {
 			var HashMap<String, Cardinality> cardinality = blockCardinalities.get(blockName)
@@ -277,73 +132,56 @@ class WodelUseGenerator implements IGenerator {
 		}
    }
    
-   def properties(MutatorEnvironment e) '''
-		[default]
-		
-		Integer_min = «minInteger»
-		Integer_max = «maxInteger»
-		
-		String_max = «maxString»
-		
-		«dummyClassName»_min = 1
-		«dummyClassName»_max = 1
-		
-		# «var ArrayList<EPackage> packages = ModelManager.loadMetaModel(e.definition.metamodel)»
-		# «var ArrayList<EClass> eclasses = ModelManager.getEClasses(packages)»
-		«FOR eclass : eclasses»
-			#«var List<EClassifier> containerTypes = ModelManager.getContainerTypes(packages, eclass.name)»
-			«IF containerTypes.size == 0»
-			#«root = eclass»
-			«ENDIF»
-		«ENDFOR»
-
+   def generate(MutatorEnvironment e, List<EPackage> packages, List<EClass> eclasses, HashMap<URI, String> classNames) '''
 		# «var HashMap<String, Cardinality> classes = new HashMap<String, Cardinality>()»
-		«FOR eclass : eclasses»
-		# «var Cardinality cardinality = new Cardinality()»
+		«FOR classURI : classNames.keySet()»
+		# «var Cardinality cardinality = new Cardinality»
 		# «cardinality.min = 0»
-		«IF eclass.name.equals(root.name)»
+		«IF EcoreUtil.getURI(root).equals(classURI)»
 		# «cardinality.min++»
 		# «cardinality.max = 1»
 		«ELSE»
-		# «cardinality.max = maxCardinality»
+		# «cardinality.max = maxObjectsCardinality»
 		«ENDIF»
-		# «classes.put(eclass.name, cardinality)»
+		# «classes.put(classNames.get(classURI), cardinality)»
 		«ENDFOR»
-		«IF e.commands.size > 0»
-		# «classes.process(e.commands, packages)»
-		«ENDIF»
 		
 		«IF e.blocks.size > 0»
 		# «var HashMap<String, HashMap<String, Cardinality>> blockCardinalities = new HashMap<String, HashMap<String, Cardinality>>()»
 		«FOR b : e.blocks»
 		# «var HashMap<String, Cardinality> cls = new HashMap<String, Cardinality>()»
-		«FOR eclass : eclasses»
-		# «var Cardinality cardinality = new Cardinality()»
+		«FOR classURI : classNames.keySet()»
+		# «var Cardinality cardinality = new Cardinality»
 		# «cardinality.min = 0»
-		«IF eclass.name.equals(root.name)»
+		«IF EcoreUtil.getURI(root).equals(classURI)»
 		# «cardinality.min++»
+		# «cardinality.max = 1»
+		«ELSE»
+		# «cardinality.max = maxObjectsCardinality»
 		«ENDIF»
-		# «cls.put(eclass.name, cardinality)»
 		«ENDFOR»
-		# «cls.process(b.commands, packages)»
 		# «blockCardinalities.put(b.name, cls)»
 		«ENDFOR»
 		
 		#«classes.processBlocks(blockCardinalities)»
 		«ENDIF»
 
-		«FOR eclass : eclasses»
-		«eclass.name»_min = «classes.get(eclass.name).min»
-		«eclass.name»_max = «classes.get(eclass.name).max»
+		«FOR classURI : classNames.keySet()»
+		«var String useClassName = classNames.get(classURI)»
+		«UseGeneratorUtils.encodeWord(useClassName)»_min = «classes.get(useClassName).min»
+		«UseGeneratorUtils.encodeWord(useClassName)»_max = «classes.get(useClassName).max»
 		«ENDFOR»
 
 		# Associations
 		# «var HashMap<String, Integer> associationNames = new HashMap<String, Integer>()»
 		«FOR eclass : eclasses»
-		# «var List<EReference> refs = eclass.getEReferences()»
+		# «var EPackage pck = eclass.EPackage»
+		# «var List<EReference> refs = eclass.getEAllReferences()»
 		«IF refs.size > 0»
 		«FOR ref : refs»
-		# «var String associationName = eclass.name + ref.EType.name»
+		# «var EPackage refEPackage = ref.EReferenceType.EPackage»
+		«IF refEPackage != null»
+		# «var String associationName = pck.name + "XxxX" + eclass.name + "XxxX" + refEPackage.name + "XxxX" + ref.EType.name»
 		«IF associationNames.get(associationName) != null»
 		# «associationNames.put(associationName, associationNames.get(associationName) + 1)»
 		# «associationName += associationNames.get(associationName)»
@@ -351,19 +189,89 @@ class WodelUseGenerator implements IGenerator {
 		# «associationNames.put(associationName, 0)»
 		«ENDIF»
 		# «var int min = 0»
-		«IF (classes.get(eclass.name).min < classes.get(ref.EType.name).min)»
-		# «min = classes.get(eclass.name).min»
+		«IF classes.get(refEPackage.name + "XxxX" + ref.EType.name) != null»
+		«IF (classes.get(pck.name + "XxxX" + eclass.name).min < classes.get(refEPackage.name + "XxxX" + ref.EType.name).min)»
+		# «min = classes.get(pck.name + "XxxX" + eclass.name).min»
 		«ELSE»
-		# «min = classes.get(ref.EType.name).min»
+		# «min = classes.get(refEPackage.name + "XxxX" + ref.EType.name).min»
 		«ENDIF»
-		«associationName»_min = «min»
-		«associationName»_max = «maxCardinality»
+		«ELSE»
+		# «min = 0»
+		«ENDIF»
+		«UseGeneratorUtils.encodeWord(associationName)»_min = «min»
+		«UseGeneratorUtils.encodeWord(associationName)»_max = «maxAssociationsCardinality»
+		«ENDIF»
 		«ENDFOR»
 		«ENDIF»
 		«ENDFOR»
    '''
    
-   def use(MutatorEnvironment e) '''
-	«UseUtils.generateUSE(e, className, useReferences)»
+   def properties(MutatorEnvironment e) '''
+		[default]
+		
+		Integer_min = «minInteger»
+		Integer_max = «maxInteger»
+		
+		Real_min = «minReal»
+		Real_max = «maxReal»
+		
+		String_max = «maxString»
+		
+		«dummyClassName»_min = 1
+		«dummyClassName»_max = 1
+		
+		# «var List<EPackage> packages = ModelManager.loadMetaModel(e.definition.metamodel)»
+		# «var List<EClass> eclasses = ModelManager.getEClasses(packages)»
+		# «var HashMap<URI, String> classNames = UseGeneratorUtils.buildClassNames(eclasses)»
+		# «root = ModelManager.getRootEClass(packages)»
+		
+		«e.generate(packages, eclasses, classNames)»
+		aggregationcyclefreeness = on
+		forbiddensharing = on
+		
+   '''
+   
+   def use(MutatorEnvironment e, Resource model) '''
+	«UseGeneratorUtils.generateUSE(model, e, modelName, useReferences)»
+	«var int i = 0»
+	«FOR Constraint constraint : e.constraints»
+	«IF constraint.expressions != null»
+	«FOR InvariantCS inv : constraint.expressions»
+	«var String constraintText = WodelUtils.getConstraintText(inv)»
+	«IF constraintText.length > 0»
+	«var String feature = constraintText.substring(0, constraintText.indexOf("->"))»
+	«var EClass eclass = constraint.type»
+	«var EClass featureclass = null»
+	«FOR EStructuralFeature sf : eclass.EAllStructuralFeatures»
+	«IF (sf.name.equals(feature))»
+	-- «featureclass = sf.EType as EClass»
+	«ENDIF»
+	«ENDFOR»
+	«IF featureclass != null»
+	inv mutcode«i» : «featureclass.name».allInstances()->«constraintText.substring(constraintText.indexOf("->") + "->".length, constraintText.length())»
+	-- «i++»
+	«ENDIF»
+	«ENDIF»
+	«ENDFOR»
+	«ENDIF»
+	«IF constraint.rules != null»
+	«FOR String rule : constraint.rules»
+	«IF rule.length > 0»
+	«var String feature = rule.substring(0, rule.indexOf("->"))»
+	«var EClass eclass = constraint.type»
+	«var EClass featureclass = null»
+	«FOR EStructuralFeature sf : eclass.EAllStructuralFeatures»
+	«IF (sf.name.equals(feature))»
+	-- «featureclass = sf.EType as EClass»
+	«ENDIF»
+	«ENDFOR»
+	«IF featureclass != null»
+	inv mutcode«i» : «featureclass.name».allInstances()->«rule.substring(rule.indexOf("->") + "->".length, rule.length())»
+	-- «i++»
+	«ENDIF»
+	«ENDIF»
+	«ENDFOR»
+	«ENDIF»
+	«ENDFOR»
 	'''
 }

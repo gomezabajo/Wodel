@@ -166,6 +166,15 @@ public interface AppliedMutationsFactory extends EFactory {
 	ObjectCloned createObjectCloned();
 
 	/**
+	 * Returns a new object of class '<em>Object Retyped</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Object Retyped</em>'.
+	 * @generated
+	 */
+	ObjectRetyped createObjectRetyped();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

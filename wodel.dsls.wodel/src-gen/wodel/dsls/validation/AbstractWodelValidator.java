@@ -13,6 +13,7 @@ public class AbstractWodelValidator extends org.eclipse.xtext.validation.Abstrac
 	protected List<EPackage> getEPackages() {
 	    List<EPackage> result = new ArrayList<EPackage>();
 	    result.add(EPackage.Registry.INSTANCE.getEPackage("http://mutatorenvironment/1.0"));
+	    result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.ac.uk/york/cs/miniocl/MiniOCLCS"));
 		return result;
 	}
 }

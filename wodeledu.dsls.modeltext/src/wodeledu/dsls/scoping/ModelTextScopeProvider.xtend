@@ -20,12 +20,11 @@ import manager.ModelManager
 import org.eclipse.emf.ecore.EClassifier
 
 /**
- * This class contains custom scoping description.
+ * @author Pablo Gomez-Abajo
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
- * on how and when to use it.
+ * Scope provider for the modelText language.
  *
- */
+ */ 
 class ModelTextScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def IScope scope_Element_type(Element element, EReference ref) {
@@ -88,7 +87,6 @@ class ModelTextScopeProvider extends AbstractDeclarativeScopeProvider {
 	   * @return List<EAttribute> list of attributes
 	   */ 
 	 def private List<EAttribute> getEAttributes (String metamodelFile, String eclassName) {
-	   	System.out.println("def private List<EAttribute> getEAttributes (String metamodelFile=" + metamodelFile + ", String eclassName=" + eclassName + ")")
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
 	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
 	  	if (eclass!=null) {

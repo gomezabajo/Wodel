@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ObjectEmitterImpl#getType <em>Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ObjectEmitterImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

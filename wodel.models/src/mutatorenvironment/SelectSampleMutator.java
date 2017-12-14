@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.SelectSampleMutator#getObject <em>Object</em>}</li>
  *   <li>{@link mutatorenvironment.SelectSampleMutator#getClause <em>Clause</em>}</li>
  *   <li>{@link mutatorenvironment.SelectSampleMutator#getFeatures <em>Features</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getSelectSampleMutator()
  * @model

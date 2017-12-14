@@ -16,15 +16,15 @@ import modelgraph.Level
 import modelgraph.Content
 import modelgraph.Decoration
 import modelgraph.NodeStyle
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.emf.ecore.EClass
 import modelgraph.Relation
+import manager.JavaUtils
 
 /**
- * Generates code from your model files on save.
+ * @author Pablo Gomez-Abajo - modelGraph code generator.
  * 
- * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
+ * Generates the Java code for the graphical
+ * representation of the models.
+ *  
  */
 class ModelGraphGenerator implements IGenerator {
 	private String fileName;
@@ -41,7 +41,7 @@ class ModelGraphGenerator implements IGenerator {
 				fileName = resource.URI.lastSegment.replace(".graph", "") + i + '_Graph.java'
 			}
 			className = fileName.replaceAll(".java", "")
-			fsa.generateFile(fileName, e.compile)
+			fsa.generateFile(fileName, JavaUtils.format(e.compile, false))
 			i++
 		}
 	}
@@ -262,7 +262,7 @@ class ModelGraphGenerator implements IGenerator {
 
 		«IF graph.nodes != null»
 		«IF graph.nodes.size() > 0»
-		private static void generateNodes(ArrayList<EPackage> packages, Resource model, HashMap<EObject, LabelStyle> dotnodes, HashMap<String, ArrayList<HashMap<String, String>>> dotrels) {
+		private static void generateNodes(List<EPackage> packages, Resource model, HashMap<EObject, LabelStyle> dotnodes, HashMap<String, ArrayList<HashMap<String, String>>> dotrels) {
 			// COUNTER: «var counter = 0»
 			«FOR node : graph.nodes»
 			ArrayList<EObject> lnode_«counter» = ModelManager.getObjectsOfType("«node.name.name»", model);
@@ -350,7 +350,6 @@ class ModelGraphGenerator implements IGenerator {
 						«IF graph.contents.size() > 0»
 						for (EReference ref : node.eClass().getEAllReferences()) {
 							String label = "";
-							System.out.println("ref: " + ref);
 							List<EClass> classes = null;
 							EClass cl = null;
 							if (ref.getName().equals("«ref.name»")) {
@@ -711,7 +710,7 @@ class ModelGraphGenerator implements IGenerator {
 		«ENDIF»
 		«ENDIF»
 		
-		public static void generateGraphs(File file, String folder, ArrayList<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException {
+		public static void generateGraphs(File file, String folder, List<EPackage> packages, File exercise) throws ModelNotFoundException, FileNotFoundException {
 			if (file.isFile()) {
 				String pathfile = file.getPath();
 				if (pathfile.endsWith(".model") == true) {
@@ -728,8 +727,6 @@ class ModelGraphGenerator implements IGenerator {
 					String pngfile = "«folder»/src-gen/html/diagrams/" + "/" +
 						path + file.getName().replace(".model", ".png");
 					«graph.generate(folder)»
-					System.out.println(dotcode);
-					System.out.println(dotfile);
 					File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 					if (diagramsfolder.exists() != true) {
 						diagramsfolder.mkdir();
@@ -749,7 +746,6 @@ class ModelGraphGenerator implements IGenerator {
 							}
 						}
 					}
-					System.out.println("path: " + path);
 					PrintWriter dotwriter = new PrintWriter(dotfile);
 					for (String dotline : dotcode) {
 						dotwriter.println(dotline);
@@ -786,7 +782,7 @@ class ModelGraphGenerator implements IGenerator {
 		public void generate() throws MetaModelNotFoundException, ModelNotFoundException, FileNotFoundException {
 				
 			String metamodel = "«ModelManager.getMetaModel().replace("\\", "/")»";
-			ArrayList<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			// GENERATES PNG FILES FROM SOURCE MODELS
 			File folder = new File("«folder»/data/model");
 			for (File file : folder.listFiles()) {
@@ -801,8 +797,6 @@ class ModelGraphGenerator implements IGenerator {
 							file.getName().replace(".model", "") + "/" +
 							file.getName().replace(".model", ".png");
 						«graph.generate(folder)»
-						System.out.println(dotcode);
-						System.out.println(dotfile);
 						File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 						if (diagramsfolder.exists() != true) {
 							diagramsfolder.mkdir();
@@ -851,8 +845,6 @@ class ModelGraphGenerator implements IGenerator {
 								String pngfile = "«folder»/src-gen/html/diagrams/" + exercise.getName() + "/" +
 								file.getName().replace(".model", ".png");
 								«graph.generate(folder)»
-								System.out.println(dotcode);
-								System.out.println(dotfile);
 								File diagramsfolder = new File("«folder»/src-gen/html/diagrams/");
 								if (diagramsfolder.exists() != true) {
 									diagramsfolder.mkdir();

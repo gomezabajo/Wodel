@@ -4,9 +4,15 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * @author Victor Lopez Rivero
+ * @author Pablo Gomez-Abajo
+ * 
  * BooleanConfigurationStrategy configures the boolean attributes
+ * 
+ * This class was started by Victor Lopez Rivero.
+ * Since March, 2015 it is continued by Pablo Gomez Abajo.
+ *  
  */
+
 public abstract class BooleanConfigurationStrategy extends AttributeConfigurationStrategy {
 	
 	/**
@@ -20,7 +26,7 @@ public abstract class BooleanConfigurationStrategy extends AttributeConfiguratio
 	
 	@Override
 	public boolean sameType(EClassifier c) {
-		if(c.getInstanceClassName().equals("boolean")) return true;
+		if(c.getInstanceClassName().equals("boolean") || c.getInstanceClassName().equals("java.lang.Boolean")) return true;
 		return false;
 	}
 	

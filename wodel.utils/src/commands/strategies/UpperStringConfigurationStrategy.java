@@ -3,11 +3,15 @@ package commands.strategies;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * UpperStringConfigurationStrategy configures the string to upper case
+ * 
+ */
+
 public class UpperStringConfigurationStrategy extends StringConfigurationStrategy {
-	/**
-	 * @param value
-	 * Normal constructor
-	 */
+
 	public UpperStringConfigurationStrategy(String a2m){
 		super(a2m);
 		this.value = "";

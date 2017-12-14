@@ -3,6 +3,14 @@ package commands.strategies;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * @author Pablo Gomez-Abajo
+ * 
+ * CatStartStringConfigurationStrategy concatenates a string
+ * at the start of the given one
+ *  
+ */
+
 public class CatStartStringConfigurationStrategy extends StringConfigurationStrategy {
 	/**
 	 * @param value

@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.RemoveSpecificReferenceMutator#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.RemoveSpecificReferenceMutator#getContainer <em>Container</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getRemoveSpecificReferenceMutator()
  * @model

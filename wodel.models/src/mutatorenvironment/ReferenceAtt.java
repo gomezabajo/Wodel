@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.ReferenceAtt#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceAtt#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceAtt()
  * @model

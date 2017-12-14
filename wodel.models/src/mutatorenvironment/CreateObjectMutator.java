@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatorenvironment.CreateObjectMutator#getContainer <em>Container</em>}</li>
  *   <li>{@link mutatorenvironment.CreateObjectMutator#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link mutatorenvironment.CreateObjectMutator#getReferences <em>References</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getCreateObjectMutator()
  * @model

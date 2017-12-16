@@ -44,16 +44,12 @@ class EduTestGenerator extends EduTestUtils implements IGenerator {
 	private int num
 	private List<EObject> blocks
 	
-	def CharSequence removeComments(CharSequence contents) {
-		return contents.toString.replaceAll("//.*", "").replaceAll("<!--.*-->", "").replaceAll("(?m)^[ \t]*\r?\n", "")
-	}
-	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		try {
 			var i = 0;
 			//loads the mutator model
-			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + '/' + manager.WodelContext.getProject +
-			'/' + ModelManager.getOutputFolder + '/' + resource.URI.lastSegment.replaceAll(".test", ".model")
+			var xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath + "/" + manager.WodelContext.getProject +
+			"/" + ModelManager.getOutputFolder + "/" + resource.URI.lastSegment.replaceAll(".test", ".model")
 			val Bundle bundle = Platform.getBundle("wodel.models")
 	   		val URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore")
 	   		val String mutatorecore = FileLocator.resolve(fileURL).getFile()
@@ -72,7 +68,7 @@ class EduTestGenerator extends EduTestUtils implements IGenerator {
 					fileName = 'html/' + resource.URI.lastSegment.replaceAll(".test", "") + i + '.html'
 					pageName = resource.URI.lastSegment.replaceAll(".test", "") + i + '.html'
 				}
-				fsa.generateFile(fileName, p.compile(resource).removeComments)
+				fsa.generateFile(fileName, removeComments(p.compile(resource)))
 				i++
 			}
 		}

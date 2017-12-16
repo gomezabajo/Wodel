@@ -60,13 +60,6 @@ public class EduTestGenerator extends EduTestUtils implements IGenerator {
   
   private List<EObject> blocks;
   
-  public CharSequence removeComments(final CharSequence contents) {
-    String _string = contents.toString();
-    String _replaceAll = _string.replaceAll("//.*", "");
-    String _replaceAll_1 = _replaceAll.replaceAll("<!--.*-->", "");
-    return _replaceAll_1.replaceAll("(?m)^[ \t]*\r?\n", "");
-  }
-  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
     try {
@@ -129,7 +122,7 @@ public class EduTestGenerator extends EduTestUtils implements IGenerator {
               this.pageName = _plus_13;
             }
             CharSequence _compile = this.compile(p, resource);
-            CharSequence _removeComments = this.removeComments(_compile);
+            CharSequence _removeComments = EduTestUtils.removeComments(_compile);
             fsa.generateFile(this.fileName, _removeComments);
             i++;
           }

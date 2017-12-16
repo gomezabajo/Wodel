@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -91,6 +93,41 @@ public class EduTestUtils {
 			return super.clone();
 		}
 	}
+	
+	/**
+	 * Removes comments from html code
+	 */
+	protected static CharSequence removeComments(CharSequence sequence) {
+		List<String> comments = new ArrayList<String>();
+		Pattern commentsPattern = Pattern.compile("(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)|<!--.*-->");
+
+        String text = sequence.toString();
+        String noStrings = text.replaceAll("(\".*?(?<!\\\\)\")", "");
+        Matcher commentsMatcher = commentsPattern.matcher(noStrings);
+
+        while (commentsMatcher.find()) {
+            String comment = commentsMatcher.group();
+            if (!comments.contains(comment)) {
+            	comments.add(comment);
+            }
+        }
+        comments.sort((c1, c2) -> c2.length() - c1.length());
+        
+        for (String comment : comments) {
+        	Pattern commentPattern = null;
+        	if (comment.length() == 2) {
+        		commentPattern = Pattern.compile(Pattern.quote(comment) + "\r?\n");
+        	}
+        	else {
+        		commentPattern = Pattern.compile(Pattern.quote(comment));
+        	}
+        	Matcher commentMatcher = commentPattern.matcher(text);
+        	text = commentMatcher.replaceAll("");
+        }
+
+        return text.replaceAll("(?m)^[ \t]*\r?\n", "");
+	}
+
 	
 	/**
 	 * Gets the registry object for the test exercise

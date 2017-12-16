@@ -9083,11 +9083,6 @@ public class WodelMutatorGenerator implements IGenerator {
             _builder.append("   \t");
             _builder.append("String metricsecore = FileLocator.resolve(fileURL).getFile();");
             _builder.newLine();
-            _builder.append("   \t");
-            _builder.append("//String metricsecore = \"");
-            _builder.append((this.path + "/resources/MutatorMetrics.ecore"), "   \t");
-            _builder.append("\";");
-            _builder.newLineIfNotEmpty();
             _builder.newLine();
             _builder.append("\t");
             _builder.append("MutatorMetricsGenerator metricsGenerator = null;");
@@ -9348,12 +9343,6 @@ public class WodelMutatorGenerator implements IGenerator {
         _builder.append("   \t");
         _builder.append("String metricsecore = FileLocator.resolve(fileURL).getFile();");
         _builder.newLine();
-        _builder.append("\t");
-        _builder.append("\t");
-        _builder.append("//String metricsecore = \"");
-        _builder.append((this.path + "/resources/MutatorMetrics.ecore"), "\t\t");
-        _builder.append("\";");
-        _builder.newLineIfNotEmpty();
         _builder.newLine();
         _builder.append("\t");
         _builder.append("\t");
@@ -9605,10 +9594,6 @@ public class WodelMutatorGenerator implements IGenerator {
         _builder.append(outputPath, "");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
-        _builder.append("//String resourcesURI = \"");
-        _builder.append((this.path + "/resources/"), "");
-        _builder.append("\";");
-        _builder.newLineIfNotEmpty();
         _builder.newLine();
         _builder.append("HashMap<String, String> hashmapModelFilenames = new HashMap<String, String>();");
         _builder.newLine();
@@ -9701,10 +9686,6 @@ public class WodelMutatorGenerator implements IGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("String modelsURI = \"");
         _builder.append(outputPath, "");
-        _builder.append("\";");
-        _builder.newLineIfNotEmpty();
-        _builder.append("//String resourcesURI = \"");
-        _builder.append((this.path + "/resources/"), "");
         _builder.append("\";");
         _builder.newLineIfNotEmpty();
         _builder.newLine();

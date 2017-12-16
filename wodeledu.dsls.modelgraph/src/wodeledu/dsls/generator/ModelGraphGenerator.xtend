@@ -257,7 +257,7 @@ class ModelGraphGenerator implements IGenerator {
 	
 	public class «className» implements manager.IMutatorGraph {
 		
-   		«var String folder = ModelManager.getWorkspaceAbsolutePath() + '/' 
+   		«var String folder = ModelManager.getWorkspaceAbsolutePath() + "/"
 	   			+ WodelContext.getProject()»
 
 		«IF graph.nodes != null»

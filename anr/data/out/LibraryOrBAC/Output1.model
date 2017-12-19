@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<SecurityPolicy:SecurityPolicy xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SecurityPolicy="http://securityPolicy/1.0" xsi:schemaLocation="http://securityPolicy/1.0 file:/c:/eclipse/workspace/anr/data/model/SecurityPolicy.ecore" xmi:id="_VcztYNJXEeatoq8h5wJ1lA">
+<SecurityPolicy:SecurityPolicy xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SecurityPolicy="http://securityPolicy/1.0" xsi:schemaLocation="http://securityPolicy/1.0 ../../model/SecurityPolicy.ecore" xmi:id="_VcztYNJXEeatoq8h5wJ1lA">
   <policyTypes xmi:id="_WruXkNJXEeatoq8h5wJ1lA" name="OrBAC">
     <ruleTypes xmi:id="_ZbMOgNJXEeatoq8h5wJ1lA" name="Permission" parameters="_oSyU4NJXEeatoq8h5wJ1lA _qurIgNJXEeatoq8h5wJ1lA _jy8FcNJXEeatoq8h5wJ1lA _mlsg8NJXEeatoq8h5wJ1lA _ptbt8NJXEeatoq8h5wJ1lA"/>
     <ruleTypes xmi:id="_bXoGANJXEeatoq8h5wJ1lA" name="Prohibition" parameters="_oSyU4NJXEeatoq8h5wJ1lA _qurIgNJXEeatoq8h5wJ1lA _jy8FcNJXEeatoq8h5wJ1lA _mlsg8NJXEeatoq8h5wJ1lA _ptbt8NJXEeatoq8h5wJ1lA"/>
@@ -16,7 +16,7 @@
     <rules xmi:id="_GTMlwNJeEeatoq8h5wJ1lA" name="R3" parameters="_0mTtQNJdEeatoq8h5wJ1lA _uxTowNJdEeatoq8h5wJ1lA _Lvw8INJeEeatoq8h5wJ1lA _ho8EUNJdEeatoq8h5wJ1lA _omV7UNJdEeatoq8h5wJ1lA" type="_bXoGANJXEeatoq8h5wJ1lA"/>
     <rules xmi:id="_RF3eINJeEeatoq8h5wJ1lA" name="R4" parameters="_ho8EUNJdEeatoq8h5wJ1lA _wsXnQNJdEeatoq8h5wJ1lA _mVnO0NJdEeatoq8h5wJ1lA _26nSMNJdEeatoq8h5wJ1lA _5MLsMNJdEeatoq8h5wJ1lA" type="_ZbMOgNJXEeatoq8h5wJ1lA"/>
     <rules xmi:id="_VyZesNJeEeatoq8h5wJ1lA" name="R5" parameters="_y1_mMNJdEeatoq8h5wJ1lA _qsUJUNJdEeatoq8h5wJ1lA _ho8EUNJdEeatoq8h5wJ1lA _26nSMNJdEeatoq8h5wJ1lA _5MLsMNJdEeatoq8h5wJ1lA" type="_ZbMOgNJXEeatoq8h5wJ1lA"/>
-    <rules name="ItiO" parameters="_y1_mMNJdEeatoq8h5wJ1lA _5MLsMNJdEeatoq8h5wJ1lA _Lvw8INJeEeatoq8h5wJ1lA _6xgEMNJdEeatoq8h5wJ1lA" type="_ZbMOgNJXEeatoq8h5wJ1lA"/>
+    <rules name="IMCE" parameters="_uxTowNJdEeatoq8h5wJ1lA _jb_WUNJdEeatoq8h5wJ1lA _omV7UNJdEeatoq8h5wJ1lA _mVnO0NJdEeatoq8h5wJ1lA _qsUJUNJdEeatoq8h5wJ1lA" type="_ZbMOgNJXEeatoq8h5wJ1lA"/>
     <elements xmi:id="_ho8EUNJdEeatoq8h5wJ1lA" name="Library" type="_jy8FcNJXEeatoq8h5wJ1lA"/>
     <elements xmi:id="_jb_WUNJdEeatoq8h5wJ1lA" name="Student" type="_mlsg8NJXEeatoq8h5wJ1lA"/>
     <elements xmi:id="_mVnO0NJdEeatoq8h5wJ1lA" name="Personnel" type="_mlsg8NJXEeatoq8h5wJ1lA">

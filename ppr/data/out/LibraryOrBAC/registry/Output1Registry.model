@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../ppr.model#//@commands.0"/>
+    <def href="../../ppr.model#//@blocks.0/@commands.0"/>
   </muts>
   <muts>
-    <def href="../../ppr.model#//@commands.1"/>
+    <def href="../../ppr.model#//@blocks.0/@commands.1"/>
   </muts>
   <muts>
-    <def href="../../ppr.model#//@commands.2"/>
+    <def href="../../ppr.model#//@blocks.0/@commands.2"/>
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../ppr.model#//@commands.3"/>
+    <def href="../../ppr.model#//@blocks.1/@commands.0"/>
     <object href="../../../model/LibraryOrBAC.model#_RF3eINJeEeatoq8h5wJ1lA"/>
     <refChanges refName="parameters">
-      <def href="../../ppr.model#//@commands.3"/>
+      <def href="../../ppr.model#//@blocks.1/@commands.0"/>
       <object href="../../../model/LibraryOrBAC.model#_RF3eINJeEeatoq8h5wJ1lA"/>
     </refChanges>
     <refChanges refName="parameters">
-      <def href="../../ppr.model#//@commands.3"/>
+      <def href="../../ppr.model#//@blocks.1/@commands.0"/>
       <object href="../../../model/LibraryOrBAC.model#_RF3eINJeEeatoq8h5wJ1lA"/>
     </refChanges>
   </muts>

@@ -1,132 +1,94 @@
 model rer
-class SecurityPolicy
+class SecurityPolicyXxxXSecurityPolicy
 end
-class PolicyType
+class SecurityPolicyXxxXPolicyType
 	attributes
 		name : String
 end
-class RuleType
+class SecurityPolicyXxxXRuleType
 	attributes
 		name : String
 end
-class ElementType
+class SecurityPolicyXxxXElementType
 	attributes
 		name : String
 		hierarchy : Boolean
 end
-class Policy
+class SecurityPolicyXxxXPolicy
 	attributes
 		name : String
 end
-class Rule
+class SecurityPolicyXxxXRule
 	attributes
 		name : String
 end
-class Parameter
+class SecurityPolicyXxxXParameter
 	attributes
 		name : String
 end
 class Dummy
 end
-composition SecurityPolicyPolicyType between
-	SecurityPolicy[*] role securitypolicypolicytype
-	PolicyType[*] role policyTypes
+composition SecurityPolicyXxxXSecurityPolicyXxxXSecurityPolicyXxxXPolicyType between
+	SecurityPolicyXxxXSecurityPolicy[0..1] role securitypolicyxxxxsecuritypolicyxxxxpolicyTypes
+	SecurityPolicyXxxXPolicyType[*] role policyTypes
 end
-composition SecurityPolicyPolicy between
-	SecurityPolicy[*] role securitypolicypolicy
-	Policy[*] role policies
+composition SecurityPolicyXxxXSecurityPolicyXxxXSecurityPolicyXxxXPolicy between
+	SecurityPolicyXxxXSecurityPolicy[0..1] role securitypolicyxxxxsecuritypolicyxxxxpolicies
+	SecurityPolicyXxxXPolicy[*] role policies
 end
-composition PolicyTypeRuleType between
-	PolicyType[*] role policytyperuletype
-	RuleType[1..*] role ruleTypes
+composition SecurityPolicyXxxXPolicyTypeXxxXSecurityPolicyXxxXRuleType between
+	SecurityPolicyXxxXPolicyType[0..1] role securitypolicyxxxxpolicytypexxxxruleTypes
+	SecurityPolicyXxxXRuleType[1..*] role ruleTypes
 end
-composition PolicyTypeElementType between
-	PolicyType[*] role policytypeelementtype
-	ElementType[1..*] role elementTypes
+composition SecurityPolicyXxxXPolicyTypeXxxXSecurityPolicyXxxXElementType between
+	SecurityPolicyXxxXPolicyType[0..1] role securitypolicyxxxxpolicytypexxxxelementTypes
+	SecurityPolicyXxxXElementType[1..*] role elementTypes
 end
-association RuleTypeElementType between
-	RuleType[*] role ruletypeelementtype
-	ElementType[1..*] role parameters
+association SecurityPolicyXxxXRuleTypeXxxXSecurityPolicyXxxXElementType between
+	SecurityPolicyXxxXRuleType[*] role securitypolicyxxxxruletypexxxxparameters
+	SecurityPolicyXxxXElementType[1..*] role parameters
 end
-composition PolicyRule between
-	Policy[*] role policyrule
-	Rule[*] role rules
+composition SecurityPolicyXxxXPolicyXxxXSecurityPolicyXxxXRule between
+	SecurityPolicyXxxXPolicy[0..1] role securitypolicyxxxxpolicyxxxxrules
+	SecurityPolicyXxxXRule[*] role rules
 end
-composition PolicyParameter between
-	Policy[*] role policyparameter
-	Parameter[*] role elements
+composition SecurityPolicyXxxXPolicyXxxXSecurityPolicyXxxXParameter between
+	SecurityPolicyXxxXPolicy[0..1] role securitypolicyxxxxpolicyxxxxelements
+	SecurityPolicyXxxXParameter[*] role elements
 end
-association PolicyPolicyType between
-	Policy[*] role policypolicytype
-	PolicyType[1] role type
+association SecurityPolicyXxxXPolicyXxxXSecurityPolicyXxxXPolicyType between
+	SecurityPolicyXxxXPolicy[*] role securitypolicyxxxxpolicyxxxxtype
+	SecurityPolicyXxxXPolicyType[1] role type
 end
-association RuleParameter between
-	Rule[*] role ruleparameter
-	Parameter[1..*] role parameters1
+association SecurityPolicyXxxXRuleXxxXSecurityPolicyXxxXParameter between
+	SecurityPolicyXxxXRule[*] role securitypolicyxxxxrulexxxxparameters
+	SecurityPolicyXxxXParameter[1..*] role parameters1
 end
-association RuleRuleType between
-	Rule[*] role ruleruletype
-	RuleType[1] role type1
+association SecurityPolicyXxxXRuleXxxXSecurityPolicyXxxXRuleType between
+	SecurityPolicyXxxXRule[*] role securitypolicyxxxxrulexxxxtype
+	SecurityPolicyXxxXRuleType[1] role type1
 end
-composition ParameterParameter between
-	Parameter[*] role parameterparameter
-	Parameter[*] role children
+composition SecurityPolicyXxxXParameterXxxXSecurityPolicyXxxXParameter between
+	SecurityPolicyXxxXParameter[0..1] role securitypolicyxxxxparameterxxxxchildren
+	SecurityPolicyXxxXParameter[*] role children
 end
-association ParameterElementType between
-	Parameter[*] role parameterelementtype
-	ElementType[1] role type2
+association SecurityPolicyXxxXParameterXxxXSecurityPolicyXxxXElementType between
+	SecurityPolicyXxxXParameter[*] role securitypolicyxxxxparameterxxxxtype
+	SecurityPolicyXxxXElementType[1] role type2
 end
 constraints
+context SecurityPolicyXxxXParameter inv ensure_container:
+	(not securitypolicyxxxxpolicyxxxxelements.oclIsUndefined() and
+	securitypolicyxxxxparameterxxxxchildren.oclIsUndefined()) or 
+	(securitypolicyxxxxpolicyxxxxelements.oclIsUndefined() and
+	not securitypolicyxxxxparameterxxxxchildren.oclIsUndefined())
 context Dummy
-context Parameter inv single_container:
-	Policy.allInstances()->collect(o | o.elements)->count(self) +
-	Parameter.allInstances()->collect(o | o.children)->count(self) <= 1
-context Parameter inv non_contains_itself_children:
-not self.children->includes(self)
-and
-not self.children->exists(children1 |
-if children1.oclIsKindOf(Parameter) then
-	children1.oclAsType(Parameter).children->includes(self)
-	 else false endif)
-and
-not self.children->exists(children2 |
-if children2.oclIsKindOf(Parameter) then
-	children2.oclAsType(Parameter).children->exists(children1 |
-if children1.oclIsKindOf(Parameter) then
-	children1.oclAsType(Parameter).children->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not self.children->exists(children3 |
-if children3.oclIsKindOf(Parameter) then
-	children3.oclAsType(Parameter).children->exists(children2 |
-if children2.oclIsKindOf(Parameter) then
-	children2.oclAsType(Parameter).children->exists(children1 |
-if children1.oclIsKindOf(Parameter) then
-	children1.oclAsType(Parameter).children->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not self.children->exists(children4 |
-if children4.oclIsKindOf(Parameter) then
-	children4.oclAsType(Parameter).children->exists(children3 |
-if children3.oclIsKindOf(Parameter) then
-	children3.oclAsType(Parameter).children->exists(children2 |
-if children2.oclIsKindOf(Parameter) then
-	children2.oclAsType(Parameter).children->exists(children1 |
-if children1.oclIsKindOf(Parameter) then
-	children1.oclAsType(Parameter).children->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-inv mut1 : PolicyType.allInstances()->forAll(p | p.name <> null)
-inv mut2 : RuleType.allInstances()->forAll(r | r.name <> null)
-inv mut3 : ElementType.allInstances()->forAll(e | e.name <> null)
-inv mut4 : ElementType.allInstances()->forAll(e | e.hierarchy <> null)
-inv mut5 : Policy.allInstances()->forAll(p | p.name <> null)
-inv mut6 : Rule.allInstances()->forAll(r | r.name <> null)
-inv mut7 : Parameter.allInstances()->forAll(p | p.name <> null)
-inv mut8 : Rule.allInstances()->size() > 0
-inv mut9 : Policy.allInstances()->size() > 0
+inv mut1 : SecurityPolicyXxxXPolicyType.allInstances()->forAll(s | s.name <> null)
+inv mut2 : SecurityPolicyXxxXRuleType.allInstances()->forAll(s | s.name <> null)
+inv mut3 : SecurityPolicyXxxXElementType.allInstances()->forAll(s | s.name <> null)
+inv mut4 : SecurityPolicyXxxXElementType.allInstances()->forAll(s | s.hierarchy <> null)
+inv mut5 : SecurityPolicyXxxXPolicy.allInstances()->forAll(s | s.name <> null)
+inv mut6 : SecurityPolicyXxxXRule.allInstances()->forAll(s | s.name <> null)
+inv mut7 : SecurityPolicyXxxXParameter.allInstances()->forAll(s | s.name <> null)
+inv mut8 : SecurityPolicyXxxXRule.allInstances()->size() > 0
+inv mut9 : SecurityPolicyXxxXPolicy.allInstances()->size() > 0

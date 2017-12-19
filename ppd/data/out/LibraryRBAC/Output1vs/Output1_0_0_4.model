@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
-<SecurityPolicy:SecurityPolicy xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SecurityPolicy="http://securityPolicy/1.0" xsi:schemaLocation="http://securityPolicy/1.0 file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore" xmi:id="_VcztYNJXEeatoq8h5wJ1lA">
+<SecurityPolicy:SecurityPolicy xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SecurityPolicy="http://securityPolicy/1.0" xsi:schemaLocation="http://securityPolicy/1.0 ../../../model/SecurityPolicy.ecore" xmi:id="_VcztYNJXEeatoq8h5wJ1lA">
   <policyTypes xmi:id="_BMag4NJYEeatoq8h5wJ1lA" name="RBAC">
     <ruleTypes xmi:id="_C7f44NJYEeatoq8h5wJ1lA" name="UserRole" parameters="_JFsKQNJYEeatoq8h5wJ1lA _G1V4QNJYEeatoq8h5wJ1lA"/>
-    <ruleTypes xmi:id="_Ed6t4NJYEeatoq8h5wJ1lA" name="RolePermission" parameters="_KGaAYNJYEeatoq8h5wJ1lA _H4pvYNJYEeatoq8h5wJ1lA"/>
+    <ruleTypes xmi:id="_Ed6t4NJYEeatoq8h5wJ1lA" name="RolePermission" parameters="_KGaAYNJYEeatoq8h5wJ1lA _H4pvYNJYEeatoq8h5wJ1lA _JFsKQNJYEeatoq8h5wJ1lA"/>
     <elementTypes xmi:id="_G1V4QNJYEeatoq8h5wJ1lA" name="User"/>
     <elementTypes xmi:id="_H4pvYNJYEeatoq8h5wJ1lA" name="Permission"/>
-    <elementTypes xmi:id="_JFsKQNJYEeatoq8h5wJ1lA" name="Role"/>
+    <elementTypes xmi:id="_JFsKQNJYEeatoq8h5wJ1lA" name="Role" hierarchy="true"/>
     <elementTypes xmi:id="_KGaAYNJYEeatoq8h5wJ1lA" name="Constraint"/>
   </policyTypes>
   <policies xmi:id="_vkT9kNJeEeatoq8h5wJ1lA" name="LibraryRBAC" type="_BMag4NJYEeatoq8h5wJ1lA">

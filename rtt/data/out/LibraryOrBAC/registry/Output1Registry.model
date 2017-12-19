@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../rtt.model#//@commands.0"/>
+    <def href="../../rtt.model#//@blocks.0/@commands.0"/>
   </muts>
   <muts>
-    <def href="../../rtt.model#//@commands.1"/>
+    <def href="../../rtt.model#//@blocks.0/@commands.1"/>
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../rtt.model#//@commands.2"/>
+    <def href="../../rtt.model#//@blocks.0/@commands.2"/>
     <object href="../../../model/LibraryOrBAC.model#_CiG5wNJeEeatoq8h5wJ1lA"/>
     <refChanges refName="type">
-      <def href="../../rtt.model#//@commands.2"/>
+      <def href="../../rtt.model#//@blocks.0/@commands.2"/>
       <object href="../../../model/LibraryOrBAC.model#_CiG5wNJeEeatoq8h5wJ1lA"/>
     </refChanges>
   </muts>

@@ -5,44 +5,44 @@
   </definition>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="r">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Rule"/>
+      <type href="../model/SecurityPolicy.ecore#//Rule"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Rule/parameters"/>
-          <refName href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Parameter/children"/>
+          <name href="../model/SecurityPolicy.ecore#//Rule/parameters"/>
+          <refName href="../model/SecurityPolicy.ecore#//Parameter/children"/>
         </first>
       </expression>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="p">
     <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-      <refType href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Rule/parameters"/>
+      <refType href="../model/SecurityPolicy.ecore#//Rule/parameters"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Parameter/children"/>
+          <name href="../model/SecurityPolicy.ecore#//Parameter/children"/>
         </first>
       </expression>
     </container>
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Parameter"/>
+      <type href="../model/SecurityPolicy.ecore#//Parameter"/>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="c">
     <container xsi:type="mutatorenvironment:SpecificClosureSelection" objSel="//@commands.1">
-      <refType href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Parameter/children"/>
+      <refType href="../model/SecurityPolicy.ecore#//Parameter/children"/>
     </container>
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Parameter"/>
+      <type href="../model/SecurityPolicy.ecore#//Parameter"/>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
     <references xsi:type="mutatorenvironment:ReferenceRemove">
-      <reference href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Rule/parameters"/>
+      <reference href="../model/SecurityPolicy.ecore#//Rule/parameters"/>
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     </references>
     <references xsi:type="mutatorenvironment:ReferenceAdd">
-      <reference href="file:/c:/eclipse/workspace/ppd/data/model/SecurityPolicy.ecore#//Rule/parameters"/>
+      <reference href="../model/SecurityPolicy.ecore#//Rule/parameters"/>
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.2"/>
     </references>
   </commands>

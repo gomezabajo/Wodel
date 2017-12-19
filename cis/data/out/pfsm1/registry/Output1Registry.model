@@ -8,7 +8,10 @@
     </attChanges>
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <object href="../../../model/pfsm1.model#_lYP2gAQUEeepNvJoeelbpw"/>
-    <attChanges attName="isInitial" oldVal="false" newVal="true"/>
+    <def href="../../cis.model#//@commands.1"/>
+    <object href="../../../model/pfsm1.model#_mW86cAQUEeepNvJoeelbpw"/>
+    <attChanges attName="isInitial" oldVal="false" newVal="true">
+      <def href="../../cis.model#//@commands.1"/>
+    </attChanges>
   </muts>
 </appliedMutations:Mutations>

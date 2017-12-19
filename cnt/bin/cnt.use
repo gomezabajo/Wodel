@@ -1,62 +1,62 @@
 model cnt
-class PFSM
+class PFSMXxxXPFSM
 	attributes
 		name : String
 end
-class AlphabetSymbol
+class PFSMXxxXAlphabetSymbol
 	attributes
 		symbol : String
 end
-class State
+class PFSMXxxXState
 	attributes
 		name : String
 		isInitial : Boolean
 		isFinal : Boolean
 end
-class Transition
+class PFSMXxxXTransition
 	attributes
 		probability : Real
 end
 class Dummy
 end
-composition PFSMState between
-	PFSM[*] role pfsmstate
-	State[*] role states_
+composition PFSMXxxXPFSMXxxXPFSMXxxXState between
+	PFSMXxxXPFSM[0..1] role pfsmxxxxpfsmxxxxstates
+	PFSMXxxXState[*] role xxxxstates
 end
-composition PFSMTransition between
-	PFSM[*] role pfsmtransition
-	Transition[*] role transitions_
+composition PFSMXxxXPFSMXxxXPFSMXxxXTransition between
+	PFSMXxxXPFSM[0..1] role pfsmxxxxpfsmxxxxtransitions
+	PFSMXxxXTransition[*] role xxxxtransitions
 end
-composition PFSMAlphabetSymbol between
-	PFSM[*] role pfsmalphabetsymbol
-	AlphabetSymbol[*] role alphabet
+composition PFSMXxxXPFSMXxxXPFSMXxxXAlphabetSymbol between
+	PFSMXxxXPFSM[0..1] role pfsmxxxxpfsmxxxxalphabet
+	PFSMXxxXAlphabetSymbol[*] role alphabet
 end
-association TransitionState between
-	Transition[*] role transitionstate
-	State[1] role src
+association PFSMXxxXTransitionXxxXPFSMXxxXState between
+	PFSMXxxXTransition[*] role pfsmxxxxtransitionxxxxsrc
+	PFSMXxxXState[1] role src
 end
-association TransitionState1 between
-	Transition[*] role transitionstate1
-	State[1] role tar
+association PFSMXxxXTransitionXxxXPFSMXxxXState1 between
+	PFSMXxxXTransition[*] role pfsmxxxxtransitionxxxxtar
+	PFSMXxxXState[1] role tar
 end
-association TransitionAlphabetSymbol between
-	Transition[*] role transitionalphabetsymbol
-	AlphabetSymbol[1] role input
+association PFSMXxxXTransitionXxxXPFSMXxxXAlphabetSymbol between
+	PFSMXxxXTransition[*] role pfsmxxxxtransitionxxxxinput
+	PFSMXxxXAlphabetSymbol[1] role input
 end
-association TransitionAlphabetSymbol1 between
-	Transition[*] role transitionalphabetsymbol1
-	AlphabetSymbol[1] role output
+association PFSMXxxXTransitionXxxXPFSMXxxXAlphabetSymbol1 between
+	PFSMXxxXTransition[*] role pfsmxxxxtransitionxxxxoutput
+	PFSMXxxXAlphabetSymbol[1] role output
 end
 constraints
 context Dummy
-inv mut1 : PFSM.allInstances()->forAll(p | p.name <> null)
-inv mut2 : AlphabetSymbol.allInstances()->forAll(a | a.symbol <> null)
-inv mut3 : State.allInstances()->forAll(s | s.name <> null)
-inv mut4 : State.allInstances()->forAll(s | s.isInitial <> null)
-inv mut5 : State.allInstances()->forAll(s | s.isFinal <> null)
-inv mut6 : Transition.allInstances()->forAll(t | t.probability <> null)
-inv mut7 : Transition.allInstances()->size() > 1
-inv mut8 : Transition.allInstances()->exists(t0, t1 |  t0 <> t1 and t0.src = t1.src)
-inv mut9 : State.allInstances()->exists(s | s.isFinal = true)
-inv mut10 : State.allInstances()->one(s | s.isInitial = true)
-inv mut11 : AlphabetSymbol.allInstances()->forAll(a1,a2 |a1.symbol=a2.symbol implies a1=a2)
+inv mut1 : PFSMXxxXPFSM.allInstances()->forAll(p | p.name <> null)
+inv mut2 : PFSMXxxXAlphabetSymbol.allInstances()->forAll(p | p.symbol <> null)
+inv mut3 : PFSMXxxXState.allInstances()->forAll(p | p.name <> null)
+inv mut4 : PFSMXxxXState.allInstances()->forAll(p | p.isInitial <> null)
+inv mut5 : PFSMXxxXState.allInstances()->forAll(p | p.isFinal <> null)
+inv mut6 : PFSMXxxXTransition.allInstances()->forAll(p | p.probability <> null)
+inv mut7 : PFSMXxxXTransition.allInstances()->size() > 1
+inv mut8 : PFSMXxxXTransition.allInstances()->exists(p0, p1 |  p0 <> p1 and p0.src = p1.src)
+inv mut9 : PFSMXxxXState.allInstances()->exists(s | s.isFinal)
+inv mut10 : PFSMXxxXState.allInstances()->one(s | s.isInitial)
+inv mut11 : PFSMXxxXAlphabetSymbol.allInstances()->forAll(a1,a2 |a1.symbol=a2.symbol implies a1=a2)

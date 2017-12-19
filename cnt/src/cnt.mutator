@@ -5,7 +5,7 @@ metamodel "C:/eclipse/workspace/cnt/data/model/PFSM.ecore"
 
 with commands {
 	t0 = select one Transition where {probability = min(probability)}
-    t1 = select one Transition where {self <> t0 and src = t0->src}
-    t2 = create Transition with {probability = random(0.0, t0.probability), src = t0->src}
-    modify t1 with {probability -= t2.probability}
+	t1 = select one Transition where {self <> t0 and src = t0->src}
+	t2 = create Transition with {probability = random(0.0, t0.probability), src = t0->src}
+	modify t1 with {probability -= t2.probability}
 }

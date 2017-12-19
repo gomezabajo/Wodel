@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
-<PFSM:PFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:PFSM="http://pfsm/1.0" xsi:schemaLocation="http://pfsm/1.0 file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore" xmi:id="_DghHEAQUEeepNvJoeelbpw">
+<PFSM:PFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:PFSM="http://pfsm/1.0" xsi:schemaLocation="http://pfsm/1.0 ../../../model/PFSM.ecore" xmi:id="_DghHEAQUEeepNvJoeelbpw">
   <states xmi:id="_h_VZ8AQUEeepNvJoeelbpw" name="s1" isInitial="true"/>
   <states xmi:id="_lYP2gAQUEeepNvJoeelbpw" name="s2"/>
   <states xmi:id="_mW86cAQUEeepNvJoeelbpw" name="s3" isFinal="true"/>
   <transitions xmi:id="_pz_CAAQUEeepNvJoeelbpw" src="_h_VZ8AQUEeepNvJoeelbpw" tar="_h_VZ8AQUEeepNvJoeelbpw" input="_zLI-oAQUEeepNvJoeelbpw" output="_rpekAAQUEeepNvJoeelbpw" probability="1.0"/>
-  <transitions xmi:id="_8waPwAQUEeepNvJoeelbpw" src="_h_VZ8AQUEeepNvJoeelbpw" tar="_h_VZ8AQUEeepNvJoeelbpw" input="_yc1HIAQUEeepNvJoeelbpw" output="_rpekAAQUEeepNvJoeelbpw" probability="0.25"/>
+  <transitions xmi:id="_8waPwAQUEeepNvJoeelbpw" src="_h_VZ8AQUEeepNvJoeelbpw" tar="_h_VZ8AQUEeepNvJoeelbpw" input="_yc1HIAQUEeepNvJoeelbpw" output="_rpekAAQUEeepNvJoeelbpw" probability="0.27"/>
   <transitions xmi:id="_Cagr0AQVEeepNvJoeelbpw" src="_h_VZ8AQUEeepNvJoeelbpw" tar="_lYP2gAQUEeepNvJoeelbpw" input="_xiJnkAQUEeepNvJoeelbpw" output="_rpekAAQUEeepNvJoeelbpw" probability="1.0"/>
   <transitions xmi:id="_IsXEYAQVEeepNvJoeelbpw" src="_lYP2gAQUEeepNvJoeelbpw" tar="_h_VZ8AQUEeepNvJoeelbpw" input="_xiJnkAQUEeepNvJoeelbpw" output="_v7ZFIAQUEeepNvJoeelbpw" probability="1.0"/>
   <transitions xmi:id="_uW3h4AQVEeepNvJoeelbpw" src="_lYP2gAQUEeepNvJoeelbpw" tar="_lYP2gAQUEeepNvJoeelbpw" input="_zLI-oAQUEeepNvJoeelbpw" output="_rpekAAQUEeepNvJoeelbpw" probability="1.0"/>
@@ -13,7 +13,7 @@
   <transitions xmi:id="_h-gzMAQXEeepNvJoeelbpw" src="_mW86cAQUEeepNvJoeelbpw" tar="_mW86cAQUEeepNvJoeelbpw" input="_xiJnkAQUEeepNvJoeelbpw" output="_rpekAAQUEeepNvJoeelbpw" probability="0.5"/>
   <transitions xmi:id="_oI9jQAQXEeepNvJoeelbpw" src="_mW86cAQUEeepNvJoeelbpw" tar="_mW86cAQUEeepNvJoeelbpw" input="_zLI-oAQUEeepNvJoeelbpw" output="_v7ZFIAQUEeepNvJoeelbpw" probability="1.0"/>
   <transitions xmi:id="_t6KF0AQXEeepNvJoeelbpw" src="_mW86cAQUEeepNvJoeelbpw" tar="_h_VZ8AQUEeepNvJoeelbpw" input="_yc1HIAQUEeepNvJoeelbpw" output="_wvy9kAQUEeepNvJoeelbpw" probability="1.0"/>
-  <transitions xmi:id="_zzeCkAQXEeepNvJoeelbpw" src="_h_VZ8AQUEeepNvJoeelbpw" tar="_mW86cAQUEeepNvJoeelbpw" input="_yc1HIAQUEeepNvJoeelbpw" output="_v7ZFIAQUEeepNvJoeelbpw" probability="0.86"/>
+  <transitions xmi:id="_zzeCkAQXEeepNvJoeelbpw" src="_h_VZ8AQUEeepNvJoeelbpw" tar="_mW86cAQUEeepNvJoeelbpw" input="_yc1HIAQUEeepNvJoeelbpw" output="_v7ZFIAQUEeepNvJoeelbpw" probability="0.75"/>
   <alphabet xmi:id="_rpekAAQUEeepNvJoeelbpw" symbol="o1"/>
   <alphabet xmi:id="_v7ZFIAQUEeepNvJoeelbpw" symbol="o2"/>
   <alphabet xmi:id="_wvy9kAQUEeepNvJoeelbpw" symbol="o3"/>

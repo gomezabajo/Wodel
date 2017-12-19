@@ -3,74 +3,175 @@
   <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/alp/data/model/PFSM.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t0">
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/probability"/>
-          <value xsi:type="mutatorenvironment:MinValueType">
-            <attribute href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/probability"/>
-          </value>
-        </first>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t1">
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-        </first>
-        <operator/>
-        <second xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/src"/>
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-            <refType href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/src"/>
-          </value>
-        </second>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
-    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
-    <attributes xsi:type="mutatorenvironment:AttributeOperation">
-      <attribute href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/probability"/>
-      <value xsi:type="mutatorenvironment:RandomDoubleNumberType">
-        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-        <max href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/probability"/>
-      </value>
-    </attributes>
-  </commands>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t2">
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-        </first>
-        <operator/>
-        <operator/>
-        <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
-        </second>
-        <second xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/src"/>
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-            <refType href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/src"/>
-          </value>
-        </second>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
-    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.3"/>
-    <attributes xsi:type="mutatorenvironment:AttributeOperation" operator="subtract">
-      <attribute href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/probability"/>
-      <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@commands.1">
-        <attribute href="file:/c:/eclipse/workspace/alp/data/model/PFSM.ecore#//Transition/probability"/>
-      </value>
-    </attributes>
-  </commands>
+  <blocks name="cis">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//State"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/PFSM.ecore#//State/isInitial"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/PFSM.ecore#//State/isInitial"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//State"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/PFSM.ecore#//State/isInitial"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="alp">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/PFSM.ecore#//Transition/probability"/>
+            <value xsi:type="mutatorenvironment:MinValueType">
+              <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/PFSM.ecore#//Transition/src"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+              <refType href="../model/PFSM.ecore#//Transition/src"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeOperation">
+        <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+        <value xsi:type="mutatorenvironment:RandomDoubleNumberType">
+          <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+          <max href="../model/PFSM.ecore#//Transition/probability"/>
+        </value>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t2">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+          </first>
+          <operator/>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1"/>
+          </second>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/PFSM.ecore#//Transition/src"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+              <refType href="../model/PFSM.ecore#//Transition/src"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.3"/>
+      <attributes xsi:type="mutatorenvironment:AttributeOperation" operator="subtract">
+        <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+        <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@blocks.1/@commands.1">
+          <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="cts">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="../model/PFSM.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="../model/PFSM.ecore#//State"/>
+      </newTarget>
+    </commands>
+  </blocks>
+  <blocks name="cnt">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/PFSM.ecore#//Transition/probability"/>
+            <value xsi:type="mutatorenvironment:MinValueType">
+              <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/PFSM.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="../model/PFSM.ecore#//Transition/src"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+              <refType href="../model/PFSM.ecore#//Transition/src"/>
+            </value>
+          </second>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="t2">
+      <type href="../model/PFSM.ecore#//Transition"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+        <value xsi:type="mutatorenvironment:RandomDoubleNumberType">
+          <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+          <max href="../model/PFSM.ecore#//Transition/probability"/>
+        </value>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/PFSM.ecore#//Transition/src"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0">
+          <refType href="../model/PFSM.ecore#//Transition/src"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1"/>
+      <attributes xsi:type="mutatorenvironment:AttributeOperation" operator="subtract">
+        <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+        <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@blocks.1/@commands.3">
+          <attribute href="../model/PFSM.ecore#//Transition/probability"/>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
 </mutatorenvironment:MutatorEnvironment>

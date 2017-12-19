@@ -5,22 +5,22 @@
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s0">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/cis/data/model/PFSM.ecore#//State"/>
+      <type href="../model/PFSM.ecore#//State"/>
       <expression>
         <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/cis/data/model/PFSM.ecore#//State/isInitial"/>
+          <name href="../model/PFSM.ecore#//State/isInitial"/>
           <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
         </first>
       </expression>
     </object>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/cis/data/model/PFSM.ecore#//State/isInitial"/>
+      <attribute href="../model/PFSM.ecore#//State/isInitial"/>
       <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
     </attributes>
   </commands>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator" name="s1">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/cis/data/model/PFSM.ecore#//State"/>
+      <type href="../model/PFSM.ecore#//State"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
@@ -28,7 +28,7 @@
       </expression>
     </object>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/cis/data/model/PFSM.ecore#//State/isInitial"/>
+      <attribute href="../model/PFSM.ecore#//State/isInitial"/>
       <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
     </attributes>
   </commands>

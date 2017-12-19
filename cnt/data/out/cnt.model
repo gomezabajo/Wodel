@@ -5,12 +5,12 @@
   </definition>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t0">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition"/>
+      <type href="../model/PFSM.ecore#//Transition"/>
       <expression>
         <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/probability"/>
+          <name href="../model/PFSM.ecore#//Transition/probability"/>
           <value xsi:type="mutatorenvironment:MinValueType">
-            <attribute href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/probability"/>
+            <attribute href="../model/PFSM.ecore#//Transition/probability"/>
           </value>
         </first>
       </expression>
@@ -18,43 +18,43 @@
   </commands>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t1">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition"/>
+      <type href="../model/PFSM.ecore#//Transition"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
         </first>
         <operator/>
         <second xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/src"/>
+          <name href="../model/PFSM.ecore#//Transition/src"/>
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-            <refType href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/src"/>
+            <refType href="../model/PFSM.ecore#//Transition/src"/>
           </value>
         </second>
       </expression>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="t2">
-    <type href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition"/>
+    <type href="../model/PFSM.ecore#//Transition"/>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/probability"/>
+      <attribute href="../model/PFSM.ecore#//Transition/probability"/>
       <value xsi:type="mutatorenvironment:RandomDoubleNumberType">
         <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-        <max href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/probability"/>
+        <max href="../model/PFSM.ecore#//Transition/probability"/>
       </value>
     </attributes>
     <references xsi:type="mutatorenvironment:ReferenceInit">
-      <reference href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/src"/>
+      <reference href="../model/PFSM.ecore#//Transition/src"/>
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-        <refType href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/src"/>
+        <refType href="../model/PFSM.ecore#//Transition/src"/>
       </object>
     </references>
   </commands>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
     <attributes xsi:type="mutatorenvironment:AttributeOperation" operator="subtract">
-      <attribute href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/probability"/>
+      <attribute href="../model/PFSM.ecore#//Transition/probability"/>
       <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@commands.2">
-        <attribute href="file:/c:/eclipse/workspace/cnt/data/model/PFSM.ecore#//Transition/probability"/>
+        <attribute href="../model/PFSM.ecore#//Transition/probability"/>
       </value>
     </attributes>
   </commands>

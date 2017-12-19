@@ -3,47 +3,140 @@
   <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/ia1/data/model/Asple.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="op">
-    <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator/operator"/>
-          <value xsi:type="mutatorenvironment:ListStringType" operator="in">
-            <value>add</value>
-            <value>subtract</value>
-            <value>multiply</value>
-            <value>divide</value>
-            <value>module</value>
-          </value>
-        </first>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="exp">
-    <type href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator"/>
-    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-      <refType href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator/right"/>
-    </container>
-    <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator/operator"/>
-      <value xsi:type="mutatorenvironment:SpecificStringType" value="add"/>
-    </attributes>
-    <references xsi:type="mutatorenvironment:ReferenceInit">
-      <reference href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator/left"/>
-      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-        <refType href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator/right"/>
+  <blocks name="rao">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/Asple.ecore#//BinaryOperator"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/Asple.ecore#//BinaryOperator/operator"/>
+            <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+              <value>add</value>
+              <value>subtract</value>
+              <value>multiply</value>
+              <value>divide</value>
+              <value>module</value>
+            </value>
+          </first>
+        </expression>
       </object>
-    </references>
-  </commands>
-  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-    <type href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//Integer"/>
-    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1">
-      <refType href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//BinaryOperator/right"/>
-    </container>
-    <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/ia1/data/model/Asple.ecore#//Integer/value"/>
-      <value xsi:type="mutatorenvironment:SpecificIntegerType" value="1"/>
-    </attributes>
-  </commands>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/Asple.ecore#//BinaryOperator/operator"/>
+        <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+          <value>add</value>
+          <value>subtract</value>
+          <value>multiply</value>
+          <value>divide</value>
+          <value>module</value>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="rro">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/Asple.ecore#//BinaryOperator"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/Asple.ecore#//BinaryOperator/operator"/>
+            <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+              <value>less</value>
+              <value>equals</value>
+              <value>greater</value>
+              <value>distinct</value>
+            </value>
+          </first>
+        </expression>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/Asple.ecore#//BinaryOperator/operator"/>
+        <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+          <value>less</value>
+          <value>equals</value>
+          <value>greater</value>
+          <value>distinct</value>
+        </value>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="rli">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="loop">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/Asple.ecore#//Loop"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="../model/Asple.ecore#//Boolean"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.2/@commands.0">
+        <refType href="../model/Asple.ecore#//Loop/expression"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/Asple.ecore#//Boolean/value"/>
+        <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="rst">
+    <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/Asple.ecore#//Statement"/>
+      </object>
+    </commands>
+  </blocks>
+  <blocks name="rsv">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/Asple.ecore#//Integer"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/Asple.ecore#//Integer/value"/>
+        <value xsi:type="mutatorenvironment:RandomType"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="ia1">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="op">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/Asple.ecore#//BinaryOperator"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="../model/Asple.ecore#//BinaryOperator/operator"/>
+            <value xsi:type="mutatorenvironment:ListStringType" operator="in">
+              <value>add</value>
+              <value>subtract</value>
+              <value>multiply</value>
+              <value>divide</value>
+              <value>module</value>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="exp">
+      <type href="../model/Asple.ecore#//BinaryOperator"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
+        <refType href="../model/Asple.ecore#//BinaryOperator/right"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/Asple.ecore#//BinaryOperator/operator"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="add"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/Asple.ecore#//BinaryOperator/left"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.0">
+          <refType href="../model/Asple.ecore#//BinaryOperator/right"/>
+        </object>
+      </references>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="../model/Asple.ecore#//Integer"/>
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.5/@commands.1">
+        <refType href="../model/Asple.ecore#//BinaryOperator/right"/>
+      </container>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/Asple.ecore#//Integer/value"/>
+        <value xsi:type="mutatorenvironment:SpecificIntegerType" value="1"/>
+      </attributes>
+    </commands>
+  </blocks>
 </mutatorenvironment:MutatorEnvironment>

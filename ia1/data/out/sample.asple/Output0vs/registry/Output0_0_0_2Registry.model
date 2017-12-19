@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectCreated">
+    <def href="../../../ia1.model#//@blocks.1/@commands.0"/>
     <object href="../Output0_0_0_2.model#//@statements.4/@statements.0/@value/@right"/>
   </muts>
 </appliedMutations:Mutations>

@@ -5,10 +5,10 @@
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/rao/data/model/Asple.ecore#//BinaryOperator"/>
+      <type href="../model/Asple.ecore#//BinaryOperator"/>
       <expression>
         <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/rao/data/model/Asple.ecore#//BinaryOperator/operator"/>
+          <name href="../model/Asple.ecore#//BinaryOperator/operator"/>
           <value xsi:type="mutatorenvironment:ListStringType" operator="in">
             <value>add</value>
             <value>subtract</value>
@@ -20,7 +20,7 @@
       </expression>
     </object>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/rao/data/model/Asple.ecore#//BinaryOperator/operator"/>
+      <attribute href="../model/Asple.ecore#//BinaryOperator/operator"/>
       <value xsi:type="mutatorenvironment:ListStringType" operator="in">
         <value>add</value>
         <value>subtract</value>

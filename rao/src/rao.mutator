@@ -5,5 +5,5 @@ metamodel "C:/eclipse/workspace/rao/data/model/Asple.ecore"
 
 with commands {
 	modify one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-			with {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
+		with {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
 }

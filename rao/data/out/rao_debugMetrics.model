@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
+  <trees xsi:type="mutatormetrics:Folder" name="sample.asple" path="C:\eclipse\workspace\rao\data\out\sample.asple">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\rao\data\out\sample.asple\Output0.model">
+      <classes name="Program">
+        <references name="declarations"/>
+        <references name="statements"/>
+      </classes>
+      <classes name="Declaration">
+        <attributes name="ref"/>
+        <attributes name="mode"/>
+        <references name="identifiers"/>
+      </classes>
+      <classes name="Expression"/>
+      <classes name="Primary"/>
+      <classes name="Literal"/>
+      <classes name="Identifier">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Boolean">
+        <attributes name="value"/>
+      </classes>
+      <classes name="Integer">
+        <attributes name="value"/>
+      </classes>
+      <classes name="Double">
+        <attributes name="value"/>
+      </classes>
+      <classes name="BinaryOperator" modified="1" cmodified="1">
+        <attributes name="operator" modified="1"/>
+        <references name="left"/>
+        <references name="right"/>
+      </classes>
+      <classes name="Statement"/>
+      <classes name="Assignment">
+        <references name="var"/>
+        <references name="value"/>
+      </classes>
+      <classes name="Conditional">
+        <references name="expression"/>
+        <references name="if"/>
+        <references name="else"/>
+      </classes>
+      <classes name="Loop">
+        <references name="expression"/>
+        <references name="statements"/>
+      </classes>
+      <classes name="Transput">
+        <references name="var"/>
+        <references name="expression"/>
+      </classes>
+    </mutants>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\rao\data\out\sample.asple\Output1.model">
+      <classes name="Program">
+        <references name="declarations"/>
+        <references name="statements"/>
+      </classes>
+      <classes name="Declaration">
+        <attributes name="ref"/>
+        <attributes name="mode"/>
+        <references name="identifiers"/>
+      </classes>
+      <classes name="Expression"/>
+      <classes name="Primary"/>
+      <classes name="Literal"/>
+      <classes name="Identifier">
+        <attributes name="name"/>
+      </classes>
+      <classes name="Boolean">
+        <attributes name="value"/>
+      </classes>
+      <classes name="Integer">
+        <attributes name="value"/>
+      </classes>
+      <classes name="Double">
+        <attributes name="value"/>
+      </classes>
+      <classes name="BinaryOperator" modified="1" cmodified="1">
+        <attributes name="operator" modified="1"/>
+        <references name="left"/>
+        <references name="right"/>
+      </classes>
+      <classes name="Statement"/>
+      <classes name="Assignment">
+        <references name="var"/>
+        <references name="value"/>
+      </classes>
+      <classes name="Conditional">
+        <references name="expression"/>
+        <references name="if"/>
+        <references name="else"/>
+      </classes>
+      <classes name="Loop">
+        <references name="expression"/>
+        <references name="statements"/>
+      </classes>
+      <classes name="Transput">
+        <references name="var"/>
+        <references name="expression"/>
+      </classes>
+    </mutants>
+    <classes name="Program">
+      <references name="declarations"/>
+      <references name="statements"/>
+    </classes>
+    <classes name="Declaration">
+      <attributes name="ref"/>
+      <attributes name="mode"/>
+      <references name="identifiers"/>
+    </classes>
+    <classes name="Expression"/>
+    <classes name="Primary"/>
+    <classes name="Literal"/>
+    <classes name="Identifier">
+      <attributes name="name"/>
+    </classes>
+    <classes name="Boolean">
+      <attributes name="value"/>
+    </classes>
+    <classes name="Integer">
+      <attributes name="value"/>
+    </classes>
+    <classes name="Double">
+      <attributes name="value"/>
+    </classes>
+    <classes name="BinaryOperator" modified="2" cmodified="2">
+      <attributes name="operator" modified="2"/>
+      <references name="left"/>
+      <references name="right"/>
+    </classes>
+    <classes name="Statement"/>
+    <classes name="Assignment">
+      <references name="var"/>
+      <references name="value"/>
+    </classes>
+    <classes name="Conditional">
+      <references name="expression"/>
+      <references name="if"/>
+      <references name="else"/>
+    </classes>
+    <classes name="Loop">
+      <references name="expression"/>
+      <references name="statements"/>
+    </classes>
+    <classes name="Transput">
+      <references name="var"/>
+      <references name="expression"/>
+    </classes>
+  </trees>
+  <classes xsi:type="mutatormetrics:Class" name="Program">
+    <references name="declarations"/>
+    <references name="statements"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Declaration">
+    <attributes name="ref"/>
+    <attributes name="mode"/>
+    <references name="identifiers"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Expression"/>
+  <classes xsi:type="mutatormetrics:Class" name="Primary"/>
+  <classes xsi:type="mutatormetrics:Class" name="Literal"/>
+  <classes xsi:type="mutatormetrics:Class" name="Identifier">
+    <attributes name="name"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Boolean">
+    <attributes name="value"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Integer">
+    <attributes name="value"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Double">
+    <attributes name="value"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="BinaryOperator" modified="2" cmodified="2">
+    <attributes name="operator" modified="2"/>
+    <references name="left"/>
+    <references name="right"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Statement"/>
+  <classes xsi:type="mutatormetrics:Class" name="Assignment">
+    <references name="var"/>
+    <references name="value"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Conditional">
+    <references name="expression"/>
+    <references name="if"/>
+    <references name="else"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Loop">
+    <references name="expression"/>
+    <references name="statements"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Transput">
+    <references name="var"/>
+    <references name="expression"/>
+  </classes>
+</mutatormetrics:MutatorMetrics>

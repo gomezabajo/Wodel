@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<asple:Program xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:asple="http://asple/1.0" xsi:schemaLocation="http://asple/1.0 file:/c:/eclipse/workspace/rst/data/model/Asple.ecore" xmi:id="_7FuW4I-lEeaNMqhIMuT_iA">
+<asple:Program xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:asple="http://asple/1.0" xsi:schemaLocation="http://asple/1.0 ../../../model/Asple.ecore" xmi:id="_7FuW4I-lEeaNMqhIMuT_iA">
   <declarations xmi:id="_8BJdUI-lEeaNMqhIMuT_iA">
     <identifiers xmi:id="_9EM1wI-lEeaNMqhIMuT_iA" name="total"/>
     <identifiers xmi:id="__HNPUI-lEeaNMqhIMuT_iA" name="n"/>
@@ -8,14 +8,14 @@
   <declarations xmi:id="_ixm2QI-mEeaNMqhIMuT_iA">
     <identifiers xmi:id="_jKjhwI-mEeaNMqhIMuT_iA" name="d"/>
   </declarations>
+  <statements xsi:type="asple:Assignment" xmi:id="_Dm_0YI-mEeaNMqhIMuT_iA" var="_9EM1wI-lEeaNMqhIMuT_iA">
+    <value xsi:type="asple:Integer" xmi:id="_E2uW4I-mEeaNMqhIMuT_iA" value="10"/>
+  </statements>
   <statements xsi:type="asple:Assignment" xmi:id="_FwZw4I-mEeaNMqhIMuT_iA" var="__HNPUI-lEeaNMqhIMuT_iA">
     <value xsi:type="asple:Integer" xmi:id="_pPp3wI-mEeaNMqhIMuT_iA"/>
   </statements>
   <statements xsi:type="asple:Assignment" xmi:id="_Ib2DcI-mEeaNMqhIMuT_iA" var="_BahVwI-mEeaNMqhIMuT_iA">
     <value xsi:type="asple:Integer" xmi:id="_JhakYI-mEeaNMqhIMuT_iA" value="1"/>
-  </statements>
-  <statements xsi:type="asple:Assignment" xmi:id="_kSy8MI-mEeaNMqhIMuT_iA" var="_jKjhwI-mEeaNMqhIMuT_iA">
-    <value xsi:type="asple:Double" xmi:id="_mwz2wI-mEeaNMqhIMuT_iA" value="10.0"/>
   </statements>
   <statements xsi:type="asple:Loop" xmi:id="_Kbe_8I-mEeaNMqhIMuT_iA">
     <expression xsi:type="asple:BinaryOperator" xmi:id="_LJbEAI-mEeaNMqhIMuT_iA" operator="less">

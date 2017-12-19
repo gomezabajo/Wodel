@@ -3,7 +3,7 @@
   <muts xsi:type="appliedMutations:InformationChanged">
     <def href="../../rao.model#//@commands.0"/>
     <object href="../../../model/sample.asple.model#_Unp5AI-mEeaNMqhIMuT_iA"/>
-    <attChanges attName="operator" oldVal="add" newVal="divide">
+    <attChanges attName="operator" oldVal="add" newVal="subtract">
       <def href="../../rao.model#//@commands.0"/>
     </attChanges>
   </muts>

@@ -1,282 +1,368 @@
 model rao
-class Program
+class aspleXxxXProgram
 end
-class Declaration
+class aspleXxxXDeclaration
 	attributes
 		ref : Boolean
+		mode : Integer
 end
-class Expression
+abstract class aspleXxxXExpression
 end
-class Primary < Expression
+abstract class aspleXxxXPrimary < aspleXxxXExpression
 end
-class Literal < Primary
+abstract class aspleXxxXLiteral < aspleXxxXPrimary
 end
-class Identifier < Primary
+class aspleXxxXIdentifier < aspleXxxXPrimary
 	attributes
 		name : String
 end
-class Boolean_ < Literal
+class aspleXxxXBoolean < aspleXxxXLiteral
 	attributes
 		value : Boolean
 end
-class Integer_ < Literal
+class aspleXxxXInteger < aspleXxxXLiteral
 	attributes
 		value : Integer
 end
-class Double < Literal
+class aspleXxxXDouble < aspleXxxXLiteral
 	attributes
 		value : Real
 end
-class BinaryOperator < Expression
+class aspleXxxXBinaryOperator < aspleXxxXExpression
 	attributes
 		operator : String
 end
-class Statement
+abstract class aspleXxxXStatement
 end
-class Assignment < Statement
+class aspleXxxXAssignment < aspleXxxXStatement
 end
-class Conditional < Statement
+class aspleXxxXConditional < aspleXxxXStatement
 end
-class Loop < Statement
+class aspleXxxXLoop < aspleXxxXStatement
 end
-class Transput < Statement
+class aspleXxxXTransput < aspleXxxXStatement
 end
 class Dummy
 end
-composition ProgramDeclaration between
-	Program[*] role programdeclaration
-	Declaration[*] role declarations
+composition aspleXxxXProgramXxxXaspleXxxXDeclaration between
+	aspleXxxXProgram[0..1] role asplexxxxprogramxxxxdeclarations
+	aspleXxxXDeclaration[*] role declarations
 end
-composition ProgramStatement between
-	Program[*] role programstatement
-	Statement[*] role statements
+composition aspleXxxXProgramXxxXaspleXxxXStatement between
+	aspleXxxXProgram[0..1] role asplexxxxprogramxxxxstatements
+	aspleXxxXStatement[*] role statements
 end
-composition DeclarationIdentifier between
-	Declaration[*] role declarationidentifier
-	Identifier[1..*] role identifiers
+composition aspleXxxXDeclarationXxxXaspleXxxXIdentifier between
+	aspleXxxXDeclaration[0..1] role asplexxxxdeclarationxxxxidentifiers
+	aspleXxxXIdentifier[1..*] role identifiers
 end
-composition BinaryOperatorPrimary between
-	BinaryOperator[*] role binaryoperatorprimary
-	Primary[1] role left
+composition aspleXxxXBinaryOperatorXxxXaspleXxxXPrimary between
+	aspleXxxXBinaryOperator[0..1] role asplexxxxbinaryoperatorxxxxleft
+	aspleXxxXPrimary[1] role left
 end
-composition BinaryOperatorExpression between
-	BinaryOperator[*] role binaryoperatorexpression
-	Expression[1] role right
+composition aspleXxxXBinaryOperatorXxxXaspleXxxXExpression between
+	aspleXxxXBinaryOperator[0..1] role asplexxxxbinaryoperatorxxxxright
+	aspleXxxXExpression[1] role right
 end
-association AssignmentIdentifier between
-	Assignment[*] role assignmentidentifier
-	Identifier[1] role var
+association aspleXxxXAssignmentXxxXaspleXxxXIdentifier between
+	aspleXxxXAssignment[*] role asplexxxxassignmentxxxxvar
+	aspleXxxXIdentifier[1] role var
 end
-composition AssignmentExpression between
-	Assignment[*] role assignmentexpression
-	Expression[1] role value
+composition aspleXxxXAssignmentXxxXaspleXxxXExpression between
+	aspleXxxXAssignment[0..1] role asplexxxxassignmentxxxxvalue
+	aspleXxxXExpression[1] role value
 end
-composition ConditionalExpression between
-	Conditional[*] role conditionalexpression
-	Expression[1] role expression
+composition aspleXxxXConditionalXxxXaspleXxxXExpression between
+	aspleXxxXConditional[0..1] role asplexxxxconditionalxxxxexpression
+	aspleXxxXExpression[1] role expression
 end
-composition ConditionalStatement between
-	Conditional[*] role conditionalstatement
-	Statement[*] role if
+composition aspleXxxXConditionalXxxXaspleXxxXStatement between
+	aspleXxxXConditional[0..1] role asplexxxxconditionalxxxxif
+	aspleXxxXStatement[*] role xxxxif
 end
-composition ConditionalStatement1 between
-	Conditional[*] role conditionalstatement1
-	Statement[*] role else
+composition aspleXxxXConditionalXxxXaspleXxxXStatement1 between
+	aspleXxxXConditional[0..1] role asplexxxxconditionalxxxxelse
+	aspleXxxXStatement[*] role xxxxelse
 end
-composition LoopExpression between
-	Loop[*] role loopexpression
-	Expression[1] role expression1
+composition aspleXxxXLoopXxxXaspleXxxXExpression between
+	aspleXxxXLoop[0..1] role asplexxxxloopxxxxexpression
+	aspleXxxXExpression[1] role expression1
 end
-composition LoopStatement between
-	Loop[*] role loopstatement
-	Statement[*] role statements1
+composition aspleXxxXLoopXxxXaspleXxxXStatement between
+	aspleXxxXLoop[0..1] role asplexxxxloopxxxxstatements
+	aspleXxxXStatement[*] role statements1
 end
-association TransputIdentifier between
-	Transput[*] role transputidentifier
-	Identifier[1] role var1
+association aspleXxxXTransputXxxXaspleXxxXIdentifier between
+	aspleXxxXTransput[*] role asplexxxxtransputxxxxvar
+	aspleXxxXIdentifier[1] role var1
 end
-composition TransputExpression between
-	Transput[*] role transputexpression
-	Expression[1] role expression2
+composition aspleXxxXTransputXxxXaspleXxxXExpression between
+	aspleXxxXTransput[0..1] role asplexxxxtransputxxxxexpression
+	aspleXxxXExpression[1] role expression2
 end
 constraints
+context aspleXxxXIdentifier inv ensure_container:
+	(not asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	not asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	not asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	not asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	not asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	not asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxdeclarationxxxxidentifiers.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	not asplexxxxtransputxxxxexpression.oclIsUndefined())
+context aspleXxxXBoolean inv ensure_container:
+	(not asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	not asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	not asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	not asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	not asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	not asplexxxxtransputxxxxexpression.oclIsUndefined())
+context aspleXxxXInteger inv ensure_container:
+	(not asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	not asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	not asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	not asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	not asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	not asplexxxxtransputxxxxexpression.oclIsUndefined())
+context aspleXxxXDouble inv ensure_container:
+	(not asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	not asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	not asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	not asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	not asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxleft.oclIsUndefined() and
+	asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	not asplexxxxtransputxxxxexpression.oclIsUndefined())
+context aspleXxxXBinaryOperator inv ensure_container:
+	(not asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	not asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	not asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	not asplexxxxloopxxxxexpression.oclIsUndefined() and
+	asplexxxxtransputxxxxexpression.oclIsUndefined()) or 
+	(asplexxxxbinaryoperatorxxxxright.oclIsUndefined() and
+	asplexxxxassignmentxxxxvalue.oclIsUndefined() and
+	asplexxxxconditionalxxxxexpression.oclIsUndefined() and
+	asplexxxxloopxxxxexpression.oclIsUndefined() and
+	not asplexxxxtransputxxxxexpression.oclIsUndefined())
+context aspleXxxXAssignment inv ensure_container:
+	(not asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	not asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	not asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	not asplexxxxloopxxxxstatements.oclIsUndefined())
+context aspleXxxXConditional inv ensure_container:
+	(not asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	not asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	not asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	not asplexxxxloopxxxxstatements.oclIsUndefined())
+context aspleXxxXLoop inv ensure_container:
+	(not asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	not asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	not asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	not asplexxxxloopxxxxstatements.oclIsUndefined())
+context aspleXxxXTransput inv ensure_container:
+	(not asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	not asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	not asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	asplexxxxloopxxxxstatements.oclIsUndefined()) or 
+	(asplexxxxprogramxxxxstatements.oclIsUndefined() and
+	asplexxxxconditionalxxxxif.oclIsUndefined() and
+	asplexxxxconditionalxxxxelse.oclIsUndefined() and
+	not asplexxxxloopxxxxstatements.oclIsUndefined())
 context Dummy
-context Statement inv single_container:
-	Program.allInstances()->collect(o | o.statements)->count(self) +
-	Conditional.allInstances()->collect(o | o.if)->count(self) +
-	Conditional.allInstances()->collect(o | o.else)->count(self) +
-	Loop.allInstances()->collect(o | o.statements)->count(self) <= 1
-context Expression inv single_container:
-	BinaryOperator.allInstances()->collect(o | o.right)->count(self) +
-	Assignment.allInstances()->collect(o | o.value)->count(self) +
-	Conditional.allInstances()->collect(o | o.expression)->count(self) +
-	Loop.allInstances()->collect(o | o.expression)->count(self) +
-	Transput.allInstances()->collect(o | o.expression)->count(self) <= 1
-context BinaryOperator inv non_contains_itself_right:
-not Set{self.right}->includes(self)
-and
-not Set{self.right}->exists(right1 |
-if right1.oclIsKindOf(BinaryOperator) then
-	Set{right1.oclAsType(BinaryOperator).right}->includes(self)
-	 else false endif)
-and
-not Set{self.right}->exists(right2 |
-if right2.oclIsKindOf(BinaryOperator) then
-	Set{right2.oclAsType(BinaryOperator).right}->exists(right1 |
-if right1.oclIsKindOf(BinaryOperator) then
-	Set{right1.oclAsType(BinaryOperator).right}->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not Set{self.right}->exists(right3 |
-if right3.oclIsKindOf(BinaryOperator) then
-	Set{right3.oclAsType(BinaryOperator).right}->exists(right2 |
-if right2.oclIsKindOf(BinaryOperator) then
-	Set{right2.oclAsType(BinaryOperator).right}->exists(right1 |
-if right1.oclIsKindOf(BinaryOperator) then
-	Set{right1.oclAsType(BinaryOperator).right}->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not Set{self.right}->exists(right4 |
-if right4.oclIsKindOf(BinaryOperator) then
-	Set{right4.oclAsType(BinaryOperator).right}->exists(right3 |
-if right3.oclIsKindOf(BinaryOperator) then
-	Set{right3.oclAsType(BinaryOperator).right}->exists(right2 |
-if right2.oclIsKindOf(BinaryOperator) then
-	Set{right2.oclAsType(BinaryOperator).right}->exists(right1 |
-if right1.oclIsKindOf(BinaryOperator) then
-	Set{right1.oclAsType(BinaryOperator).right}->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-context Conditional inv non_contains_itself_if:
-not self.if->includes(self)
-and
-not self.if->exists(if1 |
-if if1.oclIsKindOf(Conditional) then
-	if1.oclAsType(Conditional).if->includes(self)
-	 else false endif)
-and
-not self.if->exists(if2 |
-if if2.oclIsKindOf(Conditional) then
-	if2.oclAsType(Conditional).if->exists(if1 |
-if if1.oclIsKindOf(Conditional) then
-	if1.oclAsType(Conditional).if->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not self.if->exists(if3 |
-if if3.oclIsKindOf(Conditional) then
-	if3.oclAsType(Conditional).if->exists(if2 |
-if if2.oclIsKindOf(Conditional) then
-	if2.oclAsType(Conditional).if->exists(if1 |
-if if1.oclIsKindOf(Conditional) then
-	if1.oclAsType(Conditional).if->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not self.if->exists(if4 |
-if if4.oclIsKindOf(Conditional) then
-	if4.oclAsType(Conditional).if->exists(if3 |
-if if3.oclIsKindOf(Conditional) then
-	if3.oclAsType(Conditional).if->exists(if2 |
-if if2.oclIsKindOf(Conditional) then
-	if2.oclAsType(Conditional).if->exists(if1 |
-if if1.oclIsKindOf(Conditional) then
-	if1.oclAsType(Conditional).if->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-context Conditional inv non_contains_itself_else:
-not self.else->includes(self)
-and
-not self.else->exists(else1 |
-if else1.oclIsKindOf(Conditional) then
-	else1.oclAsType(Conditional).else->includes(self)
-	 else false endif)
-and
-not self.else->exists(else2 |
-if else2.oclIsKindOf(Conditional) then
-	else2.oclAsType(Conditional).else->exists(else1 |
-if else1.oclIsKindOf(Conditional) then
-	else1.oclAsType(Conditional).else->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not self.else->exists(else3 |
-if else3.oclIsKindOf(Conditional) then
-	else3.oclAsType(Conditional).else->exists(else2 |
-if else2.oclIsKindOf(Conditional) then
-	else2.oclAsType(Conditional).else->exists(else1 |
-if else1.oclIsKindOf(Conditional) then
-	else1.oclAsType(Conditional).else->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not self.else->exists(else4 |
-if else4.oclIsKindOf(Conditional) then
-	else4.oclAsType(Conditional).else->exists(else3 |
-if else3.oclIsKindOf(Conditional) then
-	else3.oclAsType(Conditional).else->exists(else2 |
-if else2.oclIsKindOf(Conditional) then
-	else2.oclAsType(Conditional).else->exists(else1 |
-if else1.oclIsKindOf(Conditional) then
-	else1.oclAsType(Conditional).else->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-context Loop inv non_contains_itself_statements:
-not self.statements->includes(self)
-and
-not self.statements->exists(statements1 |
-if statements1.oclIsKindOf(Loop) then
-	statements1.oclAsType(Loop).statements->includes(self)
-	 else false endif)
-and
-not self.statements->exists(statements2 |
-if statements2.oclIsKindOf(Loop) then
-	statements2.oclAsType(Loop).statements->exists(statements1 |
-if statements1.oclIsKindOf(Loop) then
-	statements1.oclAsType(Loop).statements->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not self.statements->exists(statements3 |
-if statements3.oclIsKindOf(Loop) then
-	statements3.oclAsType(Loop).statements->exists(statements2 |
-if statements2.oclIsKindOf(Loop) then
-	statements2.oclAsType(Loop).statements->exists(statements1 |
-if statements1.oclIsKindOf(Loop) then
-	statements1.oclAsType(Loop).statements->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not self.statements->exists(statements4 |
-if statements4.oclIsKindOf(Loop) then
-	statements4.oclAsType(Loop).statements->exists(statements3 |
-if statements3.oclIsKindOf(Loop) then
-	statements3.oclAsType(Loop).statements->exists(statements2 |
-if statements2.oclIsKindOf(Loop) then
-	statements2.oclAsType(Loop).statements->exists(statements1 |
-if statements1.oclIsKindOf(Loop) then
-	statements1.oclAsType(Loop).statements->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-inv mut1 : Declaration.allInstances()->forAll(d | d.ref <> null)
-inv mut2 : Declaration.allInstances()->forAll(d | d.mode <> null)
-inv mut3 : Identifier.allInstances()->forAll(i | i.name <> null)
-inv mut4 : Boolean_.allInstances()->forAll(b | b.value <> null)
-inv mut5 : Integer_.allInstances()->forAll(i | i.value <> null)
-inv mut6 : Double.allInstances()->forAll(d | d.value <> null)
-inv mut7 : BinaryOperator.allInstances()->forAll(b | b.operator <> null)
-inv mut8 : BinaryOperator.allInstances()->size() > 0
+inv mut1 : aspleXxxXDeclaration.allInstances()->forAll(a | a.ref <> null)
+inv mut2 : aspleXxxXDeclaration.allInstances()->forAll(a | a.mode <> null)
+inv mut3 : aspleXxxXIdentifier.allInstances()->forAll(a | a.name <> null)
+inv mut4 : aspleXxxXBoolean.allInstances()->forAll(a | a.value <> null)
+inv mut5 : aspleXxxXInteger.allInstances()->forAll(a | a.value <> null)
+inv mut6 : aspleXxxXDouble.allInstances()->forAll(a | a.value <> null)
+inv mut7 : aspleXxxXBinaryOperator.allInstances()->forAll(a | a.operator <> null)
+inv mut8 : aspleXxxXBinaryOperator.allInstances()->size() > 0
+inv mut9 : aspleXxxXBinaryOperator.allInstances()->exists(a | a.operator = 'add' or a.operator = 'subtract' or a.operator = 'multiply' or a.operator = 'divide' or a.operator = 'module')

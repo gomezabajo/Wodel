@@ -5,5 +5,5 @@ metamodel "C:/eclipse/workspace/rro/data/model/Asple.ecore"
 
 with commands {
 	modify one BinaryOperator where {operator in ['less', 'equals', 'greater', 'distinct']}
-			with {operator in ['less', 'equals', 'greater', 'distinct']}
+		with {operator in ['less', 'equals', 'greater', 'distinct']}
 }

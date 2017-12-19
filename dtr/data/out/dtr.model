@@ -5,7 +5,7 @@
   </definition>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/dtr/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
     </object>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

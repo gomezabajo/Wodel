@@ -1,55 +1,55 @@
 model mfs
-class Automaton
+class DFAAutomatonXxxXAutomaton
 	attributes
 		name : String
 end
-class Symbol
+class DFAAutomatonXxxXSymbol
 	attributes
 		symbol : String
 end
-class State
+class DFAAutomatonXxxXState
 	attributes
 		name : String
 		isInitial : Boolean
 		isFinal : Boolean
 end
-class Transition
+class DFAAutomatonXxxXTransition
 end
 class Dummy
 end
-composition AutomatonState between
-	Automaton[*] role automatonstate
-	State[*] role states_
+composition DFAAutomatonXxxXAutomatonXxxXDFAAutomatonXxxXState between
+	DFAAutomatonXxxXAutomaton[0..1] role dfaautomatonxxxxautomatonxxxxstates
+	DFAAutomatonXxxXState[*] role xxxxstates
 end
-composition AutomatonTransition between
-	Automaton[*] role automatontransition
-	Transition[*] role transitions_
+composition DFAAutomatonXxxXAutomatonXxxXDFAAutomatonXxxXTransition between
+	DFAAutomatonXxxXAutomaton[0..1] role dfaautomatonxxxxautomatonxxxxtransitions
+	DFAAutomatonXxxXTransition[*] role xxxxtransitions
 end
-composition AutomatonSymbol between
-	Automaton[*] role automatonsymbol
-	Symbol[*] role alphabet
+composition DFAAutomatonXxxXAutomatonXxxXDFAAutomatonXxxXSymbol between
+	DFAAutomatonXxxXAutomaton[0..1] role dfaautomatonxxxxautomatonxxxxalphabet
+	DFAAutomatonXxxXSymbol[*] role alphabet
 end
-association TransitionState between
-	Transition[*] role transitionstate
-	State[1] role src
+association DFAAutomatonXxxXTransitionXxxXDFAAutomatonXxxXState between
+	DFAAutomatonXxxXTransition[*] role dfaautomatonxxxxtransitionxxxxsrc
+	DFAAutomatonXxxXState[1] role src
 end
-association TransitionState1 between
-	Transition[*] role transitionstate1
-	State[1] role tar
+association DFAAutomatonXxxXTransitionXxxXDFAAutomatonXxxXState1 between
+	DFAAutomatonXxxXTransition[*] role dfaautomatonxxxxtransitionxxxxtar
+	DFAAutomatonXxxXState[1] role tar
 end
-association TransitionSymbol between
-	Transition[*] role transitionsymbol
-	Symbol[0..1] role symbol
+association DFAAutomatonXxxXTransitionXxxXDFAAutomatonXxxXSymbol between
+	DFAAutomatonXxxXTransition[*] role dfaautomatonxxxxtransitionxxxxsymbol
+	DFAAutomatonXxxXSymbol[0..1] role symbol
 end
 constraints
 context Dummy
-inv mut1 : Automaton.allInstances()->forAll(a | a.name <> null)
-inv mut2 : Symbol.allInstances()->forAll(s | s.symbol <> null)
-inv mut3 : State.allInstances()->forAll(s | s.name <> null)
-inv mut4 : State.allInstances()->forAll(s | s.isInitial <> null)
-inv mut5 : State.allInstances()->forAll(s | s.isFinal <> null)
-inv mut6 : State.allInstances()->size() > 0
-inv mut7 : State.allInstances()->exists(s | s.isFinal = true)
-inv mut8 : State.allInstances()->exists(s | s.isFinal = true)
-inv mut9 : State.allInstances()->one(s | s.isInitial = true)
-inv mut10 : Symbol.allInstances()->forAll(a1,a2 |a1.symbol=a2.symbol implies a1=a2)
+inv mut1 : DFAAutomatonXxxXAutomaton.allInstances()->forAll(d | d.name <> null)
+inv mut2 : DFAAutomatonXxxXSymbol.allInstances()->forAll(d | d.symbol <> null)
+inv mut3 : DFAAutomatonXxxXState.allInstances()->forAll(d | d.name <> null)
+inv mut4 : DFAAutomatonXxxXState.allInstances()->forAll(d | d.isInitial <> null)
+inv mut5 : DFAAutomatonXxxXState.allInstances()->forAll(d | d.isFinal <> null)
+inv mut6 : DFAAutomatonXxxXState.allInstances()->size() > 0
+inv mut7 : DFAAutomatonXxxXState.allInstances()->exists(d | d.isFinal = true)
+inv mut8 : DFAAutomatonXxxXState.allInstances()->exists(s | s.isFinal)
+inv mut9 : DFAAutomatonXxxXState.allInstances()->one(s | s.isInitial)
+inv mut10 : DFAAutomatonXxxXSymbol.allInstances()->forAll(a1,a2 |a1.symbol=a2.symbol implies a1=a2)

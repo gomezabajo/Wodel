@@ -5,5 +5,5 @@ metamodel "C:/eclipse/workspace/mis/data/model/DFAAutomaton.ecore"
 
 with commands {
 	s0 = modify one State where {isInitial = true} with {isInitial = false}
-    s1 = modify one State where {self <> s0} with {isInitial = true}
+	s1 = modify one State where {self <> s0} with {isInitial = true}
 }

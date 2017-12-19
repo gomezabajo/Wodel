@@ -4,12 +4,12 @@
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
-    <refType href="file:/c:/eclipse/workspace/mst/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+    <refType href="../model/DFAAutomaton.ecore#//Transition/symbol"/>
     <source xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/mst/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
     </source>
     <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
-      <type href="file:/c:/eclipse/workspace/mst/data/model/DFAAutomaton.ecore#//Symbol"/>
+      <type href="../model/DFAAutomaton.ecore#//Symbol"/>
     </newTarget>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

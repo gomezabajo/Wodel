@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../dst.model#//@commands.0"/>
+    <def href="../../dst.model#//@blocks.0/@commands.0"/>
     <object href="../../../model/dfa0.model#_9U63cpWSEeeHwor16N4uRA"/>
+    <type href="../../../model/DFAAutomaton.ecore#//State"/>
   </muts>
 </appliedMutations:Mutations>

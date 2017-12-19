@@ -4,20 +4,20 @@
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="s">
-    <type href="file:/c:/eclipse/workspace/rts/data/model/DFAAutomaton.ecore#//State"/>
+    <type href="../model/DFAAutomaton.ecore#//State"/>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/rts/data/model/DFAAutomaton.ecore#//State/name"/>
+      <attribute href="../model/DFAAutomaton.ecore#//State/name"/>
       <value xsi:type="mutatorenvironment:SpecificStringType" value="f"/>
     </attributes>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/workspace/rts/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      <attribute href="../model/DFAAutomaton.ecore#//State/isFinal"/>
       <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
     </attributes>
   </commands>
   <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
-    <refType href="file:/c:/eclipse/workspace/rts/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+    <refType href="../model/DFAAutomaton.ecore#//Transition/tar"/>
     <source xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/rts/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
     </source>
     <newTarget xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
   </commands>

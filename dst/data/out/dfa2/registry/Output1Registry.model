@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
-  <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../dst.model#//@commands.0"/>
-    <object href="../../../model/dfa2.model#_RU07cZWTEeeHwor16N4uRA"/>
-  </muts>
-</appliedMutations:Mutations>

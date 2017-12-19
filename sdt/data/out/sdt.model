@@ -5,11 +5,11 @@
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/sdt/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
     </object>
     <references xsi:type="mutatorenvironment:ReferenceSwap">
-      <reference href="file:/c:/eclipse/workspace/sdt/data/model/DFAAutomaton.ecore#//Transition/src"/>
-      <reference href="file:/c:/eclipse/workspace/sdt/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <reference href="../model/DFAAutomaton.ecore#//Transition/src"/>
+      <reference href="../model/DFAAutomaton.ecore#//Transition/tar"/>
     </references>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

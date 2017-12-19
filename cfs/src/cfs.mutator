@@ -5,5 +5,5 @@ metamodel "C:/eclipse/workspace/cfs/data/model/DFAAutomaton.ecore"
 
 with commands {
 	s = create State with {isFinal = true}
-    create Transition with {tar = s, symbol = one Symbol}
+	create Transition with {tar = s, symbol = one Symbol}
 }

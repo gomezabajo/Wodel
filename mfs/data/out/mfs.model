@@ -5,16 +5,16 @@
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/mfs/data/model/DFAAutomaton.ecore#//State"/>
+      <type href="../model/DFAAutomaton.ecore#//State"/>
       <expression>
         <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/mfs/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+          <name href="../model/DFAAutomaton.ecore#//State/isFinal"/>
           <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
         </first>
       </expression>
     </object>
     <attributes xsi:type="mutatorenvironment:AttributeReverse">
-      <attribute href="file:/c:/eclipse/workspace/mfs/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      <attribute href="../model/DFAAutomaton.ecore#//State/isFinal"/>
     </attributes>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 file:/c:/eclipse/workspace/ctr_mis/data/model/DFAAutomaton.ecore" xmi:id="_XZ1K0JWTEeeHwor16N4uRA" name="dfa3">
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 ../../model/DFAAutomaton.ecore" xmi:id="_XZ1K0JWTEeeHwor16N4uRA" name="dfa3">
   <states xmi:id="_XZ1K1JWTEeeHwor16N4uRA" name="s0"/>
   <states xmi:id="_XZ1K0ZWTEeeHwor16N4uRA" name="s1" isFinal="true"/>
   <states xmi:id="_XZ1K0pWTEeeHwor16N4uRA" name="s2"/>

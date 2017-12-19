@@ -4,6 +4,6 @@ from "data/model/"
 metamodel "C:/eclipse/workspace/ccs/data/model/DFAAutomaton.ecore"
 
 with commands {
-    s = create State with {name = random-string(1, 4)}
-    t = create Transition with {tar = s, symbol = one Symbol}
+	s = create State with {name = random-string(1, 4)}
+	t = create Transition with {tar = s, symbol = one Symbol}
 }

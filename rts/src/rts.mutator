@@ -5,5 +5,5 @@ metamodel "C:/eclipse/workspace/rts/data/model/DFAAutomaton.ecore"
 
 with commands {
 	s = create State with {name = 'f', isFinal = true}
-     modify target tar from one Transition to s
+	modify target tar from one Transition to s
 }

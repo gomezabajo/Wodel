@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xsi:schemaLocation="http://dfaAutomaton/1.0 ../../model/DFAAutomaton.ecore" xmi:id="_RU07cJWTEeeHwor16N4uRA" name="dfa3">
+  <states xmi:id="_RU07c5WTEeeHwor16N4uRA" name="s0" isInitial="true"/>
+  <states xmi:id="_RU07cZWTEeeHwor16N4uRA" name="s1"/>
+  <states xmi:id="_RU07cpWTEeeHwor16N4uRA" name="s2" isFinal="true"/>
+  <states name="rmm"/>
+  <transitions xmi:id="_RU07dJWTEeeHwor16N4uRA" src="_RU07c5WTEeeHwor16N4uRA" tar="_RU07cZWTEeeHwor16N4uRA" symbol="_RU07d5WTEeeHwor16N4uRA"/>
+  <transitions xmi:id="_RU07dZWTEeeHwor16N4uRA" src="_RU07c5WTEeeHwor16N4uRA" tar="_RU07cpWTEeeHwor16N4uRA" symbol="_RU07dpWTEeeHwor16N4uRA"/>
+  <transitions src="_RU07cZWTEeeHwor16N4uRA" tar="//@states.3" symbol="_RU07dpWTEeeHwor16N4uRA"/>
+  <alphabet xmi:id="_RU07dpWTEeeHwor16N4uRA" symbol="a"/>
+  <alphabet xmi:id="_RU07d5WTEeeHwor16N4uRA" symbol="b"/>
+</DFAAutomaton:Automaton>

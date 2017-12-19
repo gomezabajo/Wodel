@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
+  <trees xsi:type="mutatormetrics:Folder" name="dfa0" path="C:\eclipse\workspace\sdt\data\out\dfa0">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\sdt\data\out\dfa0\Output0.model">
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State" cmodified="2">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="1" cmodified="1">
+        <references name="src"/>
+        <references name="tar" modified="1"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="states"/>
+      <references name="transitions"/>
+      <references name="alphabet"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State" cmodified="2">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="1" cmodified="1">
+      <references name="src"/>
+      <references name="tar" modified="1"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="dfa1" path="C:\eclipse\workspace\sdt\data\out\dfa1">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\sdt\data\out\dfa1\Output0.model">
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State" cmodified="2">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="1" cmodified="1">
+        <references name="src"/>
+        <references name="tar" modified="1"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="states"/>
+      <references name="transitions"/>
+      <references name="alphabet"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State" cmodified="2">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="1" cmodified="1">
+      <references name="src"/>
+      <references name="tar" modified="1"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="dfa2" path="C:\eclipse\workspace\sdt\data\out\dfa2">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\sdt\data\out\dfa2\Output0.model">
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State" cmodified="2">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="1" cmodified="1">
+        <references name="src"/>
+        <references name="tar" modified="1"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\sdt\data\out\dfa2\Output1.model">
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State" cmodified="2">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="1" cmodified="1">
+        <references name="src"/>
+        <references name="tar" modified="1"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="states"/>
+      <references name="transitions"/>
+      <references name="alphabet"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State" cmodified="4">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="2" cmodified="2">
+      <references name="src"/>
+      <references name="tar" modified="2"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="dfa3" path="C:\eclipse\workspace\sdt\data\out\dfa3">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\sdt\data\out\dfa3\Output0.model">
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State" cmodified="2">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="1" cmodified="1">
+        <references name="src"/>
+        <references name="tar" modified="1"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\sdt\data\out\dfa3\Output1.model">
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="states"/>
+        <references name="transitions"/>
+        <references name="alphabet"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State" cmodified="2">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="1" cmodified="1">
+        <references name="src"/>
+        <references name="tar" modified="1"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="states"/>
+      <references name="transitions"/>
+      <references name="alphabet"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State" cmodified="4">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="2" cmodified="2">
+      <references name="src"/>
+      <references name="tar" modified="2"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <classes xsi:type="mutatormetrics:Class" name="Automaton">
+    <attributes name="name"/>
+    <references name="states"/>
+    <references name="transitions"/>
+    <references name="alphabet"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Symbol">
+    <attributes name="symbol"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="State" cmodified="12">
+    <attributes name="name"/>
+    <attributes name="isInitial"/>
+    <attributes name="isFinal"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Transition" modified="6" cmodified="6">
+    <references name="src"/>
+    <references name="tar" modified="6"/>
+    <references name="symbol"/>
+  </classes>
+</mutatormetrics:MutatorMetrics>

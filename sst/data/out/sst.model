@@ -5,28 +5,28 @@
   </definition>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
         </first>
         <operator/>
         <second xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/src"/>
+          <name href="../model/DFAAutomaton.ecore#//Transition/src"/>
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-            <refType href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/src"/>
+            <refType href="../model/DFAAutomaton.ecore#//Transition/src"/>
           </value>
         </second>
       </expression>
     </object>
     <references xsi:type="mutatorenvironment:ReferenceSwap">
-      <reference href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
-      <reference href="file:/c:/eclipse/workspace/sst/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <reference href="../model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <reference href="../model/DFAAutomaton.ecore#//Transition/symbol"/>
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
     </references>
   </commands>

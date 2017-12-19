@@ -4,6 +4,6 @@
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-    <type href="file:/c:/eclipse/workspace/clt/data/model/DFAAutomaton.ecore#//Transition"/>
+    <type href="../model/DFAAutomaton.ecore#//Transition"/>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

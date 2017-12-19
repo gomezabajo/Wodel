@@ -5,5 +5,5 @@ metamodel "C:/eclipse/workspace/cst/data/model/DFAAutomaton.ecore"
 
 with commands {
 	t = select one Transition where {symbol <> null}
-    create Transition with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
+	create Transition with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
 }

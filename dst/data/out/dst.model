@@ -5,10 +5,10 @@
   </definition>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore#//State"/>
+      <type href="../model/DFAAutomaton.ecore#//State"/>
       <expression>
         <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+          <name href="../model/DFAAutomaton.ecore#//State/isInitial"/>
           <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
         </first>
       </expression>
@@ -16,20 +16,20 @@
   </commands>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore#//Transition/src"/>
+          <name href="../model/DFAAutomaton.ecore#//Transition/src"/>
         </first>
       </expression>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore#//Transition"/>
+      <type href="../model/DFAAutomaton.ecore#//Transition"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+          <name href="../model/DFAAutomaton.ecore#//Transition/tar"/>
         </first>
       </expression>
     </object>

@@ -5,6 +5,6 @@ metamodel "C:/eclipse/workspace/dst/data/model/DFAAutomaton.ecore"
 
 with commands {
 	remove one State where {isInitial = false}
-    remove all Transition where {src = null}
-    remove all Transition where {tar = null}
+	remove all Transition where {src = null}
+	remove all Transition where {tar = null}
 }

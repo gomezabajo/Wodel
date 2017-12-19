@@ -5,6 +5,6 @@ metamodel "C:/eclipse/workspace/ctr_mis/data/model/DFAAutomaton.ecore"
 
 with commands {
 	s0 = modify one State where {isInitial = true} with {reverse(isInitial)}
-    s1 = modify one State where {self <> s0} with {isInitial = true}
-    create Transition with {src = s1, tar = s0, symbol = one Symbol}
+	s1 = modify one State where {self <> s0} with {isInitial = true}
+	create Transition with {src = s1, tar = s0, symbol = one Symbol}
 }

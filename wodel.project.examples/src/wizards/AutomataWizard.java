@@ -265,6 +265,7 @@ public class AutomataWizard extends Wizard implements INewWizard {
 			def += "with blocks {\n";
 			def += "\tcfs {\n";
 			def += "\t\tcreate State with {isFinal = true}\n";
+			def += "\t\tcreate Transition with {tar = s, symbol = one Symbol}\n";
 			def += "\t}\n";
 			def += "\tccs {\n";
 			def += "\t\ts = create State with {name = random-string(1, 4)}\n";

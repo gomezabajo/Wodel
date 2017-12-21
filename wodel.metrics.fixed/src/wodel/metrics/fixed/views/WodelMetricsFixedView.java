@@ -1226,32 +1226,19 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 		//Save session and Refresh workspace		
 			//Includes the mutation metrics
 			//Generate metrics model
-			Bundle bundle = Platform.getBundle("wodel.project");
-		   	URL fileURL = bundle.getEntry("/icons/metrics/creation.jpg");
-		   	java.net.URI base = new File(new File(WodelMetricsFixedView.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParent()).toURI();
-		   	final String creationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/modification.jpg");
-		   	final String modificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/deletion.jpg");
-		   	final String deletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/creation_modification.jpg");
-		   	final String creationModificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/creation_deletion.jpg");
-		   	final String creationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/creation_modification_deletion.jpg");
-		   	final String creationModificationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/attcreation.jpg");
-		   	final String attCreationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/attmodification.jpg");
-		   	final String attModificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/attdeletion.jpg");
-		   	final String attDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/attcreation_modification.jpg");
-		   	final String attCreationModificationIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/attcreation_deletion.jpg");
-		   	final String attCreationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
-		   	fileURL = bundle.getEntry("/icons/metrics/attcreation_modification_deletion.jpg");
-		   	final String attCreationModificationDeletionIconPath = "/" + base.relativize(FileLocator.resolve(fileURL).toURI()).getPath();
+			final String base = "/wodel.project/icons/metrics";
+		   	final String creationIconPath = base + "/creation.jpg";
+		   	final String modificationIconPath = base + "/modification.jpg";
+		   	final String deletionIconPath = base + "/deletion.jpg";
+		   	final String creationModificationIconPath = base + "/creation_modification.jpg";
+		   	final String creationDeletionIconPath = base + "/creation_deletion.jpg";
+		   	final String creationModificationDeletionIconPath = base + "/creation_modification_deletion.jpg";
+		   	final String attCreationIconPath = base + "/attcreation.jpg";
+		   	final String attModificationIconPath = base + "/attmodification.jpg";
+		   	final String attDeletionIconPath = base + "/attdeletion.jpg";
+		   	final String attCreationModificationIconPath = base + "/attcreation_modification.jpg";
+		   	final String attCreationDeletionIconPath = base + "/attcreation_deletion.jpg";
+		   	final String attCreationModificationDeletionIconPath = base + "/attcreation_modification_deletion.jpg";
 
 			RecordingCommand includeMetricsCommand = new RecordingCommand(domain) {
 				@Override

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 
 import manager.ModelManager;
 
@@ -22,8 +20,6 @@ import exceptions.AbstractCreationException;
 import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
-import static java.util.Comparator.comparingInt;
-import static java.util.stream.Collectors.toMap;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -154,7 +150,41 @@ public class SelectSampleMutator extends Mutator {
 		}
 	}
 	
-	private void selectSampleDifferentFeaturesObjectsHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects) {
+	private static List<List<EObject>> getCombinations(List<List<EObject>> lists) {
+		List<List<EObject>> combinations = new ArrayList<List<EObject>>();
+		List<List<EObject>> newCombinations;
+
+		int index = 0;
+
+		// extract each of the integers in the first list
+		// and add each to ints as a new list
+		for(EObject o: lists.get(0)) {
+			List<EObject> newList = new ArrayList<EObject>();
+			newList.add(o);
+			combinations.add(newList);
+		}
+		index++;
+		while(index < lists.size()) {
+			List<EObject> nextList = lists.get(index);
+			newCombinations = new ArrayList<List<EObject>>();
+			for(List<EObject> first: combinations) {
+				for(EObject second: nextList) {
+					List<EObject> newList = new ArrayList<EObject>();
+					newList.addAll(first);
+					newList.add(second);
+					newCombinations.add(newList);
+				}
+			}
+			combinations = newCombinations;
+
+			index++;
+		}
+
+		return combinations;
+	}
+
+	private List<List<EObject>> selectSampleDifferentFeaturesObjectsHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify) {
+		List<List<EObject>> combinations = new ArrayList<List<EObject>>();
 		List<String> otherFeatures = null;
 		for (String feature : features) {
 			otherFeatures = new ArrayList<String>();
@@ -162,55 +192,19 @@ public class SelectSampleMutator extends Mutator {
 			otherFeatures.remove(feature);
 			for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
 				if (feat.getName().equals(feature)) {
+					List<List<EObject>> values = new ArrayList<List<EObject>>();
 					for (Object key : classify.get(feat).keySet()) {
-						HashMap<Object, List<EObject>> others = (HashMap<Object, List<EObject>>) classify.get(feat).clone();
-						others.remove(key);
-						List<EObject> lo = classify.get(feat).get(key);
-						for (EObject o1 : lo) {
-							HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
-							List<EObject> rej = new ArrayList<EObject>();
-							List<EObject> lo1 = new ArrayList<EObject>();
-							lo1.addAll(lo);
-							lo1.remove(o1);
-							rej.addAll(lo1);
-							if (others.size() > 0) {
-								for (Object key1 : others.keySet()) {
-									List<EObject> keySelected = new ArrayList<EObject>();
-									List<EObject> lo2 = others.get(key1);
-									if (lo2.size() > 0) {
-										for (EObject o2 : lo2) {
-											//EObject o2 = lo2.get(ModelManager.getRandomIndex(lo2));
-											if (rej.contains(o2) != true) {
-												for (String of : otherFeatures) {
-													for (EStructuralFeature f2 : o2.eClass().getEAllStructuralFeatures()) {
-														if (f2.getName().equals(of)) {
-															if (o2.eGet(f2).equals(o1.eGet(f2))) {
-																rej.add(o2);
-															}
-														}
-													}
-												}
-												if (keySelected.contains(o2) != true) {
-													keySelected.add(o2);
-												}
-											}
-										}
-									}
-									sel.put(key1, keySelected);
-								}
-							}
-							else {
-								sel.put(feature, lo);
-							}
-							hmEObjects.put(o1, sel);
-						}
+						values.add(classify.get(feat).get(key));
 					}
+					combinations.addAll(getCombinations(values));
 				}
 			}
 		}
+		return combinations;
 	}
 	
-	private void selectSampleEqualFeaturesObjectsHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects, List<EObject> objects) {
+	private List<List<EObject>> selectSampleEqualFeaturesObjectsHelper(EClass eClass, LinkedHashMap<EStructuralFeature, HashMap<Object, List<EObject>>> classify, List<EObject> objects) {
+		List<List<EObject>> combinations = new ArrayList<List<EObject>>();
 		if (features.size() > 0) {
 			for (String feature : features) {
 				for (EStructuralFeature feat : eClass.getEAllStructuralFeatures()) {
@@ -219,60 +213,41 @@ public class SelectSampleMutator extends Mutator {
 						while (iterator.hasNext()) {
 							List<EObject> lo = iterator.next();
 							//List<EObject> sel = new ArrayList<EObject>();
-							HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
+							List<EObject> sel = new ArrayList<EObject>();
 							EObject o = lo.get(0);
 							List<EObject> lo1 = new ArrayList<EObject>();
 							lo1.addAll(lo);
 							lo1.remove(o);
-							hmEObjects.put(o, sel);
+							sel.add(o);
+							combinations.add(sel);
 						}
 					}
 				}
 			}
 		}
 		else {
-			HashMap<Object, List<EObject>> sel = new HashMap<Object, List<EObject>>();
-			sel.put(null, objects.subList(1, objects.size() -1));
-			hmEObjects.put(objects.get(0), sel);
+			List<EObject> sel = new ArrayList<EObject>();
+			sel.addAll(objects.subList(1, objects.size() -1));
+			sel.add(objects.get(0));
+			combinations.add(sel);
 		}
+		return combinations;
 	}
 	
-	private List<List<EObject>> getCandidates(HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects) {
-		int max = Integer.MIN_VALUE;
+	private List<List<EObject>> getCandidates(List<List<EObject>> combinations) {
 		List<List<EObject>> candidates = new ArrayList<List<EObject>>();
-		for (EObject key : hmEObjects.keySet()) {
-			Map<Object, List<EObject>> sorted = hmEObjects.get(key).entrySet().stream()
-					.sorted(comparingInt(e->e.getValue().size()))
-					.collect(toMap(
-							Map.Entry::getKey,
-							Map.Entry::getValue,
-							(a,b) -> {throw new AssertionError();},
-							LinkedHashMap::new
-							)); 
-
-			ListIterator<Object> iter = new ArrayList<>(sorted.keySet()).listIterator(sorted.size());
-
-			while (iter.hasPrevious()) {
-				if (max == Integer.MIN_VALUE) {
-					Object previous = iter.previous();
-					max = sorted.get(previous).size();
-					List<EObject> candidate = new ArrayList<EObject>();
-					candidate.add(key);
-					candidate.addAll(sorted.get(previous));
-					candidates.add(candidate);
-				}
-				else {
-					Object previous = iter.previous();
-					if (sorted.get(previous).size() == max) {
-						List<EObject> candidate = new ArrayList<EObject>();
-						candidate.add(key);
-						candidate.addAll(sorted.get(previous));
-						candidates.add(candidate);
-					}
+		List<List<EObject>> maxCandidates = new ArrayList<List<EObject>>();
+		candidates.addAll(combinations);
+		if (candidates.size() > 0) {
+			candidates.sort((candidate1, candidate2) -> candidate2.size() - candidate1.size());
+			int size = candidates.get(0).size();
+			for (List<EObject> candidate : candidates) {
+				if (candidate.size() == size) {
+					maxCandidates.add(candidate);
 				}
 			}
 		}
-		return candidates;
+		return maxCandidates;
 	}
 	
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
@@ -417,16 +392,16 @@ public class SelectSampleMutator extends Mutator {
 						}
 					}
 				}
-				HashMap<EObject, HashMap<Object, List<EObject>>> hmEObjects = new HashMap<EObject, HashMap<Object, List<EObject>>>();
+				List<List<EObject>> combinations = null;
 				//distinct
 				if (equals == false) {
-					selectSampleDifferentFeaturesObjectsHelper(eClass, classify, hmEObjects);
+					combinations = selectSampleDifferentFeaturesObjectsHelper(eClass, classify);
 				}
 				//equals
 				if (equals == true) {
-					selectSampleEqualFeaturesObjectsHelper(eClass, classify, hmEObjects, objects);
+					combinations = selectSampleEqualFeaturesObjectsHelper(eClass, classify, objects);
 				}
-				List<List<EObject>> candidates = getCandidates(hmEObjects);
+				List<List<EObject>> candidates = getCandidates(combinations);
 				if (candidates.size() > 0) {
 					result = candidates.get(ModelManager.getRandomIndex(candidates));
 				}

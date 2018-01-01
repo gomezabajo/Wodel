@@ -273,8 +273,12 @@ public class UMLClassDiagramsWizard extends Wizard implements INewWizard {
 			def += "\tuas2 {\n";
 			def += "\t\ta1 = select one Association\n";
 			def += "\t\ta2 = select one Association where {src = a1->tar}\n";
-			def += "\t\ta3 = create Association with {src = a1->src, tar = a2->tar}\n";
-			def += "\t\tmodify a3 with {copy(nsrc, a1.nsrc), copy(ntar, a2.ntar)}\n";
+			def += "\t\ta3 = create Association with {\n";
+			def += "\t\t\tname = random-string(1, 4),\n";
+			def += "\t\t\tsrc = a1->src, tar = a2->tar,\n";
+			def += "\t\t\tcopy(nsrc, a1.nsrc), copy(ntar, a2.ntar),\n";
+			def += "\t\t\tderived = true\n";
+			def += "\t\t}\n";
 			def += "\t}\n";
 			def += "\tuas3 {\n";
 			def += "\t\tcreate Association with {src = one Class, tar = one Class, name = random-string(1, 4)}\n";
@@ -371,7 +375,7 @@ public class UMLClassDiagramsWizard extends Wizard implements INewWizard {
 			def += "\t\tretype one Association as Composition\n";
 			def += "\t}\n";
 			def += "\twas2d {\n";
-			def += "\t\t retype one Composition as Association\n";
+			def += "\t\tretype one Composition as Association\n";
 			def += "\t}\n";
 			def += "\twas2e {\n";
 			def += "\t\tretype one Association as Dependency\n";

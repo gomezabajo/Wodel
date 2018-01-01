@@ -127,6 +127,7 @@ public class UseGeneratorUtils {
 			List<String> variables = new ArrayList<String>();
 			String className = "";
 			boolean list = false;
+			boolean nested = false;
 			List<String> clauses = new ArrayList<String>();
 		}
 		
@@ -834,26 +835,50 @@ public class UseGeneratorUtils {
 		private static void subsume(List<Constraint> constraints, Constraint constraint) {
 	 		if (constraint != null && !constraint.text.equals("")) {
 				for (Constraint c : constraints) {
-					if (c.type.equals("exists")) {
-						String clause1 = c.text.substring(c.text.indexOf("exists(") + "exists(".length(), c.text.lastIndexOf(")"));
-						if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
-							String v1 = c.variables.get(0);
-							String v2 = c.variables.get(1);
-							String clause2 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
-							while (clause1.endsWith(")")) {
-								clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
+					if (c.nested == false) {
+						if (c.type.equals("exists")) {
+							String clause1 = c.text.substring(c.text.indexOf("exists(") + "exists(".length(), c.text.lastIndexOf(")"));
+							if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
+								String v1 = c.variables.get(0);
+								String v2 = c.variables.get(1);
+								String clause2 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
+								while (clause1.endsWith(")")) {
+									clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
+								}
+								String v3 = constraint.variables.get(1);
+								String newClause = clause2.replace("| ", "| " + clause1.substring(clause1.indexOf("|") + 1, clause1.length()) + " and ");
+								newClause = newClause.replace(newClause.substring(0, newClause.indexOf("|") + 1), clause1.substring(0, clause1.indexOf("|") + 1));
+								newClause = newClause.replace(v3, v2);
+								constraint.variables.clear();
+								constraint.variables.add(v1);
+								constraint.variables.add(v2);
+								constraint.text = c.text.replace(clause1, newClause);
+								constraints.remove(c);
+								addConstraint(constraints, constraint);
+								return;
 							}
-							String v3 = constraint.variables.get(1);
-							String newClause = clause2.replace("| ", "| " + clause1.substring(clause1.indexOf("|") + 1, clause1.length()) + " and ");
-							newClause = newClause.replace(newClause.substring(0, newClause.indexOf("|") + 1), clause1.substring(0, clause1.indexOf("|") + 1));
-							newClause = newClause.replace(v3, v2);
-							constraint.variables.clear();
-							constraint.variables.add(v1);
-							constraint.variables.add(v2);
-							constraint.text = c.text.replace(clause1, newClause);
-							constraints.remove(c);
-							addConstraint(constraints, constraint);
-							return;
+						}
+					}
+					if (c.nested == true) {
+						if (c.type.equals("exists")) {
+							String clause1 = c.text.substring(c.text.indexOf("exists(") + "exists(".length(), c.text.lastIndexOf(")"));
+							if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
+								String v1 = c.variables.get(0);
+								String v2 = c.variables.get(1);
+								String clause2 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
+								String tmpClause = clause1;
+								while (clause1.endsWith(")")) {
+									clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
+								}
+								String newClause = clause1 + " and " + clause2.substring(clause2.lastIndexOf("|") + 1, clause2.length());
+								constraint.variables.clear();
+								constraint.variables.add(v1);
+								constraint.variables.add(v2);
+								constraint.text = c.text.replace(tmpClause, newClause);
+								constraints.remove(c);
+								addConstraint(constraints, constraint);
+								return;
+							}
 						}
 					}
 				}
@@ -925,7 +950,7 @@ public class UseGeneratorUtils {
 					}
 				}
 			}
-			return null;
+			return constraint;
 		}
 		
 		/**
@@ -1260,9 +1285,10 @@ public class UseGeneratorUtils {
 										String refMutName = ((SelectObjectMutator) ((SpecificObjectSelection) selection).getObjSel()).getName();
 										String v4 = refClassName.substring(0, 1).toLowerCase() + "3";
 										if (multiple == false) {
-											refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v3 + " | " + v3 + "." + encodeWord(refName) + " " + operator + " " + v4 + ")";
+											refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v3 + " | " + encodeWord(refClassName) + ".allInstances()->exists(" + v4 + " | " + v3 + "." + encodeWord(refName) + " " + operator + " " + v4 + "))";
 											refConstraint.variables.add(v3);
 											refConstraint.variables.add(v4);
+											refConstraint.nested = true;
 											refConstraint = join(constraints, refConstraint, refClassName, refMutName);
 										}
 										else {

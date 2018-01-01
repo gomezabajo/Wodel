@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/wco5/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="inv">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore#//miniOCL/InvariantCS"/>
+      <type href="../model/UMLClassDiagram.ecore#//miniOCL/InvariantCS"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore#//miniOCL/InvariantCS/exp"/>
+          <name href="../model/UMLClassDiagram.ecore#//miniOCL/InvariantCS/exp"/>
         </first>
       </expression>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-    <type href="file:/c:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS"/>
+    <type href="../model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS"/>
     <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-      <refType href="file:/c:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore#//miniOCL/InvariantCS/exp"/>
+      <refType href="../model/UMLClassDiagram.ecore#//miniOCL/InvariantCS/exp"/>
     </container>
     <attributes xsi:type="mutatorenvironment:AttributeScalar">
-      <attribute href="file:/c:/eclipse/runtime-EclipseApplication/wco5/data/model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
+      <attribute href="../model/UMLClassDiagram.ecore#//miniOCL/LogicExpCS/op"/>
       <value xsi:type="mutatorenvironment:SpecificStringType" value="not"/>
     </attributes>
   </commands>

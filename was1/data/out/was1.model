@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/was1/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/was1/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/was1/data/model/UMLClassDiagram.ecore#//Association"/>
+      <type href="../model/UMLClassDiagram.ecore#//Association"/>
     </object>
     <references xsi:type="mutatorenvironment:ReferenceSwap">
-      <reference href="file:/c:/eclipse/runtime-EclipseApplication/was1/data/model/UMLClassDiagram.ecore#//Relation/src"/>
-      <reference href="file:/c:/eclipse/runtime-EclipseApplication/was1/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+      <reference href="../model/UMLClassDiagram.ecore#//Relation/src"/>
+      <reference href="../model/UMLClassDiagram.ecore#//Relation/tar"/>
     </references>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

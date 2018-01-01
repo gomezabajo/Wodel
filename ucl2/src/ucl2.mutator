@@ -1,7 +1,7 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/ucl2/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/ucl2/data/model/UMLClassDiagram.ecore"
 
 with commands {
 	create Class with {name = random-string(1, 4)}

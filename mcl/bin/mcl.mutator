@@ -1,14 +1,13 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/mcl/data/model/UMLClassDiagram.ecore"
 
 with commands {
-		cl = select one Class
-		remove all Relation where {src = cl}
-		remove all Relation where {tar = cl}
-		remove all Operation where {type = cl}
-		remove all Feature where {type = cl}
-		remove all AssociationClass where {association = null}
-		remove cl
+	cl = select one Class
+	remove all Relation where {src = cl or tar = cl}
+	remove all Operation where {type = cl}
+	remove all Feature where {type = cl}
+	remove all AssociationClass where {association = null}
+	remove cl
 }

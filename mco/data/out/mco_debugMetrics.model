@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
-  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\runtime-EclipseApplication\mco\data\out\cd.example">
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\mco\data\out\cd.example\Output0.model">
+  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\workspace\mco\data\out\cd.example">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\mco\data\out\cd.example\Output0.model">
       <classes name="ClassDiagram">
         <references name="classes"/>
         <references name="relations"/>
@@ -34,6 +34,11 @@
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
       </classes>
       <classes name="Class">
         <attributes name="name"/>
@@ -370,6 +375,11 @@
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
+      <attributes name="abstract"/>
+      <attributes name="derived"/>
+      <references name="features"/>
+      <references name="super"/>
+      <references name="supplier"/>
     </classes>
     <classes name="Class">
       <attributes name="name"/>
@@ -706,6 +716,11 @@
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
+    <attributes name="abstract"/>
+    <attributes name="derived"/>
+    <references name="features"/>
+    <references name="super"/>
+    <references name="supplier"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Class">
     <attributes name="name"/>

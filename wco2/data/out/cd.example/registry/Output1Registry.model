@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../wco2.model#//@commands.0"/>
+    <def href="../../wco2.model#//@blocks.0/@commands.0"/>
   </muts>
   <muts>
-    <def href="../../wco2.model#//@commands.1"/>
+    <def href="../../wco2.model#//@blocks.1/@commands.0"/>
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../wco2.model#//@commands.2"/>
-    <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
-    <refChanges refName="type">
-      <def href="../../wco2.model#//@commands.2"/>
-      <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
+    <def href="../../wco2.model#//@blocks.2/@commands.0"/>
+    <object href="../../../model/cd.example.model#_b6irMNBSEeeA66FQ4hHrOQ"/>
+    <refChanges srcRefName="type" refName="type">
+      <def href="../../wco2.model#//@blocks.2/@commands.0"/>
+      <object href="../../../model/cd.example.model#_b6irMNBSEeeA66FQ4hHrOQ"/>
+      <from href="../../../model/cd.example.model#_fTwCsNBSEeeA66FQ4hHrOQ"/>
+      <to href="../../../model/cd.example.model#_ntZOMNBSEeeA66FQ4hHrOQ"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

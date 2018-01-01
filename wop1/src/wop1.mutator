@@ -1,11 +1,10 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/wop1/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/wop1/data/model/UMLClassDiagram.ecore"
 
 with commands {
 	oper = select one Operation where {params <> null}
 	p = select one Parameter in oper->params
-	remove p from oper->params
-	modify oper with {params = p}
+	modify oper with {params -= p, params += p}
 }

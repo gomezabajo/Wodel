@@ -1,11 +1,8 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/was2k/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/was2k/data/model/UMLClassDiagram.ecore"
 
 with commands {
-	comp = select one Composition
-	rel = create Dependency with {src = comp->src, tar = comp->tar}
-	modify rel with {copy(name, comp.name)}
-	remove comp
+	retype one Composition as Dependency
 }

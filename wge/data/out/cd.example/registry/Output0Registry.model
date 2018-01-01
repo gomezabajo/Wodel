@@ -2,10 +2,11 @@
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:InformationChanged">
     <def href="../../wge.model#//@blocks.0/@commands.0"/>
-    <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
-    <refChanges refName="super">
+    <object href="../../../model/cd.example.model#_Y_U3QNBSEeeA66FQ4hHrOQ"/>
+    <refChanges srcRefName="super" refName="super">
       <def href="../../wge.model#//@blocks.0/@commands.0"/>
-      <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
+      <object href="../../../model/cd.example.model#_Y_U3QNBSEeeA66FQ4hHrOQ"/>
+      <to href="../../../model/cd.example.model#_Y_U3QNBSEeeA66FQ4hHrOQ"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

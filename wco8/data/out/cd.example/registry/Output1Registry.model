@@ -2,8 +2,8 @@
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:InformationChanged">
     <def href="../../wco8.model#//@blocks.0/@commands.0"/>
-    <object href="../../../model/cd.example.model#_B_2rgKqaEeeyLOkJMBAW2A"/>
-    <attChanges attName="op" oldVal="lte" newVal="lt">
+    <object href="../../../model/cd.example.model#_1yC_QNBTEeeA66FQ4hHrOQ"/>
+    <attChanges attName="op" oldVal="lte" newVal="equals">
       <def href="../../wco8.model#//@blocks.0/@commands.0"/>
     </attChanges>
   </muts>

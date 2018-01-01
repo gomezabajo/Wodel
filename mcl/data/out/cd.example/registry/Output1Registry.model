@@ -4,7 +4,27 @@
     <def href="../../mcl.model#//@commands.0"/>
   </muts>
   <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mcl.model#//@commands.6"/>
-    <object href="../../../model/cd.example.model#_8bWjsJ69EeeqdZIhK5Awmw"/>
+    <def href="../../mcl.model#//@commands.1"/>
+    <object href="../../../model/cd.example.model#_FxXYINBTEeeA66FQ4hHrOQ"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Composition"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../mcl.model#//@commands.1"/>
+    <object href="../../../model/cd.example.model#_JP6ioNBTEeeA66FQ4hHrOQ"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Composition"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../mcl.model#//@commands.1"/>
+    <object href="../../../model/cd.example.model#_6SIUsNBSEeeA66FQ4hHrOQ"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Association"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../mcl.model#//@commands.1"/>
+    <object href="../../../model/cd.example.model#_-qQLgNBSEeeA66FQ4hHrOQ"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Association"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../mcl.model#//@commands.5"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Class"/>
   </muts>
 </appliedMutations:Mutations>

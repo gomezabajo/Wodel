@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
-  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\runtime-EclipseApplication\mcl\data\out\cd.example">
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\mcl\data\out\cd.example\Output0.model">
+  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\workspace\mcl\data\out\cd.example">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\mcl\data\out\cd.example\Output0.model">
       <classes name="ClassDiagram">
         <references name="classes"/>
         <references name="relations"/>
@@ -34,6 +34,11 @@
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
       </classes>
       <classes name="Class">
         <attributes name="name"/>
@@ -90,15 +95,15 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="Association">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
+      <classes name="Association" removed="12" cremoved="2">
+        <attributes name="name" removed="2"/>
+        <attributes name="visibility" removed="2"/>
+        <attributes name="scope" removed="2"/>
         <attributes name="nsrc"/>
         <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
+        <attributes name="derived" removed="2"/>
+        <references name="src" removed="2"/>
+        <references name="tar" removed="2"/>
       </classes>
       <classes name="Aggregation">
         <attributes name="name"/>
@@ -110,352 +115,15 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="Composition">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
+      <classes name="Composition" removed="12" cremoved="2">
+        <attributes name="name" removed="2"/>
+        <attributes name="visibility" removed="2"/>
+        <attributes name="scope" removed="2"/>
         <attributes name="nsrc"/>
         <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="AssociationClass" removed="6" cremoved="1">
-        <attributes name="name" removed="1"/>
-        <attributes name="visibility" removed="1"/>
-        <attributes name="scope" removed="1"/>
-        <attributes name="abstract" removed="1"/>
-        <attributes name="derived" removed="1"/>
-        <references name="features"/>
-        <references name="super"/>
-        <references name="supplier"/>
-        <references name="association" removed="1"/>
-      </classes>
-      <classes name="RootCS">
-        <references name="packages"/>
-        <references name="constraints"/>
-      </classes>
-      <classes name="PackageCS">
-        <attributes name="name"/>
-        <references name="packages"/>
-        <references name="classes"/>
-      </classes>
-      <classes name="ClassCS">
-        <attributes name="name"/>
-        <references name="extends"/>
-        <references name="properties"/>
-        <references name="operations"/>
-      </classes>
-      <classes name="PropertyCS">
-        <attributes name="name"/>
-        <references name="typeRef"/>
-      </classes>
-      <classes name="OperationCS">
-        <attributes name="name"/>
-        <references name="params"/>
-        <references name="resultRef"/>
-        <references name="body"/>
-      </classes>
-      <classes name="ParameterCS">
-        <attributes name="name"/>
-        <references name="typeRef"/>
-      </classes>
-      <classes name="ConstraintCS">
-        <references name="typeRef"/>
-        <references name="invariants"/>
-      </classes>
-      <classes name="InvariantCS">
-        <references name="exp"/>
-      </classes>
-      <classes name="ExpCS"/>
-      <classes name="LogicExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-      </classes>
-      <classes name="CallExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="PrimaryExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="NavigationExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="NameExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="expName"/>
-        <references name="roundedBrackets"/>
-        <references name="callExp"/>
-      </classes>
-      <classes name="LoopExpCS">
-        <attributes name="op"/>
-        <attributes name="logicOp"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="itVar"/>
-        <references name="exp"/>
-      </classes>
-      <classes name="CollectExpCS">
-        <attributes name="op"/>
-        <attributes name="logicOp"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="itVar"/>
-        <references name="exp"/>
-      </classes>
-      <classes name="IteratorVarCS">
-        <attributes name="itName"/>
-        <references name="itType"/>
-      </classes>
-      <classes name="IterateExpCS">
-        <attributes name="op"/>
-        <attributes name="logicOp"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="itVar"/>
-        <references name="exp"/>
-        <references name="accVar"/>
-      </classes>
-      <classes name="AccVarCS">
-        <attributes name="accVarName"/>
-        <references name="accType"/>
-        <references name="accInitExp"/>
-      </classes>
-      <classes name="RoundedBracketClauseCS">
-        <references name="args"/>
-      </classes>
-      <classes name="LiteralExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="IntLiteralExpCS">
-        <attributes name="op"/>
-        <attributes name="intSymbol"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="StringLiteralExpCS">
-        <attributes name="op"/>
-        <attributes name="stringSymbol"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="BooleanLiteralExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="PathNameCS">
-        <references name="path"/>
-      </classes>
-      <classes name="PathCS"/>
-      <classes name="PathVariableCS">
-        <attributes name="varName"/>
-      </classes>
-      <classes name="PathElementCS">
-        <references name="pathName"/>
-      </classes>
-      <classes name="BooleanExpCS">
-        <attributes name="op"/>
-        <attributes name="boolSymbol"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-      </classes>
-      <classes name="ExistsExpCS">
-        <attributes name="op"/>
-        <attributes name="logicOp"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="itVar"/>
-        <references name="exp"/>
-        <references name="accVars"/>
-      </classes>
-      <classes name="NavigationNameExpCS">
-        <attributes name="op"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="expName"/>
-        <references name="roundedBrackets"/>
-        <references name="callExp"/>
-      </classes>
-      <classes name="NavigationPathNameCS">
-        <references name="path"/>
-      </classes>
-      <classes name="NavigationPathCS"/>
-      <classes name="NavigationPathVariableCS">
-        <attributes name="varName"/>
-      </classes>
-      <classes name="NavigationPathElementCS">
-        <references name="pathName"/>
-      </classes>
-      <classes name="ForAllExpCS">
-        <attributes name="op"/>
-        <attributes name="logicOp"/>
-        <references name="left"/>
-        <references name="right"/>
-        <references name="source"/>
-        <references name="navExp"/>
-        <references name="itVar"/>
-        <references name="exp"/>
-        <references name="accVars"/>
-      </classes>
-    </mutants>
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\mcl\data\out\cd.example\Output1.model">
-      <classes name="ClassDiagram" modified="1">
-        <references name="classes" modified="1"/>
-        <references name="relations"/>
-        <references name="types"/>
-        <references name="constraints"/>
-      </classes>
-      <classes name="NamedElement">
-        <attributes name="name"/>
-      </classes>
-      <classes name="PrimitiveElement">
-        <attributes name="name"/>
-        <attributes name="type"/>
-      </classes>
-      <classes name="Parameter">
-        <attributes name="name"/>
-        <references name="type"/>
-      </classes>
-      <classes name="Feature">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <references name="type"/>
-      </classes>
-      <classes name="ModifiedElement">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-      </classes>
-      <classes name="Classifier">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-      </classes>
-      <classes name="Class" removed="5" cremoved="1">
-        <attributes name="name" removed="1"/>
-        <attributes name="visibility" removed="1"/>
-        <attributes name="scope" removed="1"/>
-        <attributes name="abstract" removed="1"/>
-        <attributes name="derived" removed="1"/>
-        <references name="features"/>
-        <references name="super"/>
-        <references name="supplier"/>
-      </classes>
-      <classes name="Attribute">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="max"/>
-        <attributes name="min"/>
-        <attributes name="derived"/>
-        <references name="type"/>
-      </classes>
-      <classes name="Constraint">
-        <attributes name="id"/>
-        <references name="type"/>
-        <references name="expressions"/>
-      </classes>
-      <classes name="Operation">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <references name="type"/>
-        <references name="params"/>
-        <references name="operators"/>
-      </classes>
-      <classes name="Operator">
-        <attributes name="operator"/>
-      </classes>
-      <classes name="Relation">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="Dependency">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="Association">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="Aggregation">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="Composition">
-        <attributes name="name"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
+        <attributes name="derived" removed="2"/>
+        <references name="src" removed="2"/>
+        <references name="tar" removed="2"/>
       </classes>
       <classes name="AssociationClass">
         <attributes name="name"/>
@@ -675,8 +343,350 @@
         <references name="accVars"/>
       </classes>
     </mutants>
-    <classes name="ClassDiagram" modified="1">
-      <references name="classes" modified="1"/>
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\mcl\data\out\cd.example\Output1.model">
+      <classes name="ClassDiagram">
+        <references name="classes"/>
+        <references name="relations"/>
+        <references name="types"/>
+        <references name="constraints"/>
+      </classes>
+      <classes name="NamedElement">
+        <attributes name="name"/>
+      </classes>
+      <classes name="PrimitiveElement">
+        <attributes name="name"/>
+        <attributes name="type"/>
+      </classes>
+      <classes name="Parameter">
+        <attributes name="name"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Feature">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <references name="type"/>
+      </classes>
+      <classes name="ModifiedElement">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+      </classes>
+      <classes name="Classifier">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
+      </classes>
+      <classes name="Class">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
+      </classes>
+      <classes name="Attribute">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="max"/>
+        <attributes name="min"/>
+        <attributes name="derived"/>
+        <references name="type"/>
+      </classes>
+      <classes name="Constraint">
+        <attributes name="id"/>
+        <references name="type"/>
+        <references name="expressions"/>
+      </classes>
+      <classes name="Operation">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <references name="type"/>
+        <references name="params"/>
+        <references name="operators"/>
+      </classes>
+      <classes name="Operator">
+        <attributes name="operator"/>
+      </classes>
+      <classes name="Relation">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived"/>
+        <references name="src"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="Dependency">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived"/>
+        <references name="src"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="Association" removed="12" cremoved="2">
+        <attributes name="name" removed="2"/>
+        <attributes name="visibility" removed="2"/>
+        <attributes name="scope" removed="2"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived" removed="2"/>
+        <references name="src" removed="2"/>
+        <references name="tar" removed="2"/>
+      </classes>
+      <classes name="Aggregation">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived"/>
+        <references name="src"/>
+        <references name="tar"/>
+      </classes>
+      <classes name="Composition" removed="12" cremoved="2">
+        <attributes name="name" removed="2"/>
+        <attributes name="visibility" removed="2"/>
+        <attributes name="scope" removed="2"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived" removed="2"/>
+        <references name="src" removed="2"/>
+        <references name="tar" removed="2"/>
+      </classes>
+      <classes name="AssociationClass">
+        <attributes name="name"/>
+        <attributes name="visibility"/>
+        <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
+        <references name="association"/>
+      </classes>
+      <classes name="RootCS">
+        <references name="packages"/>
+        <references name="constraints"/>
+      </classes>
+      <classes name="PackageCS">
+        <attributes name="name"/>
+        <references name="packages"/>
+        <references name="classes"/>
+      </classes>
+      <classes name="ClassCS">
+        <attributes name="name"/>
+        <references name="extends"/>
+        <references name="properties"/>
+        <references name="operations"/>
+      </classes>
+      <classes name="PropertyCS">
+        <attributes name="name"/>
+        <references name="typeRef"/>
+      </classes>
+      <classes name="OperationCS">
+        <attributes name="name"/>
+        <references name="params"/>
+        <references name="resultRef"/>
+        <references name="body"/>
+      </classes>
+      <classes name="ParameterCS">
+        <attributes name="name"/>
+        <references name="typeRef"/>
+      </classes>
+      <classes name="ConstraintCS">
+        <references name="typeRef"/>
+        <references name="invariants"/>
+      </classes>
+      <classes name="InvariantCS">
+        <references name="exp"/>
+      </classes>
+      <classes name="ExpCS"/>
+      <classes name="LogicExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+      </classes>
+      <classes name="CallExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="PrimaryExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="NavigationExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="NameExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="expName"/>
+        <references name="roundedBrackets"/>
+        <references name="callExp"/>
+      </classes>
+      <classes name="LoopExpCS">
+        <attributes name="op"/>
+        <attributes name="logicOp"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="itVar"/>
+        <references name="exp"/>
+      </classes>
+      <classes name="CollectExpCS">
+        <attributes name="op"/>
+        <attributes name="logicOp"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="itVar"/>
+        <references name="exp"/>
+      </classes>
+      <classes name="IteratorVarCS">
+        <attributes name="itName"/>
+        <references name="itType"/>
+      </classes>
+      <classes name="IterateExpCS">
+        <attributes name="op"/>
+        <attributes name="logicOp"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="itVar"/>
+        <references name="exp"/>
+        <references name="accVar"/>
+      </classes>
+      <classes name="AccVarCS">
+        <attributes name="accVarName"/>
+        <references name="accType"/>
+        <references name="accInitExp"/>
+      </classes>
+      <classes name="RoundedBracketClauseCS">
+        <references name="args"/>
+      </classes>
+      <classes name="LiteralExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="IntLiteralExpCS">
+        <attributes name="op"/>
+        <attributes name="intSymbol"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="StringLiteralExpCS">
+        <attributes name="op"/>
+        <attributes name="stringSymbol"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="BooleanLiteralExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="PathNameCS">
+        <references name="path"/>
+      </classes>
+      <classes name="PathCS"/>
+      <classes name="PathVariableCS">
+        <attributes name="varName"/>
+      </classes>
+      <classes name="PathElementCS">
+        <references name="pathName"/>
+      </classes>
+      <classes name="BooleanExpCS">
+        <attributes name="op"/>
+        <attributes name="boolSymbol"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+      </classes>
+      <classes name="ExistsExpCS">
+        <attributes name="op"/>
+        <attributes name="logicOp"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="itVar"/>
+        <references name="exp"/>
+        <references name="accVars"/>
+      </classes>
+      <classes name="NavigationNameExpCS">
+        <attributes name="op"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="expName"/>
+        <references name="roundedBrackets"/>
+        <references name="callExp"/>
+      </classes>
+      <classes name="NavigationPathNameCS">
+        <references name="path"/>
+      </classes>
+      <classes name="NavigationPathCS"/>
+      <classes name="NavigationPathVariableCS">
+        <attributes name="varName"/>
+      </classes>
+      <classes name="NavigationPathElementCS">
+        <references name="pathName"/>
+      </classes>
+      <classes name="ForAllExpCS">
+        <attributes name="op"/>
+        <attributes name="logicOp"/>
+        <references name="left"/>
+        <references name="right"/>
+        <references name="source"/>
+        <references name="navExp"/>
+        <references name="itVar"/>
+        <references name="exp"/>
+        <references name="accVars"/>
+      </classes>
+    </mutants>
+    <classes name="ClassDiagram">
+      <references name="classes"/>
       <references name="relations"/>
       <references name="types"/>
       <references name="constraints"/>
@@ -707,13 +717,18 @@
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
+      <attributes name="abstract"/>
+      <attributes name="derived"/>
+      <references name="features"/>
+      <references name="super"/>
+      <references name="supplier"/>
     </classes>
-    <classes name="Class" removed="5" cremoved="1">
-      <attributes name="name" removed="1"/>
-      <attributes name="visibility" removed="1"/>
-      <attributes name="scope" removed="1"/>
-      <attributes name="abstract" removed="1"/>
-      <attributes name="derived" removed="1"/>
+    <classes name="Class">
+      <attributes name="name"/>
+      <attributes name="visibility"/>
+      <attributes name="scope"/>
+      <attributes name="abstract"/>
+      <attributes name="derived"/>
       <references name="features"/>
       <references name="super"/>
       <references name="supplier"/>
@@ -763,15 +778,15 @@
       <references name="src"/>
       <references name="tar"/>
     </classes>
-    <classes name="Association">
-      <attributes name="name"/>
-      <attributes name="visibility"/>
-      <attributes name="scope"/>
+    <classes name="Association" removed="24" cremoved="4">
+      <attributes name="name" removed="4"/>
+      <attributes name="visibility" removed="4"/>
+      <attributes name="scope" removed="4"/>
       <attributes name="nsrc"/>
       <attributes name="ntar"/>
-      <attributes name="derived"/>
-      <references name="src"/>
-      <references name="tar"/>
+      <attributes name="derived" removed="4"/>
+      <references name="src" removed="4"/>
+      <references name="tar" removed="4"/>
     </classes>
     <classes name="Aggregation">
       <attributes name="name"/>
@@ -783,26 +798,26 @@
       <references name="src"/>
       <references name="tar"/>
     </classes>
-    <classes name="Composition">
+    <classes name="Composition" removed="24" cremoved="4">
+      <attributes name="name" removed="4"/>
+      <attributes name="visibility" removed="4"/>
+      <attributes name="scope" removed="4"/>
+      <attributes name="nsrc"/>
+      <attributes name="ntar"/>
+      <attributes name="derived" removed="4"/>
+      <references name="src" removed="4"/>
+      <references name="tar" removed="4"/>
+    </classes>
+    <classes name="AssociationClass">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
-      <attributes name="nsrc"/>
-      <attributes name="ntar"/>
+      <attributes name="abstract"/>
       <attributes name="derived"/>
-      <references name="src"/>
-      <references name="tar"/>
-    </classes>
-    <classes name="AssociationClass" removed="6" cremoved="1">
-      <attributes name="name" removed="1"/>
-      <attributes name="visibility" removed="1"/>
-      <attributes name="scope" removed="1"/>
-      <attributes name="abstract" removed="1"/>
-      <attributes name="derived" removed="1"/>
       <references name="features"/>
       <references name="super"/>
       <references name="supplier"/>
-      <references name="association" removed="1"/>
+      <references name="association"/>
     </classes>
     <classes name="RootCS">
       <references name="packages"/>
@@ -1011,8 +1026,8 @@
       <references name="accVars"/>
     </classes>
   </trees>
-  <classes xsi:type="mutatormetrics:Class" name="ClassDiagram" modified="1">
-    <references name="classes" modified="1"/>
+  <classes xsi:type="mutatormetrics:Class" name="ClassDiagram">
+    <references name="classes"/>
     <references name="relations"/>
     <references name="types"/>
     <references name="constraints"/>
@@ -1043,13 +1058,18 @@
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
+    <attributes name="abstract"/>
+    <attributes name="derived"/>
+    <references name="features"/>
+    <references name="super"/>
+    <references name="supplier"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Class" removed="5" cremoved="1">
-    <attributes name="name" removed="1"/>
-    <attributes name="visibility" removed="1"/>
-    <attributes name="scope" removed="1"/>
-    <attributes name="abstract" removed="1"/>
-    <attributes name="derived" removed="1"/>
+  <classes xsi:type="mutatormetrics:Class" name="Class">
+    <attributes name="name"/>
+    <attributes name="visibility"/>
+    <attributes name="scope"/>
+    <attributes name="abstract"/>
+    <attributes name="derived"/>
     <references name="features"/>
     <references name="super"/>
     <references name="supplier"/>
@@ -1099,15 +1119,15 @@
     <references name="src"/>
     <references name="tar"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Association">
-    <attributes name="name"/>
-    <attributes name="visibility"/>
-    <attributes name="scope"/>
+  <classes xsi:type="mutatormetrics:Class" name="Association" removed="24" cremoved="4">
+    <attributes name="name" removed="4"/>
+    <attributes name="visibility" removed="4"/>
+    <attributes name="scope" removed="4"/>
     <attributes name="nsrc"/>
     <attributes name="ntar"/>
-    <attributes name="derived"/>
-    <references name="src"/>
-    <references name="tar"/>
+    <attributes name="derived" removed="4"/>
+    <references name="src" removed="4"/>
+    <references name="tar" removed="4"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Aggregation">
     <attributes name="name"/>
@@ -1119,26 +1139,26 @@
     <references name="src"/>
     <references name="tar"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Composition">
+  <classes xsi:type="mutatormetrics:Class" name="Composition" removed="24" cremoved="4">
+    <attributes name="name" removed="4"/>
+    <attributes name="visibility" removed="4"/>
+    <attributes name="scope" removed="4"/>
+    <attributes name="nsrc"/>
+    <attributes name="ntar"/>
+    <attributes name="derived" removed="4"/>
+    <references name="src" removed="4"/>
+    <references name="tar" removed="4"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="AssociationClass">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
-    <attributes name="nsrc"/>
-    <attributes name="ntar"/>
+    <attributes name="abstract"/>
     <attributes name="derived"/>
-    <references name="src"/>
-    <references name="tar"/>
-  </classes>
-  <classes xsi:type="mutatormetrics:Class" name="AssociationClass" removed="6" cremoved="1">
-    <attributes name="name" removed="1"/>
-    <attributes name="visibility" removed="1"/>
-    <attributes name="scope" removed="1"/>
-    <attributes name="abstract" removed="1"/>
-    <attributes name="derived" removed="1"/>
     <references name="features"/>
     <references name="super"/>
     <references name="supplier"/>
-    <references name="association" removed="1"/>
+    <references name="association"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="RootCS">
     <references name="packages"/>

@@ -2,12 +2,12 @@
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:InformationChanged">
     <def href="../../wat3.model#//@blocks.0/@commands.0"/>
-    <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
+    <object href="../../../model/cd.example.model#_b6irMNBSEeeA66FQ4hHrOQ"/>
     <refChanges srcRefName="type" refName="type">
       <def href="../../wat3.model#//@blocks.0/@commands.0"/>
-      <object href="../../../model/cd.example.model#_ZQ1PwJvVEee9uaaNIqtE3A"/>
-      <from href="../../../model/cd.example.model#_VSLB0JvVEee9uaaNIqtE3A"/>
-      <to href="../../../model/cd.example.model#_UGGQQJvVEee9uaaNIqtE3A"/>
+      <object href="../../../model/cd.example.model#_b6irMNBSEeeA66FQ4hHrOQ"/>
+      <from href="../../../model/cd.example.model#_fTwCsNBSEeeA66FQ4hHrOQ"/>
+      <to href="../../../model/cd.example.model#_Ato_kNBTEeeA66FQ4hHrOQ"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

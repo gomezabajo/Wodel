@@ -1,11 +1,9 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/mge/data/model/UMLClassDiagram.ecore"
 
 with commands {
 	cl = select one Class where {super <> null}
-	//sup = select one Class in cl->super
-    //remove sup from cl->super
-    remove reference super in cl
+	remove one Class from cl->super
 }

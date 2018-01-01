@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/mcl/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="cl">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Class"/>
+      <type href="../model/UMLClassDiagram.ecore#//Class"/>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Relation"/>
+      <type href="../model/UMLClassDiagram.ecore#//Relation"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Relation/src"/>
+          <name href="../model/UMLClassDiagram.ecore#//Relation/src"/>
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+        </first>
+        <operator type="or"/>
+        <second xsi:type="mutatorenvironment:ReferenceEvaluation">
+          <name href="../model/UMLClassDiagram.ecore#//Relation/tar"/>
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
+        </second>
+      </expression>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+    <object xsi:type="mutatorenvironment:CompleteTypeSelection">
+      <type href="../model/UMLClassDiagram.ecore#//Operation"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+          <name href="../model/UMLClassDiagram.ecore#//Feature/type"/>
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
         </first>
       </expression>
@@ -21,10 +37,10 @@
   </commands>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Relation"/>
+      <type href="../model/UMLClassDiagram.ecore#//Feature"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Relation/tar"/>
+          <name href="../model/UMLClassDiagram.ecore#//Feature/type"/>
           <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
         </first>
       </expression>
@@ -32,32 +48,10 @@
   </commands>
   <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
     <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Operation"/>
+      <type href="../model/UMLClassDiagram.ecore#//AssociationClass"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Feature/type"/>
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-        </first>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
-    <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Feature"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//Feature/type"/>
-          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-        </first>
-      </expression>
-    </object>
-  </commands>
-  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
-    <object xsi:type="mutatorenvironment:CompleteTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//AssociationClass"/>
-      <expression>
-        <first xsi:type="mutatorenvironment:ReferenceEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/mcl/data/model/UMLClassDiagram.ecore#//AssociationClass/association"/>
+          <name href="../model/UMLClassDiagram.ecore#//AssociationClass/association"/>
         </first>
       </expression>
     </object>

@@ -1,7 +1,7 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/mpa/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/mpa/data/model/UMLClassDiagram.ecore"
 
 with commands {
 	remove one Parameter

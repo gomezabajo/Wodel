@@ -1,7 +1,7 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/wcl1/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/wcl1/data/model/UMLClassDiagram.ecore"
 
 with commands {
 	modify one Class with {visibility in {public, private, protected, package}}

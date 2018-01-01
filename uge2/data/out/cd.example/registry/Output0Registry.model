@@ -11,10 +11,10 @@
   </muts>
   <muts xsi:type="appliedMutations:InformationChanged">
     <def href="../../uge2.model#//@blocks.3/@commands.0"/>
-    <object href="../../../model/cd.example.model#_dPCxwJvVEee9uaaNIqtE3A"/>
+    <object href="../../../model/cd.example.model#_0Y7ssNBSEeeA66FQ4hHrOQ"/>
     <refChanges refName="super">
       <def href="../../uge2.model#//@blocks.3/@commands.0"/>
-      <object href="../../../model/cd.example.model#_dPCxwJvVEee9uaaNIqtE3A"/>
+      <object href="../../../model/cd.example.model#_0Y7ssNBSEeeA66FQ4hHrOQ"/>
     </refChanges>
   </muts>
 </appliedMutations:Mutations>

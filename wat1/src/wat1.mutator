@@ -1,7 +1,7 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/wat1/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/wat1/data/model/UMLClassDiagram.ecore"
 
 with commands {
 	modify one Attribute where {derived = false} with {derived = true}

@@ -2,6 +2,7 @@
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectRemoved">
     <def href="../../mas.model#//@blocks.0/@commands.0"/>
-    <object href="../../../model/cd.example.model#_CCQ3YJvVEee9uaaNIqtE3A"/>
+    <object href="../../../model/cd.example.model#_-qQLgNBSEeeA66FQ4hHrOQ"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Association"/>
   </muts>
 </appliedMutations:Mutations>

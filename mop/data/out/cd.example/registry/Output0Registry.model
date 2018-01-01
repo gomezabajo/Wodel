@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:ObjectRemoved">
-    <def href="../../mop.model#//@commands.0"/>
+    <def href="../../mop.model#//@blocks.0/@commands.0"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Operation"/>
   </muts>
 </appliedMutations:Mutations>

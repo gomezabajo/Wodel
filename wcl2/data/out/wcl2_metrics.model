@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
-  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\runtime-EclipseApplication\wcl2\data\out\cd.example">
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\wcl2\data\out\cd.example\Output0.model">
+  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\workspace\wcl2\data\out\cd.example">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\wcl2\data\out\cd.example\Output0.model">
       <classes name="ClassDiagram">
         <references name="classes"/>
         <references name="relations"/>
@@ -34,6 +34,11 @@
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
       </classes>
       <classes name="Class">
         <attributes name="name"/>
@@ -120,16 +125,16 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="AssociationClass" modified="5" cmodified="1">
-        <attributes name="name" modified="1"/>
-        <attributes name="visibility" modified="1"/>
-        <attributes name="scope" modified="1"/>
-        <attributes name="abstract" modified="1"/>
-        <attributes name="derived" modified="1"/>
+      <classes name="AssociationClass" created="6" ccreated="1">
+        <attributes name="name" created="1"/>
+        <attributes name="visibility" created="1"/>
+        <attributes name="scope" created="1"/>
+        <attributes name="abstract" created="1"/>
+        <attributes name="derived" created="1"/>
         <references name="features"/>
         <references name="super"/>
         <references name="supplier"/>
-        <references name="association"/>
+        <references name="association" created="1"/>
       </classes>
       <classes name="RootCS">
         <references name="packages"/>
@@ -338,7 +343,7 @@
         <references name="accVars"/>
       </classes>
     </mutants>
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\wcl2\data\out\cd.example\Output1.model">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\wcl2\data\out\cd.example\Output1.model">
       <classes name="ClassDiagram">
         <references name="classes"/>
         <references name="relations"/>
@@ -371,6 +376,11 @@
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
       </classes>
       <classes name="Class">
         <attributes name="name"/>
@@ -457,16 +467,16 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="AssociationClass" modified="5" cmodified="1">
-        <attributes name="name" modified="1"/>
-        <attributes name="visibility" modified="1"/>
-        <attributes name="scope" modified="1"/>
-        <attributes name="abstract" modified="1"/>
-        <attributes name="derived" modified="1"/>
+      <classes name="AssociationClass" created="6" ccreated="1">
+        <attributes name="name" created="1"/>
+        <attributes name="visibility" created="1"/>
+        <attributes name="scope" created="1"/>
+        <attributes name="abstract" created="1"/>
+        <attributes name="derived" created="1"/>
         <references name="features"/>
         <references name="super"/>
         <references name="supplier"/>
-        <references name="association"/>
+        <references name="association" created="1"/>
       </classes>
       <classes name="RootCS">
         <references name="packages"/>
@@ -707,6 +717,11 @@
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
+      <attributes name="abstract"/>
+      <attributes name="derived"/>
+      <references name="features"/>
+      <references name="super"/>
+      <references name="supplier"/>
     </classes>
     <classes name="Class">
       <attributes name="name"/>
@@ -793,16 +808,16 @@
       <references name="src"/>
       <references name="tar"/>
     </classes>
-    <classes name="AssociationClass" modified="10" cmodified="2">
-      <attributes name="name" modified="2"/>
-      <attributes name="visibility" modified="2"/>
-      <attributes name="scope" modified="2"/>
-      <attributes name="abstract" modified="2"/>
-      <attributes name="derived" modified="2"/>
+    <classes name="AssociationClass" created="12" ccreated="2">
+      <attributes name="name" created="2"/>
+      <attributes name="visibility" created="2"/>
+      <attributes name="scope" created="2"/>
+      <attributes name="abstract" created="2"/>
+      <attributes name="derived" created="2"/>
       <references name="features"/>
       <references name="super"/>
       <references name="supplier"/>
-      <references name="association"/>
+      <references name="association" created="2"/>
     </classes>
     <classes name="RootCS">
       <references name="packages"/>
@@ -1043,6 +1058,11 @@
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
+    <attributes name="abstract"/>
+    <attributes name="derived"/>
+    <references name="features"/>
+    <references name="super"/>
+    <references name="supplier"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Class">
     <attributes name="name"/>
@@ -1129,16 +1149,16 @@
     <references name="src"/>
     <references name="tar"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="AssociationClass" modified="10" cmodified="2">
-    <attributes name="name" modified="2"/>
-    <attributes name="visibility" modified="2"/>
-    <attributes name="scope" modified="2"/>
-    <attributes name="abstract" modified="2"/>
-    <attributes name="derived" modified="2"/>
+  <classes xsi:type="mutatormetrics:Class" name="AssociationClass" created="12" ccreated="2">
+    <attributes name="name" created="2"/>
+    <attributes name="visibility" created="2"/>
+    <attributes name="scope" created="2"/>
+    <attributes name="abstract" created="2"/>
+    <attributes name="derived" created="2"/>
     <references name="features"/>
     <references name="super"/>
     <references name="supplier"/>
-    <references name="association"/>
+    <references name="association" created="2"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="RootCS">
     <references name="packages"/>

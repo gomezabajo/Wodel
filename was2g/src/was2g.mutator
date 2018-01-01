@@ -1,11 +1,8 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/was2g/data/model/UMLClassDiagram.ecore"
+metamodel "C:/eclipse/workspace/was2g/data/model/UMLClassDiagram.ecore"
 
 with commands {
-	ag = select one Aggregation
-	rel = create Composition with {src = ag->src, tar = ag->tar}
-	modify rel with {copy(name, ag.name)}
-	remove ag
+	retype one Aggregation as Composition
 }

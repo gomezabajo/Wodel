@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/wop3/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/wop3/data/model/UMLClassDiagram.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/wop3/data/model/UMLClassDiagram.ecore#//Operation"/>
+      <type href="../model/UMLClassDiagram.ecore#//Operation"/>
     </object>
     <references xsi:type="mutatorenvironment:ReferenceInit">
-      <reference href="file:/c:/eclipse/runtime-EclipseApplication/wop3/data/model/UMLClassDiagram.ecore#//Feature/type"/>
+      <reference href="../model/UMLClassDiagram.ecore#//Feature/type"/>
       <object xsi:type="mutatorenvironment:OtherTypeSelection">
-        <type href="file:/c:/eclipse/runtime-EclipseApplication/wop3/data/model/UMLClassDiagram.ecore#//NamedElement"/>
+        <type href="../model/UMLClassDiagram.ecore#//NamedElement"/>
       </object>
     </references>
   </commands>

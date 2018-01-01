@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../uas2.model#//@blocks.0/@commands.0"/>
+    <def href="../../uas2.model#//@commands.0"/>
   </muts>
   <muts>
-    <def href="../../uas2.model#//@blocks.1/@commands.0"/>
+    <def href="../../uas2.model#//@commands.1"/>
   </muts>
   <muts xsi:type="appliedMutations:ObjectCreated">
-    <def href="../../uas2.model#//@blocks.2/@commands.0"/>
-    <object href="../Output0vs/Output0_0_0_3.model#//@relations.8"/>
-  </muts>
-  <muts xsi:type="appliedMutations:InformationChanged">
-    <def href="../../uas2.model#//@blocks.3/@commands.0"/>
-    <object href="../../../model/cd.example.model#//@relations.8"/>
-    <attChanges attName="nsrc" oldVal="" newVal="">
-      <def href="../../uas2.model#//@blocks.3/@commands.0"/>
-    </attChanges>
-    <attChanges attName="ntar" oldVal="" newVal="">
-      <def href="../../uas2.model#//@blocks.3/@commands.0"/>
-    </attChanges>
+    <def href="../../uas2.model#//@commands.2"/>
+    <object href="../Output0.model#//@relations.8"/>
   </muts>
 </appliedMutations:Mutations>

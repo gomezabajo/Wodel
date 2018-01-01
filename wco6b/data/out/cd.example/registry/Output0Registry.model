@@ -2,7 +2,7 @@
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts xsi:type="appliedMutations:InformationChanged">
     <def href="../../wco6b.model#//@blocks.0/@commands.0"/>
-    <object href="../../../model/cd.example.model#_9ev30KqZEeeyLOkJMBAW2A"/>
+    <object href="../../../model/cd.example.model#_Fpn78NBUEeeA66FQ4hHrOQ"/>
     <attChanges attName="op" oldVal="or" newVal="and">
       <def href="../../wco6b.model#//@blocks.0/@commands.0"/>
     </attChanges>

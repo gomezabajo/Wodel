@@ -1,588 +1,2271 @@
 model wco1
-class ClassDiagram
+class umlclassdiagramXxxXClassDiagram
 end
-abstract class NamedElement
+abstract class umlclassdiagramXxxXNamedElement
 	attributes
 		name : String
 end
-class PrimitiveElement < NamedElement
+class umlclassdiagramXxxXPrimitiveElement < umlclassdiagramXxxXNamedElement
 	attributes
 		type : Integer
 end
-class Parameter < NamedElement
+class umlclassdiagramXxxXParameter < umlclassdiagramXxxXNamedElement
 end
-abstract class Feature
+abstract class umlclassdiagramXxxXFeature
 	attributes
 		name : String
 		visibility : Integer
 		scope : Integer
 end
-abstract class ModifiedElement < NamedElement
+abstract class umlclassdiagramXxxXModifiedElement < umlclassdiagramXxxXNamedElement
 	attributes
 		visibility : Integer
 		scope : Integer
 end
-abstract class Classifier < ModifiedElement
-end
-class Class < Classifier
+abstract class umlclassdiagramXxxXClassifier < umlclassdiagramXxxXModifiedElement
 	attributes
 		xxxxabstract : Boolean
-		derived : Boolean
+		xxxxderived : Boolean
 end
-class Attribute < Feature
+class umlclassdiagramXxxXClass < umlclassdiagramXxxXClassifier
+end
+class umlclassdiagramXxxXAttribute < umlclassdiagramXxxXFeature
 	attributes
 		xxxxmax : Integer
 		xxxxmin : Integer
-		derived : Boolean
+		xxxxderived : Boolean
 end
-class Constraint
+class umlclassdiagramXxxXConstraint
 	attributes
 		id : String
 end
-class Operation < Feature
+class umlclassdiagramXxxXOperation < umlclassdiagramXxxXFeature
 end
-class Operator
+class umlclassdiagramXxxXOperator
 	attributes
 		operator : Integer
 end
-abstract class Relation < ModifiedElement
+abstract class umlclassdiagramXxxXRelation < umlclassdiagramXxxXModifiedElement
 	attributes
 		nsrc : String
 		ntar : String
-		derived : Boolean
+		xxxxderived : Boolean
 end
-class Dependency < Relation
+class umlclassdiagramXxxXDependency < umlclassdiagramXxxXRelation
 end
-class Association < Relation
+class umlclassdiagramXxxXAssociation < umlclassdiagramXxxXRelation
 end
-class Aggregation < Relation
+class umlclassdiagramXxxXAggregation < umlclassdiagramXxxXRelation
 end
-class Composition < Relation
+class umlclassdiagramXxxXComposition < umlclassdiagramXxxXRelation
 end
-class AssociationClass < Class
+class umlclassdiagramXxxXAssociationClass < umlclassdiagramXxxXClassifier
 end
-class RootCS
+class miniOCLXxxXRootCS
 end
-class PackageCS
+class miniOCLXxxXPackageCS
 	attributes
 		name : String
 end
-class ClassCS
+class miniOCLXxxXClassCS
 	attributes
 		name : String
 end
-class PropertyCS
+class miniOCLXxxXPropertyCS
 	attributes
 		name : String
 end
-class OperationCS
+class miniOCLXxxXOperationCS
 	attributes
 		name : String
 end
-class ParameterCS
+class miniOCLXxxXParameterCS
 	attributes
 		name : String
 end
-class ConstraintCS
+class miniOCLXxxXConstraintCS
 end
-class InvariantCS
+class miniOCLXxxXInvariantCS
 end
-class ExpCS
+class miniOCLXxxXExpCS
 end
-class LogicExpCS < ExpCS
+class miniOCLXxxXLogicExpCS < miniOCLXxxXExpCS
 	attributes
 		op : String
 end
-class CallExpCS < LogicExpCS
+class miniOCLXxxXCallExpCS < miniOCLXxxXLogicExpCS
 end
-class PrimaryExpCS < CallExpCS
+class miniOCLXxxXPrimaryExpCS < miniOCLXxxXCallExpCS
 end
-class NavigationExpCS < PrimaryExpCS
+class miniOCLXxxXNavigationExpCS < miniOCLXxxXPrimaryExpCS
 end
-class NameExpCS < NavigationExpCS
+class miniOCLXxxXNameExpCS < miniOCLXxxXNavigationExpCS
 end
-class LoopExpCS < NavigationExpCS
+class miniOCLXxxXLoopExpCS < miniOCLXxxXNavigationExpCS
 	attributes
 		logicOp : String
 end
-class CollectExpCS < LoopExpCS
+class miniOCLXxxXCollectExpCS < miniOCLXxxXLoopExpCS
 end
-class IteratorVarCS
+class miniOCLXxxXIteratorVarCS
 	attributes
 		itName : String
 end
-class IterateExpCS < LoopExpCS
+class miniOCLXxxXIterateExpCS < miniOCLXxxXLoopExpCS
 end
-class AccVarCS
+class miniOCLXxxXAccVarCS
 	attributes
 		accVarName : String
 end
-class RoundedBracketClauseCS
+class miniOCLXxxXRoundedBracketClauseCS
 end
-class LiteralExpCS < PrimaryExpCS
+class miniOCLXxxXLiteralExpCS < miniOCLXxxXPrimaryExpCS
 end
-class IntLiteralExpCS < LiteralExpCS
+class miniOCLXxxXIntLiteralExpCS < miniOCLXxxXLiteralExpCS
 	attributes
 		intSymbol : Integer
 end
-class StringLiteralExpCS < LiteralExpCS
+class miniOCLXxxXStringLiteralExpCS < miniOCLXxxXLiteralExpCS
 	attributes
 		stringSymbol : String
 end
-class BooleanLiteralExpCS < LiteralExpCS
+class miniOCLXxxXBooleanLiteralExpCS < miniOCLXxxXLiteralExpCS
 end
-class PathNameCS
+class miniOCLXxxXPathNameCS
 end
-class PathCS
+class miniOCLXxxXPathCS
 end
-class PathVariableCS < PathCS
+class miniOCLXxxXPathVariableCS < miniOCLXxxXPathCS
 	attributes
 		varName : String
 end
-class PathElementCS < PathCS
+class miniOCLXxxXPathElementCS < miniOCLXxxXPathCS
 end
-class BooleanExpCS < BooleanLiteralExpCS
+class miniOCLXxxXBooleanExpCS < miniOCLXxxXBooleanLiteralExpCS
 	attributes
 		boolSymbol : Boolean
 end
-class ExistsExpCS < LoopExpCS
+class miniOCLXxxXExistsExpCS < miniOCLXxxXLoopExpCS
 end
-class NavigationNameExpCS < NavigationExpCS
+class miniOCLXxxXNavigationNameExpCS < miniOCLXxxXNavigationExpCS
 end
-class NavigationPathNameCS
+class miniOCLXxxXNavigationPathNameCS
 end
-class NavigationPathCS
+class miniOCLXxxXNavigationPathCS
 end
-class NavigationPathVariableCS < NavigationPathCS
+class miniOCLXxxXNavigationPathVariableCS < miniOCLXxxXNavigationPathCS
 	attributes
 		varName : String
 end
-class NavigationPathElementCS < NavigationPathCS
+class miniOCLXxxXNavigationPathElementCS < miniOCLXxxXNavigationPathCS
 end
-class ForAllExpCS < LoopExpCS
+class miniOCLXxxXForAllExpCS < miniOCLXxxXLoopExpCS
 end
 class Dummy
 end
-composition ClassDiagramClass between
-	ClassDiagram[0..1] role classdiagramclass
-	Class[*] role classes
+composition umlclassdiagramXxxXClassDiagramXxxXumlclassdiagramXxxXClassifier between
+	umlclassdiagramXxxXClassDiagram[0..1] role umlclassdiagramxxxxclassdiagramxxxxclasses
+	umlclassdiagramXxxXClassifier[*] role classes
 end
-composition ClassDiagramRelation between
-	ClassDiagram[0..1] role classdiagramrelation
-	Relation[*] role relations
+composition umlclassdiagramXxxXClassDiagramXxxXumlclassdiagramXxxXRelation between
+	umlclassdiagramXxxXClassDiagram[0..1] role umlclassdiagramxxxxclassdiagramxxxxrelations
+	umlclassdiagramXxxXRelation[*] role relations
 end
-composition ClassDiagramPrimitiveElement between
-	ClassDiagram[0..1] role classdiagramprimitiveelement
-	PrimitiveElement[*] role types
+composition umlclassdiagramXxxXClassDiagramXxxXumlclassdiagramXxxXPrimitiveElement between
+	umlclassdiagramXxxXClassDiagram[0..1] role umlclassdiagramxxxxclassdiagramxxxxtypes
+	umlclassdiagramXxxXPrimitiveElement[*] role types
 end
-composition ClassDiagramConstraint between
-	ClassDiagram[0..1] role classdiagramconstraint
-	Constraint[*] role xxxxconstraints
+composition umlclassdiagramXxxXClassDiagramXxxXumlclassdiagramXxxXConstraint between
+	umlclassdiagramXxxXClassDiagram[0..1] role umlclassdiagramxxxxclassdiagramxxxxconstraints
+	umlclassdiagramXxxXConstraint[*] role xxxxconstraints
 end
-association ParameterNamedElement between
-	Parameter[*] role parameternamedelement
-	NamedElement[1] role type
+association umlclassdiagramXxxXParameterXxxXumlclassdiagramXxxXNamedElement between
+	umlclassdiagramXxxXParameter[*] role umlclassdiagramxxxxparameterxxxxtype
+	umlclassdiagramXxxXNamedElement[1] role type
 end
-association FeatureNamedElement between
-	Feature[*] role featurenamedelement
-	NamedElement[1] role type1
+association umlclassdiagramXxxXFeatureXxxXumlclassdiagramXxxXNamedElement between
+	umlclassdiagramXxxXFeature[*] role umlclassdiagramxxxxfeaturexxxxtype
+	umlclassdiagramXxxXNamedElement[1] role type1
 end
-composition ClassFeature between
-	Class[0..1] role classfeature
-	Feature[*] role features
+composition umlclassdiagramXxxXClassifierXxxXumlclassdiagramXxxXFeature between
+	umlclassdiagramXxxXClassifier[0..1] role umlclassdiagramxxxxclassifierxxxxfeatures
+	umlclassdiagramXxxXFeature[*] role features
 end
-association ClassClass between
-	Class[*] role classclass
-	Class[*] role super
+association umlclassdiagramXxxXClassifierXxxXumlclassdiagramXxxXClass between
+	umlclassdiagramXxxXClassifier[*] role umlclassdiagramxxxxclassifierxxxxsuper
+	umlclassdiagramXxxXClass[*] role super
 end
-association ClassClass1 between
-	Class[*] role classclass1
-	Class[*] role supplier
+association umlclassdiagramXxxXClassifierXxxXumlclassdiagramXxxXClass1 between
+	umlclassdiagramXxxXClassifier[*] role umlclassdiagramxxxxclassifierxxxxsupplier
+	umlclassdiagramXxxXClass[*] role supplier
 end
-association ConstraintClass between
-	Constraint[*] role constraintclass
-	Class[1] role type2
+association umlclassdiagramXxxXConstraintXxxXumlclassdiagramXxxXClass between
+	umlclassdiagramXxxXConstraint[*] role umlclassdiagramxxxxconstraintxxxxtype
+	umlclassdiagramXxxXClass[1] role type2
 end
-composition ConstraintRootCS between
-	Constraint[0..1] role constraintrootcs
-	RootCS[*] role expressions
+composition umlclassdiagramXxxXConstraintXxxXminiOCLXxxXRootCS between
+	umlclassdiagramXxxXConstraint[0..1] role umlclassdiagramxxxxconstraintxxxxexpressions
+	miniOCLXxxXRootCS[*] role expressions
 end
-composition OperationParameter between
-	Operation[0..1] role operationparameter
-	Parameter[*] role params
+composition umlclassdiagramXxxXOperationXxxXumlclassdiagramXxxXParameter between
+	umlclassdiagramXxxXOperation[0..1] role umlclassdiagramxxxxoperationxxxxparams
+	umlclassdiagramXxxXParameter[*] role params
 end
-composition OperationOperator between
-	Operation[0..1] role operationoperator
-	Operator[*] role operators
+composition umlclassdiagramXxxXOperationXxxXumlclassdiagramXxxXOperator between
+	umlclassdiagramXxxXOperation[0..1] role umlclassdiagramxxxxoperationxxxxoperators
+	umlclassdiagramXxxXOperator[*] role operators
 end
-association RelationClass between
-	Relation[*] role relationclass
-	Class[1] role src
+association umlclassdiagramXxxXRelationXxxXumlclassdiagramXxxXClassifier between
+	umlclassdiagramXxxXRelation[*] role umlclassdiagramxxxxrelationxxxxsrc
+	umlclassdiagramXxxXClassifier[1] role src
 end
-association RelationClass1 between
-	Relation[*] role relationclass1
-	Class[1] role tar
+association umlclassdiagramXxxXRelationXxxXumlclassdiagramXxxXClassifier1 between
+	umlclassdiagramXxxXRelation[*] role umlclassdiagramxxxxrelationxxxxtar
+	umlclassdiagramXxxXClassifier[1] role tar
 end
-association AssociationClassAssociation between
-	AssociationClass[*] role associationclassassociation
-	Association[1] role xxxxassociation
+association umlclassdiagramXxxXAssociationClassXxxXumlclassdiagramXxxXAssociation between
+	umlclassdiagramXxxXAssociationClass[*] role umlclassdiagramxxxxassociationclassxxxxassociation
+	umlclassdiagramXxxXAssociation[1] role xxxxassociation
 end
-composition RootCSPackageCS between
-	RootCS[0..1] role rootcspackagecs
-	PackageCS[*] role packages
+composition miniOCLXxxXRootCSXxxXminiOCLXxxXPackageCS between
+	miniOCLXxxXRootCS[0..1] role minioclxxxxrootcsxxxxpackages
+	miniOCLXxxXPackageCS[*] role packages
 end
-composition RootCSConstraintCS between
-	RootCS[0..1] role rootcsconstraintcs
-	ConstraintCS[*] role constraints1
+composition miniOCLXxxXRootCSXxxXminiOCLXxxXConstraintCS between
+	miniOCLXxxXRootCS[0..1] role minioclxxxxrootcsxxxxconstraints
+	miniOCLXxxXConstraintCS[*] role constraints1
 end
-composition PackageCSPackageCS between
-	PackageCS[0..1] role packagecspackagecs
-	PackageCS[*] role packages1
+composition miniOCLXxxXPackageCSXxxXminiOCLXxxXPackageCS between
+	miniOCLXxxXPackageCS[0..1] role minioclxxxxpackagecsxxxxpackages
+	miniOCLXxxXPackageCS[*] role packages1
 end
-composition PackageCSClassCS between
-	PackageCS[0..1] role packagecsclasscs
-	ClassCS[*] role classes1
+composition miniOCLXxxXPackageCSXxxXminiOCLXxxXClassCS between
+	miniOCLXxxXPackageCS[0..1] role minioclxxxxpackagecsxxxxclasses
+	miniOCLXxxXClassCS[*] role classes1
 end
-composition ClassCSPathNameCS between
-	ClassCS[0..1] role classcspathnamecs
-	PathNameCS[0..1] role extends
+composition miniOCLXxxXClassCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXClassCS[0..1] role minioclxxxxclasscsxxxxextends
+	miniOCLXxxXPathNameCS[0..1] role extends
 end
-composition ClassCSPropertyCS between
-	ClassCS[0..1] role classcspropertycs
-	PropertyCS[*] role properties
+composition miniOCLXxxXClassCSXxxXminiOCLXxxXPropertyCS between
+	miniOCLXxxXClassCS[0..1] role minioclxxxxclasscsxxxxproperties
+	miniOCLXxxXPropertyCS[*] role properties
 end
-composition ClassCSOperationCS between
-	ClassCS[0..1] role classcsoperationcs
-	OperationCS[*] role xxxxoperations
+composition miniOCLXxxXClassCSXxxXminiOCLXxxXOperationCS between
+	miniOCLXxxXClassCS[0..1] role minioclxxxxclasscsxxxxoperations
+	miniOCLXxxXOperationCS[*] role xxxxoperations
 end
-composition PropertyCSPathNameCS between
-	PropertyCS[0..1] role propertycspathnamecs
-	PathNameCS[0..1] role typeRef
+composition miniOCLXxxXPropertyCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXPropertyCS[0..1] role minioclxxxxpropertycsxxxxtypeRef
+	miniOCLXxxXPathNameCS[0..1] role typeRef
 end
-composition OperationCSParameterCS between
-	OperationCS[0..1] role operationcsparametercs
-	ParameterCS[*] role params1
+composition miniOCLXxxXOperationCSXxxXminiOCLXxxXParameterCS between
+	miniOCLXxxXOperationCS[0..1] role minioclxxxxoperationcsxxxxparams
+	miniOCLXxxXParameterCS[*] role params1
 end
-composition OperationCSPathNameCS between
-	OperationCS[0..1] role operationcspathnamecs
-	PathNameCS[0..1] role resultRef
+composition miniOCLXxxXOperationCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXOperationCS[0..1] role minioclxxxxoperationcsxxxxresultRef
+	miniOCLXxxXPathNameCS[0..1] role resultRef
 end
-composition OperationCSExpCS between
-	OperationCS[0..1] role operationcsexpcs
-	ExpCS[0..1] role body
+composition miniOCLXxxXOperationCSXxxXminiOCLXxxXExpCS between
+	miniOCLXxxXOperationCS[0..1] role minioclxxxxoperationcsxxxxbody
+	miniOCLXxxXExpCS[0..1] role body
 end
-composition ParameterCSPathNameCS between
-	ParameterCS[0..1] role parametercspathnamecs
-	PathNameCS[0..1] role typeRef1
+composition miniOCLXxxXParameterCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXParameterCS[0..1] role minioclxxxxparametercsxxxxtypeRef
+	miniOCLXxxXPathNameCS[0..1] role typeRef1
 end
-composition ConstraintCSPathNameCS between
-	ConstraintCS[0..1] role constraintcspathnamecs
-	PathNameCS[0..1] role typeRef2
+composition miniOCLXxxXConstraintCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXConstraintCS[0..1] role minioclxxxxconstraintcsxxxxtypeRef
+	miniOCLXxxXPathNameCS[0..1] role typeRef2
 end
-composition ConstraintCSInvariantCS between
-	ConstraintCS[0..1] role constraintcsinvariantcs
-	InvariantCS[*] role invariants
+composition miniOCLXxxXConstraintCSXxxXminiOCLXxxXInvariantCS between
+	miniOCLXxxXConstraintCS[0..1] role minioclxxxxconstraintcsxxxxinvariants
+	miniOCLXxxXInvariantCS[*] role invariants
 end
-composition InvariantCSExpCS between
-	InvariantCS[0..1] role invariantcsexpcs
-	ExpCS[0..1] role exp
+composition miniOCLXxxXInvariantCSXxxXminiOCLXxxXExpCS between
+	miniOCLXxxXInvariantCS[0..1] role minioclxxxxinvariantcsxxxxexp
+	miniOCLXxxXExpCS[0..1] role exp
 end
-composition LogicExpCSLogicExpCS between
-	LogicExpCS[0..1] role logicexpcslogicexpcs
-	LogicExpCS[0..1] role left
+composition miniOCLXxxXLogicExpCSXxxXminiOCLXxxXLogicExpCS between
+	miniOCLXxxXLogicExpCS[0..1] role minioclxxxxlogicexpcsxxxxleft
+	miniOCLXxxXLogicExpCS[0..1] role left
 end
-composition LogicExpCSCallExpCS between
-	LogicExpCS[0..1] role logicexpcscallexpcs
-	CallExpCS[0..1] role right
+composition miniOCLXxxXLogicExpCSXxxXminiOCLXxxXCallExpCS between
+	miniOCLXxxXLogicExpCS[0..1] role minioclxxxxlogicexpcsxxxxright
+	miniOCLXxxXCallExpCS[0..1] role right
 end
-composition CallExpCSCallExpCS between
-	CallExpCS[0..1] role callexpcscallexpcs
-	CallExpCS[0..1] role source
+composition miniOCLXxxXCallExpCSXxxXminiOCLXxxXCallExpCS between
+	miniOCLXxxXCallExpCS[0..1] role minioclxxxxcallexpcsxxxxsource
+	miniOCLXxxXCallExpCS[0..1] role source
 end
-composition CallExpCSNavigationExpCS between
-	CallExpCS[0..1] role callexpcsnavigationexpcs
-	NavigationExpCS[0..1] role navExp
+composition miniOCLXxxXCallExpCSXxxXminiOCLXxxXNavigationExpCS between
+	miniOCLXxxXCallExpCS[0..1] role minioclxxxxcallexpcsxxxxnavExp
+	miniOCLXxxXNavigationExpCS[0..1] role navExp
 end
-composition NameExpCSPathNameCS between
-	NameExpCS[0..1] role nameexpcspathnamecs
-	PathNameCS[0..1] role expName
+composition miniOCLXxxXNameExpCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXNameExpCS[0..1] role minioclxxxxnameexpcsxxxxexpName
+	miniOCLXxxXPathNameCS[0..1] role expName
 end
-composition NameExpCSRoundedBracketClauseCS between
-	NameExpCS[0..1] role nameexpcsroundedbracketclausecs
-	RoundedBracketClauseCS[0..1] role roundedBrackets
+composition miniOCLXxxXNameExpCSXxxXminiOCLXxxXRoundedBracketClauseCS between
+	miniOCLXxxXNameExpCS[0..1] role minioclxxxxnameexpcsxxxxroundedBrackets
+	miniOCLXxxXRoundedBracketClauseCS[0..1] role roundedBrackets
 end
-composition NameExpCSCallExpCS between
-	NameExpCS[0..1] role nameexpcscallexpcs
-	CallExpCS[0..1] role callExp
+composition miniOCLXxxXNameExpCSXxxXminiOCLXxxXCallExpCS between
+	miniOCLXxxXNameExpCS[0..1] role minioclxxxxnameexpcsxxxxcallExp
+	miniOCLXxxXCallExpCS[0..1] role callExp
 end
-composition LoopExpCSIteratorVarCS between
-	LoopExpCS[0..1] role loopexpcsiteratorvarcs
-	IteratorVarCS[0..1] role itVar
+composition miniOCLXxxXLoopExpCSXxxXminiOCLXxxXIteratorVarCS between
+	miniOCLXxxXLoopExpCS[0..1] role minioclxxxxloopexpcsxxxxitVar
+	miniOCLXxxXIteratorVarCS[0..1] role itVar
 end
-composition LoopExpCSExpCS between
-	LoopExpCS[0..1] role loopexpcsexpcs
-	ExpCS[*] role exp1
+composition miniOCLXxxXLoopExpCSXxxXminiOCLXxxXExpCS between
+	miniOCLXxxXLoopExpCS[0..1] role minioclxxxxloopexpcsxxxxexp
+	miniOCLXxxXExpCS[*] role exp1
 end
-composition IteratorVarCSPathNameCS between
-	IteratorVarCS[0..1] role iteratorvarcspathnamecs
-	PathNameCS[0..1] role itType
+composition miniOCLXxxXIteratorVarCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXIteratorVarCS[0..1] role minioclxxxxiteratorvarcsxxxxitType
+	miniOCLXxxXPathNameCS[0..1] role itType
 end
-composition IterateExpCSAccVarCS between
-	IterateExpCS[0..1] role iterateexpcsaccvarcs
-	AccVarCS[0..1] role accVar
+composition miniOCLXxxXIterateExpCSXxxXminiOCLXxxXAccVarCS between
+	miniOCLXxxXIterateExpCS[0..1] role minioclxxxxiterateexpcsxxxxaccVar
+	miniOCLXxxXAccVarCS[0..1] role accVar
 end
-composition AccVarCSPathNameCS between
-	AccVarCS[0..1] role accvarcspathnamecs
-	PathNameCS[0..1] role accType
+composition miniOCLXxxXAccVarCSXxxXminiOCLXxxXPathNameCS between
+	miniOCLXxxXAccVarCS[0..1] role minioclxxxxaccvarcsxxxxaccType
+	miniOCLXxxXPathNameCS[0..1] role accType
 end
-composition AccVarCSExpCS between
-	AccVarCS[0..1] role accvarcsexpcs
-	ExpCS[0..1] role accInitExp
+composition miniOCLXxxXAccVarCSXxxXminiOCLXxxXExpCS between
+	miniOCLXxxXAccVarCS[0..1] role minioclxxxxaccvarcsxxxxaccInitExp
+	miniOCLXxxXExpCS[0..1] role accInitExp
 end
-composition RoundedBracketClauseCSExpCS between
-	RoundedBracketClauseCS[0..1] role roundedbracketclausecsexpcs
-	ExpCS[*] role args
+composition miniOCLXxxXRoundedBracketClauseCSXxxXminiOCLXxxXExpCS between
+	miniOCLXxxXRoundedBracketClauseCS[0..1] role minioclxxxxroundedbracketclausecsxxxxargs
+	miniOCLXxxXExpCS[*] role args
 end
-composition PathNameCSPathCS between
-	PathNameCS[0..1] role pathnamecspathcs
-	PathCS[*] role path
+composition miniOCLXxxXPathNameCSXxxXminiOCLXxxXPathCS between
+	miniOCLXxxXPathNameCS[0..1] role minioclxxxxpathnamecsxxxxpath
+	miniOCLXxxXPathCS[*] role path
 end
-association PathElementCSFeature between
-	PathElementCS[*] role pathelementcsfeature
-	Feature[0..1] role pathName
+association miniOCLXxxXPathElementCSXxxXumlclassdiagramXxxXFeature between
+	miniOCLXxxXPathElementCS[*] role minioclxxxxpathelementcsxxxxpathName
+	umlclassdiagramXxxXFeature[0..1] role pathName
 end
-composition ExistsExpCSAccVarCS between
-	ExistsExpCS[0..1] role existsexpcsaccvarcs
-	AccVarCS[*] role accVars
+composition miniOCLXxxXExistsExpCSXxxXminiOCLXxxXAccVarCS between
+	miniOCLXxxXExistsExpCS[0..1] role minioclxxxxexistsexpcsxxxxaccVars
+	miniOCLXxxXAccVarCS[*] role accVars
 end
-composition NavigationNameExpCSNavigationPathNameCS between
-	NavigationNameExpCS[0..1] role navigationnameexpcsnavigationpathnamecs
-	NavigationPathNameCS[0..1] role expName1
+composition miniOCLXxxXNavigationNameExpCSXxxXminiOCLXxxXNavigationPathNameCS between
+	miniOCLXxxXNavigationNameExpCS[0..1] role minioclxxxxnavigationnameexpcsxxxxexpName
+	miniOCLXxxXNavigationPathNameCS[0..1] role expName1
 end
-composition NavigationNameExpCSRoundedBracketClauseCS between
-	NavigationNameExpCS[0..1] role navigationnameexpcsroundedbracketclausecs
-	RoundedBracketClauseCS[0..1] role roundedBrackets1
+composition miniOCLXxxXNavigationNameExpCSXxxXminiOCLXxxXRoundedBracketClauseCS between
+	miniOCLXxxXNavigationNameExpCS[0..1] role minioclxxxxnavigationnameexpcsxxxxroundedBrackets
+	miniOCLXxxXRoundedBracketClauseCS[0..1] role roundedBrackets1
 end
-composition NavigationNameExpCSCallExpCS between
-	NavigationNameExpCS[0..1] role navigationnameexpcscallexpcs
-	CallExpCS[0..1] role callExp1
+composition miniOCLXxxXNavigationNameExpCSXxxXminiOCLXxxXCallExpCS between
+	miniOCLXxxXNavigationNameExpCS[0..1] role minioclxxxxnavigationnameexpcsxxxxcallExp
+	miniOCLXxxXCallExpCS[0..1] role callExp1
 end
-composition NavigationPathNameCSNavigationPathCS between
-	NavigationPathNameCS[0..1] role navigationpathnamecsnavigationpathcs
-	NavigationPathCS[*] role path1
+composition miniOCLXxxXNavigationPathNameCSXxxXminiOCLXxxXNavigationPathCS between
+	miniOCLXxxXNavigationPathNameCS[0..1] role minioclxxxxnavigationpathnamecsxxxxpath
+	miniOCLXxxXNavigationPathCS[*] role path1
 end
-association NavigationPathElementCSFeature between
-	NavigationPathElementCS[*] role navigationpathelementcsfeature
-	Feature[0..1] role pathName1
+association miniOCLXxxXNavigationPathElementCSXxxXumlclassdiagramXxxXFeature between
+	miniOCLXxxXNavigationPathElementCS[*] role minioclxxxxnavigationpathelementcsxxxxpathName
+	umlclassdiagramXxxXFeature[0..1] role pathName1
 end
-composition ForAllExpCSAccVarCS between
-	ForAllExpCS[0..1] role forallexpcsaccvarcs
-	AccVarCS[*] role accVars1
+composition miniOCLXxxXForAllExpCSXxxXminiOCLXxxXAccVarCS between
+	miniOCLXxxXForAllExpCS[0..1] role minioclxxxxforallexpcsxxxxaccVars
+	miniOCLXxxXAccVarCS[*] role accVars1
 end
 constraints
-context AccVarCS inv single_container:
-	IterateExpCS.allInstances()->collect(o | o.accVar)->count(self) +
-	ExistsExpCS.allInstances()->collect(o | o.accVars)->count(self) +
-	ForAllExpCS.allInstances()->collect(o | o.accVars1)->count(self) <= 1
-context PackageCS inv single_container:
-	RootCS.allInstances()->collect(o | o.packages)->count(self) +
-	PackageCS.allInstances()->collect(o | o.packages1)->count(self) <= 1
-context ExpCS inv single_container:
-	OperationCS.allInstances()->collect(o | o.body)->count(self) +
-	InvariantCS.allInstances()->collect(o | o.exp)->count(self) +
-	LoopExpCS.allInstances()->collect(o | o.exp1)->count(self) +
-	AccVarCS.allInstances()->collect(o | o.accInitExp)->count(self) +
-	RoundedBracketClauseCS.allInstances()->collect(o | o.args)->count(self) <= 1
-context RoundedBracketClauseCS inv single_container:
-	NameExpCS.allInstances()->collect(o | o.roundedBrackets)->count(self) +
-	NavigationNameExpCS.allInstances()->collect(o | o.roundedBrackets1)->count(self) <= 1
-context PathNameCS inv single_container:
-	ClassCS.allInstances()->collect(o | o.extends)->count(self) +
-	PropertyCS.allInstances()->collect(o | o.typeRef)->count(self) +
-	OperationCS.allInstances()->collect(o | o.resultRef)->count(self) +
-	ParameterCS.allInstances()->collect(o | o.typeRef1)->count(self) +
-	ConstraintCS.allInstances()->collect(o | o.typeRef2)->count(self) +
-	NameExpCS.allInstances()->collect(o | o.expName)->count(self) +
-	IteratorVarCS.allInstances()->collect(o | o.itType)->count(self) +
-	AccVarCS.allInstances()->collect(o | o.accType)->count(self) <= 1
-context CallExpCS inv single_container:
-	LogicExpCS.allInstances()->collect(o | o.right)->count(self) +
-	CallExpCS.allInstances()->collect(o | o.source)->count(self) +
-	NameExpCS.allInstances()->collect(o | o.callExp)->count(self) +
-	NavigationNameExpCS.allInstances()->collect(o | o.callExp1)->count(self) <= 1
-context PackageCS inv non_contains_itself_packages1:
-not self.packages1->includes(self)
-and
-not self.packages1->exists(packages11 |
-if packages11.oclIsKindOf(PackageCS) then
-	packages11.oclAsType(PackageCS).packages1->includes(self)
-	 else false endif)
-and
-not self.packages1->exists(packages12 |
-if packages12.oclIsKindOf(PackageCS) then
-	packages12.oclAsType(PackageCS).packages1->exists(packages11 |
-if packages11.oclIsKindOf(PackageCS) then
-	packages11.oclAsType(PackageCS).packages1->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not self.packages1->exists(packages13 |
-if packages13.oclIsKindOf(PackageCS) then
-	packages13.oclAsType(PackageCS).packages1->exists(packages12 |
-if packages12.oclIsKindOf(PackageCS) then
-	packages12.oclAsType(PackageCS).packages1->exists(packages11 |
-if packages11.oclIsKindOf(PackageCS) then
-	packages11.oclAsType(PackageCS).packages1->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not self.packages1->exists(packages14 |
-if packages14.oclIsKindOf(PackageCS) then
-	packages14.oclAsType(PackageCS).packages1->exists(packages13 |
-if packages13.oclIsKindOf(PackageCS) then
-	packages13.oclAsType(PackageCS).packages1->exists(packages12 |
-if packages12.oclIsKindOf(PackageCS) then
-	packages12.oclAsType(PackageCS).packages1->exists(packages11 |
-if packages11.oclIsKindOf(PackageCS) then
-	packages11.oclAsType(PackageCS).packages1->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-context LogicExpCS inv non_contains_itself_left:
-not Set{self.left}->includes(self)
-and
-not Set{self.left}->exists(left1 |
-if left1.oclIsKindOf(LogicExpCS) then
-	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
-	 else false endif)
-and
-not Set{self.left}->exists(left2 |
-if left2.oclIsKindOf(LogicExpCS) then
-	Set{left2.oclAsType(LogicExpCS).left}->exists(left1 |
-if left1.oclIsKindOf(LogicExpCS) then
-	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not Set{self.left}->exists(left3 |
-if left3.oclIsKindOf(LogicExpCS) then
-	Set{left3.oclAsType(LogicExpCS).left}->exists(left2 |
-if left2.oclIsKindOf(LogicExpCS) then
-	Set{left2.oclAsType(LogicExpCS).left}->exists(left1 |
-if left1.oclIsKindOf(LogicExpCS) then
-	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not Set{self.left}->exists(left4 |
-if left4.oclIsKindOf(LogicExpCS) then
-	Set{left4.oclAsType(LogicExpCS).left}->exists(left3 |
-if left3.oclIsKindOf(LogicExpCS) then
-	Set{left3.oclAsType(LogicExpCS).left}->exists(left2 |
-if left2.oclIsKindOf(LogicExpCS) then
-	Set{left2.oclAsType(LogicExpCS).left}->exists(left1 |
-if left1.oclIsKindOf(LogicExpCS) then
-	Set{left1.oclAsType(LogicExpCS).left}->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-context CallExpCS inv non_contains_itself_source:
-not Set{self.source}->includes(self)
-and
-not Set{self.source}->exists(source1 |
-if source1.oclIsKindOf(CallExpCS) then
-	Set{source1.oclAsType(CallExpCS).source}->includes(self)
-	 else false endif)
-and
-not Set{self.source}->exists(source2 |
-if source2.oclIsKindOf(CallExpCS) then
-	Set{source2.oclAsType(CallExpCS).source}->exists(source1 |
-if source1.oclIsKindOf(CallExpCS) then
-	Set{source1.oclAsType(CallExpCS).source}->includes(self)
-	 else false endif)
-	 else false endif)
-and
-not Set{self.source}->exists(source3 |
-if source3.oclIsKindOf(CallExpCS) then
-	Set{source3.oclAsType(CallExpCS).source}->exists(source2 |
-if source2.oclIsKindOf(CallExpCS) then
-	Set{source2.oclAsType(CallExpCS).source}->exists(source1 |
-if source1.oclIsKindOf(CallExpCS) then
-	Set{source1.oclAsType(CallExpCS).source}->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-and
-not Set{self.source}->exists(source4 |
-if source4.oclIsKindOf(CallExpCS) then
-	Set{source4.oclAsType(CallExpCS).source}->exists(source3 |
-if source3.oclIsKindOf(CallExpCS) then
-	Set{source3.oclAsType(CallExpCS).source}->exists(source2 |
-if source2.oclIsKindOf(CallExpCS) then
-	Set{source2.oclAsType(CallExpCS).source}->exists(source1 |
-if source1.oclIsKindOf(CallExpCS) then
-	Set{source1.oclAsType(CallExpCS).source}->includes(self)
-	 else false endif)
-	 else false endif)
-	 else false endif)
-	 else false endif)
+context miniOCLXxxXPackageCS inv ensure_container:
+	(not minioclxxxxrootcsxxxxpackages.oclIsUndefined() and
+	minioclxxxxpackagecsxxxxpackages.oclIsUndefined()) or 
+	(minioclxxxxrootcsxxxxpackages.oclIsUndefined() and
+	not minioclxxxxpackagecsxxxxpackages.oclIsUndefined())
+context miniOCLXxxXExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined())
+context miniOCLXxxXLogicExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined())
+context miniOCLXxxXCallExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXPrimaryExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXNavigationExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXNameExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXLoopExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXCollectExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXIterateExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXAccVarCS inv ensure_container:
+	(not minioclxxxxiterateexpcsxxxxaccVar.oclIsUndefined() and
+	minioclxxxxexistsexpcsxxxxaccVars.oclIsUndefined() and
+	minioclxxxxforallexpcsxxxxaccVars.oclIsUndefined()) or 
+	(minioclxxxxiterateexpcsxxxxaccVar.oclIsUndefined() and
+	not minioclxxxxexistsexpcsxxxxaccVars.oclIsUndefined() and
+	minioclxxxxforallexpcsxxxxaccVars.oclIsUndefined()) or 
+	(minioclxxxxiterateexpcsxxxxaccVar.oclIsUndefined() and
+	minioclxxxxexistsexpcsxxxxaccVars.oclIsUndefined() and
+	not minioclxxxxforallexpcsxxxxaccVars.oclIsUndefined())
+context miniOCLXxxXRoundedBracketClauseCS inv ensure_container:
+	(not minioclxxxxnameexpcsxxxxroundedBrackets.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxroundedBrackets.oclIsUndefined()) or 
+	(minioclxxxxnameexpcsxxxxroundedBrackets.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxroundedBrackets.oclIsUndefined())
+context miniOCLXxxXLiteralExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXIntLiteralExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXStringLiteralExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXBooleanLiteralExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXPathNameCS inv ensure_container:
+	(not minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	not minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	not minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	not minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	not minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	not minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccType.oclIsUndefined()) or 
+	(minioclxxxxclasscsxxxxextends.oclIsUndefined() and
+	minioclxxxxpropertycsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxoperationcsxxxxresultRef.oclIsUndefined() and
+	minioclxxxxparametercsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxconstraintcsxxxxtypeRef.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxexpName.oclIsUndefined() and
+	minioclxxxxiteratorvarcsxxxxitType.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccType.oclIsUndefined())
+context miniOCLXxxXBooleanExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXExistsExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXNavigationNameExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
+context miniOCLXxxXForAllExpCS inv ensure_container:
+	(not minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	not minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	not minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	not minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	not minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	not minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	not minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	not minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined()) or 
+	(minioclxxxxoperationcsxxxxbody.oclIsUndefined() and
+	minioclxxxxinvariantcsxxxxexp.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxleft.oclIsUndefined() and
+	minioclxxxxlogicexpcsxxxxright.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxsource.oclIsUndefined() and
+	minioclxxxxcallexpcsxxxxnavExp.oclIsUndefined() and
+	minioclxxxxnameexpcsxxxxcallExp.oclIsUndefined() and
+	minioclxxxxloopexpcsxxxxexp.oclIsUndefined() and
+	minioclxxxxaccvarcsxxxxaccInitExp.oclIsUndefined() and
+	minioclxxxxroundedbracketclausecsxxxxargs.oclIsUndefined() and
+	not minioclxxxxnavigationnameexpcsxxxxcallExp.oclIsUndefined())
 context Dummy
-inv mut1 : NamedElement.allInstances()->forAll(n | n.name <> null)
-inv mut2 : PrimitiveElement.allInstances()->forAll(p | p.name <> null)
-inv mut3 : PrimitiveElement.allInstances()->forAll(p | p.type <> null)
-inv mut4 : Parameter.allInstances()->forAll(p | p.name <> null)
-inv mut5 : Feature.allInstances()->forAll(f | f.name <> null)
-inv mut6 : Feature.allInstances()->forAll(f | f.visibility <> null)
-inv mut7 : Feature.allInstances()->forAll(f | f.scope <> null)
-inv mut8 : ModifiedElement.allInstances()->forAll(m | m.name <> null)
-inv mut9 : ModifiedElement.allInstances()->forAll(m | m.visibility <> null)
-inv mut10 : ModifiedElement.allInstances()->forAll(m | m.scope <> null)
-inv mut11 : Classifier.allInstances()->forAll(c | c.name <> null)
-inv mut12 : Classifier.allInstances()->forAll(c | c.visibility <> null)
-inv mut13 : Classifier.allInstances()->forAll(c | c.scope <> null)
-inv mut14 : Class.allInstances()->forAll(c | c.name <> null)
-inv mut15 : Class.allInstances()->forAll(c | c.visibility <> null)
-inv mut16 : Class.allInstances()->forAll(c | c.scope <> null)
-inv mut17 : Class.allInstances()->forAll(c | c.xxxxabstract <> null)
-inv mut18 : Class.allInstances()->forAll(c | c.derived <> null)
-inv mut19 : Attribute.allInstances()->forAll(a | a.name <> null)
-inv mut20 : Attribute.allInstances()->forAll(a | a.visibility <> null)
-inv mut21 : Attribute.allInstances()->forAll(a | a.scope <> null)
-inv mut22 : Attribute.allInstances()->forAll(a | a.derived <> null)
-inv mut23 : Constraint.allInstances()->forAll(c | c.id <> null)
-inv mut24 : Operation.allInstances()->forAll(o | o.name <> null)
-inv mut25 : Operation.allInstances()->forAll(o | o.visibility <> null)
-inv mut26 : Operation.allInstances()->forAll(o | o.scope <> null)
-inv mut27 : Operator.allInstances()->forAll(o | o.operator <> null)
-inv mut28 : Relation.allInstances()->forAll(r | r.name <> null)
-inv mut29 : Relation.allInstances()->forAll(r | r.visibility <> null)
-inv mut30 : Relation.allInstances()->forAll(r | r.scope <> null)
-inv mut31 : Relation.allInstances()->forAll(r | r.derived <> null)
-inv mut32 : Dependency.allInstances()->forAll(d | d.name <> null)
-inv mut33 : Dependency.allInstances()->forAll(d | d.visibility <> null)
-inv mut34 : Dependency.allInstances()->forAll(d | d.scope <> null)
-inv mut35 : Dependency.allInstances()->forAll(d | d.derived <> null)
-inv mut36 : Association.allInstances()->forAll(a | a.name <> null)
-inv mut37 : Association.allInstances()->forAll(a | a.visibility <> null)
-inv mut38 : Association.allInstances()->forAll(a | a.scope <> null)
-inv mut39 : Association.allInstances()->forAll(a | a.derived <> null)
-inv mut40 : Aggregation.allInstances()->forAll(a | a.name <> null)
-inv mut41 : Aggregation.allInstances()->forAll(a | a.visibility <> null)
-inv mut42 : Aggregation.allInstances()->forAll(a | a.scope <> null)
-inv mut43 : Aggregation.allInstances()->forAll(a | a.derived <> null)
-inv mut44 : Composition.allInstances()->forAll(c | c.name <> null)
-inv mut45 : Composition.allInstances()->forAll(c | c.visibility <> null)
-inv mut46 : Composition.allInstances()->forAll(c | c.scope <> null)
-inv mut47 : Composition.allInstances()->forAll(c | c.derived <> null)
-inv mut48 : AssociationClass.allInstances()->forAll(a | a.name <> null)
-inv mut49 : AssociationClass.allInstances()->forAll(a | a.visibility <> null)
-inv mut50 : AssociationClass.allInstances()->forAll(a | a.scope <> null)
-inv mut51 : AssociationClass.allInstances()->forAll(a | a.xxxxabstract <> null)
-inv mut52 : AssociationClass.allInstances()->forAll(a | a.derived <> null)
-inv mut53 : PathElementCS.allInstances()->size() > 0
-inv mut54 : PathNameCS.allInstances()->size() > 0
-inv mut55 : PathElementCS.allInstances()->exists(p0 | Attribute.allInstances()->exists(a2 | p0.pathName = a2))
+inv mut1 : umlclassdiagramXxxXNamedElement.allInstances()->forAll(u | u.name <> null)
+inv mut2 : umlclassdiagramXxxXPrimitiveElement.allInstances()->forAll(u | u.name <> null)
+inv mut3 : umlclassdiagramXxxXPrimitiveElement.allInstances()->forAll(u | u.type <> null)
+inv mut4 : umlclassdiagramXxxXParameter.allInstances()->forAll(u | u.name <> null)
+inv mut5 : umlclassdiagramXxxXFeature.allInstances()->forAll(u | u.name <> null)
+inv mut6 : umlclassdiagramXxxXFeature.allInstances()->forAll(u | u.visibility <> null)
+inv mut7 : umlclassdiagramXxxXFeature.allInstances()->forAll(u | u.scope <> null)
+inv mut8 : umlclassdiagramXxxXModifiedElement.allInstances()->forAll(u | u.name <> null)
+inv mut9 : umlclassdiagramXxxXModifiedElement.allInstances()->forAll(u | u.visibility <> null)
+inv mut10 : umlclassdiagramXxxXModifiedElement.allInstances()->forAll(u | u.scope <> null)
+inv mut11 : umlclassdiagramXxxXClassifier.allInstances()->forAll(u | u.name <> null)
+inv mut12 : umlclassdiagramXxxXClassifier.allInstances()->forAll(u | u.visibility <> null)
+inv mut13 : umlclassdiagramXxxXClassifier.allInstances()->forAll(u | u.scope <> null)
+inv mut14 : umlclassdiagramXxxXClassifier.allInstances()->forAll(u | u.xxxxabstract <> null)
+inv mut15 : umlclassdiagramXxxXClassifier.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut16 : umlclassdiagramXxxXClass.allInstances()->forAll(u | u.name <> null)
+inv mut17 : umlclassdiagramXxxXClass.allInstances()->forAll(u | u.visibility <> null)
+inv mut18 : umlclassdiagramXxxXClass.allInstances()->forAll(u | u.scope <> null)
+inv mut19 : umlclassdiagramXxxXClass.allInstances()->forAll(u | u.xxxxabstract <> null)
+inv mut20 : umlclassdiagramXxxXClass.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut21 : umlclassdiagramXxxXAttribute.allInstances()->forAll(u | u.name <> null)
+inv mut22 : umlclassdiagramXxxXAttribute.allInstances()->forAll(u | u.visibility <> null)
+inv mut23 : umlclassdiagramXxxXAttribute.allInstances()->forAll(u | u.scope <> null)
+inv mut24 : umlclassdiagramXxxXAttribute.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut25 : umlclassdiagramXxxXConstraint.allInstances()->forAll(u | u.id <> null)
+inv mut26 : umlclassdiagramXxxXOperation.allInstances()->forAll(u | u.name <> null)
+inv mut27 : umlclassdiagramXxxXOperation.allInstances()->forAll(u | u.visibility <> null)
+inv mut28 : umlclassdiagramXxxXOperation.allInstances()->forAll(u | u.scope <> null)
+inv mut29 : umlclassdiagramXxxXOperator.allInstances()->forAll(u | u.operator <> null)
+inv mut30 : umlclassdiagramXxxXRelation.allInstances()->forAll(u | u.name <> null)
+inv mut31 : umlclassdiagramXxxXRelation.allInstances()->forAll(u | u.visibility <> null)
+inv mut32 : umlclassdiagramXxxXRelation.allInstances()->forAll(u | u.scope <> null)
+inv mut33 : umlclassdiagramXxxXRelation.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut34 : umlclassdiagramXxxXDependency.allInstances()->forAll(u | u.name <> null)
+inv mut35 : umlclassdiagramXxxXDependency.allInstances()->forAll(u | u.visibility <> null)
+inv mut36 : umlclassdiagramXxxXDependency.allInstances()->forAll(u | u.scope <> null)
+inv mut37 : umlclassdiagramXxxXDependency.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut38 : umlclassdiagramXxxXAssociation.allInstances()->forAll(u | u.name <> null)
+inv mut39 : umlclassdiagramXxxXAssociation.allInstances()->forAll(u | u.visibility <> null)
+inv mut40 : umlclassdiagramXxxXAssociation.allInstances()->forAll(u | u.scope <> null)
+inv mut41 : umlclassdiagramXxxXAssociation.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut42 : umlclassdiagramXxxXAggregation.allInstances()->forAll(u | u.name <> null)
+inv mut43 : umlclassdiagramXxxXAggregation.allInstances()->forAll(u | u.visibility <> null)
+inv mut44 : umlclassdiagramXxxXAggregation.allInstances()->forAll(u | u.scope <> null)
+inv mut45 : umlclassdiagramXxxXAggregation.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut46 : umlclassdiagramXxxXComposition.allInstances()->forAll(u | u.name <> null)
+inv mut47 : umlclassdiagramXxxXComposition.allInstances()->forAll(u | u.visibility <> null)
+inv mut48 : umlclassdiagramXxxXComposition.allInstances()->forAll(u | u.scope <> null)
+inv mut49 : umlclassdiagramXxxXComposition.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut50 : umlclassdiagramXxxXAssociationClass.allInstances()->forAll(u | u.name <> null)
+inv mut51 : umlclassdiagramXxxXAssociationClass.allInstances()->forAll(u | u.visibility <> null)
+inv mut52 : umlclassdiagramXxxXAssociationClass.allInstances()->forAll(u | u.scope <> null)
+inv mut53 : umlclassdiagramXxxXAssociationClass.allInstances()->forAll(u | u.xxxxabstract <> null)
+inv mut54 : umlclassdiagramXxxXAssociationClass.allInstances()->forAll(u | u.xxxxderived <> null)
+inv mut55 : miniOCLXxxXPathElementCS.allInstances()->size() > 0
+inv mut56 : miniOCLXxxXPathNameCS.allInstances()->size() > 0
+inv mut57 : miniOCLXxxXPathElementCS.allInstances()->exists(m0 | umlclassdiagramXxxXAttribute.allInstances()->exists(u2 | m0.pathName = u2))

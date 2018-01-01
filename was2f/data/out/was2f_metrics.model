@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
-  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\runtime-EclipseApplication\was2f\data\out\cd.example">
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\runtime-EclipseApplication\was2f\data\out\cd.example\Output0.model">
+  <trees xsi:type="mutatormetrics:Folder" name="cd.example" path="C:\eclipse\workspace\was2f\data\out\cd.example">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\was2f\data\out\cd.example\Output0.model">
       <classes name="ClassDiagram">
         <references name="classes"/>
         <references name="relations"/>
@@ -34,6 +34,11 @@
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
       </classes>
       <classes name="Class">
         <attributes name="name"/>
@@ -80,17 +85,7 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="Dependency" modified="1" cmodified="1" cremoved="1">
-        <attributes name="name" modified="1"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="Association">
+      <classes name="Dependency" cremoved="1">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -99,6 +94,16 @@
         <attributes name="derived"/>
         <references name="src"/>
         <references name="tar"/>
+      </classes>
+      <classes name="Association" created="6" ccreated="1">
+        <attributes name="name" created="1"/>
+        <attributes name="visibility" created="1"/>
+        <attributes name="scope" created="1"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived" created="1"/>
+        <references name="src" created="1"/>
+        <references name="tar" created="1"/>
       </classes>
       <classes name="Aggregation">
         <attributes name="name"/>
@@ -338,7 +343,7 @@
         <references name="accVars"/>
       </classes>
     </mutants>
-    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\runtime-EclipseApplication\was2f\data\out\cd.example\Output1.model">
+    <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\was2f\data\out\cd.example\Output1.model">
       <classes name="ClassDiagram">
         <references name="classes"/>
         <references name="relations"/>
@@ -371,6 +376,11 @@
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
+        <attributes name="abstract"/>
+        <attributes name="derived"/>
+        <references name="features"/>
+        <references name="super"/>
+        <references name="supplier"/>
       </classes>
       <classes name="Class">
         <attributes name="name"/>
@@ -417,17 +427,7 @@
         <references name="src"/>
         <references name="tar"/>
       </classes>
-      <classes name="Dependency" modified="1" cmodified="1" cremoved="1">
-        <attributes name="name" modified="1"/>
-        <attributes name="visibility"/>
-        <attributes name="scope"/>
-        <attributes name="nsrc"/>
-        <attributes name="ntar"/>
-        <attributes name="derived"/>
-        <references name="src"/>
-        <references name="tar"/>
-      </classes>
-      <classes name="Association">
+      <classes name="Dependency" cremoved="1">
         <attributes name="name"/>
         <attributes name="visibility"/>
         <attributes name="scope"/>
@@ -436,6 +436,16 @@
         <attributes name="derived"/>
         <references name="src"/>
         <references name="tar"/>
+      </classes>
+      <classes name="Association" created="6" ccreated="1">
+        <attributes name="name" created="1"/>
+        <attributes name="visibility" created="1"/>
+        <attributes name="scope" created="1"/>
+        <attributes name="nsrc"/>
+        <attributes name="ntar"/>
+        <attributes name="derived" created="1"/>
+        <references name="src" created="1"/>
+        <references name="tar" created="1"/>
       </classes>
       <classes name="Aggregation">
         <attributes name="name"/>
@@ -707,6 +717,11 @@
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
+      <attributes name="abstract"/>
+      <attributes name="derived"/>
+      <references name="features"/>
+      <references name="super"/>
+      <references name="supplier"/>
     </classes>
     <classes name="Class">
       <attributes name="name"/>
@@ -753,17 +768,7 @@
       <references name="src"/>
       <references name="tar"/>
     </classes>
-    <classes name="Dependency" modified="2" cmodified="2" cremoved="2">
-      <attributes name="name" modified="2"/>
-      <attributes name="visibility"/>
-      <attributes name="scope"/>
-      <attributes name="nsrc"/>
-      <attributes name="ntar"/>
-      <attributes name="derived"/>
-      <references name="src"/>
-      <references name="tar"/>
-    </classes>
-    <classes name="Association">
+    <classes name="Dependency" cremoved="2">
       <attributes name="name"/>
       <attributes name="visibility"/>
       <attributes name="scope"/>
@@ -772,6 +777,16 @@
       <attributes name="derived"/>
       <references name="src"/>
       <references name="tar"/>
+    </classes>
+    <classes name="Association" created="12" ccreated="2">
+      <attributes name="name" created="2"/>
+      <attributes name="visibility" created="2"/>
+      <attributes name="scope" created="2"/>
+      <attributes name="nsrc"/>
+      <attributes name="ntar"/>
+      <attributes name="derived" created="2"/>
+      <references name="src" created="2"/>
+      <references name="tar" created="2"/>
     </classes>
     <classes name="Aggregation">
       <attributes name="name"/>
@@ -1043,6 +1058,11 @@
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
+    <attributes name="abstract"/>
+    <attributes name="derived"/>
+    <references name="features"/>
+    <references name="super"/>
+    <references name="supplier"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Class">
     <attributes name="name"/>
@@ -1089,17 +1109,7 @@
     <references name="src"/>
     <references name="tar"/>
   </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Dependency" modified="2" cmodified="2" cremoved="2">
-    <attributes name="name" modified="2"/>
-    <attributes name="visibility"/>
-    <attributes name="scope"/>
-    <attributes name="nsrc"/>
-    <attributes name="ntar"/>
-    <attributes name="derived"/>
-    <references name="src"/>
-    <references name="tar"/>
-  </classes>
-  <classes xsi:type="mutatormetrics:Class" name="Association">
+  <classes xsi:type="mutatormetrics:Class" name="Dependency" cremoved="2">
     <attributes name="name"/>
     <attributes name="visibility"/>
     <attributes name="scope"/>
@@ -1108,6 +1118,16 @@
     <attributes name="derived"/>
     <references name="src"/>
     <references name="tar"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Association" created="12" ccreated="2">
+    <attributes name="name" created="2"/>
+    <attributes name="visibility" created="2"/>
+    <attributes name="scope" created="2"/>
+    <attributes name="nsrc"/>
+    <attributes name="ntar"/>
+    <attributes name="derived" created="2"/>
+    <references name="src" created="2"/>
+    <references name="tar" created="2"/>
   </classes>
   <classes xsi:type="mutatormetrics:Class" name="Aggregation">
     <attributes name="name"/>

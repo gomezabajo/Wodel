@@ -6,7 +6,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="ClassDiagram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
-        eType="#//Class" containment="true"/>
+        eType="#//Classifier" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
         eType="#//Relation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
@@ -37,8 +37,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="scope" lowerBound="1" eType="#//ScopeType"
         defaultValueLiteral="instance"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="#//ModifiedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//Classifier">
+  <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="#//ModifiedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived" lowerBound="1"
@@ -50,6 +49,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="supplier" upperBound="-1"
         eType="#//Class"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//Classifier"/>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//Feature">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -78,9 +78,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Relation" abstract="true" eSuperTypes="#//ModifiedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nsrc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ntar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tar" lowerBound="1" eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tar" lowerBound="1" eType="#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
   </eClassifiers>
@@ -88,7 +88,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//Relation"/>
   <eClassifiers xsi:type="ecore:EClass" name="Aggregation" eSuperTypes="#//Relation"/>
   <eClassifiers xsi:type="ecore:EClass" name="Composition" eSuperTypes="#//Relation"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AssociationClass" eSuperTypes="#//Class">
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationClass" eSuperTypes="#//Classifier">
     <eStructuralFeatures xsi:type="ecore:EReference" name="association" lowerBound="1"
         eType="#//Association"/>
   </eClassifiers>

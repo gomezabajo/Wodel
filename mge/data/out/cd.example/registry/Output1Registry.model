@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
 <appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
   <muts>
-    <def href="../../mge.model#//@commands.0"/>
+    <def href="../../mge.model#//@blocks.0/@commands.0"/>
   </muts>
-  <muts xsi:type="appliedMutations:ReferenceRemoved" refName="super">
-    <def href="../../mge.model#//@commands.1"/>
-    <object href="../../../model/cd.example.model#_AKKtUJvVEee9uaaNIqtE3A"/>
-    <ref href="file:/c:/eclipse/runtime-EclipseApplication/mge/data/model/UMLClassDiagram.ecore#//Class/super"/>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../mge.model#//@blocks.1/@commands.0"/>
+    <object href="../../../model/cd.example.model#_nas7sNBSEeeA66FQ4hHrOQ"/>
+    <type href="../../../model/UMLClassDiagram.ecore#//Class"/>
   </muts>
 </appliedMutations:Mutations>

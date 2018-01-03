@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../../model/bpel.ecore http://www.eclipse.org/wsdl/2003/WSDL ../../../model/bpel.ecore#//wsdl">
+  <bpws:MessageExchange xmi:id="_c3nToPBgEeeAFqOkpjjC8Q" name="string3"/>
+  <bpws:MessageExchange xmi:id="_c3nTofBgEeeAFqOkpjjC8Q" name="string5"/>
+  <bpws:CatchAll xmi:id="_c3nTovBgEeeAFqOkpjjC8Q">
+    <activity xsi:type="bpws:Throw" xmi:id="_c3nTo_BgEeeAFqOkpjjC8Q" name="string4" suppressJoinFailure="true"/>
+  </bpws:CatchAll>
+  <bpws:CatchAll xmi:id="_c3nTpPBgEeeAFqOkpjjC8Q">
+    <activity xsi:type="bpws:Wait" xmi:id="_c3nTpfBgEeeAFqOkpjjC8Q" name="string4" suppressJoinFailure="false"/>
+  </bpws:CatchAll>
+  <wsdl:PortType xmi:id="_c3nTpvBgEeeAFqOkpjjC8Q">
+    <eOperations xmi:id="_c3nTp_BgEeeAFqOkpjjC8Q" name="string5"/>
+  </wsdl:PortType>
+  <bpws:Query xmi:id="_c3nTqPBgEeeAFqOkpjjC8Q" value="string5" queryLanguage="string5"/>
+  <wsdl:Message xmi:id="_c3nTqfBgEeeAFqOkpjjC8Q">
+    <eParts xmi:id="_c3nTqvBgEeeAFqOkpjjC8Q" name="string1"/>
+  </wsdl:Message>
+  <bpws:Process xmi:id="_c3nTq_BgEeeAFqOkpjjC8Q" name="string3" targetNamespace="string4" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="true" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string5">
+    <partnerLinks xmi:id="_c3n6sfBgEeeAFqOkpjjC8Q">
+      <children xmi:id="_c3n6svBgEeeAFqOkpjjC8Q" name="string3" initializePartnerRole="false"/>
+    </partnerLinks>
+    <activity xsi:type="bpws:Invoke" xmi:id="_c3n6s_BgEeeAFqOkpjjC8Q" name="string3" suppressJoinFailure="false" partnerLink="_c3n6svBgEeeAFqOkpjjC8Q" portType="_c3nTpvBgEeeAFqOkpjjC8Q" operation="_c3nTp_BgEeeAFqOkpjjC8Q"/>
+  </bpws:Process>
+  <wsdl:Service xmi:id="_c3n6tPBgEeeAFqOkpjjC8Q"/>
+  <wsdl:Binding xmi:id="_c3n6tfBgEeeAFqOkpjjC8Q" ePortType="_c3nTpvBgEeeAFqOkpjjC8Q">
+    <eBindingOperations xmi:id="_c3n6tvBgEeeAFqOkpjjC8Q" name="string2" eOperation="_c3nTp_BgEeeAFqOkpjjC8Q"/>
+    <eBindingOperations xmi:id="_c3n6t_BgEeeAFqOkpjjC8Q" name="string5" eOperation="_c3nTp_BgEeeAFqOkpjjC8Q"/>
+  </wsdl:Binding>
+  <bpws:TerminationHandler xmi:id="_c3n6uPBgEeeAFqOkpjjC8Q">
+    <activity xsi:type="bpws:Pick" xmi:id="_c3n6ufBgEeeAFqOkpjjC8Q" name="string1" suppressJoinFailure="true" createInstance="false"/>
+  </bpws:TerminationHandler>
+</xmi:XMI>

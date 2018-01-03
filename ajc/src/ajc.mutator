@@ -1,8 +1,9 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/ajc/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/ajc/data/model/bpel.ecore"
 
 with commands {
-	modify one Activity with {unset(suppressJoinFailure)}
+	modify one Activity where {suppressJoinFailure = true}
+		with {suppressJoinFailure = false}
 }

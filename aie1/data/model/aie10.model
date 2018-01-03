@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+  <bpws:CorrelationSet name="string6"/>
+  <bpws:Link name="string5"/>
+  <bpws:MessageExchange name="string3"/>
+  <bpws:Process name="string1" targetNamespace="string1" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="true" exitOnStandardFault="false" abstractProcessProfile="string1">
+    <activity xsi:type="bpws:If" name="string2" suppressJoinFailure="false">
+      <activity name="string1" suppressJoinFailure="false"/>
+    </activity>
+  </bpws:Process>
+  <bpws:To partnerLink="/7">
+    <query value="string1" queryLanguage="string2"/>
+  </bpws:To>
+  <bpws:To partnerLink="/8">
+    <query value="string1" queryLanguage="string5"/>
+  </bpws:To>
+  <bpws:Extension namespace="string2" mustUnderstand="true"/>
+  <bpws:PartnerLink name="string1" initializePartnerRole="false"/>
+  <bpws:PartnerLink name="string1" initializePartnerRole="false"/>
+</xmi:XMI>

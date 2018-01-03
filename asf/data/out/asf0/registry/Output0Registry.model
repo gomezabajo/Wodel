@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts xsi:type="appliedMutations:ObjectRetyped">
+    <def href="../../asf.model#//@commands.0"/>
+    <object href="../../../model/asf0.model#/2/@activity/@activity"/>
+    <type href="../../../model/bpel.ecore#//Sequence"/>
+    <newType href="../../../model/bpel.ecore#//Flow"/>
+  </muts>
+</appliedMutations:Mutations>

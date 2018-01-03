@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL">
+  <wsdl:Types/>
+  <bpws:FromPart toVariable="/3/@activity/@counterName"/>
+  <bpws:Extension namespace="string7" mustUnderstand="true"/>
+  <bpws:Process name="string1" targetNamespace="string1" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="true" abstractProcessProfile="string1">
+    <activity xsi:type="bpws:ForEach" name="string2" suppressJoinFailure="false">
+      <startCounterValue xsi:type="bpws:Branches" expressionLanguage="string1" opaque="false" countCompletedBranchesOnly="false"/>
+      <finalCounterValue xsi:type="bpws:Branches" expressionLanguage="string1" opaque="false" countCompletedBranchesOnly="false"/>
+      <counterName name="string2"/>
+      <activity xsi:type="bpws:CompensateScope" name="string1" suppressJoinFailure="false"/>
+    </activity>
+  </bpws:Process>
+</xmi:XMI>

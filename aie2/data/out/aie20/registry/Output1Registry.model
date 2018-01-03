@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../aie2.model#//@commands.0"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../aie2.model#//@commands.1"/>
+    <object href="../../../model/aie20.model#/8/@activity/@activity/@else"/>
+    <type href="../../../model/bpel.ecore#//Else"/>
+  </muts>
+</appliedMutations:Mutations>

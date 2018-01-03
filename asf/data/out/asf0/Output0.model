@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../model/bpel.ecore#//wsdl">
+  <wsdl:Part xmi:id="_A4v6cO-vEee77-4cytilyw" name="string1"/>
+  <bpws:Process xmi:id="_A4whgO-vEee77-4cytilyw" name="string3" targetNamespace="string6" queryLanguage="string1" expressionLanguage="string2" suppressJoinFailure="false" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string1">
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_A4xIkO-vEee77-4cytilyw" name="string4"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_A4xIke-vEee77-4cytilyw" name="string3"/>
+    <documentation xmi:id="_A4xIk--vEee77-4cytilyw" lang="string1" source="string2" value="string1"/>
+    <activity xsi:type="bpws:Compensate" xmi:id="_A4xIlO-vEee77-4cytilyw" name="string1" suppressJoinFailure="false"/>
+  </bpws:Process>
+  <bpws:Catch xmi:id="_A4xvoO-vEee77-4cytilyw">
+    <activity xsi:type="bpws:If" xmi:id="_A4xvoe-vEee77-4cytilyw" name="string1" suppressJoinFailure="false">
+      <activity xsi:type="bpws:Flow" name="string8" suppressJoinFailure="true">
+        <documentation xsi:nil="true"/>
+        <activities xsi:type="bpws:Exit" name="string9" suppressJoinFailure="false"/>
+      </activity>
+    </activity>
+  </bpws:Catch>
+  <bpws:To xmi:id="_A4xvpO-vEee77-4cytilyw">
+    <query xmi:id="_A4xvpe-vEee77-4cytilyw" value="string5" queryLanguage="string9"/>
+  </bpws:To>
+  <bpws:Extension xmi:id="_A4xvp--vEee77-4cytilyw" namespace="string6" mustUnderstand="false"/>
+  <bpws:TerminationHandler xmi:id="_A4xvqO-vEee77-4cytilyw">
+    <activity xsi:type="bpws:Exit" xmi:id="_A4xvqe-vEee77-4cytilyw" name="string7" suppressJoinFailure="false"/>
+  </bpws:TerminationHandler>
+</xmi:XMI>

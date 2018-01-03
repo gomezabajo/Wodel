@@ -1,22 +1,8 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/awr1/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/awr1/data/model/bpel.ecore"
 
 with commands {
-	while1 = select one While
-	repeatUntil1 = create RepeatUntil with {
-		targets = while1->targets,
-		sources = while1->sources,
-		condition = while1->condition,
-		activity = while1->activity,
-		eExtensibilityElements = while1->eExtensibilityElements,
-		documentation = while1->documentation
-	}
-	modify repeatUntil1 with {
-		copy(name, while1.name),
-		copy(element, while1.element),
-		copy(documentationElement, while1.documentationElement),
-		copy(suppressJoinFailure, while1.suppressJoinFailure)
-	}
+	retype one While as RepeatUntil
 }

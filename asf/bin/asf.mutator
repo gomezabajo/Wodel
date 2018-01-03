@@ -1,18 +1,8 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/asf/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/asf/data/model/bpel.ecore"
 
 with commands {
-	s1 = select one Sequence
-	f1 = create Flow with {
-		targets = s1->targets,
-		sources = s1->sources,
-		activities = s1->activities
-	}
-	modify f1 with {
-		copy(name, s1.name),
-		copy (suppressJoinFailure, s1.suppressJoinFailure)
-	}
-	remove s1
+	retype one Sequence as Flow
 }

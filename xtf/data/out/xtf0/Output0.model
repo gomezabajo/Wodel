@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore">
+  <bpws:CatchAll xmi:id="_xflAEPC2EeeEMZjYmjF0BA">
+    <activity xsi:type="bpws:Throw" xmi:id="_xflAEfC2EeeEMZjYmjF0BA" name="string1" suppressJoinFailure="false" faultVariable="_xflAFvC2EeeEMZjYmjF0BA">
+      <sources xmi:id="_xflAEvC2EeeEMZjYmjF0BA"/>
+    </activity>
+  </bpws:CatchAll>
+  <bpws:Process xmi:id="_xflAE_C2EeeEMZjYmjF0BA" name="string5" targetNamespace="string4" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="true" variableAccessSerializable="true" abstractProcessProfile="string6">
+    <variables xmi:id="_xflAFPC2EeeEMZjYmjF0BA">
+      <children xmi:id="_xflAFfC2EeeEMZjYmjF0BA" name="string1"/>
+      <children xmi:id="_xflAFvC2EeeEMZjYmjF0BA" name="string2"/>
+    </variables>
+    <activity xmi:id="_xflAF_C2EeeEMZjYmjF0BA" name="string1" suppressJoinFailure="false">
+      <sources xmi:id="_xflAGPC2EeeEMZjYmjF0BA"/>
+    </activity>
+  </bpws:Process>
+  <bpws:Else xmi:id="_xflAGfC2EeeEMZjYmjF0BA">
+    <activity xmi:id="_xflAGvC2EeeEMZjYmjF0BA" name="string1" suppressJoinFailure="false"/>
+  </bpws:Else>
+  <bpws:PartnerLink xmi:id="_xflAG_C2EeeEMZjYmjF0BA" name="string8" initializePartnerRole="false"/>
+</xmi:XMI>

@@ -1,7 +1,7 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/apa2/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/apa2/data/model/bpel.ecore"
 
 with commands {
 	ev1 = select one EventHandler where {alarm <> null}

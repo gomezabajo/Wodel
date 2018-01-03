@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../xee.model#//@commands.0"/>
+  </muts>
+  <muts>
+    <def href="../../xee.model#//@commands.1"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../xee.model#//@commands.2"/>
+    <object href="../../../model/xee0.model#/2/@eventHandlers/@events.0"/>
+    <type href="../../../model/bpel.ecore#//OnEvent"/>
+  </muts>
+</appliedMutations:Mutations>

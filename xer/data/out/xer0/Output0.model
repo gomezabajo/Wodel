@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../model/bpel.ecore#//wsdl">
+  <wsdl:Message/>
+  <bpws:Process name="string9" targetNamespace="string5" queryLanguage="string2" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string2">
+    <eExtensibilityElements xsi:type="vprop:Property" name="string2"/>
+  </bpws:Process>
+</xmi:XMI>

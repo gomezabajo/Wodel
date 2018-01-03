@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL">
+  <bpws:Link xmi:id="_3YqBQO_PEeekJKXkhx9U9g" name="string5"/>
+  <wsdl:Types xmi:id="_3YqBQe_PEeekJKXkhx9U9g"/>
+  <bpws:CatchAll xmi:id="_3YqBQu_PEeekJKXkhx9U9g">
+    <activity xsi:type="bpws:Sequence" xmi:id="_3YqoUO_PEeekJKXkhx9U9g" name="string3" suppressJoinFailure="false">
+      <activities xmi:id="_k-qVsO_QEee_SfkIieZG7w" name="string1" suppressJoinFailure="false"/>
+      <activities xmi:id="_I2OrYO_QEeekJKXkhx9U9g" name="string5" suppressJoinFailure="false"/>
+    </activity>
+  </bpws:CatchAll>
+  <wsdl:Part xmi:id="_3YqoVO_PEeekJKXkhx9U9g" name="string1"/>
+  <bpws:Process xmi:id="_3YqoVe_PEeekJKXkhx9U9g" name="string1" targetNamespace="string2" queryLanguage="string1" expressionLanguage="string2" suppressJoinFailure="true" variableAccessSerializable="false" abstractProcessProfile="string2">
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_3YqoVu_PEeekJKXkhx9U9g" name="string3"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_3YqoV-_PEeekJKXkhx9U9g" name="string5"/>
+    <eExtensibilityElements xsi:type="vprop:Query" xmi:id="_3YqoWe_PEeekJKXkhx9U9g" queryLanguage="string9" value="string8"/>
+    <eExtensibilityElements xsi:type="plnk:PartnerLinkType" xmi:id="_3YqoWu_PEeekJKXkhx9U9g" name="string5"/>
+    <eExtensibilityElements xmi:id="_3YqoW-_PEeekJKXkhx9U9g"/>
+    <activity xsi:type="bpws:Validate" xmi:id="_3YqoXO_PEeekJKXkhx9U9g" name="string1" suppressJoinFailure="false">
+      <eExtensibilityElements xsi:type="vprop:Query" xmi:id="_3YqoXe_PEeekJKXkhx9U9g" queryLanguage="string4" value="string7"/>
+    </activity>
+  </bpws:Process>
+</xmi:XMI>

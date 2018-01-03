@@ -1,7 +1,7 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/xer/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/xer/data/model/bpel.ecore"
 
 with commands {
 	remove one Rethrow

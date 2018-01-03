@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../model/bpel.ecore#//wsdl">
+  <wsdl:Definition xmi:id="_ZKSukO-2EeexyuDx505sqw" targetNamespace="string1" location="string1" encoding="string1">
+    <eMessages xmi:id="_ZKSuke-2EeexyuDx505sqw">
+      <eParts xmi:id="_ZKSuku-2EeexyuDx505sqw" name="string1" eMessage="_ZKSuke-2EeexyuDx505sqw"/>
+    </eMessages>
+  </wsdl:Definition>
+  <bpws:Process xmi:id="_ZKSuk--2EeexyuDx505sqw" name="string2" targetNamespace="string5" queryLanguage="string1" expressionLanguage="string2" suppressJoinFailure="true" variableAccessSerializable="false" abstractProcessProfile="string2">
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_ZKSulO-2EeexyuDx505sqw" name="string7"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_ZKSule-2EeexyuDx505sqw" name="string9"/>
+    <eExtensibilityElements xmi:id="_ZKSumO-2EeexyuDx505sqw" required="true"/>
+    <activity xsi:type="bpws:ExtensionActivity" xmi:id="_ZKSume-2EeexyuDx505sqw" name="string3" suppressJoinFailure="false"/>
+    <extensions xmi:id="_ZKSumu-2EeexyuDx505sqw"/>
+  </bpws:Process>
+  <bpws:Query xmi:id="_ZKSum--2EeexyuDx505sqw" value="string4" queryLanguage="string2"/>
+  <bpws:Else xmi:id="_ZKSunO-2EeexyuDx505sqw"/>
+</xmi:XMI>

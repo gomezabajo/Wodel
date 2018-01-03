@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../asi.model#//@commands.0"/>
+  </muts>
+  <muts>
+    <def href="../../asi.model#//@commands.1"/>
+  </muts>
+  <muts xsi:type="appliedMutations:InformationChanged">
+    <def href="../../asi.model#//@commands.2"/>
+    <object href="../../../model/asi0.model#_3YqoUO_PEeekJKXkhx9U9g"/>
+    <refChanges refName="activities">
+      <def href="../../asi.model#//@commands.2"/>
+      <object href="../../../model/asi0.model#_3YqoUO_PEeekJKXkhx9U9g"/>
+    </refChanges>
+    <refChanges refName="activities">
+      <def href="../../asi.model#//@commands.2"/>
+      <object href="../../../model/asi0.model#_3YqoUO_PEeekJKXkhx9U9g"/>
+    </refChanges>
+  </muts>
+</appliedMutations:Mutations>

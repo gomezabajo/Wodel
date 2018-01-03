@@ -1,8 +1,8 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/aci/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/aci/data/model/bpel.ecore"
 
 with commands {
-	modify one Receive with {createInstance = false}
+	modify one Receive where {createInstance = true} with {createInstance = false}
 }

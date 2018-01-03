@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore http://www.eclipse.org/wsdl/2003/WSDL ../../model/bpel.ecore#//wsdl">
+  <bpws:MessageExchange name="string6"/>
+  <wsdl:PortType>
+    <eOperations name="string1"/>
+  </wsdl:PortType>
+  <bpws:Process name="string1" targetNamespace="string4" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="true" variableAccessSerializable="false" abstractProcessProfile="string2">
+    <documentation lang="string1" source="string1" value="string1"/>
+    <activity xsi:type="bpws:Empty" name="string1" suppressJoinFailure="false"/>
+    <eventHandlers/>
+  </bpws:Process>
+  <bpws:To partnerLink="/5"/>
+  <bpws:TerminationHandler/>
+  <bpws:PartnerLink name="string1" initializePartnerRole="false"/>
+</xmi:XMI>

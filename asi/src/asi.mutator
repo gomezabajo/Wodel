@@ -1,11 +1,10 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/asi/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/asi/data/model/bpel.ecore"
 
 with commands {
 	s2 = select one Sequence where {activities <> null}
 	a1 = select one Activity in s2->activities
-	remove a1 from s2->activities
-	modify s2 with {activities = a1}
+	modify s2 with {activities -= a1, activities += a1}
 }

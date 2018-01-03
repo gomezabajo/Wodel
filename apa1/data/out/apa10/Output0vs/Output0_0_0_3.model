@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../../model/bpel.ecore#//wsdl">
+  <bpws:MessageExchange xmi:id="_4tixUPBjEeeXjJBtLa-JYA" name="string2"/>
+  <bpws:CatchAll xmi:id="_4tixUfBjEeeXjJBtLa-JYA">
+    <activity xsi:type="bpws:Pick" xmi:id="_4tixUvBjEeeXjJBtLa-JYA" name="string8" suppressJoinFailure="true" createInstance="false">
+      <messages xmi:id="_4tjYYPBjEeeXjJBtLa-JYA" portType="_4tjYYfBjEeeXjJBtLa-JYA" partnerLink="_4tjYZPBjEeeXjJBtLa-JYA" operation="_4tjYYvBjEeeXjJBtLa-JYA" messageExchange="_4tixUPBjEeeXjJBtLa-JYA"/>
+    </activity>
+  </bpws:CatchAll>
+  <wsdl:PortType xmi:id="_4tjYYfBjEeeXjJBtLa-JYA">
+    <eOperations xmi:id="_4tjYYvBjEeeXjJBtLa-JYA" name="string1"/>
+  </wsdl:PortType>
+  <wsdl:Part xmi:id="_4tjYY_BjEeeXjJBtLa-JYA" name="string1"/>
+  <bpws:PartnerLink xmi:id="_4tjYZPBjEeeXjJBtLa-JYA" name="string6" initializePartnerRole="false">
+    <documentation xmi:id="_4tjYZfBjEeeXjJBtLa-JYA" lang="string1" source="string1" value="string1"/>
+  </bpws:PartnerLink>
+  <bpws:Process xmi:id="_4tjYZ_BjEeeXjJBtLa-JYA" name="string9" targetNamespace="string4" queryLanguage="string2" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="false" abstractProcessProfile="string5">
+    <eExtensibilityElements xmi:id="_4tjYavBjEeeXjJBtLa-JYA"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_4tjYa_BjEeeXjJBtLa-JYA" name="string7"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_4tjYbPBjEeeXjJBtLa-JYA" name="string9"/>
+    <documentation xmi:id="_4tjYbfBjEeeXjJBtLa-JYA" lang="string2" source="string1" value="string1"/>
+    <variables xmi:id="_4tjYbvBjEeeXjJBtLa-JYA"/>
+    <activity xsi:type="bpws:ExtensionActivity" xmi:id="_4tjYb_BjEeeXjJBtLa-JYA" name="string2" suppressJoinFailure="false"/>
+  </bpws:Process>
+  <wsdl:Service xmi:id="_4tj_cfBjEeeXjJBtLa-JYA"/>
+  <bpws:TerminationHandler xmi:id="_4tj_cvBjEeeXjJBtLa-JYA">
+    <activity xsi:type="bpws:Exit" xmi:id="_4tj_c_BjEeeXjJBtLa-JYA" name="string9" suppressJoinFailure="false"/>
+  </bpws:TerminationHandler>
+  <bpws:TerminationHandler xmi:id="_4tj_dPBjEeeXjJBtLa-JYA">
+    <activity xsi:type="bpws:Exit" xmi:id="_4tj_dfBjEeeXjJBtLa-JYA" name="string8" suppressJoinFailure="false"/>
+  </bpws:TerminationHandler>
+</xmi:XMI>

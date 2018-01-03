@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../../model/bpel.ecore#//wsdl">
+  <wsdl:Operation name="string1"/>
+  <bpws:Catch>
+    <activity xsi:type="bpws:ExtensionActivity" name="string8" suppressJoinFailure="false"/>
+  </bpws:Catch>
+  <wsdl:BindingOperation name="string5" eOperation="/0"/>
+  <bpws:Links>
+    <children name="string4"/>
+  </bpws:Links>
+  <bpws:ServiceRef referenceScheme="string2"/>
+  <bpws:PartnerLink name="string1" initializePartnerRole="false"/>
+  <wsdl:Definition targetNamespace="string1" location="string1" encoding="string1">
+    <eTypes/>
+    <eServices/>
+    <eServices/>
+  </wsdl:Definition>
+  <wsdl:Definition targetNamespace="string1" location="string1" encoding="string1">
+    <eTypes/>
+    <eNamespaces URI="string5" prefix="string2"/>
+    <eNamespaces URI="string2" prefix="string1"/>
+  </wsdl:Definition>
+  <bpws:Process name="string1" targetNamespace="string1" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string1">
+    <eExtensibilityElements xsi:type="vprop:Property" name="string4"/>
+    <activity xsi:type="bpws:If" name="string8" suppressJoinFailure="false">
+      <activity xsi:type="bpws:If" name="string8" suppressJoinFailure="false">
+        <activity xsi:type="bpws:Exit" name="string6" suppressJoinFailure="false">
+          <targets/>
+        </activity>
+      </activity>
+    </activity>
+    <messageExchanges/>
+  </bpws:Process>
+  <bpws:Extension namespace="string9" mustUnderstand="false"/>
+</xmi:XMI>

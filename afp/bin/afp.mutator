@@ -1,8 +1,8 @@
 generate 2 mutants
 in "data/out/"
 from "data/model/"
-metamodel "C:/eclipse/runtime-EclipseApplication/afp/data/model/bpel.ecore"
+metamodel "C:/eclipse/workspace/afp/data/model/bpel.ecore"
 
 with commands {
-	modify one ForEach with {parallel = true}
+	modify one ForEach where {parallel = false} with {parallel = true}
 }

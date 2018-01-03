@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../model/bpel.ecore#//wsdl">
+  <bpws:MessageExchange xmi:id="_njMzUPCyEeeEMZjYmjF0BA" name="string7"/>
+  <wsdl:Part xmi:id="_njMzUfCyEeeEMZjYmjF0BA" name="string1"/>
+  <bpws:To xmi:id="_njNaYPCyEeeEMZjYmjF0BA" partnerLink="_njNaZPCyEeeEMZjYmjF0BA" property="_njNaa_CyEeeEMZjYmjF0BA">
+    <query xmi:id="_njNaYfCyEeeEMZjYmjF0BA" value="string8" queryLanguage="string10"/>
+  </bpws:To>
+  <bpws:To xmi:id="_njNaYvCyEeeEMZjYmjF0BA" part="_njMzUfCyEeeEMZjYmjF0BA" partnerLink="_njNaZfCyEeeEMZjYmjF0BA"/>
+  <bpws:ServiceRef xmi:id="_njNaY_CyEeeEMZjYmjF0BA" referenceScheme="string5"/>
+  <bpws:PartnerLink xmi:id="_njNaZPCyEeeEMZjYmjF0BA" name="string2" initializePartnerRole="false"/>
+  <bpws:PartnerLink xmi:id="_njNaZfCyEeeEMZjYmjF0BA" name="string2" initializePartnerRole="false"/>
+  <bpws:Link xmi:id="_njNaZvCyEeeEMZjYmjF0BA" name="string6"/>
+  <bpws:Link xmi:id="_njNaZ_CyEeeEMZjYmjF0BA" name="string1" sources="_njOBd_CyEeeEMZjYmjF0BA"/>
+  <bpws:Process xmi:id="_njNaaPCyEeeEMZjYmjF0BA" name="string2" targetNamespace="string1" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="true" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string1">
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_njNaa_CyEeeEMZjYmjF0BA" name="string6"/>
+    <activity xsi:type="bpws:Flow" xmi:id="_njOBcPCyEeeEMZjYmjF0BA" name="string8" suppressJoinFailure="false">
+      <activities xmi:id="_njOBcfCyEeeEMZjYmjF0BA" name="string7" suppressJoinFailure="false"/>
+      <activities xsi:type="bpws:Scope" xmi:id="_njOBcvCyEeeEMZjYmjF0BA" name="string2" suppressJoinFailure="false" isolated="false" exitOnStandardFault="true">
+        <activity xmi:id="_njOBc_CyEeeEMZjYmjF0BA" name="string9" suppressJoinFailure="false"/>
+        <eventHandlers xmi:id="_njOBdPCyEeeEMZjYmjF0BA"/>
+      </activities>
+    </activity>
+  </bpws:Process>
+  <bpws:Source xmi:id="_njOBd_CyEeeEMZjYmjF0BA" Link="_njNaZ_CyEeeEMZjYmjF0BA" activity="_njOBcvCyEeeEMZjYmjF0BA">
+    <eExtensibilityElements xsi:type="bpws:Condition" xmi:id="_njOBePCyEeeEMZjYmjF0BA" expressionLanguage="string8" opaque="false"/>
+  </bpws:Source>
+  <bpws:Else xmi:id="_njOBefCyEeeEMZjYmjF0BA">
+    <activity xmi:id="_t1VfwPCyEeeEMZjYmjF0BA" name="string3" suppressJoinFailure="false"/>
+  </bpws:Else>
+</xmi:XMI>

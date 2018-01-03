@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<appliedMutations:Mutations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:appliedMutations="http://appliedMutations/1.0">
+  <muts>
+    <def href="../../xmf1.model#//@commands.0"/>
+  </muts>
+  <muts>
+    <def href="../../xmf1.model#//@commands.1"/>
+  </muts>
+  <muts xsi:type="appliedMutations:ObjectRemoved">
+    <def href="../../xmf1.model#//@commands.2"/>
+    <object href="../../../model/xmf10.model#_SX1hF_BrEeelh6tkEUu_EA"/>
+    <type href="../../../model/bpel.ecore#//CatchAll"/>
+  </muts>
+</appliedMutations:Mutations>

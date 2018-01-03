@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL">
+  <bpws:CorrelationSet name="string7"/>
+  <bpws:Link name="string5"/>
+  <wsdl:Import namespaceURI="string1" locationURI="string1"/>
+  <bpws:Process name="string1" targetNamespace="string1" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="false" abstractProcessProfile="string1">
+    <eExtensibilityElements xsi:type="vprop:Property" required="true" name="string6"/>
+    <eExtensibilityElements xsi:type="vprop:Property" required="true" name="string5"/>
+    <eExtensibilityElements/>
+    <documentation lang="string1" source="string1" value="string1"/>
+    <activity xsi:type="bpws:Scope" name="string6" suppressJoinFailure="false" isolated="false" exitOnStandardFault="false">
+      <faultHandlers>
+        <catch>
+          <faultVariable name="string6">
+            <from property="/3/@eExtensibilityElements.1" opaque="false" endpointReference="myRole" literal="string2" unsafeLiteral="false">
+              <query value="string5" queryLanguage="string1"/>
+              <serviceRef referenceScheme="string6"/>
+            </from>
+          </faultVariable>
+          <activity xsi:type="bpws:OpaqueActivity" name="string5" suppressJoinFailure="false"/>
+        </catch>
+      </faultHandlers>
+      <activity xsi:type="bpws:OpaqueActivity" name="string3" suppressJoinFailure="true"/>
+    </activity>
+  </bpws:Process>
+</xmi:XMI>

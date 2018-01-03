@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/xtf/data/model/bpel.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t1">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Throw"/>
+      <type href="../model/bpel.ecore#//Throw"/>
       <expression>
         <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Throw/faultVariable"/>
+          <name href="../model/bpel.ecore#//Throw/faultVariable"/>
         </first>
       </expression>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="fv1">
     <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
-      <refType href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Throw/faultVariable"/>
+      <refType href="../model/bpel.ecore#//Throw/faultVariable"/>
     </container>
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Variable"/>
+      <type href="../model/bpel.ecore#//Variable"/>
     </object>
   </commands>
   <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="fv2">
     <object xsi:type="mutatorenvironment:RandomTypeSelection">
-      <type href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Variable"/>
+      <type href="../model/bpel.ecore#//Variable"/>
       <expression>
-        <first xsi:type="mutatorenvironment:AttributeEvaluation">
-          <name href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Variable/name"/>
-          <value xsi:type="mutatorenvironment:ObjectAttributeType" objSel="//@commands.1" operator="different">
-            <attribute href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Variable/name"/>
-          </value>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+          <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
         </first>
       </expression>
     </object>
   </commands>
-  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
-    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
-  </commands>
   <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
     <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0"/>
-    <references xsi:type="mutatorenvironment:ReferenceInit">
-      <reference href="file:/c:/eclipse/runtime-EclipseApplication/xtf/data/model/bpel.ecore#//Throw/faultVariable"/>
+    <references xsi:type="mutatorenvironment:ReferenceRemove">
+      <reference href="../model/bpel.ecore#//Throw/faultVariable"/>
+      <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
+    </references>
+    <references xsi:type="mutatorenvironment:ReferenceAdd">
+      <reference href="../model/bpel.ecore#//Throw/faultVariable"/>
       <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.2"/>
     </references>
   </commands>

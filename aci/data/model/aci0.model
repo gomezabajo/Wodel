@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL">
+  <bpws:Link xmi:id="_2ThIgO-rEeeOyOA0Jl8R7A" name="string7"/>
+  <bpws:MessageExchange xmi:id="_2ThvkO-rEeeOyOA0Jl8R7A" name="string2"/>
+  <wsdl:PortType xmi:id="_2Thvke-rEeeOyOA0Jl8R7A" undefined="true">
+    <eOperations xmi:id="_2Thvku-rEeeOyOA0Jl8R7A" name="string2"/>
+  </wsdl:PortType>
+  <wsdl:Part xmi:id="_2TiWoO-rEeeOyOA0Jl8R7A" name="string1"/>
+  <bpws:Process xmi:id="_2Ti9sO-rEeeOyOA0Jl8R7A" name="string1" targetNamespace="string1" queryLanguage="string5" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string1">
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_2Ti9s--rEeeOyOA0Jl8R7A" name="string7"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_2Ti9tO-rEeeOyOA0Jl8R7A" name="string9"/>
+    <variables xmi:id="_2Ti9te-rEeeOyOA0Jl8R7A">
+      <children xmi:id="_2Ti9tu-rEeeOyOA0Jl8R7A" name="string1"/>
+    </variables>
+    <activity xsi:type="bpws:Receive" xmi:id="_2TjkwO-rEeeOyOA0Jl8R7A" name="string8" suppressJoinFailure="true" partnerLink="_2Tjkx--rEeeOyOA0Jl8R7A" portType="_2Thvke-rEeeOyOA0Jl8R7A" operation="_2Thvku-rEeeOyOA0Jl8R7A" createInstance="true" variable="_2Ti9tu-rEeeOyOA0Jl8R7A" messageExchange="_2ThvkO-rEeeOyOA0Jl8R7A"/>
+    <faultHandlers xmi:id="_2Tjkwe-rEeeOyOA0Jl8R7A"/>
+    <extensions xmi:id="_2Tjkwu-rEeeOyOA0Jl8R7A"/>
+  </bpws:Process>
+  <bpws:Query xmi:id="_2Tjkw--rEeeOyOA0Jl8R7A" value="string5" queryLanguage="string1"/>
+  <bpws:ServiceRef xmi:id="_2TjkxO-rEeeOyOA0Jl8R7A" referenceScheme="string10"/>
+  <bpws:Else xmi:id="_2Tjkxe-rEeeOyOA0Jl8R7A">
+    <activity xsi:type="bpws:PartnerActivity" xmi:id="_2Tjkxu-rEeeOyOA0Jl8R7A" name="string3" suppressJoinFailure="false" partnerLink="_2Tjkx--rEeeOyOA0Jl8R7A" portType="_2Thvke-rEeeOyOA0Jl8R7A" operation="_2Thvku-rEeeOyOA0Jl8R7A"/>
+  </bpws:Else>
+  <bpws:PartnerLink xmi:id="_2Tjkx--rEeeOyOA0Jl8R7A" name="string2" initializePartnerRole="false"/>
+</xmi:XMI>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../../model/bpel.ecore http://www.eclipse.org/wsdl/2003/WSDL ../../../model/bpel.ecore#//wsdl">
+  <bpws:FromPart/>
+  <bpws:CatchAll>
+    <activity xsi:type="bpws:Rethrow" name="string1" suppressJoinFailure="false">
+      <sources/>
+    </activity>
+  </bpws:CatchAll>
+  <bpws:Process name="string6" targetNamespace="string4" queryLanguage="string1" expressionLanguage="string5" suppressJoinFailure="true" variableAccessSerializable="false" exitOnStandardFault="false" abstractProcessProfile="string2">
+    <activity xsi:type="bpws:Rethrow" name="string1" suppressJoinFailure="true">
+      <sources/>
+    </activity>
+  </bpws:Process>
+  <bpws:Query value="string1" queryLanguage="string5"/>
+  <wsdl:Message/>
+  <wsdl:Output name="string2" eMessage="/4"/>
+  <bpws:Extension namespace="string4" mustUnderstand="false"/>
+  <bpws:ServiceRef referenceScheme="string10"/>
+</xmi:XMI>

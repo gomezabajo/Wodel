@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
-  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/xee/data/model/bpel.ecore" output="data/out/" num="2">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/workspace/xee/data/model/bpel.ecore" output="data/out/" num="2">
     <source path="data/model/"/>
   </definition>
-  <commands xsi:type="mutatorenvironment:CreateObjectMutator">
-    <type href="file:/c:/eclipse/runtime-EclipseApplication/xee/data/model/bpel.ecore#//Process"/>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="ev2">
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="../model/bpel.ecore#//EventHandler"/>
+      <expression>
+        <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+          <name href="../model/bpel.ecore#//EventHandler/events"/>
+        </first>
+      </expression>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="event">
+    <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.0">
+      <refType href="../model/bpel.ecore#//EventHandler/events"/>
+    </container>
+    <object xsi:type="mutatorenvironment:RandomTypeSelection">
+      <type href="../model/bpel.ecore#//OnEvent"/>
+    </object>
+  </commands>
+  <commands xsi:type="mutatorenvironment:RemoveObjectMutator">
+    <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@commands.1"/>
   </commands>
 </mutatorenvironment:MutatorEnvironment>

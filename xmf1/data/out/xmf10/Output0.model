@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.eclipse.org/wsdl/2003/WSDL" xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../model/bpel.ecore http://docs.oasis-open.org/wsbpel/2.0/varprop ../../model/bpel.ecore#//messageproperties http://www.eclipse.org/wsdl/2003/WSDL ../../model/bpel.ecore#//wsdl">
+  <wsdl:Part xmi:id="_SX06APBrEeelh6tkEUu_EA" name="string1"/>
+  <bpws:Process xmi:id="_SX1hEPBrEeelh6tkEUu_EA" name="string1" targetNamespace="string1" queryLanguage="string1" expressionLanguage="string1" suppressJoinFailure="false" variableAccessSerializable="true" abstractProcessProfile="string1">
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_SX1hEfBrEeelh6tkEUu_EA" name="string7"/>
+    <eExtensibilityElements xsi:type="vprop:Property" xmi:id="_SX1hEvBrEeelh6tkEUu_EA" name="string9"/>
+    <activity xsi:type="bpws:OpaqueActivity" xmi:id="_SX1hFfBrEeelh6tkEUu_EA" name="string4" suppressJoinFailure="false"/>
+    <faultHandlers xmi:id="_SX1hFvBrEeelh6tkEUu_EA"/>
+    <extensions xmi:id="_SX1hGfBrEeelh6tkEUu_EA"/>
+  </bpws:Process>
+  <bpws:Query xmi:id="_SX1hGvBrEeelh6tkEUu_EA" value="string1" queryLanguage="string2"/>
+  <bpws:PartnerLink xmi:id="_SX1hG_BrEeelh6tkEUu_EA" name="string1" initializePartnerRole="false"/>
+</xmi:XMI>

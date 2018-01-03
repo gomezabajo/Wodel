@@ -264,7 +264,7 @@ public class AutomataWizard extends Wizard implements INewWizard {
 			def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
 			def += "\tcfs {\n";
-			def += "\t\tcreate State with {isFinal = true}\n";
+			def += "\t\ts = create State with {isFinal = true}\n";
 			def += "\t\tcreate Transition with {tar = s, symbol = one Symbol}\n";
 			def += "\t}\n";
 			def += "\tccs {\n";

@@ -175,91 +175,106 @@ modify one PrefixExpression where {operator in ['++', '--'] and operand <> null}
 
 <p>Replaces a relational operator by a relational greater than operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>=', '<', '<=', '==', '!='] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>=', '<', '<=', '==', '!=']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '>'}
 </code></pre></div></div>
 
 <p>Replaces a relational operator by a relational greater than or equals operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>', '<', '<=', '==', '!='] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>', '<', '<=', '==', '!=']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '>='}
 </code></pre></div></div>
 
 <p>Replaces a relational operator by a relational less than operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>', '>=', '<=', '==', '!='] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>', '>=', '<=', '==', '!=']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '<'}
 </code></pre></div></div>
 
 <p>Replaces a relational operator by a relational less than or equals operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>', '>=', '<', '==', '!='] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>', '>=', '<', '==', '!=']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '<='}
 </code></pre></div></div>
 
 <p>Replaces a relational operator by a relational equals operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>', '>=', '<', '<=', '!='] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>', '>=', '<', '<=', '!=']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '=='}
 </code></pre></div></div>
 
 <p>Replaces a relational operator by a distinct operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>', '>=', '<', '<=', '=='] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>', '>=', '<', '<=', '==']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '!='}
 </code></pre></div></div>
 
 <p>Replaces a conditional operator by a '&&' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['||', '^'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['||', '^']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '&&'}
 </code></pre></div></div>
 
 <p>Replaces a conditional operator by a '||' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['&&', '^'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['&&', '^']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '||'}
 </code></pre></div></div>
 
 <p>Replaces a conditional operator by a conditional '^' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['&&', '||'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['&&', '||']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '^'}
 </code></pre></div></div>
 
 <p>Replaces a logic operator by a logic '&' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['|', '^'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['|', '^']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '&'}
 </code></pre></div></div>
 
 <p>Replaces a logic operator by a logic '|' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['&', '^'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['&', '^']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '|'}
 </code></pre></div></div>
 
 <p>Replaces a logic operator by a logic '^' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['&', '|'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['&', '|']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '^'}
 </code></pre></div></div>
 
 <p>Replaces a shift operator by a shift '>>' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>>>', '<<'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>>>', '<<']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '>>'}
 </code></pre></div></div>
 
 <p>Replaces a shift operator by a shift '>>>' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>>', '<<'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>>', '<<']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '>>>'}
 </code></pre></div></div>
 
 <p>Replaces a shift operator by a shift '>>>' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-modify one InfixExpression where {operator in ['>>', '>>>'] and leftOperand <> null and rightOperand <> null}
+modify one InfixExpression where {operator in ['>>', '>>>']
+    and leftOperand <> null and rightOperand <> null}
   with {operator = '<<'}
 </code></pre></div></div>
 
@@ -362,7 +377,8 @@ remove one MethodInvocation
 
 <p>Replaces a call to a constructor method by null</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-a =  select one Assignment where {rightHandSide is typed ClassInstanceCreation}
+a =  select one Assignment
+  where {rightHandSideis typed ClassInstanceCreation}
 create NullLiteral in a->rightHandSide
 </code></pre></div></div>
 

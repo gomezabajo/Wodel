@@ -44,6 +44,8 @@
 		var headerEl = document.getElementsByTagName('header')[0];
 		var downloadsSectionEl = document.getElementById('downloads');
 		var wodelRootPath = "/Wodel";
+		var wodelTestJavaPath = "/Wodel/Wodel-Test/java.html"
+		var wodelTestATLPath = "/Wodel/Wodel-Test/atl.html"
 		
 		containerEls[0].style.maxWidth = '800px';
 		containerEls[1].style.maxWidth = '800px';
@@ -54,6 +56,10 @@
 		if (location.pathname !== wodelRootPath) {
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
 			downloadsSectionEl.appendChild(generateNavLink('Wodel', wodelRootPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for Java', wodelTestJavaPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for ATL', wodelTestATLPath));
 		}
 		
 		function generateNavLink(linkText, hrefPath) {
@@ -65,8 +71,6 @@
 		}
 	});
 </script>
-
-<p><a href="/Wodel/Wodel-Test/java.html">Java</a> | <a href="/Wodel/Wodel-Test/ATL">ATL</a></p>
 
 <ul>
   <li><span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel/">Wodel-Test</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span></li>

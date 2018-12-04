@@ -55,11 +55,11 @@
 		
 		if (location.pathname !== wodelRootPath) {
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
-			downloadsSectionEl.appendChild(generateNavLink('Wodel', wodelRootPath));
-		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
 			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for Java', wodelTestJavaPath));
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
 			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for ATL', wodelTestATLPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel', wodelRootPath));
 		}
 		
 		function generateNavLink(linkText, hrefPath) {

@@ -72,6 +72,26 @@
 
 <p><a href="/Wodel/Wodel-Test/java.html">Java</a> | <a href="/Wodel/Wodel-Test/ATL">ATL</a></p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "data/model/java.ecore"
+description "Other mutations"
+
+with blocks {
+	cir "Replaces a call to a constructor by null" {
+		a = select one Assignment
+			where {rightHandSide is typed ClassInstanceCreation}
+		create NullLiteral in a->rightHandSide
+	}
+}
+</code></pre></div></div>
+
+<p>This is a short video demo of Wodel-Test applied to Java:</p>
+
+<iframe width="520" height="315" src="https://www.youtube.com/embed/zfJB3ZqyGnM" frameborder="0" allowfullscreen></iframe>
+
 <ul>
   <li><span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel/">Wodel-Test</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span></li>
 </ul>

@@ -75,24 +75,6 @@
 	});
 </script>
 
-<p>This is an example of a Wodel program to replace a constructor call by a null literal:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "data/model/java.ecore"
-description "Other mutations"
-
-with blocks {
-	cir "Replaces a call to a constructor by null" {
-		a = select one Assignment
-			where {rightHandSide is typed ClassInstanceCreation}
-		create NullLiteral in a->rightHandSide
-	}
-}
-</code></pre></div></div>
-
 <p>This is a short video demo of Wodel-Test applied to Java:</p>
 
 <iframe width="520" height="315" src="https://www.youtube.com/embed/zfJB3ZqyGnM" frameborder="0" allowfullscreen></iframe>

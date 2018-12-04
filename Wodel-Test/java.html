@@ -281,77 +281,77 @@ modify one InfixExpression where {operator in ['>>', '>>>']
 <p>Replaces an assignment operator by an assignment '+=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['-=', '*=', '/=', '%=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '+='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '-=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['+=', '*=', '/=', '%=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '-='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '*=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['+=', '-=', '/=', '%=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '*='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '/=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['+=', '-=', '*=', '%=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '/='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '%=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['+=', '-=', '*=', '/=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '%='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '&=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['|=', '^=', '>>=', '>>>=', '<<=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '&='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '|=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['&=', '^=', '>>=', '>>>=', '<<=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '|='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '^=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['&=', '|=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '^='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '>>=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['>>>=', '<<=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '>>='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '>>>=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['>>=', '<<=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '>>>='}
 </code></pre></div></div>
 
 <p>Replaces an assignment operator by an assignment '<<=' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one Assignment where {operator in ['>>=', '>>>=']
-  and leftHandSide <> null and rightHandSide <> null}
+    and leftHandSide <> null and rightHandSide <> null}
   with {operator = '<<='}
 </code></pre></div></div>
 
@@ -382,7 +382,7 @@ a =  select one Assignment
 create NullLiteral in a->rightHandSide
 </code></pre></div></div>
 
-<p>Replace an assignment to a variable by the Java default values</p>
+<p>Removes an assignment</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 remove one Assignment
    where {rightHandSide is typed NumberLiteral}

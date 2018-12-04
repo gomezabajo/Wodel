@@ -94,7 +94,7 @@ with blocks {
 
 <iframe width="520" height="315" src="https://www.youtube.com/embed/zfJB3ZqyGnM" frameborder="0" allowfullscreen></iframe>
 
-<p>Here is a list of the identified Java mutations useful for mutation testing</p>
+<p>Here is a list of the identified Java mutations useful for mutation testing:</p>
 
 <p>Replaces an arithmetic operator by a plus operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
@@ -135,6 +135,241 @@ modify one InfixExpression where {operator in ['+', '-', '*', '/']
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 modify one PostfixExpression where {operator = '++' and operand <> null}
   with {operator = '--'}
+</code></pre></div></div>
+
+<p>Replaces a postfix '--' operator by a postfix '++' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one PostfixExpression where {operator = '--' and operand <> null}
+  with {operator = '++'}
+</code></pre></div></div>
+
+<p>Replaces a prefix '+' operator by a prefix '-' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one PrefixExpression where {operator = '+' and operand <> null}
+  with {operator = '-'} 
+</code></pre></div></div>
+
+<p>Replaces a prefix '-' operator by a prefix '+' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one PrefixExpression where {operator = '-' and operand <> null}
+  with {operator = '+'}
+</code></pre></div></div>
+
+<p>Replaces a prefix '+' or '-' operator by a prefix '--' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one PrefixExpression where {operator in ['+', '-'] and operand <> null}
+  with {operator = '--'}
+</code></pre></div></div>
+
+<p>Replaces a prefix '+' or '-' operator by a prefix '++' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one PrefixExpression where {operator in ['+', '-'] and operand <> null}
+  with {operator = '++'}
+</code></pre></div></div>
+
+<p>Replaces a prefix '++' or '--' operator by a prefix '+' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one PrefixExpression where {operator in ['++', '--'] and operand <> null}
+  with {operator = '+'}
+</code></pre></div></div>
+
+<p>Replaces a relational operator by a relational greater than operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>=', '<', '<=', '==', '!='] and leftOperand <> null and rightOperand <> null}
+  with {operator = '>'}
+</code></pre></div></div>
+
+<p>Replaces a relational operator by a relational greater than or equals operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>', '<', '<=', '==', '!='] and leftOperand <> null and rightOperand <> null}
+  with {operator = '>='}
+</code></pre></div></div>
+
+<p>Replaces a relational operator by a relational less than operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>', '>=', '<=', '==', '!='] and leftOperand <> null and rightOperand <> null}
+  with {operator = '<'}
+</code></pre></div></div>
+
+<p>Replaces a relational operator by a relational less than or equals operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>', '>=', '<', '==', '!='] and leftOperand <> null and rightOperand <> null}
+  with {operator = '<='}
+</code></pre></div></div>
+
+<p>Replaces a relational operator by a relational equals operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>', '>=', '<', '<=', '!='] and leftOperand <> null and rightOperand <> null}
+  with {operator = '=='}
+</code></pre></div></div>
+
+<p>Replaces a relational operator by a distinct operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>', '>=', '<', '<=', '=='] and leftOperand <> null and rightOperand <> null}
+  with {operator = '!='}
+</code></pre></div></div>
+
+<p>Replaces a conditional operator by a '&&' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['||', '^'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '&&'}
+</code></pre></div></div>
+
+<p>Replaces a conditional operator by a '||' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['&&', '^'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '||'}
+</code></pre></div></div>
+
+<p>Replaces a conditional operator by a conditional '^' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['&&', '||'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '^'}
+</code></pre></div></div>
+
+<p>Replaces a logic operator by a logic '&' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['|', '^'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '&'}
+</code></pre></div></div>
+
+<p>Replaces a logic operator by a logic '|' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['&', '^'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '|'}
+</code></pre></div></div>
+
+<p>Replaces a logic operator by a logic '^' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['&', '|'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '^'}
+</code></pre></div></div>
+
+<p>Replaces a shift operator by a shift '>>' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>>>', '<<'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '>>'}
+</code></pre></div></div>
+
+<p>Replaces a shift operator by a shift '>>>' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>>', '<<'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '>>>'}
+</code></pre></div></div>
+
+<p>Replaces a shift operator by a shift '>>>' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one InfixExpression where {operator in ['>>', '>>>'] and leftOperand <> null and rightOperand <> null}
+  with {operator = '<<'}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '+=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['-=', '*=', '/=', '%=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '+='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '-=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['+=', '*=', '/=', '%=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '-='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '*=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['+=', '-=', '/=', '%=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '*='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '/=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['+=', '-=', '*=', '%=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '/='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '%=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['+=', '-=', '*=', '/=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '%='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '&=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['|=', '^=', '>>=', '>>>=', '<<=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '&='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '|=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['&=', '^=', '>>=', '>>>=', '<<=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '|='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '^=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['&=', '|=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '^='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '>>=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['>>>=', '<<=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '>>='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '>>>=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['>>=', '<<=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '>>>='}
+</code></pre></div></div>
+
+<p>Replaces an assignment operator by an assignment '<<=' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+modify one Assignment where {operator in ['>>=', '>>>=']
+  and leftHandSide <> null and rightHandSide <> null}
+  with {operator = '<<='}
+</code></pre></div></div>
+
+<p>Transforms the return value of a function</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+rtstmt = select one ReturnStatement
+  where {expression is typed NumberLiteral}
+nl = select one NumberLiteral in rtstmt->expression
+modify nl with {tokenValue = random-int-string(0, 9)}
+</code></pre></div></div>
+
+<p>Deletes a call to a void method</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+remove one MethodInvocation
+  where {method->returnType->type is typed PrimitiveTypeVoid}
+</code></pre></div></div>
+
+<p>Deletes a call to a non-void method</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+remove one MethodInvocation
+  where {method->returnType->type not typed PrimitiveTypeVoid}
+</code></pre></div></div>
+
+<p>Replaces a call to a constructor method by null</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+a =  select one Assignment where {rightHandSide is typed ClassInstanceCreation}
+create NullLiteral in a->rightHandSide
+</code></pre></div></div>
+
+<p>Replace an assignment to a variable by the Java default values</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+remove one Assignment
+   where {rightHandSide is typed NumberLiteral}
 </code></pre></div></div>
 
 <ul>

@@ -44,6 +44,7 @@
 		var headerEl = document.getElementsByTagName('header')[0];
 		var downloadsSectionEl = document.getElementById('downloads');
 		var wodelRootPath = "/Wodel";
+		var wodelTestRootPath = "/Wodel/Wodel-Test";
 		var wodelTestJavaPath = "/Wodel/Wodel-Test/java.html"
 		var wodelTestATLPath = "/Wodel/Wodel-Test/atl.html"
 		
@@ -54,6 +55,8 @@
 		downloadsSectionEl.style.margin = '0';
 		
 		if (location.pathname !== wodelRootPath) {
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test', wodelTestRootPath));
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
 			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for Java', wodelTestJavaPath));
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));

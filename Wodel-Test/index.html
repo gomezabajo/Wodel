@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="/Wodel/stylesheets/style.css?v=71b53d53afae1d431a5ba999d5b9f774677d70d8">
 
 <!-- Begin Jekyll SEO tag v2.3.0 -->
-<title>Wodel-Test - A Solution for Language Independent Mutation Testing</title>
+<title>Wodel-Test - A Framework for Language Independent Mutation Testing</title>
 <meta property="og:title" content="gomezabajo.github.io/Wodel/Wodel-Test" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Wodel-Test - A Solution for Language Independent Mutation Testing" />
-<meta property="og:description" content="Wodel-Test - A Solution for Language Independent Mutation Testing" />
+<meta name="description" content="Wodel-Test - A Framework for Language Independent Mutation Testing" />
+<meta property="og:description" content="Wodel-Test - A Framework for Language Independent Mutation Testing" />
 <link rel="canonical" href="https://gomezabajo.github.io/Wodel/Wodel-Test" />
 <meta property="og:url" content="https://gomezabajo.github.io/Wodel/Wodel-Test" />
 <meta property="og:site_name" content="gomezabajo.github.io/Wodel/Wodel-Test" />
 <script type="application/ld+json">
-{"name":"gomezabajo.github.io/Wodel/Wodel-Test","description":"Wodel-Test - Language Independent Solution for Mutation Testing","author":"gomezabajo","@type":"WebSite","url":"https://gomezabajo.github.io/Wodel/Wodel-Test","image":null,"publisher":null,"headline":"gomezabajo.github.io/Wodel/Wodel-Test","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+{"name":"gomezabajo.github.io/Wodel/Wodel-Test","description":"Wodel-Test - Language Independent Framework for Mutation Testing","author":"gomezabajo","@type":"WebSite","url":"https://gomezabajo.github.io/Wodel/Wodel-Test","image":null,"publisher":null,"headline":"gomezabajo.github.io/Wodel/Wodel-Test","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -26,7 +26,7 @@
     <header>
       <div class="container">
         <h1>Wodel-Test</h1>
-        <h2>A Solution for Language Independent Mutation Testing</h2>
+        <h2>A Framework for Language Independent Mutation Testing</h2>
 
         <section id="downloads">
           
@@ -74,6 +74,12 @@
 		}
 	});
 </script>
+
+<p><strong>Wodel-Test</strong> is built on top of <strong>Wodel</strong>, a domain-specific language to define and execute model mutations. Wodel is <strong>language independent</strong>, enabling the creation of mutation operators for any language defined by a meta-model.</p>
+
+<p>Once the mutation operators are defined, <strong>Wodel-Test</strong> generates a complete <strong>Mutation Testing (MT) environment</strong> for the language as an Eclipse plugin.</p>
+
+<p>This MT tool parses the program representing it as a model conformant to the language meta-model, applies the mutation operators, and evaluates the test suite on the generated mutants, offering a rich collection of metrics about the MT process.</p>
 
 <p>This is an example of a Wodel program to replace a constructor call by a null literal in a Java program:</p>
 

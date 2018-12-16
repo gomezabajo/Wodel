@@ -75,6 +75,154 @@
 	});
 </script>
 
+<p>Here is a list of the identified ATL mutation operators useful for mutation testing:</p>
+
+<p>Create Matched Rule</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>main = select one Module
+im = select one OclModel where {name = 'IN'}
+imod = select one OclModel in im->^metamodel
+incl = select one EClass from input resources
+mr = create MatchedRule in main->elements with {name = random-string(4, 6)}
+ip = create InPattern in mr->inPattern
+sipe = create SimpleInPatternElement in ip->elements with {varName = random-string(2, 4)}
+ielem = create OclModelElement in imod->elements with {copy(name, incl.name), variableDeclaration = sipe}
+modify imod with {elements += ielem}
+feat = select one OclFeature
+opce = create OperationCallExp in ip->filter with {copy(operationName, feat.name)}
+exp = create VariableExp in opce->^source
+modify sipe with {variableExp += exp}
+om = select one OclModel where {name = 'OUT'}
+omod = select one OclModel in om->^metamodel
+outcl = select one EClass from output resources
+op = create OutPattern in mr->outPattern
+sope = create SimpleOutPatternElement in op->elements with {varName = random-string(2, 4)}
+oelem = create OclModelElement in omod->elements with {copy(name, outcl.name), variableDeclaration = sope}
+modify sope with {type = oelem}
+att = select one EAttribute in outcl->eAllAttributes
+b = create Binding in sope->bindings with {isAssignment = false, copy(propertyName, att.name)}
+create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+</code></pre></div></div>
+
+<p>Remove Matched Rule</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remove one MatchedRule
+</code></pre></div></div>
+
+<p>Name change Matched Rule</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one MatchedRule with {name = random-string(4, 6)}
+</code></pre></div></div>
+
+<p>Create In Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cl = select one EClass from input resources
+p = select one InPattern
+sipe = select one SimpleInPatternElement in p->elements
+type = select one OclModelElement in sipe->type
+mod = select one OclModel in type->model
+ipe = create SimpleInPatternElement in p->elements
+  with {varName = random-string(2, 4)}
+elem = create OclModelElement in ipe->type with {copy(name, cl.name), variableDeclaration = ipe}
+modify mod with {elements += elem}
+</code></pre></div></div>
+
+<p>Remove In Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remove one InPatternElement
+</code></pre></div></div>
+
+<p>Class change In Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one InPattern
+sipe = select one SimpleInPatternElement in p->elements
+type = select one OclModelElement in sipe->type
+cl = select one EClass from input resources where {name <> type.name}
+modify type with {copy(name, cl.name)}
+</code></pre></div></div>
+
+<p>Name change In Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one InPatternElement with {varName = random-string(4, 6)}
+</code></pre></div></div>
+
+<p>Create Filter</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one InPattern where {elements <> null and filter <> null and filter is typed OperatorCallExp}
+opce = select one OperatorCallExp in p->filter
+feat = select one OclFeature
+sipe = select one SimpleInPatternElement in p->elements
+conj = create OperatorCallExp with {operationName = "and"}
+call = create OperationCallExp in conj->^source with {copy(operationName, feat.name)}
+exp = create VariableExp in call->^source
+modify sipe with {variableExp += exp}
+modify conj with {arguments += opce}
+modify p with {filter += conj}
+</code></pre></div></div>
+
+<p>Remove Filter</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one InPattern where {filter <> null}
+remove one OclExpression from p->filter
+</code></pre></div></div>
+
+<p>Condition change Filter</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select all InPattern where {elements <> null and filter <> null}
+opce = select one OperationCallExp in p->filter where {operationName <> ['not', 'and', 'or']}
+feat = select one OclFeature where {name <> opce.operationName}
+modify opce with {copy(operationName, feat.name)}
+</code></pre></div></div>
+
+<p>Create Out Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cl = select one EClass from output resources
+p = select one OutPattern
+sope = select one SimpleOutPatternElement in p->elements
+type = select one OclModelElement in sope->type
+mod = select one OclModel in type->model
+ope = create SimpleOutPatternElement in p->elements
+  with {varName = random-string(2, 4)}
+elem = create OclModelElement in ope->type
+  with {copy(name, cl.name), variableDeclaration = ope}
+modify mod with {elements += elem}
+</code></pre></div></div>
+
+<p>Remove Out Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remove one OutPatternElement
+</code></pre></div></div>
+
+<p>Class change Out Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one OutPattern
+sope = select one SimpleOutPatternElement in p->elements
+type = select one OclModelElement in sope->type
+cl = select one EClass from output resources where {name <> type.name}
+modify type with {copy(name, cl.name)}
+</code></pre></div></div>
+
+<p>Name change Out Pattern</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one OutPatternElement with {varName = random-string(4, 6)}
+</code></pre></div></div>
+
+<p>Create Binding</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one OutPattern where {elements <> null}
+sope = select one SimpleOutPatternElement in p->elements
+type = select one OclModelElement in sope->type
+cl = select one EClass from output resources where {name = type.name}
+att = select one EAttribute in cl->eAllAttributes
+b = create Binding in sope->bindings with {isAssignment = false, copy(propertyName, att.name)}
+create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+</code></pre></div></div>
+
+<p>Remove Binding</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remove one Binding
+</code></pre></div></div>
+
+<p>Value change Binding</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>elem = select one OutPatternElement where {bindings <> null}
+b = select one Binding in elem->bindings where {value is typed OperatorCallExp}
+op = create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+</code></pre></div></div>
+
+<p>Feature change Binding</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one OutPattern
+sope = select one SimpleOutPatternElement in p->elements
+type = select one OclModelElement in sope->type
+cl = select one EClass from output resources where {name = type.name}
+b = select one Binding in sope->bindings
+att = select one EAttribute in cl->eAllAttributes where {name <> b.propertyName}
+modify b with {copy(propertyName, att.name)}
+</code></pre></div></div>
+
 <ul>
   <li><span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel/">Wodel-Test</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span></li>
 </ul>

@@ -151,7 +151,8 @@ modify type with {copy(name, cl.name)}
 </code></pre></div></div>
 
 <p>Create Filter</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one InPattern where {elements <> null and filter <> null and filter is typed OperatorCallExp}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one InPattern
+  where {elements <> null and filter <> null and filter is typed OperatorCallExp}
 opce = select one OperatorCallExp in p->filter
 feat = select one OclFeature
 sipe = select one SimpleInPatternElement in p->elements

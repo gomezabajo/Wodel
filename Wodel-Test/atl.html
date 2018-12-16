@@ -82,24 +82,34 @@
 im = select one OclModel where {name = 'IN'}
 imod = select one OclModel in im->^metamodel
 incl = select one EClass from input resources
-mr = create MatchedRule in main->elements with {name = random-string(4, 6)}
+mr = create MatchedRule in main->elements
+  with {name = random-string(4, 6)}
 ip = create InPattern in mr->inPattern
-sipe = create SimpleInPatternElement in ip->elements with {varName = random-string(2, 4)}
-ielem = create OclModelElement in imod->elements with {copy(name, incl.name), variableDeclaration = sipe}
+sipe = create SimpleInPatternElement
+  in ip->elements
+  with {varName = random-string(2, 4)}
+ielem = create OclModelElement
+  in imod->elements
+  with {copy(name, incl.name), variableDeclaration = sipe}
 modify imod with {elements += ielem}
 feat = select one OclFeature
-opce = create OperationCallExp in ip->filter with {copy(operationName, feat.name)}
+opce = create OperationCallExp
+  in ip->filter with {copy(operationName, feat.name)}
 exp = create VariableExp in opce->^source
 modify sipe with {variableExp += exp}
 om = select one OclModel where {name = 'OUT'}
 omod = select one OclModel in om->^metamodel
 outcl = select one EClass from output resources
 op = create OutPattern in mr->outPattern
-sope = create SimpleOutPatternElement in op->elements with {varName = random-string(2, 4)}
-oelem = create OclModelElement in omod->elements with {copy(name, outcl.name), variableDeclaration = sope}
+sope = create SimpleOutPatternElement
+  in op->elements with {varName = random-string(2, 4)}
+oelem = create OclModelElement
+  in omod->elements
+  with {copy(name, outcl.name), variableDeclaration = sope}
 modify sope with {type = oelem}
 att = select one EAttribute in outcl->eAllAttributes
-b = create Binding in sope->bindings with {isAssignment = false, copy(propertyName, att.name)}
+b = create Binding in sope->bindings
+  with {isAssignment = false, copy(propertyName, att.name)}
 create StringExp in b->value with {stringSymbol = random-string(4, 6)}
 </code></pre></div></div>
 
@@ -119,7 +129,8 @@ type = select one OclModelElement in sipe->type
 mod = select one OclModel in type->model
 ipe = create SimpleInPatternElement in p->elements
   with {varName = random-string(2, 4)}
-elem = create OclModelElement in ipe->type with {copy(name, cl.name), variableDeclaration = ipe}
+elem = create OclModelElement in ipe->type
+  with {copy(name, cl.name), variableDeclaration = ipe}
 modify mod with {elements += elem}
 </code></pre></div></div>
 
@@ -145,7 +156,8 @@ opce = select one OperatorCallExp in p->filter
 feat = select one OclFeature
 sipe = select one SimpleInPatternElement in p->elements
 conj = create OperatorCallExp with {operationName = "and"}
-call = create OperationCallExp in conj->^source with {copy(operationName, feat.name)}
+call = create OperationCallExp in conj->^source
+  with {copy(operationName, feat.name)}
 exp = create VariableExp in call->^source
 modify sipe with {variableExp += exp}
 modify conj with {arguments += opce}
@@ -158,8 +170,10 @@ remove one OclExpression from p->filter
 </code></pre></div></div>
 
 <p>Condition change Filter</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select all InPattern where {elements <> null and filter <> null}
-opce = select one OperationCallExp in p->filter where {operationName <> ['not', 'and', 'or']}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select all InPattern
+  where {elements <> null and filter <> null}
+opce = select one OperationCallExp in p->filter
+  where {operationName <> ['not', 'and', 'or']}
 feat = select one OclFeature where {name <> opce.operationName}
 modify opce with {copy(operationName, feat.name)}
 </code></pre></div></div>
@@ -185,7 +199,8 @@ modify mod with {elements += elem}
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one OutPattern
 sope = select one SimpleOutPatternElement in p->elements
 type = select one OclModelElement in sope->type
-cl = select one EClass from output resources where {name <> type.name}
+cl = select one EClass from output resources
+  where {name <> type.name}
 modify type with {copy(name, cl.name)}
 </code></pre></div></div>
 
@@ -197,9 +212,11 @@ modify type with {copy(name, cl.name)}
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one OutPattern where {elements <> null}
 sope = select one SimpleOutPatternElement in p->elements
 type = select one OclModelElement in sope->type
-cl = select one EClass from output resources where {name = type.name}
+cl = select one EClass from output resources
+  where {name = type.name}
 att = select one EAttribute in cl->eAllAttributes
-b = create Binding in sope->bindings with {isAssignment = false, copy(propertyName, att.name)}
+b = create Binding in sope->bindings
+  with {isAssignment = false, copy(propertyName, att.name)}
 create StringExp in b->value with {stringSymbol = random-string(4, 6)}
 </code></pre></div></div>
 
@@ -208,18 +225,25 @@ create StringExp in b->value with {stringSymbol = random-string(4, 6)}
 </code></pre></div></div>
 
 <p>Value change Binding</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>elem = select one OutPatternElement where {bindings <> null}
-b = select one Binding in elem->bindings where {value is typed OperatorCallExp}
-op = create StringExp in b->value with {stringSymbol = random-string(4, 6)}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>elem = select one OutPatternElement
+  where {bindings <> null}
+b = select one Binding in elem->bindings
+  where {value is typed OperatorCallExp}
+op = create StringExp in b->value
+  with {stringSymbol = random-string(4, 6)}
 </code></pre></div></div>
 
 <p>Feature change Binding</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p = select one OutPattern
-sope = select one SimpleOutPatternElement in p->elements
-type = select one OclModelElement in sope->type
-cl = select one EClass from output resources where {name = type.name}
+sope = select one SimpleOutPatternElement
+  in p->elements
+type = select one OclModelElement
+  in sope->type
+cl = select one EClass from output resources
+  where {name = type.name}
 b = select one Binding in sope->bindings
-att = select one EAttribute in cl->eAllAttributes where {name <> b.propertyName}
+att = select one EAttribute in cl->eAllAttributes
+  where {name <> b.propertyName}
 modify b with {copy(propertyName, att.name)}
 </code></pre></div></div>
 

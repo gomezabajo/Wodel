@@ -226,9 +226,7 @@ create StringExp in b->value with {stringSymbol = random-string(4, 6)}
 </code></pre></div></div>
 
 <p>Value change Binding</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>elem = select one OutPatternElement
-  where {bindings <> null}
-b = select one Binding in elem->bindings
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b = select one Binding
   where {value is typed OperatorCallExp}
 op = create StringExp in b->value
   with {stringSymbol = random-string(4, 6)}

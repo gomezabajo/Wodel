@@ -361,28 +361,32 @@ create NullLiteral in a->rightHandSide
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {rightOperand is typed NumberLiteral}
    n = select one NumberLiteral in exp->rightOperand
    inc = deep clone n with {tokenValue = '1'}
-   create InfixExpression in exp->rightOperand with {leftOperand = n, operator = '+', rightOperand = inc}
+   create InfixExpression in exp->rightOperand
+     with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Increment of a number literal in the left operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {leftOperand is typed NumberLiteral}
    n = select one NumberLiteral in exp->leftOperand
    inc = deep clone n1 with {tokenValue = '1'}
-   create InfixExpression in exp0->leftOperand with {leftOperand = n, operator = '+', rightOperand = inc}
+   create InfixExpression in exp0->leftOperand
+     with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Increment of a number literal in a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one ReturnStatement where {expression is typed NumberLiteral}
   n = select one NumberLiteral in exp->expression
   inc = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->expression with {leftOperand = n, operator = '+', rightOperand = inc}
+  create InfixExpression in exp->expression
+    with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Increment of a number literal in the right hand side of an assignment</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one Assignment where {rightHandSide is typed NumberLiteral}
   n = select one NumberLiteral in exp->rightHandSide
   inc = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->rightHandSide with {leftOperand = n, operator = '+', rightOperand = inc}
+  create InfixExpression in exp->rightHandSide
+    with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Changes a boolean value to true</p>
@@ -510,28 +514,32 @@ create NullLiteral in a->rightHandSide
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {leftOperand is typed NumberLiteral}
   n = select one NumberLiteral in exp->leftOperand
   dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->leftOperand with {leftOperand = n, operator = '-', rightOperand = dec}
+  create InfixExpression in exp->leftOperand
+    with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <p>Subtract 1 to a number literal in the right operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {rightOperand is typed NumberLiteral}
   n = select one NumberLiteral in exp->rightOperand
   dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->rightOperand with {leftOperand = n, operator = '-', rightOperand = dec}
+  create InfixExpression in exp->rightOperand
+    with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <p>Subtract 1 to a number literal a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one ReturnStatement where {expression is typed NumberLiteral}
   n = select one NumberLiteral in exp->expression
   dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->expression with {leftOperand = n, operator = '-', rightOperand = dec}
+  create InfixExpression in exp->expression
+    with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <p>Subtract 1 to the right hand side of an assignment</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one Assignment where {rightHandSide is typed NumberLiteral}
   n = select one NumberLiteral in exp->rightHandSide
   dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->rightHandSide with {leftOperand = n, operator = '-', rightOperand = dec}
+  create InfixExpression in exp->rightHandSide
+    with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <ul>

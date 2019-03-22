@@ -331,62 +331,62 @@ create NullLiteral in a->rightHandSide
 
 <p>Argument propagation in a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stmt = select one ReturnStatement where {expression is typed MethodInvocation}
-   method = select one MethodInvocation in stmt->expression
-   param = select one SingleVariableAccess in method->arguments
-   modify stmt with {expression = param}
+method = select one MethodInvocation in stmt->expression
+param = select one SingleVariableAccess in method->arguments
+modify stmt with {expression = param}
 </code></pre></div></div>
 
 <p>Argument propagation in the right operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {rightOperand is typed MethodInvocation}
-   method = select one MethodInvocation in exp->rightOperand
-   param = select one SingleVariableAccess in method->arguments
-   modify exp with {rightOperand = param}
+method = select one MethodInvocation in exp->rightOperand
+param = select one SingleVariableAccess in method->arguments
+modify exp with {rightOperand = param}
 </code></pre></div></div>
 
 <p>Argument propagation in the left operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {leftOperand is typed MethodInvocation}
-   method = select one MethodInvocation in exp->leftOperand
-   param = select one SingleVariableAccess in method->arguments
-   modify exp with {leftOperand = param}
+method = select one MethodInvocation in exp->leftOperand
+param = select one SingleVariableAccess in method->arguments
+modify exp with {leftOperand = param}
 </code></pre></div></div>
 
 <p>Argument propagation in an assignment</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = select one Assignment where {rightHandSide is typed MethodInvocation}
-   method = select one MethodInvocation in a->rightHandSide
-   param = select one SingleVariableAccess in method->arguments
-   modify a with {rightHandSide = param}
+method = select one MethodInvocation in a->rightHandSide
+param = select one SingleVariableAccess in method->arguments
+modify a with {rightHandSide = param}
 </code></pre></div></div>
 
 <p>Increment of a number literal in the right operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {rightOperand is typed NumberLiteral}
-   n = select one NumberLiteral in exp->rightOperand
-   inc = deep clone n with {tokenValue = '1'}
-   create InfixExpression in exp->rightOperand
-     with {leftOperand = n, operator = '+', rightOperand = inc}
+n = select one NumberLiteral in exp->rightOperand
+inc = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->rightOperand
+  with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Increment of a number literal in the left operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {leftOperand is typed NumberLiteral}
-   n = select one NumberLiteral in exp->leftOperand
-   inc = deep clone n1 with {tokenValue = '1'}
-   create InfixExpression in exp0->leftOperand
-     with {leftOperand = n, operator = '+', rightOperand = inc}
+n = select one NumberLiteral in exp->leftOperand
+inc = deep clone n1 with {tokenValue = '1'}
+create InfixExpression in exp0->leftOperand
+  with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Increment of a number literal in a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one ReturnStatement where {expression is typed NumberLiteral}
-  n = select one NumberLiteral in exp->expression
-  inc = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->expression
-    with {leftOperand = n, operator = '+', rightOperand = inc}
+n = select one NumberLiteral in exp->expression
+inc = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->expression
+  with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Increment of a number literal in the right hand side of an assignment</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one Assignment where {rightHandSide is typed NumberLiteral}
-  n = select one NumberLiteral in exp->rightHandSide
-  inc = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->rightHandSide
-    with {leftOperand = n, operator = '+', rightOperand = inc}
+n = select one NumberLiteral in exp->rightHandSide
+inc = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->rightHandSide
+  with {leftOperand = n, operator = '+', rightOperand = inc}
 </code></pre></div></div>
 
 <p>Changes a boolean value to true</p>
@@ -403,7 +403,7 @@ create NullLiteral in a->rightHandSide
 
 <p>Replaces a return statement by a null literal</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rt = select one ReturnStatement
-  create NullLiteral in rt->expression
+create NullLiteral in rt->expression
 </code></pre></div></div>
 
 <p>Replaces a number literal value by 0</p>
@@ -412,30 +412,30 @@ create NullLiteral in a->rightHandSide
 
 <p>Replaces a number literal value in the left operand of an infix expression with -1</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {leftOperand is typed NumberLiteral}
-  modify exp with {leftOperand.tokenValue = '1'}
-  p = create PrefixExpression with {operator = '-', operand = exp->leftOperand}
-  modify exp with {leftOperand = p}
+modify exp with {leftOperand.tokenValue = '1'}
+p = create PrefixExpression with {operator = '-', operand = exp->leftOperand}
+modify exp with {leftOperand = p}
 </code></pre></div></div>
 
 <p>Replaces a number literal value in the right operand of an infix expression with -1</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {rightOperand is typed NumberLiteral}
-  modify exp with {rightOperand.tokenValue = '1'}
-  p = create PrefixExpression with {operator = '-', operand = exp->rightOperand}
-  modify exp with {rightOperand = p}
+modify exp with {rightOperand.tokenValue = '1'}
+p = create PrefixExpression with {operator = '-', operand = exp->rightOperand}
+modify exp with {rightOperand = p}
 </code></pre></div></div>
 
 <p>Replaces a number literal value in a return statement with -1</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rt = select one ReturnStatement where {expression is typed NumberLiteral}
-  modify rt with {expression.tokenValue = '1'}
-  p = create PrefixExpression with {operator = '-', operand = rt->expression}
-  modify rt with {expression = p}
+modify rt with {expression.tokenValue = '1'}
+p = create PrefixExpression with {operator = '-', operand = rt->expression}
+modify rt with {expression = p}
 </code></pre></div></div>
 
 <p>Replaces a number literal value in the right hand side of an assignment with -1</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = select one Assignment where {rightHandSide is typed NumberLiteral}
-  modify a with {rightHandSide.tokenValue = '1'}
-  p = create PrefixExpression with {operator = '-', operand = a->rightHandSide}
-  modify a with {rightHandSide = p}
+modify a with {rightHandSide.tokenValue = '1'}
+p = create PrefixExpression with {operator = '-', operand = a->rightHandSide}
+modify a with {rightHandSide = p}
 </code></pre></div></div>
 
 <p>Replaces a string literal return value with ''</p>
@@ -444,30 +444,30 @@ create NullLiteral in a->rightHandSide
 
 <p>Removes a unary conditional operator in an if statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if = select one IfStatement where {expression is typed PrefixExpression}
-  pre = select one PrefixExpression in if->expression where {operator = '!'}
-  exp = select one Expression in pre->operand
-  modify if with {expression = exp}
+pre = select one PrefixExpression in if->expression where {operator = '!'}
+exp = select one Expression in pre->operand
+modify if with {expression = exp}
 </code></pre></div></div>
 
 <p>Removes a unary conditional operator in a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rt = select one ReturnStatement where {expression is typed PrefixExpression}
-  pre = select one PrefixExpression in rt->expression where {operator = '!'}
-  exp = select one Expression in pre->operand
-  modify rt with {expression = exp}
+pre = select one PrefixExpression in rt->expression where {operator = '!'}
+exp = select one Expression in pre->operand
+modify rt with {expression = exp}
 </code></pre></div></div>
 
 <p>Removes a unary conditional operator in the right operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>inf = select one InfixExpression where {rightOperand is typed PrefixExpression}
-  pre = select one PrefixExpression in inf->rightOperand where {operator = '!'}
-  exp = select one Expression in pre->operand
-  modify inf with {rightOperand = exp}
+pre = select one PrefixExpression in inf->rightOperand where {operator = '!'}
+exp = select one Expression in pre->operand
+modify inf with {rightOperand = exp}
 </code></pre></div></div>
 
 <p>Removes a unary conditional operator in the left operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>inf = select one InfixExpression where {leftOperand is typed PrefixExpression}
-  pre = select one PrefixExpression in inf->leftOperand where {operator = '!'}
-  exp = select one Expression in pre->operand
-  modify inf with {leftOperand = exp}
+pre = select one PrefixExpression in inf->leftOperand where {operator = '!'}
+exp = select one Expression in pre->operand
+modify inf with {leftOperand = exp}
 </code></pre></div></div>
 
 <p>Removes one statement</p>
@@ -476,70 +476,70 @@ create NullLiteral in a->rightHandSide
 
 <p>Conditional negation in an if statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if = select one IfStatement
-  exp = select one InfixExpression in if->expression
-  neg = create PrefixExpression in if->expression with {operator = '!'}
-  par = create ParenthesizedExpression in neg->operand with {expression = exp}
+exp = select one InfixExpression in if->expression
+neg = create PrefixExpression in if->expression with {operator = '!'}
+par = create ParenthesizedExpression in neg->operand with {expression = exp}
 </code></pre></div></div>
 
 <p>Conditional negation in a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rt = select one ReturnStatement
-  exp = select one InfixExpression in rt->expression
-  neg = create PrefixExpression in rt->expression with {operator = '!'}
-  par = create ParenthesizedExpression in neg->operand with {expression = exp}
+exp = select one InfixExpression in rt->expression
+neg = create PrefixExpression in rt->expression with {operator = '!'}
+par = create ParenthesizedExpression in neg->operand with {expression = exp}
 </code></pre></div></div>
 
 <p>Conditional negation in the left operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp0 = select one InfixExpression
-  exp1 = select one InfixExpression in exp0->leftOperand
-  neg = create PrefixExpression in exp0->leftOperand with {operator = '!'}
-  par = create ParenthesizedExpression in neg->operand with {expression = exp1}
+exp1 = select one InfixExpression in exp0->leftOperand
+neg = create PrefixExpression in exp0->leftOperand with {operator = '!'}
+par = create ParenthesizedExpression in neg->operand with {expression = exp1}
 </code></pre></div></div>
 
 <p>Conditional negation in the right operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp0 = select one InfixExpression
-  exp1 = select one InfixExpression in exp0->rightOperand
-  neg = create PrefixExpression in exp0->rightOperand with {operator = '!'}
-  par = create ParenthesizedExpression in neg->operand with {expression = exp1}
+exp1 = select one InfixExpression in exp0->rightOperand
+neg = create PrefixExpression in exp0->rightOperand with {operator = '!'}
+par = create ParenthesizedExpression in neg->operand with {expression = exp1}
 </code></pre></div></div>
 
 <p>Remove a conditional statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>main = select one Block where {statements is typed IfStatement}
-  if = select one IfStatement in main->statements
-  b = select one Block in if->thenStatement
-  modify main with {statements += b2}
-  remove if
+if = select one IfStatement in main->statements
+b = select one Block in if->thenStatement
+modify main with {statements += b2}
+remove if
 </code></pre></div></div>
 
 <p>Subtract 1 to a number literal in the left operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {leftOperand is typed NumberLiteral}
-  n = select one NumberLiteral in exp->leftOperand
-  dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->leftOperand
-    with {leftOperand = n, operator = '-', rightOperand = dec}
+n = select one NumberLiteral in exp->leftOperand
+dec = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->leftOperand
+  with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <p>Subtract 1 to a number literal in the right operand of an infix expression</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one InfixExpression where {rightOperand is typed NumberLiteral}
-  n = select one NumberLiteral in exp->rightOperand
-  dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->rightOperand
-    with {leftOperand = n, operator = '-', rightOperand = dec}
+n = select one NumberLiteral in exp->rightOperand
+dec = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->rightOperand
+  with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <p>Subtract 1 to a number literal a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one ReturnStatement where {expression is typed NumberLiteral}
-  n = select one NumberLiteral in exp->expression
-  dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->expression
-    with {leftOperand = n, operator = '-', rightOperand = dec}
+n = select one NumberLiteral in exp->expression
+dec = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->expression
+  with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <p>Subtract 1 to the right hand side of an assignment</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one Assignment where {rightHandSide is typed NumberLiteral}
-  n = select one NumberLiteral in exp->rightHandSide
-  dec = deep clone n with {tokenValue = '1'}
-  create InfixExpression in exp->rightHandSide
-    with {leftOperand = n, operator = '-', rightOperand = dec}
+n = select one NumberLiteral in exp->rightHandSide
+dec = deep clone n with {tokenValue = '1'}
+create InfixExpression in exp->rightHandSide
+  with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
 <ul>

@@ -121,6 +121,16 @@
   with {operator = '++'}
 </code></pre></div></div>
 
+<p>Replaces a prefix '++' operator by a prefix '--' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one PrefixExpression where {operator = '++' and operand <> null}
+  with {operator = '--'}
+</code></pre></div></div>
+
+<p>Replaces a prefix '--' operator by a prefix '++' operator</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one PrefixExpression where {operator = '--' and operand <> null}
+  with {operator = '++'}
+</code></pre></div></div>
+
 <p>Replaces a prefix '+' operator by a prefix '-' operator</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modify one PrefixExpression where {operator = '+' and operand <> null}
   with {operator = '-'} 

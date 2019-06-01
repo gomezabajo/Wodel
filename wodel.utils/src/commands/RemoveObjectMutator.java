@@ -114,7 +114,7 @@ public class RemoveObjectMutator extends Mutator {
 		this.obj = obj;
 		this.identification = "";
 	}
-
+	
 	@Override
 	public Object mutate() throws ReferenceNonExistingException {
 		// All the references of each object
@@ -154,7 +154,7 @@ public class RemoveObjectMutator extends Mutator {
 		
 		if ((container == null) && (reference == null)) {
 			EcoreUtil.remove(deletedObj);
-
+			
 			// For each object of the model
 			for (EObject o : ModelManager.getAllObjects(this.getModel())) {
 				// We check their references looking for the deleted object

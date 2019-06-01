@@ -2,6 +2,7 @@
  */
 package mutatorenvironment;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EReference;
 
 /**
@@ -15,9 +16,13 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getName <em>Name</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefName <em>Ref Name</em>}</li>
+ *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefRefName <em>Ref Ref Name</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getOperator <em>Operator</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getValue <em>Value</em>}</li>
  *   <li>{@link mutatorenvironment.ReferenceEvaluation#getRefType <em>Ref Type</em>}</li>
+ *   <li>{@link mutatorenvironment.ReferenceEvaluation#getAttName <em>Att Name</em>}</li>
+ *   <li>{@link mutatorenvironment.ReferenceEvaluation#getAttValue <em>Att Value</em>}</li>
+ *   <li>{@link mutatorenvironment.ReferenceEvaluation#isContainer <em>Container</em>}</li>
  * </ul>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation()
@@ -76,6 +81,32 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * @generated
 	 */
 	void setRefName(EReference value);
+
+	/**
+	 * Returns the value of the '<em><b>Ref Ref Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ref Ref Name</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ref Ref Name</em>' reference.
+	 * @see #setRefRefName(EReference)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_RefRefName()
+	 * @model
+	 * @generated
+	 */
+	EReference getRefRefName();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ReferenceEvaluation#getRefRefName <em>Ref Ref Name</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ref Ref Name</em>' reference.
+	 * @see #getRefRefName()
+	 * @generated
+	 */
+	void setRefRefName(EReference value);
 
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
@@ -157,5 +188,84 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * @generated
 	 */
 	void setRefType(EReference value);
+
+	/**
+	 * Returns the value of the '<em><b>Att Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Att Name</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Att Name</em>' reference.
+	 * @see #setAttName(EAttribute)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_AttName()
+	 * @model
+	 * @generated
+	 */
+	EAttribute getAttName();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ReferenceEvaluation#getAttName <em>Att Name</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Att Name</em>' reference.
+	 * @see #getAttName()
+	 * @generated
+	 */
+	void setAttName(EAttribute value);
+
+	/**
+	 * Returns the value of the '<em><b>Att Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Att Value</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Att Value</em>' containment reference.
+	 * @see #setAttValue(AttributeEvaluationType)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_AttValue()
+	 * @model containment="true"
+	 * @generated
+	 */
+	AttributeEvaluationType getAttValue();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ReferenceEvaluation#getAttValue <em>Att Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Att Value</em>' containment reference.
+	 * @see #getAttValue()
+	 * @generated
+	 */
+	void setAttValue(AttributeEvaluationType value);
+
+	/**
+	 * Returns the value of the '<em><b>Container</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Container</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Container</em>' attribute.
+	 * @see #setContainer(boolean)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_Container()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isContainer();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.ReferenceEvaluation#isContainer <em>Container</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Container</em>' attribute.
+	 * @see #isContainer()
+	 * @generated
+	 */
+	void setContainer(boolean value);
 
 } // ReferenceEvaluation

@@ -63,7 +63,7 @@ public class Generator implements IGenerator {
 			IProgressMonitor monitor) {
 		Path filePath = new Path(fileName);
 		String fileExtension = filePath.getFileExtension();
-		String graphFileName = fileName.replace(fileExtension, "graph");
+		String graphFileName = fileName.replace(fileExtension, "draw");
 		// create a sample file
 		monitor.beginTask("Creating " + graphFileName, 2);
 		String testsFileName = fileName.replace(fileExtension, "test");
@@ -314,7 +314,7 @@ public class Generator implements IGenerator {
 	public void doRun(IFile file) {
 		Class<?> cls = null;
 		String fileName = file.getName();
-		String classname = fileName.replaceAll(".mutator", "") + "_Graph";
+		String classname = fileName.replaceAll(".mutator", "") + "_Draw";
 		
 		try {
 			cls = Class.forName(classname);

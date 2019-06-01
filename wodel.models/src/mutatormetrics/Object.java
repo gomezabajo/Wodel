@@ -11,13 +11,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatormetrics.Object#getName <em>Name</em>}</li>
  *   <li>{@link mutatormetrics.Object#getCreated <em>Created</em>}</li>
  *   <li>{@link mutatormetrics.Object#getModified <em>Modified</em>}</li>
  *   <li>{@link mutatormetrics.Object#getRemoved <em>Removed</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatormetrics.MutatormetricsPackage#getObject()
  * @model abstract="true"

@@ -1,4 +1,4 @@
-	package commands;
+package commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,12 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 	/**
 	 * Loaded model
 	 */
-	private Resource model;	
+	private Resource model;
+	
+	/**
+	 * Loaded model
+	 */
+	private List<Resource> models;	
 	/**
 	 * Loades metamodel
 	 */
@@ -56,6 +61,17 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 		this.type = type;
 	}
 	
+	/**
+	 * @param model
+	 * @param mtaModel
+	 * Normal constructor
+	 */
+	public Mutator(List<Resource> models, List<EPackage> metaModel, String type){
+		this.metaModel = metaModel;
+		this.models = models;
+		this.type = type;
+	}
+
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNoTargetableException, ObjectNotContainedException {
 		return null;
 	}
@@ -77,10 +93,26 @@ public abstract class Mutator implements Cloneable, ObjectEmitter{
 		return null;
 	}
 	public Resource getModel() {
+		if (this.model == null) {
+			if (this.models != null) {
+				return this.models.get(0);
+			}
+		}
 		return model;
 	}
 	public void setModel(Resource model) {
 		this.model = model;
+	}
+	public List<Resource> getModels() {
+		if (this.models == null) {
+			List<Resource> ret = new ArrayList<Resource>();
+			ret.add(this.model);
+			return ret;
+		}
+		return models;
+	}
+	public void setModels(List<Resource> models) {
+		this.models = models;
 	}
 	public List<EPackage> getMetaModel() {
 		return metaModel;

@@ -339,7 +339,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link MiniOCLPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -353,12 +353,14 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 		if (isInited) return (MiniOCLPackage)EPackage.Registry.INSTANCE.getEPackage(MiniOCLPackage.eNS_URI);
 
 		// Obtain or create and register package
-		MiniOCLPackageImpl theMiniOCLPackage = (MiniOCLPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MiniOCLPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MiniOCLPackageImpl());
+		Object registeredMiniOCLPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		MiniOCLPackageImpl theMiniOCLPackage = registeredMiniOCLPackage instanceof MiniOCLPackageImpl ? (MiniOCLPackageImpl)registeredMiniOCLPackage : new MiniOCLPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		MutatorenvironmentPackageImpl theMutatorenvironmentPackage = (MutatorenvironmentPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI) instanceof MutatorenvironmentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI) : MutatorenvironmentPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
+		MutatorenvironmentPackageImpl theMutatorenvironmentPackage = (MutatorenvironmentPackageImpl)(registeredPackage instanceof MutatorenvironmentPackageImpl ? registeredPackage : MutatorenvironmentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theMiniOCLPackage.createPackageContents();
@@ -371,7 +373,6 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 		// Mark meta-data to indicate it can't be changed
 		theMiniOCLPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MiniOCLPackage.eNS_URI, theMiniOCLPackage);
 		return theMiniOCLPackage;
@@ -1508,12 +1509,12 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * @generated
 	 */
 	protected void createEmofAnnotations() {
-		String source = "http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName";	
+		String source = "http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName";
 		addAnnotation
-		  (getBooleanExpCS_BoolSymbol(), 
-		   source, 
+		  (getBooleanExpCS_BoolSymbol(),
+		   source,
 		   new String[] {
-			 "body", "ExistsExpCS"
+			   "body", "ExistsExpCS"
 		   });
 	}
 

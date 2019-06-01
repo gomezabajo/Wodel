@@ -14,6 +14,12 @@
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/equals"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/different"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/in"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/is"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/not"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/gt"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/gte"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/lt"/>
+      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Operator/lte"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//Repeat">
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Repeat/yes"/>
@@ -45,6 +51,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Program/output"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Program/num"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Program/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Program/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Program/exhaustive"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Program/resources"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//ObjectEmitter">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObjectEmitter/type"/>
@@ -69,6 +78,9 @@
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//ObSelectionStrategy">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObSelectionStrategy/refType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObSelectionStrategy/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ObSelectionStrategy/resource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObSelectionStrategy/refRefType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObSelectionStrategy/refRefRefType"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//RandomSelection"/>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomTypeSelection"/>
@@ -211,9 +223,13 @@
     <genClasses ecoreClass="MutatorEnvironment.ecore#//ReferenceEvaluation">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/refName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/refRefName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ReferenceEvaluation/operator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/value"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/refType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/attName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ReferenceEvaluation/attValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ReferenceEvaluation/container"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//Expression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Expression/first"/>
@@ -233,6 +249,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/min"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/max"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/fixed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/description"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//Constraint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/id"/>
@@ -295,6 +312,16 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/refType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/attributes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//RetypeObjectMutator/references"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//TypedSelection"/>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//RandomStringNumberType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//RandomStringNumberType/min"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//RandomStringNumberType/max"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//RandomStringNumberType/allowsNull"/>
+    </genClasses>
+    <genClasses ecoreClass="MutatorEnvironment.ecore#//Resource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Resource/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Resource/path"/>
     </genClasses>
     <nestedGenPackages prefix="MiniOCL" disposableProviderFactory="true" ecorePackage="MutatorEnvironment.ecore#//miniOCL">
       <genClasses ecoreClass="MutatorEnvironment.ecore#//miniOCL/RootCS">

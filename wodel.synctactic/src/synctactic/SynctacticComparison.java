@@ -3,7 +3,7 @@ package synctactic;
 import java.util.List;
 
 import manager.ModelManager;
-
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EPackage;
@@ -39,12 +39,14 @@ public class SynctacticComparison extends Comparison {
 	}
 
 	@Override
-	public boolean doCompare(String metamodel, String model1, String model2) {
+	public boolean doCompare(String metamodel, String model1, String model2, IProject project) {
 		boolean isRepeated = false;
 		try {
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			Resource resource1 = ModelManager.loadModel(packages, model1);
+			System.out.println("resource1.getURI(): " + resource1.getURI().toFileString());
 			Resource resource2 = ModelManager.loadModel(packages, model2);
+			System.out.println("resource2.getURI(): " + resource2.getURI().toFileString());
 			isRepeated = ModelManager.compareModels(resource1, resource2);
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block

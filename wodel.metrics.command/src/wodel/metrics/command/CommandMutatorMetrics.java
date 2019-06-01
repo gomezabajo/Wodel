@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -1805,7 +1806,7 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			boolean filterAbstract = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Filter concrete classes", false, null);
 
 			List<WodelMetricCommand> metricCommands = new ArrayList<WodelMetricCommand>();
-			LinkedHashMap<String, List<EObject>> blocks = MutatorUtils.getBlockCommands(program);
+			Map<String, List<EObject>> blocks = MutatorUtils.getBlockCommands(program);
 			if (blocks.size() > 0) {
 				for (String blockName : blocks.keySet()) {
 					WodelMetricCommand metricBlock = new WodelMetricCommand();

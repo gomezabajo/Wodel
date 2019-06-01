@@ -1,5 +1,6 @@
 package commands.selection.strategies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +33,12 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 	private Resource model;
 	
 	/**
+	 * Loaded models
+	 */
+	
+	private List<Resource> models;
+	
+	/**
 	 * @param metaModel
 	 * @param model
 	 * Normal constructor
@@ -41,6 +48,16 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 		this.model = model;
 	}
 	
+	/**
+	 * @param metaModel
+	 * @param model
+	 * Normal constructor
+	 */
+	public ObSelectionStrategy(List<EPackage> metaModel, List<Resource> models){
+		this.metaModel = metaModel;
+		this.models = models;
+	}
+
 	public abstract EObject getObject() throws ReferenceNonExistingException;
 
 	public List<EObject> getObjects() throws ReferenceNonExistingException { return null; };
@@ -52,9 +69,27 @@ public abstract class ObSelectionStrategy implements ObjectEmitter{
 		this.metaModel = metaModel;
 	}
 	public Resource getModel() {
+		if (this.model == null) {
+			if (this.models != null) {
+				return this.models.get(0);
+			}
+		}
 		return model;
 	}
+	
 	public void setModel(Resource model) {
 		this.model = model;
+	}
+
+	public List<Resource> getModels() {
+		if (this.models == null) {
+			List<Resource> ret = new ArrayList<Resource>();
+			ret.add(this.model);
+			return ret;
+		}
+		return models;
+	}
+	public void setModels(List<Resource> models) {
+		this.models = models;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -41,7 +42,7 @@ public abstract class MutatorMetricsGenerator {
 	protected String metamodel = null;
 	protected String modelsFolder = null;
 	protected String fileName = null;
-	protected HashMap<String, List<String>> hashmapMutVersions = null;
+	protected Map<String, List<String>> hashmapMutVersions = null;
 
 	protected class MutationData {
 		public String name = null;

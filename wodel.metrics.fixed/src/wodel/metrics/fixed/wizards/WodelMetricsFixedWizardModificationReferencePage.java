@@ -73,15 +73,15 @@ public class WodelMetricsFixedWizardModificationReferencePage extends WizardPage
 		this.className = className;
 		this.referenceName = referenceName;
 
-		ArrayList<EObject> blockObjects = MutatorUtils.getBlocks(model);
-		ArrayList<String> blockNames = new ArrayList<String>();
+		List<EObject> blockObjects = MutatorUtils.getBlocks(model);
+		List<String> blockNames = new ArrayList<String>();
 		for (EObject eObject : blockObjects) {
 			blockNames.add(ModelManager.getStringAttribute("name", eObject));
 		}
 		blockItems = new String[blockNames.size()];
 		blockNames.toArray(blockItems);
-		ArrayList<EClass> mutatorClasses = MutatorUtils.getModificationReferenceClassMutators(mutatorPackages);
-		ArrayList<String> mutatorNames = new ArrayList<String>();
+		List<EClass> mutatorClasses = MutatorUtils.getModificationReferenceClassMutators(mutatorPackages);
+		List<String> mutatorNames = new ArrayList<String>();
 		for (EClass eClass : mutatorClasses) {
 			mutatorNames.add(eClass.getName());
 		}
@@ -168,9 +168,9 @@ public class WodelMetricsFixedWizardModificationReferencePage extends WizardPage
 			if (e.getSource() instanceof Combo) {
 				Combo combo = (Combo) e.getSource();
 				mutatorClass = mainItems[combo.getSelectionIndex()];
-				ArrayList<EClass> strategyClasses = MutatorUtils.getMutatorStrategies(mutatorPackages, mutatorClass);
+				List<EClass> strategyClasses = MutatorUtils.getMutatorStrategies(mutatorPackages, mutatorClass);
 				if (strategyClasses != null) {
-					ArrayList<String> strategyNames = new ArrayList<String>();
+					List<String> strategyNames = new ArrayList<String>();
 					if (strategyClasses.size() == 0) {
 						valid = true;
 					}
@@ -189,7 +189,7 @@ public class WodelMetricsFixedWizardModificationReferencePage extends WizardPage
 						mutatorClass.equals("ModifyTargetReferenceMutator")) {
 					EClass eClass = ModelManager.getEClassByName(packages, className);
 					if (eClass != null) {
-						ArrayList<String> features = new ArrayList<String>();
+						List<String> features = new ArrayList<String>();
 						for (EReference ref : eClass.getEAllReferences()) {
 							if (ref.getName().equals(referenceName)) {
 								features.add(ref.getName());

@@ -1,4 +1,4 @@
-package wodeledu.dsls.parser.antlr.internal; 
+package wodeledu.dsls.parser.antlr.internal;
 
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.parser.*;
@@ -75,23 +75,23 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         
 
     public String[] getTokenNames() { return InternalMutaTextParser.tokenNames; }
-    public String getGrammarFileName() { return "../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g"; }
+    public String getGrammarFileName() { return "InternalMutaText.g"; }
 
 
 
      	private MutaTextGrammarAccess grammarAccess;
-     	
+
         public InternalMutaTextParser(TokenStream input, MutaTextGrammarAccess grammarAccess) {
             this(input);
             this.grammarAccess = grammarAccess;
             registerRules(grammarAccess.getGrammar());
         }
-        
+
         @Override
         protected String getFirstRuleName() {
-        	return "Configuration";	
+        	return "Configuration";
        	}
-       	
+
        	@Override
        	protected MutaTextGrammarAccess getGrammarAccess() {
        		return grammarAccess;
@@ -99,8 +99,9 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
 
+
     // $ANTLR start "entryRuleConfiguration"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:68:1: entryRuleConfiguration returns [EObject current=null] : iv_ruleConfiguration= ruleConfiguration EOF ;
+    // InternalMutaText.g:65:1: entryRuleConfiguration returns [EObject current=null] : iv_ruleConfiguration= ruleConfiguration EOF ;
     public final EObject entryRuleConfiguration() throws RecognitionException {
         EObject current = null;
 
@@ -108,26 +109,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:69:2: (iv_ruleConfiguration= ruleConfiguration EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:70:2: iv_ruleConfiguration= ruleConfiguration EOF
+            // InternalMutaText.g:65:54: (iv_ruleConfiguration= ruleConfiguration EOF )
+            // InternalMutaText.g:66:2: iv_ruleConfiguration= ruleConfiguration EOF
             {
              newCompositeNode(grammarAccess.getConfigurationRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleConfiguration_in_entryRuleConfiguration75);
+            pushFollow(FOLLOW_1);
             iv_ruleConfiguration=ruleConfiguration();
 
             state._fsp--;
 
              current =iv_ruleConfiguration; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleConfiguration85); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -136,7 +137,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleConfiguration"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:77:1: ruleConfiguration returns [EObject current=null] : ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? ) ;
+    // InternalMutaText.g:72:1: ruleConfiguration returns [EObject current=null] : ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? ) ;
     public final EObject ruleConfiguration() throws RecognitionException {
         EObject current = null;
 
@@ -148,62 +149,63 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         EObject lv_options_4_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:80:28: ( ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:81:1: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? )
+            // InternalMutaText.g:78:2: ( ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? ) )
+            // InternalMutaText.g:79:2: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:81:1: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:81:2: () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )?
+            // InternalMutaText.g:79:2: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )? )
+            // InternalMutaText.g:80:3: () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )?
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:81:2: ()
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:82:5: 
+            // InternalMutaText.g:80:3: ()
+            // InternalMutaText.g:81:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getConfigurationAccess().getConfigurationAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getConfigurationAccess().getConfigurationAction_0(),
+            					current);
+            			
 
             }
 
-            otherlv_1=(Token)match(input,11,FollowSets000.FOLLOW_11_in_ruleConfiguration131); 
+            otherlv_1=(Token)match(input,11,FOLLOW_3); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getConfigurationAccess().getMetamodelKeyword_1());
-                
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:91:1: ( (lv_metamodel_2_0= ruleEString ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:92:1: (lv_metamodel_2_0= ruleEString )
+            			newLeafNode(otherlv_1, grammarAccess.getConfigurationAccess().getMetamodelKeyword_1());
+            		
+            // InternalMutaText.g:91:3: ( (lv_metamodel_2_0= ruleEString ) )
+            // InternalMutaText.g:92:4: (lv_metamodel_2_0= ruleEString )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:92:1: (lv_metamodel_2_0= ruleEString )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:93:3: lv_metamodel_2_0= ruleEString
+            // InternalMutaText.g:92:4: (lv_metamodel_2_0= ruleEString )
+            // InternalMutaText.g:93:5: lv_metamodel_2_0= ruleEString
             {
-             
-            	        newCompositeNode(grammarAccess.getConfigurationAccess().getMetamodelEStringParserRuleCall_2_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleConfiguration152);
+
+            					newCompositeNode(grammarAccess.getConfigurationAccess().getMetamodelEStringParserRuleCall_2_0());
+            				
+            pushFollow(FOLLOW_4);
             lv_metamodel_2_0=ruleEString();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getConfigurationRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"metamodel",
-                    		lv_metamodel_2_0, 
-                    		"EString");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getConfigurationRule());
+            					}
+            					set(
+            						current,
+            						"metamodel",
+            						lv_metamodel_2_0,
+            						"wodeledu.dsls.MutaText.EString");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:109:2: ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )?
+            // InternalMutaText.g:110:3: ( ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )* )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -212,40 +214,40 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt2) {
                 case 1 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:109:3: ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )*
+                    // InternalMutaText.g:111:4: ( (lv_options_3_0= ruleOption ) ) ( (lv_options_4_0= ruleOption ) )*
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:109:3: ( (lv_options_3_0= ruleOption ) )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:110:1: (lv_options_3_0= ruleOption )
+                    // InternalMutaText.g:111:4: ( (lv_options_3_0= ruleOption ) )
+                    // InternalMutaText.g:112:5: (lv_options_3_0= ruleOption )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:110:1: (lv_options_3_0= ruleOption )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:111:3: lv_options_3_0= ruleOption
+                    // InternalMutaText.g:112:5: (lv_options_3_0= ruleOption )
+                    // InternalMutaText.g:113:6: lv_options_3_0= ruleOption
                     {
-                     
-                    	        newCompositeNode(grammarAccess.getConfigurationAccess().getOptionsOptionParserRuleCall_3_0_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleOption_in_ruleConfiguration174);
+
+                    						newCompositeNode(grammarAccess.getConfigurationAccess().getOptionsOptionParserRuleCall_3_0_0());
+                    					
+                    pushFollow(FOLLOW_4);
                     lv_options_3_0=ruleOption();
 
                     state._fsp--;
 
 
-                    	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getConfigurationRule());
-                    	        }
-                           		add(
-                           			current, 
-                           			"options",
-                            		lv_options_3_0, 
-                            		"Option");
-                    	        afterParserOrEnumRuleCall();
-                    	    
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getConfigurationRule());
+                    						}
+                    						add(
+                    							current,
+                    							"options",
+                    							lv_options_3_0,
+                    							"wodeledu.dsls.MutaText.Option");
+                    						afterParserOrEnumRuleCall();
+                    					
 
                     }
 
 
                     }
 
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:127:2: ( (lv_options_4_0= ruleOption ) )*
+                    // InternalMutaText.g:130:4: ( (lv_options_4_0= ruleOption ) )*
                     loop1:
                     do {
                         int alt1=2;
@@ -258,30 +260,30 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
                         switch (alt1) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:128:1: (lv_options_4_0= ruleOption )
+                    	    // InternalMutaText.g:131:5: (lv_options_4_0= ruleOption )
                     	    {
-                    	    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:128:1: (lv_options_4_0= ruleOption )
-                    	    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:129:3: lv_options_4_0= ruleOption
+                    	    // InternalMutaText.g:131:5: (lv_options_4_0= ruleOption )
+                    	    // InternalMutaText.g:132:6: lv_options_4_0= ruleOption
                     	    {
-                    	     
-                    	    	        newCompositeNode(grammarAccess.getConfigurationAccess().getOptionsOptionParserRuleCall_3_1_0()); 
-                    	    	    
-                    	    pushFollow(FollowSets000.FOLLOW_ruleOption_in_ruleConfiguration195);
+
+                    	    						newCompositeNode(grammarAccess.getConfigurationAccess().getOptionsOptionParserRuleCall_3_1_0());
+                    	    					
+                    	    pushFollow(FOLLOW_4);
                     	    lv_options_4_0=ruleOption();
 
                     	    state._fsp--;
 
 
-                    	    	        if (current==null) {
-                    	    	            current = createModelElementForParent(grammarAccess.getConfigurationRule());
-                    	    	        }
-                    	           		add(
-                    	           			current, 
-                    	           			"options",
-                    	            		lv_options_4_0, 
-                    	            		"Option");
-                    	    	        afterParserOrEnumRuleCall();
-                    	    	    
+                    	    						if (current==null) {
+                    	    							current = createModelElementForParent(grammarAccess.getConfigurationRule());
+                    	    						}
+                    	    						add(
+                    	    							current,
+                    	    							"options",
+                    	    							lv_options_4_0,
+                    	    							"wodeledu.dsls.MutaText.Option");
+                    	    						afterParserOrEnumRuleCall();
+                    	    					
 
                     	    }
 
@@ -306,13 +308,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -321,7 +325,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOption"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:153:1: entryRuleOption returns [EObject current=null] : iv_ruleOption= ruleOption EOF ;
+    // InternalMutaText.g:154:1: entryRuleOption returns [EObject current=null] : iv_ruleOption= ruleOption EOF ;
     public final EObject entryRuleOption() throws RecognitionException {
         EObject current = null;
 
@@ -329,26 +333,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:154:2: (iv_ruleOption= ruleOption EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:155:2: iv_ruleOption= ruleOption EOF
+            // InternalMutaText.g:154:47: (iv_ruleOption= ruleOption EOF )
+            // InternalMutaText.g:155:2: iv_ruleOption= ruleOption EOF
             {
              newCompositeNode(grammarAccess.getOptionRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleOption_in_entryRuleOption234);
+            pushFollow(FOLLOW_1);
             iv_ruleOption=ruleOption();
 
             state._fsp--;
 
              current =iv_ruleOption; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOption244); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -357,7 +361,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOption"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:162:1: ruleOption returns [EObject current=null] : ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) ) ;
+    // InternalMutaText.g:161:1: ruleOption returns [EObject current=null] : ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) ) ;
     public final EObject ruleOption() throws RecognitionException {
         EObject current = null;
 
@@ -371,59 +375,60 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         EObject lv_invalid_9_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:165:28: ( ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:166:1: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) )
+            // InternalMutaText.g:167:2: ( ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) ) )
+            // InternalMutaText.g:168:2: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:166:1: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:166:2: () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) )
+            // InternalMutaText.g:168:2: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) ) )
+            // InternalMutaText.g:169:3: () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )? otherlv_6= ':' ( (lv_valid_7_0= ruleText ) ) otherlv_8= '/' ( (lv_invalid_9_0= ruleText ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:166:2: ()
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:167:5: 
+            // InternalMutaText.g:169:3: ()
+            // InternalMutaText.g:170:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getOptionAccess().getOptionAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getOptionAccess().getOptionAction_0(),
+            					current);
+            			
 
             }
 
-            otherlv_1=(Token)match(input,12,FollowSets000.FOLLOW_12_in_ruleOption290); 
+            otherlv_1=(Token)match(input,12,FOLLOW_3); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getOptionAccess().getGreaterThanSignKeyword_1());
-                
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:176:1: ( ( ruleEString ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:177:1: ( ruleEString )
+            			newLeafNode(otherlv_1, grammarAccess.getOptionAccess().getGreaterThanSignKeyword_1());
+            		
+            // InternalMutaText.g:180:3: ( ( ruleEString ) )
+            // InternalMutaText.g:181:4: ( ruleEString )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:177:1: ( ruleEString )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:178:3: ruleEString
+            // InternalMutaText.g:181:4: ( ruleEString )
+            // InternalMutaText.g:182:5: ruleEString
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getOptionRule());
-            	        }
-                    
-             
-            	        newCompositeNode(grammarAccess.getOptionAccess().getTypeEClassCrossReference_2_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleOption313);
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getOptionRule());
+            					}
+            				
+
+            					newCompositeNode(grammarAccess.getOptionAccess().getTypeEClassCrossReference_2_0());
+            				
+            pushFollow(FOLLOW_5);
             ruleEString();
 
             state._fsp--;
 
-             
-            	        afterParserOrEnumRuleCall();
-            	    
+
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:191:2: (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )?
+            // InternalMutaText.g:196:3: (otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -432,114 +437,114 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt3) {
                 case 1 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:191:4: otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')'
+                    // InternalMutaText.g:197:4: otherlv_3= '(' ( ( ruleEString ) ) otherlv_5= ')'
                     {
-                    otherlv_3=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleOption326); 
+                    otherlv_3=(Token)match(input,13,FOLLOW_3); 
 
-                        	newLeafNode(otherlv_3, grammarAccess.getOptionAccess().getLeftParenthesisKeyword_3_0());
-                        
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:195:1: ( ( ruleEString ) )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:196:1: ( ruleEString )
+                    				newLeafNode(otherlv_3, grammarAccess.getOptionAccess().getLeftParenthesisKeyword_3_0());
+                    			
+                    // InternalMutaText.g:201:4: ( ( ruleEString ) )
+                    // InternalMutaText.g:202:5: ( ruleEString )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:196:1: ( ruleEString )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:197:3: ruleEString
+                    // InternalMutaText.g:202:5: ( ruleEString )
+                    // InternalMutaText.g:203:6: ruleEString
                     {
 
-                    			if (current==null) {
-                    	            current = createModelElement(grammarAccess.getOptionRule());
-                    	        }
-                            
-                     
-                    	        newCompositeNode(grammarAccess.getOptionAccess().getObjectEObjectCrossReference_3_1_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleOption349);
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getOptionRule());
+                    						}
+                    					
+
+                    						newCompositeNode(grammarAccess.getOptionAccess().getObjectEObjectCrossReference_3_1_0());
+                    					
+                    pushFollow(FOLLOW_6);
                     ruleEString();
 
                     state._fsp--;
 
-                     
-                    	        afterParserOrEnumRuleCall();
-                    	    
+
+                    						afterParserOrEnumRuleCall();
+                    					
 
                     }
 
 
                     }
 
-                    otherlv_5=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleOption361); 
+                    otherlv_5=(Token)match(input,14,FOLLOW_7); 
 
-                        	newLeafNode(otherlv_5, grammarAccess.getOptionAccess().getRightParenthesisKeyword_3_2());
-                        
+                    				newLeafNode(otherlv_5, grammarAccess.getOptionAccess().getRightParenthesisKeyword_3_2());
+                    			
 
                     }
                     break;
 
             }
 
-            otherlv_6=(Token)match(input,15,FollowSets000.FOLLOW_15_in_ruleOption375); 
+            otherlv_6=(Token)match(input,15,FOLLOW_8); 
 
-                	newLeafNode(otherlv_6, grammarAccess.getOptionAccess().getColonKeyword_4());
-                
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:218:1: ( (lv_valid_7_0= ruleText ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:219:1: (lv_valid_7_0= ruleText )
+            			newLeafNode(otherlv_6, grammarAccess.getOptionAccess().getColonKeyword_4());
+            		
+            // InternalMutaText.g:226:3: ( (lv_valid_7_0= ruleText ) )
+            // InternalMutaText.g:227:4: (lv_valid_7_0= ruleText )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:219:1: (lv_valid_7_0= ruleText )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:220:3: lv_valid_7_0= ruleText
+            // InternalMutaText.g:227:4: (lv_valid_7_0= ruleText )
+            // InternalMutaText.g:228:5: lv_valid_7_0= ruleText
             {
-             
-            	        newCompositeNode(grammarAccess.getOptionAccess().getValidTextParserRuleCall_5_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleText_in_ruleOption396);
+
+            					newCompositeNode(grammarAccess.getOptionAccess().getValidTextParserRuleCall_5_0());
+            				
+            pushFollow(FOLLOW_9);
             lv_valid_7_0=ruleText();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getOptionRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"valid",
-                    		lv_valid_7_0, 
-                    		"Text");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getOptionRule());
+            					}
+            					set(
+            						current,
+            						"valid",
+            						lv_valid_7_0,
+            						"wodeledu.dsls.MutaText.Text");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            otherlv_8=(Token)match(input,16,FollowSets000.FOLLOW_16_in_ruleOption408); 
+            otherlv_8=(Token)match(input,16,FOLLOW_10); 
 
-                	newLeafNode(otherlv_8, grammarAccess.getOptionAccess().getSolidusKeyword_6());
-                
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:240:1: ( (lv_invalid_9_0= ruleText ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:241:1: (lv_invalid_9_0= ruleText )
+            			newLeafNode(otherlv_8, grammarAccess.getOptionAccess().getSolidusKeyword_6());
+            		
+            // InternalMutaText.g:249:3: ( (lv_invalid_9_0= ruleText ) )
+            // InternalMutaText.g:250:4: (lv_invalid_9_0= ruleText )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:241:1: (lv_invalid_9_0= ruleText )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:242:3: lv_invalid_9_0= ruleText
+            // InternalMutaText.g:250:4: (lv_invalid_9_0= ruleText )
+            // InternalMutaText.g:251:5: lv_invalid_9_0= ruleText
             {
-             
-            	        newCompositeNode(grammarAccess.getOptionAccess().getInvalidTextParserRuleCall_7_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleText_in_ruleOption429);
+
+            					newCompositeNode(grammarAccess.getOptionAccess().getInvalidTextParserRuleCall_7_0());
+            				
+            pushFollow(FOLLOW_2);
             lv_invalid_9_0=ruleText();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getOptionRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"invalid",
-                    		lv_invalid_9_0, 
-                    		"Text");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getOptionRule());
+            					}
+            					set(
+            						current,
+            						"invalid",
+            						lv_invalid_9_0,
+            						"wodeledu.dsls.MutaText.Text");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
@@ -552,13 +557,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -567,7 +574,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleText"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:266:1: entryRuleText returns [EObject current=null] : iv_ruleText= ruleText EOF ;
+    // InternalMutaText.g:272:1: entryRuleText returns [EObject current=null] : iv_ruleText= ruleText EOF ;
     public final EObject entryRuleText() throws RecognitionException {
         EObject current = null;
 
@@ -575,26 +582,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:267:2: (iv_ruleText= ruleText EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:268:2: iv_ruleText= ruleText EOF
+            // InternalMutaText.g:272:45: (iv_ruleText= ruleText EOF )
+            // InternalMutaText.g:273:2: iv_ruleText= ruleText EOF
             {
              newCompositeNode(grammarAccess.getTextRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleText_in_entryRuleText465);
+            pushFollow(FOLLOW_1);
             iv_ruleText=ruleText();
 
             state._fsp--;
 
              current =iv_ruleText; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleText475); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -603,7 +610,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleText"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:275:1: ruleText returns [EObject current=null] : ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? ) ;
+    // InternalMutaText.g:279:1: ruleText returns [EObject current=null] : ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? ) ;
     public final EObject ruleText() throws RecognitionException {
         EObject current = null;
 
@@ -612,27 +619,28 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         EObject lv_words_2_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:278:28: ( ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:279:1: ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? )
+            // InternalMutaText.g:285:2: ( ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? ) )
+            // InternalMutaText.g:286:2: ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:279:1: ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:279:2: () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )?
+            // InternalMutaText.g:286:2: ( () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )? )
+            // InternalMutaText.g:287:3: () ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )?
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:279:2: ()
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:280:5: 
+            // InternalMutaText.g:287:3: ()
+            // InternalMutaText.g:288:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getTextAccess().getTextAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getTextAccess().getTextAction_0(),
+            					current);
+            			
 
             }
 
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:285:2: ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )?
+            // InternalMutaText.g:294:3: ( ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )* )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -641,40 +649,40 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt5) {
                 case 1 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:285:3: ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )*
+                    // InternalMutaText.g:295:4: ( (lv_words_1_0= ruleWord ) ) ( (lv_words_2_0= ruleWord ) )*
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:285:3: ( (lv_words_1_0= ruleWord ) )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:286:1: (lv_words_1_0= ruleWord )
+                    // InternalMutaText.g:295:4: ( (lv_words_1_0= ruleWord ) )
+                    // InternalMutaText.g:296:5: (lv_words_1_0= ruleWord )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:286:1: (lv_words_1_0= ruleWord )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:287:3: lv_words_1_0= ruleWord
+                    // InternalMutaText.g:296:5: (lv_words_1_0= ruleWord )
+                    // InternalMutaText.g:297:6: lv_words_1_0= ruleWord
                     {
-                     
-                    	        newCompositeNode(grammarAccess.getTextAccess().getWordsWordParserRuleCall_1_0_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleWord_in_ruleText531);
+
+                    						newCompositeNode(grammarAccess.getTextAccess().getWordsWordParserRuleCall_1_0_0());
+                    					
+                    pushFollow(FOLLOW_11);
                     lv_words_1_0=ruleWord();
 
                     state._fsp--;
 
 
-                    	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getTextRule());
-                    	        }
-                           		add(
-                           			current, 
-                           			"words",
-                            		lv_words_1_0, 
-                            		"Word");
-                    	        afterParserOrEnumRuleCall();
-                    	    
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getTextRule());
+                    						}
+                    						add(
+                    							current,
+                    							"words",
+                    							lv_words_1_0,
+                    							"wodeledu.dsls.MutaText.Word");
+                    						afterParserOrEnumRuleCall();
+                    					
 
                     }
 
 
                     }
 
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:303:2: ( (lv_words_2_0= ruleWord ) )*
+                    // InternalMutaText.g:314:4: ( (lv_words_2_0= ruleWord ) )*
                     loop4:
                     do {
                         int alt4=2;
@@ -687,30 +695,30 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:304:1: (lv_words_2_0= ruleWord )
+                    	    // InternalMutaText.g:315:5: (lv_words_2_0= ruleWord )
                     	    {
-                    	    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:304:1: (lv_words_2_0= ruleWord )
-                    	    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:305:3: lv_words_2_0= ruleWord
+                    	    // InternalMutaText.g:315:5: (lv_words_2_0= ruleWord )
+                    	    // InternalMutaText.g:316:6: lv_words_2_0= ruleWord
                     	    {
-                    	     
-                    	    	        newCompositeNode(grammarAccess.getTextAccess().getWordsWordParserRuleCall_1_1_0()); 
-                    	    	    
-                    	    pushFollow(FollowSets000.FOLLOW_ruleWord_in_ruleText552);
+
+                    	    						newCompositeNode(grammarAccess.getTextAccess().getWordsWordParserRuleCall_1_1_0());
+                    	    					
+                    	    pushFollow(FOLLOW_11);
                     	    lv_words_2_0=ruleWord();
 
                     	    state._fsp--;
 
 
-                    	    	        if (current==null) {
-                    	    	            current = createModelElementForParent(grammarAccess.getTextRule());
-                    	    	        }
-                    	           		add(
-                    	           			current, 
-                    	           			"words",
-                    	            		lv_words_2_0, 
-                    	            		"Word");
-                    	    	        afterParserOrEnumRuleCall();
-                    	    	    
+                    	    						if (current==null) {
+                    	    							current = createModelElementForParent(grammarAccess.getTextRule());
+                    	    						}
+                    	    						add(
+                    	    							current,
+                    	    							"words",
+                    	    							lv_words_2_0,
+                    	    							"wodeledu.dsls.MutaText.Word");
+                    	    						afterParserOrEnumRuleCall();
+                    	    					
 
                     	    }
 
@@ -735,13 +743,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -750,7 +760,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleWord"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:329:1: entryRuleWord returns [EObject current=null] : iv_ruleWord= ruleWord EOF ;
+    // InternalMutaText.g:338:1: entryRuleWord returns [EObject current=null] : iv_ruleWord= ruleWord EOF ;
     public final EObject entryRuleWord() throws RecognitionException {
         EObject current = null;
 
@@ -758,26 +768,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:330:2: (iv_ruleWord= ruleWord EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:331:2: iv_ruleWord= ruleWord EOF
+            // InternalMutaText.g:338:45: (iv_ruleWord= ruleWord EOF )
+            // InternalMutaText.g:339:2: iv_ruleWord= ruleWord EOF
             {
              newCompositeNode(grammarAccess.getWordRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleWord_in_entryRuleWord591);
+            pushFollow(FOLLOW_1);
             iv_ruleWord=ruleWord();
 
             state._fsp--;
 
              current =iv_ruleWord; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleWord601); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -786,7 +796,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleWord"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:338:1: ruleWord returns [EObject current=null] : (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) ;
+    // InternalMutaText.g:345:1: ruleWord returns [EObject current=null] : (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) ;
     public final EObject ruleWord() throws RecognitionException {
         EObject current = null;
 
@@ -795,13 +805,14 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         EObject this_Variable_1 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:341:28: ( (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:342:1: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
+            // InternalMutaText.g:351:2: ( (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) )
+            // InternalMutaText.g:352:2: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:342:1: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
+            // InternalMutaText.g:352:2: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -819,38 +830,38 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt6) {
                 case 1 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:343:5: this_Constant_0= ruleConstant
+                    // InternalMutaText.g:353:3: this_Constant_0= ruleConstant
                     {
-                     
-                            newCompositeNode(grammarAccess.getWordAccess().getConstantParserRuleCall_0()); 
-                        
-                    pushFollow(FollowSets000.FOLLOW_ruleConstant_in_ruleWord648);
+
+                    			newCompositeNode(grammarAccess.getWordAccess().getConstantParserRuleCall_0());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_Constant_0=ruleConstant();
 
                     state._fsp--;
 
-                     
-                            current = this_Constant_0; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_Constant_0;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:353:5: this_Variable_1= ruleVariable
+                    // InternalMutaText.g:362:3: this_Variable_1= ruleVariable
                     {
-                     
-                            newCompositeNode(grammarAccess.getWordAccess().getVariableParserRuleCall_1()); 
-                        
-                    pushFollow(FollowSets000.FOLLOW_ruleVariable_in_ruleWord675);
+
+                    			newCompositeNode(grammarAccess.getWordAccess().getVariableParserRuleCall_1());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_Variable_1=ruleVariable();
 
                     state._fsp--;
 
-                     
-                            current = this_Variable_1; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_Variable_1;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
@@ -860,13 +871,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -875,7 +888,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleConstant"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:369:1: entryRuleConstant returns [EObject current=null] : iv_ruleConstant= ruleConstant EOF ;
+    // InternalMutaText.g:374:1: entryRuleConstant returns [EObject current=null] : iv_ruleConstant= ruleConstant EOF ;
     public final EObject entryRuleConstant() throws RecognitionException {
         EObject current = null;
 
@@ -883,26 +896,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:370:2: (iv_ruleConstant= ruleConstant EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:371:2: iv_ruleConstant= ruleConstant EOF
+            // InternalMutaText.g:374:49: (iv_ruleConstant= ruleConstant EOF )
+            // InternalMutaText.g:375:2: iv_ruleConstant= ruleConstant EOF
             {
              newCompositeNode(grammarAccess.getConstantRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleConstant_in_entryRuleConstant710);
+            pushFollow(FOLLOW_1);
             iv_ruleConstant=ruleConstant();
 
             state._fsp--;
 
              current =iv_ruleConstant; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleConstant720); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -911,58 +924,59 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleConstant"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:378:1: ruleConstant returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEString ) ) ) ;
+    // InternalMutaText.g:381:1: ruleConstant returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEString ) ) ) ;
     public final EObject ruleConstant() throws RecognitionException {
         EObject current = null;
 
         AntlrDatatypeRuleToken lv_value_1_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:381:28: ( ( () ( (lv_value_1_0= ruleEString ) ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:382:1: ( () ( (lv_value_1_0= ruleEString ) ) )
+            // InternalMutaText.g:387:2: ( ( () ( (lv_value_1_0= ruleEString ) ) ) )
+            // InternalMutaText.g:388:2: ( () ( (lv_value_1_0= ruleEString ) ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:382:1: ( () ( (lv_value_1_0= ruleEString ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:382:2: () ( (lv_value_1_0= ruleEString ) )
+            // InternalMutaText.g:388:2: ( () ( (lv_value_1_0= ruleEString ) ) )
+            // InternalMutaText.g:389:3: () ( (lv_value_1_0= ruleEString ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:382:2: ()
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:383:5: 
+            // InternalMutaText.g:389:3: ()
+            // InternalMutaText.g:390:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getConstantAccess().getConstantAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getConstantAccess().getConstantAction_0(),
+            					current);
+            			
 
             }
 
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:388:2: ( (lv_value_1_0= ruleEString ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:389:1: (lv_value_1_0= ruleEString )
+            // InternalMutaText.g:396:3: ( (lv_value_1_0= ruleEString ) )
+            // InternalMutaText.g:397:4: (lv_value_1_0= ruleEString )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:389:1: (lv_value_1_0= ruleEString )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:390:3: lv_value_1_0= ruleEString
+            // InternalMutaText.g:397:4: (lv_value_1_0= ruleEString )
+            // InternalMutaText.g:398:5: lv_value_1_0= ruleEString
             {
-             
-            	        newCompositeNode(grammarAccess.getConstantAccess().getValueEStringParserRuleCall_1_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleConstant775);
+
+            					newCompositeNode(grammarAccess.getConstantAccess().getValueEStringParserRuleCall_1_0());
+            				
+            pushFollow(FOLLOW_2);
             lv_value_1_0=ruleEString();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getConstantRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"value",
-                    		lv_value_1_0, 
-                    		"EString");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getConstantRule());
+            					}
+            					set(
+            						current,
+            						"value",
+            						lv_value_1_0,
+            						"wodeledu.dsls.MutaText.EString");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
@@ -975,13 +989,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -990,7 +1006,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleVariable"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:414:1: entryRuleVariable returns [EObject current=null] : iv_ruleVariable= ruleVariable EOF ;
+    // InternalMutaText.g:419:1: entryRuleVariable returns [EObject current=null] : iv_ruleVariable= ruleVariable EOF ;
     public final EObject entryRuleVariable() throws RecognitionException {
         EObject current = null;
 
@@ -998,26 +1014,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:415:2: (iv_ruleVariable= ruleVariable EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:416:2: iv_ruleVariable= ruleVariable EOF
+            // InternalMutaText.g:419:49: (iv_ruleVariable= ruleVariable EOF )
+            // InternalMutaText.g:420:2: iv_ruleVariable= ruleVariable EOF
             {
              newCompositeNode(grammarAccess.getVariableRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleVariable_in_entryRuleVariable811);
+            pushFollow(FOLLOW_1);
             iv_ruleVariable=ruleVariable();
 
             state._fsp--;
 
              current =iv_ruleVariable; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariable821); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1026,58 +1042,59 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVariable"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:423:1: ruleVariable returns [EObject current=null] : ( () ( (lv_type_1_0= ruleVariableType ) ) ) ;
+    // InternalMutaText.g:426:1: ruleVariable returns [EObject current=null] : ( () ( (lv_type_1_0= ruleVariableType ) ) ) ;
     public final EObject ruleVariable() throws RecognitionException {
         EObject current = null;
 
         Enumerator lv_type_1_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:426:28: ( ( () ( (lv_type_1_0= ruleVariableType ) ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:427:1: ( () ( (lv_type_1_0= ruleVariableType ) ) )
+            // InternalMutaText.g:432:2: ( ( () ( (lv_type_1_0= ruleVariableType ) ) ) )
+            // InternalMutaText.g:433:2: ( () ( (lv_type_1_0= ruleVariableType ) ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:427:1: ( () ( (lv_type_1_0= ruleVariableType ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:427:2: () ( (lv_type_1_0= ruleVariableType ) )
+            // InternalMutaText.g:433:2: ( () ( (lv_type_1_0= ruleVariableType ) ) )
+            // InternalMutaText.g:434:3: () ( (lv_type_1_0= ruleVariableType ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:427:2: ()
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:428:5: 
+            // InternalMutaText.g:434:3: ()
+            // InternalMutaText.g:435:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getVariableAccess().getVariableAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getVariableAccess().getVariableAction_0(),
+            					current);
+            			
 
             }
 
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:433:2: ( (lv_type_1_0= ruleVariableType ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:434:1: (lv_type_1_0= ruleVariableType )
+            // InternalMutaText.g:441:3: ( (lv_type_1_0= ruleVariableType ) )
+            // InternalMutaText.g:442:4: (lv_type_1_0= ruleVariableType )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:434:1: (lv_type_1_0= ruleVariableType )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:435:3: lv_type_1_0= ruleVariableType
+            // InternalMutaText.g:442:4: (lv_type_1_0= ruleVariableType )
+            // InternalMutaText.g:443:5: lv_type_1_0= ruleVariableType
             {
-             
-            	        newCompositeNode(grammarAccess.getVariableAccess().getTypeVariableTypeEnumRuleCall_1_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleVariableType_in_ruleVariable876);
+
+            					newCompositeNode(grammarAccess.getVariableAccess().getTypeVariableTypeEnumRuleCall_1_0());
+            				
+            pushFollow(FOLLOW_2);
             lv_type_1_0=ruleVariableType();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getVariableRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"type",
-                    		lv_type_1_0, 
-                    		"VariableType");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getVariableRule());
+            					}
+            					set(
+            						current,
+            						"type",
+            						lv_type_1_0,
+            						"wodeledu.dsls.MutaText.VariableType");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
@@ -1090,13 +1107,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1105,7 +1124,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEString"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:459:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
+    // InternalMutaText.g:464:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
     public final String entryRuleEString() throws RecognitionException {
         String current = null;
 
@@ -1113,26 +1132,26 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:460:2: (iv_ruleEString= ruleEString EOF )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:461:2: iv_ruleEString= ruleEString EOF
+            // InternalMutaText.g:464:47: (iv_ruleEString= ruleEString EOF )
+            // InternalMutaText.g:465:2: iv_ruleEString= ruleEString EOF
             {
              newCompositeNode(grammarAccess.getEStringRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_entryRuleEString913);
+            pushFollow(FOLLOW_1);
             iv_ruleEString=ruleEString();
 
             state._fsp--;
 
              current =iv_ruleEString.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEString924); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1141,20 +1160,21 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEString"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:468:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
+    // InternalMutaText.g:471:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
     public final AntlrDatatypeRuleToken ruleEString() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
         Token this_STRING_0=null;
         Token this_ID_1=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:471:28: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:472:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalMutaText.g:477:2: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
+            // InternalMutaText.g:478:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:472:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalMutaText.g:478:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1172,28 +1192,28 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt7) {
                 case 1 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:472:6: this_STRING_0= RULE_STRING
+                    // InternalMutaText.g:479:3: this_STRING_0= RULE_STRING
                     {
-                    this_STRING_0=(Token)match(input,RULE_STRING,FollowSets000.FOLLOW_RULE_STRING_in_ruleEString964); 
+                    this_STRING_0=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
-                    		current.merge(this_STRING_0);
-                        
-                     
-                        newLeafNode(this_STRING_0, grammarAccess.getEStringAccess().getSTRINGTerminalRuleCall_0()); 
-                        
+                    			current.merge(this_STRING_0);
+                    		
+
+                    			newLeafNode(this_STRING_0, grammarAccess.getEStringAccess().getSTRINGTerminalRuleCall_0());
+                    		
 
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:480:10: this_ID_1= RULE_ID
+                    // InternalMutaText.g:487:3: this_ID_1= RULE_ID
                     {
-                    this_ID_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleEString990); 
+                    this_ID_1=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-                    		current.merge(this_ID_1);
-                        
-                     
-                        newLeafNode(this_ID_1, grammarAccess.getEStringAccess().getIDTerminalRuleCall_1()); 
-                        
+                    			current.merge(this_ID_1);
+                    		
+
+                    			newLeafNode(this_ID_1, grammarAccess.getEStringAccess().getIDTerminalRuleCall_1());
+                    		
 
                     }
                     break;
@@ -1203,13 +1223,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1218,7 +1240,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVariableType"
-    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:495:1: ruleVariableType returns [Enumerator current=null] : ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) ) ;
+    // InternalMutaText.g:498:1: ruleVariableType returns [Enumerator current=null] : ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) ) ;
     public final Enumerator ruleVariableType() throws RecognitionException {
         Enumerator current = null;
 
@@ -1245,12 +1267,14 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         Token enumLiteral_20=null;
         Token enumLiteral_21=null;
 
-         enterRule(); 
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:497:28: ( ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) ) )
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:498:1: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) )
+            // InternalMutaText.g:504:2: ( ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) ) )
+            // InternalMutaText.g:505:2: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) )
             {
-            // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:498:1: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) )
+            // InternalMutaText.g:505:2: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) )
             int alt8=22;
             switch ( input.LA(1) ) {
             case 17:
@@ -1372,16 +1396,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             switch (alt8) {
                 case 1 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:498:2: (enumLiteral_0= '%object' )
+                    // InternalMutaText.g:506:3: (enumLiteral_0= '%object' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:498:2: (enumLiteral_0= '%object' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:498:4: enumLiteral_0= '%object'
+                    // InternalMutaText.g:506:3: (enumLiteral_0= '%object' )
+                    // InternalMutaText.g:507:4: enumLiteral_0= '%object'
                     {
-                    enumLiteral_0=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleVariableType1049); 
+                    enumLiteral_0=(Token)match(input,17,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getObjectEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_0, grammarAccess.getVariableTypeAccess().getObjectEnumLiteralDeclaration_0()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getObjectEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_0, grammarAccess.getVariableTypeAccess().getObjectEnumLiteralDeclaration_0());
+                    			
 
                     }
 
@@ -1389,16 +1413,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:504:6: (enumLiteral_1= '%attName' )
+                    // InternalMutaText.g:514:3: (enumLiteral_1= '%attName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:504:6: (enumLiteral_1= '%attName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:504:8: enumLiteral_1= '%attName'
+                    // InternalMutaText.g:514:3: (enumLiteral_1= '%attName' )
+                    // InternalMutaText.g:515:4: enumLiteral_1= '%attName'
                     {
-                    enumLiteral_1=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleVariableType1066); 
+                    enumLiteral_1=(Token)match(input,18,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getAttNameEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_1, grammarAccess.getVariableTypeAccess().getAttNameEnumLiteralDeclaration_1()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getAttNameEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_1, grammarAccess.getVariableTypeAccess().getAttNameEnumLiteralDeclaration_1());
+                    			
 
                     }
 
@@ -1406,16 +1430,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:510:6: (enumLiteral_2= '%oldValue' )
+                    // InternalMutaText.g:522:3: (enumLiteral_2= '%oldValue' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:510:6: (enumLiteral_2= '%oldValue' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:510:8: enumLiteral_2= '%oldValue'
+                    // InternalMutaText.g:522:3: (enumLiteral_2= '%oldValue' )
+                    // InternalMutaText.g:523:4: enumLiteral_2= '%oldValue'
                     {
-                    enumLiteral_2=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleVariableType1083); 
+                    enumLiteral_2=(Token)match(input,19,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getOldValueEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_2, grammarAccess.getVariableTypeAccess().getOldValueEnumLiteralDeclaration_2()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getOldValueEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_2, grammarAccess.getVariableTypeAccess().getOldValueEnumLiteralDeclaration_2());
+                    			
 
                     }
 
@@ -1423,16 +1447,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:516:6: (enumLiteral_3= '%newValue' )
+                    // InternalMutaText.g:530:3: (enumLiteral_3= '%newValue' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:516:6: (enumLiteral_3= '%newValue' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:516:8: enumLiteral_3= '%newValue'
+                    // InternalMutaText.g:530:3: (enumLiteral_3= '%newValue' )
+                    // InternalMutaText.g:531:4: enumLiteral_3= '%newValue'
                     {
-                    enumLiteral_3=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleVariableType1100); 
+                    enumLiteral_3=(Token)match(input,20,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getNewValueEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_3, grammarAccess.getVariableTypeAccess().getNewValueEnumLiteralDeclaration_3()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getNewValueEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_3, grammarAccess.getVariableTypeAccess().getNewValueEnumLiteralDeclaration_3());
+                    			
 
                     }
 
@@ -1440,16 +1464,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:522:6: (enumLiteral_4= '%refName' )
+                    // InternalMutaText.g:538:3: (enumLiteral_4= '%refName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:522:6: (enumLiteral_4= '%refName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:522:8: enumLiteral_4= '%refName'
+                    // InternalMutaText.g:538:3: (enumLiteral_4= '%refName' )
+                    // InternalMutaText.g:539:4: enumLiteral_4= '%refName'
                     {
-                    enumLiteral_4=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleVariableType1117); 
+                    enumLiteral_4=(Token)match(input,21,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getRefNameEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_4, grammarAccess.getVariableTypeAccess().getRefNameEnumLiteralDeclaration_4()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getRefNameEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_4, grammarAccess.getVariableTypeAccess().getRefNameEnumLiteralDeclaration_4());
+                    			
 
                     }
 
@@ -1457,16 +1481,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:528:6: (enumLiteral_5= '%fromObject' )
+                    // InternalMutaText.g:546:3: (enumLiteral_5= '%fromObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:528:6: (enumLiteral_5= '%fromObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:528:8: enumLiteral_5= '%fromObject'
+                    // InternalMutaText.g:546:3: (enumLiteral_5= '%fromObject' )
+                    // InternalMutaText.g:547:4: enumLiteral_5= '%fromObject'
                     {
-                    enumLiteral_5=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleVariableType1134); 
+                    enumLiteral_5=(Token)match(input,22,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFromObjectEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_5, grammarAccess.getVariableTypeAccess().getFromObjectEnumLiteralDeclaration_5()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFromObjectEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_5, grammarAccess.getVariableTypeAccess().getFromObjectEnumLiteralDeclaration_5());
+                    			
 
                     }
 
@@ -1474,16 +1498,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:534:6: (enumLiteral_6= '%oldFromObject' )
+                    // InternalMutaText.g:554:3: (enumLiteral_6= '%oldFromObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:534:6: (enumLiteral_6= '%oldFromObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:534:8: enumLiteral_6= '%oldFromObject'
+                    // InternalMutaText.g:554:3: (enumLiteral_6= '%oldFromObject' )
+                    // InternalMutaText.g:555:4: enumLiteral_6= '%oldFromObject'
                     {
-                    enumLiteral_6=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleVariableType1151); 
+                    enumLiteral_6=(Token)match(input,23,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getOldFromObjectEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_6, grammarAccess.getVariableTypeAccess().getOldFromObjectEnumLiteralDeclaration_6()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getOldFromObjectEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_6, grammarAccess.getVariableTypeAccess().getOldFromObjectEnumLiteralDeclaration_6());
+                    			
 
                     }
 
@@ -1491,16 +1515,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:540:6: (enumLiteral_7= '%srcRefName' )
+                    // InternalMutaText.g:562:3: (enumLiteral_7= '%srcRefName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:540:6: (enumLiteral_7= '%srcRefName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:540:8: enumLiteral_7= '%srcRefName'
+                    // InternalMutaText.g:562:3: (enumLiteral_7= '%srcRefName' )
+                    // InternalMutaText.g:563:4: enumLiteral_7= '%srcRefName'
                     {
-                    enumLiteral_7=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleVariableType1168); 
+                    enumLiteral_7=(Token)match(input,24,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSrcRefNameEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_7, grammarAccess.getVariableTypeAccess().getSrcRefNameEnumLiteralDeclaration_7()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSrcRefNameEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_7, grammarAccess.getVariableTypeAccess().getSrcRefNameEnumLiteralDeclaration_7());
+                    			
 
                     }
 
@@ -1508,16 +1532,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 9 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:546:6: (enumLiteral_8= '%toObject' )
+                    // InternalMutaText.g:570:3: (enumLiteral_8= '%toObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:546:6: (enumLiteral_8= '%toObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:546:8: enumLiteral_8= '%toObject'
+                    // InternalMutaText.g:570:3: (enumLiteral_8= '%toObject' )
+                    // InternalMutaText.g:571:4: enumLiteral_8= '%toObject'
                     {
-                    enumLiteral_8=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleVariableType1185); 
+                    enumLiteral_8=(Token)match(input,25,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getToObjectEnumLiteralDeclaration_8().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_8, grammarAccess.getVariableTypeAccess().getToObjectEnumLiteralDeclaration_8()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getToObjectEnumLiteralDeclaration_8().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_8, grammarAccess.getVariableTypeAccess().getToObjectEnumLiteralDeclaration_8());
+                    			
 
                     }
 
@@ -1525,16 +1549,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 10 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:552:6: (enumLiteral_9= '%oldToObject' )
+                    // InternalMutaText.g:578:3: (enumLiteral_9= '%oldToObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:552:6: (enumLiteral_9= '%oldToObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:552:8: enumLiteral_9= '%oldToObject'
+                    // InternalMutaText.g:578:3: (enumLiteral_9= '%oldToObject' )
+                    // InternalMutaText.g:579:4: enumLiteral_9= '%oldToObject'
                     {
-                    enumLiteral_9=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleVariableType1202); 
+                    enumLiteral_9=(Token)match(input,26,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getOldToObjectEnumLiteralDeclaration_9().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_9, grammarAccess.getVariableTypeAccess().getOldToObjectEnumLiteralDeclaration_9()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getOldToObjectEnumLiteralDeclaration_9().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_9, grammarAccess.getVariableTypeAccess().getOldToObjectEnumLiteralDeclaration_9());
+                    			
 
                     }
 
@@ -1542,16 +1566,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 11 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:558:6: (enumLiteral_10= '%firstRefName' )
+                    // InternalMutaText.g:586:3: (enumLiteral_10= '%firstRefName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:558:6: (enumLiteral_10= '%firstRefName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:558:8: enumLiteral_10= '%firstRefName'
+                    // InternalMutaText.g:586:3: (enumLiteral_10= '%firstRefName' )
+                    // InternalMutaText.g:587:4: enumLiteral_10= '%firstRefName'
                     {
-                    enumLiteral_10=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleVariableType1219); 
+                    enumLiteral_10=(Token)match(input,27,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFirstRefNameEnumLiteralDeclaration_10().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_10, grammarAccess.getVariableTypeAccess().getFirstRefNameEnumLiteralDeclaration_10()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFirstRefNameEnumLiteralDeclaration_10().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_10, grammarAccess.getVariableTypeAccess().getFirstRefNameEnumLiteralDeclaration_10());
+                    			
 
                     }
 
@@ -1559,16 +1583,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 12 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:564:6: (enumLiteral_11= '%firstObject' )
+                    // InternalMutaText.g:594:3: (enumLiteral_11= '%firstObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:564:6: (enumLiteral_11= '%firstObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:564:8: enumLiteral_11= '%firstObject'
+                    // InternalMutaText.g:594:3: (enumLiteral_11= '%firstObject' )
+                    // InternalMutaText.g:595:4: enumLiteral_11= '%firstObject'
                     {
-                    enumLiteral_11=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleVariableType1236); 
+                    enumLiteral_11=(Token)match(input,28,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFirstObjectEnumLiteralDeclaration_11().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_11, grammarAccess.getVariableTypeAccess().getFirstObjectEnumLiteralDeclaration_11()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFirstObjectEnumLiteralDeclaration_11().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_11, grammarAccess.getVariableTypeAccess().getFirstObjectEnumLiteralDeclaration_11());
+                    			
 
                     }
 
@@ -1576,16 +1600,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 13 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:570:6: (enumLiteral_12= '%firstFromObject' )
+                    // InternalMutaText.g:602:3: (enumLiteral_12= '%firstFromObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:570:6: (enumLiteral_12= '%firstFromObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:570:8: enumLiteral_12= '%firstFromObject'
+                    // InternalMutaText.g:602:3: (enumLiteral_12= '%firstFromObject' )
+                    // InternalMutaText.g:603:4: enumLiteral_12= '%firstFromObject'
                     {
-                    enumLiteral_12=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleVariableType1253); 
+                    enumLiteral_12=(Token)match(input,29,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFirstFromObjectEnumLiteralDeclaration_12().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_12, grammarAccess.getVariableTypeAccess().getFirstFromObjectEnumLiteralDeclaration_12()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFirstFromObjectEnumLiteralDeclaration_12().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_12, grammarAccess.getVariableTypeAccess().getFirstFromObjectEnumLiteralDeclaration_12());
+                    			
 
                     }
 
@@ -1593,16 +1617,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 14 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:576:6: (enumLiteral_13= '%firstToObject' )
+                    // InternalMutaText.g:610:3: (enumLiteral_13= '%firstToObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:576:6: (enumLiteral_13= '%firstToObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:576:8: enumLiteral_13= '%firstToObject'
+                    // InternalMutaText.g:610:3: (enumLiteral_13= '%firstToObject' )
+                    // InternalMutaText.g:611:4: enumLiteral_13= '%firstToObject'
                     {
-                    enumLiteral_13=(Token)match(input,30,FollowSets000.FOLLOW_30_in_ruleVariableType1270); 
+                    enumLiteral_13=(Token)match(input,30,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFirstToObjectEnumLiteralDeclaration_13().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_13, grammarAccess.getVariableTypeAccess().getFirstToObjectEnumLiteralDeclaration_13()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFirstToObjectEnumLiteralDeclaration_13().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_13, grammarAccess.getVariableTypeAccess().getFirstToObjectEnumLiteralDeclaration_13());
+                    			
 
                     }
 
@@ -1610,16 +1634,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 15 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:582:6: (enumLiteral_14= '%secondRefName' )
+                    // InternalMutaText.g:618:3: (enumLiteral_14= '%secondRefName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:582:6: (enumLiteral_14= '%secondRefName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:582:8: enumLiteral_14= '%secondRefName'
+                    // InternalMutaText.g:618:3: (enumLiteral_14= '%secondRefName' )
+                    // InternalMutaText.g:619:4: enumLiteral_14= '%secondRefName'
                     {
-                    enumLiteral_14=(Token)match(input,31,FollowSets000.FOLLOW_31_in_ruleVariableType1287); 
+                    enumLiteral_14=(Token)match(input,31,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSecondRefNameEnumLiteralDeclaration_14().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_14, grammarAccess.getVariableTypeAccess().getSecondRefNameEnumLiteralDeclaration_14()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSecondRefNameEnumLiteralDeclaration_14().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_14, grammarAccess.getVariableTypeAccess().getSecondRefNameEnumLiteralDeclaration_14());
+                    			
 
                     }
 
@@ -1627,16 +1651,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 16 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:588:6: (enumLiteral_15= '%secondObject' )
+                    // InternalMutaText.g:626:3: (enumLiteral_15= '%secondObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:588:6: (enumLiteral_15= '%secondObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:588:8: enumLiteral_15= '%secondObject'
+                    // InternalMutaText.g:626:3: (enumLiteral_15= '%secondObject' )
+                    // InternalMutaText.g:627:4: enumLiteral_15= '%secondObject'
                     {
-                    enumLiteral_15=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleVariableType1304); 
+                    enumLiteral_15=(Token)match(input,32,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSecondObjectEnumLiteralDeclaration_15().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_15, grammarAccess.getVariableTypeAccess().getSecondObjectEnumLiteralDeclaration_15()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSecondObjectEnumLiteralDeclaration_15().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_15, grammarAccess.getVariableTypeAccess().getSecondObjectEnumLiteralDeclaration_15());
+                    			
 
                     }
 
@@ -1644,16 +1668,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 17 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:594:6: (enumLiteral_16= '%secondFromObject' )
+                    // InternalMutaText.g:634:3: (enumLiteral_16= '%secondFromObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:594:6: (enumLiteral_16= '%secondFromObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:594:8: enumLiteral_16= '%secondFromObject'
+                    // InternalMutaText.g:634:3: (enumLiteral_16= '%secondFromObject' )
+                    // InternalMutaText.g:635:4: enumLiteral_16= '%secondFromObject'
                     {
-                    enumLiteral_16=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleVariableType1321); 
+                    enumLiteral_16=(Token)match(input,33,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSecondFromObjectEnumLiteralDeclaration_16().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_16, grammarAccess.getVariableTypeAccess().getSecondFromObjectEnumLiteralDeclaration_16()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSecondFromObjectEnumLiteralDeclaration_16().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_16, grammarAccess.getVariableTypeAccess().getSecondFromObjectEnumLiteralDeclaration_16());
+                    			
 
                     }
 
@@ -1661,16 +1685,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 18 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:600:6: (enumLiteral_17= '%secondToObject' )
+                    // InternalMutaText.g:642:3: (enumLiteral_17= '%secondToObject' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:600:6: (enumLiteral_17= '%secondToObject' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:600:8: enumLiteral_17= '%secondToObject'
+                    // InternalMutaText.g:642:3: (enumLiteral_17= '%secondToObject' )
+                    // InternalMutaText.g:643:4: enumLiteral_17= '%secondToObject'
                     {
-                    enumLiteral_17=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleVariableType1338); 
+                    enumLiteral_17=(Token)match(input,34,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSecondToObjectEnumLiteralDeclaration_17().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_17, grammarAccess.getVariableTypeAccess().getSecondToObjectEnumLiteralDeclaration_17()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSecondToObjectEnumLiteralDeclaration_17().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_17, grammarAccess.getVariableTypeAccess().getSecondToObjectEnumLiteralDeclaration_17());
+                    			
 
                     }
 
@@ -1678,16 +1702,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 19 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:606:6: (enumLiteral_18= '%firstAttName' )
+                    // InternalMutaText.g:650:3: (enumLiteral_18= '%firstAttName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:606:6: (enumLiteral_18= '%firstAttName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:606:8: enumLiteral_18= '%firstAttName'
+                    // InternalMutaText.g:650:3: (enumLiteral_18= '%firstAttName' )
+                    // InternalMutaText.g:651:4: enumLiteral_18= '%firstAttName'
                     {
-                    enumLiteral_18=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleVariableType1355); 
+                    enumLiteral_18=(Token)match(input,35,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFirstAttNameEnumLiteralDeclaration_18().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_18, grammarAccess.getVariableTypeAccess().getFirstAttNameEnumLiteralDeclaration_18()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFirstAttNameEnumLiteralDeclaration_18().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_18, grammarAccess.getVariableTypeAccess().getFirstAttNameEnumLiteralDeclaration_18());
+                    			
 
                     }
 
@@ -1695,16 +1719,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 20 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:612:6: (enumLiteral_19= '%firstValue' )
+                    // InternalMutaText.g:658:3: (enumLiteral_19= '%firstValue' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:612:6: (enumLiteral_19= '%firstValue' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:612:8: enumLiteral_19= '%firstValue'
+                    // InternalMutaText.g:658:3: (enumLiteral_19= '%firstValue' )
+                    // InternalMutaText.g:659:4: enumLiteral_19= '%firstValue'
                     {
-                    enumLiteral_19=(Token)match(input,36,FollowSets000.FOLLOW_36_in_ruleVariableType1372); 
+                    enumLiteral_19=(Token)match(input,36,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getFirstValueEnumLiteralDeclaration_19().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_19, grammarAccess.getVariableTypeAccess().getFirstValueEnumLiteralDeclaration_19()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getFirstValueEnumLiteralDeclaration_19().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_19, grammarAccess.getVariableTypeAccess().getFirstValueEnumLiteralDeclaration_19());
+                    			
 
                     }
 
@@ -1712,16 +1736,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 21 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:618:6: (enumLiteral_20= '%secondAttName' )
+                    // InternalMutaText.g:666:3: (enumLiteral_20= '%secondAttName' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:618:6: (enumLiteral_20= '%secondAttName' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:618:8: enumLiteral_20= '%secondAttName'
+                    // InternalMutaText.g:666:3: (enumLiteral_20= '%secondAttName' )
+                    // InternalMutaText.g:667:4: enumLiteral_20= '%secondAttName'
                     {
-                    enumLiteral_20=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleVariableType1389); 
+                    enumLiteral_20=(Token)match(input,37,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSecondAttNameEnumLiteralDeclaration_20().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_20, grammarAccess.getVariableTypeAccess().getSecondAttNameEnumLiteralDeclaration_20()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSecondAttNameEnumLiteralDeclaration_20().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_20, grammarAccess.getVariableTypeAccess().getSecondAttNameEnumLiteralDeclaration_20());
+                    			
 
                     }
 
@@ -1729,16 +1753,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 22 :
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:624:6: (enumLiteral_21= '%secondValue' )
+                    // InternalMutaText.g:674:3: (enumLiteral_21= '%secondValue' )
                     {
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:624:6: (enumLiteral_21= '%secondValue' )
-                    // ../wodeledu.dsls.mutatext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalMutaText.g:624:8: enumLiteral_21= '%secondValue'
+                    // InternalMutaText.g:674:3: (enumLiteral_21= '%secondValue' )
+                    // InternalMutaText.g:675:4: enumLiteral_21= '%secondValue'
                     {
-                    enumLiteral_21=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleVariableType1406); 
+                    enumLiteral_21=(Token)match(input,38,FOLLOW_2); 
 
-                            current = grammarAccess.getVariableTypeAccess().getSecondValueEnumLiteralDeclaration_21().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_21, grammarAccess.getVariableTypeAccess().getSecondValueEnumLiteralDeclaration_21()); 
-                        
+                    				current = grammarAccess.getVariableTypeAccess().getSecondValueEnumLiteralDeclaration_21().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_21, grammarAccess.getVariableTypeAccess().getSecondValueEnumLiteralDeclaration_21());
+                    			
 
                     }
 
@@ -1751,13 +1775,15 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1769,66 +1795,16 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
  
 
-    
-    private static class FollowSets000 {
-        public static final BitSet FOLLOW_ruleConfiguration_in_entryRuleConfiguration75 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleConfiguration85 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_11_in_ruleConfiguration131 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleConfiguration152 = new BitSet(new long[]{0x0000000000001002L});
-        public static final BitSet FOLLOW_ruleOption_in_ruleConfiguration174 = new BitSet(new long[]{0x0000000000001002L});
-        public static final BitSet FOLLOW_ruleOption_in_ruleConfiguration195 = new BitSet(new long[]{0x0000000000001002L});
-        public static final BitSet FOLLOW_ruleOption_in_entryRuleOption234 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleOption244 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_12_in_ruleOption290 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleOption313 = new BitSet(new long[]{0x000000000000A000L});
-        public static final BitSet FOLLOW_13_in_ruleOption326 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleOption349 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleOption361 = new BitSet(new long[]{0x0000000000008000L});
-        public static final BitSet FOLLOW_15_in_ruleOption375 = new BitSet(new long[]{0x0000007FFFFF0030L});
-        public static final BitSet FOLLOW_ruleText_in_ruleOption396 = new BitSet(new long[]{0x0000000000010000L});
-        public static final BitSet FOLLOW_16_in_ruleOption408 = new BitSet(new long[]{0x0000007FFFFE0030L});
-        public static final BitSet FOLLOW_ruleText_in_ruleOption429 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleText_in_entryRuleText465 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleText475 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleWord_in_ruleText531 = new BitSet(new long[]{0x0000007FFFFE0032L});
-        public static final BitSet FOLLOW_ruleWord_in_ruleText552 = new BitSet(new long[]{0x0000007FFFFE0032L});
-        public static final BitSet FOLLOW_ruleWord_in_entryRuleWord591 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleWord601 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleConstant_in_ruleWord648 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariable_in_ruleWord675 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleConstant_in_entryRuleConstant710 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleConstant720 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleConstant775 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariable_in_entryRuleVariable811 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleVariable821 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariableType_in_ruleVariable876 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEString_in_entryRuleEString913 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEString924 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_STRING_in_ruleEString964 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleEString990 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_17_in_ruleVariableType1049 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_18_in_ruleVariableType1066 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_19_in_ruleVariableType1083 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_20_in_ruleVariableType1100 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_21_in_ruleVariableType1117 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_22_in_ruleVariableType1134 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_23_in_ruleVariableType1151 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_24_in_ruleVariableType1168 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_25_in_ruleVariableType1185 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_26_in_ruleVariableType1202 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_27_in_ruleVariableType1219 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_28_in_ruleVariableType1236 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_29_in_ruleVariableType1253 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_30_in_ruleVariableType1270 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_31_in_ruleVariableType1287 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_32_in_ruleVariableType1304 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_33_in_ruleVariableType1321 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_34_in_ruleVariableType1338 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_35_in_ruleVariableType1355 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_36_in_ruleVariableType1372 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_37_in_ruleVariableType1389 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_38_in_ruleVariableType1406 = new BitSet(new long[]{0x0000000000000002L});
-    }
-
+    public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000001002L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x000000000000A000L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000007FFFFF0030L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000007FFFFE0030L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000007FFFFE0032L});
 
 }

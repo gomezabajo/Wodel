@@ -11,6 +11,8 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
     Reference definition : Definition<<1..1>>
     Reference commands : Mutator<<0..*>>
     Reference load : Load<<0..*>>
+    Reference blocks : Block<<0..*>>
+    Reference constraints : Constraint<<0..*>>
 
   Class Definition
     Attribute metamodel : EString
@@ -20,7 +22,10 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class Program -> Definition
     Attribute output : EString
     Attribute num : EInt
-    Reference source : Multiple<<1..1>>
+    Reference source : Source<<1..1>>
+    Attribute description : EString
+    Attribute exhaustive : EBoolean
+    Reference resources : Resource<<0..*>>
 
   Class ObjectEmitter
     Reference type : EClass
@@ -29,6 +34,7 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class Mutator -> ObjectEmitter
     Attribute min : EInt
     Attribute max : EInt
+    Attribute fixed : EInt
 
   Class CompositeMutator -> Mutator
     Reference commands : Mutator<<0..*>>
@@ -39,11 +45,14 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class CreateObjectMutator -> Mutator
     Reference container : ObSelectionStrategy
     Reference attributes : AttributeSet<<0..*>>
-    Reference refType : EReference
     Reference references : ReferenceSet<<0..*>>
 
   Class ObSelectionStrategy -> ObjectEmitter
+    Reference refType : EReference
     Reference expression : Expression
+    Attribute resource : EString
+    Reference refRefType : EReference
+    Reference refRefRefType : EReference
 
   Class RandomSelection -> ObSelectionStrategy
 
@@ -52,10 +61,11 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class SpecificObjectSelection -> SpecificSelection
     Reference objSel : ObjectEmitter<<1..1>>
 
-  Class AttributeInit -> AttributeSet
+  Class AttributeScalar -> AttributeSet
     Reference value : AttributeType<<1..1>>
 
-  Class AttributeType
+  Class AttributeType -> AttributeEvaluationType
+    Attribute operator : Operator<<1..1>>
 
   Class BooleanType -> AttributeType
 
@@ -75,7 +85,7 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
     Attribute max : EInt<<1..1>>
     Attribute allowsNull : EBoolean<<1..1>>
 
-  Class IntegerType -> AttributeType
+  Class IntegerType -> NumberType
 
   Class SpecificIntegerType -> IntegerType
     Attribute value : EInt
@@ -85,7 +95,7 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
     Attribute max : EInt<<1..1>>
     Attribute allowsNull : EBoolean<<1..1>>
 
-  Class DoubleType -> AttributeType
+  Class DoubleType -> NumberType
 
   Class SpecificDoubleType -> DoubleType
     Attribute value : EDouble
@@ -103,8 +113,7 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class SpecificSelection -> ObSelectionStrategy
 
   Class SpecificReferenceSelection -> SpecificSelection
-    Reference refType : EReference
-    Reference objectEmitter : ObjectEmitter
+    Reference objSel : ObjectEmitter<<1..1>>
 
   Class ModifyTargetReferenceMutator -> Mutator
     Reference refType : EReference
@@ -118,6 +127,7 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
 
   Class RemoveObjectMutator -> Mutator
     Reference object : ObSelectionStrategy
+    Reference container : ObSelectionStrategy
 
   Class RemoveReferenceMutator -> Mutator
 
@@ -170,9 +180,8 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class RemoveCompleteReferenceMutator -> RemoveReferenceMutator
     Reference refType : EReference
 
-  Class Multiple
-    Attribute model : EString
-    Attribute folder : EString
+  Class Source
+    Attribute path : EString<<1..1>>
 
   Class OtherSelection -> ObSelectionStrategy
 
@@ -180,33 +189,34 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
 
   Class SelectObjectMutator -> Mutator
     Reference container : ObSelectionStrategy
-    Reference refType : EReference
     Reference object : ObSelectionStrategy
-
-  Class Operator
-    Attribute type : EString
-
-  Class BinaryOperator -> Operator
 
   Class AttributeEvaluation -> Evaluation
     Reference name : EAttribute<<1..1>>
-    Attribute operator : EString
-    Reference value : AttributeType<<1..1>>
+    Reference value : AttributeEvaluationType<<1..1>>
 
   Class AttributeReverse -> AttributeSet
 
   Class ReferenceSet
     Reference reference : EReference<<0..*>>
     Reference object : ObSelectionStrategy
-    Reference refType : EReference
 
   Class ReferenceInit -> ReferenceSet
 
+  Class ReferenceAtt -> ReferenceSet
+    Reference attribute : EAttribute<<1..1>>
+    Reference value : AttributeType<<1..1>>
+
   Class ReferenceEvaluation -> Evaluation
     Reference name : EReference
-    Attribute operator : EString
+    Reference refName : EReference
+    Reference refRefName : EReference
+    Attribute operator : Operator
     Reference value : ObSelectionStrategy
     Reference refType : EReference
+    Reference attName : EAttribute
+    Reference attValue : AttributeEvaluationType
+    Attribute container : EBoolean
 
   Class Expression
     Reference first : Evaluation<<1..1>>
@@ -216,3 +226,124 @@ Package mutatorenvironment <http://mutatorenvironment/1.0>
   Class ReferenceSwap -> ReferenceSet
 
   Class Evaluation
+
+  Class BinaryOperator
+    Attribute type : LogicOperator<<1..1>>
+
+  Class Block
+    Attribute name : EString
+    Reference commands : Mutator<<0..*>>
+    Reference from : Block<<0..*>>
+    Attribute repeat : Repeat<<1..1>>
+    Attribute min : EInt
+    Attribute max : EInt
+    Attribute fixed : EInt
+    Attribute description : EString
+
+  Class Constraint
+    Attribute id : EString<<1..1>>
+    Reference type : EClass<<1..1>>
+    Reference expressions : InvariantCS<<0..*>>
+    Attribute rules : EString<<0..*>>
+
+  Class RandomType -> AttributeType
+
+  Class CloneObjectMutator -> Mutator
+    Attribute contents : EBoolean<<1..1>>
+    Reference object : ObSelectionStrategy
+    Reference container : ObSelectionStrategy
+    Reference refType : EReference
+    Reference attributes : AttributeSet<<0..*>>
+    Reference references : ReferenceSet<<0..*>>
+
+  Class ListType -> AttributeType
+    Reference value : EObject<<0..*>>
+
+  Class ObjectAttributeType -> AttributeEvaluationType
+    Reference objSel : ObjectEmitter<<1..1>>
+    Reference attribute : EAttribute<<1..1>>
+    Attribute operator : Operator<<1..1>>
+
+  Class AttributeEvaluationType
+
+  Class MinValueType -> NumberType
+    Reference attribute : EAttribute<<1..1>>
+
+  Class MaxValueType -> NumberType
+    Reference attribute : EAttribute<<1..1>>
+
+  Class NumberType -> AttributeType
+
+  Class AttributeOperation -> AttributeSet
+    Attribute operator : ArithmeticOperator<<1..1>>
+    Reference value : AttributeEvaluationType<<1..1>>
+
+  Class RandomNumberType -> NumberType
+    Reference object : ObSelectionStrategy
+    Reference max : EAttribute<<1..1>>
+
+  Class RandomDoubleNumberType -> RandomNumberType
+    Attribute min : EDouble<<1..1>>
+
+  Class RandomIntegerNumberType -> RandomNumberType
+    Attribute min : EInt<<1..1>>
+
+  Class SpecificClosureSelection -> SpecificSelection
+    Reference objSel : ObjectEmitter<<1..1>>
+
+  Class SelectSampleMutator -> Mutator
+    Reference object : ObSelectionStrategy<<1..1>>
+    Attribute clause : SampleClause
+    Reference features : EStructuralFeature<<0..*>>
+
+  Class ReferenceAdd -> ReferenceSet
+
+  Class ReferenceRemove -> ReferenceSet
+
+  Class RetypeObjectMutator -> Mutator
+    Reference object : ObSelectionStrategy
+    Reference container : ObSelectionStrategy
+    Reference refType : EReference
+    Reference attributes : AttributeSet<<0..*>>
+    Reference references : ReferenceSet<<0..*>>
+
+  Class TypedSelection -> ObSelectionStrategy
+
+  Class RandomStringNumberType -> StringType
+    Attribute min : EInt<<1..1>>
+    Attribute max : EInt<<1..1>>
+    Attribute allowsNull : EBoolean<<1..1>>
+
+  Class Resource -> Definition
+    Attribute name : EString
+    Reference path : Source
+
+  Enum LogicOperator
+    Literal and = 0
+    Literal or = 1
+
+  Enum Operator
+    Literal equals = 0
+    Literal different = 1
+    Literal in = 2
+    Literal is = 3
+    Literal not = 4
+    Literal gt = 5
+    Literal gte = 6
+    Literal lt = 7
+    Literal lte = 7
+
+  Enum Repeat
+    Literal yes = 0
+    Literal no = 1
+
+  Enum ArithmeticOperator
+    Literal add = 0
+    Literal subtract = 1
+    Literal multiply = 2
+    Literal divide = 3
+    Literal module = 4
+
+  Enum SampleClause
+    Literal equals = 0
+    Literal distinct = 1

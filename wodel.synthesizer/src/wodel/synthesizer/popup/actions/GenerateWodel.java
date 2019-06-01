@@ -5,56 +5,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IActionDelegate;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.synthesizer.generator.GenerateWodelWizard;
 
-public class GenerateWodel implements IObjectActionDelegate {
+public class GenerateWodel extends AbstractHandler {
 
-	private Shell shell;
-	private GenerateWodelWizard wizard = null;
-	
-	/**
-	 * Constructor for Action1.
-	 */
-	public GenerateWodel() {
-		super();
-	}
-
-	/**
-	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		shell = targetPart.getSite().getShell();
-	}
-
-	/**
-	 * @see IActionDelegate#run(IAction)
-	 */
-	public void run(IAction action) {
-		wizard = new GenerateWodelWizard();
-		WizardDialog wd = new WizardDialog(shell, wizard);
-		wd.setTitle(wizard.getWindowTitle());
-		wd.open();
-	}
-
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		IFile file = (IFile) ((IStructuredSelection) selection).getFirstElement();
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getCurrentSelection(event);
+		IFile file = (IFile) selection.getFirstElement();
 		// refresh the use generated file
 		try {
 			InputStream stream = file.getContents();
@@ -67,7 +38,12 @@ public class GenerateWodel implements IObjectActionDelegate {
 		} catch (CoreException e) {
 		} catch (IOException e) {
 		}
+		Shell shell = HandlerUtil.getActiveShell(event);
+		GenerateWodelWizard wizard = new GenerateWodelWizard();
 		wizard.setFile(file);
+		WizardDialog wd = new WizardDialog(shell, wizard);
+		wd.setTitle(wizard.getWindowTitle());
+		wd.open();
+		return null;
 	}
-
 }

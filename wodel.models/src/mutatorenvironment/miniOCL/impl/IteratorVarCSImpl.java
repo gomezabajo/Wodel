@@ -234,7 +234,7 @@ public class IteratorVarCSImpl extends MinimalEObjectImpl.Container implements I
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (itName: ");
 		result.append(itName);
 		result.append(')');

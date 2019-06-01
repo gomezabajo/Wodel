@@ -29,7 +29,21 @@ public class CopyAttributeConfigurationStrategy extends	AttributeConfigurationSt
 	public boolean sameType(EClassifier c) {
 		// checks objects are of the same type if the target object has already been created
 		if (target != null) {
-			return EcoreUtil.equals(source.getEType(), target.getEType());
+			if (EcoreUtil.equals(source.getEType(), target.getEType())) {
+				return true;
+			}
+			else {
+				if ((ModelManager.isBigInteger(source.getEType().getName()) && ModelManager.isBigInteger(target.getEType().getName())) ||
+						(ModelManager.isInteger(source.getEType().getName()) && ModelManager.isInteger(target.getEType().getName())) ||
+						(ModelManager.isString(source.getEType().getName()) && ModelManager.isString(target.getEType().getName())) ||
+						(ModelManager.isBoolean(source.getEType().getName()) && ModelManager.isBoolean(target.getEType().getName())) ||
+						(ModelManager.isFloating(source.getEType().getName()) && ModelManager.isFloating(target.getEType().getName())))	{
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
 		}
 		else {
 			return true;

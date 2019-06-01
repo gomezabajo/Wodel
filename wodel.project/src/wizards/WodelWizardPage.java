@@ -2,24 +2,26 @@ package wizards;
 
 import generator.IGenerator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -133,12 +135,8 @@ public class WodelWizardPage extends WizardPage {
 			}
 		});
 		
-	    Group exts = new Group(contents, SWT.FILL);
-	    layout = new GridLayout();
-		exts.setLayout(layout);
-		layout.numColumns = 1;
-		layout.verticalSpacing = 9;
-	    exts.setText("&Extensions");
+
+		List<String> exts = new ArrayList<String>();
 
 		if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
@@ -148,24 +146,39 @@ public class WodelWizardPage extends WizardPage {
 				try {
 					final IGenerator src = (IGenerator) extensions[j]
 							.createExecutableExtension("class");
-					Button button = new Button(exts, SWT.CHECK);
-					button.addSelectionListener(new SelectionAdapter() {
-					        public void widgetSelected(SelectionEvent event) {
-					            Button btn = (Button) event.getSource();
-					            wodelExtensions.put(src.getName(), btn.getSelection());
-					        }
-					    });
-					button.setText("&" + src.getName());
+					exts.add(src.getName());
 				} catch (CoreException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		}
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-	    gd.horizontalAlignment = SWT.FILL;
-		exts.setLayoutData(gd);
-		
+		String[][] values = new String[exts.size()][2];
+		int index = 0;
+		for (String ext : exts) {
+			values[index][0] = ext;
+			values[index][1] = ext;
+			index++;
+		}
+
+		label = new Label(settings, SWT.NULL);
+		label.setText("Wodel extensions:");
+		final String[] valueList = exts.toArray(new String[exts.size()]); 
+		ComboFieldEditor combo = new ComboFieldEditor("&Extensions", "", values, contents);
+		combo.setPropertyChangeListener(new IPropertyChangeListener() {
+	        public void propertyChange(PropertyChangeEvent event) {
+	        	String eventValue = (String) event.getNewValue();
+	        	for (String value : valueList) {
+	        		if (eventValue.equals(value)) {
+	    	            wodelExtensions.put(value, true);
+	        		}
+	        		else {
+	        			wodelExtensions.put(value, false);
+	        		}
+	        	}
+	        }
+	    });
+
 		initialize();
 		dialogChanged();
 		setControl(contents);

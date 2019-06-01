@@ -13,10 +13,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 import manager.ModelManager;
 import manager.MutatorUtils;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -31,16 +35,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IActionDelegate;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 
-import postprocessor.run.IPostprocessor;
+import exceptions.MetaModelNotFoundException;
 import registry.run.IRegistryPostprocessor;
 
 /**
@@ -51,28 +51,28 @@ import registry.run.IRegistryPostprocessor;
  *  
  */
 
-public class RunWodel implements IObjectActionDelegate {
+public class RunWodel extends AbstractHandler {
+	
+	private class RunWodelWithProgress implements IRunnableWithProgress {
 
-	/**
-	 * Constructor for Action1.
-	 */
-	public RunWodel() {
-		super();
-	}
+		private ExecutionEvent event = null;
+		public RunWodelWithProgress(ExecutionEvent event) {
+			this.event = event;
+		}
 
-	private static class RunWodelWithProgress implements IRunnableWithProgress {
-		private static IFile file;
-
-
-		/**
-		 * @see IActionDelegate#run(IAction)
-		 */
 		@Override
-		public void run(IProgressMonitor monitor) throws InvocationTargetException,
-		InterruptedException {
+		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			IFile file = null;
+			try {
+				IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getCurrentSelectionChecked(event);
+				file = (IFile) selection.getFirstElement();
+			} catch (ExecutionException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			Class<?> cls = null;
-			String fileName = file.getName();
-			String classname = fileName.replaceAll(".mutator", "");
+			String mutatorName = file.getProject().getName();
+			String classname = "mutator." + mutatorName + "." + mutatorName + "Launcher";
 
 			try {
 				cls = Class.forName(classname);
@@ -109,22 +109,30 @@ public class RunWodel implements IObjectActionDelegate {
 					e.printStackTrace();
 				}
 			}
-
 			int maxAttempts = 10;
 			int numMutants = 3;
 			boolean registry = false;
 			boolean metrics = false;
 			boolean debugMetrics = false;
 			Object ob = null;
+			String metamodel = ModelManager.getMetaModel();
+			String metamodelpath = ModelManager.getMetaModelPath();
+			List<EPackage> packages = null;
+			try {
+				packages = ModelManager.loadMetaModel(metamodel);
+			} catch (MetaModelNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			try {
 				ob = cls.newInstance();
-				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, IProgressMonitor.class});
+				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class});
 				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
 				registry = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate registry", false, null);
 				metrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate net mutant footprints", false, null);
 				debugMetrics = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Generate debug mutant footprints", false, null);
-				m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, monitor);
+				m.invoke(ob, maxAttempts, numMutants, registry, metrics, debugMetrics, null, project, monitor, true, null, null);
 				// ime = (IMutatorExecutor)ob;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -134,8 +142,6 @@ public class RunWodel implements IObjectActionDelegate {
 				File[] files = null;
 				HashMap<String, Resource> hashmap_regpostseed = new HashMap<String, Resource>();
 				HashMap<String, Resource> hashmap_regpostmutant = new HashMap<String, Resource>();
-				String metamodel = ModelManager.getMetaModel();
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 				List<String> modelpaths = ModelManager.getModels();
 				for (String ecoreURI : modelpaths) {
 					Resource modelfile = ModelManager.loadModel(packages, ecoreURI);
@@ -207,19 +213,16 @@ public class RunWodel implements IObjectActionDelegate {
 			}
 
 			try {
-				String metamodelpath = ModelManager.getMetaModelPath();
-				String metamodel = ModelManager.getMetaModel();
 				HashMap<Resource, String> hashmap_postproc = new HashMap<Resource, String>();
-				List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 				File[] files = null;
 				List<String> modelpaths = ModelManager.getModels();
 				File[] sourcefiles = new File(metamodelpath).listFiles();
-				for (File file : sourcefiles) {
-					if (file.isFile() == true) {
-						String pathfile = file.getPath();
+				for (File f : sourcefiles) {
+					if (f.isFile() == true) {
+						String pathfile = f.getPath();
 						if (pathfile.endsWith(".model") == true) {
 							Resource modelfile = ModelManager.loadModel(packages, pathfile);
-							String targetfile = new File(ModelManager.getOutputPath() + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1, pathfile.length() - ".model".length()) + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
+							String targetfile = new File(metamodelpath + "/" + pathfile.substring(pathfile.lastIndexOf(File.separator) + 1)).getPath();
 							hashmap_postproc.put(modelfile, targetfile);
 						}
 					}
@@ -256,26 +259,42 @@ public class RunWodel implements IObjectActionDelegate {
 						}
 					}
 				}
+				String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants postprocessing extension", "", null);
 				if (Platform.getExtensionRegistry() != null) {
 					IConfigurationElement[] extensions = Platform
 							.getExtensionRegistry().getConfigurationElementsFor(
 									"wodel.postprocessor.MutPostprocessor");
-					for (int j = 0; j < extensions.length; j++) {
-						IPostprocessor src = null;
-						try {
-							src = (IPostprocessor) extensions[j]
-									.createExecutableExtension("class");
-						} catch (CoreException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+					IConfigurationElement appropriateExtension = null;
+					for (IConfigurationElement extension : extensions) {
+						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
+						Object postprocessing =  extensionClass.newInstance();
+						Method getURI = extensionClass.getDeclaredMethod("getURI");
+						String uri = (String) getURI.invoke(postprocessing);
+						Method getName = extensionClass.getDeclaredMethod("getName");
+						String name = (String) getName.invoke(postprocessing);
+						if (name.equals(extensionName) && uri.equals("")) {
+							appropriateExtension = extension;
+							break;
 						}
-						if (Platform.getPreferencesService().getBoolean(
-								"wodel.dsls.Wodel", src.getName(), false, null) == true) {
+						if (name.equals(extensionName) && uri.equals(packages.get(0).getNsURI())) {
+							appropriateExtension = extension;
+							break;
+						}
+						if (uri.equals("")) {
+							appropriateExtension = extension;
+						}
+					}
+					if (appropriateExtension != null) {
+						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+						Object postprocessing =  extensionClass.newInstance();
+						Method getName = extensionClass.getDeclaredMethod("getName");
+						if (getName.invoke(postprocessing).equals(extensionName) ) {
+							Method doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, String.class, Resource.class, String.class});
 							Set<Resource> resources = hashmap_postproc.keySet();
 							for (Resource r : resources) {
 								File f = new File(hashmap_postproc.get(r));
 								if(!f.isDirectory()) { 
-									src.doProcess(r, hashmap_postproc.get(r));
+									doProcess.invoke(postprocessing, metamodelpath, metamodel, r, hashmap_postproc.get(r));
 								}
 							}
 						}
@@ -314,17 +333,14 @@ public class RunWodel implements IObjectActionDelegate {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-
-		public static void setFile(IFile f) {
-			file = f;
-		}
+	    }
 	}
 
-	public void run(IAction action) {
-		try {
-			RunWodelWithProgress runWodelWithProgress = new RunWodelWithProgress();
-			new ProgressMonitorDialog(new org.eclipse.swt.widgets.Shell()).run(true, true, runWodelWithProgress);
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+    	try {
+    		RunWodelWithProgress runWodelWithProgress = new RunWodelWithProgress(event);
+    		new ProgressMonitorDialog(HandlerUtil.getActiveShell(event)).run(true, true, runWodelWithProgress);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -332,18 +348,6 @@ public class RunWodel implements IObjectActionDelegate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return null;
 	}
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		RunWodelWithProgress.setFile((IFile) ((IStructuredSelection) selection).getFirstElement());
-	}
-	@Override
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

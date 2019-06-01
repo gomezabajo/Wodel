@@ -24,6 +24,8 @@ public class CompleteTypeSelection extends CompleteSelection {
 	 */
 	private String type;
 	
+	private List<EObject> excludedObjects;
+	
 	/**
 	 * @param metaModel
 	 * @param model
@@ -35,15 +37,34 @@ public class CompleteTypeSelection extends CompleteSelection {
 		this.type = type;
 	}
 
+	/**
+	 * @param metaModel
+	 * @param model
+	 * @param type
+	 * Normal constructor
+	 */
+	public CompleteTypeSelection(List<EPackage> metaModel, Resource model, String type, List<EObject> excludedObjects){
+		super(metaModel, model);
+		this.type = type;
+		this.excludedObjects = excludedObjects;
+	}
+
 	@Override
 	public List<EObject> getObjects() {
-		return ModelManager.getObjectsOfType(type, this.getModel());
+		List<EObject> l = ModelManager.getObjectsOfType(type, this.getModel());
+		if (excludedObjects != null) {
+			ModelManager.removeEObjects(l, excludedObjects);
+		}
+		return l;
 	}
 
 	@Override
 	public EObject getObject() throws ReferenceNonExistingException {
 		List<EObject> l = ModelManager.getObjectsOfType(type, this.getModel());
-		if(l==null || l.size()==0) return null;
+		if (excludedObjects != null) {
+			ModelManager.removeEObjects(l, excludedObjects);
+		}
+		if (l==null || l.size()==0) return null;
 		return l.get(ModelManager.getRandomIndex(l));
 	}
 }

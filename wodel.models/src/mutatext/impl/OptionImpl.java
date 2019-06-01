@@ -22,13 +22,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatext.impl.OptionImpl#getType <em>Type</em>}</li>
  *   <li>{@link mutatext.impl.OptionImpl#getObject <em>Object</em>}</li>
  *   <li>{@link mutatext.impl.OptionImpl#getValid <em>Valid</em>}</li>
  *   <li>{@link mutatext.impl.OptionImpl#getInvalid <em>Invalid</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

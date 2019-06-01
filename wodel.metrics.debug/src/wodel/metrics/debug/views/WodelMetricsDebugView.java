@@ -124,9 +124,9 @@ public class WodelMetricsDebugView extends ViewPart implements ISelectionChanged
 			String output = ModelManager.getOutputPath();
 			String fileName = manager.WodelContext.getFileName();
 			if (fileName.endsWith(".mutator") == false) {
-				MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-				msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
-				msgbox.open();
+				//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+				//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
+				//msgbox.open();
 				return;
 			}
 			Bundle bundle = Platform.getBundle("wodel.models");

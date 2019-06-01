@@ -50,13 +50,35 @@ public class SpecificObjectSelection extends SpecificSelection{
 		this.obj = obj;
 	}
 	
+
+	/**
+	 * @param metaModel
+	 * @param model
+	 * @param obj
+	 * Normal constructor
+	 */
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, EObject obj){
+		super(metaModel, models);
+		this.obj = obj;
+	}
+	
 	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, List<EObject> objs){
 		super(metaModel, model);
 		this.objs = objs;
 	}
 
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, List<EObject> objs){
+		super(metaModel, models);
+		this.objs = objs;
+	}
+
 	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe){
 		super(metaModel, model);
+		this.oe = oe;
+	}
+
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, ObjectEmitter oe){
+		super(metaModel, models);
 		this.oe = oe;
 	}
 
@@ -66,18 +88,36 @@ public class SpecificObjectSelection extends SpecificSelection{
 		this.refType = refType;
 	}
 	
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, EObject obj, String refType){
+		super(metaModel, models);
+		this.obj = obj;
+		this.refType = refType;
+	}
+
 	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, List<EObject> objs, String refType){
 		super(metaModel, model);
 		this.objs = objs;
 		this.refType = refType;
 	}
 	
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, List<EObject> objs, String refType){
+		super(metaModel, models);
+		this.objs = objs;
+		this.refType = refType;
+	}
+
 	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, ObjectEmitter oe, String refType){
 		super(metaModel, model);
 		this.oe = oe;
 		this.refType = refType;
 	}
 	
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, ObjectEmitter oe, String refType){
+		super(metaModel, models);
+		this.oe = oe;
+		this.refType = refType;
+	}
+
 	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(metaModel, model);
 		this.obj = obj;
@@ -90,6 +130,18 @@ public class SpecificObjectSelection extends SpecificSelection{
 		}
 	}
 	
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, EObject obj, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+		super(metaModel, models);
+		this.obj = obj;
+		try {
+			this.container = containerSelection.getObject();
+			this.reference = (EReference) referenceSelection.getObject();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public SpecificObjectSelection(List<EPackage> metaModel, Resource model, List<EObject> objs, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
 		super(metaModel, model);
 		this.objs = objs;
@@ -102,6 +154,17 @@ public class SpecificObjectSelection extends SpecificSelection{
 		}
 	}
 
+	public SpecificObjectSelection(List<EPackage> metaModel, List<Resource> models, List<EObject> objs, ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection) {
+		super(metaModel, models);
+		this.objs = objs;
+		try {
+			this.container = containerSelection.getObject();
+			this.reference = (EReference) referenceSelection.getObject();
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public EObject getObject() throws ReferenceNonExistingException {

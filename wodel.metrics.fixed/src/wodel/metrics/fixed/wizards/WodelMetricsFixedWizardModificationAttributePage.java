@@ -72,15 +72,15 @@ public class WodelMetricsFixedWizardModificationAttributePage extends WizardPage
 		this.className = className;
 		this.attributeName = attributeName;
 
-		ArrayList<EObject> blockObjects = MutatorUtils.getBlocks(model);
-		ArrayList<String> blockNames = new ArrayList<String>();
+		List<EObject> blockObjects = MutatorUtils.getBlocks(model);
+		List<String> blockNames = new ArrayList<String>();
 		for (EObject eObject : blockObjects) {
 			blockNames.add(ModelManager.getStringAttribute("name", eObject));
 		}
 		blockItems = new String[blockNames.size()];
 		blockNames.toArray(blockItems);
-		ArrayList<EClass> mutatorClasses = MutatorUtils.getModificationClassMutators(mutatorPackages);
-		ArrayList<String> mutatorNames = new ArrayList<String>();
+		List<EClass> mutatorClasses = MutatorUtils.getModificationClassMutators(mutatorPackages);
+		List<String> mutatorNames = new ArrayList<String>();
 		for (EClass eClass : mutatorClasses) {
 			mutatorNames.add(eClass.getName());
 		}
@@ -167,9 +167,9 @@ public class WodelMetricsFixedWizardModificationAttributePage extends WizardPage
 			if (e.getSource() instanceof Combo) {
 				Combo combo = (Combo) e.getSource();
 				mutatorClass = mainItems[combo.getSelectionIndex()];
-				ArrayList<EClass> strategyClasses = MutatorUtils.getMutatorStrategies(mutatorPackages, mutatorClass);
+				List<EClass> strategyClasses = MutatorUtils.getMutatorStrategies(mutatorPackages, mutatorClass);
 				if (strategyClasses != null) {
-					ArrayList<String> strategyNames = new ArrayList<String>();
+					List<String> strategyNames = new ArrayList<String>();
 					if (strategyClasses.size() == 0) {
 						valid = true;
 					}
@@ -186,7 +186,7 @@ public class WodelMetricsFixedWizardModificationAttributePage extends WizardPage
 				if (mutatorClass.equals("ModifyInformationMutator")) {
 					EClass eClass = ModelManager.getEClassByName(packages, className);
 					if (eClass != null) {
-						ArrayList<String> features = new ArrayList<String>();
+						List<String> features = new ArrayList<String>();
 						for (EAttribute att : eClass.getEAllAttributes()) {
 							if (att.getName().equals(attributeName)) {
 								features.add(att.getName());

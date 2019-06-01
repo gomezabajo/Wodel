@@ -204,7 +204,7 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (oldstring: ");
 		result.append(oldstring);
 		result.append(", newstring: ");

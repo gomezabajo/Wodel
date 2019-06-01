@@ -2,7 +2,6 @@ package commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -62,11 +61,11 @@ public class RetypeObjectMutator extends Mutator {
 	/**
 	 * Configuration of the attributes of the new object
 	 */
-	private HashMap<String, AttributeConfigurationStrategy> attributeConfig;
+	private Map<String, AttributeConfigurationStrategy> attributeConfig;
 	/**
 	 * Configuration of the references of the new object
 	 */
-	private HashMap<String, ObSelectionStrategy> referenceConfig;
+	private Map<String, ObSelectionStrategy> referenceConfig;
 
 	/**
 	 * Removed object
@@ -115,7 +114,7 @@ public class RetypeObjectMutator extends Mutator {
 	}
 	
 	public RetypeObjectMutator(Resource model, List<EPackage> metaModel, EObject object, 
-			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig) {
+			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, Map<String, AttributeConfigurationStrategy> attributeConfig) {
 		super(model, metaModel, "RetypeObjectMutator");
 		this.object = object;
 		this.referenceSelection = referenceSelection;
@@ -126,7 +125,7 @@ public class RetypeObjectMutator extends Mutator {
 	}
 	
 	public RetypeObjectMutator(Resource model, List<EPackage> metaModel, EObject object, 
-			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, String objName) {
+			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, Map<String, AttributeConfigurationStrategy> attributeConfig, String objName) {
 		super(model, metaModel, "RetypeObjectMutator");
 		this.object = object;
 		this.referenceSelection = referenceSelection;
@@ -138,7 +137,7 @@ public class RetypeObjectMutator extends Mutator {
 	}
 
 	public RetypeObjectMutator(Resource model, List<EPackage> metaModel, EObject object, 
-			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig) {
+			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, Map<String, AttributeConfigurationStrategy> attributeConfig, Map<String, ObSelectionStrategy> referenceConfig) {
 		super(model, metaModel, "RetypeObjectMutator");
 		this.object = object;
 		this.referenceSelection = referenceSelection;
@@ -150,7 +149,7 @@ public class RetypeObjectMutator extends Mutator {
 	}
 	
 	public RetypeObjectMutator(Resource model, List<EPackage> metaModel, EObject object, 
-			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig,  String objName) {
+			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, Map<String, AttributeConfigurationStrategy> attributeConfig, Map<String, ObSelectionStrategy> referenceConfig,  String objName) {
 		super(model, metaModel, "RetypeObjectMutator");
 		this.object = object;
 		this.referenceSelection = referenceSelection;
@@ -240,7 +239,28 @@ public class RetypeObjectMutator extends Mutator {
 		for (EStructuralFeature sf1 : obj.eClass().getEAllStructuralFeatures()) {
 			for (EStructuralFeature sf2 : newObj.eClass().getEAllStructuralFeatures()) {
 				if (EcoreUtil.getURI(sf1.getEType()).equals(EcoreUtil.getURI(sf2.getEType()))) {
-					newObj.eSet(sf2, obj.eGet(sf1));
+					if (sf1.getUpperBound() == 1) {
+						if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
+							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+							newoo.add((EObject) obj.eGet(sf1)); 
+						}
+						else {
+							newObj.eSet(sf2, obj.eGet(sf1));
+						}
+					}
+					if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
+						List<EObject> oo = (List<EObject>) obj.eGet(sf1);
+						if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
+							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+							if (sf1.getUpperBound() > 1) {
+								newoo = newoo.subList(0, sf1.getUpperBound());
+							}
+							oo.addAll(newoo);
+						}
+						else if (oo.size() > 0) {
+							newObj.eSet(sf2, oo.get(0));
+						}
+					}
 				}
 			}
 		}

@@ -3,6 +3,7 @@ package wodeledu.dsls;
 import java.io.IOException;
 
 import mutatorenvironment.MutatorenvironmentPackage;
+import wodeledu.dsls.ModelTextStandaloneSetup;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -14,6 +15,13 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 
 import com.google.inject.Injector;
+
+/**
+ * @author Pablo Gomez-Abajo - ModelTextUtils
+ * 
+ * Serialization of the modelText code into an EMF XMI model
+ *  
+ */
 
 public class ModelTextUtils {
 	/**

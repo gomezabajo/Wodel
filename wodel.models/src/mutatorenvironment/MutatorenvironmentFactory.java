@@ -625,6 +625,33 @@ public interface MutatorenvironmentFactory extends EFactory {
 	RetypeObjectMutator createRetypeObjectMutator();
 
 	/**
+	 * Returns a new object of class '<em>Typed Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Typed Selection</em>'.
+	 * @generated
+	 */
+	TypedSelection createTypedSelection();
+
+	/**
+	 * Returns a new object of class '<em>Random String Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Random String Number Type</em>'.
+	 * @generated
+	 */
+	RandomStringNumberType createRandomStringNumberType();
+
+	/**
+	 * Returns a new object of class '<em>Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Resource</em>'.
+	 * @generated
+	 */
+	Resource createResource();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

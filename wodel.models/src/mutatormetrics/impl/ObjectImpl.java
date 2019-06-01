@@ -17,13 +17,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatormetrics.impl.ObjectImpl#getName <em>Name</em>}</li>
  *   <li>{@link mutatormetrics.impl.ObjectImpl#getCreated <em>Created</em>}</li>
  *   <li>{@link mutatormetrics.impl.ObjectImpl#getModified <em>Modified</em>}</li>
  *   <li>{@link mutatormetrics.impl.ObjectImpl#getRemoved <em>Removed</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

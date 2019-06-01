@@ -2,29 +2,53 @@
 <?eclipse version="3.4"?>
 <plugin>
 
+  <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="runwodel.popup.actions.RunWodel"
+            id="wodelRunWodel"
+            name="Execute Mutations">
+      </command>
+   </extension>
    <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.mutator"
-            id="RunWodel.contribution1">
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
          <menu
                icon="icons/wodel4.jpg"
                id="Wodel.menu1"
-               label="Wodel..."
-               path="additions">
+               label="Wodel...">
             <separator
                   name="group1">
             </separator>
+            <command
+                  commandId="wodelRunWodel"
+                  icon="icons/wodel4.jpg"
+                  label="Execute Mutations"
+                  style="push">
+            <visibleWhen
+               	  checkEnabled="false">
+                  <with
+                  	 variable="activeMenuSelection">
+                     <iterate>
+ 						<adapt type="org.eclipse.core.resources.IResource">
+                        	<test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="wodel.project.sampleNature">
+    						</test>
+    						<test
+                               property="org.eclipse.core.resources.name"
+                               value="*.mutator">
+    						</test>
+ 						</adapt>
+                     </iterate>
+                     <count value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
          </menu>
-         <action
-               label="Execute mutations"
-               class="runwodel.popup.actions.RunWodel"
-               menubarPath="Wodel.menu1/group1"
-               enablesFor="1"
-               id="RunWodel.newAction1">
-         </action>
-      </objectContribution>
+      </menuContribution>
    </extension>
 
 </plugin>

@@ -61,15 +61,15 @@ public class InternalEduTestLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g"; }
+    public String getGrammarFileName() { return "InternalEduTest.g"; }
 
     // $ANTLR start "T__11"
     public final void mT__11() throws RecognitionException {
         try {
             int _type = T__11;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:11:7: ( 'AlternativeResponse' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:11:9: 'AlternativeResponse'
+            // InternalEduTest.g:11:7: ( 'AlternativeResponse' )
+            // InternalEduTest.g:11:9: 'AlternativeResponse'
             {
             match("AlternativeResponse"); 
 
@@ -89,8 +89,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__12;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:12:7: ( '{' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:12:9: '{'
+            // InternalEduTest.g:12:7: ( '{' )
+            // InternalEduTest.g:12:9: '{'
             {
             match('{'); 
 
@@ -109,8 +109,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__13;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:13:7: ( '}' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:13:9: '}'
+            // InternalEduTest.g:13:7: ( '}' )
+            // InternalEduTest.g:13:9: '}'
             {
             match('}'); 
 
@@ -129,8 +129,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__14;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:14:7: ( 'MultiChoiceDiagram' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:14:9: 'MultiChoiceDiagram'
+            // InternalEduTest.g:14:7: ( 'MultiChoiceDiagram' )
+            // InternalEduTest.g:14:9: 'MultiChoiceDiagram'
             {
             match("MultiChoiceDiagram"); 
 
@@ -150,8 +150,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__15;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:15:7: ( 'MultiChoiceEmendation' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:15:9: 'MultiChoiceEmendation'
+            // InternalEduTest.g:15:7: ( 'MultiChoiceEmendation' )
+            // InternalEduTest.g:15:9: 'MultiChoiceEmendation'
             {
             match("MultiChoiceEmendation"); 
 
@@ -171,8 +171,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:16:7: ( 'navigation' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:16:9: 'navigation'
+            // InternalEduTest.g:16:7: ( 'navigation' )
+            // InternalEduTest.g:16:9: 'navigation'
             {
             match("navigation"); 
 
@@ -192,8 +192,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:17:7: ( '=' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:17:9: '='
+            // InternalEduTest.g:17:7: ( '=' )
+            // InternalEduTest.g:17:9: '='
             {
             match('='); 
 
@@ -212,8 +212,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:18:7: ( 'retry' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:18:9: 'retry'
+            // InternalEduTest.g:18:7: ( 'retry' )
+            // InternalEduTest.g:18:9: 'retry'
             {
             match("retry"); 
 
@@ -233,8 +233,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:19:7: ( 'yes' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:19:9: 'yes'
+            // InternalEduTest.g:19:7: ( 'yes' )
+            // InternalEduTest.g:19:9: 'yes'
             {
             match("yes"); 
 
@@ -254,8 +254,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:20:7: ( 'no' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:20:9: 'no'
+            // InternalEduTest.g:20:7: ( 'no' )
+            // InternalEduTest.g:20:9: 'no'
             {
             match("no"); 
 
@@ -275,8 +275,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:21:7: ( ',' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:21:9: ','
+            // InternalEduTest.g:21:7: ( ',' )
+            // InternalEduTest.g:21:9: ','
             {
             match(','); 
 
@@ -295,8 +295,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:22:7: ( 'weighted' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:22:9: 'weighted'
+            // InternalEduTest.g:22:7: ( 'weighted' )
+            // InternalEduTest.g:22:9: 'weighted'
             {
             match("weighted"); 
 
@@ -316,8 +316,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:23:7: ( 'penalty' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:23:9: 'penalty'
+            // InternalEduTest.g:23:7: ( 'penalty' )
+            // InternalEduTest.g:23:9: 'penalty'
             {
             match("penalty"); 
 
@@ -337,8 +337,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:24:7: ( 'order' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:24:9: 'order'
+            // InternalEduTest.g:24:7: ( 'order' )
+            // InternalEduTest.g:24:9: 'order'
             {
             match("order"); 
 
@@ -358,8 +358,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:25:7: ( 'mode' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:25:9: 'mode'
+            // InternalEduTest.g:25:7: ( 'mode' )
+            // InternalEduTest.g:25:9: 'mode'
             {
             match("mode"); 
 
@@ -379,8 +379,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:26:7: ( 'description' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:26:9: 'description'
+            // InternalEduTest.g:26:7: ( 'description' )
+            // InternalEduTest.g:26:9: 'description'
             {
             match("description"); 
 
@@ -400,8 +400,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:27:7: ( 'for' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:27:9: 'for'
+            // InternalEduTest.g:27:7: ( 'for' )
+            // InternalEduTest.g:27:9: 'for'
             {
             match("for"); 
 
@@ -421,8 +421,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:28:7: ( '-' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:28:9: '-'
+            // InternalEduTest.g:28:7: ( '-' )
+            // InternalEduTest.g:28:9: '-'
             {
             match('-'); 
 
@@ -441,8 +441,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:29:7: ( '.' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:29:9: '.'
+            // InternalEduTest.g:29:7: ( '.' )
+            // InternalEduTest.g:29:9: '.'
             {
             match('.'); 
 
@@ -461,8 +461,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__30;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:30:7: ( 'E' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:30:9: 'E'
+            // InternalEduTest.g:30:7: ( 'E' )
+            // InternalEduTest.g:30:9: 'E'
             {
             match('E'); 
 
@@ -481,8 +481,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:31:7: ( 'e' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:31:9: 'e'
+            // InternalEduTest.g:31:7: ( 'e' )
+            // InternalEduTest.g:31:9: 'e'
             {
             match('e'); 
 
@@ -501,8 +501,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:32:7: ( 'fixed' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:32:9: 'fixed'
+            // InternalEduTest.g:32:7: ( 'fixed' )
+            // InternalEduTest.g:32:9: 'fixed'
             {
             match("fixed"); 
 
@@ -522,8 +522,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:33:7: ( 'random' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:33:9: 'random'
+            // InternalEduTest.g:33:7: ( 'random' )
+            // InternalEduTest.g:33:9: 'random'
             {
             match("random"); 
 
@@ -543,8 +543,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:34:7: ( 'options-ascending' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:34:9: 'options-ascending'
+            // InternalEduTest.g:34:7: ( 'options-ascending' )
+            // InternalEduTest.g:34:9: 'options-ascending'
             {
             match("options-ascending"); 
 
@@ -564,8 +564,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:35:7: ( 'options-descending' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:35:9: 'options-descending'
+            // InternalEduTest.g:35:7: ( 'options-descending' )
+            // InternalEduTest.g:35:9: 'options-descending'
             {
             match("options-descending"); 
 
@@ -585,8 +585,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:36:7: ( 'radiobutton' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:36:9: 'radiobutton'
+            // InternalEduTest.g:36:7: ( 'radiobutton' )
+            // InternalEduTest.g:36:9: 'radiobutton'
             {
             match("radiobutton"); 
 
@@ -606,8 +606,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:37:7: ( 'checkbox' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:37:9: 'checkbox'
+            // InternalEduTest.g:37:7: ( 'checkbox' )
+            // InternalEduTest.g:37:9: 'checkbox'
             {
             match("checkbox"); 
 
@@ -627,8 +627,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:38:7: ( 'free' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:38:9: 'free'
+            // InternalEduTest.g:38:7: ( 'free' )
+            // InternalEduTest.g:38:9: 'free'
             {
             match("free"); 
 
@@ -648,8 +648,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:39:7: ( 'locked' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:39:9: 'locked'
+            // InternalEduTest.g:39:7: ( 'locked' )
+            // InternalEduTest.g:39:9: 'locked'
             {
             match("locked"); 
 
@@ -669,10 +669,10 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:982:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:982:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalEduTest.g:995:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalEduTest.g:995:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:982:11: ( '^' )?
+            // InternalEduTest.g:995:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -681,7 +681,7 @@ public class InternalEduTestLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:982:11: '^'
+                    // InternalEduTest.g:995:11: '^'
                     {
                     match('^'); 
 
@@ -699,7 +699,7 @@ public class InternalEduTestLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:982:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalEduTest.g:995:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -712,7 +712,7 @@ public class InternalEduTestLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:
+            	    // InternalEduTest.g:
             	    {
             	    if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
@@ -748,10 +748,10 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:984:10: ( ( '0' .. '9' )+ )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:984:12: ( '0' .. '9' )+
+            // InternalEduTest.g:997:10: ( ( '0' .. '9' )+ )
+            // InternalEduTest.g:997:12: ( '0' .. '9' )+
             {
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:984:12: ( '0' .. '9' )+
+            // InternalEduTest.g:997:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -765,7 +765,7 @@ public class InternalEduTestLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:984:13: '0' .. '9'
+            	    // InternalEduTest.g:997:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -797,10 +797,10 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalEduTest.g:999:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalEduTest.g:999:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalEduTest.g:999:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -818,10 +818,10 @@ public class InternalEduTestLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalEduTest.g:999:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalEduTest.g:999:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -837,7 +837,7 @@ public class InternalEduTestLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:21: '\\\\' .
+                    	    // InternalEduTest.g:999:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -845,7 +845,7 @@ public class InternalEduTestLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalEduTest.g:999:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -870,10 +870,10 @@ public class InternalEduTestLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalEduTest.g:999:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalEduTest.g:999:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -889,7 +889,7 @@ public class InternalEduTestLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:54: '\\\\' .
+                    	    // InternalEduTest.g:999:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -897,7 +897,7 @@ public class InternalEduTestLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:986:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalEduTest.g:999:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -940,12 +940,12 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:988:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:988:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalEduTest.g:1001:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalEduTest.g:1001:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:988:24: ( options {greedy=false; } : . )*
+            // InternalEduTest.g:1001:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -970,7 +970,7 @@ public class InternalEduTestLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:988:52: .
+            	    // InternalEduTest.g:1001:52: .
             	    {
             	    matchAny(); 
 
@@ -1000,12 +1000,12 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalEduTest.g:1003:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalEduTest.g:1003:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalEduTest.g:1003:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -1018,7 +1018,7 @@ public class InternalEduTestLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalEduTest.g:1003:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1038,7 +1038,7 @@ public class InternalEduTestLexer extends Lexer {
                 }
             } while (true);
 
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:40: ( ( '\\r' )? '\\n' )?
+            // InternalEduTest.g:1003:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1047,9 +1047,9 @@ public class InternalEduTestLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:41: ( '\\r' )? '\\n'
+                    // InternalEduTest.g:1003:41: ( '\\r' )? '\\n'
                     {
-                    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:41: ( '\\r' )?
+                    // InternalEduTest.g:1003:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -1058,7 +1058,7 @@ public class InternalEduTestLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:990:41: '\\r'
+                            // InternalEduTest.g:1003:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1090,10 +1090,10 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:992:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:992:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalEduTest.g:1005:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalEduTest.g:1005:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:992:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalEduTest.g:1005:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -1107,7 +1107,7 @@ public class InternalEduTestLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:
+            	    // InternalEduTest.g:
             	    {
             	    if ( (input.LA(1)>='\t' && input.LA(1)<='\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -1147,8 +1147,8 @@ public class InternalEduTestLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:994:16: ( . )
-            // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:994:18: .
+            // InternalEduTest.g:1007:16: ( . )
+            // InternalEduTest.g:1007:18: .
             {
             matchAny(); 
 
@@ -1163,257 +1163,257 @@ public class InternalEduTestLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:8: ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        // InternalEduTest.g:1:8: ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
         int alt12=36;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:10: T__11
+                // InternalEduTest.g:1:10: T__11
                 {
                 mT__11(); 
 
                 }
                 break;
             case 2 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:16: T__12
+                // InternalEduTest.g:1:16: T__12
                 {
                 mT__12(); 
 
                 }
                 break;
             case 3 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:22: T__13
+                // InternalEduTest.g:1:22: T__13
                 {
                 mT__13(); 
 
                 }
                 break;
             case 4 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:28: T__14
+                // InternalEduTest.g:1:28: T__14
                 {
                 mT__14(); 
 
                 }
                 break;
             case 5 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:34: T__15
+                // InternalEduTest.g:1:34: T__15
                 {
                 mT__15(); 
 
                 }
                 break;
             case 6 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:40: T__16
+                // InternalEduTest.g:1:40: T__16
                 {
                 mT__16(); 
 
                 }
                 break;
             case 7 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:46: T__17
+                // InternalEduTest.g:1:46: T__17
                 {
                 mT__17(); 
 
                 }
                 break;
             case 8 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:52: T__18
+                // InternalEduTest.g:1:52: T__18
                 {
                 mT__18(); 
 
                 }
                 break;
             case 9 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:58: T__19
+                // InternalEduTest.g:1:58: T__19
                 {
                 mT__19(); 
 
                 }
                 break;
             case 10 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:64: T__20
+                // InternalEduTest.g:1:64: T__20
                 {
                 mT__20(); 
 
                 }
                 break;
             case 11 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:70: T__21
+                // InternalEduTest.g:1:70: T__21
                 {
                 mT__21(); 
 
                 }
                 break;
             case 12 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:76: T__22
+                // InternalEduTest.g:1:76: T__22
                 {
                 mT__22(); 
 
                 }
                 break;
             case 13 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:82: T__23
+                // InternalEduTest.g:1:82: T__23
                 {
                 mT__23(); 
 
                 }
                 break;
             case 14 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:88: T__24
+                // InternalEduTest.g:1:88: T__24
                 {
                 mT__24(); 
 
                 }
                 break;
             case 15 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:94: T__25
+                // InternalEduTest.g:1:94: T__25
                 {
                 mT__25(); 
 
                 }
                 break;
             case 16 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:100: T__26
+                // InternalEduTest.g:1:100: T__26
                 {
                 mT__26(); 
 
                 }
                 break;
             case 17 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:106: T__27
+                // InternalEduTest.g:1:106: T__27
                 {
                 mT__27(); 
 
                 }
                 break;
             case 18 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:112: T__28
+                // InternalEduTest.g:1:112: T__28
                 {
                 mT__28(); 
 
                 }
                 break;
             case 19 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:118: T__29
+                // InternalEduTest.g:1:118: T__29
                 {
                 mT__29(); 
 
                 }
                 break;
             case 20 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:124: T__30
+                // InternalEduTest.g:1:124: T__30
                 {
                 mT__30(); 
 
                 }
                 break;
             case 21 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:130: T__31
+                // InternalEduTest.g:1:130: T__31
                 {
                 mT__31(); 
 
                 }
                 break;
             case 22 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:136: T__32
+                // InternalEduTest.g:1:136: T__32
                 {
                 mT__32(); 
 
                 }
                 break;
             case 23 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:142: T__33
+                // InternalEduTest.g:1:142: T__33
                 {
                 mT__33(); 
 
                 }
                 break;
             case 24 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:148: T__34
+                // InternalEduTest.g:1:148: T__34
                 {
                 mT__34(); 
 
                 }
                 break;
             case 25 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:154: T__35
+                // InternalEduTest.g:1:154: T__35
                 {
                 mT__35(); 
 
                 }
                 break;
             case 26 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:160: T__36
+                // InternalEduTest.g:1:160: T__36
                 {
                 mT__36(); 
 
                 }
                 break;
             case 27 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:166: T__37
+                // InternalEduTest.g:1:166: T__37
                 {
                 mT__37(); 
 
                 }
                 break;
             case 28 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:172: T__38
+                // InternalEduTest.g:1:172: T__38
                 {
                 mT__38(); 
 
                 }
                 break;
             case 29 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:178: T__39
+                // InternalEduTest.g:1:178: T__39
                 {
                 mT__39(); 
 
                 }
                 break;
             case 30 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:184: RULE_ID
+                // InternalEduTest.g:1:184: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
             case 31 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:192: RULE_INT
+                // InternalEduTest.g:1:192: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
             case 32 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:201: RULE_STRING
+                // InternalEduTest.g:1:201: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
             case 33 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:213: RULE_ML_COMMENT
+                // InternalEduTest.g:1:213: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
             case 34 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:229: RULE_SL_COMMENT
+                // InternalEduTest.g:1:229: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
             case 35 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:245: RULE_WS
+                // InternalEduTest.g:1:245: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
             case 36 :
-                // ../wodeledu.dsls.edutest/src-gen/wodeledu/dsls/parser/antlr/internal/InternalEduTest.g:1:253: RULE_ANY_OTHER
+                // InternalEduTest.g:1:253: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1427,71 +1427,19 @@ public class InternalEduTestLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\1\37\2\uffff\2\37\1\uffff\2\37\1\uffff\6\37\2\uffff\1"+
-        "\65\1\66\2\37\1\35\2\uffff\3\35\2\uffff\1\37\3\uffff\2\37\1\101"+
-        "\1\uffff\3\37\1\uffff\11\37\4\uffff\2\37\5\uffff\3\37\1\uffff\3"+
-        "\37\1\127\6\37\1\136\12\37\1\uffff\4\37\1\155\1\37\1\uffff\1\37"+
-        "\1\160\5\37\1\166\4\37\1\173\1\37\1\uffff\1\37\1\176\1\uffff\5\37"+
-        "\1\uffff\1\u0084\3\37\1\uffff\2\37\1\uffff\1\37\1\u008b\3\37\1\uffff"+
-        "\2\37\1\u0091\3\37\1\uffff\4\37\1\u0099\2\uffff\1\37\1\u009d\4\37"+
-        "\3\uffff\1\37\1\uffff\2\37\1\u00a5\4\37\1\uffff\1\u00ab\1\u00ac"+
-        "\3\37\2\uffff\20\37\1\u00c0\1\37\1\u00c2\1\uffff\1\37\1\uffff\1"+
-        "\37\1\u00c5\1\uffff";
+        "\1\uffff\1\37\2\uffff\2\37\1\uffff\2\37\1\uffff\6\37\2\uffff\1\65\1\66\2\37\1\35\2\uffff\3\35\2\uffff\1\37\3\uffff\2\37\1\101\1\uffff\3\37\1\uffff\11\37\4\uffff\2\37\5\uffff\3\37\1\uffff\3\37\1\127\6\37\1\136\12\37\1\uffff\4\37\1\155\1\37\1\uffff\1\37\1\160\5\37\1\166\4\37\1\173\1\37\1\uffff\1\37\1\176\1\uffff\5\37\1\uffff\1\u0084\3\37\1\uffff\2\37\1\uffff\1\37\1\u008b\3\37\1\uffff\2\37\1\u0091\3\37\1\uffff\4\37\1\u0099\2\uffff\1\37\1\u009d\4\37\3\uffff\1\37\1\uffff\2\37\1\u00a5\4\37\1\uffff\1\u00ab\1\u00ac\3\37\2\uffff\20\37\1\u00c0\1\37\1\u00c2\1\uffff\1\37\1\uffff\1\37\1\u00c5\1\uffff";
     static final String DFA12_eofS =
         "\u00c6\uffff";
     static final String DFA12_minS =
-        "\1\0\1\154\2\uffff\1\165\1\141\1\uffff\1\141\1\145\1\uffff\2\145"+
-        "\1\160\1\157\1\145\1\151\2\uffff\2\60\1\150\1\157\1\101\2\uffff"+
-        "\2\0\1\52\2\uffff\1\164\3\uffff\1\154\1\166\1\60\1\uffff\1\164\1"+
-        "\144\1\163\1\uffff\1\151\1\156\1\144\1\164\1\144\1\163\1\162\1\170"+
-        "\1\145\4\uffff\1\145\1\143\5\uffff\1\145\1\164\1\151\1\uffff\1\162"+
-        "\1\144\1\151\1\60\1\147\1\141\1\145\1\151\1\145\1\143\1\60\2\145"+
-        "\1\143\1\153\1\162\1\151\1\147\1\171\2\157\1\uffff\1\150\1\154\1"+
-        "\162\1\157\1\60\1\162\1\uffff\1\144\1\60\1\153\1\145\1\156\1\103"+
-        "\1\141\1\60\1\155\1\142\2\164\1\60\1\156\1\uffff\1\151\1\60\1\uffff"+
-        "\1\142\1\144\1\141\1\150\1\164\1\uffff\1\60\1\165\1\145\1\171\1"+
-        "\uffff\1\163\1\160\1\uffff\1\157\1\60\1\164\1\157\1\151\1\uffff"+
-        "\1\164\1\144\1\60\1\55\1\164\1\170\1\uffff\2\151\1\157\1\164\1\60"+
-        "\1\uffff\1\141\1\151\1\60\1\166\1\143\1\156\1\157\3\uffff\1\157"+
-        "\1\uffff\2\145\1\60\2\156\1\122\1\104\1\uffff\2\60\1\145\1\151\1"+
-        "\155\2\uffff\1\163\1\141\1\145\1\160\1\147\1\156\1\157\1\162\1\144"+
-        "\1\156\2\141\1\163\1\155\1\164\1\145\1\60\1\151\1\60\1\uffff\1\157"+
-        "\1\uffff\1\156\1\60\1\uffff";
+        "\1\0\1\154\2\uffff\1\165\1\141\1\uffff\1\141\1\145\1\uffff\2\145\1\160\1\157\1\145\1\151\2\uffff\2\60\1\150\1\157\1\101\2\uffff\2\0\1\52\2\uffff\1\164\3\uffff\1\154\1\166\1\60\1\uffff\1\164\1\144\1\163\1\uffff\1\151\1\156\1\144\1\164\1\144\1\163\1\162\1\170\1\145\4\uffff\1\145\1\143\5\uffff\1\145\1\164\1\151\1\uffff\1\162\1\144\1\151\1\60\1\147\1\141\1\145\1\151\1\145\1\143\1\60\2\145\1\143\1\153\1\162\1\151\1\147\1\171\2\157\1\uffff\1\150\1\154\1\162\1\157\1\60\1\162\1\uffff\1\144\1\60\1\153\1\145\1\156\1\103\1\141\1\60\1\155\1\142\2\164\1\60\1\156\1\uffff\1\151\1\60\1\uffff\1\142\1\144\1\141\1\150\1\164\1\uffff\1\60\1\165\1\145\1\171\1\uffff\1\163\1\160\1\uffff\1\157\1\60\1\164\1\157\1\151\1\uffff\1\164\1\144\1\60\1\55\1\164\1\170\1\uffff\2\151\1\157\1\164\1\60\1\uffff\1\141\1\151\1\60\1\166\1\143\1\156\1\157\3\uffff\1\157\1\uffff\2\145\1\60\2\156\1\122\1\104\1\uffff\2\60\1\145\1\151\1\155\2\uffff\1\163\1\141\1\145\1\160\1\147\1\156\1\157\1\162\1\144\1\156\2\141\1\163\1\155\1\164\1\145\1\60\1\151\1\60\1\uffff\1\157\1\uffff\1\156\1\60\1\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\1\154\2\uffff\1\165\1\157\1\uffff\2\145\1\uffff\2\145"+
-        "\1\162\1\157\1\145\1\162\2\uffff\2\172\1\150\1\157\1\172\2\uffff"+
-        "\2\uffff\1\57\2\uffff\1\164\3\uffff\1\154\1\166\1\172\1\uffff\1"+
-        "\164\1\156\1\163\1\uffff\1\151\1\156\1\144\1\164\1\144\1\163\1\162"+
-        "\1\170\1\145\4\uffff\1\145\1\143\5\uffff\1\145\1\164\1\151\1\uffff"+
-        "\1\162\1\144\1\151\1\172\1\147\1\141\1\145\1\151\1\145\1\143\1\172"+
-        "\2\145\1\143\1\153\1\162\1\151\1\147\1\171\2\157\1\uffff\1\150\1"+
-        "\154\1\162\1\157\1\172\1\162\1\uffff\1\144\1\172\1\153\1\145\1\156"+
-        "\1\103\1\141\1\172\1\155\1\142\2\164\1\172\1\156\1\uffff\1\151\1"+
-        "\172\1\uffff\1\142\1\144\1\141\1\150\1\164\1\uffff\1\172\1\165\1"+
-        "\145\1\171\1\uffff\1\163\1\160\1\uffff\1\157\1\172\1\164\1\157\1"+
-        "\151\1\uffff\1\164\1\144\1\172\1\55\1\164\1\170\1\uffff\2\151\1"+
-        "\157\1\164\1\172\1\uffff\1\144\1\151\1\172\1\166\1\143\1\156\1\157"+
-        "\3\uffff\1\157\1\uffff\2\145\1\172\2\156\1\122\1\105\1\uffff\2\172"+
-        "\1\145\1\151\1\155\2\uffff\1\163\1\141\1\145\1\160\1\147\1\156\1"+
-        "\157\1\162\1\144\1\156\2\141\1\163\1\155\1\164\1\145\1\172\1\151"+
-        "\1\172\1\uffff\1\157\1\uffff\1\156\1\172\1\uffff";
+        "\1\uffff\1\154\2\uffff\1\165\1\157\1\uffff\2\145\1\uffff\2\145\1\162\1\157\1\145\1\162\2\uffff\2\172\1\150\1\157\1\172\2\uffff\2\uffff\1\57\2\uffff\1\164\3\uffff\1\154\1\166\1\172\1\uffff\1\164\1\156\1\163\1\uffff\1\151\1\156\1\144\1\164\1\144\1\163\1\162\1\170\1\145\4\uffff\1\145\1\143\5\uffff\1\145\1\164\1\151\1\uffff\1\162\1\144\1\151\1\172\1\147\1\141\1\145\1\151\1\145\1\143\1\172\2\145\1\143\1\153\1\162\1\151\1\147\1\171\2\157\1\uffff\1\150\1\154\1\162\1\157\1\172\1\162\1\uffff\1\144\1\172\1\153\1\145\1\156\1\103\1\141\1\172\1\155\1\142\2\164\1\172\1\156\1\uffff\1\151\1\172\1\uffff\1\142\1\144\1\141\1\150\1\164\1\uffff\1\172\1\165\1\145\1\171\1\uffff\1\163\1\160\1\uffff\1\157\1\172\1\164\1\157\1\151\1\uffff\1\164\1\144\1\172\1\55\1\164\1\170\1\uffff\2\151\1\157\1\164\1\172\1\uffff\1\144\1\151\1\172\1\166\1\143\1\156\1\157\3\uffff\1\157\1\uffff\2\145\1\172\2\156\1\122\1\105\1\uffff\2\172\1\145\1\151\1\155\2\uffff\1\163\1\141\1\145\1\160\1\147\1\156\1\157\1\162\1\144\1\156\2\141\1\163\1\155\1\164\1\145\1\172\1\151\1\172\1\uffff\1\157\1\uffff\1\156\1\172\1\uffff";
     static final String DFA12_acceptS =
-        "\2\uffff\1\2\1\3\2\uffff\1\7\2\uffff\1\13\6\uffff\1\22\1\23\5\uffff"+
-        "\1\36\1\37\3\uffff\1\43\1\44\1\uffff\1\36\1\2\1\3\3\uffff\1\7\3"+
-        "\uffff\1\13\11\uffff\1\22\1\23\1\24\1\25\2\uffff\1\37\1\40\1\41"+
-        "\1\42\1\43\3\uffff\1\12\25\uffff\1\11\6\uffff\1\21\16\uffff\1\17"+
-        "\2\uffff\1\34\5\uffff\1\10\4\uffff\1\16\2\uffff\1\26\5\uffff\1\27"+
-        "\6\uffff\1\35\5\uffff\1\15\7\uffff\1\14\1\30\1\31\1\uffff\1\33\7"+
-        "\uffff\1\6\5\uffff\1\32\1\20\23\uffff\1\4\1\uffff\1\1\2\uffff\1"+
-        "\5";
+        "\2\uffff\1\2\1\3\2\uffff\1\7\2\uffff\1\13\6\uffff\1\22\1\23\5\uffff\1\36\1\37\3\uffff\1\43\1\44\1\uffff\1\36\1\2\1\3\3\uffff\1\7\3\uffff\1\13\11\uffff\1\22\1\23\1\24\1\25\2\uffff\1\37\1\40\1\41\1\42\1\43\3\uffff\1\12\25\uffff\1\11\6\uffff\1\21\16\uffff\1\17\2\uffff\1\34\5\uffff\1\10\4\uffff\1\16\2\uffff\1\26\5\uffff\1\27\6\uffff\1\35\5\uffff\1\15\7\uffff\1\14\1\30\1\31\1\uffff\1\33\7\uffff\1\6\5\uffff\1\32\1\20\23\uffff\1\4\1\uffff\1\1\2\uffff\1\5";
     static final String DFA12_specialS =
         "\1\0\30\uffff\1\1\1\2\u00ab\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\11\35\2\34\2\35\1\34\22\35\1\34\1\35\1\31\4\35\1\32\4\35\1"+
-            "\11\1\20\1\21\1\33\12\30\3\35\1\6\3\35\1\1\3\27\1\22\7\27\1"+
-            "\4\15\27\3\35\1\26\1\27\1\35\2\27\1\24\1\16\1\23\1\17\5\27\1"+
-            "\25\1\15\1\5\1\14\1\13\1\27\1\7\4\27\1\12\1\27\1\10\1\27\1\2"+
-            "\1\35\1\3\uff82\35",
+            "\11\35\2\34\2\35\1\34\22\35\1\34\1\35\1\31\4\35\1\32\4\35\1\11\1\20\1\21\1\33\12\30\3\35\1\6\3\35\1\1\3\27\1\22\7\27\1\4\15\27\3\35\1\26\1\27\1\35\2\27\1\24\1\16\1\23\1\17\5\27\1\25\1\15\1\5\1\14\1\13\1\27\1\7\4\27\1\12\1\27\1\10\1\27\1\2\1\35\1\3\uff82\35",
             "\1\36",
             "",
             "",
@@ -1707,7 +1655,7 @@ public class InternalEduTestLexer extends Lexer {
         }
     }
 
-    static class DFA12 extends DFA {
+    class DFA12 extends DFA {
 
         public DFA12(BaseRecognizer recognizer) {
             this.recognizer = recognizer;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import manager.ModelManager;
 
-import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -162,11 +162,18 @@ public class ModifyTargetReferenceMutator extends Mutator {
 
 		object = container;
 
-		if (!ref.getEType().getName().equals(newTarget.eClass().getName())) {
-			result = null;
-			throw new ObjectNoTargetableException("The reference '"
-					+ ref.getName() + "' cannot contain the object '"
-					+ newTarget.eClass().getName() + "'.");
+		if(!ref.getEType().getName().equals(newTarget.eClass().getName())){
+			boolean found = false;
+			for (EClass superType : newTarget.eClass().getEAllSuperTypes()) {
+				if (superType.getName().equals(ref.getEType().getName())) {
+					found = true;
+					break;
+				}
+			}
+			if (found == false) {			
+				result = null;
+				throw new ObjectNoTargetableException("The reference '"+ref.getName()+"' cannot contain the object '"+newTarget.eClass().getName()+"'.");
+			}
 		}
 
 		// Multivalued

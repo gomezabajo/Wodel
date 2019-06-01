@@ -400,6 +400,18 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 				return createRetypeObjectMutatorAdapter();
 			}
 			@Override
+			public Adapter caseTypedSelection(TypedSelection object) {
+				return createTypedSelectionAdapter();
+			}
+			@Override
+			public Adapter caseRandomStringNumberType(RandomStringNumberType object) {
+				return createRandomStringNumberTypeAdapter();
+			}
+			@Override
+			public Adapter caseResource(Resource object) {
+				return createResourceAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -1578,6 +1590,48 @@ public class MutatorenvironmentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRetypeObjectMutatorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.TypedSelection <em>Typed Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.TypedSelection
+	 * @generated
+	 */
+	public Adapter createTypedSelectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.RandomStringNumberType <em>Random String Number Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.RandomStringNumberType
+	 * @generated
+	 */
+	public Adapter createRandomStringNumberTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link mutatorenvironment.Resource <em>Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see mutatorenvironment.Resource
+	 * @generated
+	 */
+	public Adapter createResourceAdapter() {
 		return null;
 	}
 

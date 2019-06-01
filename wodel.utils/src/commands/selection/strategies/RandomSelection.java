@@ -25,4 +25,13 @@ public abstract class RandomSelection extends ObSelectionStrategy{
 	public RandomSelection(List<EPackage> metaModel, Resource model) {
 		super(metaModel, model);
 	}
+
+	/**
+	 * @param metaModel
+	 * @param models
+	 * Normal constructor
+	 */
+	public RandomSelection(List<EPackage> metaModel, List<Resource> models) {
+		super(metaModel, models);
+	}
 }

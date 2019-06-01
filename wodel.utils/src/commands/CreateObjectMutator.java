@@ -8,17 +8,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import manager.EMFCopier;
+import manager.EMFUtils;
 import manager.ModelManager;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import commands.selection.strategies.ObSelectionStrategy;
+import commands.selection.strategies.RandomTypeSelection;
 import commands.strategies.AttributeConfigurationStrategy;
+import commands.strategies.RandomBooleanConfigurationStrategy;
+import commands.strategies.RandomDoubleConfigurationStrategy;
+import commands.strategies.RandomIntegerConfigurationStrategy;
+import commands.strategies.RandomStringConfigurationStrategy;
 import exceptions.AbstractCreationException;
 import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
@@ -46,11 +59,11 @@ public class CreateObjectMutator extends Mutator {
 	/**
 	 * Configuration of the attributes of the new object
 	 */
-	private HashMap<String, AttributeConfigurationStrategy> attributeConfig;
+	private Map<String, AttributeConfigurationStrategy> attributeConfig;
 	/**
 	 * Configuration of the references of the new object
 	 */
-	private HashMap<String, ObSelectionStrategy> referenceConfig;
+	private Map<String, ObSelectionStrategy> referenceConfig;
 	/**
 	 * Created object
 	 */
@@ -104,7 +117,7 @@ public class CreateObjectMutator extends Mutator {
 	 * Constructor that specifies the class name
 	 */
 	public CreateObjectMutator(Resource model, List<EPackage> metaModel, ObSelectionStrategy referenceSelection, 
-			ObSelectionStrategy containerSelection, HashMap<String, AttributeConfigurationStrategy> attributeConfig, HashMap<String, ObSelectionStrategy> referenceConfig, String objName){
+			ObSelectionStrategy containerSelection, Map<String, AttributeConfigurationStrategy> attributeConfig, Map<String, ObSelectionStrategy> referenceConfig, String objName){
 		super(model, metaModel, "ObjectCreated");
 		this.referenceSelection = referenceSelection;
 		this.containerSelection = containerSelection;
@@ -113,6 +126,70 @@ public class CreateObjectMutator extends Mutator {
 		this.objName = objName;
 	}
 	
+	/**
+	 * Completes the model with mandatory features
+	 * @param packages
+	 * @param model
+	 * @return
+	 */
+	private void complete(List<EPackage> packages, Resource model) {
+		TreeIterator<EObject> tree = model.getAllContents();
+		while (tree.hasNext()) {
+			EObject eObject = (EObject) tree.next();
+			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+			if (diagnostic.getSeverity() != Diagnostic.OK) {
+				int code = ((BasicDiagnostic) diagnostic.getChildren().get(0)).getCode();
+				if (code == 0 || code == 1) {
+					try {
+						// COMPLETES THE CARDINALITIES
+						TreeIterator<Object> nested = EcoreUtil.getAllContents(eObject, true);
+						List<EObject> processed = new ArrayList<EObject>();
+						while (nested.hasNext()) {
+							EObject obj = (EObject) nested.next();
+							if (processed.contains(obj)) {
+								break;
+							}
+							processed.add(obj);
+							for (EAttribute att : obj.eClass().getEAllAttributes()) {
+								if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
+									try { 
+										if (att.getEType().getInstanceClassName().equals(String.class.getCanonicalName())) {
+											ModelManager.setAttribute(att.getName(), obj, new RandomStringConfigurationStrategy(4, 5, false));
+										}
+										if (att.getEType().getInstanceClassName().equals(boolean.class.getCanonicalName())) {
+											ModelManager.setAttribute(att.getName(), obj, new RandomBooleanConfigurationStrategy());
+										}
+										if (att.getEType().getInstanceClassName().equals(double.class.getCanonicalName())) {
+											ModelManager.setAttribute(att.getName(), obj, new RandomDoubleConfigurationStrategy(1, 100, false));
+										}
+										if (att.getEType().getInstanceClassName().equals(int.class.getCanonicalName())) {
+											ModelManager.setAttribute(att.getName(), obj, new RandomIntegerConfigurationStrategy(1, 100, false));
+										}
+									} catch (WrongAttributeTypeException e) {
+										e.printStackTrace();
+									}
+								}
+							}
+							for (EReference ref : obj.eClass().getEAllReferences()) {
+								if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
+									try {
+										if (ref.isChangeable()) {
+											ModelManager.setReference(ref.getName(), obj, new RandomTypeSelection(packages, model, ref.getEReferenceType().getName()));
+										}
+									} catch (WrongAttributeTypeException e) {
+									} catch (ReferenceNonExistingException e) {
+									} catch (ClassCastException e) {
+									}
+								}
+							}
+						}
+					} catch (Exception ex) {
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
@@ -147,22 +224,6 @@ public class CreateObjectMutator extends Mutator {
 			return null;
 		}
 		
-		//If there is not a selected reference we choose a random one
-		if(reference == null && objName != null){
-			ArrayList<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
-			Collections.shuffle(refs);
-			for (EReference ref : refs) {
-				if (ref.getEType().getName().equals(objName)) {
-					reference = ref;
-					break;
-				}
-			}
-			if (reference == null) {
-				reference = refs.get(ModelManager.getRandomIndex(refs));
-			}
-		}
-
-		
 		//We create the object
 		EObject newObj = null;
 		//if (this.getMetaModel().get(0).getNsURI().equals("http://www.eclipse.org/emf/2002/Ecore")) {
@@ -171,8 +232,96 @@ public class CreateObjectMutator extends Mutator {
 		//else {
 			newObj = EcoreUtil.create((EClass) obj);
 		//}
+
+		// Attributes configuration
+		Iterator<Entry<String, AttributeConfigurationStrategy>> att = this.attributeConfig.entrySet().iterator();
+		while (att.hasNext()) {
+			Map.Entry<String, AttributeConfigurationStrategy> e = att.next();
+			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
+		}
+
+		// Reference configuration
+		Iterator<Entry<String, ObSelectionStrategy>> rf = this.referenceConfig.entrySet().iterator();
+		while (rf.hasNext()) {
+			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>) rf.next();
+			if (reference != null) {
+				if (!obj.eClass().isInstance(container.eGet(reference))
+						&& !(container.eGet(reference) instanceof List<?>)) {
+					if (e.getValue().getObject() != null) {
+						if (!this.getModel().getContents().contains(e.getValue().getObject())) {
+							EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
+							ModelManager.setReference(e.getKey(), newObj, eObject);
+						}
+						else {
+							EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
+							this.getModel().getContents().remove(e.getValue().getObject());
+							ModelManager.setReference(e.getKey(), newObj, eObject);
+						}
+					}
+					if (e.getValue().getObjects() != null) {
+						for (EObject o : e.getValue().getObjects()) {
+							ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+						}
+					}
+				} else {
+					if (e.getValue() != null) {
+						ModelManager.setReference(e.getKey(), newObj, e.getValue());
+					}
+				}
+			}
+			else {
+				if (e.getValue().getObject() != null) {
+					if (!this.getModel().getContents().contains(e.getValue().getObject())) {
+						EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
+						ModelManager.setReference(e.getKey(), newObj, eObject);
+					}
+					else {
+						EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
+						this.getModel().getContents().remove(e.getValue().getObject());
+						ModelManager.setReference(e.getKey(), newObj, eObject);
+					}
+				}
+				if (e.getValue().getObjects() != null) {
+					for (EObject o : e.getValue().getObjects()) {
+						ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+					}
+				}
+				
+			}
+		}
 		
-		boolean sup = false;
+		//If there is not a selected reference we choose a random one
+		if(reference == null && objName != null){
+			List<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
+			EClass objType = ModelManager.getEClassByName(this.getMetaModel(), objName);
+			Collections.shuffle(refs);
+			for (EReference ref : refs) {
+				EClass type = (EClass) ref.getEType();
+				if (type.isSuperTypeOf(objType)) {
+					if (container.eGet(ref) == null) {
+						reference = ref;
+						break;
+					}
+					if (container.eGet(ref) instanceof List<?>) {
+						List<EObject> objects = (List<EObject>) container.eGet(ref);
+						if (ref.getUpperBound() == -1 || ref.getUpperBound() > objects.size()) {
+							reference = ref;
+							break;
+						}
+					}
+				}
+			}
+			if (reference == null) {
+				//stores the new object in the root object
+				List<EObject> o = (List<EObject>) this.getModel().getContents();
+				o.add(newObj);		
+				this.result = newObj;
+				return newObj;
+				//reference = refs.get(ModelManager.getRandomIndex(refs));
+			}
+		}
+		
+		//boolean sup = false;
 		if(!reference.getEType().getName().equals(newObj.eClass().getName())){
 			
 			/*for (EClass c : newObj.eClass().getEAllSuperTypes()){
@@ -193,33 +342,6 @@ public class CreateObjectMutator extends Mutator {
 			}
 		}
 		
-		//Attributes configuration
-		Iterator<Entry<String, AttributeConfigurationStrategy>> att = this.attributeConfig.entrySet().iterator();
-		while (att.hasNext()) {
-			Map.Entry<String, AttributeConfigurationStrategy> e = att.next();			
-			ModelManager.setAttribute(e.getKey(), newObj, e.getValue());
-		}
-			
-		//Reference configuration
-		Iterator<Entry<String, ObSelectionStrategy>> ref = this.referenceConfig.entrySet().iterator();
-		while (ref.hasNext()) {
-			Map.Entry<String, ObSelectionStrategy> e = (Map.Entry<String, ObSelectionStrategy>)ref.next();
-			if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
-				if (e.getValue().getObject() != null) {
-					ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(e.getValue().getObject()));
-				}
-				if (e.getValue().getObjects() != null) {
-					for (EObject o : e.getValue().getObjects()) {
-						ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
-					}
-				}
-			}
-			else {
-				if (e.getValue() != null) {
-					ModelManager.setReference(e.getKey(), newObj, e.getValue());
-				}
-			}
-		}
 		//Multivalued
 		if(reference.getUpperBound() < 0 || reference.getUpperBound() > 1){
 			List<EObject> o = null;
@@ -241,10 +363,14 @@ public class CreateObjectMutator extends Mutator {
 				result=null;
 				throw new ReferenceNonExistingException("No reference "+reference.getName()+ " found in "+ container.eClass().getName());
 			}
-			container.eSet(reference, newObj);
+			try {
+				EMFUtils.setReference(container.eClass().getEPackage(), container, reference.getName(), newObj);
+			} catch (Exception ex) {
+				return null;
+			}
 			this.result = newObj;
 		}
-
+		complete(this.getMetaModel(), this.getModel());
 		return newObj;
 	}
 	

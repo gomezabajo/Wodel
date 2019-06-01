@@ -46,7 +46,59 @@ public enum Operator implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	IN(2, "in", "in");
+	IN(2, "in", "in"),
+
+	/**
+	 * The '<em><b>Is</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #IS_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	IS(3, "is", "is"),
+
+	/**
+	 * The '<em><b>Not</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NOT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NOT(4, "not", "not"), /**
+	 * The '<em><b>Gt</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #GT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	GT(5, "gt", "gt"), /**
+	 * The '<em><b>Gte</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #GTE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	GTE(6, "gte", "gte"), /**
+	 * The '<em><b>Lt</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LT(7, "lt", "lt"), /**
+	 * The '<em><b>Lte</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LTE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LTE(7, "lte", "lte");
 
 	/**
 	 * The '<em><b>Equals</b></em>' literal value.
@@ -94,6 +146,96 @@ public enum Operator implements Enumerator {
 	public static final int IN_VALUE = 2;
 
 	/**
+	 * The '<em><b>Is</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Is</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #IS
+	 * @model name="is"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int IS_VALUE = 3;
+
+	/**
+	 * The '<em><b>Not</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Not</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NOT
+	 * @model name="not"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NOT_VALUE = 4;
+
+	/**
+	 * The '<em><b>Gt</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Gt</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #GT
+	 * @model name="gt"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int GT_VALUE = 5;
+
+	/**
+	 * The '<em><b>Gte</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Gte</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #GTE
+	 * @model name="gte"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int GTE_VALUE = 6;
+
+	/**
+	 * The '<em><b>Lt</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Lt</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LT
+	 * @model name="lt"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LT_VALUE = 7;
+
+	/**
+	 * The '<em><b>Lte</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Lte</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LTE
+	 * @model name="lte"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LTE_VALUE = 7;
+
+	/**
 	 * An array of all the '<em><b>Operator</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,6 +246,12 @@ public enum Operator implements Enumerator {
 			EQUALS,
 			DIFFERENT,
 			IN,
+			IS,
+			NOT,
+			GT,
+			GTE,
+			LT,
+			LTE,
 		};
 
 	/**
@@ -163,6 +311,11 @@ public enum Operator implements Enumerator {
 			case EQUALS_VALUE: return EQUALS;
 			case DIFFERENT_VALUE: return DIFFERENT;
 			case IN_VALUE: return IN;
+			case IS_VALUE: return IS;
+			case NOT_VALUE: return NOT;
+			case GT_VALUE: return GT;
+			case GTE_VALUE: return GTE;
+			case LT_VALUE: return LT;
 		}
 		return null;
 	}

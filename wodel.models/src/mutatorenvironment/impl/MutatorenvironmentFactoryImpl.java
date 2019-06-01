@@ -124,6 +124,9 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 			case MutatorenvironmentPackage.REFERENCE_ADD: return createReferenceAdd();
 			case MutatorenvironmentPackage.REFERENCE_REMOVE: return createReferenceRemove();
 			case MutatorenvironmentPackage.RETYPE_OBJECT_MUTATOR: return createRetypeObjectMutator();
+			case MutatorenvironmentPackage.TYPED_SELECTION: return createTypedSelection();
+			case MutatorenvironmentPackage.RANDOM_STRING_NUMBER_TYPE: return createRandomStringNumberType();
+			case MutatorenvironmentPackage.RESOURCE: return createResource();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -843,6 +846,36 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	public RetypeObjectMutator createRetypeObjectMutator() {
 		RetypeObjectMutatorImpl retypeObjectMutator = new RetypeObjectMutatorImpl();
 		return retypeObjectMutator;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TypedSelection createTypedSelection() {
+		TypedSelectionImpl typedSelection = new TypedSelectionImpl();
+		return typedSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RandomStringNumberType createRandomStringNumberType() {
+		RandomStringNumberTypeImpl randomStringNumberType = new RandomStringNumberTypeImpl();
+		return randomStringNumberType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Resource createResource() {
+		ResourceImpl resource = new ResourceImpl();
+		return resource;
 	}
 
 	/**

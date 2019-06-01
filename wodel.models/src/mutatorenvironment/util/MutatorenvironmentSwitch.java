@@ -720,6 +720,30 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MutatorenvironmentPackage.TYPED_SELECTION: {
+				TypedSelection typedSelection = (TypedSelection)theEObject;
+				T result = caseTypedSelection(typedSelection);
+				if (result == null) result = caseObSelectionStrategy(typedSelection);
+				if (result == null) result = caseObjectEmitter(typedSelection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.RANDOM_STRING_NUMBER_TYPE: {
+				RandomStringNumberType randomStringNumberType = (RandomStringNumberType)theEObject;
+				T result = caseRandomStringNumberType(randomStringNumberType);
+				if (result == null) result = caseStringType(randomStringNumberType);
+				if (result == null) result = caseAttributeType(randomStringNumberType);
+				if (result == null) result = caseAttributeEvaluationType(randomStringNumberType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MutatorenvironmentPackage.RESOURCE: {
+				Resource resource = (Resource)theEObject;
+				T result = caseResource(resource);
+				if (result == null) result = caseDefinition(resource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -1966,6 +1990,51 @@ public class MutatorenvironmentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRetypeObjectMutator(RetypeObjectMutator object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Typed Selection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Typed Selection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTypedSelection(TypedSelection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Random String Number Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Random String Number Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRandomStringNumberType(RandomStringNumberType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseResource(Resource object) {
 		return null;
 	}
 

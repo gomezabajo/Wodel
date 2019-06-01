@@ -1,15 +1,19 @@
 package manager;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import modeltext.Element;
@@ -19,6 +23,7 @@ import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CompositeMutator;
 import mutatorenvironment.CreateObjectMutator;
+import mutatorenvironment.LogicOperator;
 import mutatorenvironment.MaxValueType;
 import mutatorenvironment.MinValueType;
 import mutatorenvironment.ModifyInformationMutator;
@@ -33,21 +38,29 @@ import mutatorenvironment.SelectSampleMutator;
 import mutatorenvironment.SpecificClosureSelection;
 import mutatorenvironment.SpecificObjectSelection;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.ReferenceChange;
+import org.eclipse.emf.compare.scope.DefaultComparisonScope;
+import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.ParserException;
@@ -55,14 +68,19 @@ import org.eclipse.ocl.Query;
 import org.eclipse.ocl.common.OCLConstants;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
-
+import org.osgi.framework.Bundle;
+import registry.run.IRegistryPostprocessor;
 import commands.selection.strategies.RandomTypeSelection;
-import commands.strategies.RandomBooleanConfigurationStrategy;
-import commands.strategies.RandomDoubleConfigurationStrategy;
-import commands.strategies.RandomIntegerConfigurationStrategy;
-import commands.strategies.RandomStringConfigurationStrategy;
+import commands.strategies.AttributeConfigurationStrategy;
+import commands.strategies.MaxValueConfigurationStrategy;
+import commands.strategies.MinValueConfigurationStrategy;
+import commands.strategies.ReferenceConfigurationStrategy;
+import exceptions.AbstractCreationException;
+import exceptions.MaxSmallerThanMinException;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
+import exceptions.ObjectNoTargetableException;
+import exceptions.ObjectNotContainedException;
 import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 import appliedMutations.AppMutation;
@@ -156,7 +174,7 @@ public class MutatorUtils {
 		"AttributeSwap"			
 	};
 
-	protected class Operator {
+	protected static class Operator {
 		public String type;
 
 		public Operator() {
@@ -164,7 +182,7 @@ public class MutatorUtils {
 		}
 	}
 
-	protected class AttributeEvaluation extends Evaluation {
+	protected static class AttributeEvaluation extends Evaluation {
 		public List<String> values;
 		public String type;
 
@@ -173,27 +191,53 @@ public class MutatorUtils {
 		}
 	}
 
-	protected class ReferenceEvaluation extends Evaluation {
+	protected static class ReferenceEvaluation extends Evaluation {
+		public String attName;
 		public String refName;
+		public String refRefName;
 		public Object value;
+		public boolean container;
+//		public int size;
 
 		public ReferenceEvaluation() {
 
 		}
 	}
 
-	protected class Evaluation {
+	protected static class Evaluation {
 		public String name;
 		public String operator;
 	}
 
-	protected class Expression {
+	protected static class Expression {
 		public Evaluation first;
 		public List<Operator> operator;
 		public List<Evaluation> second;
 
 		public Expression() {
 
+		}
+	}
+	
+	public static class MutationResults {
+		public int numMutatorsApplied;
+		public int numMutantsGenerated;
+		
+		public List<String> mutatorsApplied;
+		
+		public MutationResults() {
+			
+		}
+	}
+	
+	protected static class MutatorConfiguration {
+		public Map<String, List<AttributeConfigurationStrategy>> attsList;
+		public Map<String, List<ReferenceConfigurationStrategy>> refsList;
+		public Map<String, List<AttributeConfigurationStrategy>> attsRefList;
+		public List<EObject> objsAttRef;
+		
+		public MutatorConfiguration() {
+			
 		}
 	}
 	
@@ -280,14 +324,16 @@ public class MutatorUtils {
 	 * @param candidates
 	 * @param selected
 	 */
-	private void evaluateFirstAttribute(AttributeEvaluation attev, List<EObject> candidates, Set<EObject> selected) {
+	private static void evaluateFirstAttribute(AttributeEvaluation attev, List<EObject> candidates, Set<EObject> selected) {
 		for (EObject candidate : candidates) {
 			if (attev.operator.equals("equals")) {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
-						if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-							if (!selected.contains(candidate)) {
-								selected.add(candidate);
+						if (candidate.eGet(att) != null) {
+							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
+								if (!selected.contains(candidate)) {
+									selected.add(candidate);
+								}
 							}
 						}
 					}
@@ -307,14 +353,11 @@ public class MutatorUtils {
 				}
 			}
 			if (attev.operator.equals("in")) {
-				ArrayList<String> tmp_values = new ArrayList<String>();
-				tmp_values.addAll(attev.values);
-				do {
-					int n = ModelManager.getRandomIndex(tmp_values);
+				for (int i = 0; i < attev.values.size(); i++) {
 					for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 						if (att.getName().equals(attev.name)) {
 							if (candidate.eGet(att) != null) {
-								if (candidate.eGet(att).toString().equals(tmp_values.get(n).toString())) {
+								if (candidate.eGet(att).toString().equals(attev.values.get(i).toString())) {
 									if (!selected.contains(candidate)) {
 										selected.add(candidate);
 									}
@@ -322,9 +365,7 @@ public class MutatorUtils {
 							}
 						}
 					}
-					tmp_values.remove(n);
 				}
-				while (selected.size() == 0 && tmp_values.size() > 0);
 			}
 		}		
 	}
@@ -336,77 +377,164 @@ public class MutatorUtils {
 	 * @param candidate
 	 * @param selected
 	 */
-	private void evaluateFirstReferenceEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+	private static void evaluateFirstReferenceEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() == refev.size) {
+//					selected.add(candidate);
+//				}
+//			}
+//			return;
+//		}
 		if (refev.name == null) {
-			if (candidate.equals(refev.value)) {
+			if (refev.container == false) {
+				if (candidate.equals(refev.value)) {
+					if (!selected.contains(candidate)) {
+						selected.add(candidate);
+					}
+				}
+			}
+			else if (candidate.eContainer() != null && candidate.eContainer().equals(refev.value)) {
 				if (!selected.contains(candidate)) {
 					selected.add(candidate);
 				}
 			}
 		} else {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value == null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (objects.size() == 0) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									if (candidate.eGet(ref) == null) {
-										if (!selected.contains(candidate)) {
-											selected.add(candidate);
-										}
-									}
-								}
-							}
-						} else {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									boolean b = true;
-									for (EObject obj : (List<EObject>) refev.value) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == true && objects.size() == 0) {
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value == null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									if (objects.size() == 0) {
 										if (!selected.contains(candidate)) {
 											selected.add(candidate);
 										}
 									}
 								}
 								else {
-									EObject object = (EObject) refev.value;
-									if (objects.contains(object)) {
-										if (!selected.contains(candidate)) {
-											selected.add(candidate);
+									if (candidate.eGet(ref) instanceof EObject) {
+										if (candidate.eGet(ref) == null) {
+											if (!selected.contains(candidate)) {
+												selected.add(candidate);
+											}
 										}
 									}
 								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+							} else {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (objects.contains(object)) {
+										boolean b = true;
+										for (EObject obj : (List<EObject>) refev.value) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == true && objects.size() == 0) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
 											}
 										}
 									}
 									else {
-										if (object.equals(refev.value)) {
+										EObject object = (EObject) refev.value;
+										if (objects.contains(object)) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
+											}
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (objects.contains(object)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+										else {
+											if (object.equals(refev.value)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) == null) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (val.equals(refev.value)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) == null) {
+														if (!selected.contains(candidate)) {
+															selected.add(candidate);
+														}
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (val.equals(refev.value)) {
+														if (!selected.contains(candidate)) {
+															selected.add(candidate);
+														}
+													}
+												}
 											}
 										}
 									}
@@ -417,85 +545,12 @@ public class MutatorUtils {
 				}
 			}
 			else {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof EObject) {
-								EObject object = (EObject) candidate.eGet(ref);
-								for (EReference reff : object.eClass().getEAllReferences()) {
-									if (reff.getName().equals(refev.refName)) {
-										if (refev.value == null) {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj == null) {
-													if (!selected.contains(candidate)) {
-														selected.add(candidate);
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (objs.size() == 0) {
-													if (!selected.contains(candidate)) {
-														selected.add(candidate);
-													}
-												}
-											}
-										}
-										else {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													if (objects.contains(obj)) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-												else {
-													if (obj.eGet(reff).equals(refev.value)) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													boolean b = true;
-													for (EObject obj : objs) {
-														if (!objects.contains(obj)) {
-															b = false;
-															break;
-														}
-														objects.remove(obj);
-													}
-													if (b == true && objects.size() == 0) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-												else {
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															if (!selected.contains(candidate)) {
-																selected.add(candidate);
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								for (EObject object : objects) {
+				if (refev.refRefName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
 											if (refev.value == null) {
@@ -520,8 +575,8 @@ public class MutatorUtils {
 												if (object.eGet(reff) instanceof EObject) {
 													EObject obj = (EObject) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> objs = (List<EObject>) refev.value;
-														if (objs.contains(obj)) {
+														List<EObject> objects = (List<EObject>) refev.value;
+														if (objects.contains(obj)) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
@@ -538,16 +593,17 @@ public class MutatorUtils {
 												if (object.eGet(reff) instanceof List<?>) {
 													List<EObject> objs = (List<EObject>) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
+														List<EObject> objects = new ArrayList<EObject>();
+														objects.addAll((List<EObject>) refev.value);
 														boolean b = true;
 														for (EObject obj : objs) {
-															if (!lobjects.contains(obj)) {
+															if (!objects.contains(obj)) {
 																b = false;
 																break;
 															}
-															lobjects.remove(obj);
+															objects.remove(obj);
 														}
-														if (b == true && lobjects.size() == 0) {
+														if (b == true && objects.size() == 0) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
@@ -558,6 +614,276 @@ public class MutatorUtils {
 															if (obj.equals(refev.value)) {
 																if (!selected.contains(candidate)) {
 																	selected.add(candidate);
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value == null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (obj == null) {
+															if (!selected.contains(candidate)) {
+																selected.add(candidate);
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (objs.size() == 0) {
+															if (!selected.contains(candidate)) {
+																selected.add(candidate);
+															}
+														}
+													}
+												}
+												else {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> objs = (List<EObject>) refev.value;
+															if (objs.contains(obj)) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+														else {
+															if (obj.equals(refev.value)) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> lobjects = new ArrayList<EObject>();
+															lobjects.addAll((List<EObject>) refev.value);
+															boolean b = true;
+															for (EObject obj : objs) {
+																if (!lobjects.contains(obj)) {
+																	b = false;
+																	break;
+																}
+																lobjects.remove(obj);
+															}
+															if (b == true && lobjects.size() == 0) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+														else {
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EReference reff : object.eClass().getEAllReferences()) {
+										if (reff.getName().equals(refev.refName)) {
+											if (object.eGet(reff) instanceof EObject) {
+												EObject obj = (EObject) object.eGet(reff);
+												for (EReference refff : obj.eClass().getEAllReferences()) {
+													if (refff.getName().equals(refev.refRefName)) {
+														if (refev.value == null) {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (o == null) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+															}
+															if (obj.eGet(refff) instanceof List<?>) {
+																List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																if (oo.size() == 0) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+																
+															}
+														}
+														else {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (refev.value instanceof List<?>) {
+																	List<EObject> objects = (List<EObject>) refev.value;
+																	if (objects.contains(o)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+																else {
+																	if (o.equals(refev.value)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+											else {
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objects = (List<EObject>) object.eGet(reff);
+													for (EObject obj : objects) {
+														for (EReference refff : obj.eClass().getEAllReferences()) {
+															if (refff.getName().equals(refev.refRefName)) {
+																if (refev.value == null) {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (o == null) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	if (obj.eGet(refff) instanceof List<?>) {
+																		List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																		if (oo.size() == 0) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																		
+																	}
+																}
+																else {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (refev.value instanceof List<?>) {
+																			List<EObject> objs = (List<EObject>) refev.value;
+																			if (objs.contains(o)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																		else {
+																			if (o.equals(refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													for (EReference refff : obj.eClass().getEAllReferences()) {
+														if (refff.getName().equals(refev.refRefName)) {
+															if (refev.value == null) {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (o == null) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof EObject) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (oo.size() == 0) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+															}
+															else {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> objs = (List<EObject>) refev.value;
+																		if (objs.contains(o)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		if (o.equals(refev.value)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof List<?>) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> lobjects = new ArrayList<EObject>();
+																		lobjects.addAll((List<EObject>) refev.value);
+																		boolean b = true;
+																		for (EObject o : oo) {
+																			if (!lobjects.contains(o)) {
+																				b = false;
+																				break;
+																			}
+																			lobjects.remove(o);
+																		}
+																		if (b == true && lobjects.size() == 0) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		for (EObject o : oo) {
+																			if (o.equals(refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																	}
 																}
 															}
 														}
@@ -582,56 +908,53 @@ public class MutatorUtils {
 	 * @param candidate
 	 * @param selected
 	 */
-	private void evaluateFirstReferenceDifferent(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+	private static void evaluateFirstReferenceDifferent(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size != 1) {
+//					selected.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() != refev.size) {
+//					selected.add(candidate);
+//				}
+//			}
+//			return;
+//		}
 		if (refev.name == null) {
-			if (!candidate.equals(refev.value)) {
+			if (refev.container == false) {
+				if (!candidate.equals(refev.value)) {
+					if (!selected.contains(candidate)) {
+						selected.add(candidate);
+					}
+				}
+			}
+			else if (candidate.eContainer() != null && !candidate.eContainer().equals(refev.value)) {
 				if (!selected.contains(candidate)) {
 					selected.add(candidate);
 				}
 			}
 		} else {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value == null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (objects.size() > 0) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) != null) {
-									if (!selected.contains(candidate)) {
-										selected.add(candidate);
-									}
-								}
-							}
-						}
-						else {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									List<EObject> objs = (List<EObject>) refev.value;
-									boolean b = true;
-									for (EObject obj : objs) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == false || objects.size() > 0) {
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value == null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									if (objects.size() > 0) {
 										if (!selected.contains(candidate)) {
 											selected.add(candidate);
 										}
 									}
 								}
 								else {
-									EObject obj = (EObject) refev.value;
-									if (!objects.contains(obj)) {
+									if (candidate.eGet(ref) != null) {
 										if (!selected.contains(candidate)) {
 											selected.add(candidate);
 										}
@@ -639,20 +962,110 @@ public class MutatorUtils {
 								}
 							}
 							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (!objects.contains(object)) {
+										List<EObject> objs = (List<EObject>) refev.value;
+										boolean b = true;
+										for (EObject obj : objs) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == false || objects.size() > 0) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
 											}
 										}
 									}
 									else {
-										if (!object.equals(refev.value)) {
+										EObject obj = (EObject) refev.value;
+										if (!objects.contains(obj)) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
+											}
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (!objects.contains(object)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+										else {
+											if (!object.equals(refev.value)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) != null) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (!val.equals(refev.value)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) != null) {
+														if (!selected.contains(candidate)) {
+															selected.add(candidate);
+														}
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (!val.equals(refev.value)) {
+														if (!selected.contains(candidate)) {
+															selected.add(candidate);
+														}
+													}
+												}
 											}
 										}
 									}
@@ -663,91 +1076,12 @@ public class MutatorUtils {
 				}
 			}
 			else {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof EObject) {
-								EObject object = (EObject) candidate.eGet(ref);
-								for (EReference reff : object.eClass().getEAllReferences()) {
-									if (reff.getName().equals(refev.refName)) {
-										if (refev.value == null) {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj != null) {
-													if (!selected.contains(candidate)) {
-														selected.add(candidate);
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (objs.size() > 0) {
-													if (!selected.contains(candidate)) {
-														selected.add(candidate);
-													}
-												}
-											}
-										} else {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj != null) {
-													if (refev.value instanceof List<?>) {
-														List<EObject> objects = (List<EObject>) refev.value;
-														if (!objects.contains(obj)) {
-															if (!selected.contains(candidate)) {
-																selected.add(candidate);
-															}
-														}
-													}
-													else {
-														if (!obj.equals(refev.value)) {
-															if (!selected.contains(candidate)) {
-																selected.add(candidate);
-															}
-														}
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													boolean b = true;
-													for (EObject obj : objs) {
-														if (!objects.contains(obj)) {
-															b = false;
-															break;
-														}
-														objects.remove(obj);
-													}
-													if (b == false || objects.size() > 0) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-												else {
-													boolean exists = false;
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															exists = true;
-															break;
-														}
-													}
-													if (exists == true) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								for (EObject object : objects) {
+				if (refev.refRefName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
 											if (refev.value == null) {
@@ -772,8 +1106,8 @@ public class MutatorUtils {
 													EObject obj = (EObject) object.eGet(reff);
 													if (obj != null) {
 														if (refev.value instanceof List<?>) {
-															List<EObject> objs = (List<EObject>) refev.value;
-															if (!objs.contains(obj)) {
+															List<EObject> objects = (List<EObject>) refev.value;
+															if (!objects.contains(obj)) {
 																if (!selected.contains(candidate)) {
 																	selected.add(candidate);
 																}
@@ -791,16 +1125,17 @@ public class MutatorUtils {
 												if (object.eGet(reff) instanceof List<?>) {
 													List<EObject> objs = (List<EObject>) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
+														List<EObject> objects = new ArrayList<EObject>();
+														objects.addAll((List<EObject>) refev.value);
 														boolean b = true;
 														for (EObject obj : objs) {
-															if (!lobjects.contains(obj)) {
+															if (!objects.contains(obj)) {
 																b = false;
 																break;
 															}
-															lobjects.remove(obj);
+															objects.remove(obj);
 														}
-														if (b == false || lobjects.size() > 0) {
+														if (b == false || objects.size() > 0) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
@@ -814,9 +1149,290 @@ public class MutatorUtils {
 																break;
 															}
 														}
-														if (exists == false) {
+														if (exists == true) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value == null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (obj != null) {
+															if (!selected.contains(candidate)) {
+																selected.add(candidate);
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (objs.size() > 0) {
+															if (!selected.contains(candidate)) {
+																selected.add(candidate);
+															}
+														}
+													}
+												} else {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (obj != null) {
+															if (refev.value instanceof List<?>) {
+																List<EObject> objs = (List<EObject>) refev.value;
+																if (!objs.contains(obj)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+															}
+															else {
+																if (!obj.equals(refev.value)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> lobjects = new ArrayList<EObject>();
+															lobjects.addAll((List<EObject>) refev.value);
+															boolean b = true;
+															for (EObject obj : objs) {
+																if (!lobjects.contains(obj)) {
+																	b = false;
+																	break;
+																}
+																lobjects.remove(obj);
+															}
+															if (b == false || lobjects.size() > 0) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+														else {
+															boolean exists = false;
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	exists = true;
+																	break;
+																}
+															}
+															if (exists == false) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EReference reff : object.eClass().getEAllReferences()) {
+										if (reff.getName().equals(refev.refName)) {
+											if (object.eGet(reff) instanceof EObject) {
+												EObject obj = (EObject) object.eGet(reff);
+												for (EReference refff : obj.eClass().getEAllReferences()) {
+													if (refff.getName().equals(refev.refRefName)) {
+														if (refev.value == null) {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (o != null) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+															}
+															if (obj.eGet(refff) instanceof List<?>) {
+																List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																if (oo.size() > 0) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+
+															}
+														}
+														else {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (refev.value instanceof List<?>) {
+																	List<EObject> objects = (List<EObject>) refev.value;
+																	if (!objects.contains(o)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+																else {
+																	if (!o.equals(refev.value)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+											else {
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objects = (List<EObject>) object.eGet(reff);
+													for (EObject obj : objects) {
+														for (EReference refff : obj.eClass().getEAllReferences()) {
+															if (refff.getName().equals(refev.refRefName)) {
+																if (refev.value == null) {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (o != null) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	if (obj.eGet(refff) instanceof List<?>) {
+																		List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																		if (oo.size() > 0) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+
+																	}
+																}
+																else {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (refev.value instanceof List<?>) {
+																			List<EObject> objs = (List<EObject>) refev.value;
+																			if (!objs.contains(o)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																		else {
+																			if (!o.equals(refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													for (EReference refff : obj.eClass().getEAllReferences()) {
+														if (refff.getName().equals(refev.refRefName)) {
+															if (refev.value == null) {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (o != null) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof EObject) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (oo.size() > 0) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+															}
+															else {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> objs = (List<EObject>) refev.value;
+																		if (!objs.contains(o)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		if (!o.equals(refev.value)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																}
+																else {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (obj.eGet(refff) instanceof List<?>) {
+																		List<EObject> lobjects = new ArrayList<EObject>();
+																		lobjects.addAll((List<EObject>) refev.value);
+																		boolean b = true;
+																		for (EObject o : oo) {
+																			if (!lobjects.contains(o)) {
+																				b = false;
+																				break;
+																			}
+																			lobjects.remove(o);
+																		}
+																		if (b == false || lobjects.size() > 0) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		boolean exists = false;
+																		for (EObject o : oo) {
+																			if (o.equals(refev.value)) {
+																				exists = true;
+																				break;
+																			}
+																		}
+																		if (exists == false) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}																	
+																}
 															}
 														}
 													}
@@ -841,53 +1457,116 @@ public class MutatorUtils {
 	 * @param selected
 	 */
 
-	private void evaluateFirstReferenceIn(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+	private static void evaluateFirstReferenceIn(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
 		if (refev.name != null) {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value != null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									boolean b = true;
-									for (EObject obj : (List<EObject>) refev.value) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == true && objects.size() == 0) {
-										if (!selected.contains(candidate)) {
-											selected.add(candidate);
-										}
-									}
-								}
-								else {
-									EObject object = (EObject) refev.value;
-									if (objects.contains(object)) {
-										if (!selected.contains(candidate)) {
-											selected.add(candidate);
-										}
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value != null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (objects.contains(object)) {
+										boolean b = true;
+										for (EObject obj : (List<EObject>) refev.value) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == true && objects.size() == 0) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
 											}
 										}
 									}
 									else {
-										if (object.equals(refev.value)) {
+										EObject object = (EObject) refev.value;
+										if (objects.contains(object)) {
 											if (!selected.contains(candidate)) {
 												selected.add(candidate);
+											}
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (objects.contains(object)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+										else {
+											if (object.equals(refev.value)) {
+												if (!selected.contains(candidate)) {
+													selected.add(candidate);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) == null) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (val.equals(refev.value)) {
+													if (!selected.contains(candidate)) {
+														selected.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) == null) {
+														if (!selected.contains(candidate)) {
+															selected.add(candidate);
+														}
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (val.equals(refev.value)) {
+														if (!selected.contains(candidate)) {
+															selected.add(candidate);
+														}
+													}
+												}
 											}
 										}
 									}
@@ -898,82 +1577,27 @@ public class MutatorUtils {
 				}
 			}
 			else {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof EObject) {
-								EObject object = (EObject) candidate.eGet(ref);
-								for (EReference reff : object.eClass().getEAllReferences()) {
-									if (reff.getName().equals(refev.refName)) {
-										if (refev.value != null) {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													if (objects.contains(obj)) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-												else {
-													if (obj.eGet(reff).equals(refev.value)) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													boolean b = true;
-													for (EObject obj : objs) {
-														if (!objects.contains(obj)) {
-															b = false;
-															break;
-														}
-														objects.remove(obj);
-													}
-													if (b == true && objects.size() == 0) {
-														if (!selected.contains(candidate)) {
-															selected.add(candidate);
-														}
-													}
-												}
-												else {
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															if (!selected.contains(candidate)) {
-																selected.add(candidate);
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								for (EObject object : objects) {
+				if (refev.refRefName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
 											if (refev.value != null) {
 												if (object.eGet(reff) instanceof EObject) {
 													EObject obj = (EObject) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> objs = (List<EObject>) refev.value;
-														if (objs.contains(obj)) {
+														List<EObject> objects = (List<EObject>) refev.value;
+														if (objects.contains(obj)) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
 														}
 													}
 													else {
-														if (obj.equals(refev.value)) {
+														if (obj.eGet(reff).equals(refev.value)) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
@@ -983,16 +1607,17 @@ public class MutatorUtils {
 												if (object.eGet(reff) instanceof List<?>) {
 													List<EObject> objs = (List<EObject>) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
+														List<EObject> objects = new ArrayList<EObject>();
+														objects.addAll((List<EObject>) refev.value);
 														boolean b = true;
 														for (EObject obj : objs) {
-															if (!lobjects.contains(obj)) {
+															if (!objects.contains(obj)) {
 																b = false;
 																break;
 															}
-															lobjects.remove(obj);
+															objects.remove(obj);
 														}
-														if (b == true && lobjects.size() == 0) {
+														if (b == true && objects.size() == 0) {
 															if (!selected.contains(candidate)) {
 																selected.add(candidate);
 															}
@@ -1012,6 +1637,202 @@ public class MutatorUtils {
 										}
 									}
 								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value != null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> objs = (List<EObject>) refev.value;
+															if (objs.contains(obj)) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+														else {
+															if (obj.equals(refev.value)) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> lobjects = new ArrayList<EObject>();
+															lobjects.addAll((List<EObject>) refev.value);
+															boolean b = true;
+															for (EObject obj : objs) {
+																if (!lobjects.contains(obj)) {
+																	b = false;
+																	break;
+																}
+																lobjects.remove(obj);
+															}
+															if (b == true && lobjects.size() == 0) {
+																if (!selected.contains(candidate)) {
+																	selected.add(candidate);
+																}
+															}
+														}
+														else {
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	if (!selected.contains(candidate)) {
+																		selected.add(candidate);
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EReference reff : object.eClass().getEAllReferences()) {
+										if (reff.getName().equals(refev.refName)) {
+											if (object.eGet(reff) instanceof EObject) {
+												EObject obj = (EObject) object.eGet(reff);
+												for (EReference refff : obj.eClass().getEAllReferences()) {
+													if (refff.getName().equals(refev.refRefName)) {
+														if (refev.value != null) {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (refev.value instanceof List<?>) {
+																	List<EObject> objects = (List<EObject>) refev.value;
+																	if (objects.contains(o)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+																else {
+																	if (o.equals(refev.value)) {
+																		if (!selected.contains(candidate)) {
+																			selected.add(candidate);
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+											else {
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objects = (List<EObject>) object.eGet(reff);
+													for (EObject obj : objects) {
+														for (EReference refff : obj.eClass().getEAllReferences()) {
+															if (refff.getName().equals(refev.refRefName)) {
+																if (refev.value != null) {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (refev.value instanceof List<?>) {
+																			List<EObject> objs = (List<EObject>) refev.value;
+																			if (objs.contains(o)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																		else {
+																			if (o.equals(refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													for (EReference refff : obj.eClass().getEAllReferences()) {
+														if (refff.getName().equals(refev.refRefName)) {
+															if (refev.value != null) {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> objs = (List<EObject>) refev.value;
+																		if (objs.contains(o)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		if (o.equals(refev.value)) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof List<?>) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> lobjects = new ArrayList<EObject>();
+																		lobjects.addAll((List<EObject>) refev.value);
+																		boolean b = true;
+																		for (EObject o : oo) {
+																			if (!lobjects.contains(o)) {
+																				b = false;
+																				break;
+																			}
+																			lobjects.remove(o);
+																		}
+																		if (b == true && lobjects.size() == 0) {
+																			if (!selected.contains(candidate)) {
+																				selected.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		for (EObject o : oo) {
+																			if (o.equals(refev.value)) {
+																				if (!selected.contains(candidate)) {
+																					selected.add(candidate);
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -1021,12 +1842,362 @@ public class MutatorUtils {
 	}
 
 	/**
+	 * evaluateFirstReferenceIs evaluates the reference expression
+	 * when the operator is 'is'
+	 * @param refev
+	 * @param candidate
+	 * @param selected
+	 */
+	private static void evaluateFirstReferenceIs(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+		if (refev.name == null) {
+			if (refev.container == false) {
+				if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) candidate).eClass())) {
+					selected.add(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) candidate).eContainer().eClass())) {
+				selected.add(candidate);
+			}
+		}
+		else {
+			Object obj = ModelManager.getReferredObject(refev.name, candidate);
+			if (obj instanceof EObject) {
+				if (refev.refName == null) {
+					if (refev.attName == null) {
+						if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) obj).eClass())) {
+							selected.add(candidate);
+						}
+					}
+				}
+				else {
+					if (refev.refRefName == null) {
+						Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+									selected.add(candidate);
+								}
+							}
+							else {
+								List<EObject> objects = (List<EObject>) refObj;
+								for (EObject object : objects) {
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+										selected.add(candidate);
+										break;
+									}
+								}
+							}
+						}
+					}
+					else {
+						Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected.add(candidate);
+								}
+							}
+							else {
+								List<EObject> objects = (List<EObject>) refObj;
+								for (EObject object : objects) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, object);
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected.add(candidate);
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (obj instanceof List<?>) {
+				List<EObject> objects = (List<EObject>) obj;
+				for (EObject object : objects) {
+					if (refev.refName == null) {
+						if (refev.attName == null) {
+							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+								selected.add(candidate);
+								break;
+							}
+						}
+					}
+					else {
+						if (refev.refRefName == null) {
+							Object refObj = ModelManager.getReferredObject(refev.refName, object);
+							if (refObj != null) {
+								if (refObj instanceof EObject) {
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+										selected.add(candidate);
+										break;
+									}
+								}
+								else {
+									List<EObject> refObjects = (List<EObject>) refObj;
+									boolean found = false;
+									for (EObject refOb : refObjects) {
+										if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), refOb.eClass())) {
+											selected.add(candidate);
+											found = true;
+											break;
+										}
+									}
+									if (found == true) {
+										break;
+									}
+								}
+							}
+						}
+						else {
+							Object refObj = ModelManager.getReferredObject(refev.refName, object);
+							if (refObj != null) {
+								if (refObj instanceof EObject) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected.add(candidate);
+										break;
+									}
+								}
+								else {
+									List<EObject> refObjects = (List<EObject>) refObj;
+									boolean found = false;
+									for (EObject refOb : refObjects) {
+										Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
+										if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+											selected.add(candidate);
+											found = true;
+											break;
+										}
+									}
+									if (found == true) {
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * evaluateFirstReferenceNot evaluates the reference expression
+	 * when the operator is 'not'
+	 * @param refev
+	 * @param candidate
+	 * @param selected
+	 */
+	private static void evaluateFirstReferenceNot(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+		if (refev.name == null) {
+			if (refev.container == false) {
+				if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), candidate.eClass())) {
+					selected.remove(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), candidate.eContainer().eClass())) {
+				selected.remove(candidate);
+			}
+			return;
+		}
+		Object obj = ModelManager.getReferredObject(refev.name, candidate);
+		if (obj instanceof EObject) {
+			if (refev.refName == null) {
+				if (refev.attName == null) {
+					if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) obj).eClass())) {
+						selected.remove(candidate);
+					}
+				}
+			}
+			else {
+				if (refev.refRefName == null) {
+					Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+					if (refObj != null) {
+						if (refObj instanceof EObject) {
+							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+								selected.remove(candidate);
+							}
+						}
+						else {
+							List<EObject> objects = (List<EObject>) refObj;
+							for (EObject object : objects) {
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+									selected.remove(candidate);
+									break;
+								}
+							}
+						}
+					}
+				}
+				else {
+					Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+					if (refObj != null) {
+						if (refObj instanceof EObject) {
+							Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								selected.remove(candidate);
+							}
+						}
+						else {
+							List<EObject> objects = (List<EObject>) refObj;
+							for (EObject object : objects) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, object);
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected.remove(candidate);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (obj instanceof List<?>) {
+			List<EObject> objects = (List<EObject>) obj;
+			for (EObject object : objects) {
+				if (refev.refName == null) {
+					if (refev.attName == null) {
+						if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+							selected.remove(candidate);
+							break;
+						}
+					}
+				}
+				else {
+					if (refev.refRefName == null) {
+						Object refObj = ModelManager.getReferredObject(refev.refName, object.eClass());
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+									selected.remove(candidate);
+									break;
+								}
+							}
+							else {
+								List<EObject> refObjects = (List<EObject>) refObj;
+								boolean found = false;
+								for (EObject refOb : refObjects) {
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), refOb.eClass())) {
+										selected.remove(candidate);
+										found = true;
+										break;
+									}
+								}
+								if (found == true) {
+									break;
+								}
+							}
+						}
+					}
+					else {
+						Object refObj = ModelManager.getReferredObject(refev.refName, object);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected.remove(candidate);
+									break;
+								}
+							}
+							else {
+								List<EObject> refObjects = (List<EObject>) refObj;
+								boolean found = false;
+								for (EObject refOb : refObjects) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected.remove(candidate);
+										found = true;
+										break;
+									}
+								}
+								if (found == true) {
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+//	private static void evaluateFirstReferenceGreater(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() > refev.size) {
+//					selected.add(candidate);
+//				}
+//			}
+//		}
+//	}
+
+//	private static void evaluateFirstReferenceGreaterOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() >= refev.size) {
+//					selected.add(candidate);
+//				}
+//			}
+//		}
+//	}
+//	
+//	private static void evaluateFirstReferenceLower(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() < refev.size) {
+//					selected.add(candidate);
+//				}
+//			}
+//		}
+//	}
+//
+//	private static void evaluateFirstReferenceLowerOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() <= refev.size) {
+//					selected.add(candidate);
+//				}
+//			}
+//		}
+//	}
+
+	/**
 	 * evaluateReference evaluates the reference expression
 	 * @param refev
 	 * @param candidates
 	 * @param selected
 	 */
-	private void evaluateFirstReference(ReferenceEvaluation refev, List<EObject> candidates, Set<EObject> selected) {
+	private static void evaluateFirstReference(ReferenceEvaluation refev, List<EObject> candidates, Set<EObject> selected) {
+		if (refev.operator.equals("not")) {
+			selected.addAll(candidates);
+		}
 		for (EObject candidate : candidates) {
 			if (refev.operator.equals("equals")) {
 				evaluateFirstReferenceEquals(refev, candidate, selected);
@@ -1037,6 +2208,24 @@ public class MutatorUtils {
 			if (refev.operator.equals("in")) {
 				evaluateFirstReferenceIn(refev, candidate, selected);
 			}
+			if (refev.operator.equals("is")) {
+				evaluateFirstReferenceIs(refev, candidate, selected);
+			}
+			if (refev.operator.equals("not")) {
+				evaluateFirstReferenceNot(refev, candidate, selected);
+			}
+//			if (refev.operator.equals("gt")) {
+//				evaluateFirstReferenceGreater(refev, candidate, selected);
+//			}
+//			if (refev.operator.equals("gte")) {
+//				evaluateFirstReferenceGreaterOrEquals(refev, candidate, selected);
+//			}
+//			if (refev.operator.equals("lt")) {
+//				evaluateFirstReferenceLower(refev, candidate, selected);
+//			}
+//			if (refev.operator.equals("lte")) {
+//				evaluateFirstReferenceLowerOrEquals(refev, candidate, selected);
+//			}
 		}		
 	}
 	
@@ -1048,7 +2237,7 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondAttributeAnd(AttributeEvaluation attev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondAttributeAnd(AttributeEvaluation attev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
 		for (EObject candidate : selected) {
 			if (attev.operator.equals("equals")) {
 				for (EAttribute att : candidate.eClass()
@@ -1074,22 +2263,18 @@ public class MutatorUtils {
 				}
 			}
 			if (attev.operator.equals("in")) {
-				ArrayList<String> tmp_values = new ArrayList<String>();
-				tmp_values.addAll(attev.values);
-				do {
-					int n = ModelManager.getRandomIndex(tmp_values);
+				for (int i = 0; i < attev.values.size(); i++) {
 					for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 						if (att.getName().equals(attev.name)) {
 							// CASO DE QUE SEA STRING
 							if (candidate.eGet(att) != null) {
-								if (!candidate.eGet(att).equals(tmp_values.get(n).toString())) {
+								if (!candidate.eGet(att).equals(attev.values.get(i).toString())) {
 									selected_tmp.remove(candidate);
 								}
 							}
 						}
 					}
-				} while (selected.size() == selected_tmp.size()
-						&& tmp_values.size() > 0);
+				}
 			}
 		}
 	}
@@ -1102,14 +2287,16 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondAttributeOr(AttributeEvaluation attev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondAttributeOr(AttributeEvaluation attev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
 		for (EObject candidate : candidates) {
 			if (attev.operator.equals("equals")) {
 				for (EAttribute att : candidate.eClass().getEAllAttributes()) {
 					if (att.getName().equals(attev.name)) {
-						if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
-							if (!selected_tmp.contains(candidate)) {
-								selected_tmp.add(candidate);
+						if (candidate.eGet(att) != null) {
+							if (candidate.eGet(att).toString().equals(attev.values.get(0).toString())) {
+								if (!selected_tmp.contains(candidate)) {
+									selected_tmp.add(candidate);
+								}
 							}
 						}
 					}
@@ -1127,7 +2314,7 @@ public class MutatorUtils {
 				}
 			}
 			if (attev.operator.equals("in")) {
-				ArrayList<String> tmp_values = new ArrayList<String>();
+				List<String> tmp_values = new ArrayList<String>();
 				tmp_values.addAll(attev.values);
 				do {
 					int n = ModelManager.getRandomIndex(tmp_values);
@@ -1158,62 +2345,139 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceAndEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceAndEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size != 1) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() != refev.size) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//			return;
+//		}
 		if (refev.name == null) {
-			if (!candidate.equals(refev.value)) {
+			if (refev.container == false) {
+				if (!candidate.equals(refev.value)) {
+					selected_tmp.remove(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && !candidate.eContainer().equals(refev.value)) {
 				selected_tmp.remove(candidate);
 			}
 		} else {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value == null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (objects.size() > 0) {
-									selected_tmp.remove(candidate);
-								}
-							}
-							else {
-								if (candidate.eGet(ref) != null) {
-									selected_tmp.remove(candidate);
-								}
-							}
-						} else {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									boolean b = true;
-									for (EObject obj : (List<EObject>) refev.value) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == false || objects.size() > 0) {
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value == null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									if (objects.size() > 0) {
 										selected_tmp.remove(candidate);
 									}
 								}
 								else {
-									EObject object = (EObject) refev.value;
-									if (!objects.contains(object)) {
+									if (candidate.eGet(ref) != null) {
 										selected_tmp.remove(candidate);
 									}
 								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+							} else {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (!objects.contains(object)) {
+										boolean b = true;
+										for (EObject obj : (List<EObject>) refev.value) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == false || objects.size() > 0) {
 											selected_tmp.remove(candidate);
 										}
 									}
 									else {
-										if (!object.equals(refev.value)) {
+										EObject object = (EObject) refev.value;
+										if (!objects.contains(object)) {
 											selected_tmp.remove(candidate);
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (!objects.contains(object)) {
+												selected_tmp.remove(candidate);
+											}
+										}
+										else {
+											if (!object.equals(refev.value)) {
+												selected_tmp.remove(candidate);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) != null) {
+													selected_tmp.remove(candidate);
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (!val.equals(refev.value)) {
+													selected_tmp.remove(candidate);
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) != null) {
+														selected_tmp.remove(candidate);
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (!val.equals(refev.value)) {
+														selected_tmp.remove(candidate);
+													}
+												}
+											}
 										}
 									}
 								}
@@ -1223,81 +2487,160 @@ public class MutatorUtils {
 				}
 			}
 			else {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof EObject) {
-								EObject object = (EObject) candidate.eGet(ref);
-								for (EReference reff : object.eClass().getEAllReferences()) {
-									if (reff.getName().equals(refev.refName)) {
-										if (refev.value == null) {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj != null) {
-													if (!selected_tmp.contains(candidate)) {
-														selected_tmp.add(candidate);
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (objs.size() > 0) {
-													if (!selected_tmp.contains(candidate)) {
-														selected_tmp.add(candidate);
-													}
-												}
-											}
-										} else {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj != null) {
-													if (refev.value instanceof List<?>) {
-														List<EObject> objects = (List<EObject>) refev.value;
-														if (!objects.contains(obj)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
-															}
-														}
-														
-													}
-													else {
-														if (!obj.equals(refev.value)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
-															}
-														}
-													}
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													boolean b = true;
-													for (EObject obj : objs) {
-														if (!objects.contains(obj)) {
-															b = false;
-															break;
-														}
-														objects.remove(obj);
-													}
-													if (b == false || objects.size() > 0) {
+				if (refev.refRefName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EReference reff : object.eClass().getEAllReferences()) {
+										if (reff.getName().equals(refev.refName)) {
+											if (refev.value == null) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													if (obj != null) {
 														if (!selected_tmp.contains(candidate)) {
 															selected_tmp.add(candidate);
+														}
+													}
+												}
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objs = (List<EObject>) object.eGet(reff);
+													if (objs.size() > 0) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
+											} else {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													if (obj != null) {
+														if (refev.value instanceof List<?>) {
+															List<EObject> objects = (List<EObject>) refev.value;
+															if (!objects.contains(obj)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
+
+														}
+														else {
+															if (!obj.equals(refev.value)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
+														}
+													}
+												}
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objs = (List<EObject>) object.eGet(reff);
+													if (refev.value instanceof List<?>) {
+														List<EObject> objects = new ArrayList<EObject>();
+														objects.addAll((List<EObject>) refev.value);
+														boolean b = true;
+														for (EObject obj : objs) {
+															if (!objects.contains(obj)) {
+																b = false;
+																break;
+															}
+															objects.remove(obj);
+														}
+														if (b == false || objects.size() > 0) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
+														}
+													}
+													else {
+														boolean exists = false;
+														for (EObject obj : objs) {
+															if (obj.equals(refev.value)) {
+																exists = true;
+																break;
+															}
+														}
+														if (exists == true) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value == null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (obj == null) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (objs.size() == 0) {
+															if (!selected_tmp.contains(candidate)) {
+																selected_tmp.add(candidate);
+															}
 														}
 													}
 												}
 												else {
-													boolean exists = false;
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															exists = true;
-															break;
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> objs = (List<EObject>) refev.value;
+															if (objs.contains(obj)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
+														}
+														else {
+															if (obj.equals(refev.value)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
 														}
 													}
-													if (exists == true) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> lobjects = new ArrayList<EObject>();
+															lobjects.addAll((List<EObject>) refev.value);
+															boolean b = true;
+															for (EObject obj : objs) {
+																if (!lobjects.contains(obj)) {
+																	b = false;
+																	break;
+																}
+																lobjects.remove(obj);
+															}
+															if (b == true && lobjects.size() == 0) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
+														}
+														else {
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
+																}
+															}
 														}
 													}
 												}
@@ -1306,71 +2649,190 @@ public class MutatorUtils {
 									}
 								}
 							}
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								for (EObject object : objects) {
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
-											if (refev.value == null) {
-												if (object.eGet(reff) instanceof EObject) {
-													EObject obj = (EObject) object.eGet(reff);
-													if (obj == null) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+											if (object.eGet(reff) instanceof EObject) {
+												EObject obj = (EObject) object.eGet(reff);
+												for (EReference refff : obj.eClass().getEAllReferences()) {
+													if (refff.getName().equals(refev.refRefName)) {
+														if (refev.value == null) {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (o == null) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
+																}
+															}
+															if (obj.eGet(refff) instanceof List<?>) {
+																List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																if (oo.size() == 0) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
+																}
+																
+															}
 														}
-													}
-												}
-												if (object.eGet(reff) instanceof List<?>) {
-													List<EObject> objs = (List<EObject>) object.eGet(reff);
-													if (objs.size() == 0) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+														else {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (refev.value instanceof List<?>) {
+																	List<EObject> objects = (List<EObject>) refev.value;
+																	if (objects.contains(o)) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
+																	}
+																}
+																else {
+																	if (o.equals(refev.value)) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
+																	}
+																}
+															}
 														}
 													}
 												}
 											}
 											else {
-												if (object.eGet(reff) instanceof EObject) {
-													EObject obj = (EObject) object.eGet(reff);
-													if (refev.value instanceof List<?>) {
-														List<EObject> objs = (List<EObject>) refev.value;
-														if (objs.contains(obj)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
-															}
-														}
-													}
-													else {
-														if (obj.equals(refev.value)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objects = (List<EObject>) object.eGet(reff);
+													for (EObject obj : objects) {
+														for (EReference refff : obj.eClass().getEAllReferences()) {
+															if (refff.getName().equals(refev.refRefName)) {
+																if (refev.value == null) {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (o == null) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																	if (obj.eGet(refff) instanceof List<?>) {
+																		List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																		if (oo.size() == 0) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																		
+																	}
+																}
+																else {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (refev.value instanceof List<?>) {
+																			List<EObject> objs = (List<EObject>) refev.value;
+																			if (objs.contains(o)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
+																			}
+																		}
+																		else {
+																			if (o.equals(refev.value)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
+																			}
+																		}
+																	}
+																}
 															}
 														}
 													}
 												}
-												if (object.eGet(reff) instanceof List<?>) {
-													List<EObject> objs = (List<EObject>) object.eGet(reff);
-													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
-														boolean b = true;
-														for (EObject obj : objs) {
-															if (!lobjects.contains(obj)) {
-																b = false;
-																break;
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													for (EReference refff : obj.eClass().getEAllReferences()) {
+														if (refff.getName().equals(refev.refRefName)) {
+															if (refev.value == null) {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (o == null) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof EObject) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (oo.size() == 0) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
+																	}
+																}
 															}
-															lobjects.remove(obj);
-														}
-														if (b == true && lobjects.size() == 0) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
-															}
-														}
-													}
-													else {
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																if (!selected_tmp.contains(candidate)) {
-																	selected_tmp.add(candidate);
+															else {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> objs = (List<EObject>) refev.value;
+																		if (objs.contains(o)) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		if (o.equals(refev.value)) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof List<?>) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> lobjects = new ArrayList<EObject>();
+																		lobjects.addAll((List<EObject>) refev.value);
+																		boolean b = true;
+																		for (EObject o : oo) {
+																			if (!lobjects.contains(o)) {
+																				b = false;
+																				break;
+																			}
+																			lobjects.remove(o);
+																		}
+																		if (b == true && lobjects.size() == 0) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		for (EObject o : oo) {
+																			if (o.equals(refev.value)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
+																			}
+																		}
+																	}
 																}
 															}
 														}
@@ -1397,65 +2859,142 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceAndDifferent(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceAndDifferent(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() == refev.size) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//			return;
+//		}
 		if (refev.name == null) {
-			if (candidate.equals(refev.value)) {
+			if (refev.container == false) {
+				if (candidate.equals(refev.value)) {
+					selected_tmp.remove(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && candidate.eContainer().equals(refev.value)) {
 				selected_tmp.remove(candidate);
 			}
 		} else {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals("null")) {
-						if (refev.value == null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (objects.size() == 0) {
-									selected_tmp.remove(candidate);
-								}
-							}
-							else {
-								if (candidate.eGet(ref) == null) {
-									selected_tmp.remove(candidate);
-								}
-							}
-						}
-					} else {
-						if (ref.getName().equals(refev.name)) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									List<EObject> objs = (List<EObject>) refev.value;
-									boolean b = true;
-									for (EObject obj : objs) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == true && objects.size() == 0) {
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals("null")) {
+							if (refev.value == null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									if (objects.size() == 0) {
 										selected_tmp.remove(candidate);
 									}
 								}
 								else {
-									EObject obj = (EObject) refev.value;
-									if (objects.contains(obj)) {
+									if (candidate.eGet(ref) == null) {
 										selected_tmp.remove(candidate);
 									}
 								}
 							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+						} else {
+							if (ref.getName().equals(refev.name)) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (objects.contains(object)) {
+										List<EObject> objs = (List<EObject>) refev.value;
+										boolean b = true;
+										for (EObject obj : objs) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == true && objects.size() == 0) {
 											selected_tmp.remove(candidate);
 										}
 									}
 									else {
-										if (object.equals(refev.value)) {
+										EObject obj = (EObject) refev.value;
+										if (objects.contains(obj)) {
 											selected_tmp.remove(candidate);
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (objects.contains(object)) {
+												selected_tmp.remove(candidate);
+											}
+										}
+										else {
+											if (object.equals(refev.value)) {
+												selected_tmp.remove(candidate);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) == null) {
+													selected_tmp.remove(candidate);
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (val.equals(refev.value)) {
+													selected_tmp.remove(candidate);
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) == null) {
+														selected_tmp.remove(candidate);
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (val.equals(refev.value)) {
+														selected_tmp.remove(candidate);
+													}
+												}
+											}
 										}
 									}
 								}
@@ -1465,33 +3004,12 @@ public class MutatorUtils {
 				}
 			}
 			else {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals("null")) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof EObject) {
-								EObject object = (EObject) candidate.eGet(ref);
-								for (EReference reff : object.eClass().getEAllReferences()) {
-									if (reff.getName().equals(refev.refName)) {
-										if (refev.value == null) {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj == null) {
-													selected_tmp.remove(candidate);
-												}
-											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (objs.size() == 0) {
-													selected_tmp.remove(candidate);
-												}
-											}
-										}
-									}
-								}
-							}
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								for (EObject object : objects) {
+				if (refev.refRefName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals("null")) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
 											if (refev.value == null) {
@@ -1511,52 +3029,194 @@ public class MutatorUtils {
 										}
 									}
 								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value == null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (obj == null) {
+															selected_tmp.remove(candidate);
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (objs.size() == 0) {
+															selected_tmp.remove(candidate);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						} else {
+							if (ref.getName().equals(refev.name)) {
+								if (candidate.eGet(ref) != null) {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value != null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (obj != null) {
+															if (refev.value instanceof List<?>) {
+																List<EObject> objects = (List<EObject>) refev.value;
+																if (objects.contains(obj)) {
+																	selected_tmp.remove(candidate);
+																}
+															}
+															else {
+																if (obj.equals(refev.value)) {
+																	selected_tmp.remove(candidate);
+																}
+															}
+														}
+													}
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> objects = new ArrayList<EObject>();
+															objects.addAll((List<EObject>) refev.value);
+															boolean b = true;
+															for (EObject obj : objs) {
+																if (!objects.contains(obj)) {
+																	b = false;
+																	break;
+																}
+																objects.remove(obj);
+															}
+															if (b == true && objects.size() == 0) {
+																selected_tmp.remove(candidate);
+															}
+														}
+														else {
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	selected_tmp.remove(candidate);
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+									if (candidate.eGet(ref) instanceof List<?>) {
+										List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+										for (EObject object : objects) {
+											for (EReference reff : object.eClass().getEAllReferences()) {
+												if (reff.getName().equals(refev.refName)) {
+													if (refev.value != null) {
+														if (object.eGet(reff) instanceof EObject) {
+															EObject obj = (EObject) object.eGet(reff);
+															if (obj.equals(refev.value)) {
+																selected_tmp.remove(candidate);
+															}
+														}
+														if (object.eGet(reff) instanceof List<?>) {
+															List<EObject> objs = (List<EObject>) object.eGet(reff);
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	selected_tmp.remove(candidate);
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
 							}
 						}
-					} else {
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
 						if (ref.getName().equals(refev.name)) {
 							if (candidate.eGet(ref) != null) {
 								if (candidate.eGet(ref) instanceof EObject) {
 									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
-											if (refev.value != null) {
-												if (object.eGet(reff) instanceof EObject) {
-													EObject obj = (EObject) object.eGet(reff);
-													if (obj != null) {
-														if (refev.value instanceof List<?>) {
-															List<EObject> objects = (List<EObject>) refev.value;
-															if (objects.contains(obj)) {
-																selected_tmp.remove(candidate);
+											if (object.eGet(reff) instanceof EObject) {
+												EObject obj = (EObject) object.eGet(reff);
+												for (EReference refff : obj.eClass().getEAllReferences()) {
+													if (refff.getName().equals(refev.refRefName)) {
+														if (refev.value == null) {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (o == null) {
+																	selected_tmp.remove(candidate);
+																}
+															}
+															if (obj.eGet(refff) instanceof List<?>) {
+																List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																if (oo.size() == 0) {
+																	selected_tmp.remove(candidate);
+																}
 															}
 														}
 														else {
-															if (obj.equals(refev.value)) {
-																selected_tmp.remove(candidate);
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (refev.value instanceof List<?>) {
+																	List<EObject> objects = (List<EObject>) refev.value;
+																	if (objects.contains(o)) {
+																		selected_tmp.remove(candidate);
+																	}
+																}
+																else {
+																	if (o.equals(refev.value)) {
+																		selected_tmp.remove(candidate);
+																	}
+																}
 															}
 														}
 													}
 												}
+											}
+											else {
 												if (object.eGet(reff) instanceof List<?>) {
-													List<EObject> objs = (List<EObject>) object.eGet(reff);
-													if (refev.value instanceof List<?>) {
-														List<EObject> objects = (List<EObject>) refev.value;
-														boolean b = true;
-														for (EObject obj : objs) {
-															if (!objects.contains(obj)) {
-																b = false;
-																break;
-															}
-															objects.remove(obj);
-														}
-														if (b == true && objects.size() == 0) {
-															selected_tmp.remove(candidate);
-														}
-													}
-													else {
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																selected_tmp.remove(candidate);
+													List<EObject> objects = (List<EObject>) object.eGet(reff);
+													for (EObject obj : objects) {
+														for (EReference refff : obj.eClass().getEAllReferences()) {
+															if (refff.getName().equals(refev.refRefName)) {
+																if (refev.value == null) {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (o == null) {
+																			selected_tmp.remove(candidate);
+																		}
+																	}
+																	if (obj.eGet(refff) instanceof List<?>) {
+																		List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																		if (oo.size() == 0) {
+																			selected_tmp.remove(candidate);
+																		}
+																	}
+																}
+																else {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (refev.value instanceof List<?>) {
+																			List<EObject> objs = (List<EObject>) refev.value;
+																			if (objs.contains(o)) {
+																				selected_tmp.remove(candidate);
+																			}
+																		}
+																		else {
+																			if (o.equals(refev.value)) {
+																				selected_tmp.remove(candidate);
+																			}
+																		}
+																	}
+																}
 															}
 														}
 													}
@@ -1570,18 +3230,64 @@ public class MutatorUtils {
 									for (EObject object : objects) {
 										for (EReference reff : object.eClass().getEAllReferences()) {
 											if (reff.getName().equals(refev.refName)) {
-												if (refev.value != null) {
-													if (object.eGet(reff) instanceof EObject) {
-														EObject obj = (EObject) object.eGet(reff);
-														if (obj.equals(refev.value)) {
-															selected_tmp.remove(candidate);
-														}
-													}
-													if (object.eGet(reff) instanceof List<?>) {
-														List<EObject> objs = (List<EObject>) object.eGet(reff);
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																selected_tmp.remove(candidate);
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													for (EReference refff : obj.eClass().getEAllReferences()) {
+														if (refff.getName().equals(refev.refRefName)) {
+															if (refev.value == null) {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (o == null) {
+																		selected_tmp.remove(candidate);
+																	}
+																}
+																if (obj.eGet(refff) instanceof EObject) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (oo.size() == 0) {
+																		selected_tmp.remove(candidate);
+																	}
+																}
+															}
+															else {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> objs = (List<EObject>) refev.value;
+																		if (objs.contains(o)) {
+																			selected_tmp.remove(candidate);
+																		}
+																	}
+																	else {
+																		if (o.equals(refev.value)) {
+																			selected_tmp.remove(candidate);
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof List<?>) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> lobjects = new ArrayList<EObject>();
+																		lobjects.addAll((List<EObject>) refev.value);
+																		boolean b = true;
+																		for (EObject o : oo) {
+																			if (!lobjects.contains(o)) {
+																				b = false;
+																				break;
+																			}
+																			lobjects.remove(o);
+																		}
+																		if (b == true && lobjects.size() == 0) {
+																			selected_tmp.remove(candidate);
+																		}
+																	}
+																	else {
+																		for (EObject o : oo) {
+																			if (o.equals(refev.value)) {
+																				selected_tmp.remove(candidate);
+																			}
+																		}
+																	}
+																}
 															}
 														}
 													}
@@ -1607,46 +3313,91 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceAndIn(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceAndIn(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
 		if (refev.name != null) {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value != null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									boolean b = true;
-									for (EObject obj : (List<EObject>) refev.value) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == false || objects.size() > 0) {
-										selected_tmp.remove(candidate);
-									}
-								}
-								else {
-									EObject object = (EObject) refev.value;
-									if (!objects.contains(object)) {
-										selected_tmp.remove(candidate);
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value != null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (!objects.contains(object)) {
+										boolean b = true;
+										for (EObject obj : (List<EObject>) refev.value) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == false || objects.size() > 0) {
 											selected_tmp.remove(candidate);
 										}
 									}
 									else {
-										if (!object.equals(refev.value)) {
+										EObject object = (EObject) refev.value;
+										if (!objects.contains(object)) {
 											selected_tmp.remove(candidate);
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (!objects.contains(object)) {
+												selected_tmp.remove(candidate);
+											}
+										}
+										else {
+											if (!object.equals(refev.value)) {
+												selected_tmp.remove(candidate);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value != null) {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (!val.equals(refev.value)) {
+													selected_tmp.remove(candidate);
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value != null) {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (!val.equals(refev.value)) {
+														selected_tmp.remove(candidate);
+													}
+												}
+											}
 										}
 									}
 								}
@@ -1656,28 +3407,64 @@ public class MutatorUtils {
 				}
 			}
 			else {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof EObject) {
-								EObject object = (EObject) candidate.eGet(ref);
-								for (EReference reff : object.eClass().getEAllReferences()) {
-									if (reff.getName().equals(refev.refName)) {
-										if (refev.value != null) {
-											if (object.eGet(reff) instanceof EObject) {
-												EObject obj = (EObject) object.eGet(reff);
-												if (obj != null) {
+				if (refev.refRefName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EReference reff : object.eClass().getEAllReferences()) {
+										if (reff.getName().equals(refev.refName)) {
+											if (refev.value != null) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													if (obj != null) {
+														if (refev.value instanceof List<?>) {
+															List<EObject> objects = (List<EObject>) refev.value;
+															if (!objects.contains(obj)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
+
+														}
+														else {
+															if (!obj.equals(refev.value)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
+														}
+													}
+												}
+												if (object.eGet(reff) instanceof List<?>) {
+													List<EObject> objs = (List<EObject>) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> objects = (List<EObject>) refev.value;
-														if (!objects.contains(obj)) {
+														List<EObject> objects = new ArrayList<EObject>();
+														objects.addAll((List<EObject>) refev.value);
+														boolean b = true;
+														for (EObject obj : objs) {
+															if (!objects.contains(obj)) {
+																b = false;
+																break;
+															}
+															objects.remove(obj);
+														}
+														if (b == false || objects.size() > 0) {
 															if (!selected_tmp.contains(candidate)) {
 																selected_tmp.add(candidate);
 															}
 														}
-														
 													}
 													else {
-														if (!obj.equals(refev.value)) {
+														boolean exists = false;
+														for (EObject obj : objs) {
+															if (obj.equals(refev.value)) {
+																exists = true;
+																break;
+															}
+														}
+														if (exists == true) {
 															if (!selected_tmp.contains(candidate)) {
 																selected_tmp.add(candidate);
 															}
@@ -1685,35 +3472,60 @@ public class MutatorUtils {
 													}
 												}
 											}
-											if (object.eGet(reff) instanceof List<?>) {
-												List<EObject> objs = (List<EObject>) object.eGet(reff);
-												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
-													boolean b = true;
-													for (EObject obj : objs) {
-														if (!objects.contains(obj)) {
-															b = false;
-															break;
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (refev.value != null) {
+													if (object.eGet(reff) instanceof EObject) {
+														EObject obj = (EObject) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> objs = (List<EObject>) refev.value;
+															if (objs.contains(obj)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
 														}
-														objects.remove(obj);
-													}
-													if (b == false || objects.size() > 0) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+														else {
+															if (obj.equals(refev.value)) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
 														}
 													}
-												}
-												else {
-													boolean exists = false;
-													for (EObject obj : objs) {
-														if (obj.equals(refev.value)) {
-															exists = true;
-															break;
+													if (object.eGet(reff) instanceof List<?>) {
+														List<EObject> objs = (List<EObject>) object.eGet(reff);
+														if (refev.value instanceof List<?>) {
+															List<EObject> lobjects = new ArrayList<EObject>();
+															lobjects.addAll((List<EObject>) refev.value);
+															boolean b = true;
+															for (EObject obj : objs) {
+																if (!lobjects.contains(obj)) {
+																	b = false;
+																	break;
+																}
+																lobjects.remove(obj);
+															}
+															if (b == true && lobjects.size() == 0) {
+																if (!selected_tmp.contains(candidate)) {
+																	selected_tmp.add(candidate);
+																}
+															}
 														}
-													}
-													if (exists == true) {
-														if (!selected_tmp.contains(candidate)) {
-															selected_tmp.add(candidate);
+														else {
+															for (EObject obj : objs) {
+																if (obj.equals(refev.value)) {
+																	if (!selected_tmp.contains(candidate)) {
+																		selected_tmp.add(candidate);
+																	}
+																}
+															}
 														}
 													}
 												}
@@ -1722,53 +3534,134 @@ public class MutatorUtils {
 									}
 								}
 							}
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								for (EObject object : objects) {
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
 									for (EReference reff : object.eClass().getEAllReferences()) {
 										if (reff.getName().equals(refev.refName)) {
-											if (refev.value != null) {
-												if (object.eGet(reff) instanceof EObject) {
-													EObject obj = (EObject) object.eGet(reff);
-													if (refev.value instanceof List<?>) {
-														List<EObject> objs = (List<EObject>) refev.value;
-														if (objs.contains(obj)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
-															}
-														}
-													}
-													else {
-														if (obj.equals(refev.value)) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+											if (object.eGet(reff) instanceof EObject) {
+												EObject obj = (EObject) object.eGet(reff);
+												for (EReference refff : obj.eClass().getEAllReferences()) {
+													if (refff.getName().equals(refev.refRefName)) {
+														if (refev.value != null) {
+															if (obj.eGet(refff) instanceof EObject) {
+																EObject o = (EObject) obj.eGet(refff);
+																if (refev.value instanceof List<?>) {
+																	List<EObject> objects = (List<EObject>) refev.value;
+																	if (objects.contains(o)) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
+																	}
+																}
+																else {
+																	if (o.equals(refev.value)) {
+																		if (!selected_tmp.contains(candidate)) {
+																			selected_tmp.add(candidate);
+																		}
+																	}
+																}
 															}
 														}
 													}
 												}
+											}
+											else {
 												if (object.eGet(reff) instanceof List<?>) {
-													List<EObject> objs = (List<EObject>) object.eGet(reff);
-													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
-														boolean b = true;
-														for (EObject obj : objs) {
-															if (!lobjects.contains(obj)) {
-																b = false;
-																break;
-															}
-															lobjects.remove(obj);
-														}
-														if (b == true && lobjects.size() == 0) {
-															if (!selected_tmp.contains(candidate)) {
-																selected_tmp.add(candidate);
+													List<EObject> objects = (List<EObject>) object.eGet(reff);
+													for (EObject obj : objects) {
+														for (EReference refff : obj.eClass().getEAllReferences()) {
+															if (refff.getName().equals(refev.refRefName)) {
+																if (refev.value != null) {
+																	if (obj.eGet(refff) instanceof EObject) {
+																		EObject o = (EObject) obj.eGet(refff);
+																		if (refev.value instanceof List<?>) {
+																			List<EObject> objs = (List<EObject>) refev.value;
+																			if (objs.contains(o)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
+																			}
+																		}
+																		else {
+																			if (o.equals(refev.value)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
+																			}
+																		}
+																	}
+																}
 															}
 														}
 													}
-													else {
-														for (EObject obj : objs) {
-															if (obj.equals(refev.value)) {
-																if (!selected_tmp.contains(candidate)) {
-																	selected_tmp.add(candidate);
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EReference reff : object.eClass().getEAllReferences()) {
+											if (reff.getName().equals(refev.refName)) {
+												if (object.eGet(reff) instanceof EObject) {
+													EObject obj = (EObject) object.eGet(reff);
+													for (EReference refff : obj.eClass().getEAllReferences()) {
+														if (refff.getName().equals(refev.refRefName)) {
+															if (refev.value != null) {
+																if (obj.eGet(refff) instanceof EObject) {
+																	EObject o = (EObject) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> objs = (List<EObject>) refev.value;
+																		if (objs.contains(o)) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		if (o.equals(refev.value)) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																}
+																if (obj.eGet(refff) instanceof List<?>) {
+																	List<EObject> oo = (List<EObject>) obj.eGet(refff);
+																	if (refev.value instanceof List<?>) {
+																		List<EObject> lobjects = new ArrayList<EObject>();
+																		lobjects.addAll((List<EObject>) refev.value);
+																		boolean b = true;
+																		for (EObject o : oo) {
+																			if (!lobjects.contains(o)) {
+																				b = false;
+																				break;
+																			}
+																			lobjects.remove(o);
+																		}
+																		if (b == true && lobjects.size() == 0) {
+																			if (!selected_tmp.contains(candidate)) {
+																				selected_tmp.add(candidate);
+																			}
+																		}
+																	}
+																	else {
+																		for (EObject o : oo) {
+																			if (o.equals(refev.value)) {
+																				if (!selected_tmp.contains(candidate)) {
+																					selected_tmp.add(candidate);
+																				}
+																			}
+																		}
+																	}
 																}
 															}
 														}
@@ -1787,6 +3680,534 @@ public class MutatorUtils {
 	}
 
 	/**
+	 * evaluateSecondReferenceIs evaluates the second reference expression
+	 * when the operator is 'is'
+	 * @param refev
+	 * @param candidate
+	 * @param selected
+	 */
+	private static void evaluateSecondReferenceAndIs(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+		if (refev.name == null) {
+			if (refev.container == false) {
+				if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) candidate).eClass())) {
+					selected_tmp.remove(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) candidate).eContainer().eClass()) ) {
+				selected_tmp.remove(candidate);
+			}
+		}
+		else {
+			Object obj = ModelManager.getReferredObject(refev.name, candidate);
+			if (obj instanceof EObject) {
+				if (refev.refName == null) {
+					if (refev.attName == null) {
+						if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) obj).eClass())) {
+							selected_tmp.remove(candidate);
+						}
+					}
+				}
+				else {
+					if (refev.refRefName == null) {
+						Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+									selected_tmp.remove(candidate);
+								}
+							}
+							else {
+								List<EObject> objects = (List<EObject>) refObj;
+								for (EObject object : objects) {
+									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+										selected_tmp.remove(candidate);
+										break;
+									}
+								}
+							}
+						}
+					}
+					else {
+						Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected_tmp.remove(candidate);
+								}
+							}
+							else {
+								List<EObject> objects = (List<EObject>) refObj;
+								for (EObject object : objects) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
+									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected_tmp.remove(candidate);
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (obj instanceof List<?>) {
+				List<EObject> objects = (List<EObject>) obj;
+				for (EObject object : objects) {
+					if (refev.refName == null) {
+						if (refev.attName == null) {
+							if (!EcoreUtil.equals((EObject) refev.value, object)) {
+								selected_tmp.remove(candidate);
+								break;
+							}
+						}
+					}
+					else {
+						if (refev.refRefName == null) {
+							Object refObj = ModelManager.getReferredObject(refev.refName, object);
+							if (refObj != null) {
+								if (refObj instanceof EObject) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected_tmp.remove(candidate);
+										break;
+									}
+								}
+								else {
+									List<EObject> refObjects = (List<EObject>) refObj;
+									boolean found = false;
+									for (EObject refOb : refObjects) {
+										Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
+										if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+											selected_tmp.remove(candidate);
+											found = true;
+											break;
+										}
+									}
+									if (found == true) {
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * evaluateSecondReferenceIs evaluates the second reference expression
+	 * when the operator is 'is'
+	 * @param refev
+	 * @param candidate
+	 * @param selected
+	 */
+	private static void evaluateSecondReferenceOrIs(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+		if (refev.name == null) {
+			if (refev.container == false) {
+				if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) candidate).eClass())) {
+					selected_tmp.add(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) candidate).eContainer().eClass()) ) {
+				selected_tmp.add(candidate);
+			}
+		}
+		else {
+			Object obj = ModelManager.getReferredObject(refev.name, candidate);
+			if (obj instanceof EObject) {
+				if (refev.refName == null) {
+					if (refev.attName == null) {
+						if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) obj).eClass())) {
+							selected_tmp.add(candidate);
+						}
+					}
+				}
+				else {
+					if (refev.refRefName == null) {
+						Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+									selected_tmp.add(candidate);
+								}
+							}
+							else {
+								List<EObject> objects = (List<EObject>) refObj;
+								for (EObject object : objects) {
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object)) {
+										selected_tmp.add(candidate);
+										break;
+									}
+								}
+							}
+						}
+					}
+					else {
+						Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected_tmp.add(candidate);
+								}
+							}
+							else {
+								List<EObject> objects = (List<EObject>) refObj;
+								for (EObject object : objects) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected_tmp.add(candidate);
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (obj instanceof List<?>) {
+				List<EObject> objects = (List<EObject>) obj;
+				for (EObject object : objects) {
+					if (refev.refName == null) {
+						if (refev.attName == null) {
+							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+								selected_tmp.add(candidate);
+								break;
+							}
+						}
+					}
+					else {
+						if (refev.refRefName == null) {
+							Object refObj = ModelManager.getReferredObject(refev.refName, object);
+							if (refObj != null) {
+								if (refObj instanceof EObject) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected_tmp.add(candidate);
+										break;
+									}
+								}
+								else {
+									List<EObject> refObjects = (List<EObject>) refObj;
+									boolean found = false;
+									for (EObject refOb : refObjects) {
+										Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
+										if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+											selected_tmp.add(candidate);
+											found = true;
+											break;
+										}
+									}
+									if (found == true) {
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * evaluateSecondReferenceNot evaluates the second reference expression
+	 * when the operator is 'not'
+	 * @param refev
+	 * @param candidate
+	 * @param selected
+	 */
+	private static void evaluateSecondReferenceAndNot(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+		if (refev.name == null) {
+			if (refev.container == false) {
+				if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), candidate.eClass())) {
+					selected_tmp.remove(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), candidate.eContainer().eClass()) ) {
+				selected_tmp.remove(candidate);
+			}
+			return;
+		}
+		Object obj = ModelManager.getReferredObject(refev.name, candidate);
+		if (obj instanceof EObject) {
+			if (refev.refName == null) {
+				if (refev.attName == null) {
+					if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) obj).eClass())) {
+						selected_tmp.remove(candidate);
+					}
+				}
+			}
+			else {
+				if (refev.refRefName == null) {
+					Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+					if (refObj != null) {
+						if (refObj instanceof EObject) {
+							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+								selected_tmp.remove(candidate);
+							}
+						}
+						else {
+							List<EObject> objects = (List<EObject>) refObj;
+							for (EObject object : objects) {
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+									selected_tmp.remove(candidate);
+									break;
+								}
+							}
+						}
+					}
+				}
+				else {
+					Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+					if (refObj != null) {
+						if (refObj instanceof EObject) {
+							Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+							if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								selected_tmp.remove(candidate);
+							}
+						}
+						else {
+							List<EObject> objects = (List<EObject>) refObj;
+							for (EObject object : objects) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected_tmp.remove(candidate);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (obj instanceof List<?>) {
+			List<EObject> objects = (List<EObject>) obj;
+			for (EObject object : objects) {
+				if (refev.refName == null) {
+					if (refev.attName == null) {
+						if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+							selected_tmp.remove(candidate);
+							break;
+						}
+					}
+				}
+				else {
+					if (refev.refRefName == null) {
+						Object refObj = ModelManager.getReferredObject(refev.refName, object);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+								if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected_tmp.remove(candidate);
+									break;
+								}
+							}
+							else {
+								List<EObject> refObjects = (List<EObject>) refObj;
+								boolean found = false;
+								for (EObject refOb : refObjects) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
+									if (refev.value != null && EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected_tmp.remove(candidate);
+										found = true;
+										break;
+									}
+								}
+								if (found == true) {
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * evaluateSecondReferenceNot evaluates the second reference expression
+	 * when the operator is 'not'
+	 * @param refev
+	 * @param candidate
+	 * @param selected
+	 */
+	private static void evaluateSecondReferenceOrNot(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+		if (refev.name == null) {
+			if (refev.container == false) {
+				if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), candidate.eClass())) {
+					selected_tmp.add(candidate);
+				}
+			}
+			else if (candidate.eContainer() != null && refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), candidate.eContainer().eClass())) {
+				selected_tmp.add(candidate);
+			}
+			return;
+		}
+		Object obj = ModelManager.getReferredObject(refev.name, candidate);
+		if (obj instanceof EObject) {
+			if (refev.refName == null) {
+				if (refev.attName == null) {
+					if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) obj).eClass())) {
+						selected_tmp.add(candidate);
+					}
+				}
+			}
+			else {
+				if (refev.refRefName == null) {
+					Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+					if (refObj != null) {
+						if (refObj instanceof EObject) {
+							if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refObj).eClass())) {
+								selected_tmp.add(candidate);
+							}
+						}
+						else {
+							List<EObject> objects = (List<EObject>) refObj;
+							for (EObject object : objects) {
+								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+									selected_tmp.add(candidate);
+									break;
+								}
+							}
+						}
+					}
+				}
+				else {
+					Object refObj = ModelManager.getReferredObject(refev.refName, (EObject) obj);
+					if (refObj != null) {
+						if (refObj instanceof EObject) {
+							Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+							if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+								selected_tmp.add(candidate);
+							}
+						}
+						else {
+							List<EObject> objects = (List<EObject>) refObj;
+							for (EObject object : objects) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) object);
+								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected_tmp.add(candidate);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (obj instanceof List<?>) {
+			List<EObject> objects = (List<EObject>) obj;
+			for (EObject object : objects) {
+				if (refev.refName == null) {
+					if (refev.attName == null) {
+						if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), object.eClass())) {
+							selected_tmp.add(candidate);
+							break;
+						}
+					}
+				}
+				else {
+					if (refev.refRefName == null) {
+						Object refObj = ModelManager.getReferredObject(refev.refName, object);
+						if (refObj != null) {
+							if (refObj instanceof EObject) {
+								Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refObj);
+								if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+									selected_tmp.add(candidate);
+									break;
+								}
+							}
+							else {
+								List<EObject> refObjects = (List<EObject>) refObj;
+								boolean found = false;
+								for (EObject refOb : refObjects) {
+									Object refRefObj = ModelManager.getReferredObject(refev.refRefName, (EObject) refOb);
+									if (refev.value != null && !EcoreUtil.equals(((EObject) refev.value).eClass(), ((EObject) refRefObj).eClass())) {
+										selected_tmp.add(candidate);
+										found = true;
+										break;
+									}
+								}
+								if (found == true) {
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+//	private static void evaluateSecondReferenceAndGreater(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size <= 1) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() <= refev.size) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//		}
+//	}
+
+//	private static void evaluateSecondReferenceAndGreaterOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() < refev.size) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//		}
+//	}
+	
+//	private static void evaluateSecondReferenceAndLower(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size >= 1) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() >= refev.size) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//		}
+//	}
+
+//	private static void evaluateSecondReferenceAndLowerOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() > refev.size) {
+//					selected_tmp.remove(candidate);
+//				}
+//			}
+//		}
+//	}
+	
+	/**
 	 * evaluateSecondReferenceAnd evaluates second reference
 	 * expression and next when preceded by an 'and' operator
 	 * @param refev
@@ -1794,7 +4215,7 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceAnd(ReferenceEvaluation refev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceAnd(ReferenceEvaluation refev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
 		for (EObject candidate : selected) {
 			if (refev.operator.equals("equals")) {
 				evaluateSecondReferenceAndEquals(refev, candidate, selected, selected_tmp);
@@ -1805,6 +4226,24 @@ public class MutatorUtils {
 			if (refev.operator.equals("in")) {
 				evaluateSecondReferenceAndIn(refev, candidate, selected, selected_tmp);
 			}
+			if (refev.operator.equals("is")) {
+				evaluateSecondReferenceAndIs(refev, candidate, selected, selected_tmp);
+			}
+			if (refev.operator.equals("not")) {
+				evaluateSecondReferenceAndNot(refev, candidate, selected, selected_tmp);
+			}
+//			if (refev.operator.equals("gt")) {
+//				evaluateSecondReferenceAndGreater(refev, candidate, selected, selected_tmp);
+//			}
+//			if (refev.operator.equals("gte")) {
+//				evaluateSecondReferenceAndGreaterOrEquals(refev, candidate, selected, selected_tmp);
+//			}
+//			if (refev.operator.equals("lt")) {
+//				evaluateSecondReferenceAndLower(refev, candidate, selected, selected_tmp);
+//			}
+//			if (refev.operator.equals("lte")) {
+//				evaluateSecondReferenceAndLowerOrEquals(refev, candidate, selected, selected_tmp);
+//			}
 		}		
 	}
 	
@@ -1817,75 +4256,162 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	protected void evaluateSecondReferenceOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+	protected static void evaluateSecondReferenceOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() == refev.size) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//			return;
+//		}
 		if (refev.name == null) {
-			if (candidate.equals(refev.value)) {
+			if (refev.container == false) {
+				if (candidate.equals(refev.value)) {
+					if (!selected_tmp.contains(candidate)) {
+						selected_tmp.add(candidate);
+					}
+				}
+			}
+			else if (candidate.eContainer() != null && candidate.eContainer().equals(refev.value)) {
 				if (!selected_tmp.contains(candidate)) {
 					selected_tmp.add(candidate);
 				}
 			}
 		} else {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value == null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (objects.size() == 0) {
-									if (!selected_tmp.contains(candidate)) {
-										selected_tmp.add(candidate);
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) == null) {
-									if (!selected_tmp.contains(candidate)) {
-										selected_tmp.add(candidate);
-									}
-								}
-							}
-						} else {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									boolean b = true;
-									for (EObject obj : (List<EObject>) refev.value) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == true && objects.size() == 0) {
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value == null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									if (objects.size() == 0) {
 										if (!selected_tmp.contains(candidate)) {
 											selected_tmp.add(candidate);
 										}
 									}
 								}
 								else {
-									EObject object = (EObject) refev.value;
-									if (objects.contains(object)) {
+									if (candidate.eGet(ref) == null) {
 										if (!selected_tmp.contains(candidate)) {
 											selected_tmp.add(candidate);
 										}
 									}
 								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+							} else {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (objects.contains(object)) {
+										boolean b = true;
+										for (EObject obj : (List<EObject>) refev.value) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == true && objects.size() == 0) {
 											if (!selected_tmp.contains(candidate)) {
 												selected_tmp.add(candidate);
 											}
 										}
 									}
 									else {
-										if (object.equals(refev.value)) {
+										EObject object = (EObject) refev.value;
+										if (objects.contains(object)) {
 											if (!selected_tmp.contains(candidate)) {
 												selected_tmp.add(candidate);
+											}
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (objects.contains(object)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+										else {
+											if (object.equals(refev.value)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) == null) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (val.equals(refev.value)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) == null) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (val.equals(refev.value)) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
 											}
 										}
 									}
@@ -1942,7 +4468,8 @@ public class MutatorUtils {
 											if (object.eGet(reff) instanceof List<?>) {
 												List<EObject> objs = (List<EObject>) object.eGet(ref);
 												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
+													List<EObject> objects = new ArrayList<EObject>();
+													objects.addAll((List<EObject>) refev.value);
 													boolean b = true;
 													for (EObject obj : objs) {
 														if (!objects.contains(obj)) {
@@ -2020,7 +4547,8 @@ public class MutatorUtils {
 												if (object.eGet(reff) instanceof List<?>) {
 													List<EObject> objs = (List<EObject>) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
+														List<EObject> lobjects = new ArrayList<EObject>();
+														lobjects.addAll((List<EObject>) refev.value);
 														boolean b = true;
 														for (EObject obj : objs) {
 															if (!lobjects.contains(obj)) {
@@ -2066,77 +4594,164 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceOrDifferent(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceOrDifferent(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size != 1) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() != refev.size) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//			return;
+//		}
 		if (refev.name == null) {
-			if (!candidate.equals(refev.value)) {
+			if (refev.container == false) {
+				if (!candidate.equals(refev.value)) {
+					if (!selected_tmp.contains(candidate)) {
+						selected_tmp.add(candidate);
+					}
+				}
+			}
+			else if (candidate.eContainer() != null && !candidate.eContainer().equals(refev.value)) {
 				if (!selected_tmp.contains(candidate)) {
 					selected_tmp.add(candidate);
 				}
 			}
 		} else {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (refev.value == null) {
-						if (candidate.eGet(ref) != null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (objects.size() == 0) {
-									if (!selected_tmp.contains(candidate)) {
-										selected_tmp.add(candidate);
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) == null) {
-									if (!selected_tmp.contains(candidate)) {
-										selected_tmp.add(candidate);
-									}
-								}
-							}
-						}
-					} else {
-						if (ref.getName().equals(refev.name)) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									List<EObject> objs = (List<EObject>) refev.value;
-									boolean b = true;
-									for (EObject obj : objs) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == false || objects.size() > 0) {
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (refev.value == null) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									if (objects.size() > 0) {
 										if (!selected_tmp.contains(candidate)) {
 											selected_tmp.add(candidate);
 										}
 									}
 								}
 								else {
-									EObject obj = (EObject) refev.value;
-									if (!objects.contains(obj)) {
+									if (candidate.eGet(ref) == null) {
 										if (!selected_tmp.contains(candidate)) {
 											selected_tmp.add(candidate);
 										}
 									}
 								}
 							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+						} else {
+							if (ref.getName().equals(refev.name)) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (!objects.contains(object)) {
+										List<EObject> objs = (List<EObject>) refev.value;
+										boolean b = true;
+										for (EObject obj : objs) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == false || objects.size() > 0) {
 											if (!selected_tmp.contains(candidate)) {
 												selected_tmp.add(candidate);
 											}
 										}
 									}
-									if (!object.equals(refev.value)) {
-										if (!selected_tmp.contains(candidate)) {
-											selected_tmp.add(candidate);
+									else {
+										EObject obj = (EObject) refev.value;
+										if (!objects.contains(obj)) {
+											if (!selected_tmp.contains(candidate)) {
+												selected_tmp.add(candidate);
+											}
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (!objects.contains(object)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+										if (!object.equals(refev.value)) {
+											if (!selected_tmp.contains(candidate)) {
+												selected_tmp.add(candidate);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) != null) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (!val.equals(refev.value)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) != null) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (!val.equals(refev.value)) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
+											}
 										}
 									}
 								}
@@ -2224,7 +4839,8 @@ public class MutatorUtils {
 											if (object.eGet(reff) instanceof List<?>) {
 												List<EObject> objs = (List<EObject>) object.eGet(reff);
 												if (refev.value instanceof List<?>) {
-													List<EObject> lobjects = (List<EObject>) refev.value;
+													List<EObject> lobjects = new ArrayList<EObject>();
+													lobjects.addAll((List<EObject>) refev.value);
 													boolean b = true;
 													for (EObject obj : objs) {
 														if (!lobjects.contains(obj)) {
@@ -2274,53 +4890,116 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceOrIn(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceOrIn(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
 		if (refev.name != null) {
 			if (refev.refName == null) {
-				for (EReference ref : candidate.eClass().getEAllReferences()) {
-					if (ref.getName().equals(refev.name)) {
-						if (refev.value != null) {
-							if (candidate.eGet(ref) instanceof List<?>) {
-								List<EObject> objects = (List<EObject>) candidate.eGet(ref);
-								if (refev.value instanceof List<?>) {
-									boolean b = true;
-									for (EObject obj : (List<EObject>) refev.value) {
-										if (!objects.contains(obj)) {
-											b = false;
-											break;
-										}
-										objects.remove(obj);
-									}
-									if (b == true && objects.size() == 0) {
-										if (!selected_tmp.contains(candidate)) {
-											selected_tmp.add(candidate);
-										}
-									}
-								}
-								else {
-									EObject object = (EObject) refev.value;
-									if (objects.contains(object)) {
-										if (!selected_tmp.contains(candidate)) {
-											selected_tmp.add(candidate);
-										}
-									}
-								}
-							}
-							else {
-								if (candidate.eGet(ref) instanceof EObject) {
-									EObject object = (EObject) candidate.eGet(ref);
+				if (refev.attName == null) {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (refev.value != null) {
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = new ArrayList<EObject>();
+									objects.addAll((List<EObject>) candidate.eGet(ref));
 									if (refev.value instanceof List<?>) {
-										List<EObject> objects = (List<EObject>) refev.value;
-										if (objects.contains(object)) {
+										boolean b = true;
+										for (EObject obj : (List<EObject>) refev.value) {
+											if (!objects.contains(obj)) {
+												b = false;
+												break;
+											}
+											objects.remove(obj);
+										}
+										if (b == true && objects.size() == 0) {
 											if (!selected_tmp.contains(candidate)) {
 												selected_tmp.add(candidate);
 											}
 										}
 									}
 									else {
-										if (object.equals(refev.value)) {
+										EObject object = (EObject) refev.value;
+										if (objects.contains(object)) {
 											if (!selected_tmp.contains(candidate)) {
 												selected_tmp.add(candidate);
+											}
+										}
+									}
+								}
+								else {
+									if (candidate.eGet(ref) instanceof EObject) {
+										EObject object = (EObject) candidate.eGet(ref);
+										if (refev.value instanceof List<?>) {
+											List<EObject> objects = (List<EObject>) refev.value;
+											if (objects.contains(object)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+										else {
+											if (object.equals(refev.value)) {
+												if (!selected_tmp.contains(candidate)) {
+													selected_tmp.add(candidate);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					for (EReference ref : candidate.eClass().getEAllReferences()) {
+						if (ref.getName().equals(refev.name)) {
+							if (candidate.eGet(ref) != null) {
+								if (candidate.eGet(ref) instanceof EObject) {
+									EObject object = (EObject) candidate.eGet(ref);
+									for (EAttribute att : object.eClass().getEAllAttributes()) {
+										if (att.getName().equals(refev.attName)) {
+											if (refev.value == null) {
+												if (object.eGet(att) == null) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+											else {
+												Object val = object.eGet(att);
+												if (val instanceof EEnumLiteral) {
+													val = ((EEnumLiteral) val).getLiteral();
+												}
+												if (val.equals(refev.value)) {
+													if (!selected_tmp.contains(candidate)) {
+														selected_tmp.add(candidate);
+													}
+												}
+											}
+										}
+									}
+								}
+								if (candidate.eGet(ref) instanceof List<?>) {
+									List<EObject> objects = (List<EObject>) candidate.eGet(ref);
+									for (EObject object : objects) {
+										for (EAttribute att : object.eClass().getEAllAttributes()) {
+											if (att.getName().equals(refev.attName)) {
+												if (refev.value == null) {
+													if (object.eGet(att) == null) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
+												else {
+													Object val = object.eGet(att);
+													if (val instanceof EEnumLiteral) {
+														val = ((EEnumLiteral) val).getLiteral();
+													}
+													if (val.equals(refev.value)) {
+														if (!selected_tmp.contains(candidate)) {
+															selected_tmp.add(candidate);
+														}
+													}
+												}
 											}
 										}
 									}
@@ -2360,7 +5039,8 @@ public class MutatorUtils {
 											if (object.eGet(reff) instanceof List<?>) {
 												List<EObject> objs = (List<EObject>) object.eGet(ref);
 												if (refev.value instanceof List<?>) {
-													List<EObject> objects = (List<EObject>) refev.value;
+													List<EObject> objects = new ArrayList<EObject>();
+													objects.addAll((List<EObject>) refev.value);
 													boolean b = true;
 													for (EObject obj : objs) {
 														if (!objects.contains(obj)) {
@@ -2421,7 +5101,8 @@ public class MutatorUtils {
 												if (object.eGet(reff) instanceof List<?>) {
 													List<EObject> objs = (List<EObject>) object.eGet(reff);
 													if (refev.value instanceof List<?>) {
-														List<EObject> lobjects = (List<EObject>) refev.value;
+														List<EObject> lobjects = new ArrayList<EObject>();
+														lobjects.addAll((List<EObject>) refev.value);
 														boolean b = true;
 														for (EObject obj : objs) {
 															if (!lobjects.contains(obj)) {
@@ -2458,6 +5139,72 @@ public class MutatorUtils {
 		}
 	}
 	
+//	private static void evaluateSecondReferenceOrGreater(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() > refev.size) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//		}
+//	}
+
+//	private static void evaluateSecondReferenceOrGreaterOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() >= refev.size) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//		}
+//	}
+	
+//	private static void evaluateSecondReferenceOrLower(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() < refev.size) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//		}
+//	}
+
+//	private static void evaluateSecondReferenceOrLowerOrEquals(ReferenceEvaluation refev, EObject candidate, Set<EObject> selected, Set<EObject> selected_tmp) {
+//		if (refev.size != 0) {
+//			EObject container = candidate.eContainer();
+//			EReference ref = ModelManager.getReferenceBetweenObjects(container, candidate);
+//			Object ob = container.eGet(ref);
+//			if (ob instanceof EObject) {
+//				if (refev.size == 1) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//			if (ob instanceof List<?>) {
+//				List<EObject> values = (List<EObject>) ob;
+//				if (values.size() <= refev.size) {
+//					selected_tmp.add(candidate);
+//				}
+//			}
+//		}
+//	}
+
 	/**
 	 * evaluateSecondReferenceOr evaluates second reference
 	 * expression and next when preceded by an 'or' operator
@@ -2466,7 +5213,7 @@ public class MutatorUtils {
 	 * @param selected
 	 * @param selected_tmp
 	 */
-	private void evaluateSecondReferenceOr(ReferenceEvaluation refev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
+	private static void evaluateSecondReferenceOr(ReferenceEvaluation refev, List<EObject> candidates, Set<EObject> selected, Set<EObject> selected_tmp) {
 		for (EObject candidate : candidates) {
 			if (refev.operator.equals("equals")) {
 				evaluateSecondReferenceOrEquals(refev, candidate, selected, selected_tmp);
@@ -2477,36 +5224,53 @@ public class MutatorUtils {
 			if (refev.operator.equals("in")) {
 				evaluateSecondReferenceOrIn(refev, candidate, selected, selected_tmp);
 			}
+			if (refev.operator.equals("is")) {
+				evaluateSecondReferenceOrIs(refev, candidate, selected, selected_tmp);
+			}
+			if (refev.operator.equals("not")) {
+				evaluateSecondReferenceOrNot(refev, candidate, selected, selected_tmp);
+			}
+//			if (refev.operator.equals("gt")) {
+//				evaluateSecondReferenceOrGreater(refev, candidate, selected, selected_tmp);
+//			}
+//			if (refev.operator.equals("gte")) {
+//				evaluateSecondReferenceOrGreaterOrEquals(refev, candidate, selected, selected_tmp);
+//			}
+//			if (refev.operator.equals("lt")) {
+//				evaluateSecondReferenceOrLower(refev, candidate, selected, selected_tmp);
+//			}
+//			if (refev.operator.equals("lte")) {
+//				evaluateSecondReferenceOrLowerOrEquals(refev, candidate, selected, selected_tmp);
+//			}
 		}
 	}
 		
-	
 	/**
 	 * evaluate returns the objects that matches the given expression
 	 * @param candidates
 	 * @param exp
 	 * @return
 	 */
-	protected List<EObject> evaluate(List<EObject> candidates, Expression exp) {
+	protected static List<EObject> evaluate(List<EObject> candidates, Expression exp) {
 		Set<EObject> selected = new HashSet<EObject>();
 		Set<EObject> selected_tmp = null;
-		HashMap<EObject, EObject> dictionary = new HashMap<EObject, EObject>();
+//		Map<EObject, EObject> dictionary = new HashMap<EObject, EObject>();
 
 		List<EObject> ret = new ArrayList<EObject>();
 		if (candidates == null) {
 			return ret;
 		}
-		List<EObject> candidates_tmp = new ArrayList<EObject>();
-		for (EObject candidate : candidates) {
-			EObject candidate_tmp = EcoreUtil.copy(candidate);
-			candidates_tmp.add(candidate_tmp);
-			dictionary.put(candidate_tmp, candidate);
-		}
+//		List<EObject> candidates_tmp = new ArrayList<EObject>();
+//		for (EObject candidate : candidates) {
+//			EObject candidate_tmp = EcoreUtil.copy(candidate);
+//			candidates_tmp.add(candidate_tmp);
+//			dictionary.put(candidate_tmp, candidate);
+//		}
 		if (exp.first instanceof AttributeEvaluation) {
-			evaluateFirstAttribute((AttributeEvaluation) exp.first, candidates_tmp, selected);
+			evaluateFirstAttribute((AttributeEvaluation) exp.first, candidates/*candidates_tmp*/, selected);
 		}
 		if (exp.first instanceof ReferenceEvaluation) {
-			evaluateFirstReference((ReferenceEvaluation) exp.first, candidates_tmp, selected);
+			evaluateFirstReference((ReferenceEvaluation) exp.first, candidates/*candidates_tmp*/, selected);
 		}
 
 		selected_tmp = new HashSet<EObject>();
@@ -2517,18 +5281,18 @@ public class MutatorUtils {
 			for (Evaluation ev : exp.second) {
 				if (ev instanceof AttributeEvaluation) {
 					if (exp.operator.get(i).type.equals("and")) {
-						evaluateSecondAttributeAnd((AttributeEvaluation) ev, candidates_tmp, selected, selected_tmp);
+						evaluateSecondAttributeAnd((AttributeEvaluation) ev, candidates/*candidates_tmp*/, selected, selected_tmp);
 					}
 					if (exp.operator.get(i).type.equals("or")) {
-						evaluateSecondAttributeOr((AttributeEvaluation) ev, candidates_tmp, selected, selected_tmp);
+						evaluateSecondAttributeOr((AttributeEvaluation) ev, candidates/*candidates_tmp*/, selected, selected_tmp);
 					}
 				}
 				if (ev instanceof ReferenceEvaluation) {
 					if (exp.operator.get(i).type.equals("and")) {
-						evaluateSecondReferenceAnd((ReferenceEvaluation) ev, candidates_tmp, selected, selected_tmp);
+						evaluateSecondReferenceAnd((ReferenceEvaluation) ev, candidates/*candidates_tmp*/, selected, selected_tmp);
 					}
 					if (exp.operator.get(i).type.equals("or")) {
-						evaluateSecondReferenceOr((ReferenceEvaluation) ev, candidates_tmp, selected, selected_tmp);
+						evaluateSecondReferenceOr((ReferenceEvaluation) ev, candidates/*candidates_tmp*/, selected, selected_tmp);
 					}
 				}
 				i++;
@@ -2536,140 +5300,98 @@ public class MutatorUtils {
 		}
 
 		for (EObject sel : selected_tmp) {
-			ret.add(dictionary.get(sel));
+			ret.add(sel/*dictionary.get(sel)*/);
 		}
 		
 		return ret;
 	}
 	
-	/**
-	 * Completes the model with mandatory features
-	 * @param packages
-	 * @param model
-	 * @return
-	 */
-	protected static int complete(List<EPackage> packages, Resource model) {
-		// VALIDATE MUTANT
-		for (EObject eObject : model.getContents()) {
-			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
-			if (diagnostic.getSeverity() != Diagnostic.OK) {
-				int code = ((BasicDiagnostic) diagnostic.getChildren().get(0)).getCode();
-				if (code == 0 || code == 1) {
-					// COMPLETES THE CARDINALITIES
-					TreeIterator<Object> tree = EcoreUtil.getAllContents(eObject, true);
-					ArrayList<EClass> classes = ModelManager.getEClasses(packages);
-					ArrayList<Boolean> solved = new ArrayList<Boolean>();
-					while (tree.hasNext()) {
-						EObject obj = (EObject) tree.next();
-						for (EAttribute att : obj.eClass().getEAttributes()) {
-							if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
-								try {
-									if (att.getEType().getInstanceClassName().equals(String.class.getCanonicalName())) {
-										ModelManager.setAttribute(att.getName(), obj, new RandomStringConfigurationStrategy(4, 5, false));
-									}
-									if (att.getEType().getInstanceClassName().equals(boolean.class.getCanonicalName())) {
-										ModelManager.setAttribute(att.getName(), obj, new RandomBooleanConfigurationStrategy());
-									}
-									if (att.getEType().getInstanceClassName().equals(double.class.getCanonicalName())) {
-										ModelManager.setAttribute(att.getName(), obj, new RandomDoubleConfigurationStrategy(1, 100, false));
-									}
-									if (att.getEType().getInstanceClassName().equals(int.class.getCanonicalName())) {
-										ModelManager.setAttribute(att.getName(), obj, new RandomIntegerConfigurationStrategy(1, 100, false));
-									}
-								} catch (WrongAttributeTypeException e) {
-									e.printStackTrace();
-								}
-							}
-						}
-						for (EReference ref : obj.eClass().getEReferences()) {
-							if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
-								solved.add(true);
-								try {
-									if (ref.isChangeable()) {
-										ModelManager.setReference(ref.getName(), obj, new RandomTypeSelection(packages, model, ref.getEReferenceType().getName()));
-										solved.set(solved.size() - 1, true);
-									}
-								} catch (WrongAttributeTypeException e) {
-									solved.set(solved.size() - 1, false);
-								} catch (ReferenceNonExistingException e) {
-									solved.set(solved.size() - 1, false);
-								}
-							}
-						}
-					}
-					for (boolean s : solved) {
-						if (s == false) {
-							return 1;
-						}
-					}
-					return 2;
-				}
-				// if the diagnostic code is 0 the error is because of an OCL
-				// restriction that shall be ignored
-				else {
-					if (code != 0) {
-						return 3;
+	private static int check(EObject eObject) {
+		TreeIterator<Object> tree = EcoreUtil.getAllContents(eObject, true);
+		while (tree.hasNext()) {
+			try {
+				EObject obj = (EObject) tree.next();
+				for (EAttribute att : obj.eClass().getEAllAttributes()) {
+					if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
+						return 1;
 					}
 				}
+				for (EReference ref : obj.eClass().getEAllReferences()) {
+					if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
+						return 1;
+					}
+				}
+			} catch (Exception ex) {
+				return 1;
 			}
 		}
 		return 0;
 	}
 	
+	private static int check(List<EObject> objects) {
+		for (EObject eObject : objects) {
+			TreeIterator<Object> tree = EcoreUtil.getAllContents(eObject, true);
+			while (tree.hasNext()) {
+				try {
+					EObject obj = (EObject) tree.next();
+					for (EAttribute att : obj.eClass().getEAllAttributes()) {
+						if ((att.getLowerBound() > 0) && (obj.eGet(att) == null)) {
+							return 1;
+						}
+					}
+					for (EReference ref : obj.eClass().getEAllReferences()) {
+						if ((ref.getLowerBound() > 0) && (obj.eGet(ref) == null)) {
+							return 1;
+						}
+					}
+				} catch (Exception ex) {
+					return 1;
+				}
+			}
+		}
+		return 0;
+	}
+
 	/**
-	 * Checks whether the model is different to the given set
-	 * It uses the model comparison extension
+	 * Checks whether the model is a valid program
+	 * It uses the model validation extension
 	 * @param metamodel
 	 * @param model
-	 * @param hashset_mutants
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	protected boolean different(String metamodel, String model,
-			HashSet<String> hashset_mutants) throws ModelNotFoundException {
-		boolean isRepeated = false;
-		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants equivalence extension", "Synctactic Comparison", null);
+	protected boolean validate(String metamodel, String seed, String model, IProject project) throws ModelNotFoundException {
+		boolean isValid = true;
+		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants valid programs extension", "", null);
+		if (extensionName.equals("")) {
+			return true;
+		}
 		if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry().getConfigurationElementsFor(
-							"wodel.comparison.MutComparison");
+							"wodel.validate.MutValidate");
 
 			try {
 				IConfigurationElement appropriateExtension = null;
 				for (IConfigurationElement extension : extensions) {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-					Object comparison =  extensionClass.newInstance();
+					Object validation =  extensionClass.newInstance();
 					Method getURI = extensionClass.getDeclaredMethod("getURI");
 					List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-					String uri = (String) getURI.invoke(comparison);
+					String uri = (String) getURI.invoke(validation);
 					Method getName = extensionClass.getDeclaredMethod("getName");
-					String name = (String) getName.invoke(comparison);
-					if (name.equals(extensionName) && uri.equals("")) {
+					String name = (String) getName.invoke(validation);
+					if (uri.equals(packages.get(0).getNsURI())) {
 						appropriateExtension = extension;
 						break;
-					}
-					if (name.equals(extensionName) && uri.equals(packages.get(0).getNsURI())) {
-						appropriateExtension = extension;
-						break;
-					}
-					if (uri.equals("")) {
-						appropriateExtension = extension;
 					}
 				}
 				if (appropriateExtension != null) {
 					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-					Object comparison =  extensionClass.newInstance();
+					Object validation =  extensionClass.newInstance();
 					Method getName = extensionClass.getDeclaredMethod("getName");
-					Method getURI = extensionClass.getDeclaredMethod("getURI");
-					if (getName.invoke(comparison).equals(extensionName) ) {
-						Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class});
-						for (String mutFilename : hashset_mutants) {
-							isRepeated = (boolean) doCompare.invoke(comparison, metamodel, model, mutFilename);
-							if (isRepeated == true) {
-								break;
-							}
-						}
-					}
+					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class, String.class, IProject.class});
+					isValid = (boolean) validate.invoke(validation, metamodel, seed, model, project);
 				}
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
@@ -2700,9 +5422,247 @@ public class MutatorUtils {
 				e.printStackTrace();
 			}
 		}
+		return isValid;
+	}
+
+	/**
+	 * Checks whether the model is valid
+	 * It uses the model validation extension
+	 * @param metamodel
+	 * @param model
+	 * @return
+	 * @throws ModelNotFoundException
+	 */
+	protected boolean validation(Resource model) throws ModelNotFoundException {
+		boolean isValid = true;
+		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "", null);
+		if (extensionName.equals("")) {
+			return true;
+		}
+		if (Platform.getExtensionRegistry() != null) {
+			IConfigurationElement[] extensions = Platform
+					.getExtensionRegistry().getConfigurationElementsFor(
+							"wodel.validate.MutValidation");
+
+			try {
+				IConfigurationElement appropriateExtension = null;
+				for (IConfigurationElement extension : extensions) {
+					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
+					Object validation =  extensionClass.newInstance();
+					Method getName = extensionClass.getDeclaredMethod("getName");
+					String name = (String) getName.invoke(validation);
+					appropriateExtension = extension;
+					break;
+				}
+				if (appropriateExtension != null) {
+					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+					Object validation =  extensionClass.newInstance();
+					Method getName = extensionClass.getDeclaredMethod("getName");
+					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{Resource.class});
+					isValid = (boolean) validate.invoke(validation, model);
+				}
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidRegistryObjectException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return isValid;
+	}
+
+	/**
+	 * Checks whether the model is different to the given set
+	 * It uses the model comparison extension
+	 * @param metamodel
+	 * @param model
+	 * @param hashset_mutants
+	 * @return
+	 * @throws ModelNotFoundException
+	 */
+	protected boolean different(String metamodel, String model,
+			Set<String> hashset_mutants, IProject project) throws ModelNotFoundException {
+		boolean isRepeated = false;
+		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard synctactic duplicate mutants", false, null);
+		if (discardDuplicate == true) {
+			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Duplicate mutants detection extension", "Synctactic Comparison", null);
+			if (Platform.getExtensionRegistry() != null) {
+				IConfigurationElement[] extensions = Platform
+						.getExtensionRegistry().getConfigurationElementsFor(
+								"wodel.comparison.MutComparison");
+
+				try {
+					IConfigurationElement appropriateExtension = null;
+					for (IConfigurationElement extension : extensions) {
+						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
+						Object comparison =  extensionClass.newInstance();
+						Method getURI = extensionClass.getDeclaredMethod("getURI");
+						List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+						String uri = (String) getURI.invoke(comparison);
+						Method getName = extensionClass.getDeclaredMethod("getName");
+						String name = (String) getName.invoke(comparison);
+						if (name.equals(extensionName) && uri.equals("")) {
+							appropriateExtension = extension;
+							break;
+						}
+						if (name.equals(extensionName) && uri.equals(packages.get(0).getNsURI())) {
+							appropriateExtension = extension;
+							break;
+						}
+						if (uri.equals("")) {
+							appropriateExtension = extension;
+						}
+					}
+					if (appropriateExtension != null) {
+						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+						Object comparison =  extensionClass.newInstance();
+						Method getName = extensionClass.getDeclaredMethod("getName");
+						if (getName.invoke(comparison).equals(extensionName)) {
+							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
+							for (String mutFilename : hashset_mutants) {
+								isRepeated = (boolean) doCompare.invoke(comparison, metamodel, model, mutFilename, project);
+								if (isRepeated == true) {
+									break;
+								}
+							}
+						}
+					}
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidRegistryObjectException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (MetaModelNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		return isRepeated;
 	}
 	
+	/**
+	 * Checks whether the model is different to the given set
+	 * It uses the model comparison extension
+	 * @param metamodel
+	 * @param model
+	 * @param hashset_mutants
+	 * @return
+	 * @throws ModelNotFoundException
+	 */
+	protected boolean equivalent(String metamodel, String model,
+			String seed, IProject project) throws ModelNotFoundException {
+		boolean isRepeated = false;
+		boolean discardEquivalent = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard semantic equivalent mutants", false, null);
+		if (discardEquivalent == true) {
+			String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Semantic equivalent mutants detection extension", "", null);
+			if (Platform.getExtensionRegistry() != null) {
+				IConfigurationElement[] extensions = Platform
+						.getExtensionRegistry().getConfigurationElementsFor(
+								"wodel.comparison.MutEquivalence");
+
+				try {
+					IConfigurationElement appropriateExtension = null;
+					for (IConfigurationElement extension : extensions) {
+						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
+						Object equivalence =  extensionClass.newInstance();
+						Method getURI = extensionClass.getDeclaredMethod("getURI");
+						List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+						String uri = (String) getURI.invoke(equivalence);
+						Method getName = extensionClass.getDeclaredMethod("getName");
+						String name = (String) getName.invoke(equivalence);
+						if (name.equals(extensionName) && uri.equals("")) {
+							appropriateExtension = extension;
+							break;
+						}
+						if (name.equals(extensionName) && uri.equals(packages.get(0).getNsURI())) {
+							appropriateExtension = extension;
+							break;
+						}
+						if (uri.equals("")) {
+							appropriateExtension = extension;
+						}
+					}
+					if (appropriateExtension != null) {
+						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+						Object equivalence =  extensionClass.newInstance();
+						Method getName = extensionClass.getDeclaredMethod("getName");
+						if (getName.invoke(equivalence).equals(extensionName)) {
+							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
+							isRepeated = (boolean) doCompare.invoke(equivalence, metamodel, model, seed, project);
+						}
+					}
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidRegistryObjectException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (MetaModelNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return isRepeated;
+	}
+
 	/**
 	 * Checks whether the model matches the OCL rules
 	 * @param model
@@ -2710,14 +5670,14 @@ public class MutatorUtils {
 	 * @return
 	 */
 	protected boolean matchesOCL(Resource model,
-			HashMap<String, ArrayList<String>> rules) {
+			Map<String, List<String>> rules) {
 		boolean matches = true;
 		// for each object in the model
 		// for (EObject eObject : model.getContents()) {
 		for (EObject eObject : ModelManager.getAllObjects(model)) {
 
 			// get metaclasses of object (metaclass and ancestors)
-			HashSet<EClass> metaclasses = new HashSet<EClass>();
+			Set<EClass> metaclasses = new HashSet<EClass>();
 			EClass metaclass = eObject.eClass();
 			metaclasses.add(metaclass);
 			metaclasses.addAll(metaclass.getEAllSuperTypes());
@@ -2785,66 +5745,62 @@ public class MutatorUtils {
 	 * @param objects
 	 * @return
 	 */
-	protected static HashMap<String, EObject> getMutatorNames(ArrayList<EObject> objects) {
-		HashMap<String, EObject> mutators = new HashMap<String, EObject>();
-		for (EObject obj : objects) {
-			String name = obj.eClass().getName();
-			for (String mutatorTypeName : mutatorTypeNames) {
-				if (name.equals(mutatorTypeName)) {
+	protected static Map<String, Object> getMutatorNames(List<Object> objects) {
+		Map<String, Object> mutators = new HashMap<String, Object>();
+		if (objects.size() > 0) {
+			if (objects.get(0) instanceof EObject) {
+				for (Object obj : objects) {
+					String name = ((EObject) obj).eClass().getName();
+					for (String mutatorTypeName : mutatorTypeNames) {
+						if (name.equals(mutatorTypeName)) {
+							Mutator mut = (Mutator) obj;
+							if (mut.getName() != null) {
+								mutators.put(mut.getName(), obj);
+							}
+							break;
+						}
+					}
+					if (((EObject) obj).eContainer() != null) {
+						if (((EObject) obj).eContainer().eClass().getName()
+								.equals("MutatorEnvironment")) {
+							if (name.equals("CompositeMutator")) {
+								Mutator mut = (Mutator) obj;
+								if (mut.getName() != null) {
+									mutators.put(mut.getName(), obj);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (objects.get(0) instanceof Mutator) {
+				int counter = 0;
+				for (Object obj : objects) {
 					Mutator mut = (Mutator) obj;
-					if (mut.getName() != null) {
-						mutators.put(mut.getName(), obj);
+					String name = mut.eClass().getName();
+					for (String mutatorTypeName : mutatorTypeNames) {
+						if (name.equals(mutatorTypeName)) {
+							if (mut.getName() != null) {
+								mutators.put(mut.getName(), mut);
+							}
+							break;
+						}
 					}
-					break;
-				}
-			}
-			if (obj.eContainer() != null) {
-				if (obj.eContainer().eClass().getName()
-						.equals("MutatorEnvironment")) {
-					if (name.equals("CompositeMutator")) {
-						Mutator mut = (Mutator) obj;
-						if (mut.getName() != null) {
-							mutators.put(mut.getName(), obj);
+					if (mut.eContainer() != null) {
+						if (mut.eContainer().eClass().getName()
+								.equals("MutatorEnvironment")) {
+							if (name.equals("CompositeMutator")) {
+								if (mut.getName() != null) {
+									mutators.put(mut.getName(), mut);
+								}
+							}
 						}
 					}
 				}
+
 			}
 		}
-
 		return mutators;
-	}
-
-	/**
-	 * Gets Wodel variable names and its corresponding mutation
-	 * @param mutators
-	 * @return
-	 */
-	protected static HashMap<String, Mutator> getMutatorNames(List<Mutator> mutators) {
-		HashMap<String, Mutator> ret = new HashMap<String, Mutator>();
-		int counter = 0;
-		for (Mutator mut : mutators) {
-			String name = mut.eClass().getName();
-			for (String mutatorTypeName : mutatorTypeNames) {
-				if (name.equals(mutatorTypeName)) {
-					if (mut.getName() != null) {
-						ret.put(mut.getName(), mut);
-					}
-					break;
-				}
-			}
-			if (mut.eContainer() != null) {
-				if (mut.eContainer().eClass().getName()
-						.equals("MutatorEnvironment")) {
-					if (name.equals("CompositeMutator")) {
-						if (mut.getName() != null) {
-							ret.put(mut.getName(), mut);
-						}
-					}
-				}
-			}
-		}
-
-		return ret;
 	}
 
 	/**
@@ -2881,8 +5837,8 @@ public class MutatorUtils {
 	 * @param objects
 	 * @return
 	 */
-	protected static HashMap<String, EObject> getMutators(ArrayList<EObject> objects) {
-		HashMap<String, EObject> mutators = new HashMap<String, EObject>();
+	protected static Map<String, EObject> getMutators(List<EObject> objects) {
+		Map<String, EObject> mutators = new HashMap<String, EObject>();
 		int counter = 0;
 		for (EObject obj : objects) {
 			String name = obj.eClass().getName();
@@ -2908,11 +5864,50 @@ public class MutatorUtils {
 	}
 	
 	/**
+	 * Creates a map with all the mutations in the Wodel program
+	 * This method assigns a unique name for each mutation
+	 * @param objects
+	 * @return
+	 */
+	protected static Map<String, EObject> getMutatorsByBlock(List<EObject> objects, String blockName) {
+		Map<String, EObject> mutators = new HashMap<String, EObject>();
+		try {
+			int counter = 0;
+			for (EObject obj : objects) {
+				if (obj.eClass().getName().equals("Block")) {
+					EObject block = obj;
+					if (ModelManager.getStringAttribute("name", block).equals(blockName)) {
+						List<EObject> muts = ModelManager.getReferences("commands", block);
+						for (EObject mut : muts) {
+							String name = mut.eClass().getName();
+							for (String mutatorTypeName : mutatorTypeNames) {
+								if (name.equals(mutatorTypeName)) {
+									counter++;
+									mutators.put("m" + counter, mut);
+									break;
+								}
+							}
+							if (name.equals("CompositeMutator")) {
+								counter++;
+								mutators.put("m" + counter, mut);
+							}
+						}
+					}
+				}
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mutators;
+	}
+	
+	/**
 	 * Gets the mutator list
 	 * @param objects
 	 * @return
 	 */
-	public static List<EObject> getMutatorList(ArrayList<EObject> objects) {
+	public static List<EObject> getMutatorList(List<EObject> objects) {
 		List<EObject> mutators = new ArrayList<EObject>();
 		int counter = 0;
 		for (EObject obj : objects) {
@@ -2950,9 +5945,9 @@ public class MutatorUtils {
 	 * @param modelFile
 	 */
 	public static void generateModelPaths(String fromName, File mutFile, String folderName,
-		HashMap<String, String> hashmapModelFilenames,
-		HashMap<String, String> hashmapModelFolders,
-		HashMap<String, String> hashmapSeedModelFilenames,
+		Map<String, String> hashmapModelFilenames,
+		Map<String, String> hashmapModelFolders,
+		Map<String, String> hashmapSeedModelFilenames,
 		String modelsURI, File modelFile) {
 		if ((mutFile.getName().equals("registry") || mutFile.getName().endsWith("vs")) != true) {
 			File[] blockFolders = mutFile.listFiles();
@@ -2990,7 +5985,7 @@ public class MutatorUtils {
 	 */
 	public static void generatePostprocessingPaths(File block,
 			List<EPackage> packages,
-			HashMap<Resource, String> hashmap_postproc)
+			Map<Resource, String> hashmap_postproc)
 			throws ModelNotFoundException {
 		if (block.getName().equals("registry") != true) {
 			File[] folderBlock = block.listFiles();
@@ -3011,6 +6006,127 @@ public class MutatorUtils {
 	}
 	
 	/**
+	 * Generates the path structure for the mutants
+	 * @param block
+	 * @param packages
+	 * @throws ModelNotFoundException
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 */
+	public static void generatePostprocessingPaths(File block,
+			List<EPackage> packages, Method doProcess, Object postprocessing, String metamodelpath, String metamodel)
+			throws ModelNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		if (block.getName().equals("registry") != true) {
+			File[] folderBlock = block.listFiles();
+			for (int i = 0; i < folderBlock.length; i++) {
+				if (folderBlock[i].isFile() == true) {
+					String pathfileblock = folderBlock[i].getPath();
+					if (pathfileblock.endsWith(".model") == true) {
+						Resource modelfileblock = ModelManager.loadModel(
+								packages, pathfileblock);
+						File f = new File(pathfileblock);
+						if(!f.isDirectory()) {
+							if (doProcess != null) {
+								doProcess.invoke(postprocessing, metamodelpath, metamodel, modelfileblock, pathfileblock);
+							}
+						}
+					}
+				} else {
+					generatePostprocessingPaths(folderBlock[i], packages, doProcess, postprocessing, metamodelpath, metamodel);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Generates the path structure for the mutants
+	 * @param block
+	 * @param packages
+	 * @param hashmap_postproc
+	 * @throws ModelNotFoundException
+	 */
+	public static void generateLiveMutantPaths(File block,
+			List<EPackage> packages,
+			Map<Resource, String> hashmap_postproc, List<String> liveMutantPaths)
+			throws ModelNotFoundException {
+		if (block.getName().equals("registry") != true) {
+			File[] folderBlock = block.listFiles();
+			for (int i = 0; i < folderBlock.length; i++) {
+				if (folderBlock[i].isFile() == true) {
+					String pathfileblock = folderBlock[i].getPath();
+					if (pathfileblock.endsWith(".model") == true && !pathfileblock.contains("_")) {
+						String mutantName = pathfileblock.substring(pathfileblock.lastIndexOf("\\"));
+						mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
+						String mutatorName = folderBlock[i].getName();
+						String mutantPath = mutatorName + "/" + mutantName;
+						for (String liveMutantPath : liveMutantPaths) {
+							if (liveMutantPath.contains(mutantPath)) {
+								Resource modelfileblock = ModelManager.loadModel(
+										packages, pathfileblock);
+								hashmap_postproc.put(modelfileblock, pathfileblock);
+								break;
+							}
+						}
+					}
+				} else {
+					generateLiveMutantPaths(folderBlock[i], packages,
+							hashmap_postproc, liveMutantPaths);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Generates the path structure for the mutants
+	 * @param block
+	 * @param packages
+	 * @param hashmap_postproc
+	 * @throws ModelNotFoundException
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 */
+	public static String generateLiveMutantPaths(File block,
+			List<EPackage> packages, List<String> liveMutantPaths, Method doCompare, Object equivalence, String metamodel, String targetfile, IProject sourceProject, String outputPath)
+			throws ModelNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		String equivalentPaths = "";
+		if (block.getName().equals("registry") != true) {
+			File[] folderBlock = block.listFiles();
+			for (int i = 0; i < folderBlock.length; i++) {
+				if (folderBlock[i].isFile() == true) {
+					String pathfileblock = folderBlock[i].getPath();
+					if (pathfileblock.endsWith(".model") == true && !pathfileblock.contains("_")) {
+						String mutantName = pathfileblock.substring(pathfileblock.lastIndexOf("\\"));
+						mutantName = mutantName.substring(1, mutantName.indexOf(".model"));
+						String mutatorName = folderBlock[i].getName();
+						String mutantPath = mutatorName + "/" + mutantName;
+						for (String liveMutantPath : liveMutantPaths) {
+							if (liveMutantPath.contains(mutantPath)) {
+								Resource modelfileblock = ModelManager.loadModel(
+										packages, pathfileblock);
+								File f = new File(pathfileblock);
+								if(!f.isDirectory() && !f.getName().contains("_")) { 
+									boolean result = (boolean) doCompare.invoke(equivalence, metamodel, targetfile, pathfileblock, sourceProject);
+									if (result == true) {
+										String equivalentPath = pathfileblock.replaceAll("\\\\", "/");
+										equivalentPath = equivalentPath.substring(equivalentPath.indexOf(outputPath) + outputPath.length(), equivalentPath.length()).replace(".model", "") + "/src/";
+										equivalentPaths += equivalentPath + "|";
+									}
+								}
+								break;
+							}
+						}
+					}
+				} else {
+					equivalentPaths = generateLiveMutantPaths(folderBlock[i], packages,	liveMutantPaths, doCompare, equivalence, metamodel, targetfile, sourceProject, outputPath);
+				}
+			}
+		}
+		return equivalentPaths;
+	}
+	
+	/**
 	 * Generates the registry paths
 	 * @param block
 	 * @param packages
@@ -3021,9 +6137,40 @@ public class MutatorUtils {
 	 * @throws ModelNotFoundException
 	 */
 	public static void generateRegistryPaths(File block,
+			List<EPackage> packages, File file,
+			String blockModelFolder, IRegistryPostprocessor postprocessor) throws ModelNotFoundException {
+		File[] folderBlock = block.listFiles();
+		for (int i = 0; i < folderBlock.length; i++) {
+			if (folderBlock[i].isDirectory() == true) {
+				if (folderBlock[i].getName().equals("registry") == true) {
+					File[] regfiles = folderBlock[i].listFiles();
+					for (int j = 0; j < regfiles.length; j++) {
+						String pathfileblock = regfiles[j].getPath();
+						if (pathfileblock.endsWith(".model") == true && (new File(blockModelFolder + ".model")).exists()) {
+							Resource blockmodelfile = ModelManager.loadModel(packages, blockModelFolder + ".model");
+							Resource mutant = ModelManager.loadModel(packages,	block.getPath()	+ "/" + regfiles[j].getName().replace("Registry", ""));
+							postprocessor.doProcess(blockmodelfile, mutant, pathfileblock);
+						}
+					}
+				} else {
+					generateRegistryPaths(folderBlock[i], packages,	file, blockModelFolder + "/" + folderBlock[i].getName(), postprocessor);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Generates the registry paths
+	 * @param block
+	 * @param packages
+	 * @param file
+	 * @param blockModelFolder
+	 * @throws ModelNotFoundException
+	 */
+	public static void generateRegistryPaths(File block,
 			List<EPackage> packages,
-			HashMap<String, Resource> hashmap_postproc,
-			HashMap<String, Resource> hashmap_mutpostproc, File file,
+			Map<String, Resource> hashmap_postproc,
+			Map<String, Resource> hashmap_mutpostproc, File file,
 			String blockModelFolder) throws ModelNotFoundException {
 		File[] folderBlock = block.listFiles();
 		for (int i = 0; i < folderBlock.length; i++) {
@@ -3047,7 +6194,7 @@ public class MutatorUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the registry models
 	 * @param folder
@@ -3055,7 +6202,7 @@ public class MutatorUtils {
 	 * @param registryModels
 	 * @throws ModelNotFoundException
 	 */
-	public static void getRegistryModels(File folder, List<EPackage> packages, HashMap<String, Resource> registryModels) throws ModelNotFoundException {
+	public static void getRegistryModels(File folder, List<EPackage> packages, Map<String, Resource> registryModels) throws ModelNotFoundException {
 		File[] files = folder.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isDirectory() == true) {
@@ -3202,9 +6349,9 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static ArrayList<EClass> getClassMutators(List<EPackage> packages) {
-		ArrayList<EClass> mutators = new ArrayList<EClass>();
-		ArrayList<EObject> objects = ModelManager.getAllObjects(packages);
+	public static List<EClass> getClassMutators(List<EPackage> packages) {
+		List<EClass> mutators = new ArrayList<EClass>();
+		List<EObject> objects = ModelManager.getAllObjects(packages);
 		for (EObject obj : objects) {
 			if (obj instanceof EClass) {
 				EClass eClass = (EClass) obj;
@@ -3225,9 +6372,9 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static ArrayList<EClass> getCreationClassMutators(List<EPackage> packages) {
-		ArrayList<EClass> mutators = new ArrayList<EClass>();
-		ArrayList<EObject> objects = ModelManager.getAllObjects(packages);
+	public static List<EClass> getCreationClassMutators(List<EPackage> packages) {
+		List<EClass> mutators = new ArrayList<EClass>();
+		List<EObject> objects = ModelManager.getAllObjects(packages);
 		for (EObject obj : objects) {
 			if (obj instanceof EClass) {
 				EClass eClass = (EClass) obj;
@@ -3248,9 +6395,9 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static ArrayList<EClass> getModificationClassMutators(List<EPackage> packages) {
-		ArrayList<EClass> mutators = new ArrayList<EClass>();
-		ArrayList<EObject> objects = ModelManager.getAllObjects(packages);
+	public static List<EClass> getModificationClassMutators(List<EPackage> packages) {
+		List<EClass> mutators = new ArrayList<EClass>();
+		List<EObject> objects = ModelManager.getAllObjects(packages);
 		for (EObject obj : objects) {
 			if (obj instanceof EClass) {
 				EClass eClass = (EClass) obj;
@@ -3271,9 +6418,9 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static ArrayList<EClass> getModificationReferenceClassMutators(List<EPackage> packages) {
-		ArrayList<EClass> mutators = new ArrayList<EClass>();
-		ArrayList<EObject> objects = ModelManager.getAllObjects(packages);
+	public static List<EClass> getModificationReferenceClassMutators(List<EPackage> packages) {
+		List<EClass> mutators = new ArrayList<EClass>();
+		List<EObject> objects = ModelManager.getAllObjects(packages);
 		for (EObject obj : objects) {
 			if (obj instanceof EClass) {
 				EClass eClass = (EClass) obj;
@@ -3294,9 +6441,9 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static ArrayList<EClass> getDeletionClassMutators(List<EPackage> packages) {
-		ArrayList<EClass> mutators = new ArrayList<EClass>();
-		ArrayList<EObject> objects = ModelManager.getAllObjects(packages);
+	public static List<EClass> getDeletionClassMutators(List<EPackage> packages) {
+		List<EClass> mutators = new ArrayList<EClass>();
+		List<EObject> objects = ModelManager.getAllObjects(packages);
 		for (EObject obj : objects) {
 			if (obj instanceof EClass) {
 				EClass eClass = (EClass) obj;
@@ -3317,9 +6464,9 @@ public class MutatorUtils {
 	 * @param packages
 	 * @return
 	 */
-	public static ArrayList<EClass> getMutatorStrategies(List<EPackage> packages, String className) {
-		ArrayList<EClass> strategies = new ArrayList<EClass>();
-		ArrayList<EObject> objects = ModelManager.getAllObjects(packages);
+	public static List<EClass> getMutatorStrategies(List<EPackage> packages, String className) {
+		List<EClass> strategies = new ArrayList<EClass>();
+		List<EObject> objects = ModelManager.getAllObjects(packages);
 		for (String mutatorTypeName : mutatorWithStrategyTypeNames) {
 			if (className.equals(mutatorTypeName)) {
 				for (EObject obj : objects) {
@@ -3343,8 +6490,21 @@ public class MutatorUtils {
 	 * @param model
 	 * @return
 	 */
-	public static ArrayList<EObject> getBlocks(Resource model) {
+	public static List<EObject> getBlocks(Resource model) {
 		return ModelManager.getObjectsOfType("Block", model);
+	}
+
+	/**
+	 * Gets the blocks in the Wodel program
+	 * @param model
+	 * @return
+	 */
+	public static List<EObject> getBlocks(List<Resource> models) {
+		List<EObject> blocks = new ArrayList<EObject>();
+		for (Resource model : models) {
+			blocks.addAll(getBlocks(model));
+		}
+		return blocks;
 	}
 
 	/**
@@ -3355,7 +6515,7 @@ public class MutatorUtils {
 	 */
 	public static EObject getBlock(Resource model, String blockName) {
 		EObject block = null;
-		ArrayList<EObject> blocks = getBlocks(model);
+		List<EObject> blocks = getBlocks(model);
 		for (EObject obj : blocks) {
 			String name = ModelManager.getStringAttribute("name", obj);
 			if (name.equals(blockName)) {
@@ -3374,8 +6534,8 @@ public class MutatorUtils {
 	 */
 	public static EClass getMutatorContainerType(Resource model, String name) {
 		EClass eClass = null;
-		ArrayList<EObject> objects = ModelManager.getAllObjects(model);
-		HashMap<String, EObject> mutators = getMutators(objects);
+		List<EObject> objects = ModelManager.getAllObjects(model);
+		Map<String, EObject> mutators = getMutators(objects);
 		for (String mutatorClassName : mutators.keySet()) {
 			EObject mutator = mutators.get(mutatorClassName);
 			if (mutator instanceof CreateObjectMutator) {
@@ -3462,70 +6622,46 @@ public class MutatorUtils {
 	 */
 	public static EClass getMutatorType(Resource model, String name) {
 		EClass eClass = null;
-		ArrayList<EObject> objects = ModelManager.getAllObjects(model);
-		HashMap<String, EObject> mutators = getMutatorNames(objects);
+		List<EObject> objects = ModelManager.getAllObjects(model);
+		List<Object> objs = new ArrayList<Object>();
+		objs.addAll(objects);
+		Map<String, Object> mutators = getMutatorNames(objs);
 		for (String mutatorClassName : mutators.keySet()) {
-			EObject mutator = mutators.get(mutatorClassName);
-			if (mutator instanceof CreateObjectMutator) {
-				CreateObjectMutator mut = (CreateObjectMutator) mutator;
-				if (mut.getName().equals(name)) {
-					eClass = mut.getType();
-					break;
-				}
-			}
-			if (mutator instanceof CloneObjectMutator) {
-				CloneObjectMutator mut = (CloneObjectMutator) mutator;
-				if (mut.getName().equals(name)) {
-					eClass = mut.getType();
-					break;
-				}
-			}
-			if (mutator instanceof RetypeObjectMutator) {
-				RetypeObjectMutator mut = (RetypeObjectMutator) mutator;
-				if (mut.getName().equals(name)) {
-					eClass = mut.getType();
-					break;
-				}
-			}
-			if (mutator instanceof mutatorenvironment.SelectObjectMutator) {
-				mutatorenvironment.SelectObjectMutator mut = (mutatorenvironment.SelectObjectMutator) mutator;
-				if (mut.getName().equals(name)) {
-					if (mut.getType() != null) {
+			Object obj = mutators.get(mutatorClassName);
+			if (obj instanceof EObject) {
+				EObject mutator = (EObject) obj;
+				if (mutator instanceof CreateObjectMutator) {
+					CreateObjectMutator mut = (CreateObjectMutator) mutator;
+					if (mut.getName().equals(name)) {
 						eClass = mut.getType();
+						break;
 					}
-					else {
-						if (mut.getObject() != null) {
-							mutatorenvironment.ObSelectionStrategy object = mut.getObject();
-							if (object instanceof mutatorenvironment.SpecificObjectSelection) {
-								mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
-								if (selection.getRefType() == null) {
-									eClass = getMutatorType(model, selection.getObjSel().getName());
-								}
-								else {
-									eClass = (EClass) selection.getRefType().getEType();
-								}
-							}
-							if (object instanceof mutatorenvironment.RandomTypeSelection) {
-								mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
-								eClass = selection.getType();
-								
-							}
-							if (object instanceof mutatorenvironment.CompleteTypeSelection) {
-								mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
-								eClass = selection.getType();
-								
-							}
-							if (object instanceof mutatorenvironment.OtherTypeSelection) {
-								mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
-								eClass = selection.getType();
-								
-							}
+				}
+				if (mutator instanceof CloneObjectMutator) {
+					CloneObjectMutator mut = (CloneObjectMutator) mutator;
+					if (mut.getName().equals(name)) {
+						eClass = mut.getType();
+						break;
+					}
+				}
+				if (mutator instanceof RetypeObjectMutator) {
+					RetypeObjectMutator mut = (RetypeObjectMutator) mutator;
+					if (mut.getName().equals(name)) {
+						eClass = mut.getType();
+						break;
+					}
+				}
+				if (mutator instanceof mutatorenvironment.SelectObjectMutator) {
+					mutatorenvironment.SelectObjectMutator mut = (mutatorenvironment.SelectObjectMutator) mutator;
+					if (mut.getName().equals(name)) {
+						if (mut.getType() != null) {
+							eClass = mut.getType();
 						}
 						else {
-							if (mut.getContainer() != null) {
-								mutatorenvironment.ObSelectionStrategy container = mut.getContainer();
-								if (container instanceof mutatorenvironment.SpecificObjectSelection) {
-									mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) container;
+							if (mut.getObject() != null) {
+								mutatorenvironment.ObSelectionStrategy object = mut.getObject();
+								if (object instanceof mutatorenvironment.SpecificObjectSelection) {
+									mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
 									if (selection.getRefType() == null) {
 										eClass = getMutatorType(model, selection.getObjSel().getName());
 									}
@@ -3533,63 +6669,92 @@ public class MutatorUtils {
 										eClass = (EClass) selection.getRefType().getEType();
 									}
 								}
-								if (container instanceof mutatorenvironment.RandomTypeSelection) {
-									mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) container;
+								if (object instanceof mutatorenvironment.RandomTypeSelection) {
+									mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
 									eClass = selection.getType();
 									
 								}
-								if (container instanceof mutatorenvironment.CompleteTypeSelection) {
-									mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) container;
+								if (object instanceof mutatorenvironment.CompleteTypeSelection) {
+									mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
 									eClass = selection.getType();
 									
 								}
-								if (container instanceof mutatorenvironment.OtherTypeSelection) {
-									mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) container;
+								if (object instanceof mutatorenvironment.OtherTypeSelection) {
+									mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
 									eClass = selection.getType();
 									
 								}
 							}
+							else {
+								if (mut.getContainer() != null) {
+									mutatorenvironment.ObSelectionStrategy container = mut.getContainer();
+									if (container instanceof mutatorenvironment.SpecificObjectSelection) {
+										mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) container;
+										if (selection.getRefType() == null) {
+											eClass = getMutatorType(model, selection.getObjSel().getName());
+										}
+										else {
+											eClass = (EClass) selection.getRefType().getEType();
+										}
+									}
+									if (container instanceof mutatorenvironment.RandomTypeSelection) {
+										mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) container;
+										eClass = selection.getType();
+										
+									}
+									if (container instanceof mutatorenvironment.CompleteTypeSelection) {
+										mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) container;
+										eClass = selection.getType();
+										
+									}
+									if (container instanceof mutatorenvironment.OtherTypeSelection) {
+										mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) container;
+										eClass = selection.getType();
+										
+									}
+								}
+							}
 						}
+						break;
 					}
-					break;
 				}
-			}
-			if (mutator instanceof mutatorenvironment.SelectSampleMutator) {
-				mutatorenvironment.SelectSampleMutator mut = (mutatorenvironment.SelectSampleMutator) mutator;
-				if (mut.getName().equals(name)) {
-					if (mut.getType() != null) {
-						eClass = mut.getType();
-					}
-					else {
-						if (mut.getObject() != null) {
-							mutatorenvironment.ObSelectionStrategy object = mut.getObject();
-							if (object instanceof mutatorenvironment.SpecificObjectSelection) {
-								mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
-								if (selection.getRefType() == null) {
-									eClass = getMutatorType(model, selection.getObjSel().getName());
+				if (mutator instanceof mutatorenvironment.SelectSampleMutator) {
+					mutatorenvironment.SelectSampleMutator mut = (mutatorenvironment.SelectSampleMutator) mutator;
+					if (mut.getName().equals(name)) {
+						if (mut.getType() != null) {
+							eClass = mut.getType();
+						}
+						else {
+							if (mut.getObject() != null) {
+								mutatorenvironment.ObSelectionStrategy object = mut.getObject();
+								if (object instanceof mutatorenvironment.SpecificObjectSelection) {
+									mutatorenvironment.SpecificObjectSelection selection = (mutatorenvironment.SpecificObjectSelection) object;
+									if (selection.getRefType() == null) {
+										eClass = getMutatorType(model, selection.getObjSel().getName());
+									}
+									else {
+										eClass = (EClass) selection.getRefType().getEType();
+									}
 								}
-								else {
-									eClass = (EClass) selection.getRefType().getEType();
+								if (object instanceof mutatorenvironment.RandomTypeSelection) {
+									mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
+									eClass = selection.getType();
+									
 								}
-							}
-							if (object instanceof mutatorenvironment.RandomTypeSelection) {
-								mutatorenvironment.RandomTypeSelection selection = (mutatorenvironment.RandomTypeSelection) object;
-								eClass = selection.getType();
-								
-							}
-							if (object instanceof mutatorenvironment.CompleteTypeSelection) {
-								mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
-								eClass = selection.getType();
-								
-							}
-							if (object instanceof mutatorenvironment.OtherTypeSelection) {
-								mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
-								eClass = selection.getType();
-								
+								if (object instanceof mutatorenvironment.CompleteTypeSelection) {
+									mutatorenvironment.CompleteTypeSelection selection = (mutatorenvironment.CompleteTypeSelection) object;
+									eClass = selection.getType();
+									
+								}
+								if (object instanceof mutatorenvironment.OtherTypeSelection) {
+									mutatorenvironment.OtherTypeSelection selection = (mutatorenvironment.OtherTypeSelection) object;
+									eClass = selection.getType();
+									
+								}
 							}
 						}
+						break;
 					}
-					break;
 				}
 			}
 		}
@@ -4023,6 +7188,420 @@ public class MutatorUtils {
 	}
 
 	/**
+	 * Gets the type name string
+	 * @param e
+	 * @return
+	 */
+	public static String getMinTypeName(EObject e) {
+		String className = null;
+		EObject mut = null;
+		EObject container = e.eContainer();
+		try {
+			while (container.eClass().getName().equals("Mutator") == false && container != null) {
+				container = container.eContainer();
+			}
+			if (container != null) {
+				mut = container;
+				if (mut.eClass().getName().equals("CreateObjectMutator")) {
+					EObject type = ModelManager.getReference("type", mut);
+					className = ModelManager.getStringAttribute("name", type);
+				}
+				if (mut.eClass().getName().equals("CloneObjectMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+				if (mut.eClass().getName().equals("SelectObjectMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+				if (mut.eClass().getName().equals("SelectSampleMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+				if (mut.eClass().getName().equals("ModifyInformationMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+			}
+		} catch (ReferenceNonExistingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return className;
+	}
+
+	/**
+	 * Gets the type name as string
+	 * @param e
+	 * @return
+	 */
+	public static String getMaxTypeName(EObject e) {
+		String className = null;
+		EObject mut = null;
+		EObject container = e.eContainer();
+		try {
+			while (container.eClass().getName().equals("Mutator") == false && container != null) {
+				container = container.eContainer();
+			}
+			if (container != null) {
+				mut = container;
+				if (mut.eClass().getName().equals("CreateObjectMutator")) {
+					EObject type = ModelManager.getReference("type", mut);
+					className = ModelManager.getStringAttribute("name", type);
+				}
+				if (mut.eClass().getName().equals("CloneObjectMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+				if (mut.eClass().getName().equals("SelectObjectMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+				if (mut.eClass().getName().equals("SelectSampleMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+				if (mut.eClass().getName().equals("ModifyInformationMutator")) {
+					EObject object = ModelManager.getReference("object", mut);
+					if (object.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", object);
+						EObject objSel = ModelManager.getReference("objSel", object);
+						if (refType == null) {
+							if (objSel.eClass().getName().equals("CreateObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectObjectMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("SelectSampleMutator")) {
+								EObject obj = ModelManager.getReference("object", objSel);
+								EObject type = ModelManager.getReference("type", obj);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("CloneObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+							if (objSel.eClass().getName().equals("RetypeObjectMutator")) {
+								EObject type = ModelManager.getReference("type", objSel);
+								className = ModelManager.getStringAttribute("name", type);
+							}
+						}
+						else {
+							EReference ref = (EReference) refType;
+							className = ref.getEType().getName();
+						}
+					}
+					if (object.eClass().getName().equals("RandomTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+					if (object.eClass().getName().equals("CompleteTypeSelection")) {
+						EObject obj = ModelManager.getReference("object", object);
+						EObject type = ModelManager.getReference("type", obj);
+						className = ModelManager.getStringAttribute("name", type);
+					}
+				}
+			}
+		} catch (ReferenceNonExistingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return className;
+	}
+
+	/**
 	 * Gets the type name as string 
 	 * @param op
 	 * @return
@@ -4372,9 +7951,15 @@ public class MutatorUtils {
 	 * @return
 	 */
 	public static EObject getMutator(Resource model, String name) {
-		ArrayList<EObject> objects = ModelManager.getAllObjects(model);
-		HashMap<String, EObject> mutators = getMutatorNames(objects);
-		return mutators.get(name);
+		List<EObject> objects = ModelManager.getAllObjects(model);
+		List<Object> objs = new ArrayList<Object>();
+		objs.addAll(objects);
+		Map<String, Object> mutators = getMutatorNames(objs);
+		Object mut = mutators.get(name);
+		if (mut instanceof EObject) {
+			return (EObject) mut;
+		}
+		return null;
 	}
 
 	/**
@@ -4442,6 +8027,127 @@ public class MutatorUtils {
 	 * @param com
 	 * @return
 	 */
+	public static String selectModifyInformationMutatorHelperName(ModifyInformationMutator com) {
+		String className = null;
+		if (com.getObject() instanceof ObSelectionStrategy) {
+        	if (com.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+       			className = ((mutatorenvironment.RandomTypeSelection) com.getObject()).getType().getName();
+       		}
+       		if (com.getObject() instanceof CompleteTypeSelection) {
+       			className = ((CompleteTypeSelection) com.getObject()).getType().getName();
+       		}
+			if (com.getObject() instanceof SpecificObjectSelection) {
+				SpecificObjectSelection selection = (SpecificObjectSelection) com.getObject();
+				if (selection.getObjSel() instanceof CreateObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof SelectObjectMutator) {
+					className = ((SelectObjectMutator) selection.getObjSel()).getObject().getType().getName();
+				}
+				if (selection.getObjSel() instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelperName((SelectSampleMutator) selection.getObjSel());
+				}
+				if (selection.getObjSel() instanceof CloneObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof RetypeObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					className = selectModifyInformationMutatorHelperName((ModifyInformationMutator) selection.getObjSel());
+				}
+			}
+       		if (com.getObject() instanceof SpecificClosureSelection) {
+       			SpecificClosureSelection selection = (SpecificClosureSelection) com.getObject();
+     			if (selection.getObjSel() instanceof CreateObjectMutator) {
+       				className = selection.getObjSel().getType().getName();
+       			}
+       			if (selection.getObjSel() instanceof SelectObjectMutator) {
+       				className = ((SelectObjectMutator) selection.getObjSel()).getObject().getType().getName();
+       			}
+       			if (selection.getObjSel() instanceof SelectSampleMutator) {
+					className = selectSampleMutatorHelperName((SelectSampleMutator) selection.getObjSel());
+				}
+       			if (selection.getObjSel() instanceof CloneObjectMutator) {
+       				className = selection.getObjSel().getType().getName();
+       			}
+				if (selection.getObjSel() instanceof RetypeObjectMutator) {
+					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					className = selectModifyInformationMutatorHelperName((ModifyInformationMutator) selection.getObjSel());
+				}
+       		}
+		}
+		return className;
+	}
+	
+	/**
+	 * Gets the type of the SelectSampleMutator
+	 * @param com
+	 * @return
+	 */
+	public static EClass selectModifyInformationMutatorHelperType(ModifyInformationMutator com) {
+		EClass eClass = null;
+		if (com.getObject() instanceof ObSelectionStrategy) {
+        	if (com.getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+       			eClass = ((mutatorenvironment.RandomTypeSelection) com.getObject()).getType();
+       		}
+       		if (com.getObject() instanceof CompleteTypeSelection) {
+       			eClass = ((CompleteTypeSelection) com.getObject()).getType();
+       		}
+			if (com.getObject() instanceof SpecificObjectSelection) {
+				SpecificObjectSelection selection = (SpecificObjectSelection) com.getObject();
+				if (selection.getObjSel() instanceof CreateObjectMutator) {
+					eClass = selection.getObjSel().getType();
+				}
+				if (selection.getObjSel() instanceof SelectObjectMutator) {
+					eClass = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+				}
+				if (selection.getObjSel() instanceof SelectSampleMutator) {
+					eClass = selectSampleMutatorHelperType((SelectSampleMutator) selection.getObjSel());
+				}
+				if (selection.getObjSel() instanceof CloneObjectMutator) {
+					eClass = selection.getObjSel().getType();
+				}
+				if (selection.getObjSel() instanceof RetypeObjectMutator) {
+					eClass = selection.getObjSel().getType();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					eClass = selectModifyInformationMutatorHelperType((ModifyInformationMutator) selection.getObjSel());
+				}
+			}
+       		if (com.getObject() instanceof SpecificClosureSelection) {
+       			SpecificClosureSelection selection = (SpecificClosureSelection) com.getObject();
+     			if (selection.getObjSel() instanceof CreateObjectMutator) {
+       				eClass = selection.getObjSel().getType();
+       			}
+       			if (selection.getObjSel() instanceof SelectObjectMutator) {
+       				eClass = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+       			}
+       			if (selection.getObjSel() instanceof SelectSampleMutator) {
+					eClass = selectSampleMutatorHelperType((SelectSampleMutator) selection.getObjSel());
+				}
+       			if (selection.getObjSel() instanceof CloneObjectMutator) {
+       				eClass = selection.getObjSel().getType();
+       			}
+				if (selection.getObjSel() instanceof RetypeObjectMutator) {
+					eClass = selection.getObjSel().getType();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					eClass = selectModifyInformationMutatorHelperType((ModifyInformationMutator) selection.getObjSel());
+				}
+       		}
+		}
+		return eClass;
+	}
+
+	/**
+	 * Gets the type of the SelectSampleMutator
+	 * as a string
+	 * @param com
+	 * @return
+	 */
 	public static String selectSampleMutatorHelperName(SelectSampleMutator com) {
 		String className = null;
 		if (com.getObject() instanceof ObSelectionStrategy) {
@@ -4468,6 +8174,9 @@ public class MutatorUtils {
 				if (selection.getObjSel() instanceof RetypeObjectMutator) {
 					className = selection.getObjSel().getType().getName();
 				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					className = selectModifyInformationMutatorHelperName((ModifyInformationMutator) selection.getObjSel());
+				}
 			}
        		if (com.getObject() instanceof SpecificClosureSelection) {
        			SpecificClosureSelection selection = (SpecificClosureSelection) com.getObject();
@@ -4485,6 +8194,9 @@ public class MutatorUtils {
        			}
 				if (selection.getObjSel() instanceof RetypeObjectMutator) {
 					className = selection.getObjSel().getType().getName();
+				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					className = selectModifyInformationMutatorHelperName((ModifyInformationMutator) selection.getObjSel());
 				}
        		}
 		}
@@ -4522,6 +8234,9 @@ public class MutatorUtils {
 				if (selection.getObjSel() instanceof RetypeObjectMutator) {
 					eClass = selection.getObjSel().getType();
 				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					eClass = selectModifyInformationMutatorHelperType((ModifyInformationMutator) selection.getObjSel());
+				}
 			}
        		if (com.getObject() instanceof SpecificClosureSelection) {
        			SpecificClosureSelection selection = (SpecificClosureSelection) com.getObject();
@@ -4540,16 +8255,20 @@ public class MutatorUtils {
 				if (selection.getObjSel() instanceof RetypeObjectMutator) {
 					eClass = selection.getObjSel().getType();
 				}
+				if (selection.getObjSel() instanceof ModifyInformationMutator) {
+					eClass = selectModifyInformationMutatorHelperType((ModifyInformationMutator) selection.getObjSel());
+				}
        		}
 		}
 		return eClass;
 	}
-
+	
 	/**
 	 * Mutant registry generation
 	 * (Wodel program with no blocks)
 	 * @param metamodel
 	 * @param packages
+	 * @param registeredPackages
 	 * @param seed
 	 * @param model
 	 * @param rules
@@ -4562,31 +8281,90 @@ public class MutatorUtils {
 	 * @param n
 	 * @param mutPaths
 	 * @param hashmapMutVersions
+	 * @param project
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	public boolean registryMutant(String metamodel, List<EPackage> packages,
-			Resource seed, Resource model, HashMap<String, ArrayList<String>> rules,
+	public boolean registryMutant(String metamodel, List<EPackage> packages, Map<String, EPackage> registeredPackages,
+			Resource seed, Resource model, Map<String, List<String>> rules,
 			Mutations muts, String modelFilename, String mutFilename, 
-			boolean registry, HashSet<String> hashsetMutants,
-			HashMap<String, String> hashmapModelFilenames,
-			int n, List<String> mutPaths, HashMap<String, List<String>> hashmapMutVersions) throws ModelNotFoundException {
+			boolean registry, Set<String> hashsetMutants,
+			Map<String, String> hashmapModelFilenames,
+			int n, List<String> mutPaths, Map<String,
+			List<String>> hashmapMutVersions, IProject project,
+			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
-		int valid = complete(packages, model);
-		if (valid != 1) {
+		boolean isEquivalent = false;
+		boolean isValid = false;
+		if (registeredPackages != null) {
+			ModelManager.registerMetaModel(registeredPackages);
+		}
+		boolean valid = validation(model);
+		if (registeredPackages != null) {
+			List<EPackage> registered = new ArrayList<EPackage>();
+			registered.addAll(registeredPackages.values());
+			ModelManager.unregisterMetaModel(registered);
+		}
+		if (valid == false) {
+			return true;
+		}
+		if (serialize == false) {
+			String className = modelFilename.replace(".model", "").substring(modelFilename.lastIndexOf(File.separator) + File.separator.length(), modelFilename.lastIndexOf("."));
+			String mutantName = mutFilename.substring(mutFilename.lastIndexOf("/") + 1, mutFilename.length()).replace(".model", "");
+			if (registeredPackages != null) {
+				ModelManager.registerMetaModel(registeredPackages);
+			}
+			boolean value = test.modelToProject(className, model, "", mutantName, project.getName(), null);
+			if (value == false) {
+				return true;
+			}
+			if (value && classes.size() > 0) {
+				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + className + "/" + mutantName + "/src/";
+				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
+			}
+			if (registeredPackages != null) {
+				List<EPackage> registered = new ArrayList<EPackage>();
+				registered.addAll(registeredPackages.values());
+				ModelManager.unregisterMetaModel(registered);
+			}
+		}
+		else {
 			if (matchesOCL(model, rules) == true) {
-				// VERIFY IF MUTANT IS DIFFERENT
 				File outputFolder = new File(hashmapModelFilenames.get(modelFilename));
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
 				}
 				ModelManager.saveOutModel(model, mutFilename);
-				isRepeated = different(metamodel, mutFilename, hashsetMutants);
-				if (isRepeated == true) {
-					IOUtils.deleteFile(mutFilename);
+				// VERIFY IF MUTANT IS VALID
+				if (registeredPackages != null) {
+					ModelManager.registerMetaModel(registeredPackages);
 				}
-				// IF MUTANT IS DIFFERENT STORES IT AND PROCEEDS
-				if (isRepeated == false) {
+				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, project);
+				if (isValid == false) {
+					IOUtils.deleteFile(mutFilename);
+					isRepeated = true;
+				}
+				// VERIFY IF MUTANT IS DIFFERENT
+				if (isValid == true) {
+					isRepeated = different(metamodel, mutFilename, hashsetMutants, project);
+					if (isRepeated == true) {
+						IOUtils.deleteFile(mutFilename);
+					}
+				}
+				if (isValid == true && isRepeated == false) {
+					// VERIFY IF MUTANT IS EQUIVALENT
+					isEquivalent = equivalent(metamodel, mutFilename, modelFilename, project);
+					if (isEquivalent == true) {
+						IOUtils.deleteFile(mutFilename);
+					}
+				}
+				if (registeredPackages != null) {
+					List<EPackage> registered = new ArrayList<EPackage>();
+					registered.addAll(registeredPackages.values());
+					ModelManager.unregisterMetaModel(registered);
+				}
+				// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
+				if (isValid == true && isRepeated == false && isEquivalent == false) {
 					hashsetMutants.add(mutFilename);
 					if (registry == true) {
 						List<String> mutVersions = null;
@@ -4797,24 +8575,58 @@ public class MutatorUtils {
 	 * @param n
 	 * @param mutPaths
 	 * @param hashmapMutVersions
+	 * @param project
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
 	public boolean registryMutantWithBlocks(String metamodel, List<EPackage> packages,
-			Resource seed, Resource model, HashMap<String, ArrayList<String>> rules,
+			Map<String, EPackage> registeredPackages, Resource seed, Resource model, Map<String, List<String>> rules,
 			Mutations muts, String modelFilename, String mutFilename, 
-			boolean registry, HashSet<String> hashsetMutantsBlock,
-			HashMap<String, String> hashmapModelFilenames,
-			HashMap<String, String> hashmapModelFolders, String block,
-			ArrayList<String> fromBlocks, int n, List<String> mutPaths,
-			HashMap<String, List<String>> hashmapMutVersions) throws ModelNotFoundException {
+			boolean registry, Set<String> hashsetMutantsBlock,
+			Map<String, String> hashmapModelFilenames,
+			Map<String, String> hashmapModelFolders, String block,
+			List<String> fromBlocks, int n, List<String> mutPaths,
+			Map<String, List<String>> hashmapMutVersions, IProject project,
+			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
-		int valid = complete(packages, model);
-		if (valid != 1) {
+		boolean isEquivalent = false;
+		boolean isValid = false;
+		if (registeredPackages != null) {
+			ModelManager.registerMetaModel(registeredPackages);
+		}
+		boolean valid = validation(model);
+		if (registeredPackages != null) {
+			List<EPackage> registered = new ArrayList<EPackage>();
+			registered.addAll(registeredPackages.values());
+			ModelManager.unregisterMetaModel(registered);
+		}
+		if (valid == false) {
+			return true;
+		}
+		if (serialize == false) {
+			String className = modelFilename.replace(".model", "").substring(modelFilename.lastIndexOf(File.separator) + File.separator.length(), modelFilename.lastIndexOf("."));
+			String mutantName = mutFilename.substring(mutFilename.lastIndexOf("/") + 1, mutFilename.length()).replace(".model", "");
+			if (registeredPackages != null) {
+				ModelManager.registerMetaModel(registeredPackages);
+			}
+			boolean value = test.modelToProject(className, model, block, mutantName, project.getName(), null);
+			if (value == false) {
+				return true;
+			}
+			if (value && classes.size() > 0) {
+				String projectPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/" + className + "/" + block + "/" + mutantName + "/src/";
+				WodelTestUtils.addPathToClasses(project.getName(), classes, projectPath);
+			}
+			if (registeredPackages != null) {
+				List<EPackage> registered = new ArrayList<EPackage>();
+				registered.addAll(registeredPackages.values());
+				ModelManager.unregisterMetaModel(registered);
+			}
+		}
+		else {
 			if (matchesOCL(model, rules) == true) {
-				// VERIFY IF MUTANT IS DIFFERENT
-				File outputFolder = new File(
-						hashmapModelFilenames.get(modelFilename));
+			File outputFolder = new File(
+					hashmapModelFilenames.get(modelFilename));
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
 				}
@@ -4830,13 +8642,37 @@ public class MutatorUtils {
 					}
 				}
 				ModelManager.saveOutModel(model, mutFilename);
-				isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock);
-				if (isRepeated == true) {
-					IOUtils.deleteFile(mutFilename);
+				// VERIFY IF MUTANT IS VALID
+				if (registeredPackages != null) {
+					ModelManager.registerMetaModel(registeredPackages);
 				}
-				
-				// IF MUTANT IS DIFFERENT STORES IT AND PROCEEDS
-				if (isRepeated == false) {
+				isValid = validate(metamodel, seed.getURI().toFileString(), mutFilename, project);
+				if (isValid == false) {
+					IOUtils.deleteFile(mutFilename);
+					isRepeated = true;
+				}
+				if (isValid == true) {
+					// VERIFY IF MUTANT IS DIFFERENT
+					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project);
+					if (isRepeated == true) {
+						IOUtils.deleteFile(mutFilename);
+					}
+				}
+				if (isValid == true && isRepeated == false) {
+					// VERIFY IF MUTANT IS EQUIVALENT
+					isEquivalent = equivalent(metamodel, mutFilename, modelFilename, project);
+					if (isEquivalent == true) {
+						IOUtils.deleteFile(mutFilename);
+					}
+				}
+				if (registeredPackages != null) {
+					List<EPackage> registered = new ArrayList<EPackage>();
+					registered.addAll(registeredPackages.values());
+					ModelManager.unregisterMetaModel(registered);
+				}
+
+				// IF MUTANT IS VALID AND DIFFERENT STORES IT AND PROCEEDS
+				if (isValid == true && isRepeated == false && isEquivalent == false) {
 					hashsetMutantsBlock.add(mutFilename);
 					if (registry == true) {
 						List<String> mutVersions = null;
@@ -5080,17 +8916,17 @@ public class MutatorUtils {
 							for (String mutatorPath : mutPaths) {
 								mutant = ModelManager.loadModel(packages, mutatorPath);
 								obj = ModelManager.getObject(mutant, object);
-								if (object != null) {
+								if (obj != null) {
 									break;
 								}
 								else {
 									EObject o = ModelManager.getObject(mutant, objectByID);
 									if (o != null) {
 										if (o.eIsProxy()) {
-											object = EcoreUtil.resolve(o, mutant);
+											obj = EcoreUtil.resolve(o, mutant);
 										}
 										else {
-											object = o;
+											obj = o;
 										}
 									}
 								}
@@ -5100,8 +8936,29 @@ public class MutatorUtils {
 									mutant.load(null); 
 								} catch (Exception e) {}
 							}
-							if (object != null) {
-								return object;
+							if (obj != null) {
+								return obj;
+							}
+							else {
+								for (String mutatorPath : mutPaths) {
+									mutant = ModelManager.loadModel(packages, mutatorPath);
+									IComparisonScope scope = new DefaultComparisonScope(seed, mutant, null);
+									Comparison comparison = EMFCompare.builder().build().compare(scope);
+									List<Diff> differences = comparison.getDifferences();
+									for (Diff diff : differences) {
+										if (diff instanceof ReferenceChange) {
+											obj = ((ReferenceChange) diff).getValue();
+											if (obj.eClass().getName().equals(object.eClass().getName())) {
+												return obj;
+											}
+										}
+									}
+									//Reload input
+									try {
+										mutant.unload();
+										mutant.load(null); 
+									} catch (Exception e) {}
+								}
 							}
 						} catch (ModelNotFoundException e) {
 							// TODO Auto-generated catch block
@@ -5131,7 +8988,7 @@ public class MutatorUtils {
 			if (ModelManager.getObject(seed, obj) != null) {
 				objects.add(ModelManager.getObject(seed, obj));
 			}
-			else {
+			else if (referenced != null && referenced.size() > i) {
 				EObject oo = ModelManager.getObject(seed, referenced.get(i));
 				if (oo != null) {
 					if (oo.eIsProxy()) {
@@ -5167,7 +9024,7 @@ public class MutatorUtils {
 									}
 								}
 								//Reload input
-		    					try {
+								try {
 									mutant.unload();
 									mutant.load(null); 
 								} catch (Exception e) {}
@@ -5250,8 +9107,8 @@ public class MutatorUtils {
 	/**
 	 * Gets mutator commands by block
 	 */
-	public static LinkedHashMap<String, List<EObject>> getBlockCommands(Resource program) {
-		LinkedHashMap<String, List<EObject>> commands = new LinkedHashMap<String, List<EObject>>();
+	public static Map<String, List<EObject>> getBlockCommands(Resource program) {
+		Map<String, List<EObject>> commands = new LinkedHashMap<String, List<EObject>>();
 		try {
 			EObject root = ModelManager.getRoot(program);
 			List<EObject> blocks = ModelManager.getReferences("blocks", root);
@@ -5417,6 +9274,478 @@ public class MutatorUtils {
 				}
 			}
 		}
+		return null;
+	}
+	
+	private static Expression transformExpression(List<EPackage> packages, Resource model, EObject mutatorExpression, Map<String, EObject> hmObjects) {
+		Expression expression = new Expression();
+		
+		try {
+			EObject first = ModelManager.getReference("first", mutatorExpression);
+			if (first.eClass().getName().equals("AttributeEvaluation")) {
+				EObject value = ModelManager.getReference("value", first);
+				if (value.eClass().equals("ObjectAttributeType")) {
+					expression.first = new AttributeEvaluation();
+					EObject name = ModelManager.getReference("name", first);
+					expression.first.operator = String.valueOf(ModelManager.getAttribute("operator", value));
+					((AttributeEvaluation) expression.first).values = new ArrayList<String>();
+				}
+				else {
+					expression.first = new AttributeEvaluation();
+					EObject name = ModelManager.getReference("name", first);
+					expression.first.name = (String) ModelManager.getStringAttribute("name", name);
+					expression.first.operator = String.valueOf(ModelManager.getAttribute("operator", value));
+					((AttributeEvaluation) expression.first).values = new ArrayList<String>();
+					((AttributeEvaluation) expression.first).values.add(String.valueOf(value));
+					if (value.eClass().getName().equals("StringType")) {
+						((AttributeEvaluation) expression.first).type = "String";
+					}
+					if (value.eClass().getName().equals("DoubleType")) {
+						((AttributeEvaluation) expression.first).type = "double";
+					}
+					if (value.eClass().getName().equals("BooleanType")) {
+						((AttributeEvaluation) expression.first).type = "Boolean";
+					}
+					if (value.eClass().getName().equals("IntegerType")) {
+						((AttributeEvaluation) expression.first).type = "int";
+					}
+					if (value.eClass().getName().equals("MinValueType")) {
+						EAttribute att = (EAttribute) ModelManager.getAttribute("attribute", value);
+						MinValueConfigurationStrategy min = new MinValueConfigurationStrategy(packages, model, MutatorUtils.getMinTypeName(value), att.getName());
+						if (att.getEType().getName().equals("EInt")) {
+							((AttributeEvaluation) expression.first).type = "int";
+						}
+						if (att.getEType().getName().equals("EDouble")) {
+							((AttributeEvaluation) expression.first).type = "double";
+						}
+					}
+					if (value.eClass().getName().equals("MaxValueType")) {
+						EAttribute att = (EAttribute) ModelManager.getAttribute("attribute", value);
+						MaxValueConfigurationStrategy min = new MaxValueConfigurationStrategy(packages, model, MutatorUtils.getMaxTypeName(value), att.getName());
+						((AttributeEvaluation) expression.first).values.add(min.getValue().toString());
+						if (att.getEType().getName().equals("EInt")) {
+							((AttributeEvaluation) expression.first).type = "int";
+						}
+						if (att.getEType().getName().equals("EDouble")) {
+							((AttributeEvaluation) expression.first).type = "double";
+						}
+					}
+					if (value.eClass().getName().equals("ListStringType")) {
+						List<String> list = (List<String>) ModelManager.getListStringAttribute("value", value);
+						for (String item : list) {
+							((AttributeEvaluation) expression.first).values.add(item);
+						}
+						((AttributeEvaluation) expression.first).type = "String";
+					}
+					if (value.eClass().getName().equals("ListType")) {
+						List<EObject> list = (List<EObject>) ModelManager.getReferences("value", value);
+						for (EObject item : list) {
+							((AttributeEvaluation) expression.first).values.add(String.valueOf(item));
+						}
+						((AttributeEvaluation) expression.first).type = "String";
+					}
+				}
+			}
+			if (first.eClass().getName().equals("ReferenceEvaluation")) {
+				expression.first = new ReferenceEvaluation();
+				EObject name = ModelManager.getReference("name", first);
+				if (name != null) {
+					expression.first.name = ModelManager.getStringAttribute("name", name);
+				}
+				else {
+					expression.first.name = null;
+				}
+				EObject refName = ModelManager.getReference("refName", first);
+				if (refName != null) {
+					((ReferenceEvaluation) expression.first).refName = ModelManager.getStringAttribute("name", refName);
+					EObject refRefName = ModelManager.getReference("refRefName", first);
+					if (refRefName != null) {
+						((ReferenceEvaluation) expression.first).refRefName = ModelManager.getStringAttribute("name", refRefName);
+					}
+				}
+				else {
+					((ReferenceEvaluation) expression.first).refName = null;
+				}
+				EObject value = ModelManager.getReference("value", first);
+				expression.first.operator = String.valueOf(ModelManager.getAttribute("operator", value));
+				if (value == null) {
+					((ReferenceEvaluation) expression.first).value = null;
+				}
+				else if (value.eClass().getName().equals("SpecificObjectSelection")) {
+					EObject refType = ModelManager.getReference("refType", first);
+					EObject valueRefType = ModelManager.getReference("refType", value);
+					EObject objSel = ModelManager.getReference("objSel", value);
+					String objSelName = ModelManager.getStringAttribute("name", objSel);
+					if (refType == null && valueRefType == null) {
+						((ReferenceEvaluation) expression.first).value = new commands.selection.strategies.SpecificObjectSelection(packages, model, hmObjects.get(objSelName)).getObject();
+					}
+					else {
+						if (refType != null) {
+							EObject srcObjExp = hmObjects.get(objSelName);
+							String refTypeName = ModelManager.getStringAttribute("name", refType);
+					   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+					   			if (ref.getName().equals(refTypeName)) {
+					   				((ReferenceEvaluation) expression.first).value = srcObjExp.eGet(ref);
+					   			}
+					   		}
+						}
+						if (valueRefType != null) {
+							EObject srcObjExp = hmObjects.get(objSelName);
+							String valueRefTypeName = ModelManager.getStringAttribute("name", valueRefType);
+					   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+					   			if (ref.getName().equals(valueRefTypeName)) {
+					   				((ReferenceEvaluation) expression.first).value = srcObjExp.eGet(ref);
+					   			}
+					   		}
+						}
+					}
+				}
+			}
+			expression.operator = new ArrayList<Operator>();
+			List<EObject> operators = ModelManager.getReferences("operator", mutatorExpression);
+			for (EObject op : operators) {
+				Operator operator = new Operator();
+				Object literal = ModelManager.getEEnumAttribute("type", op);
+				if (literal instanceof EEnumLiteral) {
+					operator.type = ((EEnumLiteral) literal).getLiteral();
+				}
+				else if (literal instanceof LogicOperator) {
+					operator.type = ((LogicOperator) literal).getLiteral();
+				}
+				expression.operator.add(operator);
+			}
+			expression.second = new ArrayList<Evaluation>();
+			List<EObject> secondEvaluations = ModelManager.getReferences("second", mutatorExpression);
+			for (EObject mutatorEv : secondEvaluations) {
+				Evaluation second = null;
+				if (mutatorEv.eClass().getName().equals("AttributeEvaluation")) {
+					EObject value = ModelManager.getReference("value", mutatorEv);
+					if (value.eClass().getName().equals("ObjectAttributeType")) {
+						second = new AttributeEvaluation();
+						EObject name = ModelManager.getReference("name", mutatorEv);
+						second.name = (String) ModelManager.getStringAttribute("name", name);
+						second.operator = String.valueOf(ModelManager.getAttribute("operator", value));
+						((AttributeEvaluation) second).values = new ArrayList<String>();
+					}
+					else {
+						second = new AttributeEvaluation();
+						EObject name = ModelManager.getReference("name", mutatorEv);
+						second.name = (String) ModelManager.getStringAttribute("name", name);
+						second.operator = String.valueOf(ModelManager.getAttribute("operator", value));
+						((AttributeEvaluation) second).values = new ArrayList<String>();
+						((AttributeEvaluation) second).values.add(String.valueOf(value));
+						if (value.eClass().getName().equals("StringType")) {
+							((AttributeEvaluation) second).type = "String";
+						}
+						if (value.eClass().getName().equals("DoubleType")) {
+							((AttributeEvaluation) second).type = "double";
+						}
+						if (value.eClass().getName().equals("BooleanType")) {
+							((AttributeEvaluation) second).type = "Boolean";
+						}
+						if (value.eClass().getName().equals("IntegerType")) {
+							((AttributeEvaluation) second).type = "int";
+						}
+						if (value.eClass().getName().equals("MinValueType")) {
+							EAttribute att = (EAttribute) ModelManager.getAttribute("attribute", value);
+							MinValueConfigurationStrategy min = new MinValueConfigurationStrategy(packages, model, MutatorUtils.getMinTypeName(value), att.getName());
+							if (att.getEType().getName().equals("EInt")) {
+								((AttributeEvaluation) second).type = "int";
+							}
+							if (att.getEType().getName().equals("EDouble")) {
+								((AttributeEvaluation) second).type = "double";
+							}
+						}
+						if (value.eClass().getName().equals("MaxValueType")) {
+							EAttribute att = (EAttribute) ModelManager.getAttribute("attribute", value);
+							MaxValueConfigurationStrategy min = new MaxValueConfigurationStrategy(packages, model, MutatorUtils.getMaxTypeName(value), att.getName());
+							((AttributeEvaluation) second).values.add(min.getValue().toString());
+							if (att.getEType().getName().equals("EInt")) {
+								((AttributeEvaluation) second).type = "int";
+							}
+							if (att.getEType().getName().equals("EDouble")) {
+								((AttributeEvaluation) second).type = "double";
+							}
+						}
+						if (value.eClass().getName().equals("ListStringType")) {
+							List<String> list = (List<String>) ModelManager.getListStringAttribute("value", value);
+							for (String item : list) {
+								((AttributeEvaluation) second).values.add(item);
+							}
+							((AttributeEvaluation) second).type = "String";
+						}
+						if (value.eClass().getName().equals("ListType")) {
+							List<EObject> list = (List<EObject>) ModelManager.getReferences("value", value);
+							for (EObject item : list) {
+								((AttributeEvaluation) second).values.add(String.valueOf(item));
+							}
+							((AttributeEvaluation) second).type = "String";
+						}
+					}
+				}
+				if (mutatorEv.eClass().getName().equals("ReferenceEvaluation")) {
+					second = new ReferenceEvaluation();
+					EObject name = ModelManager.getReference("name", mutatorEv);
+					if (name != null) {
+						second.name = ModelManager.getStringAttribute("name", name);
+					}
+					else {
+						second.name = null;
+					}
+					EObject refName = ModelManager.getReference("refName", mutatorEv);
+					if (refName != null) {
+						((ReferenceEvaluation) second).refName = ModelManager.getStringAttribute("name", refName);
+						EObject refRefName = ModelManager.getReference("refRefName", mutatorEv);
+						if (refRefName != null) {
+							((ReferenceEvaluation) second).refRefName = ModelManager.getStringAttribute("name", refRefName);
+						}
+					}
+					else {
+						((ReferenceEvaluation) second).refName = null;
+					}
+					Object literal = ModelManager.getEEnumAttribute("operator", mutatorEv);
+					if (literal instanceof EEnumLiteral) {
+						second.operator = ((EEnumLiteral) literal).getLiteral();
+					}
+					else if (literal instanceof mutatorenvironment.Operator) {
+						second.operator = ((mutatorenvironment.Operator) literal).getLiteral();
+					}
+					EObject value = ModelManager.getReference("value", mutatorEv);
+					if (value == null) {
+						((ReferenceEvaluation) second).value = null;
+					}
+					else if (value.eClass().getName().equals("SpecificObjectSelection")) {
+						EObject refType = ModelManager.getReference("refType", mutatorEv);
+						EObject valueRefType = ModelManager.getReference("refType", value);
+						EObject objSel = ModelManager.getReference("objSel", value);
+						String objSelName = ModelManager.getStringAttribute("name", objSel);
+						if (refType == null && valueRefType == null) {
+							((ReferenceEvaluation) second).value = new commands.selection.strategies.SpecificObjectSelection(packages, model, hmObjects.get(objSelName)).getObject();
+						}
+						else {
+							if (refType != null) {
+								EObject srcObjExp = hmObjects.get(objSelName);
+								String refTypeName = ModelManager.getStringAttribute("name", refType);
+						   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+						   			if (ref.getName().equals(refTypeName)) {
+						   				((ReferenceEvaluation) second).value = srcObjExp.eGet(ref);
+						   			}
+						   		}
+							}
+							if (valueRefType != null) {
+								EObject srcObjExp = hmObjects.get(objSelName);
+								String valueRefTypeName = ModelManager.getStringAttribute("name", valueRefType);
+						   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+						   			if (ref.getName().equals(valueRefTypeName)) {
+						   				((ReferenceEvaluation) second).value = srcObjExp.eGet(ref);
+						   			}
+						   		}
+							}
+						}
+					}
+				}
+				expression.second.add(second);
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return expression;
+	}
+	
+	private static int getNumMutantsByStrategy(List<EPackage> packages, EObject strategy, Resource model, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+		try {
+			if (strategy.eClass().getName().equals("RandomTypeSelection")) {
+				EObject type = ModelManager.getReference("type", strategy);
+				RandomTypeSelection selection = new RandomTypeSelection(packages, model, ((EClass) type).getName());
+				List<EObject> objects = selection.getObjects();
+				EObject mutatorExpression = ModelManager.getReference("expression", strategy);
+				Expression expression = transformExpression(packages, model, mutatorExpression, hmObjects);
+
+				objects = evaluate(objects, expression);
+				numMutants += objects.size();
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return numMutants;
+	}
+	
+	private static int getNumMutants(List<EPackage> packages, EObject mutator, Resource model, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+		try {
+			if (mutator.eClass().getName().equals("ModifyInformationMutator")) {
+				EObject strategy = ModelManager.getReference("object", mutator);
+				numMutants += getNumMutantsByStrategy(packages, strategy, model, hmObjects);
+			}
+			if (mutator.eClass().getName().equals("RemoveObjectMutator")) {
+				EObject strategy = ModelManager.getReference("object", mutator);
+				numMutants += getNumMutantsByStrategy(packages, strategy, model, hmObjects);
+			}
+		} catch (ReferenceNonExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return numMutants;
+	}
+	
+	private static int getNumMutants(List<EPackage> packages, EObject mutator, Set<String> modelFilenames, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+		try {
+			for (String modelFilename : modelFilenames) {
+				Resource model = ModelManager.loadModel(packages, modelFilename);
+				numMutants += getNumMutants(packages, mutator, model, hmObjects);
+			}
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return numMutants;
+	}
+	
+	private static int getNumMutantsBySeedModel(List<EPackage> packages, EObject mutator, String modelFilename, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+		try {
+			Resource model = ModelManager.loadModel(packages, modelFilename);
+			numMutants += getNumMutants(packages, mutator, model, hmObjects);
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return numMutants;
+	}
+
+	protected static int getNumMutants(List<EPackage> packages, String xmiFileName, Set<String> modelFilenames, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+   		try {
+   			Bundle bundle = Platform.getBundle("wodel.models");
+   	   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+   			String ecore = FileLocator.resolve(fileURL).getFile();
+   			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
+   			Resource model = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
+   			List<EObject> objects = ModelManager.getAllObjects(model);
+   			Map<String, EObject> mutators = MutatorUtils.getMutators(objects);
+   			for (String mutatorName : mutators.keySet()) {
+   				EObject mutator = mutators.get(mutatorName);
+   				numMutants += getNumMutants(packages, mutator, modelFilenames, hmObjects);
+   			}
+   			
+   		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return numMutants;
+	}
+
+	protected static int getNumMutantsBySeedModel(List<EPackage> packages, String xmiFileName, String modelFilename, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+   		try {
+   			Bundle bundle = Platform.getBundle("wodel.models");
+   	   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+   			String ecore = FileLocator.resolve(fileURL).getFile();
+   			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
+   			Resource model = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
+   			List<EObject> objects = ModelManager.getAllObjects(model);
+   			Map<String, EObject> mutators = MutatorUtils.getMutators(objects);
+   			for (String mutatorName : mutators.keySet()) {
+   				EObject mutator = mutators.get(mutatorName);
+   				numMutants += getNumMutantsBySeedModel(packages, mutator, modelFilename, hmObjects);
+   			}
+   			
+   		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return numMutants;
+	}
+
+	protected static int getNumMutants(List<EPackage> packages, String xmiFileName, String modelFilename, Map<String, EObject> hmObjects) {
+		int numMutants = 0;
+		
+   		try {
+   			Bundle bundle = Platform.getBundle("wodel.models");
+   	   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+   			String ecore = FileLocator.resolve(fileURL).getFile();
+   			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
+   			Resource model = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
+   			List<EObject> objects = ModelManager.getAllObjects(model);
+   			Map<String, EObject> mutators = MutatorUtils.getMutators(objects);
+   			for (String mutatorName : mutators.keySet()) {
+   				EObject mutator = mutators.get(mutatorName);
+   				numMutants += getNumMutantsBySeedModel(packages, mutator, modelFilename, hmObjects);
+   			}
+   			
+   		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return numMutants;
+	}
+
+	protected static int getNumMutants(List<EPackage> packages, String xmiFileName, String modelFilename, Map<String, EObject> hmObjects, String blockName) {
+		int numMutants = 0;
+		
+   		try {
+   			Bundle bundle = Platform.getBundle("wodel.models");
+   	   		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+   			String ecore = FileLocator.resolve(fileURL).getFile();
+   			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
+   			Resource model = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
+   			List<EObject> objects = ModelManager.getAllObjects(model);
+   			Map<String, EObject> mutators = MutatorUtils.getMutatorsByBlock(objects, blockName);
+   			for (String mutatorName : mutators.keySet()) {
+   				EObject mutator = mutators.get(mutatorName);
+   				numMutants += getNumMutantsBySeedModel(packages, mutator, modelFilename, hmObjects);
+   			}
+   			
+   		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return numMutants;
+	}
+	
+	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, List<EPackage> packages, Map<String, EPackage> registeredPackages, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
+			throws ReferenceNonExistingException, WrongAttributeTypeException, 
+			MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
+			ObjectNotContainedException, MetaModelNotFoundException, ModelNotFoundException, IOException {
 		return null;
 	}
 }

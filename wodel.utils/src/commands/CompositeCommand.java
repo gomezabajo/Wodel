@@ -29,7 +29,7 @@ public class CompositeCommand extends Mutator{
 	/**
 	 * Here we attach the added commands
 	 */
-	private ArrayList<Mutator> commands;
+	private List<Mutator> commands;
 	
 	/**
 	 * Constructor. initializes the ArrayLists
@@ -43,7 +43,7 @@ public class CompositeCommand extends Mutator{
 	/**
 	 * @return ArrayList<Command> Attached commands
 	 */
-	public ArrayList<Mutator> getCommands(){
+	public List<Mutator> getCommands(){
 		return commands;
 	}
 	

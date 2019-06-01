@@ -5,6 +5,7 @@ import java.util.List;
 
 import manager.ModelManager;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -73,8 +74,21 @@ public class CreateReferenceMutator extends Mutator {
 		EObject target = targetSelection.getObject();
 		//We save the referenced here
 		EReference reference = null;
+
+		//We select a random source
+		if(source == null){
+			ArrayList<EObject> sources = new ArrayList<EObject>();
+			for(EObject o : ModelManager.getAllObjects(this.getModel())){
+				if(ModelManager.getReferenceByName(refType, o)!=null){
+					sources.add(o);
+				}
+			}
+			//Random object
+			source = sources.get(ModelManager.getRandomIndex(sources));
+		}
+				
 		//We get the new Reference
-		EObject r = ModelManager.getObjectOfType(refType, this.getMetaModel());
+		EObject r = ModelManager.getReferenceByName(refType, source);
 		
 		if(r==null){
 			result = null;
@@ -90,18 +104,6 @@ public class CreateReferenceMutator extends Mutator {
 			return null;
 		}
 		
-		//We select a random source
-		if(source == null){
-			ArrayList<EObject> sources = new ArrayList<EObject>();
-			for(EObject o : ModelManager.getAllObjects(this.getModel())){
-				if(ModelManager.getReferenceByName(refType, o)!=null){
-					sources.add(o);
-				}
-			}
-			//Random object
-			source = sources.get(ModelManager.getRandomIndex(sources));
-		}
-				
 		//We select a random new Target
 		if(target == null){
 			ArrayList<EObject> newTargets = new ArrayList<EObject>();
@@ -115,8 +117,17 @@ public class CreateReferenceMutator extends Mutator {
 		}
 		
 		if(!reference.getEType().getName().equals(target.eClass().getName())){
-			result = null;
-			throw new ObjectNoTargetableException("The reference '"+reference.getName()+"' cannot contain the object '"+target.eClass().getName()+"'.");
+			boolean found = false;
+			for (EClass superType : target.eClass().getEAllSuperTypes()) {
+				if (superType.getName().equals(reference.getEType().getName())) {
+					found = true;
+					break;
+				}
+			}
+			if (found == false) {			
+				result = null;
+				throw new ObjectNoTargetableException("The reference '"+reference.getName()+"' cannot contain the object '"+target.eClass().getName()+"'.");
+			}
 		}
 		
 		//Multivalued
@@ -149,12 +160,12 @@ public class CreateReferenceMutator extends Mutator {
 			}
 			
 			//If the reference is not null there is something already created
-			if(o!=null){
-				result = null;
-				return null;
+			//if(o!=null){
+				//result = null;
+				//return null;
 				//this.result = reference;
 				//return this.result;
-			}						
+			//}						
 			source.eSet(reference, target); 
 			this.result = reference;
 		}

@@ -167,9 +167,9 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 		String metamodel = ModelManager.getMetaModel();
 		String fileName = manager.WodelContext.getFileName();
 		if (fileName.endsWith(".mutator") == false) {
-			MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-			msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
-			msgbox.open();
+			//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+			//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
+			//msgbox.open();
 			return;
 		}
 		String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");

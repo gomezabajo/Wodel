@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="wodel.comparison.MutComparison">
-      <comparation
-            class="automata.AutomataComparison">
-      </comparation>
+         point="wodel.equivalence.MutEquivalence">
+      <equivalence
+            class="automata.AutomataEquivalence">
+      </equivalence>
    </extension>
 
 </plugin>

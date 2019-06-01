@@ -117,4 +117,12 @@
             genModel="models/ModelText.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ModelDraw -->
+      <package
+            uri="http://modeldraw/1.0"
+            class="modeldraw.ModeldrawPackage"
+            genModel="models/ModelDraw.genmodel"/>
+   </extension>
+
 </plugin>

@@ -1,11 +1,15 @@
 package commands.strategies;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import manager.EMFUtils;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -30,9 +34,17 @@ public class SpecificReferenceConfigurationStrategy extends
 	@Override
 	public boolean sameType() {
 		if (this.reference != null && this.target != null) {
-			if (EcoreUtil.equals(this.reference.getEReferenceType(), this.target.eClass())) {
-				return true;
+			List<EClass> types = new ArrayList<EClass>();
+			types.add(this.target.eClass());
+			types.addAll(this.target.eClass().getEAllSuperTypes());
+			boolean found = false;
+			for (EClass type : types) {
+				if (EcoreUtil.equals(this.reference.getEReferenceType(), type)) {
+					found = true;
+					break;
+				}
 			}
+			return found;
 		}
 		return false;
 	}
@@ -49,16 +61,39 @@ public class SpecificReferenceConfigurationStrategy extends
 			}
 			if (this.reference != null) {
 				//monovalued
+				if (this.object.eGet(reference) == null) {
+					this.target = target;
+					if (model.getContents().contains(this.target)) {
+						model.getContents().remove(this.target);
+					}
+					try {
+						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
 				if (this.object.eGet(reference) instanceof EObject) {
 					this.obj = EcoreUtil.copy(this.object);
 					this.target = target;
-					this.object.eSet(reference, this.target);
+					if (model.getContents().contains(this.target)) {
+						model.getContents().remove(this.target);
+					}
+					try {
+						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 				//multivalued
 				if (this.object.eGet(reference) instanceof List<?>) {
 					this.obj = EcoreUtil.copy(this.object);
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.target = target;
+					if (model.getContents().contains(this.target)) {
+						model.getContents().remove(this.target);
+					}
 					this.o.add(this.target);
 				}
 			}
@@ -79,10 +114,30 @@ public class SpecificReferenceConfigurationStrategy extends
 			}
 			if (this.reference != null) {
 				//monovalued
+				if (this.object.eGet(reference) == null) {
+					this.target = target;
+					if (model.getContents().contains(this.target)) {
+						model.getContents().remove(this.target);
+					}
+					try {
+						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
 				if (this.object.eGet(reference) instanceof EObject) {
 					this.obj = EcoreUtil.copy(this.object);
 					this.target = target;
-					this.object.eSet(reference, this.target);
+					if (model.getContents().contains(this.target)) {
+						model.getContents().remove(this.target);
+					}
+					try {
+						EMFUtils.setReference(this.object.eClass().getEPackage(), this.object, reference.getName(), this.target);
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 				//multivalued
 				if (this.object.eGet(reference) instanceof List<?>) {
@@ -90,6 +145,9 @@ public class SpecificReferenceConfigurationStrategy extends
 					this.o = (List<EObject>) this.object.eGet(reference, true);
 					this.target = target;
 					if (this.removal == false) {
+						if (model.getContents().contains(this.target)) {
+							model.getContents().remove(this.target);
+						}
 						this.o.add(this.target);
 					}
 					else {

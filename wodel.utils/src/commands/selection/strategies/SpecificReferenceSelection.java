@@ -30,6 +30,12 @@ public class SpecificReferenceSelection extends SpecificSelection{
 		this.refType = refType;
 	}
 
+	public SpecificReferenceSelection(List<EPackage> metaModel, List<Resource> models, String refType, EObject oe){
+		super(metaModel, models);
+		this.oe = oe;
+		this.refType = refType;
+	}
+
 	@Override
 	public EObject getObject() throws ReferenceNonExistingException {
 		if(oe == null) return null;

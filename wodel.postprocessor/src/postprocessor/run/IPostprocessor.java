@@ -11,7 +11,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 public interface IPostprocessor extends IExecutableExtension {
 
 	public String getName();
+
+	public abstract String getURI();
 	
-	public boolean doProcess(Resource model, String filename);
+	public boolean doProcess(String metamodelpath, String metamodel, Resource model, String filename);
 
 }

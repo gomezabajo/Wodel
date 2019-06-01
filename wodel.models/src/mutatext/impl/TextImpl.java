@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatext.impl.TextImpl#getWords <em>Words</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -28,13 +28,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatormetrics.impl.TreeImpl#getName <em>Name</em>}</li>
  *   <li>{@link mutatormetrics.impl.TreeImpl#getMutants <em>Mutants</em>}</li>
  *   <li>{@link mutatormetrics.impl.TreeImpl#getClasses <em>Classes</em>}</li>
  *   <li>{@link mutatormetrics.impl.TreeImpl#getPath <em>Path</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

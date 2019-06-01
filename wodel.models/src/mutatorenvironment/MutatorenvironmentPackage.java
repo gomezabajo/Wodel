@@ -252,13 +252,40 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int PROGRAM__SOURCE = DEFINITION_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROGRAM__DESCRIPTION = DEFINITION_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Exhaustive</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROGRAM__EXHAUSTIVE = DEFINITION_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Resources</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROGRAM__RESOURCES = DEFINITION_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Program</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROGRAM_FEATURE_COUNT = DEFINITION_FEATURE_COUNT + 3;
+	int PROGRAM_FEATURE_COUNT = DEFINITION_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Program</em>' class.
@@ -654,13 +681,40 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int OB_SELECTION_STRATEGY__EXPRESSION = OBJECT_EMITTER_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OB_SELECTION_STRATEGY__RESOURCE = OBJECT_EMITTER_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OB_SELECTION_STRATEGY__REF_REF_TYPE = OBJECT_EMITTER_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OB_SELECTION_STRATEGY__REF_REF_REF_TYPE = OBJECT_EMITTER_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Ob Selection Strategy</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OB_SELECTION_STRATEGY_FEATURE_COUNT = OBJECT_EMITTER_FEATURE_COUNT + 2;
+	int OB_SELECTION_STRATEGY_FEATURE_COUNT = OBJECT_EMITTER_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Ob Selection Strategy</em>' class.
@@ -716,6 +770,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int RANDOM_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_SELECTION__RESOURCE = OB_SELECTION_STRATEGY__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_SELECTION__REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_SELECTION__REF_REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_REF_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>Random Selection</em>' class.
@@ -782,6 +863,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int RANDOM_TYPE_SELECTION__EXPRESSION = RANDOM_SELECTION__EXPRESSION;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE_SELECTION__RESOURCE = RANDOM_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE_SELECTION__REF_REF_TYPE = RANDOM_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE_SELECTION__REF_REF_REF_TYPE = RANDOM_SELECTION__REF_REF_REF_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Random Type Selection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -846,6 +954,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SPECIFIC_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_SELECTION__RESOURCE = OB_SELECTION_STRATEGY__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_SELECTION__REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_SELECTION__REF_REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_REF_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Specific Selection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -908,6 +1043,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SPECIFIC_OBJECT_SELECTION__EXPRESSION = SPECIFIC_SELECTION__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_OBJECT_SELECTION__RESOURCE = SPECIFIC_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_OBJECT_SELECTION__REF_REF_TYPE = SPECIFIC_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_OBJECT_SELECTION__REF_REF_REF_TYPE = SPECIFIC_SELECTION__REF_REF_REF_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Obj Sel</b></em>' reference.
@@ -1836,6 +1998,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SPECIFIC_REFERENCE_SELECTION__EXPRESSION = SPECIFIC_SELECTION__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_REFERENCE_SELECTION__RESOURCE = SPECIFIC_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_REFERENCE_SELECTION__REF_REF_TYPE = SPECIFIC_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_REFERENCE_SELECTION__REF_REF_REF_TYPE = SPECIFIC_SELECTION__REF_REF_REF_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Obj Sel</b></em>' reference.
@@ -2962,6 +3151,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int COMPLETE_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_SELECTION__RESOURCE = OB_SELECTION_STRATEGY__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_SELECTION__REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_SELECTION__REF_REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_REF_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Complete Selection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3024,6 +3240,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPLETE_TYPE_SELECTION__EXPRESSION = COMPLETE_SELECTION__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_TYPE_SELECTION__RESOURCE = COMPLETE_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_TYPE_SELECTION__REF_REF_TYPE = COMPLETE_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_TYPE_SELECTION__REF_REF_REF_TYPE = COMPLETE_SELECTION__REF_REF_REF_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>Complete Type Selection</em>' class.
@@ -3209,6 +3452,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int OTHER_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_SELECTION__RESOURCE = OB_SELECTION_STRATEGY__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_SELECTION__REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_SELECTION__REF_REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_REF_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Other Selection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3271,6 +3541,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int OTHER_TYPE_SELECTION__EXPRESSION = OTHER_SELECTION__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_TYPE_SELECTION__RESOURCE = OTHER_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_TYPE_SELECTION__REF_REF_TYPE = OTHER_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_TYPE_SELECTION__REF_REF_REF_TYPE = OTHER_SELECTION__REF_REF_REF_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>Other Type Selection</em>' class.
@@ -3677,13 +3974,22 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REFERENCE_EVALUATION__REF_NAME = EVALUATION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Ref Ref Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_EVALUATION__REF_REF_NAME = EVALUATION_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Operator</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_EVALUATION__OPERATOR = EVALUATION_FEATURE_COUNT + 2;
+	int REFERENCE_EVALUATION__OPERATOR = EVALUATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -3692,7 +3998,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_EVALUATION__VALUE = EVALUATION_FEATURE_COUNT + 3;
+	int REFERENCE_EVALUATION__VALUE = EVALUATION_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -3701,7 +4007,34 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_EVALUATION__REF_TYPE = EVALUATION_FEATURE_COUNT + 4;
+	int REFERENCE_EVALUATION__REF_TYPE = EVALUATION_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Att Name</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_EVALUATION__ATT_NAME = EVALUATION_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Att Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_EVALUATION__ATT_VALUE = EVALUATION_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Container</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_EVALUATION__CONTAINER = EVALUATION_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Reference Evaluation</em>' class.
@@ -3710,7 +4043,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_EVALUATION_FEATURE_COUNT = EVALUATION_FEATURE_COUNT + 5;
+	int REFERENCE_EVALUATION_FEATURE_COUNT = EVALUATION_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Reference Evaluation</em>' class.
@@ -3933,13 +4266,22 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int BLOCK__FIXED = 6;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BLOCK__DESCRIPTION = 7;
+
+	/**
 	 * The number of structural features of the '<em>Block</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK_FEATURE_COUNT = 7;
+	int BLOCK_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Block</em>' class.
@@ -4656,6 +4998,33 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SPECIFIC_CLOSURE_SELECTION__EXPRESSION = SPECIFIC_SELECTION__EXPRESSION;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_CLOSURE_SELECTION__RESOURCE = SPECIFIC_SELECTION__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_CLOSURE_SELECTION__REF_REF_TYPE = SPECIFIC_SELECTION__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_CLOSURE_SELECTION__REF_REF_REF_TYPE = SPECIFIC_SELECTION__REF_REF_REF_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Obj Sel</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4993,6 +5362,216 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int RETYPE_OBJECT_MUTATOR_OPERATION_COUNT = MUTATOR_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.TypedSelectionImpl <em>Typed Selection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.TypedSelectionImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getTypedSelection()
+	 * @generated
+	 */
+	int TYPED_SELECTION = 83;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__TYPE = OB_SELECTION_STRATEGY__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__REF_TYPE = OB_SELECTION_STRATEGY__REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__EXPRESSION = OB_SELECTION_STRATEGY__EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__RESOURCE = OB_SELECTION_STRATEGY__RESOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Ref Ref Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__REF_REF_REF_TYPE = OB_SELECTION_STRATEGY__REF_REF_REF_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Typed Selection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION_FEATURE_COUNT = OB_SELECTION_STRATEGY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Typed Selection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION_OPERATION_COUNT = OB_SELECTION_STRATEGY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.RandomStringNumberTypeImpl <em>Random String Number Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.RandomStringNumberTypeImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRandomStringNumberType()
+	 * @generated
+	 */
+	int RANDOM_STRING_NUMBER_TYPE = 84;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_NUMBER_TYPE__OPERATOR = STRING_TYPE__OPERATOR;
+
+	/**
+	 * The feature id for the '<em><b>Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_NUMBER_TYPE__MIN = STRING_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_NUMBER_TYPE__MAX = STRING_TYPE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Allows Null</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_NUMBER_TYPE__ALLOWS_NULL = STRING_TYPE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Random String Number Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_NUMBER_TYPE_FEATURE_COUNT = STRING_TYPE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Random String Number Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_STRING_NUMBER_TYPE_OPERATION_COUNT = STRING_TYPE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link mutatorenvironment.impl.ResourceImpl <em>Resource</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see mutatorenvironment.impl.ResourceImpl
+	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getResource()
+	 * @generated
+	 */
+	int RESOURCE = 85;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE__METAMODEL = DEFINITION__METAMODEL;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE__NAME = DEFINITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE__PATH = DEFINITION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Resource</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_FEATURE_COUNT = DEFINITION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Resource</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_OPERATION_COUNT = DEFINITION_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5000,7 +5579,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getLogicOperator()
 	 * @generated
 	 */
-	int LOGIC_OPERATOR = 83;
+	int LOGIC_OPERATOR = 86;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Operator <em>Operator</em>}' enum.
@@ -5010,7 +5589,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 84;
+	int OPERATOR = 87;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.Repeat <em>Repeat</em>}' enum.
@@ -5020,7 +5599,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRepeat()
 	 * @generated
 	 */
-	int REPEAT = 85;
+	int REPEAT = 88;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.ArithmeticOperator <em>Arithmetic Operator</em>}' enum.
@@ -5030,7 +5609,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getArithmeticOperator()
 	 * @generated
 	 */
-	int ARITHMETIC_OPERATOR = 86;
+	int ARITHMETIC_OPERATOR = 89;
 
 	/**
 	 * The meta object id for the '{@link mutatorenvironment.SampleClause <em>Sample Clause</em>}' enum.
@@ -5040,7 +5619,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getSampleClause()
 	 * @generated
 	 */
-	int SAMPLE_CLAUSE = 87;
+	int SAMPLE_CLAUSE = 90;
 
 
 	/**
@@ -5181,6 +5760,39 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getProgram_Source();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.Program#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see mutatorenvironment.Program#getDescription()
+	 * @see #getProgram()
+	 * @generated
+	 */
+	EAttribute getProgram_Description();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.Program#isExhaustive <em>Exhaustive</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Exhaustive</em>'.
+	 * @see mutatorenvironment.Program#isExhaustive()
+	 * @see #getProgram()
+	 * @generated
+	 */
+	EAttribute getProgram_Exhaustive();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link mutatorenvironment.Program#getResources <em>Resources</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Resources</em>'.
+	 * @see mutatorenvironment.Program#getResources()
+	 * @see #getProgram()
+	 * @generated
+	 */
+	EReference getProgram_Resources();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.ObjectEmitter <em>Object Emitter</em>}'.
@@ -5373,6 +5985,39 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getObSelectionStrategy_Expression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.ObSelectionStrategy#getResource <em>Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Resource</em>'.
+	 * @see mutatorenvironment.ObSelectionStrategy#getResource()
+	 * @see #getObSelectionStrategy()
+	 * @generated
+	 */
+	EAttribute getObSelectionStrategy_Resource();
+
+	/**
+	 * Returns the meta object for the reference '{@link mutatorenvironment.ObSelectionStrategy#getRefRefType <em>Ref Ref Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Ref Type</em>'.
+	 * @see mutatorenvironment.ObSelectionStrategy#getRefRefType()
+	 * @see #getObSelectionStrategy()
+	 * @generated
+	 */
+	EReference getObSelectionStrategy_RefRefType();
+
+	/**
+	 * Returns the meta object for the reference '{@link mutatorenvironment.ObSelectionStrategy#getRefRefRefType <em>Ref Ref Ref Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Ref Ref Type</em>'.
+	 * @see mutatorenvironment.ObSelectionStrategy#getRefRefRefType()
+	 * @see #getObSelectionStrategy()
+	 * @generated
+	 */
+	EReference getObSelectionStrategy_RefRefRefType();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.RandomSelection <em>Random Selection</em>}'.
@@ -6502,6 +7147,17 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getReferenceEvaluation_RefName();
 
 	/**
+	 * Returns the meta object for the reference '{@link mutatorenvironment.ReferenceEvaluation#getRefRefName <em>Ref Ref Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Ref Name</em>'.
+	 * @see mutatorenvironment.ReferenceEvaluation#getRefRefName()
+	 * @see #getReferenceEvaluation()
+	 * @generated
+	 */
+	EReference getReferenceEvaluation_RefRefName();
+
+	/**
 	 * Returns the meta object for the attribute '{@link mutatorenvironment.ReferenceEvaluation#getOperator <em>Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6533,6 +7189,39 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getReferenceEvaluation_RefType();
+
+	/**
+	 * Returns the meta object for the reference '{@link mutatorenvironment.ReferenceEvaluation#getAttName <em>Att Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Att Name</em>'.
+	 * @see mutatorenvironment.ReferenceEvaluation#getAttName()
+	 * @see #getReferenceEvaluation()
+	 * @generated
+	 */
+	EReference getReferenceEvaluation_AttName();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link mutatorenvironment.ReferenceEvaluation#getAttValue <em>Att Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Att Value</em>'.
+	 * @see mutatorenvironment.ReferenceEvaluation#getAttValue()
+	 * @see #getReferenceEvaluation()
+	 * @generated
+	 */
+	EReference getReferenceEvaluation_AttValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.ReferenceEvaluation#isContainer <em>Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Container</em>'.
+	 * @see mutatorenvironment.ReferenceEvaluation#isContainer()
+	 * @see #getReferenceEvaluation()
+	 * @generated
+	 */
+	EAttribute getReferenceEvaluation_Container();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.Expression <em>Expression</em>}'.
@@ -6704,6 +7393,17 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBlock_Fixed();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.Block#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see mutatorenvironment.Block#getDescription()
+	 * @see #getBlock()
+	 * @generated
+	 */
+	EAttribute getBlock_Description();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.Constraint <em>Constraint</em>}'.
@@ -7227,6 +7927,91 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EReference getRetypeObjectMutator_References();
 
 	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.TypedSelection <em>Typed Selection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Typed Selection</em>'.
+	 * @see mutatorenvironment.TypedSelection
+	 * @generated
+	 */
+	EClass getTypedSelection();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.RandomStringNumberType <em>Random String Number Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Random String Number Type</em>'.
+	 * @see mutatorenvironment.RandomStringNumberType
+	 * @generated
+	 */
+	EClass getRandomStringNumberType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.RandomStringNumberType#getMin <em>Min</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Min</em>'.
+	 * @see mutatorenvironment.RandomStringNumberType#getMin()
+	 * @see #getRandomStringNumberType()
+	 * @generated
+	 */
+	EAttribute getRandomStringNumberType_Min();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.RandomStringNumberType#getMax <em>Max</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Max</em>'.
+	 * @see mutatorenvironment.RandomStringNumberType#getMax()
+	 * @see #getRandomStringNumberType()
+	 * @generated
+	 */
+	EAttribute getRandomStringNumberType_Max();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.RandomStringNumberType#isAllowsNull <em>Allows Null</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Allows Null</em>'.
+	 * @see mutatorenvironment.RandomStringNumberType#isAllowsNull()
+	 * @see #getRandomStringNumberType()
+	 * @generated
+	 */
+	EAttribute getRandomStringNumberType_AllowsNull();
+
+	/**
+	 * Returns the meta object for class '{@link mutatorenvironment.Resource <em>Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Resource</em>'.
+	 * @see mutatorenvironment.Resource
+	 * @generated
+	 */
+	EClass getResource();
+
+	/**
+	 * Returns the meta object for the attribute '{@link mutatorenvironment.Resource#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see mutatorenvironment.Resource#getName()
+	 * @see #getResource()
+	 * @generated
+	 */
+	EAttribute getResource_Name();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link mutatorenvironment.Resource#getPath <em>Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Path</em>'.
+	 * @see mutatorenvironment.Resource#getPath()
+	 * @see #getResource()
+	 * @generated
+	 */
+	EReference getResource_Path();
+
+	/**
 	 * Returns the meta object for enum '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7412,6 +8197,30 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EReference PROGRAM__SOURCE = eINSTANCE.getProgram_Source();
 
 		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROGRAM__DESCRIPTION = eINSTANCE.getProgram_Description();
+
+		/**
+		 * The meta object literal for the '<em><b>Exhaustive</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROGRAM__EXHAUSTIVE = eINSTANCE.getProgram_Exhaustive();
+
+		/**
+		 * The meta object literal for the '<em><b>Resources</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROGRAM__RESOURCES = eINSTANCE.getProgram_Resources();
+
+		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.ObjectEmitterImpl <em>Object Emitter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -7566,6 +8375,30 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OB_SELECTION_STRATEGY__EXPRESSION = eINSTANCE.getObSelectionStrategy_Expression();
+
+		/**
+		 * The meta object literal for the '<em><b>Resource</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OB_SELECTION_STRATEGY__RESOURCE = eINSTANCE.getObSelectionStrategy_Resource();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Ref Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OB_SELECTION_STRATEGY__REF_REF_TYPE = eINSTANCE.getObSelectionStrategy_RefRefType();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Ref Ref Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OB_SELECTION_STRATEGY__REF_REF_REF_TYPE = eINSTANCE.getObSelectionStrategy_RefRefRefType();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.RandomSelectionImpl <em>Random Selection</em>}' class.
@@ -8524,6 +9357,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EReference REFERENCE_EVALUATION__REF_NAME = eINSTANCE.getReferenceEvaluation_RefName();
 
 		/**
+		 * The meta object literal for the '<em><b>Ref Ref Name</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFERENCE_EVALUATION__REF_REF_NAME = eINSTANCE.getReferenceEvaluation_RefRefName();
+
+		/**
 		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -8546,6 +9387,30 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REFERENCE_EVALUATION__REF_TYPE = eINSTANCE.getReferenceEvaluation_RefType();
+
+		/**
+		 * The meta object literal for the '<em><b>Att Name</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFERENCE_EVALUATION__ATT_NAME = eINSTANCE.getReferenceEvaluation_AttName();
+
+		/**
+		 * The meta object literal for the '<em><b>Att Value</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFERENCE_EVALUATION__ATT_VALUE = eINSTANCE.getReferenceEvaluation_AttValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Container</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_EVALUATION__CONTAINER = eINSTANCE.getReferenceEvaluation_Container();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.ExpressionImpl <em>Expression</em>}' class.
@@ -8684,6 +9549,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BLOCK__FIXED = eINSTANCE.getBlock_Fixed();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BLOCK__DESCRIPTION = eINSTANCE.getBlock_Description();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.ConstraintImpl <em>Constraint</em>}' class.
@@ -9112,6 +9985,76 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RETYPE_OBJECT_MUTATOR__REFERENCES = eINSTANCE.getRetypeObjectMutator_References();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.TypedSelectionImpl <em>Typed Selection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.TypedSelectionImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getTypedSelection()
+		 * @generated
+		 */
+		EClass TYPED_SELECTION = eINSTANCE.getTypedSelection();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.RandomStringNumberTypeImpl <em>Random String Number Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.RandomStringNumberTypeImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getRandomStringNumberType()
+		 * @generated
+		 */
+		EClass RANDOM_STRING_NUMBER_TYPE = eINSTANCE.getRandomStringNumberType();
+
+		/**
+		 * The meta object literal for the '<em><b>Min</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RANDOM_STRING_NUMBER_TYPE__MIN = eINSTANCE.getRandomStringNumberType_Min();
+
+		/**
+		 * The meta object literal for the '<em><b>Max</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RANDOM_STRING_NUMBER_TYPE__MAX = eINSTANCE.getRandomStringNumberType_Max();
+
+		/**
+		 * The meta object literal for the '<em><b>Allows Null</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RANDOM_STRING_NUMBER_TYPE__ALLOWS_NULL = eINSTANCE.getRandomStringNumberType_AllowsNull();
+
+		/**
+		 * The meta object literal for the '{@link mutatorenvironment.impl.ResourceImpl <em>Resource</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see mutatorenvironment.impl.ResourceImpl
+		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getResource()
+		 * @generated
+		 */
+		EClass RESOURCE = eINSTANCE.getResource();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE__NAME = eINSTANCE.getResource_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Path</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOURCE__PATH = eINSTANCE.getResource_Path();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.LogicOperator <em>Logic Operator</em>}' enum.

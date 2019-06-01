@@ -442,7 +442,7 @@ public class CloneObjectMutatorImpl extends MutatorImpl implements CloneObjectMu
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (contents: ");
 		result.append(contents);
 		result.append(')');

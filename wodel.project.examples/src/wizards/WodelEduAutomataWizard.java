@@ -340,7 +340,7 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 
 		Path filePath = new Path(fileName);
 		String fileExtension = filePath.getFileExtension();
-		String graphFileName = fileName.replace(fileExtension, "graph");
+		String graphFileName = fileName.replace(fileExtension, "draw");
 		// create a sample file
 		monitor.beginTask("Creating " + graphFileName, 2);
 		String testsFileName = fileName.replace(fileExtension, "test");

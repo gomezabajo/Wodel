@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatormetrics.Class#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link mutatormetrics.Class#getReferences <em>References</em>}</li>
@@ -18,7 +19,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link mutatormetrics.Class#getCmodified <em>Cmodified</em>}</li>
  *   <li>{@link mutatormetrics.Class#getCremoved <em>Cremoved</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatormetrics.MutatormetricsPackage#getClass_()
  * @model

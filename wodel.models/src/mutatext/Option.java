@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatext.Option#getType <em>Type</em>}</li>
  *   <li>{@link mutatext.Option#getObject <em>Object</em>}</li>
  *   <li>{@link mutatext.Option#getValid <em>Valid</em>}</li>
  *   <li>{@link mutatext.Option#getInvalid <em>Invalid</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatext.MutatextPackage#getOption()
  * @model

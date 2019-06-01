@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getFixed <em>Fixed</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.BlockImpl#getDescription <em>Description</em>}</li>
  * </ul>
  *
  * @generated
@@ -163,6 +164,26 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	 * @ordered
 	 */
 	protected int fixed = FIXED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -317,6 +338,27 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		String oldDescription = description;
+		description = newDescription;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.BLOCK__DESCRIPTION, oldDescription, description));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -348,6 +390,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return getMax();
 			case MutatorenvironmentPackage.BLOCK__FIXED:
 				return getFixed();
+			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
+				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -384,6 +428,9 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 			case MutatorenvironmentPackage.BLOCK__FIXED:
 				setFixed((Integer)newValue);
 				return;
+			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -417,6 +464,9 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 			case MutatorenvironmentPackage.BLOCK__FIXED:
 				setFixed(FIXED_EDEFAULT);
 				return;
+			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -443,6 +493,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return max != MAX_EDEFAULT;
 			case MutatorenvironmentPackage.BLOCK__FIXED:
 				return fixed != FIXED_EDEFAULT;
+			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -456,7 +508,7 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", repeat: ");
@@ -467,6 +519,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 		result.append(max);
 		result.append(", fixed: ");
 		result.append(fixed);
+		result.append(", description: ");
+		result.append(description);
 		result.append(')');
 		return result.toString();
 	}

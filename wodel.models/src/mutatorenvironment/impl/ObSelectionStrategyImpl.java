@@ -25,6 +25,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getExpression <em>Expression</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getResource <em>Resource</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getRefRefType <em>Ref Ref Type</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ObSelectionStrategyImpl#getRefRefRefType <em>Ref Ref Ref Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,6 +52,46 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * @ordered
 	 */
 	protected Expression expression;
+
+	/**
+	 * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String RESOURCE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getResource() <em>Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected String resource = RESOURCE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRefRefType() <em>Ref Ref Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefRefType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EReference refRefType;
+
+	/**
+	 * The cached value of the '{@link #getRefRefRefType() <em>Ref Ref Ref Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefRefRefType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EReference refRefRefType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -155,6 +198,103 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getResource() {
+		return resource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResource(String newResource) {
+		String oldResource = resource;
+		resource = newResource;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__RESOURCE, oldResource, resource));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRefRefType() {
+		if (refRefType != null && refRefType.eIsProxy()) {
+			InternalEObject oldRefRefType = (InternalEObject)refRefType;
+			refRefType = (EReference)eResolveProxy(oldRefRefType);
+			if (refRefType != oldRefRefType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_TYPE, oldRefRefType, refRefType));
+			}
+		}
+		return refRefType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference basicGetRefRefType() {
+		return refRefType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRefRefType(EReference newRefRefType) {
+		EReference oldRefRefType = refRefType;
+		refRefType = newRefRefType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_TYPE, oldRefRefType, refRefType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRefRefRefType() {
+		if (refRefRefType != null && refRefRefType.eIsProxy()) {
+			InternalEObject oldRefRefRefType = (InternalEObject)refRefRefType;
+			refRefRefType = (EReference)eResolveProxy(oldRefRefRefType);
+			if (refRefRefType != oldRefRefRefType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_REF_TYPE, oldRefRefRefType, refRefRefType));
+			}
+		}
+		return refRefRefType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference basicGetRefRefRefType() {
+		return refRefRefType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRefRefRefType(EReference newRefRefRefType) {
+		EReference oldRefRefRefType = refRefRefType;
+		refRefRefType = newRefRefRefType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_REF_TYPE, oldRefRefRefType, refRefRefType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -177,6 +317,14 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 				return basicGetRefType();
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return getExpression();
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__RESOURCE:
+				return getResource();
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_TYPE:
+				if (resolve) return getRefRefType();
+				return basicGetRefRefType();
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_REF_TYPE:
+				if (resolve) return getRefRefRefType();
+				return basicGetRefRefRefType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -194,6 +342,15 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 				return;
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				setExpression((Expression)newValue);
+				return;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__RESOURCE:
+				setResource((String)newValue);
+				return;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_TYPE:
+				setRefRefType((EReference)newValue);
+				return;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_REF_TYPE:
+				setRefRefRefType((EReference)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -213,6 +370,15 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				setExpression((Expression)null);
 				return;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__RESOURCE:
+				setResource(RESOURCE_EDEFAULT);
+				return;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_TYPE:
+				setRefRefType((EReference)null);
+				return;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_REF_TYPE:
+				setRefRefRefType((EReference)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -229,8 +395,30 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 				return refType != null;
 			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__EXPRESSION:
 				return expression != null;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__RESOURCE:
+				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_TYPE:
+				return refRefType != null;
+			case MutatorenvironmentPackage.OB_SELECTION_STRATEGY__REF_REF_REF_TYPE:
+				return refRefRefType != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (resource: ");
+		result.append(resource);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ObSelectionStrategyImpl

@@ -52,11 +52,12 @@ public class EclipseHelper {
 		try {
 			IProjectDescription description = project.getDescription();
 			String natures[] = description.getNatureIds();
-			if (!Arrays.asList(natures).contains(XtextProjectHelper.NATURE_ID)) {
+			String xtextNature = XtextProjectHelper.NATURE_ID;
+			if (!Arrays.asList(natures).contains(xtextNature)) {
 				int newNaturesLength = natures.length + 1;
 				String newNatures[] = new String[newNaturesLength];
 				System.arraycopy(natures, 0, newNatures, 0, natures.length);
-				newNatures[natures.length] = XtextProjectHelper.NATURE_ID;
+				newNatures[natures.length] = xtextNature;
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

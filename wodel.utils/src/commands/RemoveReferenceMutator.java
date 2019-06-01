@@ -113,15 +113,15 @@ public class RemoveReferenceMutator extends Mutator {
 		saved = new ArrayList<EObject>();
 
 		// We get the specified references
-		ArrayList<EStructuralFeature> refs = ModelManager
-				.getAllReferencesByName(refType, this.getModel());
+		EStructuralFeature rf = ModelManager
+				.getReferenceByName(refType, container);
 
-		if (refs == null || container == null) {
+		if (rf == null || container == null) {
 			result = null;
 			return null;
 		}
 		// We get the firstone (does not matter whichone)
-		EReference ref = (EReference) refs.get(0);
+		EReference ref = (EReference) rf; //(EReference) refs.get(0);
 
 		// Multivalued
 		if (ref.getUpperBound() < 0 || ref.getUpperBound() > 1) {

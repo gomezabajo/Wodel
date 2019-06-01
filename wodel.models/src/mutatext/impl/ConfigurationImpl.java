@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatext.impl.ConfigurationImpl#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link mutatext.impl.ConfigurationImpl#getOptions <em>Options</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

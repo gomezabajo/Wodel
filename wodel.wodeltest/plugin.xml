@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="MutTest" name="Mutation Testing" schema="schema/wodel.wodeltest.exsd"/>
+   <extension
+         point="wodel.extension.MutApplication">
+      <generator
+            class="wodel.wodeltest.Generator">
+      </generator>
+   </extension>
+   <extension
+         id="wodel.wodeltest.builder.wodelTestBuilder"
+         name="Wodel Test Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="wodel.wodeltest.builder.WodelTestBuilder">
+         </run>
+      </builder>
+   </extension>
+	<extension
+     id="wodel.wodeltest.builder.wodelTestNature"
+     point="org.eclipse.core.resources.natures">
+  <runtime>
+     <run
+           class="wodel.wodeltest.builder.WodelTestNature">
+     </run>
+  </runtime>
+  </extension>
+	<extension
+     id="wodel.wodeltest.builder.wodelTestNature"
+     point="org.eclipse.core.resources.natures">
+  <runtime>
+     <run
+           class="wodel.wodeltest.builder.WodelTestNature">
+     </run>
+  </runtime>
+  </extension>
+</plugin>

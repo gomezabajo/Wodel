@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link mutatormetrics.impl.ClassImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link mutatormetrics.impl.ClassImpl#getReferences <em>References</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatormetrics.impl.ClassImpl#getCmodified <em>Cmodified</em>}</li>
  *   <li>{@link mutatormetrics.impl.ClassImpl#getCremoved <em>Cremoved</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -22,6 +22,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -42,15 +43,19 @@ import java.util.concurrent.TimeoutException;
 
 import kodkod.ast.Relation;
 import kodkod.instance.TupleSet;
+import manager.EMFUtils;
 import manager.IOUtils;
 import manager.ModelManager;
 import manager.UseGeneratorUtils;
 import manager.WodelContext;
+import wodel.dsls.WodelStandaloneSetup;
+import wodel.dsls.generator.WodelUseGenerator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -74,6 +79,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
+import org.osgi.framework.Bundle;
 import org.tzi.use.kodkod.UseScrollingKodkodModelValidator;
 import org.tzi.use.kodkod.plugin.KodkodScrollingValidateCmd;
 import org.tzi.use.kodkod.plugin.PluginModelFactory;
@@ -86,7 +93,7 @@ import org.tzi.use.uml.ocl.value.Value;
 import org.tzi.use.uml.sys.MLink;
 import org.tzi.use.uml.sys.MObject;
 import org.tzi.use.uml.sys.MSystemState;
-
+import com.google.inject.Injector;
 import exceptions.ContainerNotFoundException;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
@@ -502,21 +509,21 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				}
 				
 				// complete mandatory non containment references
-				List<EObject> objects = ModelManager.getAllObjects(model);
-				for (EObject obj : objects) {
-					for (EReference ref : obj.eClass().getEAllReferences()) {
-						if (ref.isChangeable() && ref.getLowerBound() > 0 && obj.eGet(ref) == null) {
-							EClass type = ref.getEReferenceType();
-							List<EObject> candidates = ModelManager.getObjectsOfType(type.getName(), model);
-							if (ref.isContainment()) {
-								removeContainedEObjectsFromList(model, candidates);
-							}
-							if (candidates.size() > 0) {
-								EMFUtils.setReference(packages, obj, ref.getName(), candidates.get(ModelManager.getRandomIndex(candidates)));
-							}
-						}
-					}
-				}
+//				List<EObject> objects = ModelManager.getAllObjects(model);
+//				for (EObject obj : objects) {
+//					for (EReference ref : obj.eClass().getEAllReferences()) {
+//						if (ref.isChangeable() && ref.getLowerBound() > 0 && obj.eGet(ref) == null) {
+//							EClass type = ref.getEReferenceType();
+//							List<EObject> candidates = ModelManager.getObjectsOfType(type.getName(), model);
+//							if (ref.isContainment()) {
+//								removeContainedEObjectsFromList(model, candidates);
+//							}
+//							if (candidates.size() > 0) {
+//								EMFUtils.setReference(packages, obj, ref.getName(), candidates.get(ModelManager.getRandomIndex(candidates)));
+//							}
+//						}
+//					}
+//				}
 				
 				// save model
 				if (model.getContents().isEmpty())
@@ -528,6 +535,44 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 			}
 		
 		    return model;
+		}
+		
+		private void generateUSEConfigurationFiles(String project, String fileName, String useFilePath, String propertiesFilePath) {
+			try {
+				Bundle bundle = Platform.getBundle("wodel.models");
+				URL mutatorURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+				String mutatorecore = FileLocator.resolve(mutatorURL).getFile();
+				List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+				Resource mutatormodel = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath() + "/" + fileName.replace(".mutator", ".model"));
+				Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
+				InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+				WodelUseGenerator generator = new WodelUseGenerator();
+				generator.doGenerate(mutatormodel, fsa, null);
+				Map<String, Object> map = fsa.getAllFiles();
+			
+				for (String f : map.keySet()) {
+					if (f.endsWith(".use")) {
+						PrintWriter pw = new PrintWriter(new FileWriter(useFilePath, false));
+						pw.print((String) map.get(f));
+						pw.close();
+					}
+					if (f.endsWith(".properties")) {
+						PrintWriter pw = new PrintWriter(new FileWriter(propertiesFilePath, false));
+						pw.print((String) map.get(f));
+						pw.close();
+					}
+				}
+			} catch (MetaModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ModelNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 		
 		private void processUSEFiles(List<EPackage> packages, Path procUseFilename, Path procPropertiesFilename, HashMap<URI, String> classNames, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
@@ -608,13 +653,17 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				//String log4jConfigFileName = FileLocator.resolve(Platform.getBundle("org.tzi.use").getEntry("/log4j/log4j.xml")).getFile();
 				//PropertyConfigurator.configure(log4jConfigFileName);
 
+				// generates the .use and .properties configuration files
 				project = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject();
-				fLogWriter = new PrintWriter(project + "/src-gen/" + fileName.replaceAll(".mutator", ".log"));
 				String useFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", ".use");
+				String propertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", ".properties");
+				generateUSEConfigurationFiles(project, fileName, useFilePath, propertiesFilePath);
+				
+				// configuration for the automated seed models synthesis
+				fLogWriter = new PrintWriter(project + "/src-gen/" + fileName.replaceAll(".mutator", ".log"));
 				useFilename = Paths.get(useFilePath);
 				String procUseFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", "_proc.use");
 				procUseFilename =Paths.get(procUseFilePath);
-				String propertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", ".properties");
 				String procPropertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", "_proc.properties");
 				procPropertiesFilename = Paths.get(procPropertiesFilePath);
 				final String metamodel = ModelManager.getMetaModel();

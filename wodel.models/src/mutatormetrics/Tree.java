@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatormetrics.Tree#getName <em>Name</em>}</li>
  *   <li>{@link mutatormetrics.Tree#getMutants <em>Mutants</em>}</li>
  *   <li>{@link mutatormetrics.Tree#getClasses <em>Classes</em>}</li>
  *   <li>{@link mutatormetrics.Tree#getPath <em>Path</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatormetrics.MutatormetricsPackage#getTree()
  * @model abstract="true"

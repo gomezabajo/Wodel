@@ -12,13 +12,10 @@ import org.eclipse.jface.operation.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.*;
@@ -142,6 +139,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 
 		requiredBundles.add("wodel.utils;bundle-version=\"1.0.0\"");
 		requiredBundles.add("wodel.models;bundle-version=\"1.0.0\"");
+		requiredBundles.add("wodel.wodeltest;bundle-version=\"1.0.0\"");
 		requiredBundles
 				.add("org.eclipse.emf.ecore.xmi;bundle-version=\"2.9.0\"");
 		requiredBundles.add("org.eclipse.emf.ecore");
@@ -152,6 +150,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.ocl.ecore;bundle-version=\"3.3.100\"");
 		requiredBundles.add("org.eclipse.emf.common");
 		requiredBundles.add("org.eclipse.core.runtime;bundle-version=\"3.10.0\"");
+		requiredBundles.add("org.eclipse.core.resources;bundle-version=\"3.12.0\"");
 		requiredBundles.add("org.eclipse.text");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
@@ -255,7 +254,6 @@ public class WodelWizard extends Wizard implements INewWizard {
 		String xTextFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() +'/' + project.getFolder(new Path("/src/" + fileName)).getFullPath();
 		String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + '/' + project.getFolder(new Path('/' + mutantName + '/' + fileName.replaceAll("mutator", "model"))).getFullPath();
 		WodelUtils.serialize(xTextFileName, xmiFileName);
-
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		if (registry != null) {

@@ -1,4 +1,4 @@
-package wodeledu.dsls.parser.antlr.internal; 
+package wodeledu.dsls.parser.antlr.internal;
 
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.parser.*;
@@ -55,23 +55,23 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
         
 
     public String[] getTokenNames() { return InternalModelTextParser.tokenNames; }
-    public String getGrammarFileName() { return "../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g"; }
+    public String getGrammarFileName() { return "InternalModelText.g"; }
 
 
 
      	private ModelTextGrammarAccess grammarAccess;
-     	
+
         public InternalModelTextParser(TokenStream input, ModelTextGrammarAccess grammarAccess) {
             this(input);
             this.grammarAccess = grammarAccess;
             registerRules(grammarAccess.getGrammar());
         }
-        
+
         @Override
         protected String getFirstRuleName() {
-        	return "IdentifyElements";	
+        	return "IdentifyElements";
        	}
-       	
+
        	@Override
        	protected ModelTextGrammarAccess getGrammarAccess() {
        		return grammarAccess;
@@ -79,8 +79,9 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
 
+
     // $ANTLR start "entryRuleIdentifyElements"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:67:1: entryRuleIdentifyElements returns [EObject current=null] : iv_ruleIdentifyElements= ruleIdentifyElements EOF ;
+    // InternalModelText.g:64:1: entryRuleIdentifyElements returns [EObject current=null] : iv_ruleIdentifyElements= ruleIdentifyElements EOF ;
     public final EObject entryRuleIdentifyElements() throws RecognitionException {
         EObject current = null;
 
@@ -88,26 +89,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:68:2: (iv_ruleIdentifyElements= ruleIdentifyElements EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:69:2: iv_ruleIdentifyElements= ruleIdentifyElements EOF
+            // InternalModelText.g:64:57: (iv_ruleIdentifyElements= ruleIdentifyElements EOF )
+            // InternalModelText.g:65:2: iv_ruleIdentifyElements= ruleIdentifyElements EOF
             {
              newCompositeNode(grammarAccess.getIdentifyElementsRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleIdentifyElements_in_entryRuleIdentifyElements75);
+            pushFollow(FOLLOW_1);
             iv_ruleIdentifyElements=ruleIdentifyElements();
 
             state._fsp--;
 
              current =iv_ruleIdentifyElements; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIdentifyElements85); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -116,7 +117,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIdentifyElements"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:76:1: ruleIdentifyElements returns [EObject current=null] : ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? ) ;
+    // InternalModelText.g:71:1: ruleIdentifyElements returns [EObject current=null] : ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? ) ;
     public final EObject ruleIdentifyElements() throws RecognitionException {
         EObject current = null;
 
@@ -128,62 +129,63 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
         EObject lv_elements_4_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:79:28: ( ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:80:1: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? )
+            // InternalModelText.g:77:2: ( ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? ) )
+            // InternalModelText.g:78:2: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:80:1: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:80:2: () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )?
+            // InternalModelText.g:78:2: ( () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )? )
+            // InternalModelText.g:79:3: () otherlv_1= 'metamodel' ( (lv_metamodel_2_0= ruleEString ) ) ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )?
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:80:2: ()
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:81:5: 
+            // InternalModelText.g:79:3: ()
+            // InternalModelText.g:80:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getIdentifyElementsAccess().getIdentifyElementsAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getIdentifyElementsAccess().getIdentifyElementsAction_0(),
+            					current);
+            			
 
             }
 
-            otherlv_1=(Token)match(input,11,FollowSets000.FOLLOW_11_in_ruleIdentifyElements131); 
+            otherlv_1=(Token)match(input,11,FOLLOW_3); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getIdentifyElementsAccess().getMetamodelKeyword_1());
-                
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:90:1: ( (lv_metamodel_2_0= ruleEString ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:91:1: (lv_metamodel_2_0= ruleEString )
+            			newLeafNode(otherlv_1, grammarAccess.getIdentifyElementsAccess().getMetamodelKeyword_1());
+            		
+            // InternalModelText.g:90:3: ( (lv_metamodel_2_0= ruleEString ) )
+            // InternalModelText.g:91:4: (lv_metamodel_2_0= ruleEString )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:91:1: (lv_metamodel_2_0= ruleEString )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:92:3: lv_metamodel_2_0= ruleEString
+            // InternalModelText.g:91:4: (lv_metamodel_2_0= ruleEString )
+            // InternalModelText.g:92:5: lv_metamodel_2_0= ruleEString
             {
-             
-            	        newCompositeNode(grammarAccess.getIdentifyElementsAccess().getMetamodelEStringParserRuleCall_2_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleIdentifyElements152);
+
+            					newCompositeNode(grammarAccess.getIdentifyElementsAccess().getMetamodelEStringParserRuleCall_2_0());
+            				
+            pushFollow(FOLLOW_4);
             lv_metamodel_2_0=ruleEString();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getIdentifyElementsRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"metamodel",
-                    		lv_metamodel_2_0, 
-                    		"EString");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getIdentifyElementsRule());
+            					}
+            					set(
+            						current,
+            						"metamodel",
+            						lv_metamodel_2_0,
+            						"wodeledu.dsls.ModelText.EString");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:108:2: ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )?
+            // InternalModelText.g:109:3: ( ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )* )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -192,40 +194,40 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt2) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:108:3: ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )*
+                    // InternalModelText.g:110:4: ( (lv_elements_3_0= ruleElement ) ) ( (lv_elements_4_0= ruleElement ) )*
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:108:3: ( (lv_elements_3_0= ruleElement ) )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:109:1: (lv_elements_3_0= ruleElement )
+                    // InternalModelText.g:110:4: ( (lv_elements_3_0= ruleElement ) )
+                    // InternalModelText.g:111:5: (lv_elements_3_0= ruleElement )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:109:1: (lv_elements_3_0= ruleElement )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:110:3: lv_elements_3_0= ruleElement
+                    // InternalModelText.g:111:5: (lv_elements_3_0= ruleElement )
+                    // InternalModelText.g:112:6: lv_elements_3_0= ruleElement
                     {
-                     
-                    	        newCompositeNode(grammarAccess.getIdentifyElementsAccess().getElementsElementParserRuleCall_3_0_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleElement_in_ruleIdentifyElements174);
+
+                    						newCompositeNode(grammarAccess.getIdentifyElementsAccess().getElementsElementParserRuleCall_3_0_0());
+                    					
+                    pushFollow(FOLLOW_4);
                     lv_elements_3_0=ruleElement();
 
                     state._fsp--;
 
 
-                    	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getIdentifyElementsRule());
-                    	        }
-                           		add(
-                           			current, 
-                           			"elements",
-                            		lv_elements_3_0, 
-                            		"Element");
-                    	        afterParserOrEnumRuleCall();
-                    	    
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getIdentifyElementsRule());
+                    						}
+                    						add(
+                    							current,
+                    							"elements",
+                    							lv_elements_3_0,
+                    							"wodeledu.dsls.ModelText.Element");
+                    						afterParserOrEnumRuleCall();
+                    					
 
                     }
 
 
                     }
 
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:126:2: ( (lv_elements_4_0= ruleElement ) )*
+                    // InternalModelText.g:129:4: ( (lv_elements_4_0= ruleElement ) )*
                     loop1:
                     do {
                         int alt1=2;
@@ -238,30 +240,30 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
                         switch (alt1) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:127:1: (lv_elements_4_0= ruleElement )
+                    	    // InternalModelText.g:130:5: (lv_elements_4_0= ruleElement )
                     	    {
-                    	    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:127:1: (lv_elements_4_0= ruleElement )
-                    	    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:128:3: lv_elements_4_0= ruleElement
+                    	    // InternalModelText.g:130:5: (lv_elements_4_0= ruleElement )
+                    	    // InternalModelText.g:131:6: lv_elements_4_0= ruleElement
                     	    {
-                    	     
-                    	    	        newCompositeNode(grammarAccess.getIdentifyElementsAccess().getElementsElementParserRuleCall_3_1_0()); 
-                    	    	    
-                    	    pushFollow(FollowSets000.FOLLOW_ruleElement_in_ruleIdentifyElements195);
+
+                    	    						newCompositeNode(grammarAccess.getIdentifyElementsAccess().getElementsElementParserRuleCall_3_1_0());
+                    	    					
+                    	    pushFollow(FOLLOW_4);
                     	    lv_elements_4_0=ruleElement();
 
                     	    state._fsp--;
 
 
-                    	    	        if (current==null) {
-                    	    	            current = createModelElementForParent(grammarAccess.getIdentifyElementsRule());
-                    	    	        }
-                    	           		add(
-                    	           			current, 
-                    	           			"elements",
-                    	            		lv_elements_4_0, 
-                    	            		"Element");
-                    	    	        afterParserOrEnumRuleCall();
-                    	    	    
+                    	    						if (current==null) {
+                    	    							current = createModelElementForParent(grammarAccess.getIdentifyElementsRule());
+                    	    						}
+                    	    						add(
+                    	    							current,
+                    	    							"elements",
+                    	    							lv_elements_4_0,
+                    	    							"wodeledu.dsls.ModelText.Element");
+                    	    						afterParserOrEnumRuleCall();
+                    	    					
 
                     	    }
 
@@ -286,13 +288,15 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -301,7 +305,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleElement"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:152:1: entryRuleElement returns [EObject current=null] : iv_ruleElement= ruleElement EOF ;
+    // InternalModelText.g:153:1: entryRuleElement returns [EObject current=null] : iv_ruleElement= ruleElement EOF ;
     public final EObject entryRuleElement() throws RecognitionException {
         EObject current = null;
 
@@ -309,26 +313,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:153:2: (iv_ruleElement= ruleElement EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:154:2: iv_ruleElement= ruleElement EOF
+            // InternalModelText.g:153:48: (iv_ruleElement= ruleElement EOF )
+            // InternalModelText.g:154:2: iv_ruleElement= ruleElement EOF
             {
              newCompositeNode(grammarAccess.getElementRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleElement_in_entryRuleElement234);
+            pushFollow(FOLLOW_1);
             iv_ruleElement=ruleElement();
 
             state._fsp--;
 
              current =iv_ruleElement; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleElement244); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -337,7 +341,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleElement"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:161:1: ruleElement returns [EObject current=null] : ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? ) ;
+    // InternalModelText.g:160:1: ruleElement returns [EObject current=null] : ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? ) ;
     public final EObject ruleElement() throws RecognitionException {
         EObject current = null;
 
@@ -354,59 +358,60 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
         EObject lv_words_10_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:164:28: ( ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:165:1: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? )
+            // InternalModelText.g:166:2: ( ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? ) )
+            // InternalModelText.g:167:2: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:165:1: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:165:2: () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )?
+            // InternalModelText.g:167:2: ( () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )? )
+            // InternalModelText.g:168:3: () otherlv_1= '>' ( ( ruleEString ) ) (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )? (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )? otherlv_8= ':' ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )?
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:165:2: ()
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:166:5: 
+            // InternalModelText.g:168:3: ()
+            // InternalModelText.g:169:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getElementAccess().getElementAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getElementAccess().getElementAction_0(),
+            					current);
+            			
 
             }
 
-            otherlv_1=(Token)match(input,12,FollowSets000.FOLLOW_12_in_ruleElement290); 
+            otherlv_1=(Token)match(input,12,FOLLOW_3); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getElementAccess().getGreaterThanSignKeyword_1());
-                
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:175:1: ( ( ruleEString ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:176:1: ( ruleEString )
+            			newLeafNode(otherlv_1, grammarAccess.getElementAccess().getGreaterThanSignKeyword_1());
+            		
+            // InternalModelText.g:179:3: ( ( ruleEString ) )
+            // InternalModelText.g:180:4: ( ruleEString )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:176:1: ( ruleEString )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:177:3: ruleEString
+            // InternalModelText.g:180:4: ( ruleEString )
+            // InternalModelText.g:181:5: ruleEString
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getElementRule());
-            	        }
-                    
-             
-            	        newCompositeNode(grammarAccess.getElementAccess().getTypeEClassCrossReference_2_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleElement313);
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getElementRule());
+            					}
+            				
+
+            					newCompositeNode(grammarAccess.getElementAccess().getTypeEClassCrossReference_2_0());
+            				
+            pushFollow(FOLLOW_5);
             ruleEString();
 
             state._fsp--;
 
-             
-            	        afterParserOrEnumRuleCall();
-            	    
+
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:190:2: (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )?
+            // InternalModelText.g:195:3: (otherlv_3= '.' ( (otherlv_4= RULE_ID ) ) )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -415,27 +420,27 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt3) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:190:4: otherlv_3= '.' ( (otherlv_4= RULE_ID ) )
+                    // InternalModelText.g:196:4: otherlv_3= '.' ( (otherlv_4= RULE_ID ) )
                     {
-                    otherlv_3=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleElement326); 
+                    otherlv_3=(Token)match(input,13,FOLLOW_6); 
 
-                        	newLeafNode(otherlv_3, grammarAccess.getElementAccess().getFullStopKeyword_3_0());
-                        
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:194:1: ( (otherlv_4= RULE_ID ) )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:195:1: (otherlv_4= RULE_ID )
+                    				newLeafNode(otherlv_3, grammarAccess.getElementAccess().getFullStopKeyword_3_0());
+                    			
+                    // InternalModelText.g:200:4: ( (otherlv_4= RULE_ID ) )
+                    // InternalModelText.g:201:5: (otherlv_4= RULE_ID )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:195:1: (otherlv_4= RULE_ID )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:196:3: otherlv_4= RULE_ID
+                    // InternalModelText.g:201:5: (otherlv_4= RULE_ID )
+                    // InternalModelText.g:202:6: otherlv_4= RULE_ID
                     {
 
-                    			if (current==null) {
-                    	            current = createModelElement(grammarAccess.getElementRule());
-                    	        }
-                            
-                    otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleElement346); 
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getElementRule());
+                    						}
+                    					
+                    otherlv_4=(Token)match(input,RULE_ID,FOLLOW_7); 
 
-                    		newLeafNode(otherlv_4, grammarAccess.getElementAccess().getRefEReferenceCrossReference_3_1_0()); 
-                    	
+                    						newLeafNode(otherlv_4, grammarAccess.getElementAccess().getRefEReferenceCrossReference_3_1_0());
+                    					
 
                     }
 
@@ -448,7 +453,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:207:4: (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )?
+            // InternalModelText.g:214:3: (otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')' )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -457,58 +462,58 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt4) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:207:6: otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')'
+                    // InternalModelText.g:215:4: otherlv_5= '(' ( (lv_att_6_0= ruleAttribute ) ) otherlv_7= ')'
                     {
-                    otherlv_5=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleElement361); 
+                    otherlv_5=(Token)match(input,14,FOLLOW_8); 
 
-                        	newLeafNode(otherlv_5, grammarAccess.getElementAccess().getLeftParenthesisKeyword_4_0());
-                        
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:211:1: ( (lv_att_6_0= ruleAttribute ) )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:212:1: (lv_att_6_0= ruleAttribute )
+                    				newLeafNode(otherlv_5, grammarAccess.getElementAccess().getLeftParenthesisKeyword_4_0());
+                    			
+                    // InternalModelText.g:219:4: ( (lv_att_6_0= ruleAttribute ) )
+                    // InternalModelText.g:220:5: (lv_att_6_0= ruleAttribute )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:212:1: (lv_att_6_0= ruleAttribute )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:213:3: lv_att_6_0= ruleAttribute
+                    // InternalModelText.g:220:5: (lv_att_6_0= ruleAttribute )
+                    // InternalModelText.g:221:6: lv_att_6_0= ruleAttribute
                     {
-                     
-                    	        newCompositeNode(grammarAccess.getElementAccess().getAttAttributeParserRuleCall_4_1_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleAttribute_in_ruleElement382);
+
+                    						newCompositeNode(grammarAccess.getElementAccess().getAttAttributeParserRuleCall_4_1_0());
+                    					
+                    pushFollow(FOLLOW_9);
                     lv_att_6_0=ruleAttribute();
 
                     state._fsp--;
 
 
-                    	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getElementRule());
-                    	        }
-                           		set(
-                           			current, 
-                           			"att",
-                            		lv_att_6_0, 
-                            		"Attribute");
-                    	        afterParserOrEnumRuleCall();
-                    	    
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getElementRule());
+                    						}
+                    						set(
+                    							current,
+                    							"att",
+                    							lv_att_6_0,
+                    							"wodeledu.dsls.ModelText.Attribute");
+                    						afterParserOrEnumRuleCall();
+                    					
 
                     }
 
 
                     }
 
-                    otherlv_7=(Token)match(input,15,FollowSets000.FOLLOW_15_in_ruleElement394); 
+                    otherlv_7=(Token)match(input,15,FOLLOW_10); 
 
-                        	newLeafNode(otherlv_7, grammarAccess.getElementAccess().getRightParenthesisKeyword_4_2());
-                        
+                    				newLeafNode(otherlv_7, grammarAccess.getElementAccess().getRightParenthesisKeyword_4_2());
+                    			
 
                     }
                     break;
 
             }
 
-            otherlv_8=(Token)match(input,16,FollowSets000.FOLLOW_16_in_ruleElement408); 
+            otherlv_8=(Token)match(input,16,FOLLOW_11); 
 
-                	newLeafNode(otherlv_8, grammarAccess.getElementAccess().getColonKeyword_5());
-                
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:237:1: ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )?
+            			newLeafNode(otherlv_8, grammarAccess.getElementAccess().getColonKeyword_5());
+            		
+            // InternalModelText.g:247:3: ( ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )* )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -517,40 +522,40 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt6) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:237:2: ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )*
+                    // InternalModelText.g:248:4: ( (lv_words_9_0= ruleWord ) ) ( (lv_words_10_0= ruleWord ) )*
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:237:2: ( (lv_words_9_0= ruleWord ) )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:238:1: (lv_words_9_0= ruleWord )
+                    // InternalModelText.g:248:4: ( (lv_words_9_0= ruleWord ) )
+                    // InternalModelText.g:249:5: (lv_words_9_0= ruleWord )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:238:1: (lv_words_9_0= ruleWord )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:239:3: lv_words_9_0= ruleWord
+                    // InternalModelText.g:249:5: (lv_words_9_0= ruleWord )
+                    // InternalModelText.g:250:6: lv_words_9_0= ruleWord
                     {
-                     
-                    	        newCompositeNode(grammarAccess.getElementAccess().getWordsWordParserRuleCall_6_0_0()); 
-                    	    
-                    pushFollow(FollowSets000.FOLLOW_ruleWord_in_ruleElement430);
+
+                    						newCompositeNode(grammarAccess.getElementAccess().getWordsWordParserRuleCall_6_0_0());
+                    					
+                    pushFollow(FOLLOW_11);
                     lv_words_9_0=ruleWord();
 
                     state._fsp--;
 
 
-                    	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getElementRule());
-                    	        }
-                           		add(
-                           			current, 
-                           			"words",
-                            		lv_words_9_0, 
-                            		"Word");
-                    	        afterParserOrEnumRuleCall();
-                    	    
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getElementRule());
+                    						}
+                    						add(
+                    							current,
+                    							"words",
+                    							lv_words_9_0,
+                    							"wodeledu.dsls.ModelText.Word");
+                    						afterParserOrEnumRuleCall();
+                    					
 
                     }
 
 
                     }
 
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:255:2: ( (lv_words_10_0= ruleWord ) )*
+                    // InternalModelText.g:267:4: ( (lv_words_10_0= ruleWord ) )*
                     loop5:
                     do {
                         int alt5=2;
@@ -563,30 +568,30 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:256:1: (lv_words_10_0= ruleWord )
+                    	    // InternalModelText.g:268:5: (lv_words_10_0= ruleWord )
                     	    {
-                    	    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:256:1: (lv_words_10_0= ruleWord )
-                    	    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:257:3: lv_words_10_0= ruleWord
+                    	    // InternalModelText.g:268:5: (lv_words_10_0= ruleWord )
+                    	    // InternalModelText.g:269:6: lv_words_10_0= ruleWord
                     	    {
-                    	     
-                    	    	        newCompositeNode(grammarAccess.getElementAccess().getWordsWordParserRuleCall_6_1_0()); 
-                    	    	    
-                    	    pushFollow(FollowSets000.FOLLOW_ruleWord_in_ruleElement451);
+
+                    	    						newCompositeNode(grammarAccess.getElementAccess().getWordsWordParserRuleCall_6_1_0());
+                    	    					
+                    	    pushFollow(FOLLOW_11);
                     	    lv_words_10_0=ruleWord();
 
                     	    state._fsp--;
 
 
-                    	    	        if (current==null) {
-                    	    	            current = createModelElementForParent(grammarAccess.getElementRule());
-                    	    	        }
-                    	           		add(
-                    	           			current, 
-                    	           			"words",
-                    	            		lv_words_10_0, 
-                    	            		"Word");
-                    	    	        afterParserOrEnumRuleCall();
-                    	    	    
+                    	    						if (current==null) {
+                    	    							current = createModelElementForParent(grammarAccess.getElementRule());
+                    	    						}
+                    	    						add(
+                    	    							current,
+                    	    							"words",
+                    	    							lv_words_10_0,
+                    	    							"wodeledu.dsls.ModelText.Word");
+                    	    						afterParserOrEnumRuleCall();
+                    	    					
 
                     	    }
 
@@ -611,13 +616,15 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -626,7 +633,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAttribute"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:281:1: entryRuleAttribute returns [EObject current=null] : iv_ruleAttribute= ruleAttribute EOF ;
+    // InternalModelText.g:291:1: entryRuleAttribute returns [EObject current=null] : iv_ruleAttribute= ruleAttribute EOF ;
     public final EObject entryRuleAttribute() throws RecognitionException {
         EObject current = null;
 
@@ -634,26 +641,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:282:2: (iv_ruleAttribute= ruleAttribute EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:283:2: iv_ruleAttribute= ruleAttribute EOF
+            // InternalModelText.g:291:50: (iv_ruleAttribute= ruleAttribute EOF )
+            // InternalModelText.g:292:2: iv_ruleAttribute= ruleAttribute EOF
             {
              newCompositeNode(grammarAccess.getAttributeRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleAttribute_in_entryRuleAttribute490);
+            pushFollow(FOLLOW_1);
             iv_ruleAttribute=ruleAttribute();
 
             state._fsp--;
 
              current =iv_ruleAttribute; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAttribute500); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -662,7 +669,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAttribute"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:290:1: ruleAttribute returns [EObject current=null] : ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) ) ;
+    // InternalModelText.g:298:1: ruleAttribute returns [EObject current=null] : ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) ) ;
     public final EObject ruleAttribute() throws RecognitionException {
         EObject current = null;
 
@@ -670,27 +677,28 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
         Token otherlv_2=null;
         Token otherlv_3=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:293:28: ( ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:294:1: ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) )
+            // InternalModelText.g:304:2: ( ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) ) )
+            // InternalModelText.g:305:2: ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:294:1: ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:294:2: () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) )
+            // InternalModelText.g:305:2: ( () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) ) )
+            // InternalModelText.g:306:3: () ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )? ( (otherlv_3= RULE_ID ) )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:294:2: ()
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:295:5: 
+            // InternalModelText.g:306:3: ()
+            // InternalModelText.g:307:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getAttributeAccess().getAttributeAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getAttributeAccess().getAttributeAction_0(),
+            					current);
+            			
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:300:2: ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )?
+            // InternalModelText.g:313:3: ( ( (lv_negation_1_0= 'yes' ) ) | otherlv_2= 'not' )?
             int alt7=3;
             int LA7_0 = input.LA(1);
 
@@ -702,24 +710,24 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt7) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:300:3: ( (lv_negation_1_0= 'yes' ) )
+                    // InternalModelText.g:314:4: ( (lv_negation_1_0= 'yes' ) )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:300:3: ( (lv_negation_1_0= 'yes' ) )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:301:1: (lv_negation_1_0= 'yes' )
+                    // InternalModelText.g:314:4: ( (lv_negation_1_0= 'yes' ) )
+                    // InternalModelText.g:315:5: (lv_negation_1_0= 'yes' )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:301:1: (lv_negation_1_0= 'yes' )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:302:3: lv_negation_1_0= 'yes'
+                    // InternalModelText.g:315:5: (lv_negation_1_0= 'yes' )
+                    // InternalModelText.g:316:6: lv_negation_1_0= 'yes'
                     {
-                    lv_negation_1_0=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleAttribute553); 
+                    lv_negation_1_0=(Token)match(input,17,FOLLOW_6); 
 
-                            newLeafNode(lv_negation_1_0, grammarAccess.getAttributeAccess().getNegationYesKeyword_1_0_0());
-                        
+                    						newLeafNode(lv_negation_1_0, grammarAccess.getAttributeAccess().getNegationYesKeyword_1_0_0());
+                    					
 
-                    	        if (current==null) {
-                    	            current = createModelElement(grammarAccess.getAttributeRule());
-                    	        }
-                           		setWithLastConsumed(current, "negation", true, "yes");
-                    	    
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getAttributeRule());
+                    						}
+                    						setWithLastConsumed(current, "negation", true, "yes");
+                    					
 
                     }
 
@@ -730,36 +738,33 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:316:7: otherlv_2= 'not'
+                    // InternalModelText.g:329:4: otherlv_2= 'not'
                     {
-                    otherlv_2=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleAttribute584); 
+                    otherlv_2=(Token)match(input,18,FOLLOW_6); 
 
-                        	newLeafNode(otherlv_2, grammarAccess.getAttributeAccess().getNotKeyword_1_1());
-                        
+                    				newLeafNode(otherlv_2, grammarAccess.getAttributeAccess().getNotKeyword_1_1());
+                    			
 
                     }
                     break;
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:320:3: ( (otherlv_3= RULE_ID ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:321:1: (otherlv_3= RULE_ID )
+            // InternalModelText.g:334:3: ( (otherlv_3= RULE_ID ) )
+            // InternalModelText.g:335:4: (otherlv_3= RULE_ID )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:321:1: (otherlv_3= RULE_ID )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:322:3: otherlv_3= RULE_ID
+            // InternalModelText.g:335:4: (otherlv_3= RULE_ID )
+            // InternalModelText.g:336:5: otherlv_3= RULE_ID
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getAttributeRule());
-            	        }
-                    
-            otherlv_3=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAttribute606); 
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getAttributeRule());
+            					}
+            				
+            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-            		newLeafNode(otherlv_3, grammarAccess.getAttributeAccess().getAttEAttributeCrossReference_2_0()); 
-            	
-
-            }
-
+            					newLeafNode(otherlv_3, grammarAccess.getAttributeAccess().getAttEAttributeCrossReference_2_0());
+            				
 
             }
 
@@ -769,13 +774,18 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            }
+
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -784,7 +794,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleWord"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:341:1: entryRuleWord returns [EObject current=null] : iv_ruleWord= ruleWord EOF ;
+    // InternalModelText.g:351:1: entryRuleWord returns [EObject current=null] : iv_ruleWord= ruleWord EOF ;
     public final EObject entryRuleWord() throws RecognitionException {
         EObject current = null;
 
@@ -792,26 +802,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:342:2: (iv_ruleWord= ruleWord EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:343:2: iv_ruleWord= ruleWord EOF
+            // InternalModelText.g:351:45: (iv_ruleWord= ruleWord EOF )
+            // InternalModelText.g:352:2: iv_ruleWord= ruleWord EOF
             {
              newCompositeNode(grammarAccess.getWordRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleWord_in_entryRuleWord642);
+            pushFollow(FOLLOW_1);
             iv_ruleWord=ruleWord();
 
             state._fsp--;
 
              current =iv_ruleWord; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleWord652); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -820,7 +830,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleWord"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:350:1: ruleWord returns [EObject current=null] : (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) ;
+    // InternalModelText.g:358:1: ruleWord returns [EObject current=null] : (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) ;
     public final EObject ruleWord() throws RecognitionException {
         EObject current = null;
 
@@ -829,13 +839,14 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
         EObject this_Variable_1 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:353:28: ( (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:354:1: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
+            // InternalModelText.g:364:2: ( (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable ) )
+            // InternalModelText.g:365:2: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:354:1: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
+            // InternalModelText.g:365:2: (this_Constant_0= ruleConstant | this_Variable_1= ruleVariable )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -853,38 +864,38 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt8) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:355:5: this_Constant_0= ruleConstant
+                    // InternalModelText.g:366:3: this_Constant_0= ruleConstant
                     {
-                     
-                            newCompositeNode(grammarAccess.getWordAccess().getConstantParserRuleCall_0()); 
-                        
-                    pushFollow(FollowSets000.FOLLOW_ruleConstant_in_ruleWord699);
+
+                    			newCompositeNode(grammarAccess.getWordAccess().getConstantParserRuleCall_0());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_Constant_0=ruleConstant();
 
                     state._fsp--;
 
-                     
-                            current = this_Constant_0; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_Constant_0;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:365:5: this_Variable_1= ruleVariable
+                    // InternalModelText.g:375:3: this_Variable_1= ruleVariable
                     {
-                     
-                            newCompositeNode(grammarAccess.getWordAccess().getVariableParserRuleCall_1()); 
-                        
-                    pushFollow(FollowSets000.FOLLOW_ruleVariable_in_ruleWord726);
+
+                    			newCompositeNode(grammarAccess.getWordAccess().getVariableParserRuleCall_1());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_Variable_1=ruleVariable();
 
                     state._fsp--;
 
-                     
-                            current = this_Variable_1; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_Variable_1;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
@@ -894,13 +905,15 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -909,7 +922,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleConstant"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:381:1: entryRuleConstant returns [EObject current=null] : iv_ruleConstant= ruleConstant EOF ;
+    // InternalModelText.g:387:1: entryRuleConstant returns [EObject current=null] : iv_ruleConstant= ruleConstant EOF ;
     public final EObject entryRuleConstant() throws RecognitionException {
         EObject current = null;
 
@@ -917,26 +930,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:382:2: (iv_ruleConstant= ruleConstant EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:383:2: iv_ruleConstant= ruleConstant EOF
+            // InternalModelText.g:387:49: (iv_ruleConstant= ruleConstant EOF )
+            // InternalModelText.g:388:2: iv_ruleConstant= ruleConstant EOF
             {
              newCompositeNode(grammarAccess.getConstantRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleConstant_in_entryRuleConstant761);
+            pushFollow(FOLLOW_1);
             iv_ruleConstant=ruleConstant();
 
             state._fsp--;
 
              current =iv_ruleConstant; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleConstant771); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -945,58 +958,59 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleConstant"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:390:1: ruleConstant returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEString ) ) ) ;
+    // InternalModelText.g:394:1: ruleConstant returns [EObject current=null] : ( () ( (lv_value_1_0= ruleEString ) ) ) ;
     public final EObject ruleConstant() throws RecognitionException {
         EObject current = null;
 
         AntlrDatatypeRuleToken lv_value_1_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:393:28: ( ( () ( (lv_value_1_0= ruleEString ) ) ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:394:1: ( () ( (lv_value_1_0= ruleEString ) ) )
+            // InternalModelText.g:400:2: ( ( () ( (lv_value_1_0= ruleEString ) ) ) )
+            // InternalModelText.g:401:2: ( () ( (lv_value_1_0= ruleEString ) ) )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:394:1: ( () ( (lv_value_1_0= ruleEString ) ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:394:2: () ( (lv_value_1_0= ruleEString ) )
+            // InternalModelText.g:401:2: ( () ( (lv_value_1_0= ruleEString ) ) )
+            // InternalModelText.g:402:3: () ( (lv_value_1_0= ruleEString ) )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:394:2: ()
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:395:5: 
+            // InternalModelText.g:402:3: ()
+            // InternalModelText.g:403:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getConstantAccess().getConstantAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getConstantAccess().getConstantAction_0(),
+            					current);
+            			
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:400:2: ( (lv_value_1_0= ruleEString ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:401:1: (lv_value_1_0= ruleEString )
+            // InternalModelText.g:409:3: ( (lv_value_1_0= ruleEString ) )
+            // InternalModelText.g:410:4: (lv_value_1_0= ruleEString )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:401:1: (lv_value_1_0= ruleEString )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:402:3: lv_value_1_0= ruleEString
+            // InternalModelText.g:410:4: (lv_value_1_0= ruleEString )
+            // InternalModelText.g:411:5: lv_value_1_0= ruleEString
             {
-             
-            	        newCompositeNode(grammarAccess.getConstantAccess().getValueEStringParserRuleCall_1_0()); 
-            	    
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_ruleConstant826);
+
+            					newCompositeNode(grammarAccess.getConstantAccess().getValueEStringParserRuleCall_1_0());
+            				
+            pushFollow(FOLLOW_2);
             lv_value_1_0=ruleEString();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getConstantRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"value",
-                    		lv_value_1_0, 
-                    		"EString");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getConstantRule());
+            					}
+            					set(
+            						current,
+            						"value",
+            						lv_value_1_0,
+            						"wodeledu.dsls.ModelText.EString");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
@@ -1009,13 +1023,15 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1024,7 +1040,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleVariable"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:426:1: entryRuleVariable returns [EObject current=null] : iv_ruleVariable= ruleVariable EOF ;
+    // InternalModelText.g:432:1: entryRuleVariable returns [EObject current=null] : iv_ruleVariable= ruleVariable EOF ;
     public final EObject entryRuleVariable() throws RecognitionException {
         EObject current = null;
 
@@ -1032,26 +1048,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:427:2: (iv_ruleVariable= ruleVariable EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:428:2: iv_ruleVariable= ruleVariable EOF
+            // InternalModelText.g:432:49: (iv_ruleVariable= ruleVariable EOF )
+            // InternalModelText.g:433:2: iv_ruleVariable= ruleVariable EOF
             {
              newCompositeNode(grammarAccess.getVariableRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleVariable_in_entryRuleVariable862);
+            pushFollow(FOLLOW_1);
             iv_ruleVariable=ruleVariable();
 
             state._fsp--;
 
              current =iv_ruleVariable; 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariable872); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1060,7 +1076,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVariable"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:435:1: ruleVariable returns [EObject current=null] : ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) ) ;
+    // InternalModelText.g:439:1: ruleVariable returns [EObject current=null] : ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) ) ;
     public final EObject ruleVariable() throws RecognitionException {
         EObject current = null;
 
@@ -1069,31 +1085,32 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
         Token otherlv_3=null;
         Token otherlv_4=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:438:28: ( ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:439:1: ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) )
+            // InternalModelText.g:445:2: ( ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) ) )
+            // InternalModelText.g:446:2: ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:439:1: ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:439:2: () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) )
+            // InternalModelText.g:446:2: ( () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) ) )
+            // InternalModelText.g:447:3: () otherlv_1= '%' ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )? ( (otherlv_4= RULE_ID ) )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:439:2: ()
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:440:5: 
+            // InternalModelText.g:447:3: ()
+            // InternalModelText.g:448:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getVariableAccess().getVariableAction_0(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getVariableAccess().getVariableAction_0(),
+            					current);
+            			
 
             }
 
-            otherlv_1=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleVariable918); 
+            otherlv_1=(Token)match(input,19,FOLLOW_6); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getVariableAccess().getPercentSignKeyword_1());
-                
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:449:1: ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )?
+            			newLeafNode(otherlv_1, grammarAccess.getVariableAccess().getPercentSignKeyword_1());
+            		
+            // InternalModelText.g:458:3: ( ( (otherlv_2= RULE_ID ) ) otherlv_3= '.' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1106,57 +1123,54 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt9) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:449:2: ( (otherlv_2= RULE_ID ) ) otherlv_3= '.'
+                    // InternalModelText.g:459:4: ( (otherlv_2= RULE_ID ) ) otherlv_3= '.'
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:449:2: ( (otherlv_2= RULE_ID ) )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:450:1: (otherlv_2= RULE_ID )
+                    // InternalModelText.g:459:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalModelText.g:460:5: (otherlv_2= RULE_ID )
                     {
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:450:1: (otherlv_2= RULE_ID )
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:451:3: otherlv_2= RULE_ID
+                    // InternalModelText.g:460:5: (otherlv_2= RULE_ID )
+                    // InternalModelText.g:461:6: otherlv_2= RULE_ID
                     {
 
-                    			if (current==null) {
-                    	            current = createModelElement(grammarAccess.getVariableRule());
-                    	        }
-                            
-                    otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariable939); 
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getVariableRule());
+                    						}
+                    					
+                    otherlv_2=(Token)match(input,RULE_ID,FOLLOW_12); 
 
-                    		newLeafNode(otherlv_2, grammarAccess.getVariableAccess().getRefEReferenceCrossReference_2_0_0()); 
-                    	
+                    						newLeafNode(otherlv_2, grammarAccess.getVariableAccess().getRefEReferenceCrossReference_2_0_0());
+                    					
 
                     }
 
 
                     }
 
-                    otherlv_3=(Token)match(input,13,FollowSets000.FOLLOW_13_in_ruleVariable951); 
+                    otherlv_3=(Token)match(input,13,FOLLOW_6); 
 
-                        	newLeafNode(otherlv_3, grammarAccess.getVariableAccess().getFullStopKeyword_2_1());
-                        
+                    				newLeafNode(otherlv_3, grammarAccess.getVariableAccess().getFullStopKeyword_2_1());
+                    			
 
                     }
                     break;
 
             }
 
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:466:3: ( (otherlv_4= RULE_ID ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:467:1: (otherlv_4= RULE_ID )
+            // InternalModelText.g:477:3: ( (otherlv_4= RULE_ID ) )
+            // InternalModelText.g:478:4: (otherlv_4= RULE_ID )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:467:1: (otherlv_4= RULE_ID )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:468:3: otherlv_4= RULE_ID
+            // InternalModelText.g:478:4: (otherlv_4= RULE_ID )
+            // InternalModelText.g:479:5: otherlv_4= RULE_ID
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getVariableRule());
-            	        }
-                    
-            otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariable973); 
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getVariableRule());
+            					}
+            				
+            otherlv_4=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-            		newLeafNode(otherlv_4, grammarAccess.getVariableAccess().getIdEAttributeCrossReference_3_0()); 
-            	
-
-            }
-
+            					newLeafNode(otherlv_4, grammarAccess.getVariableAccess().getIdEAttributeCrossReference_3_0());
+            				
 
             }
 
@@ -1166,13 +1180,18 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            }
+
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1181,7 +1200,7 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEString"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:487:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
+    // InternalModelText.g:494:1: entryRuleEString returns [String current=null] : iv_ruleEString= ruleEString EOF ;
     public final String entryRuleEString() throws RecognitionException {
         String current = null;
 
@@ -1189,26 +1208,26 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:488:2: (iv_ruleEString= ruleEString EOF )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:489:2: iv_ruleEString= ruleEString EOF
+            // InternalModelText.g:494:47: (iv_ruleEString= ruleEString EOF )
+            // InternalModelText.g:495:2: iv_ruleEString= ruleEString EOF
             {
              newCompositeNode(grammarAccess.getEStringRule()); 
-            pushFollow(FollowSets000.FOLLOW_ruleEString_in_entryRuleEString1010);
+            pushFollow(FOLLOW_1);
             iv_ruleEString=ruleEString();
 
             state._fsp--;
 
              current =iv_ruleEString.getText(); 
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEString1021); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1217,20 +1236,21 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEString"
-    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:496:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
+    // InternalModelText.g:501:1: ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) ;
     public final AntlrDatatypeRuleToken ruleEString() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
         Token this_STRING_0=null;
         Token this_ID_1=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:499:28: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:500:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalModelText.g:507:2: ( (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID ) )
+            // InternalModelText.g:508:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             {
-            // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:500:1: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
+            // InternalModelText.g:508:2: (this_STRING_0= RULE_STRING | this_ID_1= RULE_ID )
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1248,28 +1268,28 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
             }
             switch (alt10) {
                 case 1 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:500:6: this_STRING_0= RULE_STRING
+                    // InternalModelText.g:509:3: this_STRING_0= RULE_STRING
                     {
-                    this_STRING_0=(Token)match(input,RULE_STRING,FollowSets000.FOLLOW_RULE_STRING_in_ruleEString1061); 
+                    this_STRING_0=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
-                    		current.merge(this_STRING_0);
-                        
-                     
-                        newLeafNode(this_STRING_0, grammarAccess.getEStringAccess().getSTRINGTerminalRuleCall_0()); 
-                        
+                    			current.merge(this_STRING_0);
+                    		
+
+                    			newLeafNode(this_STRING_0, grammarAccess.getEStringAccess().getSTRINGTerminalRuleCall_0());
+                    		
 
                     }
                     break;
                 case 2 :
-                    // ../wodeledu.dsls.modeltext/src-gen/wodeledu/dsls/parser/antlr/internal/InternalModelText.g:508:10: this_ID_1= RULE_ID
+                    // InternalModelText.g:517:3: this_ID_1= RULE_ID
                     {
-                    this_ID_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleEString1087); 
+                    this_ID_1=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-                    		current.merge(this_ID_1);
-                        
-                     
-                        newLeafNode(this_ID_1, grammarAccess.getEStringAccess().getIDTerminalRuleCall_1()); 
-                        
+                    			current.merge(this_ID_1);
+                    		
+
+                    			newLeafNode(this_ID_1, grammarAccess.getEStringAccess().getIDTerminalRuleCall_1());
+                    		
 
                     }
                     break;
@@ -1279,13 +1299,15 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1297,49 +1319,17 @@ public class InternalModelTextParser extends AbstractInternalAntlrParser {
 
  
 
-    
-    private static class FollowSets000 {
-        public static final BitSet FOLLOW_ruleIdentifyElements_in_entryRuleIdentifyElements75 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleIdentifyElements85 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_11_in_ruleIdentifyElements131 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleIdentifyElements152 = new BitSet(new long[]{0x0000000000001002L});
-        public static final BitSet FOLLOW_ruleElement_in_ruleIdentifyElements174 = new BitSet(new long[]{0x0000000000001002L});
-        public static final BitSet FOLLOW_ruleElement_in_ruleIdentifyElements195 = new BitSet(new long[]{0x0000000000001002L});
-        public static final BitSet FOLLOW_ruleElement_in_entryRuleElement234 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleElement244 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_12_in_ruleElement290 = new BitSet(new long[]{0x0000000000000030L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleElement313 = new BitSet(new long[]{0x0000000000016000L});
-        public static final BitSet FOLLOW_13_in_ruleElement326 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleElement346 = new BitSet(new long[]{0x0000000000014000L});
-        public static final BitSet FOLLOW_14_in_ruleElement361 = new BitSet(new long[]{0x0000000000060010L});
-        public static final BitSet FOLLOW_ruleAttribute_in_ruleElement382 = new BitSet(new long[]{0x0000000000008000L});
-        public static final BitSet FOLLOW_15_in_ruleElement394 = new BitSet(new long[]{0x0000000000010000L});
-        public static final BitSet FOLLOW_16_in_ruleElement408 = new BitSet(new long[]{0x0000000000080032L});
-        public static final BitSet FOLLOW_ruleWord_in_ruleElement430 = new BitSet(new long[]{0x0000000000080032L});
-        public static final BitSet FOLLOW_ruleWord_in_ruleElement451 = new BitSet(new long[]{0x0000000000080032L});
-        public static final BitSet FOLLOW_ruleAttribute_in_entryRuleAttribute490 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAttribute500 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_17_in_ruleAttribute553 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_18_in_ruleAttribute584 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAttribute606 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleWord_in_entryRuleWord642 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleWord652 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleConstant_in_ruleWord699 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariable_in_ruleWord726 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleConstant_in_entryRuleConstant761 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleConstant771 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEString_in_ruleConstant826 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariable_in_entryRuleVariable862 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleVariable872 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_19_in_ruleVariable918 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleVariable939 = new BitSet(new long[]{0x0000000000002000L});
-        public static final BitSet FOLLOW_13_in_ruleVariable951 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleVariable973 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEString_in_entryRuleEString1010 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEString1021 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_STRING_in_ruleEString1061 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleEString1087 = new BitSet(new long[]{0x0000000000000002L});
-    }
-
+    public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000030L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000001002L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000016000L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000014000L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000000000060010L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000000080032L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000000002000L});
 
 }

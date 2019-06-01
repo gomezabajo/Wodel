@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -250,7 +251,7 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 	}
 	
 	public NetMutatorMetricsGenerator(List<EPackage> metrics, String output, String metamodel, String modelsFolder,
-			String fileName, HashMap<String, List<String>> hashmapMutVersions) {
+			String fileName, Map<String, List<String>> hashmapMutVersions) {
 		this.metrics = metrics;
 		this.output = output;
 		this.metamodel = metamodel;

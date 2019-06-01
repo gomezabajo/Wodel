@@ -1,5 +1,6 @@
 package comparison.run;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IExecutableExtension;
 
 /**
@@ -13,5 +14,5 @@ public abstract class Comparison implements IExecutableExtension {
 	
 	public abstract String getURI();
 
-	public abstract boolean doCompare(String metamodel, String model1, String model2);
+	public abstract boolean doCompare(String metamodel, String model1, String model2, IProject project);
 }

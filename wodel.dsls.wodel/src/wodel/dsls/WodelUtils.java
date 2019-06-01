@@ -25,6 +25,7 @@ import mutatorenvironment.miniOCL.InvariantCS;
  * 
  */
 
+@SuppressWarnings("restriction")
 public class WodelUtils {
 
 	/**
@@ -55,7 +56,6 @@ public class WodelUtils {
 		
 	}
 	
-	@SuppressWarnings("restriction")
 	public static String deserialize(EObject eObject) {
 		Injector injector = Guice.createInjector(new  wodel.dsls.WodelRuntimeModule());  
 		Serializer serializer = injector.getInstance(Serializer.class);  

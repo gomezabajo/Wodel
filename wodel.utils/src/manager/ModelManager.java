@@ -14,6 +14,7 @@ import java.util.Random;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.*;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
@@ -41,6 +42,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -71,21 +73,33 @@ import exceptions.WrongAttributeTypeException;
 public class ModelManager {
 
 	public static Random rn = new Random((int) System.currentTimeMillis());
-
-	private static List<EPackage> loadSubpackages(EPackage pck) {
-		List<EPackage> subpackages = new ArrayList<EPackage>();
-		for (EPackage spck : pck.getESubpackages()) {
-			subpackages.add(spck);
-			List<EPackage> nextSubpackages = loadSubpackages(spck);
-			for (EPackage nspck : nextSubpackages) {
-				if (!subpackages.contains(nspck)) {
-					subpackages.add(nspck);
-				}
+	
+	public static boolean isRegistered(List<EPackage> packages) {
+		for (EPackage pack : packages) {
+			if(EPackage.Registry.INSTANCE.containsKey(pack.getNsURI())) {
+				return true;
 			}
 		}
-		return subpackages;
+		return false;
 	}
-	
+
+	public static Map<String, EPackage> unregisterMetaModel (List<EPackage> packages) {
+		Map<String, EPackage> packs = new HashMap<String, EPackage>(); 
+		for (EPackage pack : packages) {
+			if (EPackage.Registry.INSTANCE.containsKey(pack.getNsURI())) {
+				packs.put(pack.getNsURI(), EPackage.Registry.INSTANCE.getEPackage(pack.getNsURI()));
+				EPackage.Registry.INSTANCE.remove(pack.getNsURI());
+			}
+		}
+		return packs;
+	}
+
+	public static void registerMetaModel (Map<String, EPackage> packages) {
+		for (String nsURI : packages.keySet()) {
+			EPackage.Registry.INSTANCE.put(nsURI, packages.get(nsURI));
+		}
+	}
+
 	public static List<EPackage> loadMetaModel (String uri) throws MetaModelNotFoundException {
 		List<EPackage> metamodel = null;
 		try {
@@ -103,7 +117,7 @@ public class ModelManager {
 				ResourceSetImpl resourceSet = new ResourceSetImpl();
 				Resource        resource    = resourceSet.getResource(URI.createFileURI(uri), true);
 				for (EObject obj : resource.getContents()) {
-					if (obj instanceof EPackage) {						
+					if (obj instanceof EPackage) {
 						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
 						metamodel.add((EPackage)obj);
 					}
@@ -111,12 +125,6 @@ public class ModelManager {
 			}
 			else metamodel.add(pck);
 
-			List<EPackage> subpackages = loadSubpackages(metamodel.get(0));
-			for (EPackage spck : subpackages) {
-				if (!metamodel.contains(spck)) {
-					metamodel.add(spck);
-				}
-			}
 			
 		}
 		catch (Exception e) {
@@ -199,7 +207,34 @@ public class ModelManager {
 			File[] files = new File(path + '/' + modelName).listFiles();
 			for (File file : files) {
 				if (file.isFile() == true) {
-					String modelpath = file.getPath();
+					String modelpath = file.getPath().replaceAll("\\\\", "/");
+					if (modelpath.endsWith(".ecore") == true) {
+						br.close();
+						return modelpath;
+					}
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getMetaModel(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.substring(0, path.lastIndexOf("/"));
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String modelName = br.readLine();
+			File[] files = new File(path + '/' + modelName).listFiles();
+			for (File file : files) {
+				if (file.isFile() == true) {
+					String modelpath = file.getPath().replaceAll("\\\\", "/");
 					if (modelpath.endsWith(".ecore") == true) {
 						br.close();
 						return modelpath;
@@ -232,6 +267,50 @@ public class ModelManager {
 		return "";
 	}
 	
+	public static String getMetaModelPath(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.substring(0, path.lastIndexOf("/")).replaceAll("\\\\", "/");
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = path + '/' + br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getDifferentRatioPath(String mutatorName) {
+		String path = getWorkspaceAbsolutePath() + '/'
+				+ WodelContext.getProject();
+		String ret = path.replaceAll("\\\\", "/") + "/data/config/" + mutatorName + ".different.txt";
+		return ret;
+	}
+
+	public static String getDifferentRatioPath(String mutatorName, IProject project) {
+		String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+		String ret = path + "/data/" + mutatorName + ".different.txt";
+		return ret;
+	}
+	
+	public static String getGeneratedMutantsPath(String mutatorName) {
+		String path = getWorkspaceAbsolutePath() + '/'
+				+ WodelContext.getProject();
+		String ret = path.replaceAll("\\\\", "/") + "/data/config/" + mutatorName + ".generated.txt";
+		return ret;
+	}
+	
+	public static String getGeneratedMutantsPath(String mutatorName, IProject project) {
+		String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
+		String ret = path + "/data/" + mutatorName + ".generated.txt";
+		return ret;
+	}
+
 	public static String getMetaModelPath(String project) {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/' + project;
@@ -254,6 +333,29 @@ public class ModelManager {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
 					+ WodelContext.getProject();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			br.readLine();
+			br.readLine();
+			String ext = null;
+			while ((ext = br.readLine()) != null) {
+				extensions.add(ext);
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return extensions;
+	}
+	
+	public static HashSet<String> getExtensions(Class<?> cls) {
+		HashSet<String> extensions = new HashSet<String>();
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.substring(0, path.lastIndexOf("/"));
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -300,10 +402,60 @@ public class ModelManager {
 		return modelpaths;
 	}
 
+	public static List<String> getModels(Class<?> cls) {
+		List<String> modelpaths = null;
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.substring(0, path.lastIndexOf("/"));
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String modelName = br.readLine();
+			File[] files = new File(path + '/' + modelName).listFiles();
+			modelpaths = new ArrayList<String>();
+			for (File file : files) {
+				if (file.isFile() == true) {
+					String modelpath = file.getPath();
+					if (modelpath.endsWith(".model") == true) {
+						modelpaths.add(modelpath);
+					}
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelpaths;
+	}
+
 	public static String getModelsFolder() {
 		try {
 			String path = getWorkspaceAbsolutePath() + '/'
 					+ WodelContext.getProject();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getModelsFolder(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -331,6 +483,25 @@ public class ModelManager {
 			br.close();
 			return getWorkspaceAbsolutePath() + '/' + WodelContext.getProject()
 					+ '/' + mutantName;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getOutputPath(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = path.substring(0, path.lastIndexOf("/"));
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			br.readLine();
+			String mutantName = br.readLine();
+			br.close();
+			return path	+ '/' + mutantName;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -374,22 +545,6 @@ public class ModelManager {
 	}
 	
 	/**
-	 * @param resourceSet
-	 *            ResourceSet
-	 * @param p
-	 *            Package
-	 * @return
-	 * @throws
-	 */
-	private static void addSubpackages(ResourceSet resourceSet, EPackage p) {
-		for (EPackage subpackage : p.getESubpackages()) {
-			if (!resourceSet.getPackageRegistry().containsKey(subpackage.getNsURI()))
-				resourceSet.getPackageRegistry().put(subpackage.getNsURI(), subpackage);
-			addSubpackages(resourceSet, subpackage);
-		}
-	}
-
-	/**
 	 * @param packages
 	 *            MetaModel
 	 * @param modelURI
@@ -406,7 +561,6 @@ public class ModelManager {
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
-			addSubpackages(resourceSet, p);
 		}
 		Resource model;
 		try {
@@ -429,6 +583,28 @@ public class ModelManager {
 	 * @return Resource Loaded Model
 	 * @throws
 	 */
+	public static List<Resource> loadModels(List<EPackage> packages,
+			String path) throws ModelNotFoundException {
+		List<Resource> models = new ArrayList<Resource>();
+		File filePath = new File(path);
+		for (File file : filePath.listFiles()) {
+			if (file.getName().endsWith(".model")) {
+				String modelURI = file.getPath();
+				Resource model = loadModel(packages, modelURI);
+				models.add(model);
+			}
+		}
+		return models;
+	}
+
+	/**
+	 * @param packages
+	 *            MetaModel
+	 * @param modelURI
+	 *            URI of the Model
+	 * @return Resource Loaded Model
+	 * @throws
+	 */
 	public static Resource loadMetaModelAsResource(List<EPackage> packages,
 			String modelURI) throws ModelNotFoundException {
 
@@ -439,7 +615,6 @@ public class ModelManager {
 			if (!resourceSet.getPackageRegistry().containsKey(p.getNsURI()))
 				resourceSet.getPackageRegistry().put(p.getNsURI(), p);
 			// nested packages
-			addSubpackages(resourceSet, p);
 		}
 		Resource model;
 		try {
@@ -467,22 +642,36 @@ public class ModelManager {
 		Resource rs = loadMetaModelAsResource(packages, metamodel);
 		
 		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(rs.getContents().get(0));
-		if (diagnostic.getSeverity() != Diagnostic.OK) {
-			return false;
+		if (diagnostic.getSeverity() == Diagnostic.OK || diagnostic.getSeverity() == Diagnostic.WARNING || diagnostic.getSeverity() == Diagnostic.ERROR) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public static boolean validateModel(String metamodel, String model)
 			throws MetaModelNotFoundException, ModelNotFoundException {
+		
 		List<EPackage> packages = loadMetaModel(metamodel);
 		Resource rs = loadModel(packages, model);
 		
-		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(rs.getContents().get(0));
-		if (diagnostic.getSeverity() != Diagnostic.OK) {
-			return false;
+		for (EObject eObject : rs.getContents()) {
+			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+			if (diagnostic.getSeverity() == Diagnostic.ERROR) {
+				return false;
+			}
 		}
 		return true;
+	}
+	
+	public static boolean validateModel(Resource model)
+			throws MetaModelNotFoundException, ModelNotFoundException {
+		for (EObject eObject : model.getContents()) {
+			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+			if (diagnostic.getSeverity() == Diagnostic.ERROR) {
+				return false;
+			}
+		}
+		return true;		
 	}
 
 	/**
@@ -556,6 +745,69 @@ public class ModelManager {
 		return objs;
 	}
 	
+	/**
+	 * @param refName
+	 *            Name of the reference to the target object
+	 * @param source
+	 *            Source object
+	 * @return Object Refered object
+	 */
+	public static Object getReferredObject(String refName, EObject source) {
+
+		for (EReference ref : source.eClass().getEAllReferences()) {
+			if (ref.getName().equals(refName)) {
+				//return ReferenceUtil.safeEGet(source, ref);
+				return source.eGet(ref);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param refNames
+	 *            Names of the references to the target object
+	 * @param sources
+	 *            Source candidate objects
+	 * @param targets
+	 *            Target referenced objects
+	 * @return ArrayList<EObject> Refered objects
+	 */
+	public static ArrayList<EObject> getReferredObjects(List<String> refNames, List<EObject> sources, List<EObject> targets) {
+
+		ArrayList<EObject> objs = new ArrayList<EObject>();
+		for (EObject src : sources) {
+			EObject refObject = src;
+			for (String refName : refNames) {
+				EObject currentObject = refObject;
+				try {
+					refObject = ModelManager.getReference(refName, currentObject);
+				} catch (ReferenceNonExistingException e) {
+					break;
+				}
+				if (refObject == null) {
+					break;
+				}
+			}
+			if (refObject != null) {
+				for (EObject tar : targets) {
+					if (EcoreUtil.equals(tar, refObject)) {
+						boolean found = false;
+						for (EObject obj : objs) {
+							if (EcoreUtil.equals(obj, src)) {
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							objs.add(src);
+						}
+					}
+				}
+			}
+		}
+		return objs;
+	}
+
 	/**
 	 * @param type
 	 *            Name of the type
@@ -754,11 +1006,14 @@ public class ModelManager {
 		for (EObject mmp : mmparents) {
 			parents.addAll(getObjectsOfType(((EClass) mmp).getName(), model));
 		}
+		if (parents.size() == 0) {
+			parents.add(getRoot(model));
+		}
 
 		return parents;
 
 	}
-	
+
 	/**
 	 * @param model
 	 *            Loaded Model
@@ -987,11 +1242,50 @@ public class ModelManager {
 	 *            Loaded Model
 	 * @return EObject
 	 */
+	public static EObject getObjectByPartialID(Resource model, String identification) {
+		ArrayList<EObject> objs = getAllObjects(model);
+
+		String partialID = identification.substring(identification.indexOf("@"), identification.indexOf("{"));
+		for (EObject obj : objs) {
+			String partialObjID = EcoreUtil.getIdentification(obj);
+			partialObjID = partialObjID.substring(partialObjID.indexOf("@"), partialObjID.indexOf("{"));
+			if (partialID.equals(partialObjID)) {
+				return obj;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
 	public static EObject getObjectByURI(Resource model, URI uri) {
 		ArrayList<EObject> objs = getAllObjects(model);
 
 		for (EObject obj : objs) {
 			if (EcoreUtil.getURI(obj).equals(uri)) {
+				return obj;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param model
+	 *            Loaded Model
+	 * @return EObject
+	 */
+	public static EObject getObjectByURIEnding(Resource model, URI uri) {
+		ArrayList<EObject> objs = getAllObjects(model);
+
+		String partialURI = uri.toString();
+		partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+		for (EObject obj : objs) {
+			String partialObjURI = EcoreUtil.getURI(obj).toString();
+			partialObjURI = partialObjURI.substring(partialObjURI.indexOf("#"), partialObjURI.length());
+			if (partialURI.equals(partialObjURI)) {
 				return obj;
 			}
 		}
@@ -1059,6 +1353,25 @@ public class ModelManager {
 	 *            Name of the attribute
 	 * @param object
 	 *            Object one wants to explore
+	 * @return List<String> Values of the attribute named by -att-
+	 */
+	public static List<String> getListStringAttribute(String att, EObject object) {
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+			if (sf.getName().equals(att)) {
+				return (List<String>) object.eGet(sf, true);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
 	 * @return String Value of the attribute named by -att-
 	 */
 	public static String getStringAttribute(String att, EObject object) {
@@ -1090,6 +1403,28 @@ public class ModelManager {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @param att
+	 *            Name of the attribute
+	 * @param object
+	 *            Object one wants to explore
+	 * @throws WrongAttributeTypeException
+	 */
+	public static boolean hasAttribute(String att, EObject object) {
+		if (object != null) {
+			EClass tipo = object.eClass();
+
+			for (EStructuralFeature sf : tipo.getEAllAttributes()) {
+				if (sf != null) {
+					if (sf.getName().equals(att)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -1136,7 +1471,7 @@ public class ModelManager {
 						EList<EEnumLiteral> literals = ((EEnum) sf.getEType()).getELiterals();
 						for (EEnumLiteral lit : literals) {
 							if (lit.getLiteral().equals((String) value)) {
-								object.eSet(sf, lit);
+								object.eSet(sf, lit.getInstance());
 								break;
 							}
 						}
@@ -1168,6 +1503,24 @@ public class ModelManager {
 			if (sf != null) {
 				if (sf.getName().equals(ref)) {
 					return (EObject) object.eGet(sf);
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @throws ReferenceNonExistingException
+	 */
+	public static Object getReferenced(String ref, EObject object) throws
+		ReferenceNonExistingException {
+
+		EClass tipo = object.eClass();
+
+		for (EStructuralFeature sf : tipo.getEAllReferences()) {
+			if (sf != null) {
+				if (sf.getName().equals(ref)) {
+					return object.eGet(sf);
 				}
 			}
 		}
@@ -1207,11 +1560,17 @@ public class ModelManager {
 						for (EStructuralFeature sfTar : tarObj.eClass()
 								.getEAllReferences()) {
 							if (sfTar != null) {
-								if (sfTar.getName().equals(ref) && sf.isChangeable()) {
-									object.eSet(sf, tarObj.eGet(sfTar));
-									b = true;
-									break;
+								Object ob = tarObj.eGet(sfTar);
+								if (ob instanceof EObject) {
+									EObject value = (EObject) ob;
+									if (EcoreUtil.getURI(value.eClass()).equals(EcoreUtil.getURI(sf.getEType())) && sf.isChangeable()) {
+										object.eSet(sf, value);
+										b = true;
+										break;
+									}
 								}
+//								if (sfTar.getName().equals(ref) && sf.isChangeable()) {
+//								}
 							}
 						}
 						if (b == false) {
@@ -1488,14 +1847,13 @@ public class ModelManager {
 	 *            Object one wants to explore
 	 * @return Integer Value of the attribute named by -att-
 	 */
-	public static EEnumLiteral getEEnumAttribute(String att, EObject object, EEnum eenum) {
+	public static Object getEEnumAttribute(String att, EObject object) {
 
 		EClass tipo = object.eClass();
 
 		for (EStructuralFeature sf : tipo.getEAllAttributes()) {
 			if (sf.getName().equals(att)) {
-				int value = (int) object.eGet(sf, true);
-				return eenum.getEEnumLiteral(value);
+				return object.eGet(sf, true);
 			}
 		}
 		return null;
@@ -1697,12 +2055,16 @@ public class ModelManager {
 
 		for (EReference r : refs) {
 			if (r.getUpperBound() == 1) {
-				if (source.eGet(r, true).equals(target))
-					return r;
-			} else {
-				for (EObject aux : (List<EObject>) source.eGet(r, true)) {
-					if (aux != null && target.equals(aux)) {
+				if (source.eGet(r, true) != null) {
+					if (source.eGet(r, true).equals(target))
 						return r;
+				}
+			} else {
+				if (source.eGet(r, true) != null) {
+					for (EObject aux : (List<EObject>) source.eGet(r, true)) {
+						if (aux != null && target.equals(aux)) {
+							return r;
+						}
 					}
 				}
 			}
@@ -1861,7 +2223,25 @@ public class ModelManager {
 		}
 		return resource;
 	}
+	
 
+	/**
+	 * @param model
+	 *            Model one wants to clone
+	 * @param outputURI
+	 *            URI of the new created Model
+	 */
+	public static Resource cloneModel(Resource model, String outputURI) {
+		ResourceSet rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put("*", new XMLResourceFactoryImpl());
+		URI uri = URI.createFileURI(outputURI);
+		Resource resource = rs.createResource(uri);
+		List<EObject> clonedModel = EMFCopier.copy(model);
+		resource.getContents().addAll(clonedModel);
+		return resource;
+	}
+	
 	/**
 	 * @param l
 	 *            List in order to get the size and index
@@ -1944,8 +2324,7 @@ public class ModelManager {
 	
 
 	public static boolean compareModels(Resource model1, Resource model2) {
-		IComparisonScope scope = new DefaultComparisonScope(model1, model2,
-				null);
+		IComparisonScope scope = new DefaultComparisonScope(model1, model2, null);
 		Comparison comparison = EMFCompare.builder().build().compare(scope);
 
 		List<Diff> differences = comparison.getDifferences();
@@ -2019,20 +2398,30 @@ public class ModelManager {
 	 * It returns the list of classes defined in a meta-model.
 	 */
 	public static ArrayList<EClass> getEClasses(List<EPackage> packages) {
+		return getEClasses(packages, new ArrayList<EPackage>());
+	}
+
+	/**
+	 * It returns the list of classes defined in a meta-model.
+	 */
+	private static ArrayList<EClass> getEClasses(List<EPackage> packages, List<EPackage> processed) {
 		ArrayList<EClass> classes = new ArrayList<EClass>();
 		for (EPackage pck : packages) {
-			for (EClassifier cl : pck.getEClassifiers()) {
-				if (cl instanceof EClass) {
-					if (!classes.contains((EClass) cl)) {
-						classes.add((EClass) cl);
+			if (!processed.contains(pck)) {
+				for (EClassifier cl : pck.getEClassifiers()) {
+					if (cl instanceof EClass) {
+						if (!classes.contains((EClass) cl)) {
+							classes.add((EClass) cl);
+						}
 					}
 				}
-			}
-			if (pck.getESubpackages() != null) {
-				List<EClass> subpackageClasses = getEClasses(pck.getESubpackages());
-				for (EClass cl : subpackageClasses) {
-					if (!classes.contains(cl)) {
-						classes.add(cl);
+				processed.add(pck);
+				if (pck.getESubpackages() != null) {
+					List<EClass> subpackageClasses = getEClasses(pck.getESubpackages(), processed);
+					for (EClass cl : subpackageClasses) {
+						if (!classes.contains(cl)) {
+							classes.add(cl);
+						}
 					}
 				}
 			}
@@ -2047,8 +2436,9 @@ public class ModelManager {
 		ArrayList<EClass> subclasses = new ArrayList<EClass>();
 		List<EClass> classes = ModelManager.getEClasses(packages);
 		for (EClass cl : classes) {
-			if (cl.getEAllSuperTypes().contains(eClass)) {
-				if (!subclasses.contains(cl)) {
+			List<EClass> superTypes = cl.getEAllSuperTypes();
+			for (EClass superType : superTypes) {
+				if (EcoreUtil.getURI(superType).equals(EcoreUtil.getURI(eClass))) {
 					subclasses.add(cl);
 				}
 			}
@@ -2237,5 +2627,34 @@ public class ModelManager {
 		
 		return sibling;
 	}
-
+	
+	/**
+	 * Removes an eobject list from an eobject list by its URI ending
+	 */
+	public static void removeEObjects(List<EObject> target, List<EObject> objectsToRemove) {
+		List<EObject> tmpList = new ArrayList<EObject>();
+		tmpList.addAll(target);
+		
+		for (EObject obj : objectsToRemove) {
+			String partialObjURI = EcoreUtil.getURI(obj).toString();
+			partialObjURI = partialObjURI.substring(partialObjURI.indexOf("#"), partialObjURI.length());
+			for (EObject tar : target) {
+				String partialURI = EcoreUtil.getURI(tar).toString();
+				partialURI = partialURI.substring(partialURI.indexOf("#"), partialURI.length());
+				if (partialURI.equals(partialObjURI)) {
+					tmpList.remove(tar);
+					break;
+				}	
+			}
+		}
+		target.clear();
+		target.addAll(tmpList);
+	}
+	
+	public static boolean isBigInteger (String type) { return type.equals("EBigInteger"); }	
+	public static boolean isInteger  (String type)   { return type.equals("EInt") || type.equals("Integer") || type.equals("IntegerObject") || type.endsWith("Integer"); }	
+	public static boolean isString   (String type)   { return type.equals("EString") || type.equals("String") || type.endsWith("String"); }	
+	public static boolean isBoolean  (String type)   { return type.equals("EBoolean") || type.equals("boolean") || type.equals("EBooleanObject") || type.equals("Boolean") || type.endsWith("Boolean"); }
+	public static boolean isFloating (String type)   { return type.equals("EFloat")  || type.equals("float")  || type.equals("EFloatObject")  || type.equals("Float")  || type.endsWith("Float") ||
+	                                                          type.equals("EDouble") || type.equals("double") || type.equals("EDoubleObject") || type.equals("Double") || type.endsWith("Double"); }
 }

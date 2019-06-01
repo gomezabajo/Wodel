@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.ui,
  wodel.models,
  wodeledu.dsls.mutatext,
  wodeledu.dsls.modeltext,
- org.eclipse.xtext.xtext.ui
+ org.eclipse.xtext.ui;bundle-version="2.12.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.resources,

@@ -24,10 +24,12 @@ Library returns Library:
 
 Program returns Program:
 	{Program}
-	'generate' (num=EInt)? 'mutants'
+	'generate' (num=EInt | exhaustive ?= 'exhaustive')? 'mutants'
 	'in' output=EString	
 	'from' source=Source 
 	'metamodel' metamodel=EString
+	('with' 'resources' 'from' '{' resources+=Resource '}' (',' '{' resources+=Resource '}')*)?
+	('description' description=EString)?
 	;
 
 Source returns Source:
@@ -35,8 +37,13 @@ Source returns Source:
 	path=EString /*(multiple?='all')?*/
 ;
 
+Resource returns Resource:
+	{Resource}
+	name=ID '=' path=Source 'metamodel' '=' metamodel=EString
+;
+
 Block returns Block:
-	name=ID ('from' from+=[Block|ID] (',' from+=[Block|ID])*)? ('repeat' '=' repeat=Repeat)? '{' commands+=Mutator (commands+=Mutator)* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
+	name=ID (description=EString)? ('from' from+=[Block|ID] (',' from+=[Block|ID])*)? ('repeat' '=' repeat=Repeat)? '{' commands+=Mutator (commands+=Mutator)* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
 ;
 
 Constraint returns Constraint:
@@ -44,7 +51,8 @@ Constraint returns Constraint:
 ;
 
 // Expressions
-InvariantCS returns miniocl::InvariantCS:	exp=ExpCS ';'
+InvariantCS returns miniocl::InvariantCS:
+	exp=ExpCS ';'
 
 ;
 
@@ -176,7 +184,7 @@ Mutator returns Mutator:
 	 | CreateReferenceMutator | RemoveObjectMutator | RemoveReferenceMutator | ModifyInformationMutator | CloneObjectMutator | RetypeObjectMutator;
 
 ObSelectionStrategy returns ObSelectionStrategy:
-	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection;
+	RandomSelection | SpecificSelection | CompleteSelection | OtherSelection | TypedSelection;
 	
 RandomSelection returns RandomSelection:
 	RandomTypeSelection;
@@ -227,7 +235,7 @@ enum LogicOperator returns LogicOperator:
 ;
 
 enum Operator returns Operator:
-	equals = '=' | different = '<>' | in = 'in'
+	equals = '=' | different = '<>' | in = 'in' | is = 'is' | not = 'not' | gte = '>=' | lte = '<=' | gt = '>' | lt = '<'
 ;
 
 enum ArithmeticOperator returns ArithmeticOperator:
@@ -255,9 +263,9 @@ AttributeEvaluation returns AttributeEvaluation:
 
 ReferenceEvaluation returns ReferenceEvaluation:
 	{ReferenceEvaluation}
-	(name=[ecore::EReference|ID] | 'self') ('->' refName=[ecore::EReference|ID])?
-	operator=Operator
-	(value=ObSelectionStrategy | 'null')
+	(name=[ecore::EReference|ID] | 'self' | container ?= 'container')
+	(('.' attName=[ecore::EAttribute|ID] attValue=AttributeEvaluationType) 
+		| ('->' refName=[ecore::EReference|ID] ('->' refRefName=[ecore::EReference|ID])?)? operator=Operator (value=ObSelectionStrategy | 'null' ))
 ;
 
 Evaluation returns Evaluation:
@@ -363,7 +371,7 @@ CompositeMutator returns CompositeMutator:
 	;
 
 CloneObjectMutator returns CloneObjectMutator:	
-	(name=ID '=')? 'clone' (contents?='contents')? object=ObSelectionStrategy 	 
+	(name=ID '=')? (contents?='deep')? 'clone' object=ObSelectionStrategy 	 
 	('in' container=ObSelectionStrategy)?
 	('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ( "," (attributes+=AttributeSet | references+=ReferenceSet))* '}' )?
 	('[' (min=EInt '..')? max=MaxCardinality ']')?
@@ -437,31 +445,38 @@ ReferenceAtt returns ReferenceAtt:
 
 RandomTypeSelection returns RandomTypeSelection:
 	{RandomTypeSelection}
-	'one' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID])?
+	'one' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
+	('from' resource=ID 'resources')?
 	('where' '{' expression=Expression '}')?
 	;
 
 SpecificObjectSelection returns SpecificObjectSelection:
 	{SpecificObjectSelection}
-	objSel=[ObjectEmitter|ID] ('->' refType=[ecore::EReference|ID])?
+	objSel=[ObjectEmitter|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
 	('where' '{' expression=Expression '}')?
 	;
 	
 SpecificClosureSelection returns SpecificClosureSelection:
 	{SpecificClosureSelection}
-	'closure' '(' objSel=[ObjectEmitter|ID] ('->' refType=[ecore::EReference|ID])? ')'
+	'closure' '(' objSel=[ObjectEmitter|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)? ')'
 	('where' '{' expression=Expression '}')?
 	;
 
 CompleteTypeSelection returns CompleteTypeSelection:
 	{CompleteTypeSelection}
-	'all' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID])?
+	'all' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
 	('where' '{' expression=Expression '}')?
 ;
 
 OtherTypeSelection returns OtherTypeSelection:
 	{OtherTypeSelection}
-	'other' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID])?
+	'other' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
+	('where' '{' expression=Expression '}')?
+;
+
+TypedSelection returns TypedSelection:
+	{TypedSelection}
+	'typed' type=[ecore::EClass|ID]
 	('where' '{' expression=Expression '}')?
 ;
 
@@ -481,7 +496,7 @@ SpecificBooleanType returns SpecificBooleanType:
 	value=EBoolean
 	;
 StringType returns StringType:
-	SpecificStringType | RandomStringType | UpperStringType | LowerStringType | CatStartStringType | CatEndStringType | ReplaceStringType
+	SpecificStringType | RandomStringType | UpperStringType | LowerStringType | CatStartStringType | CatEndStringType | ReplaceStringType | RandomStringNumberType
 	;
 
 RandomStringType returns RandomStringType :
@@ -571,6 +586,12 @@ RandomIntegerType returns RandomIntegerType:
 	{RandomIntegerType}
 	operator=Operator
 	'random-int' ('(' min=EInt ',' max=EInt ')')?
+;
+
+RandomStringNumberType returns RandomStringNumberType:
+	{RandomStringNumberType}
+	operator=Operator
+	'random-int-string' ('(' min=EInt ',' max=EInt ')')?
 ;
 
 RandomType returns RandomType:

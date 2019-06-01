@@ -10,10 +10,10 @@ package mutatext;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatext.Variable#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatext.MutatextPackage#getVariable()
  * @model

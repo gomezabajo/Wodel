@@ -10,10 +10,10 @@ package mutatext;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link mutatext.Constant#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see mutatext.MutatextPackage#getConstant()
  * @model

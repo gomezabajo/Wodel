@@ -2204,16 +2204,16 @@ public class UseGeneratorUtils {
 					if (atts.size() > 0) {
 						useText += "\tattributes\n";
 						for (EAttribute att : atts) {
-							if (att.getEType().getName().equals("EString")) {
+							if (att.getEType().getName().equals("EString") || att.getEType().getName().equals("EChar") || att.getEType().getName().equals("String")) {
 								useText += "\t\t" + encodeWord(att.getName()) + " : String\n";
 							}
-							if (att.getEType().getName().equals("EBoolean") || att.getEType().getName().equals("EBooleanObject")) {
+							if (att.getEType().getName().equals("EBoolean") || att.getEType().getName().equals("EBooleanObject") || att.getEType().getName().equals("Boolean")) {
 								useText += "\t\t" + encodeWord(att.getName()) + " : Boolean\n";
 							}
-							if (att.getEType().getName().equals("EInt") || att.getEType().getName().equals("EIntegerObject")) {
+							if (att.getEType().getName().equals("EInt") || att.getEType().getName().equals("EIntegerObject") || att.getEType().getName().equals("EBigInteger") || att.getEType().getName().equals("EBigIntegerObject") || att.getEType().getName().equals("Integer")) {
 								useText += "\t\t" + encodeWord(att.getName()) +  " : Integer\n";
 							}
-							if (att.getEType().getName().equals("EDouble") || att.getEType().getName().equals("EDoubleObject")) {
+							if (att.getEType().getName().equals("EDouble") || att.getEType().getName().equals("EDoubleObject") || att.getEType().getName().equals("EFloat") || att.getEType().getName().equals("EFloatObject") || att.getEType().getName().equals("Float") || att.getEType().getName().equals("Double")) {
 								useText += "\t\t" + encodeWord(att.getName()) + " : Real\n";
 							}
 							if (att.getEType() instanceof EEnum) {

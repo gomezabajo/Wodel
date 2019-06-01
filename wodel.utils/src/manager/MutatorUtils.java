@@ -5433,7 +5433,7 @@ public class MutatorUtils {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	protected boolean validation(Resource model) throws ModelNotFoundException {
+	protected boolean validation(String metamodel, String uri) throws ModelNotFoundException {
 		boolean isValid = true;
 		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "", null);
 		if (extensionName.equals("")) {
@@ -5442,24 +5442,15 @@ public class MutatorUtils {
 		if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
 					.getExtensionRegistry().getConfigurationElementsFor(
-							"wodel.validate.MutValidation");
+							"wodel.validation.MutValidation");
 
 			try {
-				IConfigurationElement appropriateExtension = null;
 				for (IConfigurationElement extension : extensions) {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
 					Object validation =  extensionClass.newInstance();
-					Method getName = extensionClass.getDeclaredMethod("getName");
-					String name = (String) getName.invoke(validation);
-					appropriateExtension = extension;
+					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{String.class, String.class});
+					isValid = (boolean) validate.invoke(validation, metamodel, uri);
 					break;
-				}
-				if (appropriateExtension != null) {
-					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-					Object validation =  extensionClass.newInstance();
-					Method getName = extensionClass.getDeclaredMethod("getName");
-					Method validate = extensionClass.getDeclaredMethod("isValid", new Class[]{Resource.class});
-					isValid = (boolean) validate.invoke(validation, model);
 				}
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
@@ -5473,13 +5464,13 @@ public class MutatorUtils {
 			} catch (InvalidRegistryObjectException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
@@ -8299,7 +8290,7 @@ public class MutatorUtils {
 		if (registeredPackages != null) {
 			ModelManager.registerMetaModel(registeredPackages);
 		}
-		boolean valid = validation(model);
+		boolean valid = validation(metamodel, seed.getURI().toFileString());
 		if (registeredPackages != null) {
 			List<EPackage> registered = new ArrayList<EPackage>();
 			registered.addAll(registeredPackages.values());
@@ -8594,7 +8585,7 @@ public class MutatorUtils {
 		if (registeredPackages != null) {
 			ModelManager.registerMetaModel(registeredPackages);
 		}
-		boolean valid = validation(model);
+		boolean valid = validation(metamodel, seed.getURI().toFileString());
 		if (registeredPackages != null) {
 			List<EPackage> registered = new ArrayList<EPackage>();
 			registered.addAll(registeredPackages.values());

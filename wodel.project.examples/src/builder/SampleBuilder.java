@@ -78,9 +78,9 @@ public class SampleBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	public static final String BUILDER_ID = "wodel.project.examples.sampleBuilder";
+	public static final String BUILDER_ID = "wodel.project.sampleBuilder";
 
-	private static final String MARKER_TYPE = "wodel.project.examples.xmlProblem";
+	private static final String MARKER_TYPE = "wodel.project.xmlProblem";
 
 	private SAXParserFactory parserFactory;
 

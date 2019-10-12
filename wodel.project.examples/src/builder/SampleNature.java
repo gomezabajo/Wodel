@@ -11,7 +11,7 @@ public class SampleNature implements IProjectNature {
 	/**
 	 * ID of this project nature
 	 */
-	public static final String NATURE_ID = "wodel.project.examples.sampleNature";
+	public static final String NATURE_ID = "wodel.project.sampleNature";
 
 	private IProject project;
 

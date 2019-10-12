@@ -145,6 +145,7 @@ public class AspleWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.apache.log4j;bundle-version=\"1.2.15\"");
 		requiredBundles.add("org.eclipse.ocl;bundle-version=\"3.4.2\"");
 		requiredBundles.add("org.eclipse.ocl.ecore;bundle-version=\"3.3.100\"");
+		requiredBundles.add("org.eclipse.core.resources");
 		requiredBundles.add("org.eclipse.emf.common");
 		requiredBundles.add("org.eclipse.core.runtime;bundle-version=\"3.10.0\"");
 		requiredBundles.add("org.eclipse.text");

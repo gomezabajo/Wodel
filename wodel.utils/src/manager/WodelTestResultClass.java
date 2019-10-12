@@ -148,10 +148,14 @@ public class WodelTestResultClass {
 				String[] testsText = data[3].split(";");
 				Map<String, Boolean> tests = new HashMap<String, Boolean>();
 				String[] test = testsText[0].split(":");
+				List<String> testNames = new ArrayList<String>();
+				List<Boolean> values = new ArrayList<Boolean>();
 				for (String t : test) {
 					String[] pair = t.split("=");
 					if (pair.length > 1) {
 						tests.put(pair[0], Boolean.parseBoolean(pair[1]));
+						testNames.add(pair[0]);
+						values.add(Boolean.parseBoolean(pair[1]));
 					}
 				}
 				String[] testsFailed = new String[testsText.length - 1];
@@ -172,8 +176,8 @@ public class WodelTestResultClass {
 					if (i < errorText.length) {
 						error = Boolean.parseBoolean(errorText[i].trim());
 					}
-					if (!(info.equals("") && message.equals(""))) {
-						WodelTestInfo testInfo = new WodelTestInfo(info, message);
+					if (!(info.equals("") && message.equals("")) && testNames.size() > i && values.size() > i) {
+						WodelTestInfo testInfo = new WodelTestInfo(testNames.get(i), values.get(i), info, message);
 						testInfo.setFailure(error);
 						testsInfo.add(testInfo);
 					}

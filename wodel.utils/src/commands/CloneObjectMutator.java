@@ -258,7 +258,7 @@ public class CloneObjectMutator extends Mutator {
 			this.result = newObj;
 		}
 		
-		complete(this.getMetaModel(), this.getModel());
+		//complete(this.getMetaModel(), this.getModel());
 		return newObj;
 	}
 

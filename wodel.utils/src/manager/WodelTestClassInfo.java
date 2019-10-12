@@ -13,8 +13,6 @@ public class WodelTestClassInfo {
 	
 	public String packagename;
 	public String path;
-	public int numExecutedTests;
-	public int numFailedTests;
 	public int numFailures;
 	public List<WodelTestResultInfo> tests;
 	public List<String> mutationText;
@@ -43,11 +41,10 @@ public class WodelTestClassInfo {
 					}
 				}
 				if (infoLine != null) {
-					String[] testsText = values[3].split(";");
+					String[] test = values[3].split(":");
 					if (info.tests == null) {
 						info.tests = new ArrayList<WodelTestResultInfo>();
 					}
-					String[] test = testsText[0].split(":");
 					int index = 6;
 					values = infoLine.split("[|]");
 					int value = 0;
@@ -60,8 +57,6 @@ public class WodelTestClassInfo {
 						}
 						break;
 					}
-					int numExecutedTests = value;
-					info.numExecutedTests += numExecutedTests > test.length ? numExecutedTests / test.length : 0;
 					value = 0;
 					while (index < values.length) {
 						try {
@@ -72,8 +67,6 @@ public class WodelTestClassInfo {
 						}
 						break;
 					}
-					int numFailedTests = value;
-					info.numFailedTests += numFailedTests > test.length ? numFailedTests / test.length : 0;
 					String[] messagesText = values[4].split(";");
 					String[] failureText = values[5].split(";");
 					int i = 0;
@@ -93,17 +86,16 @@ public class WodelTestClassInfo {
 							WodelTestResultInfo result = new WodelTestResultInfo();
 							result.name = pair[0];
 							result.value = Boolean.parseBoolean(pair[1]);
-							result.numExecutions = numExecutedTests > test.length ? numExecutedTests / test.length : 1;
-							info.numExecutedTests += numFailedTests > test.length ? 0 : result.numExecutions;
-							result.numFailed = numFailedTests > test.length ? numFailedTests / test.length : result.value ? 0 : 1;
-							info.numFailedTests += numFailedTests > test.length ? 0 : result.numFailed;
+							result.numExecutions = 1;
+							result.numFailed = result.value ? 1 : 0;
+							result.message = messagesText.length > i ? messagesText[i].trim() : "";
 							if (result.value == false) {
-								result.message = messagesText.length > i ? messagesText[i].trim() : "";
-								result.failure = failureText.length > i ? Boolean.parseBoolean(failureText[i++]) : false;
+								result.failure = failureText.length > i ? Boolean.parseBoolean(failureText[i]) : false;
 								if (result.failure == true) {
 									info.numFailures++;
 								}
 							}
+							i++;
 							info.tests.add(result);
 						}
 					}
@@ -115,6 +107,26 @@ public class WodelTestClassInfo {
 		}
 		info.mutationText = WodelTestUtils.getMutationTextList(wodelTest, projectName, info.packagename, info.path);
 		return info;
+	}
+	
+	public int getNumExecutedTests() 
+	{
+		int numExecutedTests = 0;
+		if (this.tests != null) {
+			numExecutedTests = this.tests.size();
+		}
+		return numExecutedTests;
+	}
+
+	public int getNumFailedTests() 
+	{
+		int numFailedTests = 0;
+		if (this.tests != null) {
+			for (WodelTestResultInfo test : this.tests) {
+				numFailedTests += test.value ? 1 : 0;
+			}
+		}
+		return numFailedTests;
 	}
 
 	public WodelTestClassInfo() {

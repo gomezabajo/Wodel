@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="anatlyzer.atl.editor.quickfix" name="anATLyzer QuickFix" schema="schema/anatlyzer.atl.editor.quickfix.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.quickassist" name="anATLyzer QuickAssist" schema="schema/anatlyzer.atl.editor.quickassist.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.problemexplanation" name="anATLyzer Explanations" schema="schema/anatlyzer.atl.editor.problemexplanation.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.additionalanalysis" name="Additional Analysis" schema="schema/anatlyzer.atl.editor.additionalanalysis.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.witnessfinder" name="Witness finder" schema="schema/anatlyzer.atl.editor.witnessfinder.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.views.additionalactions" name="Additional actions" schema="schema/anatlyzer.atl.editor.views.additionalactions.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.explanation_fixdialog" name="anATLyzer Fix for the Explanation Dialog " schema="schema/anatlyzer.atl.editor.explanation_fixdialog.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.witnessvisualizer" name="anATLyzer witness visualizer" schema="schema/anatlyzer.atl.editor.witnessvisualizer.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.simplifier" name="anatlyzer.atl.editor.simplifier" schema="schema/anatlyzer.atl.editor.simplifier.exsd"/>
+
+   <extension
+         point="anatlyzer.atl.editor.witnessfinder">
+      <finder
+            finder="anatlyzer.atl.editor.witness.EclipseUseWitnessFinder">
+      </finder>
+   </extension>
+   
+   <extension
+         id="anatlyzerATLBuilder"
+         name="anATLyzer Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="anatlyzer.atl.editor.builder.AnATLyzerBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="anatlyzerATLNature"
+         name="anATLyzer Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="anatlyzer.atl.editor.builder.AnATLyzerNature">
+         </run>
+      </runtime>
+      <builder
+            id="anatlyzer.atl.editor.anatlyzerATLBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="anatlyzer.atl.editor.contribution1">
+         <action
+               label="Add/Remove anATLyzer Nature"
+				icon="icons/analysis_16x16.png"
+               class="anatlyzer.atl.editor.builder.ToggleNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="anatlyzer.atl.editor.addRemoveNatureAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="anatlyzer.atl.editor.anatlyzerATLProblem"
+         name="ATL Analysis Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="false">
+      </persistent>
+   </extension>
+
+  <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="anatlyzer.atl.editor.problems.MarkerResolutionGenerator"
+            markerType="anatlyzer.atl.editor.anatlyzerATLProblem">
+      </markerResolutionGenerator>
+   </extension>
+   
+     <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="anatlyzer.atl.editor.AtlEditorExt"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="atl"
+            id="anatlyzer.atl.editor.AtlEditorExt"
+            icon="icons/atl_file.gif"
+            name="anATLyzer ATL Editor">
+            <!--
+            id="org.eclipse.m2m.atl.adt.editor.AtlEditor"
+            -->
+      </editor>
+   </extension>
+
+    <extension
+          point="org.eclipse.ui.editorActions">
+       <editorContribution
+             id="anatlyzer.ide.menuExtension"
+             targetID="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+
+             <menu
+                id="AnATLyzerEditorMenu"
+                label="AnATLyzer">
+             <groupMarker
+                   name="AnATLyzerGroup">
+             </groupMarker>
+          </menu>
+
+<!--	
+          <action
+                class="anatlyzer.ui.actions.CheckRuleConflicts"
+                definitionId="anatlyzer.ui.commands.CheckRuleConflicts"
+                id="anatlyzer.ui.actions.CheckRuleConflicts"
+                label="Check rule conflicts"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+
+          <action
+                class="anatlyzer.ui.actions.DetectedUnconnectedElements"
+                definitionId="anatlyzer.ui.commands.DetectedUnconnectedElements"
+                id="anatlyzer.ui.actions.DetectedUnconnectedElements"
+                label="Detect unconnected elements"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+
+          <action
+                class="anatlyzer.ui.actions.CleanAllMarkers"
+                definitionId="anatlyzer.ui.commands.CleanAllMarkers"
+                id="anatlyzer.ui.actions.CleanAllMarkers"
+                label="Clean all markers"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+-->         
+		</editorContribution>
+
+   </extension>
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.CheckRuleConflicts"
+             name="Anatlyzer - Check rule conflicts"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.DetectedUnconnectedElements"
+             name="Anatlyzer - Detect unconnected elements"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.CleanAllMarkers"
+             name="Anatlyzer - Clean all markers"/>
+	</extension>
+	
+	
+ <extension
+       point="org.eclipse.ui.views">
+    <category
+          id="anatlyzer.view.category"
+          name="AnATLyzer">
+    </category>
+    <view
+          category="anatlyzer.view.category"
+          class="anatlyzer.atl.editor.views.AnalysisView"
+          icon="icons/analysis_16x16.png"
+          id="anatlyzer.atl.editor.views.AnalysisView"
+          name="Analysis View">
+    </view>
+ </extension>
+ 
+ <!--
+ 	<extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+Shift+A"
+			commandId="uk.co.example.actions.togglecomment"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="uk.co.example.ampleEditorScope"/>
+	</extension>
+ -->
+ 
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="org.eclipse.jdt.ui.JavaPerspective">
+       <view
+             id="anatlyzer.atl.editor.views.AnalysisView"
+             ratio="0.5"
+             relationship="right"
+             relative="org.eclipse.ui.views.ProblemView">
+       </view>
+    </perspectiveExtension>
+ </extension>
+ <extension
+       point="org.eclipse.help.contexts">
+    <contexts
+          file="contexts.xml">
+    </contexts>
+ </extension>
+ 
+ 
+ 
+    <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="anatlyzer.ui.contribution.showConfigurationDialog">
+         <menu
+               label="AnATLyzer"
+               path="additions"
+               id="anatlyzer.menu">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Configure anATLyzer"
+               class="anatlyzer.ui.configuration.ShowConfigurationDialogAction"
+               menubarPath="anatlyzer.menu/group1"
+               enablesFor="1"
+               id="anatlyzer.ui.configuration.ShowConfigurationDialogAction">
+         </action>
+      </objectContribution>
+   </extension>
+ 
+
+	<!-- Definition of "anATLyzer" menu in the ATL text editor -->
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+      	locationURI="popup:anatlyzer.atl.editor.AtlEditorExt.EditorContext?after=additions">
+      <!--
+      		locationURI="popup:org.eclipse.m2m.atl.adt.editor.AtlEditor.EditorContext?after=additions">
+       -->
+         <!--
+            locationURI="popup:#TextEditorContext?after=additions">
+         -->
+         <menu
+               id="anatlyzer.atl.editor.popup"
+               label="AnATLyzer"
+               mnemonic="A">
+         </menu>	
+      </menuContribution>
+   </extension>
+
+   <!-- Definition of the createAbstract syntax command and menu option -->   
+   <extension
+         point="org.eclipse.ui.menus">
+   
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.createAbstractSyntax"
+                  id="anatlyzer.commands.createAbstractSyntax.menu"
+                  mnemonic="S">
+            </command>
+      </menuContribution>
+      
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.createTargetConstraintChecker"
+                  id="anatlyzer.commands.createTargetConstraintChecker.menu"
+                  mnemonic="C">
+            </command>
+      </menuContribution>
+
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.sliceMetamodels"
+                  id="anatlyzer.commands.sliceTransformationMetamodels.menu"
+                  mnemonic="S">
+            </command>
+      </menuContribution>
+
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.showTransformationOutline"
+                  id="anatlyzer.commands.showTransformationOutline.menu"
+                  mnemonic="O">
+            </command>
+      </menuContribution>
+      
+   </extension>
+
+    <extension
+          point="org.eclipse.ui.contexts">
+       <context
+             id="anatlyzer.atl.editor"
+             name="AnATLyzer/ATL editing context"
+             parentId="org.eclipse.ui.textEditorScope">
+       </context>
+    </extension>      
+      
+   <extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+O"
+			commandId="anatlyzer.commands.showTransformationOutline"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
+			
+	</extension>
+
+   <extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+B"
+			commandId="anatlyzer.commands.showBindingResolutionOutline"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
+	</extension>
+     
+   <extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+Alt+R"
+			commandId="anatlyzer.commands.runAnalyser"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
+	</extension>
+
+   <extension
+         point="org.eclipse.ui.menus">
+      <!-- <menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=additions">  -->
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+		 <!-- Main popup menu for files -->
+         <menu
+               label="AnATLyzer"
+               mnemonic="M"
+               id="anatlyzer.popup.menu">
+         </menu>
+      </menuContribution>
+   </extension>
+   
+   
+   <extension point="org.eclipse.ui.commands">
+      <category
+            id="anatlyzer.commands"
+            name="AnATLyzer">
+      </category>
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.createAbstractSyntax"
+            name="Serialize abstract syntax">
+      </command>
+
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.createTargetConstraintChecker"
+            name="Generate target constraint checker">
+      </command>
+
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.sliceMetamodels"
+            name="Slice transformation meta-models">
+      </command>
+
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.showTransformationOutline"
+            name="Show transformation outline">
+      </command>
+
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.showBindingResolutionOutline"
+            name="Show binding resolution outline">
+      </command>
+
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.runAnalyser"
+            name="Run AnATLyzer">
+      </command>
+   </extension>
+     
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="anatlyzer.atl.commands.CreateAbstractSyntaxHandler"
+            commandId="anatlyzer.commands.createAbstractSyntax">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.CreateTargetConstraintCheckerHandler"
+            commandId="anatlyzer.commands.createTargetConstraintChecker">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.SliceTransformationMetmodelsHandler"
+            commandId="anatlyzer.commands.sliceMetamodels">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.ShowTransformationOutline"
+            commandId="anatlyzer.commands.showTransformationOutline">
+      </handler>
+      
+      <handler
+            class="anatlyzer.atl.commands.ShowBindingResolutionOutline"
+            commandId="anatlyzer.commands.showBindingResolutionOutline">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.RunAnalyser"
+            commandId="anatlyzer.commands.runAnalyser">
+      </handler>
+      
+   </extension>
+
+
+
+
+   <!-- Definition of the create HOT piece command and menu option -->   
+   <extension
+         point="org.eclipse.ui.menus">
+   
+         <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.createATLHOTPiece"
+                  id="anatlyzer.commands.createATLHOTPiece.menu"
+                  mnemonic="H">
+            </command>
+      </menuContribution>
+   </extension>
+   
+   <!-- REMOVED UNTIL IT IS COMPLETELY IMPLEMENTED
+   <extension point="org.eclipse.ui.commands">
+      <category
+            id="anatlyzer.commands"
+            name="AnATLyzer">
+      </category>
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.createATLHOTPiece"
+            name="Generate piece of ATL HOT">
+      </command>
+   </extension>
+     
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="anatlyzer.atl.commands.CreateATLHOTPiece"
+            commandId="anatlyzer.commands.createATLHOTPiece">
+      </handler>
+   </extension>
+   -->
+   
+   <extension
+         point="anatlyzer.atl.editor.views.additionalactions">
+      <viewaction
+            action="anatlyzer.atl.explanations.ShowExplanationDialog">
+      </viewaction>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.witnessvisualizer">
+      <visualizer
+            format="plantuml"
+            visualizer="anatlyzer.atl.witness.PlantUMLWitnessVisualizer">
+      </visualizer>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="anatlyzer.ui.preferences.AnATLyzerPreferencesPage"
+            id="anatlyzer.atl.editor.preferencePage"
+            name="AnATLyzer">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.preferences.preferences">
+      <initializer
+            class="anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer">
+      </initializer>
+   </extension>
+
+	<!-- Templates -->
+ <extension
+       point="org.eclipse.ui.editors.templates">
+    <contextTypeRegistry
+          id="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+    </contextTypeRegistry>
+    <include
+          file="templates/structure.xml"
+          translations="templates/structure.properties">
+    </include>
+ </extension>
+
+
+</plugin>
+	

@@ -639,9 +639,10 @@ public class WodelTestUtils {
 									mutantName += "/";
 								}
 								if (!packagename.equals("default")) {
-									mutantName += packagename.replaceAll("\\.", "/") + "/";
+									mutantName += "src/" + packagename.replaceAll("\\.", "/") + "/";
 								}
 								String infoPath = info.path.substring(0, info.path.lastIndexOf("/") + 1);
+								mutantName = mutantName.replaceAll("\\\\", "/");
 								if (infoPath.equals(mutantName)) {
 									mutant.setName(mutantName + testClass.classname + ".java");
 									mutant.setMutation(info.mutationText);

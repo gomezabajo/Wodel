@@ -565,7 +565,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 					    	List<WodelTestClass> values = packageClasses.get(packagename);
 					    	for (WodelTestClass value : values) {
 					    		for (WodelTestClassInfo valueInfo : value.info) {
-					    			if (valueInfo.numFailedTests == 0) {
+					    			if (valueInfo.getNumFailedTests() == 0) {
 					    				if (!liveMutantPaths.contains(valueInfo.path)) {
 					    					liveMutantPaths.add(valueInfo.path);
 					    				}

@@ -5,6 +5,8 @@ package wodel.dsls.generator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import wodel.dsls.WodelUtils;
@@ -79,6 +82,67 @@ public class WodelUseGenerator extends AbstractGenerator {
   
   private int maxAssociationsCardinality;
   
+  public List<String> getMutators(final File[] files) {
+    List<String> mutators = new ArrayList<String>();
+    int i = 0;
+    while (((!Objects.equal(files, null)) && (i < ((List<File>)Conversions.doWrapArray(files)).size()))) {
+      {
+        File file = files[i];
+        boolean _isFile = file.isFile();
+        boolean _equals = (_isFile == true);
+        if (_equals) {
+          boolean _endsWith = file.getName().endsWith(".mutator");
+          if (_endsWith) {
+            String mutator = file.getName().replaceAll(".mutator", "");
+            boolean _contains = mutators.contains(mutator);
+            boolean _not = (!_contains);
+            if (_not) {
+              mutators.add(mutator);
+            }
+          }
+        } else {
+          List<String> nextMutators = this.getMutators(file.listFiles());
+          for (final String nextMutator : nextMutators) {
+            boolean _contains_1 = mutators.contains(nextMutator);
+            boolean _not_1 = (!_contains_1);
+            if (_not_1) {
+              mutators.add(nextMutator);
+            }
+          }
+        }
+        i++;
+      }
+    }
+    return mutators;
+  }
+  
+  public String getMutatorPath(final File[] files) {
+    String mutatorPath = null;
+    int i = 0;
+    while (((Objects.equal(mutatorPath, null) && (!Objects.equal(files, null))) && (i < ((List<File>)Conversions.doWrapArray(files)).size()))) {
+      {
+        File file = files[i];
+        boolean _isFile = file.isFile();
+        boolean _equals = (_isFile == true);
+        if (_equals) {
+          boolean _equals_1 = file.getName().equals(this.fileName);
+          if (_equals_1) {
+            String mutatorFolderAndFile = file.getPath().substring(file.getPath().indexOf(WodelContext.getProject())).replace("\\", "/");
+            String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
+            String _plus = ("file:/" + _workspaceAbsolutePath);
+            String _plus_1 = (_plus + "/");
+            String _plus_2 = (_plus_1 + mutatorFolderAndFile);
+            mutatorPath = _plus_2;
+          }
+        } else {
+          mutatorPath = this.getMutatorPath(file.listFiles());
+        }
+        i++;
+      }
+    }
+    return mutatorPath;
+  }
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     WodelContext.setProject(null);
@@ -88,6 +152,7 @@ public class WodelUseGenerator extends AbstractGenerator {
     String _project = WodelContext.getProject();
     String _plus_1 = (_plus + _project);
     this.path = _plus_1;
+    MutatorEnvironment mutatorEnvironment = null;
     Iterable<MutatorEnvironment> _filter = Iterables.<MutatorEnvironment>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorEnvironment.class);
     for (final MutatorEnvironment e : _filter) {
       {
@@ -105,6 +170,7 @@ public class WodelUseGenerator extends AbstractGenerator {
         this.propertiesName = this.fileName.replaceAll(".java", ".properties");
         fsa.generateFile(this.useName, this.removeComments(this.use(e, resource), "use"));
         fsa.generateFile(this.propertiesName, this.removeComments(this.properties(e), "properties"));
+        mutatorEnvironment = e;
       }
     }
   }

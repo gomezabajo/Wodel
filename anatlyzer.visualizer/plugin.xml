@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="anatlyzer.atl.editor.views.additionalactions">
+      <viewaction
+            action="anatlyzer.visualizer.actions.VisualizeElement">
+      </viewaction>
+      <viewaction
+            action="anatlyzer.visualizer.actions.GraphvizPathCondition">
+      </viewaction>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="anatlyzer.view.category"
+            name="AnATLyzer">
+      </category>
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.visualizer.views.ElementConnectionsView"
+            icon="icons/visualize.png"
+            id="anatlyzer.visualizer.views.ElementConnectionsView"
+            name="Elements Connections View">
+      </view>
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.visualizer.views.BindingResolutionInfoView"
+            icon="icons/visualize.png"
+            id="anatlyzer.visualizer.views.BindingResolutionInfoView"
+            name="Problematic Binding View">
+      </view>
+            <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.visualizer.views.ResolveBindingView"
+            icon="icons/visualize.png"
+            id="anatlyzer.visualizer.views.ResolveBindingView"
+            name="Rule relationships">
+      </view>
+      
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="anatlyzer.atl.quickfix.impact">
+      <impact
+            implementation="anatlyzer.visualizer.quickfix.QuickfixImpactVisualizer"
+            name="Visualization">
+      </impact>
+   </extension>
+
+   <extension
+         id="anatlyzer.visualizer.visualizeBinding"
+         name="visualizeBinding"
+         point="anatlyzer.atl.editor.quickassist">
+      <quickassist
+            apply="anatlyzer.visualizer.quickassist.VisualizeBinding">
+      </quickassist>
+      <quickassist
+            apply="anatlyzer.visualizer.quickassist.VisualizeRuleRelationships">
+      </quickassist>
+   </extension>
+
+   <extension
+         id="anatlyzer.visualizer.visualizeBindindInvalidAssignmentError"
+         name="visualizeBindingInvalidAssignmentError"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.visualizer.quickfix.VisualizeBindindInvalidAssignmentErrorQuickfix">
+      </quickfix>
+   </extension>
+   
+      <extension
+         id="anatlyzer.visualizer.quickfix.VisualizeUnresolvedBindingErrorQuickfix"
+         name="visualizeBindingPossiblyUnresolvedError"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.visualizer.quickfix.VisualizeUnresolvedBindingErrorQuickfix">
+      </quickfix>
+   </extension>
+
+</plugin>

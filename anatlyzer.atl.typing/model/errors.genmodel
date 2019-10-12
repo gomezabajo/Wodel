@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/anatlyzer.atl.typing/src-gen" modelPluginID="anatlyzer.atl.typing"
+    modelName="Errors" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    usedGenPackages="types.genmodel#//types" operationReflection="true" importOrganizing="true">
+  <foreignModel>errors.ecore</foreignModel>
+  <genPackages prefix="AnalysisResult" basePackage="anatlyzer.atl" disposableProviderFactory="true"
+      ecorePackage="errors.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//ProblemStatus">
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/STATICALLY_CONFIRMED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/INITIALLY_DISCARDED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/WITNESS_REQUIRED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED_SPECULATIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_DISCARDED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_DISCARDED_DUE_TO_METAMODEL"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/USE_TIME_OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/USE_INTERNAL_ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/IMPL_INTERNAL_ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/CANNOT_DETERMINE"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/NOT_SUPPORTED_BY_USE"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/PROBLEMS_IN_PATH"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//SeverityKind">
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//SeverityKind/ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//SeverityKind/WARNING"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//SeverityKind/STYLE_SUGGESTION"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//SeverityKind/PERFORMANCE_SUGGESTION"/>
+    </genEnums>
+    <genClasses ecoreClass="errors.ecore#//AnalysisResult">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//AnalysisResult/problems"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//AnalysisResult/batchAnalysis"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="errors.ecore#//AnalysisInfo"/>
+    <genClasses image="false" ecoreClass="errors.ecore#//Problem">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//Problem/dependents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/needsCSP"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/status"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/ignoredByUser"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//Problem/data"/>
+    </genClasses>
+    <genClasses ecoreClass="errors.ecore#//StringToObjectMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//StringToObjectMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//StringToObjectMap/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="errors.ecore#//BatchAnalysis"/>
+    <genClasses image="false" ecoreClass="errors.ecore#//Recovery"/>
+    <nestedGenPackages prefix="AtlError" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
+        ecorePackage="errors.ecore#//atl_error">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind">
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/IN_NORMAL_RULE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/MISSING_SUBRULE"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/InvalidRuleInheritanceKind">
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/DIFFERENT_NUMBER_OF_IPE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/DIFFERENT_IPE_NAMES"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/OTHER"/>
+      </genEnums>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/LocalProblem">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/location"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/fileLocation"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/LocalProblem/element"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/LocalProblem/displayedElement"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/missing"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/LocalProblem/recovery"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ModelElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ModelElement/klass"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ModelElement/metamodelName"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/RuntimeError"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/Warning"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/StyleHint"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/PerformanceHint"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OclCompliance"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OclComplianceProblem"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/NavigationProblem"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/InvalidArgumentProblem"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/TargetModelConformanceProblem"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/NoBindingForCompulsoryFeature/subrule"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoBindingForCompulsoryFeature/kind"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidAssignmentImperativeBinding"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClassesImplicit"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithoutRule"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithResolvedByIncompatibleRule"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureNotFound">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/featureName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FeatureNotFound/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationFoundInSubtype"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/FoundInSubtype">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/possibleClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/missingClasses"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue_ThroughEmptyCollection"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/RuleConflicts">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/RuleConflicts/conflicts"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ConflictingRuleSet">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ConflictingRuleSet/types"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ConflictingRuleSet/rules"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ConflictingRuleSet/analyserInfo"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/TargetConformanceViolations">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/TargetConformanceViolations/targetIssues"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/BatchTargetConformanceIssue"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/TargetInvariantViolation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/TargetInvariantViolation/invariantName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/CollectionOperationOverNoCollectionError"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureAccessInCollection">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureAccessInCollection/featureName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationOverCollectionType"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OperationCallInvalid">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/operationName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/className"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/metamodelName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/formalParameters"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/actualParameters"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidNumberOfParameters"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidParameter">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalidParameter/blamedParameterNames"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFoundInThisModule">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationNotFoundInThisModule/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationNotFoundInThisModule/maybeRule"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AttributeNotFoundInThisModule">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/AttributeNotFoundInThisModule/name"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureNotFoundInUnionType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFoundInUnionType/featureName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidOperator">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/InvalidOperator/operatorSymbol"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/InvalidOperator/type"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidOperand">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/InvalidOperand/operatorSymbol"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/InvalidOperand/type"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoContainerForRefImmediateComposite">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoContainerForRefImmediateComposite/className"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoContainerForRefImmediateComposite/metamodelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/DifferentBranchTypes">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/DifferentBranchTypes/thenType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/DifferentBranchTypes/elseType"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/BindingProblem">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingProblem/feature"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/BindingProblem/featureName"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/ResolveTempProblem"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AssignmentToReadonlyFeature"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingExpectedOneAssignedMany"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/PrimitiveBindingButObjectAssigned"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ObjectBindingButPrimitiveAssigned"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/PrimitiveBindingInvalidAssignment"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/BindingResolution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/rightType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/targetType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/right"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/left"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/rules"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ResolvedRuleInfo">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ResolvedRuleInfo/location"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolvedRuleInfo/element"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolvedRuleInfo/allInvolvedRules"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ResolvedRuleInfo/ruleName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolvedRuleInfo/inputType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolvedRuleInfo/outputType"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempWithoutRule">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempWithoutRule/sourceType"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempPossiblyUnresolved">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/problematicClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/problematicClassesImplicit"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/resolvedExpression"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound/sourceType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound/rules"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FlattenOverNonNestedCollection"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ChangeSelectFirstForAny"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverEmptySequence"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidOperatorUsage"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ReadingTargetModel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ReadingTargetModel/modelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/WritingSourceModel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/WritingSourceModel/modelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/LazyRuleWithFilter"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidRuleInheritance">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/InvalidRuleInheritance/kind"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AmbiguousTargetModelReference">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/AmbiguousTargetModelReference/modelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoModelFound">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoModelFound/modelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoEnumLiteral">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoEnumLiteral/literal"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/WrongType"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IteratorBodyWrongType"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleWithoutOutputPattern"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleFilterNonBoolean"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ExpectedCollectionInForEach"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoClassFoundInMetamodel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoClassFoundInMetamodel/className"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidArgument"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/CollectionOperationNotFound">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/CollectionOperationNotFound/operationName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverNoCollectionType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/IteratorOverNoCollectionType/iteratorName"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/AbstractIncoherentVariableDeclaration">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/AbstractIncoherentVariableDeclaration/inferred"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/AbstractIncoherentVariableDeclaration/declared"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentHelperReturnType"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingInplaceInvalid">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingInplaceInvalid/rightType"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/CannotInstantiateAbstractClass">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/CannotInstantiateAbstractClass/type"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/GenericLocalProblem">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/GenericLocalProblem/genericKind"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AtlParseError">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/AtlParseError/genericKind"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
+        ecorePackage="errors.ecore#//atl_recovery">
+      <genClasses ecoreClass="errors.ecore#//atl_recovery/TentativeTypeAssigned">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_recovery/TentativeTypeAssigned/type"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="IdeError" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
+        ecorePackage="errors.ecore#//ide_error">
+      <genClasses ecoreClass="errors.ecore#//ide_error/CouldNotLoadMetamodel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//ide_error/CouldNotLoadMetamodel/uri"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//ide_error/PreconditionParseError">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//ide_error/PreconditionParseError/messages"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

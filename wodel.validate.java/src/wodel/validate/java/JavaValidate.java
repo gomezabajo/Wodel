@@ -166,7 +166,7 @@ public class JavaValidate extends Validate {
 	
 	@Override
 	public boolean isValid(String metamodel, String seed, String model, IProject project) {
-		boolean isValid = true;
+		boolean isValid = false;
 		
 		try {
 			AcceleoUtils.SwitchSuccessNotification(false);
@@ -181,9 +181,6 @@ public class JavaValidate extends Validate {
 				className = mutantName.substring(mutantName.lastIndexOf(".") + 1, mutantName.length());
 				packageName = mutantName.substring(0, mutantName.lastIndexOf("."));
 			}
-			System.out.println("mutantName: " + mutantName);
-			System.out.println("className: " + className);
-			System.out.println("packageName: " + packageName);
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			Resource resource = ModelManager.loadModel(packages, model);
 			modelToProject(resource, "", mutantName, project.getName());
@@ -201,13 +198,19 @@ public class JavaValidate extends Validate {
 				}
 			}
 			String javaFileName = className + ".java";
-			System.out.println("javaFileName: " + javaFileName);
+			String block = seed.substring(0, seed.lastIndexOf(mutantName) - 1);
+			block = block.substring(block.lastIndexOf("\\") + 1, block.length());
+			modelToProject(resource, block, mutantName, project.getName());
+			String artifactPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
 			String srcJavaFilePath = ModelManager.getWorkspaceAbsolutePath() + srcEntry.getPath().toString() + "/" + packageName.replace(".", "/") + "/" + javaFileName;						
 			String newSrcPath = srcJavaFilePath.replace(".java", ".bak");
 			IOUtils.copyFile(srcJavaFilePath, newSrcPath);
+			IOUtils.copyFile(artifactPath, srcJavaFilePath);
 			compile(project);
 			List<ICompilationUnit> compilationUnits = getCompilationUnits(javaProject);
 			isValid = !hasErrors(compilationUnits);
+			IOUtils.copyFile(newSrcPath, srcJavaFilePath);
+			IOUtils.deleteFile(newSrcPath);
 			iFolder.delete(true, new NullProgressMonitor());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

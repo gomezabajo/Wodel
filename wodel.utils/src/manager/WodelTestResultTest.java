@@ -34,7 +34,7 @@ public class WodelTestResultTest {
 	public int getDetectedMutants() {
 		int detected = 0;
 		for (WodelTestResultTestInfo mutant : mutants) {
-			if (mutant.getValue() == false) {
+			if (mutant.getValue() == true) {
 				detected++;
 			}
 		}
@@ -52,8 +52,8 @@ public class WodelTestResultTest {
 	}
 
 	public void addMutant(String mutant, boolean value, boolean error, String message, List<String> mutation) {
-		if (value == false) {
-			this.value = false;
+		if (value == true) {
+			this.value = true;
 		}
 		WodelTestResultTestInfo testInfo = new WodelTestResultTestInfo();
 		testInfo.setName(mutant);

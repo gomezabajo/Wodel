@@ -32,6 +32,7 @@ import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ObjectEmitter;
 import mutatorenvironment.Program;
+import mutatorenvironment.RemoveObjectMutator;
 import mutatorenvironment.RetypeObjectMutator;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SelectSampleMutator;
@@ -5361,7 +5362,7 @@ public class MutatorUtils {
 	 * @throws ModelNotFoundException
 	 */
 	protected boolean validate(String metamodel, String seed, String model, IProject project) throws ModelNotFoundException {
-		boolean isValid = true;
+		boolean isValid = false;
 		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants valid programs extension", "", null);
 		if (extensionName.equals("")) {
 			return true;
@@ -5434,7 +5435,7 @@ public class MutatorUtils {
 	 * @throws ModelNotFoundException
 	 */
 	protected boolean validation(String metamodel, String uri) throws ModelNotFoundException {
-		boolean isValid = true;
+		boolean isValid = false;
 		String extensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants validation extension", "", null);
 		if (extensionName.equals("")) {
 			return true;
@@ -7831,6 +7832,38 @@ public class MutatorUtils {
 			}
 			if (((SelectObjectMutator) oe).getObject() instanceof mutatorenvironment.RetypeObjectMutator) {
 				type = ((RetypeObjectMutator) ((mutatorenvironment.SelectObjectMutator) oe).getObject()).getType();
+			}
+		}
+		if (oe instanceof RemoveObjectMutator) {
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.SpecificObjectSelection) {
+				type = getType(((SpecificObjectSelection) ((RemoveObjectMutator) oe).getObject()).getObjSel());
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.RandomTypeSelection) {
+				type = ((RemoveObjectMutator) oe).getObject().getType();
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.CompleteTypeSelection) {
+				type = ((RemoveObjectMutator) oe).getObject().getType();
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.OtherTypeSelection) {
+				type = ((RemoveObjectMutator) oe).getObject().getType();
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.SpecificClosureSelection) {
+				type = (EClass) ((RemoveObjectMutator) oe).getObject().getRefType().getEType();
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.SelectObjectMutator) {
+				type = getType((ObjectEmitter) ((mutatorenvironment.RemoveObjectMutator) oe).getObject());
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.SelectSampleMutator) {
+				type = getType((ObjectEmitter) ((RemoveObjectMutator) oe).getObject());
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.CreateObjectMutator) {
+				type = ((CreateObjectMutator) ((mutatorenvironment.RemoveObjectMutator) oe).getObject()).getType();
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.CloneObjectMutator) {
+				type = ((CloneObjectMutator) ((mutatorenvironment.RemoveObjectMutator) oe).getObject()).getType();
+			}
+			if (((RemoveObjectMutator) oe).getObject() instanceof mutatorenvironment.RetypeObjectMutator) {
+				type = ((RetypeObjectMutator) ((mutatorenvironment.RemoveObjectMutator) oe).getObject()).getType();
 			}
 		}
 		if (oe instanceof ModifyInformationMutator) {

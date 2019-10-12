@@ -30,13 +30,15 @@ public class WodelTestTest {
 					mutants.put(mutant.getName(), mutant.getValue());
 				}
 				else {
-					mutants.put(mutant.getName(), mutants.get(mutant.getName()) && mutant.getValue());
+					if (mutant.getValue() == true) {
+						mutants.put(mutant.getName(), mutant.getValue());
+					}
 				}
 			}
 		}
 		int numKilledMutants = 0;
 		for (String mutant : mutants.keySet()) {
-			if (mutants.get(mutant) == false) {
+			if (mutants.get(mutant) == true) {
 				numKilledMutants++;
 			}
 		}
@@ -52,7 +54,6 @@ public class WodelTestTest {
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split("[|]");
 				String mutant = data[0];
-				//String testPath = data[1];
 				String name = data[2];
 				WodelTestTest test = null;
 				List<WodelTestResultTest> wodelTestResultTest = null;
@@ -69,9 +70,8 @@ public class WodelTestTest {
 					test.results = new ArrayList<WodelTestResultTest>();
 					wodelTestResultTest = test.results;
 				}
-				String[] testsText = data[3].split(";");
+				String[] testText = data[3].split(":");
 				Map<String, Boolean> tests = new HashMap<String, Boolean>();
-				String[] testText = testsText[0].split(":");
 				String[] messagesText = data[4].split(";");
 				String[] errorText = data[5].split(";");
 				int counter = 0;
@@ -102,13 +102,14 @@ public class WodelTestTest {
 							boolean value = Boolean.parseBoolean(pair[1]);
 							String message = "";
 							boolean error = false;
-							if (value == false) {
-								message = messagesText.length > counter ? messagesText[counter].trim() : "";
-								error = errorText.length > counter ? Boolean.parseBoolean(errorText[counter++].trim()) : false;
+							message = messagesText.length > counter ? messagesText[counter].trim() : "";
+							if (value == true) {
+								error = errorText.length > counter ? Boolean.parseBoolean(errorText[counter].trim()) : false;
 							}
 							wodelTestResult.addMutant(mutant, value, error, message, null);
 						}
 					}
+					counter++;
 				}
 				boolean added = false;
 				for (WodelTestTest wodelTestResult : wodelTestResults) {
@@ -119,33 +120,6 @@ public class WodelTestTest {
 				if (added == false) {
 					wodelTestResults.add(test);
 				}
-//				String[] testsFailed = new String[testsText.length - 1];
-//				Arrays.asList(testsText).subList(1, testsText.length).toArray(testsFailed);
-//				String[] messagesText = data[3].split(";");
-//				List<WodelTestInfo> testsInfo = new ArrayList<WodelTestInfo>();
-//				for (int i = 0; i < testsFailed.length || i < messagesText.length; i++) {
-//					String info = "";
-//					if (i < testsFailed.length) {
-//						info = testsFailed[i].trim();
-//					}
-//					String message = "";
-//					if (i < messagesText.length) {
-//						message = messagesText[i].trim();
-//					}
-//					if (!(info.equals("") && message.equals(""))) {
-//						WodelTestInfo testInfo = new WodelTestInfo(info, message);
-//						testsInfo.add(testInfo);
-//					}
-//				}
-//				int runCount = Integer.parseInt(data[4]);
-//				int runFailure = Integer.parseInt(data[5]);
-//				WodelTestResult result = new WodelTestResult(clazz, tests, testsInfo, runCount, runFailure);
-//				WodelTestResultClass wodelTestResultClass = getWodelTestResultClassByName(resultsClass, name);
-//				if (wodelTestResultClass == null) {
-//					wodelTestResultClass = new WodelTestResultClass(name);
-//					resultsClass.add(wodelTestResultClass);
-//				}
-//				wodelTestResultClass.addResult(result);
 			}
 			br.close();
 			fr.close();

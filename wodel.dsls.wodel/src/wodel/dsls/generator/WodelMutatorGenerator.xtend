@@ -1277,7 +1277,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 							if (recovered == null) {
 								recovered = entry_«(referenceSwap.object as SpecificObjectSelection).objSel.name».getKey();
 							}
-							refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), recovered "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
+							refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), recovered, "«c.getReference().get(0).name»", "«c.getReference().get(1).name»"));
 							refsList.put("«referenceName»", refs);
 						} else {
 							return numMutantsGenerated;
@@ -1879,8 +1879,8 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 							}
 							recovered = tmp;
 							//«refName = mut.container.refRefRefType.name»
-							containerSelection = new SpecificObjectSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), recovered.get(0));
-							referenceSelection = new SpecificReferenceSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), "«refName»", recovered.get(0));
+							containerSelection = new SpecificObjectSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), recovered.get(1));
+							referenceSelection = new SpecificReferenceSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), "«refName»", recovered.get(1));
 							«ENDIF»
 							«ELSE»
 							containerSelection = new SpecificObjectSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), recovered.get(0));

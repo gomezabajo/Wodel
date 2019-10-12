@@ -104,7 +104,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 					List<WodelTestClass> classes = packageClasses.get((String) element);
 					for (WodelTestClass cls : classes) {
 						for (WodelTestClassInfo info : cls.info) {
-							if (info.numFailedTests > 0) {
+							if (info.getNumFailedTests() > 0) {
 								return true;
 							}
 						}
@@ -113,18 +113,18 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				if (element instanceof WodelTestClass) {
 					WodelTestClass cls = (WodelTestClass) element;
 					for (WodelTestClassInfo info : cls.info) {
-						if (info.numFailedTests > 0) {
+						if (info.getNumFailedTests() > 0) {
 							return true;
 						}
 					}
 				}
 				if (element instanceof WodelTestClassInfo) {
 					WodelTestClassInfo info = (WodelTestClassInfo) element;
-					return info.numFailedTests > 0;
+					return info.getNumFailedTests() > 0;
 				}
 				if (element instanceof WodelTestResultInfo) {
 					WodelTestResultInfo result = (WodelTestResultInfo) element;
-					return !result.value; 
+					return result.value && result.failure == false; 
 				}
 			}
 			if (filterIndex == 2) {
@@ -133,7 +133,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 					List<WodelTestClass> classes = packageClasses.get((String) element);
 					for (WodelTestClass cls : classes) {
 						for (WodelTestClassInfo info : cls.info) {
-							if (info.numFailedTests == 0 && info.numFailures == 0) {
+							if (info.getNumFailedTests() == 0 && info.numFailures == 0) {
 								return true;
 							}
 						}
@@ -143,7 +143,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				if (element instanceof WodelTestClass) {
 					WodelTestClass cls = (WodelTestClass) element;
 					for (WodelTestClassInfo info : cls.info) {
-						if (info.numFailedTests == 0 && info.numFailures == 0) {
+						if (info.getNumFailedTests() == 0 && info.numFailures == 0) {
 							return true;
 						}
 					}
@@ -151,11 +151,11 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				}
 				if (element instanceof WodelTestClassInfo) {
 					WodelTestClassInfo info = (WodelTestClassInfo) element;
-					return info.numFailedTests == 0 && info.numFailures == 0;
+					return info.getNumFailedTests() == 0 && info.numFailures == 0;
 				}
 				if (element instanceof WodelTestResultInfo) {
 					WodelTestResultInfo result = (WodelTestResultInfo) element;
-					return result.value && result.failure == false; 
+					return !result.value && result.failure == false; 
 				}
 			}
 			if (filterIndex == 3) {
@@ -325,7 +325,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 								for (TreeItem ti : it.getItems()) {
 									if (ti.getData() instanceof WodelTestClassInfo) {
 										WodelTestClassInfo info = (WodelTestClassInfo) ti.getData();
-										if (info.numFailedTests == 0) {
+										if (info.getNumFailedTests() == 0) {
 											TreeEditor editor = new TreeEditor(addressTree); 
 											Button button = new Button(addressTree, SWT.CHECK);
 											for (String equivalent : equivalentMutants) {
@@ -572,7 +572,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 						if (info.numFailures > 0) {
 							error = true;
 						}
-						if (info.numFailedTests > 0) {
+						if (info.getNumFailedTests() > 0) {
 							detected = true;
 							break;
 						}
@@ -594,7 +594,7 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 					if (info.numFailures > 0) {
 						error = true;
 					}
-					if (info.numFailedTests > 0) {
+					if (info.getNumFailedTests() > 0) {
 						detected = true;
 						break;
 					}
@@ -606,14 +606,14 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 			}
 			if (element instanceof WodelTestClassInfo) {
 				WodelTestClassInfo info = (WodelTestClassInfo) element;
-				if (info.numFailedTests > 0) {
+				if (info.getNumFailedTests() > 0) {
 					return GREEN;
 				}
 				else return info.numFailures > 0 ? BLUE : RED;
 			}
 			if (element instanceof WodelTestResultInfo) {
 				WodelTestResultInfo result = (WodelTestResultInfo) element;
-				if (!result.value) {
+				if (result.value) {
 					return GREEN;
 				}
 				else return result.failure ? BLUE : RED;
@@ -642,8 +642,8 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				int numFailedTests = classes != null ? 0 : -1;
 				for (WodelTestClass cls : classes) {
 					for (WodelTestClassInfo info : cls.info) {
-						numExecutedTests += info.numExecutedTests;
-						numFailedTests += info.numFailedTests;
+						numExecutedTests += info.getNumExecutedTests();
+						numFailedTests += info.getNumFailedTests();
 					}
 				}
 				switch (columnIndex) {
@@ -675,8 +675,8 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 				int numFailedTests = 0;
 				int numPassedTests = 0;
 				for (WodelTestClassInfo info : wodelTestClass.info) {
-					numExecutedTests += info.numExecutedTests;
-					numFailedTests += info.numFailedTests;
+					numExecutedTests += info.getNumExecutedTests();
+					numFailedTests += info.getNumFailedTests();
 				}
 				switch(columnIndex) {
 				case 0:
@@ -723,18 +723,18 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 					}
 					break;
 				case 2:
-					if (info.numExecutedTests > 0) {
-						text = String.format("%d", info.numExecutedTests);
+					if (info.getNumExecutedTests() > 0) {
+						text = String.format("%d", info.getNumExecutedTests());
 					}
 					break;
 				case 3:
-					if (info.numFailedTests > 0) {
-						text = String.format("%d", info.numFailedTests);
+					if (info.getNumFailedTests() > 0) {
+						text = String.format("%d", info.getNumFailedTests());
 					}
 					break;
 				case 4:
-					if (info.numExecutedTests - info.numFailedTests > 0) {
-						text = String.format("%d", info.numExecutedTests - info.numFailedTests);
+					if (info.getNumExecutedTests() - info.getNumFailedTests() > 0) {
+						text = String.format("%d", info.getNumExecutedTests() - info.getNumFailedTests());
 					}
 					break;
 				case 5:
@@ -760,10 +760,10 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 					text = info.numExecutions == 0 ? "" : String.format("%d", info.numExecutions);
 					break;
 				case 3:
-					text = info.value ? "" : String.format("%d", info.numFailed);
+					text = info.value ? String.format("%d", info.numFailed) : "";
 					break;
 				case 4:
-					text = info.value ? String.format("%d", info.numExecutions - info.numFailed) : "";
+					text = info.value ? "" : String.format("%d", info.numExecutions - info.numFailed);
 					break;
 				case 5:
 					text = info.message;

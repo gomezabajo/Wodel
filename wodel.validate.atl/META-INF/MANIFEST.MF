@@ -12,7 +12,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmt.modisco.java.generation,
  wodel.utils,
  org.eclipse.m2m.atl.engine,
- org.eclipse.m2m.atl.common
+ org.eclipse.m2m.atl.common,
+ anatlyzer.atl.standalone.api,
+ anatlyzer.atl.typing
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: wodel.validate.atl
-Import-Package: wodel.validate
+Import-Package: wodel.validate,
+ anatlyzer.atl.errors

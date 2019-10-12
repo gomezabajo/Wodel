@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 	public static final String ID= "test.views.WodelTestMutatorResultsViewPart"; //$NON-NLS-1$
 
-	private static List<WodelTestMutatorGroup> mutatorData = null;
+	private static Map<String, List<WodelTestMutatorGroup>> mutatorData = null;
 
 	private static IProject sourceProject = null;
 
@@ -107,6 +108,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			}
 			if (filterIndex == 1) {
 				// TODO Auto-generated method stub
+				if (element instanceof String) {
+					return true;
+				}
 				if (element instanceof WodelTestMutatorGroup) {
 					WodelTestMutatorGroup wtmg = (WodelTestMutatorGroup) element;
 					return wtmg.getNumberOfMutants() > 0;
@@ -123,6 +127,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			}
 			if (filterIndex == 2) {
 				// TODO Auto-generated method stub
+				if (element instanceof String) {
+					return true;
+				}
 				if (element instanceof WodelTestMutatorGroup) {
 					WodelTestMutatorGroup wtmg = (WodelTestMutatorGroup) element;
 					return wtmg.getNumberOfMutants() == 0 && wtmg.getFailures() == 0;
@@ -138,6 +145,9 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			}
 			if (filterIndex == 3) {
 				// TODO Auto-generated method stub
+				if (element instanceof String) {
+					return true;
+				}
 				if (element instanceof WodelTestMutatorGroup) {
 					WodelTestMutatorGroup wtmg = (WodelTestMutatorGroup) element;
 					return wtmg.getFailures() > 0;
@@ -187,7 +197,8 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 		Bundle bundle = Platform.getBundle("wodel.models");
 		URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
 		
-		mutatorData = new ArrayList<WodelTestMutatorGroup>();
+		mutatorData = new HashMap<String, List<WodelTestMutatorGroup>>();
+		List<WodelTestMutatorGroup> mutatorList = new ArrayList<WodelTestMutatorGroup>();
 		boolean withErrors = false;
 
 		List<String> pathsToProcess = new ArrayList<String>();
@@ -240,8 +251,10 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 			}
 			
 			for (WodelTestMutatorGroup wtmg : lwtmg) {
-				mutatorData.add(wtmg);
+				mutatorList.add(wtmg);
 			}
+			
+			mutatorData.put(test.getProjectName(), mutatorList);
 //			for (String projectName : mutators.keySet()) {
 //				List<WodelTestMutatorResult> lwtmr = new ArrayList<WodelTestMutatorResult>();
 //				Class<?> mutator = mutators.get(projectName);
@@ -393,6 +406,15 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
+			if (parentElement instanceof Map<?, ?>) {
+				return ((Map<?, ?>) parentElement).keySet().toArray();
+			}
+			if (parentElement instanceof String) {
+				List<WodelTestMutatorGroup> ret = mutatorData.get((String) parentElement);
+				if (ret != null) { 
+					return ret.toArray();
+				}
+			}
 			if (parentElement instanceof List<?>) {
 				return ((List<?>) parentElement).toArray();
 			}
@@ -421,6 +443,12 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 
 		@Override
 		public boolean hasChildren(Object element) {
+			if (element instanceof String && mutatorData.get((String) element) != null) {
+				return mutatorData.get((String) element).size() > 0;
+			}
+			if (element instanceof List<?>) {
+				return ((List<?>) element).size() > 0;
+			}
 			if (element instanceof WodelTestMutatorGroup) {
 				WodelTestMutatorGroup wtmg = (WodelTestMutatorGroup) element;
 				return wtmg.getResults().size() > 0;
@@ -466,6 +494,29 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 		}
 		
 		private Color getBackground(Object element) {
+			if (element instanceof String) {
+				List<WodelTestMutatorGroup> mutatorList = mutatorData.get((String) element);
+				if (mutatorList != null) {
+					boolean failures = false;
+					for (WodelTestMutatorGroup data : mutatorList) {
+						if (data != null) {
+							if (data.getNumberOfMutants() > 0) {
+								return GREEN;
+							}
+							if (data.getFailures() > 0) {
+								failures = true;
+								break;
+							}
+						}
+					}
+					if (failures == false) {
+						return RED;
+					}
+					else {
+						return BLUE;
+					}
+				}
+			}
 			if (element instanceof WodelTestMutatorGroup) {
 				WodelTestMutatorGroup data = (WodelTestMutatorGroup) element;
 				if (data != null) {
@@ -513,6 +564,15 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String text = null;
+			if (element instanceof String) {
+				switch (columnIndex) {
+				case 0:
+					break;
+				case 1:
+					text = (String) element;
+					break;
+				}
+			}
 			if (element instanceof WodelTestMutatorGroup) {
 				WodelTestMutatorGroup data = (WodelTestMutatorGroup) element;
 				if (data != null) {
@@ -552,8 +612,6 @@ public class WodelTestMutatorResultsViewPart extends ViewPart {
 					break;
 				case 2:
 					text = result;
-					break;
-				case 3:
 					break;
 				}
 			}

@@ -31,13 +31,20 @@ public class WodelTestResult {
 		String testsText = "";
 		String messagesText = "";
 		String failureText = "";
-		for (String testName : tests.keySet()) {
-			testsText += testName + "=" + tests.get(testName) + ":";
+		//for (String testName : tests.keySet()) {
+		//	testsText += testName + "=" + tests.get(testName) + ":";
+		//}
+		//testsText = testsText.substring(0, testsText.lastIndexOf(":"));
+		//testsText +="; ";
+		for (WodelTestInfo inf : info) {
+			testsText += inf.getTest() + "=" + (inf.getValue() ? "true" : "false") + ":";
 		}
-		testsText = testsText.substring(0, testsText.lastIndexOf(":"));
+		if (testsText.lastIndexOf(":") > 0) {
+			testsText = testsText.substring(0, testsText.lastIndexOf(":"));
+		}
 		testsText +="; ";
 		for (WodelTestInfo inf : info) {
-			testsText += inf.getInfo() + "; ";
+			//testsText += inf.getInfo() + "; ";
 			messagesText += inf.getMessage() + "; ";
 			failureText += inf.getFailure() + "; ";
 		}
@@ -64,7 +71,7 @@ public class WodelTestResult {
 	public int getFailureCount() {
 		int failureCount = 0;
 		for (boolean value : tests.values()) {
-			if (value == false) {
+			if (value == true) {
 				failureCount++;
 			}
 		}

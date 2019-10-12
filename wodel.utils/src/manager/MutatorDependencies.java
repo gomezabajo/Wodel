@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -54,6 +56,8 @@ public class MutatorDependencies {
 	
 	protected List<Mutator> mutators = null;
 	
+	protected List<EPackage> packages = null;
+	
 	protected class MutatorData {
 		public int index = 0;
 		public EClass type = null;
@@ -69,8 +73,9 @@ public class MutatorDependencies {
 	 * MutatorDependencies constructor
 	 * @param mutators
 	 */
-	public MutatorDependencies(List<Mutator> mutators) {
+	public MutatorDependencies(List<EPackage> packages, List<Mutator> mutators) {
 		this.mutators = mutators;
+		this.packages = packages;
 		createMutatorData();
 		findDependencies();
 	}
@@ -188,8 +193,9 @@ public class MutatorDependencies {
 	 * @param previousMutators
 	 * @return
 	 */
-	private int dependenciesHelperForRemoveObjectMutator(RemoveObjectMutator mut, int com, List<Mutator> previousMutators) {
+	private int dependenciesHelperForRemoveObjectMutator(List<EPackage> packages, RemoveObjectMutator mut, int com, List<Mutator> previousMutators) {
 		int value = 1;
+		EClass type = MutatorUtils.getType(mut);
 		if (mut.getObject() instanceof SpecificObjectSelection) {
 			SpecificObjectSelection selection = (SpecificObjectSelection) mut.getObject();
 			if (mutatorData.get(selection.getObjSel().getName()) != null) {
@@ -209,7 +215,7 @@ public class MutatorDependencies {
 			int max = 0;
 			for (Mutator prevMut : previousMutators) {
 				if (prevMut instanceof CreateObjectMutator) {
-					if (EcoreUtil.equals(((CreateObjectMutator) prevMut).getType(), mut.getObject().getType())) {
+					if (EcoreUtil.equals(((CreateObjectMutator) prevMut).getType(), type)) {
 						MutatorData md = getByMutator(prevMut);
 						if (md != null && md.index < com) {
 							max += md.max;
@@ -217,7 +223,7 @@ public class MutatorDependencies {
 					}
 				}
 				if (prevMut instanceof RetypeObjectMutator) {
-					if (EcoreUtil.equals(((RetypeObjectMutator) prevMut).getType(), mut.getObject().getType())) {
+					if (EcoreUtil.equals(((RetypeObjectMutator) prevMut).getType(), type)) {
 						MutatorData md = getByMutator(prevMut);
 						if (md != null && md.index < com) {
 							max += md.max;
@@ -243,7 +249,6 @@ public class MutatorDependencies {
 					Evaluation ev = exp.getFirst();
 					if (ev instanceof ReferenceEvaluation) {
 						if (((ReferenceEvaluation) ev).getValue() == null) {
-							EClass type = selection.getType();
 							for (Mutator prevMut : previousMutators) {
 								if (prevMut instanceof RemoveObjectMutator) {
 									if (((RemoveObjectMutator) prevMut).getObject() instanceof SpecificObjectSelection) {
@@ -275,6 +280,30 @@ public class MutatorDependencies {
 							}
 						}
 					}
+				}
+			}
+		}
+		if (type != null) {
+			List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(type));
+			for (EClassifier container : containers) {
+				for (EReference ref : ((EClass) container).getEAllReferences()) {
+					if (ref.isContainment() == true && ref.getLowerBound() > 0) {
+						List<EClass> types = new ArrayList<EClass>();
+						types.add(type);
+						types.addAll(type.getEAllSuperTypes());
+						for (EClass eClass : types) {
+							if (EcoreUtil.getURI(eClass).equals(EcoreUtil.getURI(type))) {
+								value = 1;
+								break;
+							}
+						}
+					}
+					if (value == 1) {
+						break;
+					}
+				}
+				if (value == 1) {
+					break;
 				}
 			}
 		}
@@ -645,7 +674,7 @@ public class MutatorDependencies {
 					activeVector = transform(lastVector, lastValue);
 				}
 				if (mut instanceof RemoveObjectMutator) {
-					value = dependenciesHelperForRemoveObjectMutator((RemoveObjectMutator) mut, com, previousMutators);
+					value = dependenciesHelperForRemoveObjectMutator(packages, (RemoveObjectMutator) mut, com, previousMutators);
 				}
 				if (mut instanceof RemoveRandomReferenceMutator) {
 					value = dependenciesHelperForRemoveRandomReferenceMutator((RemoveRandomReferenceMutator) mut, com, previousMutators);

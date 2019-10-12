@@ -24,6 +24,8 @@ import manager.UseGeneratorUtils
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.AbstractGenerator
+import java.io.File
+import java.util.ArrayList
 
 /**
  * @author Pablo Gomez-Abajo - Wodel USE code generator.
@@ -57,11 +59,57 @@ public class WodelUseGenerator extends AbstractGenerator {
 	private int maxObjectsCardinality
 	private int maxAssociationsCardinality
 	
+	def List<String> getMutators(File[] files) {
+		var List<String> mutators = new ArrayList<String>()
+		var int i = 0
+		while (files != null && i < files.size) {
+			var File file = files.get(i)
+			if (file.isFile == true) {
+				if (file.getName().endsWith(".mutator")) {
+					var mutator = file.getName().replaceAll(".mutator", "")
+					if (!mutators.contains(mutator)) {
+						mutators.add(mutator)
+					}
+				}
+			}
+			else {
+				var List<String> nextMutators = getMutators(file.listFiles)
+				for (String nextMutator : nextMutators) {
+					if (!mutators.contains(nextMutator)) {
+						mutators.add(nextMutator)
+					}
+				}
+			}
+			i++
+		}
+		return mutators
+	}
+	
+	def String getMutatorPath(File[] files) {
+		var String mutatorPath = null
+		var int i = 0
+		while (mutatorPath == null && files != null && i < files.size) {
+			var File file = files.get(i)
+			if (file.isFile == true) {
+				if (file.getName().equals(fileName)) {
+					var mutatorFolderAndFile = file.path.substring(file.path.indexOf(manager.WodelContext.getProject)).replace("\\", "/")
+					mutatorPath = "file:/" + ModelManager.getWorkspaceAbsolutePath+"/"+mutatorFolderAndFile
+				}
+			}
+			else {
+				mutatorPath = getMutatorPath(file.listFiles)
+			}
+			i++
+		}
+		return mutatorPath
+	}
+	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		manager.WodelContext.setProject(null)
 		manager.WodelContext.getProject
 		path = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject		
 
+		var MutatorEnvironment mutatorEnvironment = null
 		for(e: resource.allContents.toIterable.filter(MutatorEnvironment)) {
 			maxInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Maximum integer value", "100", null))
 			minInteger = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Minimum integer value", "-100", null))
@@ -78,6 +126,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 			propertiesName = fileName.replaceAll(".java", ".properties")
 			fsa.generateFile(useName, e.use(resource).removeComments("use"))
 			fsa.generateFile(propertiesName, e.properties.removeComments("properties"))
+			mutatorEnvironment = e
 		}
 	}
 	

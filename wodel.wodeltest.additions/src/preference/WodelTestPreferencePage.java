@@ -12,6 +12,8 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
@@ -38,6 +41,10 @@ import utils.SeparatorFieldEditor;
 import manager.IWodelTest;
 
 public class WodelTestPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+	
+	protected List<BooleanFieldEditor> fieldEditors = new ArrayList<BooleanFieldEditor>();
+	protected List<String> labelNames = new ArrayList<String>();
+	protected RadioGroupFieldEditor selectAll = null;
 	
 	@Override
     protected void createFieldEditors() {
@@ -102,6 +109,14 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 				addField(new SeparatorFieldEditor(composite));
 				String ecore = FileLocator.resolve(fileURL).getFile();
 				List<EPackage> mutatorpackages = ModelManager.loadMetaModel(ecore);
+				IPreferenceStore preferenceStore = getPreferenceStore();
+				String[][] selection = new String[][] {
+					{"Select all", "all"},
+					{"Deselect all", "none"} };
+				selectAll = new RadioGroupFieldEditor("selection", "Selection helper", 1, selection, composite); 
+				addField(selectAll);
+				preferenceStore.setDefault("selection", true);
+				labelNames.clear();
 				for (String projectName : valueList) {
 					addField(new LabelFieldEditor(projectName, composite));
 					for (String mutatorName : valueMap.get(projectName).keySet()) {
@@ -112,12 +127,14 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 						String label = mutatorName + (description != null ? ": " + description : "");
 						addField(new LabelFieldEditor(label, composite));
 						List<EObject> blocks = MutatorUtils.getBlocks(model);
-						IPreferenceStore preferenceStore = getPreferenceStore();
 						for (EObject block : blocks) {
 							String name = ModelManager.getStringAttribute("name", block);
 							description = ModelManager.getStringAttribute("description", block);
 							label = name + (description != null ? ": " + description : "");
-							addField(new BooleanFieldEditor(name, label, composite));
+							BooleanFieldEditor fieldEditor = new BooleanFieldEditor(name, label, composite);
+							addField(fieldEditor);
+							fieldEditors.add(fieldEditor);
+							labelNames.add(name);
 							preferenceStore.setDefault(name, true);
 						}
 						addField(new SeparatorFieldEditor(composite));
@@ -135,10 +152,51 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 			}
     	}
 	}
+	
+	private class SelectDeselectAll implements IPropertyChangeListener {
+
+		private FieldEditorPreferencePage page;
+		private Composite parent;
+
+	    public SelectDeselectAll(FieldEditorPreferencePage page, Composite composite) {
+	        this.page = page;
+	        this.parent = composite;
+	    }
+	    
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			IPreferenceStore preferenceStore = getPreferenceStore();
+			String value = (String) event.getNewValue();
+			if (value.equals("all")) {
+				for (String labelName : labelNames) {
+					preferenceStore.setValue(labelName, true);
+				}
+				for (BooleanFieldEditor fieldEditor : fieldEditors) {
+					fieldEditor.load();
+				}
+			}
+			if (value.equals("none")) {
+				for (String labelName : labelNames) {
+					preferenceStore.setValue(labelName, false);
+				}
+				for (BooleanFieldEditor fieldEditor : fieldEditors) {
+					fieldEditor.load();
+				}
+			}
+		}
+	}
 
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(new ScopedPreferenceStore(InstanceScope.INSTANCE, "WodelTest"));
         setDescription("Select which mutation operators you would like to apply");
+	}
+	
+	@Override
+	protected void initialize() {
+	    super.initialize();
+	    if (selectAll != null) {
+		    selectAll.setPropertyChangeListener(new SelectDeselectAll(this, getFieldEditorParent()));
+	    }
 	}
 }

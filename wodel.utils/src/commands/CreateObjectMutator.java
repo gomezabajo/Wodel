@@ -272,8 +272,8 @@ public class CreateObjectMutator extends Mutator {
 			else {
 				if (e.getValue().getObject() != null) {
 					if (!this.getModel().getContents().contains(e.getValue().getObject())) {
-						EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
-						ModelManager.setReference(e.getKey(), newObj, eObject);
+						//EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
+						ModelManager.setReference(e.getKey(), newObj, e.getValue().getObject());
 					}
 					else {
 						EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
@@ -370,7 +370,7 @@ public class CreateObjectMutator extends Mutator {
 			}
 			this.result = newObj;
 		}
-		complete(this.getMetaModel(), this.getModel());
+		//complete(this.getMetaModel(), this.getModel());
 		return newObj;
 	}
 	

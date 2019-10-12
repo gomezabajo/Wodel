@@ -4316,7 +4316,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                       _builder.append("}");
                       _builder.newLine();
                       _builder.append("\t\t");
-                      _builder.append("refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), recovered \"");
+                      _builder.append("refs.add(new SwapReferenceConfigurationStrategy(obSelection.getObject(), recovered, \"");
                       String _name_85 = ((ReferenceSwap)c_1).getReference().get(0).getName();
                       _builder.append(_name_85, "\t\t");
                       _builder.append("\", \"");
@@ -6699,7 +6699,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                                     ObSelectionStrategy _container_31 = mut.getContainer();
                                     String _name_34 = ((SpecificObjectSelection) _container_31).getObjSel().getName();
                                     _builder.append(_name_34, "\t\t\t");
-                                    _builder.append(".getValue().getKey(), recovered.get(0));");
+                                    _builder.append(".getValue().getKey(), recovered.get(1));");
                                     _builder.newLineIfNotEmpty();
                                     _builder.append("\t");
                                     _builder.append("\t");
@@ -6714,7 +6714,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                                     _builder.append(_name_36, "\t\t\t");
                                     _builder.append(".getValue().getKey(), \"");
                                     _builder.append(refName_1, "\t\t\t");
-                                    _builder.append("\", recovered.get(0));");
+                                    _builder.append("\", recovered.get(1));");
                                     _builder.newLineIfNotEmpty();
                                   }
                                 }

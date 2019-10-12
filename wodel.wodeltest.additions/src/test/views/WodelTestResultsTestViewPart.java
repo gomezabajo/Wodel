@@ -98,51 +98,47 @@ public class WodelTestResultsTestViewPart extends ViewPart {
 			}
 			if (filterIndex == 1) {
 				if (element instanceof WodelTestTest) {
-					WodelTestTest wodelTest = (WodelTestTest) element;
-					for (WodelTestResultTest result : wodelTest.getResults()) {
-						if (result.getValue() == false) {
-							return true;
-						}
-					}
-					return false;
+					return true;
 				}
 				if (element instanceof WodelTestResultTest) {
 					WodelTestResultTest result = (WodelTestResultTest) element;
-					return !result.getValue(); 
-				}
-				if (element instanceof WodelTestResultTestInfo) {
-					WodelTestResultTestInfo result = (WodelTestResultTestInfo) element;
-					return !result.getValue(); 
-				}
-			}
-			if (filterIndex == 2) {
-				if (element instanceof WodelTestTest) {
-					WodelTestTest wodelTest = (WodelTestTest) element;
-					for (WodelTestResultTest result : wodelTest.getResults()) {
-						if (result.getValue() == true && result.getFailures() == 0) {
-							return true;
+					boolean killed = false;
+					for (WodelTestResultTestInfo info : result.getMutants()) {
+						if (info.getValue() == true) {
+							killed = true;
+							break;
 						}
 					}
-					return false;
-				}
-				if (element instanceof WodelTestResultTest) {
-					WodelTestResultTest result = (WodelTestResultTest) element;
-					return result.getValue() && result.getFailures() == 0; 
+					return killed && result.getFailures() == 0;
 				}
 				if (element instanceof WodelTestResultTestInfo) {
 					WodelTestResultTestInfo result = (WodelTestResultTestInfo) element;
 					return result.getValue() && result.getFailure() == false; 
 				}
 			}
-			if (filterIndex == 3) {
+			if (filterIndex == 2) {
 				if (element instanceof WodelTestTest) {
-					WodelTestTest wodelTest = (WodelTestTest) element;
-					for (WodelTestResultTest result : wodelTest.getResults()) {
-						if (result.getFailures() > 0) {
-							return true;
+					return true;
+				}
+				if (element instanceof WodelTestResultTest) {
+					WodelTestResultTest result = (WodelTestResultTest) element;
+					boolean alive = false;
+					for (WodelTestResultTestInfo info : result.getMutants()) {
+						if (info.getValue() == false) {
+							alive = true;
+							break;
 						}
 					}
-					return false;
+					return alive && result.getFailures() == 0; 
+				}
+				if (element instanceof WodelTestResultTestInfo) {
+					WodelTestResultTestInfo result = (WodelTestResultTestInfo) element;
+					return !result.getValue() && result.getFailure() == false; 
+				}
+			}
+			if (filterIndex == 3) {
+				if (element instanceof WodelTestTest) {
+					return true;
 				}
 				if (element instanceof WodelTestResultTest) {
 					WodelTestResultTest result = (WodelTestResultTest) element;
@@ -150,14 +146,12 @@ public class WodelTestResultsTestViewPart extends ViewPart {
 				}
 				if (element instanceof WodelTestResultTestInfo) {
 					WodelTestResultTestInfo result = (WodelTestResultTestInfo) element;
-					return result.getFailure(); 
+					return result.getFailure();
 				}
 			}
 			return false;
 		}
-		
 	}
-
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -377,36 +371,29 @@ public class WodelTestResultsTestViewPart extends ViewPart {
 		private Color getBackground(Object element) {
 			if (element instanceof WodelTestTest) {
 				WodelTestTest wodelTest = (WodelTestTest) element;
-				boolean detected = false;
 				boolean error = false;
 				for (WodelTestResultTest result : wodelTest.getResults()) {
-					if (result.getValue() == false) {
-						detected = true;
-						break;
-					}
 					if (result.getFailures() > 0) {
 						error = true;
 						break;
 					}
 				}
-				if (error == false) {
-					return detected ? GREEN : RED;
+				if (wodelTest.getKilledMutants() > 0) { 
+					return GREEN;
 				}
-				else {
-					return BLUE;
-				}
+				else return error ? BLUE : RED;
 			}
 			if (element instanceof WodelTestResultTest) {
 				WodelTestResultTest result = (WodelTestResultTest) element;
 				if (result.getFailures() == 0) {
-					return !result.getValue() ? GREEN : RED;
+					return result.getDetectedMutants() > 0 ? GREEN : RED;
 				}
 				else return BLUE;
 			}
 			if (element instanceof WodelTestResultTestInfo) {
 				WodelTestResultTestInfo result = (WodelTestResultTestInfo) element;
 				if (result.getFailure() == false) {
-					return !result.getValue() ? GREEN : RED;
+					return result.getValue() ? GREEN : RED;
 				}
 				else {
 					return BLUE;

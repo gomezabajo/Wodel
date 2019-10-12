@@ -112,9 +112,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			
 		    String classespath = path + "/data/classes.txt";
 		    String infopath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString() + "/data/classes.results.txt";
-		    if (packageClasses == null) {
-		    	packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
-		    }
+	    	packageClasses = WodelTestUtils.getPackageClasses(test, project.getName(), classespath, infopath);
 			MutatorHelper mutatorHelper = new MutatorHelper(test);
 			Map<String, Class<?>> mutators = mutatorHelper.getMutators();
 			
@@ -158,12 +156,12 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			int numMutatorsApplied = 0;//Integer.parseInt(globalResults[2]);
-			for (WodelTestMutatorResult wtmr : mutatorData) {
-				if (wtmr.getNumberOfMutants() > 0) {
-					numMutatorsApplied++;
-				}
-			}
+			int numMutatorsApplied = globalResults.length > 3 ? Integer.parseInt(globalResults[3]) : 0;
+			//for (WodelTestMutatorResult wtmr : mutatorData) {
+			//	if (wtmr.getNumberOfMutants() > 0) {
+			//		numMutatorsApplied++;
+			//	}
+			//}
 			
 			String resultsPath = path + "/data/classes.results.txt";
 			List<WodelTestResultClass> mutatorResults = WodelTestResultClass.loadFile(resultsPath);
@@ -197,7 +195,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			entry.percent = -1.0;
 			entries.add(entry);
 			
-			int numMutatorsSelected = mutatorData.size(); //Integer.parseInt(globalResults[1]);
+			int numMutatorsSelected = globalResults.length > 2 ? Integer.parseInt(globalResults[2]) : 0;
 			entry = new GlobalResult();
 			entry.name = "#Mutation operators selected";
 			entry.value = numMutatorsSelected;
@@ -216,14 +214,14 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 			entry = new GlobalResult();
 			entry.name = "#Mutants killed";
 			entry.value = numMutantsKilled;
-			entry.percent = numMutantsCompiling > 0 ? 1.0 * numMutantsKilled / numMutantsCompiling : 0;
+			entry.percent = numMutantsCompiling > 0 ? 1.0 * (numMutantsKilled - numMutantsEquivalent) / numMutantsGenerated : 0;
 			entries.add(entry);
 			
 			int numMutantsLive = numMutantsCompiling - numMutantsKilled;
 			entry = new GlobalResult();
 			entry.name = "#Mutants live";
 			entry.value = numMutantsLive;
-			entry.percent = numMutantsCompiling > 0 ? 1.0 * numMutantsCompiling / numMutantsGenerated : 0;
+			entry.percent = numMutantsCompiling > 0 ? 1.0 * numMutantsLive / numMutantsGenerated : 0;
 			entries.add(entry);
 
 			entry = new GlobalResult();
@@ -387,7 +385,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	    	List<WodelTestClass> classes = packageClasses.get(classname);
 			for (WodelTestClass cls : classes) {
 				for (WodelTestClassInfo info : cls.info) {
-					if (info.numFailedTests > 0) {
+					if (info.getNumFailedTests() > 0) {
 						if (!killedClasses.contains(info.path)) {
 							killedClasses.add(info.path);
 						}
@@ -403,9 +401,10 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 							}
 							if (equivalent && !equivalentClasses.contains(info.path)) {
 								equivalentClasses.add(info.path);
+								continue;
 							}
 						}
-						if (!equivalent && !liveClasses.contains(info.path)) {
+						if (!liveClasses.contains(info.path)) {
 							liveClasses.add(info.path);
 						}
 					}
@@ -667,7 +666,7 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	    						});
 	    					}
 	    					break;
-						case "#Mutants generated":
+						case "#Mutants compiling":
 							bar = new Bar();
 							bar.value1 = (int) entry.value;
 							break;

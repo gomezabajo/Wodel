@@ -44,9 +44,7 @@ public class SynctacticComparison extends Comparison {
 		try {
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			Resource resource1 = ModelManager.loadModel(packages, model1);
-			System.out.println("resource1.getURI(): " + resource1.getURI().toFileString());
 			Resource resource2 = ModelManager.loadModel(packages, model2);
-			System.out.println("resource2.getURI(): " + resource2.getURI().toFileString());
 			isRepeated = ModelManager.compareModels(resource1, resource2);
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block

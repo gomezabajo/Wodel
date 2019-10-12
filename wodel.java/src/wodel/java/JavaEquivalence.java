@@ -132,11 +132,9 @@ public class JavaEquivalence extends Equivalence {
 	private byte[] getBytecode(IProject project, IJavaProject javaProject, Resource model, String folderName, String modelName, String path, String packageName) {
 		byte[] byteArray = null;
 		try {
-			System.out.println("path: " + path);
 			File srcFile = new File(path);
 			if (srcFile.isFile()) {
 				String bytecodePath = getBytecodePath(project, javaProject, srcFile, packageName);
-				System.out.println("bytecodePath: " + bytecodePath);
 				File bytecode = new File(bytecodePath);
 				while (!bytecode.exists()) {
 					Thread.sleep(200);
@@ -174,7 +172,6 @@ public class JavaEquivalence extends Equivalence {
 				className = mutantName.substring(mutantName.lastIndexOf(".") + 1, mutantName.length());
 				packageName = mutantName.substring(0, mutantName.lastIndexOf("."));
 			}
-			System.out.println("mutantName: " + mutantName);
 			modelToProject(resource1, "", mutantName, project.getName());
 			IJavaProject javaProject = JavaCore.create(project);
 			IClasspathEntry[] entries = javaProject.getRawClasspath();
@@ -198,10 +195,8 @@ public class JavaEquivalence extends Equivalence {
 
 			//GET BYTECODE FOR SECOND PROGRAM
 			mutantName = model2.substring(model2.lastIndexOf("\\") + 1, model2.length()).replace(".model", "");
-			System.out.println("mutantName: " + mutantName);
 			String block = model2.substring(0, model2.lastIndexOf(mutantName) - 1);
 			block = block.substring(block.lastIndexOf("\\") + 1, block.length());
-			System.out.println("block: " + block);
 			modelToProject(resource2, block, mutantName, project.getName());
 			String artifactPath = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getName() + "/temp/" + block + "/" + mutantName + "/src/" + packageName + "/" + className + ".java";
 			IOUtils.copyFile(artifactPath, srcJavaFilePath);

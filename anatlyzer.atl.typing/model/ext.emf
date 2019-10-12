@@ -1,0 +1,148 @@
+@namespace(uri="http://anatlyzer/atl/ext", prefix="atlext")
+@merge(name="atlstatic")
+package atlext;
+
+import "platform:/resource/anatlyzer.atl.typing/model/types.ecore";
+
+@namespace(uri="http://anatlyzer/atlext/ATL", prefix="atl_ext_atl")
+package ATL {
+  class LocatedElement {
+  	attr String[0..1] fileLocation;
+  	attr Object fileObject; 
+  	
+  	/* Points to a list of problems, if any */
+  	ref EObject[*] problems;
+
+	val StringToStringMap[*] annotations;	
+  } 
+  
+  class StringToStringMap : java.util.Map$Entry {
+  	attr String[1] key;
+  	attr String[1] value;  	
+  }
+  
+  class MatchedRule { } 
+  class OutPatternElement { }
+  
+  class Callable {  	
+//    ref OCL.PropertyCallExp[*]#staticResolver calledBy;	
+    ref OCL.PropertyCallExp[*] calledBy;	
+    val CallableParameter[*] callableParameters;    
+  }
+  
+  class CallableParameter {
+  	attr String[1] name;
+	ref types.Type[1] staticType;  	
+	ref OCL.VariableDeclaration paramDeclaration;
+  }
+  
+  class ContextHelper { 
+    ref types.Type[1] contextType;    
+  	ref OCL.PropertyCallExp[*]#dynamicResolvers polymorphicCalledBy; 
+  }  
+
+
+  class Helper {
+  	attr boolean[1] hasContext  = false;
+  	attr boolean[1] isAttribute = false;
+
+	// Does not inherit from OCL TypedElement because this
+	// has a different nature...
+  	ref types.Type[0..1] inferredReturnType;  	
+  	ref types.Type[0..1] staticReturnType;  	
+
+  }
+  
+  class Binding {
+	ref EObject[1] writtenFeature;
+	ref types.Type[1] leftType;
+	
+	val RuleResolutionInfo[*] resolvedBy;
+  }
+  
+  class RuleResolutionInfo {
+	ref MatchedRule[1] rule; // Assumes rules with one input pattern
+	ref MatchedRule[1..*] allInvolvedRules;
+	
+	attr RuleResolutionStatus[1] status;
+  }
+  
+  enum RuleResolutionStatus {
+  	RESOLUTION_UNKNOWN = 0;
+  	RESOLUTION_CONFIRMED = 1;
+  	RESOLUTION_DISCARDED = 2;
+  }
+  
+  
+}
+
+@namespace(uri="http://anatlyzer/atl/ext/OCL", prefix="atl_ext_ocl")
+package OCL {
+  abstract class TypedElement {
+  	ref types.Type[0..1] inferredType;  	
+  }
+
+  class VariableDeclaration extends TypedElement {
+  	ref types.Type[0..1] staticType;
+  }
+
+  class OclExpression extends TypedElement {
+     attr boolean implicitlyCasted = false;
+     ref types.Type[0..1] noCastedType; 
+  }
+  
+  class PropertyCallExp {  	
+	// Reference to EStructuralFeature and the type of the static receptor
+	ref EObject[0..1] usedFeature;
+	ref EObject[0..*] subtypeFeatures;
+	ref EObject[0..1] receptorType;
+	
+	attr boolean[1] isStaticCall = false;
+	// ref ATL.Callable[1]#calledBy staticResolver;
+	ref ATL.Callable[1] staticResolver;
+	ref ATL.ContextHelper[0..*]#polymorphicCalledBy dynamicResolvers;		
+  }
+
+  class OperationCallExp {
+  	val ResolveTempResolution[*] resolveTempResolvedBy;	
+  }
+  
+  class CollectionOperationCallExp {
+  }
+  
+  class ResolveTempResolution extends ATL.RuleResolutionInfo {
+	ref ATL.OutPatternElement[1] element;  	
+  }
+  
+  
+  // This is to represent the body of EOperations written in
+  // Java as part of a generated meta-model.
+  class JavaBody extends OclExpression { }
+
+  class GetAppliedStereotypesBody extends JavaBody { }		
+	
+  /*
+  @namespace(uri="http://anatlyzer/atl/ext/UML_Profiles", prefix="atl_ext_profiles")
+  package Profiles {
+    class GetAppliedStereotypesBody extends OCL.JavaBody { }		
+		
+  }
+  */
+
+}
+
+/* Extensions to cover other OCL features found in other dialects */
+@namespace(uri="http://anatlyzer/atl/ext/OCL2", prefix="atl_ext_ocl2")
+package OCL2 {
+	
+	class SelectByKind extends OCL.CollectionOperationCallExp {
+		// arguments[0] = OclModelElement
+		attr boolean[1] isExact = false;
+	}
+	
+}
+
+@namespace(uri="http://anatlyzer/atl/ext/PrimitiveTypes", prefix="atl_ext_ptypes")
+package PrimitiveTypes {
+}
+

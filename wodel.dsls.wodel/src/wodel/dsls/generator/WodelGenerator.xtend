@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.eclipse.xtext.generator.AbstractGenerator
+import org.eclipse.core.runtime.Platform
 
 /**
  * @author Pablo Gomez-Abajo - Main Wodel code generator.
@@ -18,11 +19,14 @@ import org.eclipse.xtext.generator.AbstractGenerator
 public class WodelGenerator extends AbstractGenerator {
 
 	@Inject WodelMutatorGenerator mutatorGenerator
-	//@Inject WodelUseGenerator useGenerator
+	@Inject WodelUseGenerator useGenerator
 
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		mutatorGenerator.doGenerate(input, fsa, context)
-		//useGenerator.doGenerate(input, fsa, context)
+		var boolean seedModelSynthesis = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Seed model synthesis", false, null);
+		if (seedModelSynthesis == true) {
+			useGenerator.doGenerate(input, fsa, context)
+		}
 	}
 	
 }

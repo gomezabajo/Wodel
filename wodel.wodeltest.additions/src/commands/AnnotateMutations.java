@@ -25,6 +25,7 @@ import appliedMutations.ObjectRemoved;
 import appliedMutations.ReferenceChanged;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
+import exceptions.ReferenceNonExistingException;
 import manager.ModelManager;
 import manager.MutatorUtils;
 import manager.IWodelTest;
@@ -66,13 +67,17 @@ public class AnnotateMutations {
 			if (testContainerEClassName != null && testContainerEClassName.length() > 0) {
 				path = model.getURI().toFileString();
 				String name = path.substring(path.lastIndexOf(File.separator) + File.separator.length(), path.length());
-				if (!name.contains("_") && path.contains("out")) {
+				if (!name.contains("_") && (path.contains("out") || name.replace(".model", "").contains("."))) {
 					String registryName = name.replace(".model", "Registry.model");
 					String registryPath = path.substring(0, path.lastIndexOf(File.separator) + File.separator.length()) + "registry" + File.separator + registryName;
 					String seedName = path.substring(path.lastIndexOf("out" + File.separator) + ("out" + File.separator).length(), path.length());
 					seedName = seedName.substring(0, seedName.indexOf(File.separator)) + ".model";
 					String seedPath = metamodelpath + "/" + seedName;
 					List<EPackage> domainPackages = ModelManager.loadMetaModel(metamodel);
+					File seedFile = new File(seedPath);
+					if (!seedFile.exists()) {
+						return false;
+					}
 					Resource seed = ModelManager.loadModel(domainPackages, seedPath);
 					Bundle bundle = Platform.getBundle("wodel.models");
 					URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
@@ -86,6 +91,7 @@ public class AnnotateMutations {
 					containerEClasses.add(containerEClass);
 					containerEClasses.addAll(ModelManager.getESubClasses(domainPackages, containerEClass));
 					for (EObject mutation : mutations) {
+						boolean found = false;
 						if (mutation instanceof InformationChanged) {
 							InformationChanged mut = (InformationChanged) mutation;
 							EObject registryObject = mut.getObject();
@@ -95,9 +101,8 @@ public class AnnotateMutations {
 							if (registryObject.eIsProxy()) {
 								registryObject = EcoreUtil.resolve(registryObject, seed);
 							}
-							EObject seedObject = ModelManager.getObject(seed, registryObject);
+							EObject seedObject = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(registryObject));
 							if (seedObject != null) {
-								boolean found = false;
 								EObject container = ModelManager.getContainer(seed, seedObject);
 								while (container != null) {
 									for (EClass containerECl : containerEClasses) {
@@ -137,9 +142,8 @@ public class AnnotateMutations {
 								if (registryObject.eIsProxy()) {
 									registryObject = EcoreUtil.resolve(registryObject, seed);
 								}
-								EObject seedObject = ModelManager.getObject(seed, registryObject);
+								EObject seedObject = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(registryObject));
 								if (seedObject != null) {
-									boolean found = false;
 									EObject container = ModelManager.getContainer(seed, seedObject);
 									while (container != null) {
 										for (EClass containerECl : containerEClasses) {
@@ -172,7 +176,6 @@ public class AnnotateMutations {
 								}
 								EObject mutantObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(registryObject));
 								if (mutantObject != null) {
-									boolean found = false;
 									EObject mutantContainer = ModelManager.getContainer(model, mutantObject);
 									EObject container = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(mutantContainer));
 									while (container != null) {
@@ -197,6 +200,115 @@ public class AnnotateMutations {
 								}
 							}
 						}
+						if (found == false) {
+							if (mutation.eClass().getName().equals("InformationChanged")) {
+								EObject registryObject = ModelManager.getReference("object", mutation);
+								if (registryObject == null) {
+									continue;
+								}
+								if (registryObject.eIsProxy()) {
+									registryObject = EcoreUtil.resolve(registryObject, seed);
+								}
+								EObject seedObject = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(registryObject));
+								if (seedObject != null) {
+									EObject container = ModelManager.getContainer(seed, seedObject);
+									while (container != null) {
+										for (EClass containerECl : containerEClasses) {
+											if (containerECl.getName().equals(container.eClass().getName())) {
+												found = true;
+												break;
+											}
+										}
+										if (found == true) {
+											break;
+										}
+										container = ModelManager.getContainer(seed, container);
+									}
+									if (found == true) {
+										EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
+										String annotation = "modify information mutator: ";
+										List<EObject> attChanges = ModelManager.getReferences("attChanges", mutation);
+										for (EObject attChange : attChanges) {
+											annotation += ModelManager.getAttribute("oldValue", attChange) + " replaced by " + ModelManager.getAttribute("newValue", attChange);
+										}
+										List<EObject> refChanges = ModelManager.getReferences("refChanges", mutation);
+										for (EObject refChange : refChanges) {
+											EObject from = ModelManager.getReference("from", refChange);
+											EObject to = ModelManager.getReference("to", refChange);
+											if (from != null && to != null) {
+												annotation += "source " + from.eClass().getName() + " to " + to.eClass().getName();
+											}
+										}
+										test.annotateMutation(model, modelContainer, annotation);
+									}
+								}
+							}
+							if (mutation.eClass().getName().equals("ObjectRemoved")) {
+								List<EObject> registryObjects = ModelManager.getReferences("object", mutation);
+								if (registryObjects.size() > 0) {
+									EObject registryObject = registryObjects.get(0);
+									if (registryObject.eIsProxy()) {
+										registryObject = EcoreUtil.resolve(registryObject, seed);
+									}
+									EObject seedObject = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(registryObject));
+									if (seedObject != null) {
+										EObject container = ModelManager.getContainer(seed, seedObject);
+										while (container != null) {
+											for (EClass containerECl : containerEClasses) {
+												if (containerECl.getName().equals(container.eClass().getName())) {
+													found = true;
+													break;
+												}
+											}
+											if (found == true) {
+												break;
+											}
+											container = ModelManager.getContainer(seed, container);
+										}
+										if (found == true) {
+											EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
+											String annotation = "remove object mutator: ";
+											annotation += registryObject.eClass().getName() + " object removed";
+											test.annotateMutation(model, modelContainer, annotation);
+											break;
+										}
+									}
+								}
+							}
+							if (mutation.eClass().getName().equals("ObjectCreated")) {
+								List<EObject> registryObjects = ModelManager.getReferences("object", mutation);
+								if (registryObjects.size() > 0) {
+									EObject registryObject = registryObjects.get(0);
+									if (registryObject.eIsProxy()) {
+										registryObject = EcoreUtil.resolve(registryObject, model);
+									}
+									EObject mutantObject = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(registryObject));
+									if (mutantObject != null) {
+										EObject mutantContainer = ModelManager.getContainer(model, mutantObject);
+										EObject container = ModelManager.getObjectByURIEnding(seed, EcoreUtil.getURI(mutantContainer));
+										while (container != null) {
+											for (EClass containerECl : containerEClasses) {
+												if (containerECl.getName().equals(container.eClass().getName())) {
+													found = true;
+													break;
+												}
+											}
+											if (found == true) {
+												break;
+											}
+											container = ModelManager.getContainer(seed, container);
+										}
+										if (found == true) {
+											EObject modelContainer = ModelManager.getObjectByURIEnding(model, EcoreUtil.getURI(container));
+											String annotation = "create object mutator: ";
+											annotation += registryObject.eClass().getName() + " object created";
+											test.annotateMutation(model, modelContainer, annotation);
+											break;
+										}
+									}
+								}
+							}
+						}
 					}
 					ModelManager.saveOutModel(model, path);
 				}
@@ -208,6 +320,9 @@ public class AnnotateMutations {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ReferenceNonExistingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<!-- Extension to add the option of automatic fix -->
+<!-- THIS IS EXPERIMENTAL AND IT IS REMOVED FOR COMMON USE	
+	<extension
+          point="org.eclipse.ui.editorActions">
+       <editorContribution
+             id="anatlyzer.ide.menuExtension"
+             targetID="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+
+             <menu
+                id="AnATLyzerEditorMenu"
+                label="AnATLyzer">
+             <groupMarker
+                   name="AnATLyzerGroup">
+             </groupMarker>
+          </menu>
+	
+          <action
+                class="anatlyzer.atl.ui.actions.AutoFixVisual"
+                definitionId="anatlyzer.ui.commands.AutoFixVisual"
+                id="anatlyzer.ui.actions.AutoFixVisual"
+                label="Automatically fix transformation (Visual)"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+      </editorContribution>
+   	</extension>
+   	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.AutoFixVisual"
+             name="anATLyzer - Automatically fix transformation (Visual)"/>
+	</extension>
+
+
+   	 <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="anatlyzer.view.category"
+            name="AnATLyzer">
+      </category>
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView"
+            icon="icons/autofix_16x16.png"
+            id="anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView"
+            name="ATL Repair View">
+      </view>
+   	</extension>
+-->   	  	
+   	
+   	 <extension
+           point="org.eclipse.compare.contentViewers">
+        <viewer
+              class="anatlyzer.atl.editor.compare.ATLTextViewerCreator"
+              extensions="atl"
+              id="anatlyzer.atl.editor.compare.ATLTextViewerCreator">
+        </viewer>
+     </extension>
+     <extension
+           point="org.eclipse.compare.contentMergeViewers">
+        <viewer
+              class="anatlyzer.atl.editor.compare.ATLTextViewerCreator"
+              extensions="atl"
+              id="anatlyzer.atl.editor.compare.ATLTextViewerCreatorMerge">
+        </viewer>
+     </extension>
+     
+</plugin>

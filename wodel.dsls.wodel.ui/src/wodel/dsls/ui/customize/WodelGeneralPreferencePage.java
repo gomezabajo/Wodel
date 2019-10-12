@@ -40,6 +40,9 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 
     	new LabelFieldEditor(" ", composite);
     	addField(new BooleanFieldEditor("Serialize models", "Serialize models", composite));
+    	
+    	new LabelFieldEditor(" ", composite);
+    	addField(new BooleanFieldEditor("Seed model synthesis", "Seed model synthesis", composite));
 
     	HashMap<String, String> valueMap = new HashMap<String, String>();
     	if (Platform.getExtensionRegistry() != null) {

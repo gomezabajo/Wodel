@@ -326,26 +326,26 @@ public class ModifyInformationMutator extends Mutator {
 							EReference r = (EReference) ModelManager.getReferenceByName(e.getKey(), object);
 							Object ob = object.eGet(r);
 							if (ob instanceof EObject) {
-								EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));
-								EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), eObject);
-								//EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), (EObject) refConfig.getValue(object));
+								//EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));
+								//EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), eObject);
+								EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), (EObject) refConfig.getValue(object));
 							}
 							else {
 								List<EObject> list = (List<EObject>) ob;
 								if (refConfig.getValue(object) instanceof EObject) {
-									EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));
-									list.add(eObject);
-									//list.add((EObject) refConfig.getValue(object));
+									//EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));
+									//list.add(eObject);
+									list.add((EObject) refConfig.getValue(object));
 								}
 								else {
-									List<EObject> processed = new ArrayList<EObject>();
-									List<EObject> copies = new ArrayList<EObject>();
-									copies.addAll((List<EObject>) refConfig.getValue(object));
-									for (EObject o : copies) {
-										EObject eObject = EMFCopier.process(this.getModel(), o);
-										processed.add(eObject);
-									}
-									list.addAll(processed);
+									//List<EObject> processed = new ArrayList<EObject>();
+									//List<EObject> copies = new ArrayList<EObject>();
+									//copies.addAll((List<EObject>) refConfig.getValue(object));
+									//for (EObject o : copies) {
+									//	EObject eObject = EMFCopier.process(this.getModel(), o);
+									//	processed.add(eObject);
+									//}
+									list.addAll((List<EObject>) refConfig.getValue(object));
 									//list.addAll((List<EObject>) refConfig.getValue(object));
 								}
 							}
@@ -384,7 +384,7 @@ public class ModifyInformationMutator extends Mutator {
 				}
 			}
 		}
-		complete(this.getMetaModel(), this.getModel());
+		//complete(this.getMetaModel(), this.getModel());
 		return this.result;
 	}
 

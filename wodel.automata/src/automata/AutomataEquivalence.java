@@ -25,63 +25,65 @@ import exceptions.ReferenceNonExistingException;
  */
 
 public class AutomataEquivalence extends Equivalence {
-	
+
 	@Override
 	public String getName() {
 		return "Finite Automata Comparison";
 	}
-	
+
 	@Override
 	public String getURI() {
 		return "http://dfaAutomaton/1.0";
 	}
-	
+
 	private boolean compareEObjectLists(List<Object> l1, List<Object> l2) {
-		if (l1.size() == l2.size()) {
-			HashMap<Object, Boolean> found = new HashMap<Object, Boolean>();
-			for (Object o1 : l1) {
-				found.put(o1, false);
-			}
-			for (Object o1 : l1) {
-				for (Object o2 : l2) {
-					if (o1 instanceof List<?> && o2 instanceof List<?>) {
-						List<EObject> lo1 = (List<EObject>) o1;
-						List<EObject> lo2 = (List<EObject>) o2;
-						if (lo1.size() == lo2.size()) {
-							for (EObject eo1 : lo1) {
-								boolean efound = false;
-								for (EObject eo2 :lo2) {
-									if (EcoreUtil.equals(eo1, eo2)) {
-										efound = true;
-										break;
+		if (l1 != null && l2 != null) {
+			if (l1.size() == l2.size()) {
+				HashMap<Object, Boolean> found = new HashMap<Object, Boolean>();
+				for (Object o1 : l1) {
+					found.put(o1, false);
+				}
+				for (Object o1 : l1) {
+					for (Object o2 : l2) {
+						if (o1 instanceof List<?> && o2 instanceof List<?>) {
+							List<EObject> lo1 = (List<EObject>) o1;
+							List<EObject> lo2 = (List<EObject>) o2;
+							if (lo1.size() == lo2.size()) {
+								for (EObject eo1 : lo1) {
+									boolean efound = false;
+									for (EObject eo2 :lo2) {
+										if (EcoreUtil.equals(eo1, eo2)) {
+											efound = true;
+											break;
+										}
+									}
+									if (efound != false) {
+										found.put(o1, true);
 									}
 								}
-								if (efound != false) {
+							}
+						}
+						else {
+							if (o1 instanceof EObject && o2 instanceof EObject) {
+								if (EcoreUtil.equals((EObject) o1, (EObject) o2)) {
 									found.put(o1, true);
+									break;
 								}
 							}
 						}
 					}
-					else {
-						if (o1 instanceof EObject && o2 instanceof EObject) {
-							if (EcoreUtil.equals((EObject) o1, (EObject) o2)) {
-								found.put(o1, true);
-								break;
-							}
-						}
+				}
+				for (Object o1 : found.keySet()) {
+					if (found.get(o1) != true) {
+						return false;
 					}
 				}
+				return true;
 			}
-			for (Object o1 : found.keySet()) {
-				if (found.get(o1) != true) {
-					return false;
-				}
-			}
-			return true;
 		}
 		return false;
 	}
-	
+
 	private void getStateClosure(EObject initial, EObject root, EObject[] transitions, List<EObject> closure) {
 		try {
 			if (!closure.contains(initial)) {
@@ -105,7 +107,7 @@ public class AutomataEquivalence extends Equivalence {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private List<List<Object>> convertToDFA(List<EPackage> packages, Resource ndfa) {
 		List<List<Object>> transitionTable = null;
 		try {
@@ -124,11 +126,11 @@ public class AutomataEquivalence extends Equivalence {
 			transitionList.toArray(transitions);
 			List<EObject> initials = new ArrayList<EObject>();
 			getStateClosure(initial, root, transitions, initials);
-			
+
 			List<EObject> alphabetList = ModelManager.getReferences("alphabet", root);
 			EObject[] alphabet = new EObject[alphabetList.size()];
 			alphabetList.toArray(alphabet);
-			
+
 			transitionTable = new ArrayList<List<Object>>();
 			List<Object> row = new ArrayList<Object>();
 			row.add(null);
@@ -203,10 +205,10 @@ public class AutomataEquivalence extends Equivalence {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return transitionTable;
 	}
-	
+
 	public void buildDisjoint(List<Object> instance, Object q, HashMap<Object, List<Object>> one, HashMap<Object, List<Object>> two, HashMap<Object, Boolean> included) {
 		if (included.get(q) == false) {
 			if (q instanceof List<?>) {
@@ -255,7 +257,7 @@ public class AutomataEquivalence extends Equivalence {
 							}
 						}
 					}
-					
+
 				}
 			}
 			else {
@@ -281,9 +283,9 @@ public class AutomataEquivalence extends Equivalence {
 			}
 		}
 	}
-	
+
 	public boolean compareDFAs(List<List<Object>> dfa1, List<List<Object>> dfa2) {
-		
+
 		// gets alphabet
 		List<String> alphabet = new ArrayList<String>();
 		for (Object symbol : dfa1.get(0)) {
@@ -299,7 +301,7 @@ public class AutomataEquivalence extends Equivalence {
 				}
 			}
 		}
-		
+
 		// create sets for each state
 		HashMap<String, HashMap<Object, List<Object>>> set = new HashMap<String, HashMap<Object, List<Object>>>();
 		HashMap<Object, List<Object>> one = new HashMap<Object, List<Object>>();
@@ -326,7 +328,7 @@ public class AutomataEquivalence extends Equivalence {
 				states2.add(states);
 			}
 		}
-		
+
 		Stack<List<Object>> stack = new Stack<List<Object>>();
 		List<Object> list = new ArrayList<Object>();
 		Object s1 = states1.get(0).get(0);
@@ -340,7 +342,7 @@ public class AutomataEquivalence extends Equivalence {
 		List<Object> twoSet = new ArrayList<Object>();
 		twoSet.add(s1);
 		two.put(s2, twoSet);
-		
+
 		while (stack.isEmpty() != true) {
 			List<Object> pop = stack.pop();
 			List<Object> q1 = (List<Object>) pop.get(0);
@@ -382,8 +384,8 @@ public class AutomataEquivalence extends Equivalence {
 									r2 = (List<Object>) row.get(i);
 									break;
 								}
+								i++;
 							}
-							i++;
 						}
 					}
 					if (r2 != null) {
@@ -425,13 +427,13 @@ public class AutomataEquivalence extends Equivalence {
 				}
 			}
 		}
-		
+
 		List<List<Object>> disjoint = new ArrayList<List<Object>>();
 		HashMap<Object, Boolean> included = new HashMap<Object, Boolean>();
 		for (Object q : one.keySet()) {
 			included.put(q, false);
 		}
-		
+
 		for (Object q : one.keySet()) {
 			List<Object> instance = new ArrayList<Object>();
 			buildDisjoint(instance, q, one, two, included);
@@ -448,33 +450,39 @@ public class AutomataEquivalence extends Equivalence {
 				}
 			}
 		}
-		
+
 		for (List<Object> subset : disjoint) {
 			boolean isFinal1 = false;
-			for (EObject state : (List<EObject>) subset.get(0)) {
-				boolean value = ModelManager.getBooleanAttribute("isFinal", state);
-				if (value == true) {
-					isFinal1 = true;
-					break;
+			if (subset.get(0) != null) {
+				for (EObject state : (List<EObject>) subset.get(0)) {
+					boolean value = ModelManager.getBooleanAttribute("isFinal", state);
+					if (value == true) {
+						isFinal1 = true;
+						break;
+					}
 				}
 			}
 			if (subset.size() > 1) {
 				for (Object states : subset.subList(1, subset.size())) {
-					boolean isFinal2 = false;
-					for (EObject state : (List<EObject>) states) {
-						boolean value = ModelManager.getBooleanAttribute("isFinal", state);
-						if (value == true) {
-							isFinal2 = true;
-							break;
+					if (states != null) {
+						boolean isFinal2 = false;
+						for (EObject state : (List<EObject>) states) {
+							if (state != null) {
+								boolean value = ModelManager.getBooleanAttribute("isFinal", state);
+								if (value == true) {
+									isFinal2 = true;
+									break;
+								}
+							}
 						}
-					}
-					if (isFinal1 != isFinal2) {
-						return false;
+						if (isFinal1 != isFinal2) {
+							return false;
+						}
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -489,10 +497,10 @@ public class AutomataEquivalence extends Equivalence {
 			Resource ndfa1 = ModelManager.loadModel(packages, model1);
 			Resource ndfa2 = ModelManager.loadModel(packages, model2);
 			//isRepeated = ModelManager.compareModels(resource1, resource2);
-			
+
 			List<List<Object>> dfa1 = convertToDFA(packages, ndfa1);
 			List<List<Object>> dfa2 = convertToDFA(packages, ndfa2);
-			
+
 			isRepeated = compareDFAs(dfa1, dfa2);
 		} catch (MetaModelNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -503,7 +511,7 @@ public class AutomataEquivalence extends Equivalence {
 		}
 		return isRepeated;
 	}
-	
+
 	@Override
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {

@@ -128,7 +128,8 @@ s1 = modify one State where {self <> s0} with {isInitial = true}
 
 <p>Swaps the the symbols of two sibling transitions</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t = select one Transition
-modify one Transition where {self <> t and src = t->src} with {swapref(symbol, t->symbol)}
+modify one Transition where {self <> t and src = t->src}
+  with {swapref(symbol, t->symbol)}
 </code></pre></div></div>
 
 <p>Redirects transition to a new final state</p>
@@ -148,7 +149,8 @@ create Transition with {src = s1, tar = s0, symbol = one Symbol}
 
 <p>Creates a transition with the same symbol from a state to a different one</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t = select one Transition where {symbol <> null}
-create Transition with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
+create Transition
+  with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
 </code></pre></div></div>
 
 <p>Creates a transition</p>

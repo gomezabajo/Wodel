@@ -96,7 +96,7 @@ metamodel "http://dfaAutomaton/1.0"
 with blocks {
     first {
          modify target tar from one Transition to other State [3]             
-} [2]
+    } [2]
     second from first repeat=no {
          modify one State with { name = random-string(4,6)}
     } [3]

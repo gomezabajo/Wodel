@@ -35,57 +35,69 @@
    </section>
 
     <section class="main-content">
-      <p><strong>Wodel applied to ASPLE language. [<a href="http://gomezabajo.github.io/Wodel/ecore/Asple.ecore">ASPLE Language Ecore</a>]</strong></p>
+      <p><strong>Wodel applied to BPMN. [<a href="http://gomezabajo.github.io/Wodel/ecore/simplebpmn.ecore">Simple BPMN Ecore</a>]</strong></p>
 
-<p>Replaces an arithmetic operator by another one [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rao.zip">rao</a>]:</p>
+<p><u>[<a href="">High-level change operations for BPMN</a>].</u></p>
 
-<pre><code>
-     modify one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-            with {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-</code></pre>
-
-<p>Replaces an arithmetic operator by another one [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rro.zip">rro</a>]:</p>
+<p>Insert activity:</p>
 
 <pre><code>
-     modify one BinaryOperator where {operator in ['less', 'equals', 'greater', 'distinct']}
-            with {operator in ['less', 'equals', 'greater', 'distinct']}
+    s = select one Sequence where {^to not typed EndEv}
+    f = select one FlowObject in s->^to
+    a = create Activity with {name = 'newActivity'}
+    modify target ^to from s to a
+    create Sequence with {name = 'newSeq', ^from = a, ^to = f}
 </code></pre>
 
-<p>Replaces loop end condition by infinite loop [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rli.zip">rli</a>]:</p>
+<p>Remove activity:</p>
 
 <pre><code>
-     loop = select one Loop
-     create Boolean in loop->expression with {value = true}
+    s0 = select one Sequence where {^to is typed Activity}
+    a = select one Activity in s0->^to
+    s1 = select one Sequence where {^from = a}
+    f = select one FlowObject in s1->^to
+	remove a, s1
+	modify target ^to from s0 to f
 </code></pre>
 
-<p>Delete statement [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rst.zip">rst</a>]:</p>
+<p>Move activity:</p>
 
 <pre><code>
-     remove one Statement
+    a = select one Activity
+    s0 = select one Sequence where {^to = a and ^from <> null}
+    o0 = select one FlowObject where {self = s0->^from}
+    s1 = select one Sequence where {^from = a and ^to <> null}
+	o1 = select one FlowObject where {self = s1->^to}
+	s2 = select one Sequence where {^from = o1 and ^to <> null}
+	modify s0 with {^to = o1},
+           s1 with {^from = o1, ^to = a},
+           s2 with {^from = a}
 </code></pre>
 
-<p>Replaces scalar variable [<a href="http://gomezabajo.github.io/Wodel/zip/asple/rsv.zip">rsv</a>]:</p>
+<p>Replace activity:</p>
 
 <pre><code>
-     modify one Integer with {value = random}
+    a0 = select one Activity
+    src0 = select one Sequence where {^to = a0}
+    tar0 = select one Sequence where {^from = a0}
+    a1 = select one Activity where {self <> a0}
+    src1 = select one Sequence where {^to = a1}
+    tar1 = select one Sequence where {^from = a1}
+    modify src0 with {^to = a1}, tar0 with {^from = a1},
+           src1 with {^to = a0}, tar1 with {^from = a0}
 </code></pre>
 
-<p>Increment an arithmetic expression by 1 [<a href="http://gomezabajo.github.io/Wodel/zip/asple/ia1.zip">ia1</a>]:</p>
+<p>Retype activity:</p>
 
 <pre><code>
-     op = select one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}
-     exp = create BinaryOperator in op->right with {left = op->right, operator = 'add'}
-     create Integer in exp->right with {value = 1}
+    retype one [AND, OR, XOR] as [AND, OR, XOR]
 </code></pre>
 
+<p>Here you can download all these examples of Wodel applied to BPMN.<br />
 
-<p>Here you can download all these examples of Wodel applied to ASPLE language.<br />
-
-	  <a href="https://github.com/gomezabajo/Wodel/zipball/ASPLEWodelSamples">ASPLE samples .zip</a><br />
-	  <a href="https://github.com/gomezabajo/Wodel/tarball/ASPLEWodelSamples">ASPLE samples .tar.gz</a>
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/BPMNSamples">BPMN samples .zip</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/BPMNSamples">BPMN samples .tar.gz</a>
 </p>
-	
-
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span>
 

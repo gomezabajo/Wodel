@@ -65,12 +65,11 @@
 <pre><code>
     a = select one Activity
     s0 = select one Sequence where {^to = a and ^from <> null}
-    o0 = select one FlowObject where {self = s0->^from}
     s1 = select one Sequence where {^from = a and ^to <> null}
-    o1 = select one FlowObject where {self = s1->^to}
-    s2 = select one Sequence where {^from = o1 and ^to <> null}
-    modify s0 with {^to = o1},
-           s1 with {^from = o1, ^to = a},
+    o = select one FlowObject where {self = s1->^to}
+    s2 = select one Sequence where {^from = o1and ^to <> null}
+    modify s0 with {^to = o},
+           s1 with {^from = o, ^to = a},
            s2 with {^from = a}
 </code></pre>
 

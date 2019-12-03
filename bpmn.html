@@ -67,7 +67,7 @@
     s0 = select one Sequence where {^to = a and ^from <> null}
     s1 = select one Sequence where {^from = a and ^to <> null}
     o = select one FlowObject where {self = s1->^to}
-    s2 = select one Sequence where {^from = o1and ^to <> null}
+    s2 = select one Sequence where {^from = o and ^to <> null}
     modify s0 with {^to = o},
            s1 with {^from = o, ^to = a},
            s2 with {^from = a}

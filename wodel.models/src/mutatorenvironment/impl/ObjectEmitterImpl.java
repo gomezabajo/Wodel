@@ -2,16 +2,19 @@
  */
 package mutatorenvironment.impl;
 
+import java.util.Collection;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.ObjectEmitter;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,6 +26,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <ul>
  *   <li>{@link mutatorenvironment.impl.ObjectEmitterImpl#getType <em>Type</em>}</li>
  *   <li>{@link mutatorenvironment.impl.ObjectEmitterImpl#getName <em>Name</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.ObjectEmitterImpl#getTypes <em>Types</em>}</li>
  * </ul>
  *
  * @generated
@@ -57,6 +61,16 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getTypes() <em>Types</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EClass> types;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -141,6 +155,18 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EClass> getTypes() {
+		if (types == null) {
+			types = new EObjectResolvingEList<EClass>(EClass.class, this, MutatorenvironmentPackage.OBJECT_EMITTER__TYPES);
+		}
+		return types;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -149,6 +175,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 				return basicGetType();
 			case MutatorenvironmentPackage.OBJECT_EMITTER__NAME:
 				return getName();
+			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPES:
+				return getTypes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -158,6 +186,7 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -166,6 +195,10 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 				return;
 			case MutatorenvironmentPackage.OBJECT_EMITTER__NAME:
 				setName((String)newValue);
+				return;
+			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPES:
+				getTypes().clear();
+				getTypes().addAll((Collection<? extends EClass>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,6 +218,9 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 			case MutatorenvironmentPackage.OBJECT_EMITTER__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPES:
+				getTypes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -201,6 +237,8 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 				return type != null;
 			case MutatorenvironmentPackage.OBJECT_EMITTER__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case MutatorenvironmentPackage.OBJECT_EMITTER__TYPES:
+				return types != null && !types.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

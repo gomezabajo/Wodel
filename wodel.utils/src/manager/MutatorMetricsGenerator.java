@@ -2,7 +2,6 @@ package manager;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,13 +219,18 @@ public abstract class MutatorMetricsGenerator {
 						List<EObject> mutators = ModelManager.getAllObjects(program);
 						EObject mutator = null;
 						String mutatorURI = EcoreUtil.getURI(mutData.mutator).toString().replace("//", "/");
+						mutatorURI = mutatorURI.substring(mutatorURI.indexOf("#"), mutatorURI.length());
 						for (EObject mut : mutators) {
 							String mutURI = EcoreUtil.getURI(mut).toString().replace("//", "/");
+							mutURI = mutURI.substring(mutURI.indexOf("#"), mutURI.length());
 							if (mutatorURI.equals(mutURI)) {
 								//if (EcoreUtil.getURI(mut).equals(EcoreUtil.getURI(mutData.mutator))) {
 								mutator = mut;
 								break;
 							}
+						}
+						if (mutator == null) {
+							continue;
 						}
 						if (mutator.eClass().getName().equals("CreateObjectMutator")) {
 							List<EObject> attributes = ModelManager.getReferences("attributes", mutator);
@@ -291,25 +295,27 @@ public abstract class MutatorMetricsGenerator {
 								metric.references.put(refObject.getName(), refmetric);
 							}
 							EObject container = object.eContainer();
-							for (EReference ref : container.eClass().getEAllReferences()) {
-								if (ref.getEType().getName().equals(object.eClass().getName())) {
-									WodelMutantMetric containerMetric = null;
-									if (mutantMetrics.get(container.eClass().getName()) == null) {
-										containerMetric = new WodelMutantMetric();
-									}	
-									else {
-										containerMetric = mutantMetrics.get(container.eClass().getName());
+							if (container != null) {
+								for (EReference ref : container.eClass().getEAllReferences()) {
+									if (ref.getEType().getName().equals(object.eClass().getName())) {
+										WodelMutantMetric containerMetric = null;
+										if (mutantMetrics.get(container.eClass().getName()) == null) {
+											containerMetric = new WodelMutantMetric();
+										}	
+										else {
+											containerMetric = mutantMetrics.get(container.eClass().getName());
+										}
+										MutantMetric refmetric = null;
+										if (containerMetric.references.get(ref.getName()) == null) {
+											refmetric = new MutantMetric();
+										}
+										else {
+											refmetric = containerMetric.references.get(ref.getName());
+										}
+										refmetric.modified++;
+										containerMetric.modified++;
+										break;
 									}
-									MutantMetric refmetric = null;
-									if (containerMetric.references.get(ref.getName()) == null) {
-										refmetric = new MutantMetric();
-									}
-									else {
-										refmetric = containerMetric.references.get(ref.getName());
-									}
-									refmetric.modified++;
-									containerMetric.modified++;
-									break;
 								}
 							}
 						}
@@ -478,13 +484,18 @@ public abstract class MutatorMetricsGenerator {
 					List<EObject> mutators = ModelManager.getAllObjects(program);
 					EObject mutator = null;
 					String mutatorURI = EcoreUtil.getURI(mutData.mutator).toString().replace("//", "/");
+					mutatorURI = mutatorURI.substring(mutatorURI.indexOf("#"), mutatorURI.length());
 					for (EObject mut : mutators) {
 						String mutURI = EcoreUtil.getURI(mut).toString().replace("//", "/");
+						mutURI = mutURI.substring(mutURI.indexOf("#"), mutURI.length());
 						if (mutatorURI.equals(mutURI)) {
 							//if (EcoreUtil.getURI(mut).equals(EcoreUtil.getURI(mutData.mutator))) {
 							mutator = mut;
 							break;
 						}
+					}
+					if (mutator == null) {
+						continue;
 					}
 					if (mutator.eClass().getName().equals("RemoveObjectMutator")) {
 						EClass eClass = object.eClass();
@@ -710,7 +721,7 @@ public abstract class MutatorMetricsGenerator {
 
 	protected LinkedHashMap<String, WodelMutantMetric> createRegistryFolderMetrics(List<EPackage> packages,
 			File mutantFile, EObject met, File seedFile, File folder, List<EObject> folders,
-			List<EPackage> registry, Resource program, boolean filterAbstract) {
+			List<EPackage> registry, Resource program, List<String> blockNames, boolean filterAbstract) {
 		LinkedHashMap<String, WodelMutantMetric> mutantMetrics = null;
 		try {
 			if ((mutantFile.getName().equals("registry") || mutantFile.getName().endsWith("vs")) == false) {
@@ -750,7 +761,7 @@ public abstract class MutatorMetricsGenerator {
 				newFolders.add(objFolder);
 
 				// CALL
-				mutantMetrics = createMetrics(packages, seedFile, mutantFile, met, newFolders, registry, program, filterAbstract);
+				mutantMetrics = createMetrics(packages, seedFile, mutantFile, met, newFolders, registry, program, blockNames, filterAbstract);
 				// --->
 
 				for (EClass cl : ModelManager.getEClasses(packages)) {
@@ -1235,7 +1246,7 @@ public abstract class MutatorMetricsGenerator {
 	}
 	protected LinkedHashMap<String, WodelMutantMetric> createMetrics(List<EPackage> packages,
 			File seedFile, File folder, EObject met, List<EObject> folders, List<EPackage> registry,
-			Resource program, boolean filterAbstract) {
+			Resource program, List<String> blockNames, boolean filterAbstract) {
 		return null;
 	}
 	

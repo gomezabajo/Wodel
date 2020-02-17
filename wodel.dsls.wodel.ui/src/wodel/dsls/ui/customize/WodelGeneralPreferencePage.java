@@ -15,6 +15,9 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
@@ -32,18 +35,34 @@ import registry.run.IRegistryPostprocessor;
 
 public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 	
+	public List<String> selectedValidationNames = new ArrayList<String>();
+	
     @Override
     protected void createFieldEditors() {
     	Composite composite = getFieldEditorParent();
     	new LabelFieldEditor(" ", composite);
     	addField(new BooleanFieldEditor("Generate registry", "Generate registry", composite));
+    	if (Platform.getExtensionRegistry() != null) {
+			IConfigurationElement[] extensions = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"wodel.registry.MutRegistryPostprocessor");
+			for (int j = 0; j < extensions.length; j++) {
+				IRegistryPostprocessor src = null;
+				try {
+					src = (IRegistryPostprocessor) extensions[j]
+							.createExecutableExtension("class");
+				} catch (CoreException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				addField(new BooleanFieldEditor(src.getName(), src.getName(), composite));
+			}
+		}
 
     	new LabelFieldEditor(" ", composite);
     	addField(new BooleanFieldEditor("Serialize models", "Serialize models", composite));
     	
-    	new LabelFieldEditor(" ", composite);
-    	addField(new BooleanFieldEditor("Seed model synthesis", "Seed model synthesis", composite));
-
     	HashMap<String, String> valueMap = new HashMap<String, String>();
     	if (Platform.getExtensionRegistry() != null) {
 			IConfigurationElement[] extensions = Platform
@@ -118,27 +137,11 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 				index++;
 			}
 	    	
-	    	new LabelFieldEditor("Mutants postprocessing extension", composite);
+	    	new LabelFieldEditor("\n\nMutants postprocessing extension", composite);
 	    	ComboFieldEditor combo = new ComboFieldEditor("Mutants postprocessing extension", "", values, composite);
 	    	addField(combo);
     	}
-    	if (Platform.getExtensionRegistry() != null) {
-			IConfigurationElement[] extensions = Platform
-					.getExtensionRegistry()
-					.getConfigurationElementsFor(
-							"wodel.registry.MutRegistryPostprocessor");
-			for (int j = 0; j < extensions.length; j++) {
-				IRegistryPostprocessor src = null;
-				try {
-					src = (IRegistryPostprocessor) extensions[j]
-							.createExecutableExtension("class");
-				} catch (CoreException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				addField(new BooleanFieldEditor(src.getName(), src.getName(), composite));
-			}
-		}
+    	new LabelFieldEditor(" \n\n", composite);
     	new LabelFieldEditor("\n\nWrite which number of attempts will be executed until assuring mutant is unique", composite);
     	StringFieldEditor field = new StringFieldEditor("Number of attempts", "", 8, composite);
     	IPreferenceStore preferenceStore = doGetPreferenceStore();
@@ -203,13 +206,43 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
 				values[index][1] = value;
 				index++;
 			}
+//			String[][] values = new String[valueList.size() + 1][2];
+//			int index = 0;
+//			for (String value : valueList) {
+//				values[index][0] = value;
+//				values[index][1] = value;
+//				index++;
+//			}
+//			values[index][0] = "Java Program Validation";
+//			values[index][1] = "Java Program Validation";
 
     		new LabelFieldEditor(" ", composite);
         	addField(new BooleanFieldEditor("Discard invalid mutants", "Discard invalid mutants", composite));
 
-        	new LabelFieldEditor("Mutants validation extension", composite);
+        	new LabelFieldEditor("Mutants validation extensions", composite);
 			ComboFieldEditor combo = new ComboFieldEditor("Mutants validation extension", "", values, composite);
 			addField(combo);
+//        	new LabelFieldEditor(" ", composite);
+//        	org.eclipse.swt.widgets.List comboList = new org.eclipse.swt.widgets.List(composite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+//        	for (String[] value : values) {
+//        		comboList.add(value[0]);
+//        	}
+//        	comboList.addSelectionListener(new SelectionAdapter() {
+//        		@Override
+//    		    public void widgetSelected(SelectionEvent e)
+//    		    {
+//        			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e.widget;
+//        			int[] selectionIndices = list.getSelectionIndices();
+//        			if (selectionIndices[0] == 0) {
+//        				selectedValidationNames.add(values[0][0]);
+//        			}
+//        			else {
+//        				for (int i = 0; i < selectionIndices.length; i++) {
+//        					selectedValidationNames.add(values[selectionIndices[i]][0]);
+//        				}
+//        			}
+//    		    }
+//        	});
     	}
     	
     	new LabelFieldEditor("\n\n", composite);
@@ -369,6 +402,10 @@ public class WodelGeneralPreferencePage extends LanguageRootPreferencePage {
     			values[index][1] = value;
     			index++;
     		}
+
+//    		String[][] values = new String[1][2];
+//   			values[0][0] = "Java Program Equivalence";
+//   			values[0][1] = "Java Program Equivalence";
 
     		new LabelFieldEditor(" ", composite);
         	addField(new BooleanFieldEditor("Discard semantic equivalent mutants", "Discard semantic equivalent mutants", composite));

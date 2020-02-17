@@ -6,7 +6,6 @@ import java.util.List;
 import manager.ModelManager;
 import manager.MutatorUtils;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -23,7 +22,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 
 /**
  * @author Pablo Gomez-Abajo - Wodel meta-model static footprints modification reference wizard page
@@ -78,8 +76,17 @@ public class WodelMetricsFixedWizardModificationReferencePage extends WizardPage
 		for (EObject eObject : blockObjects) {
 			blockNames.add(ModelManager.getStringAttribute("name", eObject));
 		}
-		blockItems = new String[blockNames.size()];
-		blockNames.toArray(blockItems);
+		if (blockNames.size() > 0) {
+			blockItems = new String[blockNames.size() + 1];
+			blockItems[0] = "*";
+			int i = 1;
+			for (String blockName : blockNames) {
+				blockItems[i++] = blockName;
+			}
+		}
+		else {
+			blockItems = new String[0];
+		}
 		List<EClass> mutatorClasses = MutatorUtils.getModificationReferenceClassMutators(mutatorPackages);
 		List<String> mutatorNames = new ArrayList<String>();
 		for (EClass eClass : mutatorClasses) {

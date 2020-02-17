@@ -380,7 +380,7 @@ CloneObjectMutator returns CloneObjectMutator:
 RetypeObjectMutator returns RetypeObjectMutator:	
 	(name=ID '=')? 'retype' object=ObSelectionStrategy
 	('in' container=ObSelectionStrategy)?
-	'as' type=[ecore::EClass|ID] 	 
+	'as' (type=[ecore::EClass|ID] | '[' types+=[ecore::EClass|ID] ( "," types+=[ecore::EClass|ID])* ']') 	 
 	('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ( "," (attributes+=AttributeSet | references+=ReferenceSet))* '}' )?
 	('[' (min=EInt '..')? max=MaxCardinality ']')?
 	;
@@ -445,7 +445,7 @@ ReferenceAtt returns ReferenceAtt:
 
 RandomTypeSelection returns RandomTypeSelection:
 	{RandomTypeSelection}
-	'one' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
+	'one' (type=[ecore::EClass|ID] | '[' types+=[ecore::EClass|ID] ( "," types+=[ecore::EClass|ID])* ']') ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
 	('from' resource=ID 'resources')?
 	('where' '{' expression=Expression '}')?
 	;
@@ -464,19 +464,19 @@ SpecificClosureSelection returns SpecificClosureSelection:
 
 CompleteTypeSelection returns CompleteTypeSelection:
 	{CompleteTypeSelection}
-	'all' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
+	'all' (type=[ecore::EClass|ID] | '[' types+=[ecore::EClass|ID] ( "," types+=[ecore::EClass|ID])* ']') ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
 	('where' '{' expression=Expression '}')?
 ;
 
 OtherTypeSelection returns OtherTypeSelection:
 	{OtherTypeSelection}
-	'other' type=[ecore::EClass|ID] ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
+	'other' (type=[ecore::EClass|ID] | '[' types+=[ecore::EClass|ID] ( "," types+=[ecore::EClass|ID])* ']') ('->' refType=[ecore::EReference|ID] ('->' refRefType=[ecore::EReference|ID] ('->' refRefRefType=[ecore::EReference|ID])?)?)?
 	('where' '{' expression=Expression '}')?
 ;
 
 TypedSelection returns TypedSelection:
 	{TypedSelection}
-	'typed' type=[ecore::EClass|ID]
+	'typed' (type=[ecore::EClass|ID] | '[' types+=[ecore::EClass|ID] ( "," types+=[ecore::EClass|ID])* ']')
 	('where' '{' expression=Expression '}')?
 ;
 

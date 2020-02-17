@@ -40,7 +40,7 @@ public class GenerateWodel extends AbstractHandler {
 		}
 		Shell shell = HandlerUtil.getActiveShell(event);
 		GenerateWodelWizard wizard = new GenerateWodelWizard();
-		wizard.setFile(file);
+		GenerateWodelWizard.setFile(file);
 		WizardDialog wd = new WizardDialog(shell, wizard);
 		wd.setTitle(wizard.getWindowTitle());
 		wd.open();

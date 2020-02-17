@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import manager.EMFCopier;
+import manager.EMFUtils;
 import manager.ModelManager;
 
 import org.eclipse.core.runtime.IStatus;
@@ -176,17 +177,20 @@ public class CloneObjectMutator extends Mutator {
 			Map.Entry<String, ObSelectionStrategy> e = rf.next();
 			if (reference != null) {
 				if (!obj.eClass().isInstance(container.eGet(reference)) && !(container.eGet(reference) instanceof List<?>)) {
-					EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
-					ModelManager.setReference(e.getKey(), newObj, eObject);
+					//EObject eObject = EMFCopier.process(this.getModel(), EcoreUtil.copy(e.getValue().getObject()));
+					//ModelManager.setReference(e.getKey(), newObj, eObject);
+					EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), EcoreUtil.copy(e.getValue().getObject()));
 				}
 				else {
-					EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
-					ModelManager.setReference(e.getKey(), newObj, eObject);
+					//EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
+					//ModelManager.setReference(e.getKey(), newObj, eObject);
+					EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
 				}
 			}
 			else {
-				EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
-				ModelManager.setReference(e.getKey(), newObj, eObject);
+				//EObject eObject = EMFCopier.process(this.getModel(), e.getValue().getObject());
+				//ModelManager.setReference(e.getKey(), newObj, eObject);
+				EMFUtils.setReference(object.eClass().getEPackage(), newObj, e.getKey(), e.getValue().getObject());
 			}
 		}
 
@@ -259,7 +263,7 @@ public class CloneObjectMutator extends Mutator {
 		}
 		
 		//complete(this.getMetaModel(), this.getModel());
-		return newObj;
+		return this.result;
 	}
 
 	/**

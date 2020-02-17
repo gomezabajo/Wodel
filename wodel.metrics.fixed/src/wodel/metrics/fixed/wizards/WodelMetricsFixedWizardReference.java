@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import manager.ModelManager;
@@ -12,10 +11,12 @@ import manager.MutatorUtils;
 import manager.WodelContext;
 import mutatorenvironment.AttributeScalar;
 import mutatorenvironment.AttributeType;
+import mutatorenvironment.Block;
 import mutatorenvironment.ModifyInformationMutator;
 import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
 import mutatorenvironment.Mutator;
+import mutatorenvironment.MutatorEnvironment;
 import mutatorenvironment.MutatorenvironmentFactory;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.Operator;
@@ -25,6 +26,7 @@ import mutatorenvironment.SpecificDoubleType;
 import mutatorenvironment.SpecificIntegerType;
 import mutatorenvironment.SpecificStringType;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -43,6 +45,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.ide.ResourceUtil;
 import org.osgi.framework.Bundle;
 
 import wodel.dsls.WodelUtils;
@@ -59,9 +62,9 @@ public class WodelMetricsFixedWizardReference extends Wizard implements INewWiza
 	
 	private ISelection selection;
 	
-	private static String className;
+	private String className;
 	
-	private static String referenceName;
+	private String referenceName;
 
 	public WodelMetricsFixedWizardReferencePage _pageOne;
 	//public WodelWizardMetamodelPage _pageTwo;
@@ -79,6 +82,8 @@ public class WodelMetricsFixedWizardReference extends Wizard implements INewWiza
 	private static List<EPackage> packages = null;
 	
 	private static Resource model = null;
+	
+	private IFile file = null;
 	
 	/**
 	 * Adding the page to the wizard.
@@ -109,7 +114,7 @@ public class WodelMetricsFixedWizardReference extends Wizard implements INewWiza
 	   		String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			//mutatorPackages = ModelManager.loadMetaModel(WORKSPACE + "/" + PROJECT + "/resources/MutatorEnvironment.ecore");
 	   		mutatorPackages = ModelManager.loadMetaModel(mutatorecore);
-			model = ModelManager.loadModel(mutatorPackages, OUTPUT + "/" + PROJECT + ".model");
+			model = ModelManager.loadModel(mutatorPackages, OUTPUT + "/" + file.getName().replace(".mutator", ".model"));
 			String metamodel = ModelManager.getMetaModel();
 			packages = ModelManager.loadMetaModel(metamodel);
 			_pageOne = new WodelMetricsFixedWizardReferencePage(selection, mutatorPackages, model, packages, className, referenceName);
@@ -145,7 +150,7 @@ public class WodelMetricsFixedWizardReference extends Wizard implements INewWiza
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
-		
+		this.file = ResourceUtil.getFile(workbench.getActiveWorkbenchWindow().getPages()[0].getActiveEditor().getEditorInput());
 	}
 
 	@Override
@@ -154,11 +159,27 @@ public class WodelMetricsFixedWizardReference extends Wizard implements INewWiza
 			EObject root = ModelManager.getRoot(model);
 
 			List<EObject> commands = null;
+			Block block = null;
 			if (_pageOne.blockClass == null) {
 				commands = ModelManager.getReferences("commands", root);
 			}
+			else if (_pageOne.blockClass.equals("*")) {
+				int i = 0;
+				String blockName = "";
+				do {
+					blockName = "b" + i;
+					block = (Block) MutatorUtils.getBlock(model, blockName);
+					i++;
+				}
+				while (block != null);
+				block = MutatorenvironmentFactory.eINSTANCE.createBlock();
+				block.setName(blockName);
+				MutatorEnvironment mutatorEnvironment = (MutatorEnvironment) model.getContents().get(0);
+				mutatorEnvironment.getBlocks().add(block);
+				commands = ModelManager.getReferences("commands", block);
+			}
 			else {
-				EObject block = MutatorUtils.getBlock(model, _pageOne.blockClass);
+				block = (Block) MutatorUtils.getBlock(model, _pageOne.blockClass);
 				commands = ModelManager.getReferences("commands", block);
 			}
 
@@ -284,15 +305,15 @@ public class WodelMetricsFixedWizardReference extends Wizard implements INewWiza
 			}
 			commands.add(mutator);
 
-			ModelManager.saveModel(model, "file:/" + OUTPUT + "/" + PROJECT + ".model");
+			ModelManager.saveModel(model, "file:/" + OUTPUT + "/" + file.getName().replace(".mutator", ".model"));
 
 			//Reload input
 			try {
 				model.unload();
 				model.load(null); 
 			} catch (Exception e) {}
-			String mutatorCode = WodelUtils.deserialize(root);
-			FileWriter fileWriter = new FileWriter(WORKSPACE + "/" + PROJECT + "/src/" + PROJECT + ".mutator");
+			String mutatorCode = WodelUtils.deserialize("file:/" + WORKSPACE + "/" + PROJECT + "/src/" + file.getName(), root);
+			FileWriter fileWriter = new FileWriter(WORKSPACE + "/" + PROJECT + "/src/" + file.getName());
 			BufferedWriter writer = new BufferedWriter(fileWriter);
 			writer.write(mutatorCode);
 			writer.close();

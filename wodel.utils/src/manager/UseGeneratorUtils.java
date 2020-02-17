@@ -50,6 +50,7 @@ import mutatorenvironment.ModifySourceReferenceMutator;
 import mutatorenvironment.ModifyTargetReferenceMutator;
 import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorEnvironment;
+import mutatorenvironment.MutatorenvironmentFactory;
 import mutatorenvironment.ObSelectionStrategy;
 import mutatorenvironment.ObjectAttributeType;
 import mutatorenvironment.Operator;
@@ -271,6 +272,33 @@ public class UseGeneratorUtils {
 				constraints.add(constraint);
 			}
 		}
+		
+		/**
+		 * Gets the size constraint of the reference
+		 */
+		private static int getSizeReferenceConstraint(EClass eClass, List<EPackage> packages, List<Constraint> constraints, String blockName, HashMap<URI, String> classNames) {
+			int size = 0;
+			List<EClass> containedTypes = ModelManager.getContainmentTypes(packages, EcoreUtil.getURI(eClass));
+			for (Constraint constraint : constraints) {
+				if (constraint.type.equals("size")) {
+					for (EClass containedType : containedTypes) {
+						String className = classNames.get(EcoreUtil.getURI(containedType));
+						if (constraint.className.equals(className)) {
+							if (constraint.sizeByBlock.get(blockName) != null) {
+								int tam = constraint.sizeByBlock.get(blockName);
+								if (tam == 0) {
+									size++;
+								}
+								else {
+									size += tam;
+								}
+							}
+						}
+					}
+				}
+			}
+			return size;
+		}
 
 		/**
 		 * Gets the size constraints
@@ -294,7 +322,7 @@ public class UseGeneratorUtils {
 					constraint.text = encodeWord(className) + ".allInstances()->size()";
 					constraint.name = mutName; 
 					constraint.type = "size";
-					constraint.className = className;
+					constraint.className = classNames.get(EcoreUtil.getURI(eClass));
 					if (!eClass.getName().equals(rootClass.getName())) {
 						boolean b = false;
 						for (Constraint c : constraints) {
@@ -383,6 +411,94 @@ public class UseGeneratorUtils {
 			}
 		}
 		
+		/**
+		 * Gets the size constraints
+		 * @param rootClass
+		 * @param eClass
+		 * @param packages
+		 * @param constraints
+		 * @param inc
+		 * @param ref
+		 * @param blockName
+		 * @param mutName
+		 * @param isContainer
+		 * @param classNames
+		 * @param recursion
+		 */
+		private static void getEnoughSpaceContainerReferenceConstraint(EClass rootClass, EClass eClass, EReference containerReference, List<Constraint> constraints, String mutName, HashMap<URI, String> classNames, int numObjects) {
+			if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
+				String className = classNames.get(EcoreUtil.getURI(eClass));
+				String refName = containerReference.getName();
+				String v1 = eClass.getName().substring(0, 1).toLowerCase();
+				Constraint constraint = new Constraint();
+				if (containerReference.getUpperBound() != 0 && containerReference.getUpperBound() != -1) {
+					String text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + encodeWord(refName) + "->size() < ";
+					constraint.text = text + (containerReference.getUpperBound() - numObjects) + ")";
+					constraint.name = mutName; 
+					constraint.type = "exists";
+					constraint.className = classNames.get(EcoreUtil.getURI(eClass));
+					constraint.variables.add(v1);
+					Constraint previous = null;
+					for (Constraint c : constraints) {
+						if (c.text.substring(0, c.text.lastIndexOf("<") + 2).equals(text)) {
+							previous = c;
+							break;
+						}
+					}
+					if (previous == null) {
+						addConstraint(constraints, constraint);
+					}
+					else {
+						int size = Integer.parseInt(previous.text.substring(previous.text.lastIndexOf("<") + 2, previous.text.lastIndexOf(")")));
+						previous.text = encodeWord(className) + ".allInstances()->exists(" + eClass.getName().substring(0, 1).toLowerCase() + " | " + eClass.getName().substring(0, 1).toLowerCase() + "." + encodeWord(containerReference.getName()) + "->size() < " + (size - numObjects) + ")";
+					}
+				}
+			}
+		}
+
+		/**
+		 * Gets the size constraints
+		 * @param rootClass
+		 * @param eClass
+		 * @param packages
+		 * @param constraints
+		 * @param inc
+		 * @param ref
+		 * @param blockName
+		 * @param mutName
+		 * @param isContainer
+		 * @param classNames
+		 * @param recursion
+		 */
+		private static void getEnoughObjectsReferenceConstraint(EClass rootClass, EClass eClass, EReference containerReference, List<Constraint> constraints, String mutName, HashMap<URI, String> classNames, int numObjects) {
+			if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
+				String className = classNames.get(EcoreUtil.getURI(eClass));
+				String refName = containerReference.getName();
+				String v1 = eClass.getName().substring(0, 1).toLowerCase();
+				Constraint constraint = new Constraint();
+				String text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + encodeWord(refName) + "->size() > ";
+				constraint.text = text + numObjects + ")";
+				constraint.name = mutName; 
+				constraint.type = "exists";
+				constraint.className = classNames.get(EcoreUtil.getURI(eClass));
+				constraint.variables.add(v1);
+				Constraint previous = null;
+				for (Constraint c : constraints) {
+					if (c.text.substring(0, c.text.lastIndexOf(">") + 2).equals(text)) {
+						previous = c;
+						break;
+					}
+				}
+				if (previous == null) {
+					addConstraint(constraints, constraint);
+				}
+				else {
+					int size = Integer.parseInt(previous.text.substring(previous.text.lastIndexOf(">") + 2, previous.text.lastIndexOf(")")));
+					previous.text = encodeWord(className) + ".allInstances()->exists(" + eClass.getName().substring(0, 1).toLowerCase() + " | " + eClass.getName().substring(0, 1).toLowerCase() + "." + encodeWord(containerReference.getName()) + "->size() > " + (size + numObjects) + ")";
+				}
+			}
+		}
+
 		/**
 		 * Gets the type of the given ObSelectionStrategy object
 		 * @param object
@@ -1301,11 +1417,11 @@ public class UseGeneratorUtils {
 											refConstraint = join(constraints, refConstraint, refClassName, refMutName);
 										}
 										else {
-											String v5 = refClassName.substring(0, 1).toLowerCase() + "4";
-											refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v3 + " | " + v3 + "." + encodeWord(refName) + "->exists(" + v5 + " | " + v4 + " " + operator + " " + v5 +"))";
+											//String v5 = refClassName.substring(0, 1).toLowerCase() + "4";
+											refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v3 + " | " + v3 + "." + encodeWord(refName) + " <> null)";
 											refConstraint.variables.add(v3);
-											refConstraint.variables.add(v4);
-											refConstraint.variables.add(v5);
+											//refConstraint.variables.add(v4);
+											//refConstraint.variables.add(v5);
 											refConstraint = join(constraints, refConstraint, refClassName, refMutName);
 										}
 									}
@@ -1438,6 +1554,9 @@ public class UseGeneratorUtils {
 			}
 			if (refev.getOperator().getLiteral().equals(Operator.IN.getLiteral())) {
 				operator = "IN";
+			}
+			if (operator == "") {
+				return;
 			}
 			if (refev.getName() == null) {
 				compileReferenceExpressionNoName(refev, eClass, constraints, expConstraints, blockName, mutName, className, useReferences, classNames, operator, isFirst);
@@ -1636,7 +1755,7 @@ public class UseGeneratorUtils {
 		 * @param useReferences
 		 * @param classNames
 		 */
-		public static void compile(Resource model, List<ReferenceSet> references, List<Constraint> constraints, String blockName, String mutName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames) {
+		public static void compile(EClass rootClass, Resource model, List<EPackage> packages, EClass mutEClass, List<ReferenceSet> references, List<Constraint> constraints, String blockName, String mutName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames) {
 			for (ReferenceSet ref : references) {
 				Constraint constraint = new Constraint();
 				constraint.name = mutName;
@@ -1698,6 +1817,20 @@ public class UseGeneratorUtils {
 							}
 		       			}
 		       		}
+	       			if (ref.getObject() instanceof OtherTypeSelection) {
+	       				OtherTypeSelection selection = (OtherTypeSelection) ref.getObject();
+						Constraint refConstraint = new Constraint();
+	       				String className = classNames.get(EcoreUtil.getURI(mutEClass));
+	       				String v1 = className.substring(0, 1).toLowerCase() + "0";
+	       				refConstraint.variables.add(v1);
+						refConstraint.className = className;
+						refConstraint.type = "exists";
+						refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + encodeWord(ref.getReference().get(0).getName()) + " <> null)";
+						if (getConstraint(constraints, refConstraint) == null && (refConstraint.text.length() > 0)) {
+							addConstraint(constraints, refConstraint);
+						}
+						eClass = selection.getType();
+	       			}	       			
 	       			if (eClass != null && classNames.get(EcoreUtil.getURI(eClass)) != null) {
 	       				String className = classNames.get(EcoreUtil.getURI(eClass));
 						constraint.text = encodeWord(className) + ".allInstances()->size()";
@@ -1765,41 +1898,41 @@ public class UseGeneratorUtils {
 	       			}
 	       		}
 				if (constraint.text.length() > 0) {
-					if (getConstraint(constraints, constraint) == null && (constraint.text.length() > 0)) {
-						addConstraint(constraints, constraint);
+					if (!(ref.getObject() instanceof OtherTypeSelection)) {
+						if (getConstraint(constraints, constraint) == null && (constraint.text.length() > 0)) {
+							addConstraint(constraints, constraint);
+							storeMutatorName(constraint, blockName, mutName);
+						}
+					}
+					else {
+						getSizeConstraints(rootClass, eClass, packages, constraints, true, ref.getReference().get(0), blockName, mutName, ref.getReference().get(0).isContainer(), classNames, new ArrayList<EClass>());
+						List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(eClass));
+						for (EClassifier container : containers) {
+							EReference containerReference = null;
+							for (EReference r : ((EClass) container).getEAllReferences()) {
+								if (r.isContainment() == true) {
+									List<EClass> types = new ArrayList<EClass>();
+									types.add(eClass);
+									types.addAll(eClass.getEAllSuperTypes());
+									for (EClass ecl : types) {
+										if (EcoreUtil.getURI(ecl).equals(EcoreUtil.getURI(eClass))) {
+											containerReference = r;
+										}
+									}
+								}
+							}
+							if (containerReference != null) {
+								if (classNames.containsKey(EcoreUtil.getURI(container))) {
+									List<EClass> recursion = new ArrayList<EClass>();
+									recursion.add((EClass) container);
+									getSizeConstraints(rootClass, (EClass) container, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+									int size = getSizeReferenceConstraint((EClass) container, packages, constraints, blockName, classNames);
+									getEnoughSpaceContainerReferenceConstraint(rootClass, (EClass) container, containerReference, constraints, mutName, classNames, size);
+								}
+							}
+						}
 						storeMutatorName(constraint, blockName, mutName);
 					}
-				}
-			}
-		}
-
-		/**
-		 * Compiles the given Wodel program to USE OCL constraints 
-		 * @param model
-		 * @param eContainer
-		 * @param eClass
-		 * @param constraints
-		 * @param blockName
-		 * @param mutName
-		 * @param useReferences
-		 * @param classNames
-		 */
-		private static void compile(Resource model, EClass eContainer, EReference containerReference, EClass eClass, List<Constraint> constraints, String mutName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames, int times)
-		{
-			if (containerReference.getLowerBound() > 0) {
-				Constraint constraint = new Constraint();
-				constraint.name = mutName;
-				constraint.type = "exists";
-				constraint.className = eContainer.getName();
-				String className = classNames.get(EcoreUtil.getURI(eContainer));
-				constraint.text = encodeWord(className) + ".allInstances()->exists(" + eClass.getName().substring(0, 1).toLowerCase() + " | " + eClass.getName().substring(0, 1).toLowerCase() + "." + encodeWord(containerReference.getName()) + "->size() > " + (containerReference.getLowerBound() + times) + ")";
-				Constraint previous = getConstraint(constraints, constraint);
-				if (previous == null) {
-					addConstraint(constraints, constraint);
-				}
-				else {
-					int size = Integer.parseInt(previous.text.substring(previous.text.lastIndexOf(">") + 2, previous.text.lastIndexOf(")")));
-					previous.text = encodeWord(className) + ".allInstances()->exists(" + eClass.getName().substring(0, 1).toLowerCase() + " | " + eClass.getName().substring(0, 1).toLowerCase() + "." + encodeWord(containerReference.getName()) + "->size() > " + (size + 1) + ")";
 				}
 			}
 		}
@@ -1967,12 +2100,11 @@ public class UseGeneratorUtils {
 					if (mut instanceof CreateObjectMutator) {
 						if (mut.getType() != null) {
 							EClass type = mut.getType();
-							String name = classNames.get(EcoreUtil.getURI(type));
 							List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(type));
 							for (EClassifier container : containers) {
 								EReference containerReference = null;
 								for (EReference ref : ((EClass) container).getEAllReferences()) {
-									if (ref.isContainment() == true && ref.getLowerBound() > 0) {
+									if (ref.isContainment() == true) {
 										List<EClass> types = new ArrayList<EClass>();
 										types.add(type);
 										types.addAll(type.getEAllSuperTypes());
@@ -1985,53 +2117,78 @@ public class UseGeneratorUtils {
 								}
 								if (containerReference != null) {
 									if (classNames.containsKey(EcoreUtil.getURI(container))) {
-										List<EClass> recursion = new ArrayList<EClass>();
-										recursion.add((EClass) container);
-										getSizeConstraints(rootClass, (EClass) container, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+										if (containerReference.getLowerBound() > 0) {
+											List<EClass> recursion = new ArrayList<EClass>();
+											recursion.add((EClass) container);
+											getSizeConstraints(rootClass, (EClass) container, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+										}
+										int size = getSizeReferenceConstraint((EClass) container, packages, constraints, blockName, classNames);
+										getEnoughSpaceContainerReferenceConstraint(rootClass, (EClass) container, containerReference, constraints, mutName, classNames, size);
 									}
 								}
 							}
 							if (((CreateObjectMutator) mut).getReferences() != null) {
-								compile(model, ((CreateObjectMutator) mut).getReferences(), constraints, blockName, mutName, useReferences, classNames);
+								compile(rootClass, model, packages, type, ((CreateObjectMutator) mut).getReferences(), constraints, blockName, mutName, useReferences, classNames);
 							}
 						}
 					}
 					if (mut instanceof RemoveObjectMutator) {
 						if (((RemoveObjectMutator) mut).getObject() != null) {
 							EClass type = MutatorUtils.getType(mut);
-							List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(type));
-							for (EClassifier container : containers) {
-								EReference containerReference = null;
-								for (EReference ref : ((EClass) container).getEAllReferences()) {
-									if (ref.isContainment() == true && ref.getLowerBound() > 0) {
-										List<EClass> types = new ArrayList<EClass>();
-										types.add(type);
-										types.addAll(type.getEAllSuperTypes());
-										for (EClass eClass : types) {
-											if (EcoreUtil.getURI(eClass).equals(EcoreUtil.getURI(type))) {
-												containerReference = ref;
+							// reference removal
+							if (((RemoveObjectMutator) mut).getObject() instanceof SpecificObjectSelection) {
+								SpecificObjectSelection selection = (SpecificObjectSelection) ((RemoveObjectMutator) mut).getObject();
+								if (selection.getRefType() != null) {
+									Constraint constraint = new Constraint();
+									String className = classNames.get(EcoreUtil.getURI(type));
+									String refName = selection.getRefType().getName();
+									String v1 = className.substring(0, 1).toLowerCase();
+									constraint.className = className;
+									constraint.type = "exists";
+									constraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + v1 + "." + encodeWord(refName) + " <> null)";
+									constraint.variables.add(v1);
+									if (getConstraint(constraints, constraint) == null) {
+										addConstraint(constraints, constraint);
+									}
+								}
+							}
+							// object removal
+							else if (type != null) {
+								List<EClassifier> referringTypes = ModelManager.getReferringTypes(packages, EcoreUtil.getURI(type));
+								for (EClassifier referringType : referringTypes) {
+									for (EReference ref : ((EClass) referringType).getEAllReferences()) {
+										if (ref.isContainment() == true || ref.getLowerBound() > 0) {
+											List<EClass> types = new ArrayList<EClass>();
+											types.add(type);
+											types.addAll(type.getEAllSuperTypes());
+											for (EClass eClass : types) {
+												if (EcoreUtil.getURI(eClass).equals(EcoreUtil.getURI(type))) {
+													if (classNames.containsKey(EcoreUtil.getURI(referringType))) {
+														if (ref.getLowerBound() > 0) {
+															List<EClass> recursion = new ArrayList<EClass>();
+															recursion.add((EClass) referringType);
+															getSizeConstraints(rootClass, (EClass) referringType, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+														}
+														int size = getSizeReferenceConstraint((EClass) referringType, packages, constraints, blockName, classNames);
+														getEnoughObjectsReferenceConstraint(rootClass, (EClass) referringType, ref, constraints, mutName, classNames, size);
+													}
+												}
 											}
 										}
 									}
 								}
-								if (containerReference != null) {
-									if (classNames.containsKey(EcoreUtil.getURI(container))) {
-										List<EClass> recursion = new ArrayList<EClass>();
-										recursion.add((EClass) container);
-										getSizeConstraints(rootClass, (EClass) container, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
-										compile(model, (EClass) container, containerReference, type, constraints, mutName, useReferences, classNames, times);
+								if (((RemoveObjectMutator) mut).getObject().getExpression() == null) {
+									if (classNames.containsKey(EcoreUtil.getURI(type))) {
+										for (int i = 0; i < times; i++) {
+											List<EClass> recursion = new ArrayList<EClass>();
+											recursion.add(type);
+											getSizeConstraints(rootClass, type, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+										}
 									}
 								}
-							}
-							if (classNames.containsKey(EcoreUtil.getURI(type))) {
-								for (int i = 0; i < times; i++) {
-									List<EClass> recursion = new ArrayList<EClass>();
-									recursion.add(type);
-									getSizeConstraints(rootClass, type, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+								else {
+									compile(model, ((RemoveObjectMutator) mut).getObject().getExpression(), type, constraints, blockName, mutName, useReferences, classNames);
 								}
-							}
-							if (((RemoveObjectMutator) mut).getObject().getExpression() != null) {
-								compile(model, ((RemoveObjectMutator) mut).getObject().getExpression(), type, constraints, blockName, mutName, useReferences, classNames);
 							}
 						}
 					}
@@ -2065,11 +2222,6 @@ public class UseGeneratorUtils {
 						if (((ModifySourceReferenceMutator) mut).getSource() != null) {
 							String name = MutatorUtils.getTypeName(((ModifySourceReferenceMutator) mut).getSource());
 							EClass eClass = ModelManager.getEClassByName(packages, name);
-							if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
-								List<EClass> recursion = new ArrayList<EClass>();
-								recursion.add(eClass);
-								getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
-							}
 							if (((ModifySourceReferenceMutator) mut).getSource().getExpression() != null) {
 								compile(model, ((ModifySourceReferenceMutator) mut).getSource().getExpression(), eClass, constraints, blockName, mutName, useReferences, classNames);
 							}
@@ -2109,11 +2261,6 @@ public class UseGeneratorUtils {
 						if (((ModifyTargetReferenceMutator) mut).getSource() != null) {
 							String name = MutatorUtils.getTypeName(((ModifyTargetReferenceMutator) mut).getSource());
 							EClass eClass = ModelManager.getEClassByName(packages, name);
-							if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
-								List<EClass> recursion = new ArrayList<EClass>();
-								recursion.add(eClass);
-								getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
-							}
 							if (((ModifyTargetReferenceMutator) mut).getSource().getExpression() != null) {
 								compile(model, ((ModifyTargetReferenceMutator) mut).getSource().getExpression(), eClass, constraints, blockName, mutName, useReferences, classNames);
 							}
@@ -2173,12 +2320,14 @@ public class UseGeneratorUtils {
 						if (((SelectObjectMutator) mut).getObject() != null) {
 							String name = MutatorUtils.getTypeName(((SelectObjectMutator) mut).getObject());
 							EClass eClass = ModelManager.getEClassByName(packages, name);
-							if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
-								List<EClass> recursion = new ArrayList<EClass>();
-								recursion.add(eClass);
-								getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+							if (((SelectObjectMutator) mut).getObject().getExpression() == null) {
+								if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
+									List<EClass> recursion = new ArrayList<EClass>();
+									recursion.add(eClass);
+									getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+								}
 							}
-							if (((SelectObjectMutator) mut).getObject().getExpression() != null) {
+							else {
 								compile(model, ((SelectObjectMutator) mut).getObject().getExpression(), eClass, constraints, blockName, mutName, useReferences, classNames);
 							}
 							if (((SelectObjectMutator) mut).getContainer() != null) {
@@ -2202,14 +2351,48 @@ public class UseGeneratorUtils {
 					if (mut instanceof CloneObjectMutator) {
 						if (((CloneObjectMutator) mut).getObject() != null) {
 							String name = MutatorUtils.getTypeName(((CloneObjectMutator) mut).getObject());
-							EClass eClass = ModelManager.getEClassByName(packages, name);
-							if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
-								List<EClass> recursion = new ArrayList<EClass>();
-								recursion.add(eClass);
-								getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
-							}
-							if (((CloneObjectMutator) mut).getObject().getExpression() != null) {
-								compile(model, ((CloneObjectMutator) mut).getObject().getExpression(), eClass, ((CloneObjectMutator) mut).getAttributes(), constraints, blockName, mutName, useReferences, classNames);
+							EClass type = ModelManager.getEClassByName(packages, name);
+							if (type != null) {
+								List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(type));
+								for (EClassifier container : containers) {
+									EReference containerReference = null;
+									for (EReference ref : ((EClass) container).getEAllReferences()) {
+										if (ref.isContainment() == true) {
+											List<EClass> types = new ArrayList<EClass>();
+											types.add(type);
+											types.addAll(type.getEAllSuperTypes());
+											for (EClass eClass : types) {
+												if (EcoreUtil.getURI(eClass).equals(EcoreUtil.getURI(type))) {
+													containerReference = ref;
+												}
+											}
+										}
+									}
+									if (containerReference != null) {
+										if (classNames.containsKey(EcoreUtil.getURI(container))) {
+											if (containerReference.getLowerBound() > 0) {
+												List<EClass> recursion = new ArrayList<EClass>();
+												recursion.add((EClass) container);
+												getSizeConstraints(rootClass, (EClass) container, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+											}
+											int size = getSizeReferenceConstraint((EClass) container, packages, constraints, blockName, classNames);
+											getEnoughSpaceContainerReferenceConstraint(rootClass, (EClass) container, containerReference, constraints, mutName, classNames, size);
+										}
+									}
+								}
+								if (((CloneObjectMutator) mut).getObject().getExpression() == null) {
+									if (classNames.containsKey(EcoreUtil.getURI(type))) {
+										List<EClass> recursion = new ArrayList<EClass>();
+										recursion.add(type);
+										getSizeConstraints(rootClass, type, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+									}
+								}
+								else {
+									compile(model, ((CloneObjectMutator) mut).getObject().getExpression(), type, ((CloneObjectMutator) mut).getAttributes(), constraints, blockName, mutName, useReferences, classNames);
+								}
+								if (((CloneObjectMutator) mut).getReferences() != null) {
+									compile(rootClass, model, packages, type, ((CloneObjectMutator) mut).getReferences(), constraints, blockName, mutName, useReferences, classNames);
+								}
 							}
 						}
 					}
@@ -2217,33 +2400,98 @@ public class UseGeneratorUtils {
 						if (((ModifyInformationMutator) mut).getObject() != null) {
 							String name = MutatorUtils.getTypeName(((ModifyInformationMutator) mut).getObject());
 							EClass eClass = ModelManager.getEClassByName(packages, name);
-							if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
-								List<EClass> recursion = new ArrayList<EClass>();
-								recursion.add(eClass);
-								getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
-							}
-							if (((ModifyInformationMutator) mut).getObject().getExpression() != null) {
-								compile(model, ((ModifyInformationMutator) mut).getObject().getExpression(), eClass, constraints, blockName, mutName, useReferences, classNames);
-								compile(model, ((ModifyInformationMutator) mut).getObject().getExpression(), eClass, ((ModifyInformationMutator) mut).getAttributes(), constraints, blockName, mutName, useReferences, classNames);
-							}
-							if (((ModifyInformationMutator) mut).getReferences() != null) {
-								compile(model, ((ModifyInformationMutator) mut).getReferences(), constraints, blockName, mutName, useReferences, classNames);
-							}
-						}
-					}
-					if (mut instanceof RetypeObjectMutator) {
-						if (((RetypeObjectMutator) mut).getObject() != null) {
-							String name = MutatorUtils.getTypeName(((RetypeObjectMutator) mut).getObject());
-							EClass eClass = ModelManager.getEClassByName(packages, name);
-							if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
-								for (int i = 0; i < times; i++) {
+							if (((ModifyInformationMutator) mut).getObject().getExpression() == null) {
+								if (classNames.containsKey(EcoreUtil.getURI(eClass))) {
 									List<EClass> recursion = new ArrayList<EClass>();
 									recursion.add(eClass);
 									getSizeConstraints(rootClass, eClass, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
 								}
 							}
-							if (((RetypeObjectMutator) mut).getObject().getExpression() != null) {
-								compile(model, ((RetypeObjectMutator) mut).getObject().getExpression(), eClass, constraints, blockName, mutName, useReferences, classNames);
+							else {
+								compile(model, ((ModifyInformationMutator) mut).getObject().getExpression(), eClass, constraints, blockName, mutName, useReferences, classNames);
+								compile(model, ((ModifyInformationMutator) mut).getObject().getExpression(), eClass, ((ModifyInformationMutator) mut).getAttributes(), constraints, blockName, mutName, useReferences, classNames);
+							}
+							if (((ModifyInformationMutator) mut).getReferences() != null) {
+								compile(rootClass, model, packages, eClass, ((ModifyInformationMutator) mut).getReferences(), constraints, blockName, mutName, useReferences, classNames);
+							}
+						}
+					}
+					if (mut instanceof RetypeObjectMutator) {
+						if (((RetypeObjectMutator) mut).getObject() != null) {
+							EClass sourceType = MutatorUtils.getStrategyType(((RetypeObjectMutator) mut).getObject());
+							EReference sourceRef = null;
+							if (sourceType != null) {
+								List<EClassifier> referringTypes = ModelManager.getReferringTypes(packages, EcoreUtil.getURI(sourceType));
+								for (EClassifier referringType : referringTypes) {
+									for (EReference ref : ((EClass) referringType).getEAllReferences()) {
+										if (ref.isContainment() == true || ref.getLowerBound() > 0) {
+											List<EClass> types = new ArrayList<EClass>();
+											types.add(sourceType);
+											types.addAll(sourceType.getEAllSuperTypes());
+											for (EClass eClass : types) {
+												if (EcoreUtil.getURI(eClass).equals(EcoreUtil.getURI(sourceType))) {
+													if (classNames.containsKey(EcoreUtil.getURI(referringType))) {
+														if (ref.getLowerBound() > 0) {
+															List<EClass> recursion = new ArrayList<EClass>();
+															recursion.add((EClass) referringType);
+															getSizeConstraints(rootClass, (EClass) referringType, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+														}
+														int size = getSizeReferenceConstraint((EClass) referringType, packages, constraints, blockName, classNames);
+														getEnoughObjectsReferenceConstraint(rootClass, (EClass) referringType, ref, constraints, mutName, classNames, size);
+														sourceRef = ref;
+													}
+												}
+											}
+										}
+									}
+								}
+								if (((RetypeObjectMutator) mut).getObject().getExpression() == null) {
+									if (classNames.containsKey(EcoreUtil.getURI(sourceType))) {
+										for (int i = 0; i < times; i++) {
+											List<EClass> recursion = new ArrayList<EClass>();
+											recursion.add(sourceType);
+											getSizeConstraints(rootClass, sourceType, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+										}
+									}
+								}
+								else {
+									compile(model, ((RetypeObjectMutator) mut).getObject().getExpression(), sourceType, constraints, blockName, mutName, useReferences, classNames);
+								}
+								if (((RetypeObjectMutator) mut).getReferences() != null) {
+									compile(rootClass, model, packages, sourceType, ((RetypeObjectMutator) mut).getReferences(), constraints, blockName, mutName, useReferences, classNames);
+								}
+							}
+							String name = MutatorUtils.getTypeName(((RetypeObjectMutator) mut).getObject());
+							EClass type = ModelManager.getEClassByName(packages, name);
+							if (type != null) {
+								List<EClassifier> containers = ModelManager.getContainerTypes(packages, EcoreUtil.getURI(type));
+								for (EClassifier container : containers) {
+									EReference containerReference = null;
+									for (EReference ref : ((EClass) container).getEAllReferences()) {
+										if (ref.isContainment() == true && ref.getLowerBound() > 0) {
+											List<EClass> types = new ArrayList<EClass>();
+											types.add(type);
+											types.addAll(type.getEAllSuperTypes());
+											for (EClass eClass : types) {
+												if (EcoreUtil.getURI(eClass).equals(EcoreUtil.getURI(type))) {
+													containerReference = ref;
+												}
+											}
+										}
+									}
+									if (containerReference != null) {
+										if (classNames.containsKey(EcoreUtil.getURI(container))) {
+											List<EClass> recursion = new ArrayList<EClass>();
+											recursion.add((EClass) container);
+											getSizeConstraints(rootClass, (EClass) container, packages, constraints, false, null, blockName, mutName, false, classNames, recursion);
+											int size = getSizeReferenceConstraint((EClass) container, packages, constraints, blockName, classNames);
+											if (EcoreUtil.equals(sourceRef, containerReference)) {
+												size--;
+											}
+											getEnoughSpaceContainerReferenceConstraint(rootClass, (EClass) container, containerReference, constraints, mutName, classNames, size);
+										}
+									}
+								}
 							}
 						}
 					}
@@ -2455,22 +2703,130 @@ public class UseGeneratorUtils {
 							if (keys.size() > 0) {
 								for (String key : keys) {
 									String ocl = oclmap.get(key);
+									Constraint constraint = new Constraint();
 									if (ocl.indexOf("self.") != -1 && ocl.indexOf("->") != -1) {
 										String refName = ocl.substring(ocl.indexOf("self.") + "self.".length(), ocl.indexOf("->"));
-										Constraint constraint = new Constraint();
-										for (EReference ref : eClass.getEReferences()) {
-											if (ref.getName().equals(refName)) {
-												if (classNames.get(EcoreUtil.getURI(ref.getEType())) != null) {
-													String refETypeName = classNames.get(EcoreUtil.getURI(ref.getEType()));
-													constraint.text = ocl.replace("self." + refName, refETypeName + ".allInstances()");
-													constraint.type = "metamodel";
-													constraint.className = ref.getEType().getName();
-													if (getConstraint(constraints, constraint) == null && (constraint.text.length() > 0)) {
-														addConstraint(constraints, constraint);
-													}
-												}
+										EReference ref = null;
+										for (EReference r : eClass.getEReferences()) {
+											if (r.getName().equals(refName)) {
+												ref = r;
+												break;
 											}
 										}
+										if (ocl.indexOf("oclIsKindOf") == -1) {
+											if (classNames.get(EcoreUtil.getURI(ref.getEType())) != null) {
+												//String refETypeName = classNames.get(EcoreUtil.getURI(ref.getEType()));
+												String className = classNames.get(EcoreUtil.getURI(eClass));
+												String v1 = ocl.substring(0, ocl.indexOf("|"));
+												v1 = v1.substring(ocl.indexOf("(") + 1, v1.length()).trim();
+												//ocl = ocl.replace("self." + refName, refETypeName + ".allInstances()");
+												constraint.text = ocl.replace("self." + refName, className + ".allInstances()");
+												if (constraint.text.indexOf("self.") != -1) {
+													constraint.text = constraint.text.replace(" =", "." + encodeWord(refName) + " =");
+													constraint.text = constraint.text.replace("self.", v1 + ".");
+												}
+												constraint.type = "metamodel";
+												//constraint.className = refETypeName;
+												constraint.className = className;
+												constraint.variables.add(v1);
+											}
+										}
+										else {
+											String className = classNames.get(EcoreUtil.getURI(eClass));
+											String v1 = eClass.getName().toLowerCase().substring(0, 1);
+											String typeName = "";
+											if (ocl.indexOf(".oclIsKindOf(") != -1) {
+												typeName = ocl.substring(ocl.indexOf(".oclIsKindOf(") + ".oclIsKindOf(".length(), ocl.length());
+											}
+											if (ocl.indexOf("->oclIsKindOf(") != -1) {
+												typeName = ocl.substring(ocl.indexOf("->oclIsKindOf(") + "->oclIsKindOf(".length(), ocl.length());
+											}
+											typeName = typeName.substring(0, typeName.indexOf(")"));
+											for (EClass eType : classes) {
+												if (typeName.equals(eType.getName())) {
+													typeName = classNames.get(EcoreUtil.getURI(eType));
+													break;
+												}
+											}
+											String not = "";
+											if (ocl.startsWith("not")) {
+												not = "not";
+											}
+											String connector = ".";
+											if (ref.getUpperBound() > 1 || ref.getUpperBound() == -1) {
+												connector = "->";
+											}
+											constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + v1 + "." + encodeWord(refName) + connector + "oclIsKindOf(" + typeName + "))";
+											constraint.type = "metamodel";
+											constraint.variables.add(v1);
+											constraint.className = className;
+										}
+									}
+									else if (ocl.indexOf("|") != -1) {
+										String refName = ocl.substring(ocl.indexOf("|"), ocl.length());
+										String operator = "";
+										if (refName.indexOf("=") != -1) {
+											refName = refName.substring(refName.indexOf(".") + 1, refName.indexOf("=")).trim();
+											operator = "=";
+										}
+										if (refName.indexOf("<>") != -1) {
+											refName = refName.substring(refName.indexOf(".") + 1, refName.indexOf("<>")).trim();
+											operator = "<>";
+										}
+										String className = classNames.get(EcoreUtil.getURI(eClass));
+										String v1 = eClass.getName().toLowerCase().substring(0, 1) + "0";
+										String typeName = "";
+										if (ocl.indexOf(".allInstances(") != -1) {
+											typeName = ocl.substring(0, ocl.indexOf(".allInstances("));
+										}
+										String v2 = typeName.toLowerCase().substring(0, 1) + "1";
+										EReference ref = null;
+										for (EClass eType : classes) {
+											if (typeName.equals(eType.getName())) {
+												for (EReference r : eType.getEReferences()) {
+													if (r.getName().equals(refName)) {
+														ref = r;
+														break;
+													}
+												}
+												typeName = classNames.get(EcoreUtil.getURI(eType));
+												break;
+											}
+										}
+										String not = "";
+										if (ocl.startsWith("not")) {
+											not = "not";
+										}
+										String connector = ".";
+										if (ref.getUpperBound() > 1 || ref.getUpperBound() == -1) {
+											connector = "->";
+										}
+										String logic = "";
+										if (ocl.indexOf("or") != -1) {
+											logic = "or";
+										}
+										if (ocl.indexOf("and") != -1) {
+											logic = "and";
+										}
+										if (logic.equals("")) {
+											constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + typeName + ".allInstances()->exists(" + v2 + " | " + v2 + connector + encodeWord(refName) + " " + operator + " " + v1 + "))";
+										}
+										else {
+											String refName2 = ocl.substring(ocl.indexOf(logic) + logic.length(), ocl.length());
+											String operator2 = "";
+											if (refName2.indexOf("=") != -1) {
+												refName2 = refName2.substring(refName2.indexOf(".") + 1, refName2.indexOf("=")).trim();
+												operator2 = "=";
+											}
+											if (refName2.indexOf("<>") != -1) {
+												refName2 = refName2.substring(refName2.indexOf(".") + 1, refName2.indexOf("<>")).trim();
+												operator2 = "<>";
+											}
+											constraint.text = className + ".allInstances()->forAll(" + v1 + " | " + not + " " + typeName + ".allInstances()->exists(" + v2 + " | " + v2 + connector + encodeWord(refName) + " " + operator + " " + v1 + " " + logic + " " + v2 + connector + encodeWord(refName2) + " " + operator2 + " " + v1 + "))";
+										}
+									}
+									if (getConstraint(constraints, constraint) == null && (constraint.text.length() > 0)) {
+										addConstraint(constraints, constraint);
 									}
 								}
 							}

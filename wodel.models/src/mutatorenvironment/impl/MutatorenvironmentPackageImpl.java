@@ -995,6 +995,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getObjectEmitter_Types() {
+		return (EReference)objectEmitterEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMutator() {
 		return mutatorEClass;
 	}
@@ -2940,6 +2949,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		objectEmitterEClass = createEClass(OBJECT_EMITTER);
 		createEReference(objectEmitterEClass, OBJECT_EMITTER__TYPE);
 		createEAttribute(objectEmitterEClass, OBJECT_EMITTER__NAME);
+		createEReference(objectEmitterEClass, OBJECT_EMITTER__TYPES);
 
 		mutatorEClass = createEClass(MUTATOR);
 		createEAttribute(mutatorEClass, MUTATOR__MIN);
@@ -3368,6 +3378,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEClass(objectEmitterEClass, ObjectEmitter.class, "ObjectEmitter", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getObjectEmitter_Type(), ecorePackage.getEClass(), null, "type", null, 0, 1, ObjectEmitter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getObjectEmitter_Name(), ecorePackage.getEString(), "name", null, 0, 1, ObjectEmitter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObjectEmitter_Types(), ecorePackage.getEClass(), null, "types", null, 0, -1, ObjectEmitter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mutatorEClass, Mutator.class, "Mutator", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMutator_Min(), ecorePackage.getEInt(), "min", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

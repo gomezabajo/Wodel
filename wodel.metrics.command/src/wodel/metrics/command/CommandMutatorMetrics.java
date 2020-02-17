@@ -1,7 +1,9 @@
 package wodel.metrics.command;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -169,10 +171,12 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		metricCommand.iccreation++;
 
 		EClass containerClass = null;
+		EClass containedClass = null;
 		for (EClass ec : classes) {
 			for (EReference ref : ec.getEAllReferences()) {
 				if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
 					if (ref.isContainment()) {
+						containedClass = mutatedClass;
 						containerClass = ec;
 						break;
 					}
@@ -225,15 +229,11 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		}
 		if (containerClass == null) {
 			for (EClass superCl : superClasses) {
-				if (filterAbstract == true) {
-					if (superCl.isAbstract() == true) {
-						continue;
-					}
-				}
 				for (EClass ec : classes) {
 					for (EReference ref : ec.getEAllReferences()) {
 						if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
 							if (ref.isContainment()) {
+								containedClass = superCl;
 								containerClass = ec;
 								break;
 							}
@@ -249,33 +249,25 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			}
 		}
 		if (containerClass != null) {
-			boolean proceed = true;
-			if (filterAbstract == true) {
-				if (containerClass.isAbstract() == true) {
-					proceed = false;
-				}
-			}
-			if (proceed == true) {
-				WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
-				if (metricContainer != null) {
-					WodelMetricReference[] containerRef = metricContainer.getReferences();
-					for (EReference eReference : containerClass.getEAllReferences()) {
-						if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
-							for (WodelMetricReference wmref : containerRef) {
-								if (wmref.getName().equals(eReference.getName())) {
-									wmref.imodification++;
-									break;
-								}
+			WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+			if (metricContainer != null) {
+				WodelMetricReference[] containerRef = metricContainer.getReferences();
+				for (EReference eReference : containerClass.getEAllReferences()) {
+					if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+						for (WodelMetricReference wmref : containerRef) {
+							if (wmref.getName().equals(eReference.getName())) {
+								wmref.imodification++;
+								break;
 							}
-							break;
 						}
+						break;
 					}
-					metricContainer.imodification++;
-					metricContainer.immodification++;
-					metricCommand.imodification++;
-					metricCommand.immodification++;
-					metricCommand.addClass(metricContainer);
 				}
+				metricContainer.imodification++;
+				metricContainer.immodification++;
+				metricCommand.imodification++;
+				metricCommand.immodification++;
+				metricCommand.addClass(metricContainer);
 			}
 		}
 		metricCommand.addClass(metricClass);
@@ -313,7 +305,7 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		staticCloneMetricsHelper(model, classes, cloneCommand, metricCommand, mutatedClass, classMetrics, filterAbstract, recursion);
 	}
 
-	private static void staticRemoveMetricsHelper(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EClass> recursion, List<EPackage> packages) {
+	private static void staticRemoveMetricsHelper(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EClass> recursion, List<EPackage> packages, boolean explicit) {
 		WodelMetricClass metricClass = classMetrics.get(EcoreUtil.getURI(mutatedClass));
 		if (metricClass == null) {
 			return;
@@ -340,8 +332,14 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 				}
 			}
 		}
-		metricClass.iddeletion++;
-		metricCommand.iddeletion++;
+		if (!explicit) {
+			metricClass.iddeletion++;
+			metricCommand.iddeletion++;
+		}
+		else {
+			metricClass.ddeletion++;
+			metricCommand.ddeletion++;
+		}
 		List<EClass> subClasses = ModelManager.getESubClasses(packages, mutatedClass);
 		for (EClass subClass : subClasses) {
 			if (filterAbstract == true) {
@@ -380,10 +378,12 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			}
 		}
 		EClass containerClass = null;
+		EClass containedClass = null;
 		for (EClass ec : classes) {
 			for (EReference ref : ec.getEAllReferences()) {
 				if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
 					if (ref.isContainment()) {
+						containedClass = mutatedClass;
 						containerClass = ec;
 						break;
 					}
@@ -396,15 +396,11 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		if (containerClass == null) {
 			List<EClass> superClasses = mutatedClass.getEAllSuperTypes();
 			for (EClass superCl : superClasses) {
-				if (filterAbstract == true) {
-					if (superCl.isAbstract() == true) {
-						continue;
-					}
-				}
 				for (EClass ec : classes) {
 					for (EReference ref : ec.getEAllReferences()) {
 						if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
 							if (ref.isContainment()) {
+								containedClass = superCl;
 								containerClass = ec;
 								break;
 							}
@@ -420,33 +416,25 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			}
 		}
 		if (containerClass != null) {
-			boolean proceed = true;
-			if (filterAbstract == true) {
-				if (containerClass.isAbstract() == true) {
-					proceed = false;
-				}
-			}
-			if (proceed == true) {
-				WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
-				if (metricContainer != null) {
-					WodelMetricReference[] containerRef = metricContainer.getReferences();
-					for (EReference eReference : containerClass.getEAllReferences()) {
-						if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
-							for (WodelMetricReference wmref : containerRef) {
-								if (wmref.getName().equals(eReference.getName())) {
-									wmref.imodification++;
-									break;
-								}
+			WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+			if (metricContainer != null) {
+				WodelMetricReference[] containerRef = metricContainer.getReferences();
+				for (EReference eReference : containerClass.getEAllReferences()) {
+					if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+						for (WodelMetricReference wmref : containerRef) {
+							if (wmref.getName().equals(eReference.getName())) {
+								wmref.imodification++;
+								break;
 							}
-							break;
 						}
+						break;
 					}
-					metricContainer.imodification++;
-					metricCommand.imodification++;
-					metricContainer.immodification++;
-					metricCommand.immodification++;
-					metricCommand.addClass(metricContainer);
 				}
+				metricContainer.imodification++;
+				metricCommand.imodification++;
+				metricContainer.immodification++;
+				metricCommand.immodification++;
+				metricCommand.addClass(metricContainer);
 			}
 		}
 		if (command.eClass().getName().equals("RemoveObjectMutator")) {
@@ -461,14 +449,14 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 					}
 					if (ref.isContainment() && previous == false) {
 						recursion.add((EClass) ref.getEType());
-						removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages);
+						removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages, explicit);
 					}
 				}
 			}
 		}
 	}
 
-	private static void removeMetricsHelper(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EClass> recursion, List<EPackage> packages) {
+	private static void removeMetricsHelper(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EClass> recursion, List<EPackage> packages, boolean explicit) {
 		if (filterAbstract && mutatedClass.isAbstract()) {
 			return;
 		}
@@ -476,113 +464,141 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
 		rts.setType(mutatedClass);
 		removeCommand.setObject(rts);
-		staticRemoveMetricsHelper(model, classes, removeCommand, metricCommand, mutatedClass, classMetrics, filterAbstract, recursion, packages);
+		staticRemoveMetricsHelper(model, classes, removeCommand, metricCommand, mutatedClass, classMetrics, filterAbstract, recursion, packages, explicit);
 	}
 	
-	private static URI getClassURI(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<String, String> strategies, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EPackage> packages, EObject cl) {
-		URI classURI = null;
+	private static List<URI> getClassURI(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<String, String> strategies, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EPackage> packages, EObject cl) {
+		List<URI> classURI = new ArrayList<URI>();
 		try {
 			if (strategies == null) {
-				classURI = EcoreUtil.getURI(cl);
+				classURI.add(EcoreUtil.getURI(cl));
 			}
 			else {
 				for (String strategy : strategies.keySet()) {
 					if (cl.eClass().getName().equals(strategy)) {
 						EObject cl2 = ModelManager.getReference("type", cl);
 						if (cl2 != null) {
-							classURI = EcoreUtil.getURI(cl2);
+							classURI.add(EcoreUtil.getURI(cl2));
 						}
 						else {
-							EObject cl3 = ModelManager.getReference("objSel", cl);
-							if (cl3 != null) {
-								if (cl3.eClass().getName().equals("CreateObjectMutator")) {
-									EObject cl4 = ModelManager.getReference("type", cl3);
-									if (cl4 != null) {
-										classURI = EcoreUtil.getURI(cl4);
-									}
+							List<EObject> cls = ModelManager.getReferences("types", cl);
+							if (cls != null && cls.size() > 0) {
+								for (EObject c : cls) {
+									classURI.add(EcoreUtil.getURI(c));
 								}
-								if (cl3.eClass().getName().equals("CloneObjectMutator")) {
-									EObject cl4 = ModelManager.getReference("type", cl3);
-									if (cl4 != null) {
-										classURI = EcoreUtil.getURI(cl4);
+							}
+							else {
+
+								EObject cl3 = ModelManager.getReference("objSel", cl);
+								if (cl3 != null) {
+									if (cl3.eClass().getName().equals("CreateObjectMutator")) {
+										EObject cl4 = ModelManager.getReference("type", cl3);
+										if (cl4 != null) {
+											classURI.add(EcoreUtil.getURI(cl4));
+										}
 									}
-								}
-								if (cl3.eClass().getName().equals("RetypeObjectMutator")) {
-									EObject cl4 = ModelManager.getReference("type", cl3);
-									if (cl4 != null) {
-										classURI = EcoreUtil.getURI(cl4);
+									if (cl3.eClass().getName().equals("CloneObjectMutator")) {
+										EObject cl4 = ModelManager.getReference("type", cl3);
+										if (cl4 != null) {
+											classURI.add(EcoreUtil.getURI(cl4));
+										}
 									}
-								}
-								if (cl3.eClass().getName().equals("SelectObjectMutator") || cl3.eClass().getName().equals("SelectSampleMutator")) {
-									String mutatorName = ModelManager.getStringAttribute("name", cl3);
-									EClass cl4 = MutatorUtils.getMutatorType(model, mutatorName);
-									if (cl4 != null) {
-										EClass cl5 = MutatorUtils.getMutatorContainerType(model, mutatorName);
-										if (cl5 != null) {
-											if (cl5.getName().equals(mutatedClass.getName())) {
-												if (command.eClass().getName().equals("RemoveObjectMutator")) {
-													ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
-													RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-													rts.setType(cl5);
-													newCommand.setObject(rts);
-													ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
-													EReference reference = null;
-													for (EReference ref : cl5.getEAllReferences()) {
-														if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(cl4))) {
-															reference = ref;
-															break;
+									if (cl3.eClass().getName().equals("RetypeObjectMutator")) {
+										EObject cl4 = ModelManager.getReference("type", cl3);
+										if (cl4 != null) {
+											classURI.add(EcoreUtil.getURI(cl4));
+										}
+									}
+									if (cl3.eClass().getName().equals("SelectObjectMutator") || cl3.eClass().getName().equals("SelectSampleMutator")) {
+										String mutatorName = ModelManager.getStringAttribute("name", cl3);
+										EClass cl4 = MutatorUtils.getMutatorType(model, mutatorName);
+										if (cl4 != null) {
+											EClass cl5 = MutatorUtils.getMutatorContainerType(model, mutatorName);
+											if (cl5 != null) {
+												if (cl5.getName().equals(mutatedClass.getName())) {
+													if (command.eClass().getName().equals("RemoveObjectMutator")) {
+														//													ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+														RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+														rts.setType(cl5);
+														//													newCommand.setObject(rts);
+														//													ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+														EReference reference = null;
+														for (EReference ref : cl5.getEAllReferences()) {
+															if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(cl4))) {
+																reference = ref;
+																break;
+															}
+														}
+														//													newReferenceInit.getReference().add(reference);
+														//													newCommand.getReferences().add(newReferenceInit);
+														//													commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
+														if (reference != null && reference.isContainment()) {
+															RemoveObjectMutator removeCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRemoveObjectMutator();
+															rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+															rts.setType(cl4);
+															removeCommand.setObject(rts);
+															List<EClass> recursion = new ArrayList<EClass>();
+															recursion.add(cl4);
+															removeMetricsHelper(model, classes, command, metricCommand, cl4, classMetrics, filterAbstract, recursion, packages, false);
 														}
 													}
-													newReferenceInit.getReference().add(reference);
-													newCommand.getReferences().add(newReferenceInit);
-													commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
-													if (reference.isContainment()) {
-														RemoveObjectMutator removeCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRemoveObjectMutator();
-														rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+													if (command.eClass().getName().equals("ModifyInformationMutator")) {
+														ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+														RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
 														rts.setType(cl4);
-														removeCommand.setObject(rts);
-														List<EClass> recursion = new ArrayList<EClass>();
-														recursion.add(cl4);
-														removeMetricsHelper(model, classes, command, metricCommand, cl4, classMetrics, filterAbstract, recursion, packages);
+														newCommand.setObject(rts);
+														AttributeSet newAttributeSet = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createAttributeSet();
+														List<AttributeSet> attributeSet = new ArrayList<AttributeSet>();
+														for (EObject attSet : ModelManager.getReferences("attributes", command)) {
+															if (attSet instanceof AttributeSet) {
+																attributeSet.add((AttributeSet) attSet);
+															}
+														}
+														for (AttributeSet attSet : attributeSet) {
+															for (EAttribute att : attSet.getAttribute()) {
+																newAttributeSet.getAttribute().add(att);
+															}
+														}
+														newCommand.getAttributes().add(newAttributeSet);
+														ReferenceSet newReferenceSet = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceSet();
+														List<ReferenceSet> referenceSet = new ArrayList<ReferenceSet>();
+														for (EObject refSet : ModelManager.getReferences("references", command)) {
+															if (refSet instanceof ReferenceSet) {
+																referenceSet.add((ReferenceSet) refSet);
+															}
+														}
+														for (ReferenceSet refSet : referenceSet) {
+															for (EReference ref : refSet.getReference()) {
+																newReferenceSet.getReference().add(ref);
+															}
+														}
+														newCommand.getReferences().add(newReferenceSet);
+														commandMetricsHelper(model, classes, newCommand, metricCommand, cl4, classMetrics, filterAbstract, packages);
 													}
 												}
-												if (command.eClass().getName().equals("ModifyInformationMutator")) {
-													ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
-													RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-													rts.setType(cl4);
-													newCommand.setObject(rts);
-													AttributeSet newAttributeSet = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createAttributeSet();
-													List<AttributeSet> attributeSet = new ArrayList<AttributeSet>();
-													for (EObject attSet : ModelManager.getReferences("attributes", command)) {
-														if (attSet instanceof AttributeSet) {
-															attributeSet.add((AttributeSet) attSet);
+												else {
+													EClass cl6 = MutatorUtils.getMutatorObjectType(model, mutatorName);
+													if (cl6 != null) {
+														if (cl6.getName().equals(mutatedClass.getName())) {
+															if (command.eClass().getName().equals("RemoveObjectMutator")) {
+																//ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+																RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+																rts.setType(cl6);
+																RemoveObjectMutator removeCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRemoveObjectMutator();
+																rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+																rts.setType(cl4);
+																removeCommand.setObject(rts);
+																List<EClass> recursion = new ArrayList<EClass>();
+																recursion.add(cl4);
+																removeMetricsHelper(model, classes, command, metricCommand, cl4, classMetrics, filterAbstract, recursion, packages, true);
+															}
 														}
 													}
-													for (AttributeSet attSet : attributeSet) {
-														for (EAttribute att : attSet.getAttribute()) {
-															newAttributeSet.getAttribute().add(att);
-														}
-													}
-													newCommand.getAttributes().add(newAttributeSet);
-													ReferenceSet newReferenceSet = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceSet();
-													List<ReferenceSet> referenceSet = new ArrayList<ReferenceSet>();
-													for (EObject refSet : ModelManager.getReferences("references", command)) {
-														if (refSet instanceof ReferenceSet) {
-															referenceSet.add((ReferenceSet) refSet);
-														}
-													}
-													for (ReferenceSet refSet : referenceSet) {
-														for (EReference ref : refSet.getReference()) {
-															newReferenceSet.getReference().add(ref);
-														}
-													}
-													newCommand.getReferences().add(newReferenceSet);
-													commandMetricsHelper(model, classes, newCommand, metricCommand, cl4, classMetrics, filterAbstract, packages);
 												}
 											}
-										}
-										else {
-											classURI = EcoreUtil.getURI(cl4);
+											else {
+												classURI.add(EcoreUtil.getURI(cl4));
+											}
 										}
 									}
 								}
@@ -860,11 +876,13 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			metricCommand.creation+=counters[0];
 			metricClass.ccreation++;
 			metricCommand.ccreation++;
+			EClass containedClass = null;
 			EClass containerClass = null;
 			for (EClass ec : classes) {
 				for (EReference ref : ec.getEAllReferences()) {
 					if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
 						if (ref.isContainment()) {
+							containedClass = mutatedClass;
 							containerClass = ec;
 							break;
 						}
@@ -877,15 +895,11 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 			if (containerClass == null) {
 				List<EClass> superClasses = mutatedClass.getEAllSuperTypes();
 				for (EClass superCl : superClasses) {
-					if (filterAbstract == true) {
-						if (superCl.isAbstract() == true) {
-							continue;
-						}
-					}
 					for (EClass ec : classes) {
 						for (EReference ref : ec.getEAllReferences()) {
 							if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
 								if (ref.isContainment()) {
+									containedClass = superCl;
 									containerClass = ec;
 									break;
 								}
@@ -901,33 +915,25 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 				}
 			}
 			if (containerClass != null) {
-				boolean proceed = true;
-				if (filterAbstract == true) {
-					if (containerClass.isAbstract() == true) {
-						proceed = false;
-					}
-				}
-				if (proceed == true) {
-					WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
-					if (metricContainer != null) {
-						WodelMetricReference[] containerRef = metricContainer.getReferences();
-						for (EReference eReference : containerClass.getEAllReferences()) {
-							if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
-								for (WodelMetricReference wmref : containerRef) {
-									if (wmref.getName().equals(eReference.getName())) {
-										wmref.imodification++;
-										break;
-									}
+				WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+				if (metricContainer != null) {
+					WodelMetricReference[] containerRef = metricContainer.getReferences();
+					for (EReference eReference : containerClass.getEAllReferences()) {
+						if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+							for (WodelMetricReference wmref : containerRef) {
+								if (wmref.getName().equals(eReference.getName())) {
+									wmref.imodification++;
+									break;
 								}
-								break;
 							}
+							break;
 						}
-						metricContainer.imodification++;
-						metricContainer.immodification++;
-						metricCommand.imodification++;
-						metricCommand.immodification++;
-						metricCommand.addClass(metricContainer);
 					}
+					metricContainer.imodification++;
+					metricContainer.immodification++;
+					metricCommand.imodification++;
+					metricCommand.immodification++;
+					metricCommand.addClass(metricContainer);
 				}
 			}
 			List<EClass> superClasses = mutatedClass.getEAllSuperTypes();
@@ -1081,10 +1087,12 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 				metricClass.ddeletion++;
 				metricCommand.ddeletion++;
 				EClass containerClass = null;
+				EClass containedClass = null;
 				for (EClass ec : classes) {
 					for (EReference ref : ec.getEAllReferences()) {
 						if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
 							if (ref.isContainment()) {
+								containedClass = mutatedClass;
 								containerClass = ec;
 								break;
 							}
@@ -1097,15 +1105,11 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 				if (containerClass == null) {
 					List<EClass> superClasses = mutatedClass.getEAllSuperTypes();
 					for (EClass superCl : superClasses) {
-						if (filterAbstract == true) {
-							if (superCl.isAbstract() == true) {
-								continue;
-							}
-						}
 						for (EClass ec : classes) {
 							for (EReference ref : ec.getEAllReferences()) {
 								if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
 									if (ref.isContainment()) {
+										containedClass = superCl;
 										containerClass = ec;
 										break;
 									}
@@ -1121,33 +1125,25 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 					}
 				}
 				if (containerClass != null) {
-					boolean proceed = true;
-					if (filterAbstract == true) {
-						if (containerClass.isAbstract() == true) {
-							proceed = false;
-						}
-					}
-					if (proceed == true) {
-						WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
-						if (metricContainer != null) {
-							WodelMetricReference[] containerRef = metricContainer.getReferences();
-							for (EReference eReference : containerClass.getEAllReferences()) {
-								if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
-									for (WodelMetricReference wmref : containerRef) {
-										if (wmref.getName().equals(eReference.getName())) {
-											wmref.imodification++;
-											break;
-										}
+					WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+					if (metricContainer != null) {
+						WodelMetricReference[] containerRef = metricContainer.getReferences();
+						for (EReference eReference : containerClass.getEAllReferences()) {
+							if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+								for (WodelMetricReference wmref : containerRef) {
+									if (wmref.getName().equals(eReference.getName())) {
+										wmref.imodification++;
+										break;
 									}
-									break;
 								}
+								break;
 							}
-							metricContainer.imodification++;
-							metricCommand.imodification++;
-							metricContainer.immodification++;
-							metricCommand.immodification++;
-							metricCommand.addClass(metricContainer);
 						}
+						metricContainer.imodification++;
+						metricCommand.imodification++;
+						metricContainer.immodification++;
+						metricCommand.immodification++;
+						metricCommand.addClass(metricContainer);
 					}
 				}
 				List<EClass> subClasses = ModelManager.getESubClasses(packages, mutatedClass);
@@ -1243,7 +1239,7 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 					if (ref.isContainment()) {
 						List<EClass> recursion = new ArrayList<EClass>();
 						recursion.add((EClass) ref.getEType());
-						removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages);
+						removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages, false);
 					}
 				}
 			}
@@ -1256,178 +1252,728 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 	private static void processRetypingMetrics(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, LinkedHashMap<URI, WodelMetricClass> classMetrics, WodelMetricClass metricClass, int[] counters, boolean filterAbstract, List<EPackage> packages) {
 		try {
 			EClass targetClass = MutatorUtils.getMutatorType((Mutator) command);
-			WodelMetricClass metricTarget = classMetrics.get(EcoreUtil.getURI(targetClass));
-			WodelMetricAttribute[] metricatttar = metricTarget.getAttributes();
-			for (EAttribute eAttribute : targetClass.getEAllAttributes()) {
-				for (WodelMetricAttribute wmatt : metricatttar) {
-					if (wmatt.getName().equals(eAttribute.getName())) {
-						if (eAttribute.getLowerBound() > 0) {
-							wmatt.icreation++;
-							metricTarget.icreation++;
-							metricCommand.icreation++;
-						}	
+			if (targetClass == null) {
+				List<EClass> targetClasses = MutatorUtils.getMutatorTypes((Mutator) command);
+				for (EClass tarClass : targetClasses) {
+					if (EcoreUtil.getURI(tarClass).equals(EcoreUtil.getURI(mutatedClass))) {
+						targetClasses.remove(tarClass);
 						break;
 					}
 				}
-
-			}
-			WodelMetricReference[] metricreftar = metricTarget.getReferences();
-			for (EReference eReference : targetClass.getEAllReferences()) {
-				for (WodelMetricReference wmref : metricreftar) {
-					if (wmref.getName().equals(eReference.getName())) {
-						if (eReference.getLowerBound() > 0) {
-							wmref.icreation++;
-							metricTarget.icreation++;
-							metricCommand.icreation++;
-						}
-						break;
-					}
-				}
-			}
-			metricTarget.ccreation++;
-			metricCommand.ccreation++;
-			EClass containerClass = null;
-			for (EClass ec : classes) {
-				for (EReference ref : ec.getEAllReferences()) {
-					if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(targetClass))) {
-						if (ref.isContainment()) {
-							containerClass = ec;
-							break;
-						}
-					}
-				}
-				if (containerClass != null) {
-					break;
-				}
-			}
-			if (containerClass == null) {
-				List<EClass> superClasses = targetClass.getEAllSuperTypes();
-				for (EClass superCl : superClasses) {
-					if (filterAbstract == true) {
-						if (superCl.isAbstract() == true) {
-							continue;
-						}
-					}
-					for (EClass ec : classes) {
-						for (EReference ref : ec.getEAllReferences()) {
-							if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
-								if (ref.isContainment()) {
-									containerClass = ec;
-									break;
-								}
-							}
-						}
-						if (containerClass != null) {
-							break;
-						}
-					}
-					if (containerClass != null) {
-						break;
-					}
-				}
-			}
-			if (containerClass != null) {
-				boolean proceed = true;
-				if (filterAbstract == true) {
-					if (containerClass.isAbstract() == true) {
-						proceed = false;
-					}
-				}
-				if (proceed == true) {
-					WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
-					if (metricContainer != null) {
-						WodelMetricReference[] containerRef = metricContainer.getReferences();
-						for (EReference eReference : containerClass.getEAllReferences()) {
-							if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(targetClass))) {
-								for (WodelMetricReference wmref : containerRef) {
-									if (wmref.getName().equals(eReference.getName())) {
-										wmref.imodification++;
-										break;
-									}
-								}
-								break;
-							}
-						}
-						metricContainer.imodification++;
-						metricContainer.immodification++;
-						metricCommand.imodification++;
-						metricCommand.immodification++;
-						metricCommand.addClass(metricContainer);
-					}
-				}
-			}
-			List<EClass> superClasses = targetClass.getEAllSuperTypes();
-			for (EClass superClass : superClasses) {
-				if (filterAbstract == true) {
-					if (superClass.isAbstract() == true) {
-						continue;
-					}
-				}
-				WodelMetricClass metricSuperClass = classMetrics.get(EcoreUtil.getURI(superClass));
-				if (metricSuperClass != null) {
-					WodelMetricAttribute[] metricSuperAtt = metricSuperClass.getAttributes();
-					counters[0] = 0;
-					for (EAttribute eAttribute : superClass.getEAllAttributes()) {
-						for (WodelMetricAttribute wmatt : metricSuperAtt) {
+				for (EClass tarClass : targetClasses) {
+					WodelMetricClass metricTarget = classMetrics.get(EcoreUtil.getURI(tarClass));
+					WodelMetricAttribute[] metricatttar = metricTarget.getAttributes();
+					for (EAttribute eAttribute : tarClass.getEAllAttributes()) {
+						for (WodelMetricAttribute wmatt : metricatttar) {
 							if (wmatt.getName().equals(eAttribute.getName())) {
 								if (eAttribute.getLowerBound() > 0) {
 									wmatt.icreation++;
-									counters[0]++;
-								}
+									metricTarget.icreation++;
+									metricCommand.icreation++;
+								}	
 								break;
 							}
 						}
+
 					}
-					WodelMetricReference[] metricSuperRef = metricSuperClass.getReferences();
-					for (EReference eReference : superClass.getEAllReferences()) {
-						for (WodelMetricReference wmref : metricSuperRef) {
+					WodelMetricReference[] metricreftar = metricTarget.getReferences();
+					for (EReference eReference : tarClass.getEAllReferences()) {
+						for (WodelMetricReference wmref : metricreftar) {
 							if (wmref.getName().equals(eReference.getName())) {
 								if (eReference.getLowerBound() > 0) {
 									wmref.icreation++;
-									counters[0]++;
+									metricTarget.icreation++;
+									metricCommand.icreation++;
 								}
 								break;
 							}
 						}
 					}
-					metricSuperClass.icreation+=counters[0];
-					metricCommand.icreation+=counters[0];
-					metricSuperClass.iccreation++;
-					metricCommand.iccreation++;
-					metricCommand.addClass(metricSuperClass);
+					metricTarget.ccreation++;
+					metricCommand.ccreation++;
+					EClass containedClass = null;
+					EClass containerClass = null;
+					for (EClass ec : classes) {
+						for (EReference ref : ec.getEAllReferences()) {
+							if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(tarClass))) {
+								if (ref.isContainment()) {
+									containedClass = tarClass;
+									containerClass = ec;
+									break;
+								}
+							}
+						}
+						if (containerClass != null) {
+							break;
+						}
+					}
+					if (containerClass == null) {
+						List<EClass> superClasses = tarClass.getEAllSuperTypes();
+						for (EClass superCl : superClasses) {
+							for (EClass ec : classes) {
+								for (EReference ref : ec.getEAllReferences()) {
+									if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
+										if (ref.isContainment()) {
+											containedClass = superCl;
+											containerClass = ec;
+											break;
+										}
+									}
+								}
+								if (containerClass != null) {
+									break;
+								}
+							}
+							if (containerClass != null) {
+								break;
+							}
+						}
+					}
+					if (containerClass != null) {
+						WodelMetricClass metricContainer = metricCommand.getClass(classMetrics.get(EcoreUtil.getURI(containerClass)));
+						if (metricContainer == null) {
+							metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+							metricCommand.addClass(metricContainer);
+						}
+						if (metricContainer != null) {
+							WodelMetricReference[] containerRef = metricContainer.getReferences();
+							for (EReference eReference : containerClass.getEAllReferences()) {
+								if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+									for (WodelMetricReference wmref : containerRef) {
+										if (wmref.getName().equals(eReference.getName())) {
+											wmref.imodification++;
+											break;
+										}
+									}
+									break;
+								}
+							}
+							metricContainer.imodification++;
+							metricContainer.immodification++;
+							metricCommand.imodification++;
+							metricCommand.immodification++;
+						}
+					}
+					List<EClass> superClasses = tarClass.getEAllSuperTypes();
+					for (EClass superClass : superClasses) {
+						if (filterAbstract == true) {
+							if (superClass.isAbstract() == true) {
+								continue;
+							}
+						}
+						WodelMetricClass metricSuperClass = classMetrics.get(EcoreUtil.getURI(superClass));
+						if (metricSuperClass != null) {
+							WodelMetricAttribute[] metricSuperAtt = metricSuperClass.getAttributes();
+							counters[0] = 0;
+							for (EAttribute eAttribute : superClass.getEAllAttributes()) {
+								for (WodelMetricAttribute wmatt : metricSuperAtt) {
+									if (wmatt.getName().equals(eAttribute.getName())) {
+										if (eAttribute.getLowerBound() > 0) {
+											wmatt.icreation++;
+											counters[0]++;
+										}
+										break;
+									}
+								}
+							}
+							WodelMetricReference[] metricSuperRef = metricSuperClass.getReferences();
+							for (EReference eReference : superClass.getEAllReferences()) {
+								for (WodelMetricReference wmref : metricSuperRef) {
+									if (wmref.getName().equals(eReference.getName())) {
+										if (eReference.getLowerBound() > 0) {
+											wmref.icreation++;
+											counters[0]++;
+										}
+										break;
+									}
+								}
+							}
+							metricSuperClass.icreation+=counters[0];
+							metricCommand.icreation+=counters[0];
+							metricSuperClass.iccreation++;
+							metricCommand.iccreation++;
+							metricCommand.addClass(metricSuperClass);
+						}
+					}
+					for (EReference ref : tarClass.getEAllReferences()) {
+						if (ref.isContainment()) {
+							List<EClass> recursion = new ArrayList<EClass>();
+							recursion.add((EClass) ref.getEType());
+							cloneMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion);
+						}
+					}
+					boolean previous = false;
+					for (WodelMetricClass metClass : metricCommand.getClasses()) {
+						if (metClass.getURI().equals(metricTarget.getURI())) {
+							WodelMetricAttribute[] metatttar = metClass.getAttributes();
+							for (EAttribute eAttribute : tarClass.getEAllAttributes()) {
+								for (WodelMetricAttribute wmatt : metatttar) {
+									if (wmatt.getName().equals(eAttribute.getName())) {
+										if (eAttribute.getLowerBound() > 0) {
+											wmatt.icreation++;
+										}	
+										break;
+									}
+								}
+							}
+							WodelMetricReference[] metreftar = metClass.getReferences();
+							for (EReference eReference : tarClass.getEAllReferences()) {
+								for (WodelMetricReference wmref : metreftar) {
+									if (wmref.getName().equals(eReference.getName())) {
+										if (eReference.getLowerBound() > 0) {
+											wmref.icreation++;
+										}
+										break;
+									}
+								}
+							}
+							superClasses = tarClass.getEAllSuperTypes();
+							for (EClass superClass : superClasses) {
+								if (filterAbstract == true) {
+									if (superClass.isAbstract() == true) {
+										continue;
+									}
+								}
+								for (WodelMetricClass metSuperClass : metricCommand.getClasses()) {
+									if (metSuperClass.getURI().equals(EcoreUtil.getURI(superClass))) {
+										WodelMetricAttribute[] metricSuperAtt = metSuperClass.getAttributes();
+										counters[0] = 0;
+										for (EAttribute eAttribute : superClass.getEAllAttributes()) {
+											for (WodelMetricAttribute wmatt : metricSuperAtt) {
+												if (wmatt.getName().equals(eAttribute.getName())) {
+													if (eAttribute.getLowerBound() > 0) {
+														wmatt.icreation++;
+														counters[0]++;
+													}
+													break;
+												}
+											}
+										}
+										WodelMetricReference[] metricSuperRef = metSuperClass.getReferences();
+										for (EReference eReference : superClass.getEAllReferences()) {
+											for (WodelMetricReference wmref : metricSuperRef) {
+												if (wmref.getName().equals(eReference.getName())) {
+													if (eReference.getLowerBound() > 0) {
+														wmref.icreation++;
+														counters[0]++;
+													}
+													break;
+												}
+											}
+										}
+										metSuperClass.icreation+=counters[0];
+										metSuperClass.iccreation++;
+										break;
+									}
+								}
+							}
+							metClass.creation += metricTarget.creation;
+							metClass.ccreation += metricTarget.ccreation;
+							metClass.modification += metricTarget.modification;
+							metClass.mmodification += metricTarget.mmodification;
+							metClass.icreation += metricTarget.icreation;
+							metClass.iccreation += metricTarget.iccreation;
+							metClass.imodification += metricTarget.imodification;
+							metClass.immodification += metricTarget.immodification;
+							previous = true;
+							break;
+						}
+					}
+					if (previous == false) {
+						metricCommand.addClass(metricTarget);
+					}
+					EObject container = ModelManager.getReference("container", command);
+					if (container != null) {
+						if (container instanceof SpecificObjectSelection) {
+							SpecificObjectSelection selection = (SpecificObjectSelection) container;
+							if (selection.getRefType() != null) {
+								EReference refType = selection.getRefType();
+								EClass cl5 = null;
+								if (selection.getObjSel() instanceof SelectObjectMutator) {
+									cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+								}
+								if (selection.getObjSel() instanceof SelectSampleMutator) {
+									cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+								}
+								if (selection.getObjSel() instanceof CreateObjectMutator) {
+									cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
+								}
+								if (selection.getObjSel() instanceof CloneObjectMutator) {
+									cl5 = ((CloneObjectMutator) selection.getObjSel()).getType();
+								}
+								if (selection.getObjSel() instanceof RetypeObjectMutator) {
+									cl5 = ((RetypeObjectMutator) selection.getObjSel()).getType();
+								}
+								if (cl5 != null) {
+									ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+									RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									rts.setType(cl5);
+									newCommand.setObject(rts);
+									ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+									newReferenceInit.getReference().add(refType);
+									newCommand.getReferences().add(newReferenceInit);
+									commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
+								}
+							}
+						}
+						if (container instanceof RandomTypeSelection) {
+							RandomTypeSelection selection = (RandomTypeSelection) container;
+							if (selection.getRefType() != null) {
+								EReference refType = selection.getRefType();
+								EClass cl5 = selection.getType();
+								ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+								RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+								rts.setType(cl5);
+								newCommand.setObject(rts);
+								ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+								newReferenceInit.getReference().add(refType);
+								newCommand.getReferences().add(newReferenceInit);
+								commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
+							}
+						}
+					}
+					WodelMetricAttribute[] metricatt = metricClass.getAttributes();
+					for (EAttribute eAttribute : mutatedClass.getEAllAttributes()) {
+						for (WodelMetricAttribute wmatt : metricatt) {
+							if (wmatt.getName().equals(eAttribute.getName())) {
+								wmatt.ideletion++;
+								metricClass.ideletion++;
+								metricCommand.ideletion++;
+								break;
+							}
+						}
+					}
+					WodelMetricReference[] metricref = metricClass.getReferences();
+					for (EReference eReference : mutatedClass.getEAllReferences()) {
+						for (WodelMetricReference wmref : metricref) {
+							if (wmref.getName().equals(eReference.getName())) {
+								wmref.ideletion++;
+								metricClass.ideletion++;
+								metricCommand.ideletion++;
+								break;
+							}
+						}
+					}
+					metricClass.ddeletion++;
+					metricCommand.ddeletion++;
+					containerClass = null;
+					containedClass = null;
+					for (EClass ec : classes) {
+						for (EReference ref : ec.getEAllReferences()) {
+							if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
+								if (ref.isContainment()) {
+									containerClass = ec;
+									containedClass = mutatedClass;
+									break;
+								}
+							}
+						}
+						if (containerClass != null) {
+							break;
+						}
+					}
+					if (containerClass == null) {
+						superClasses = mutatedClass.getEAllSuperTypes();
+						for (EClass superCl : superClasses) {
+							for (EClass ec : classes) {
+								for (EReference ref : ec.getEAllReferences()) {
+									if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
+										if (ref.isContainment()) {
+											containerClass = ec;
+											containedClass = superCl;
+											break;
+										}
+									}
+								}
+								if (containerClass != null) {
+									break;
+								}
+							}
+							if (containerClass != null) {
+								break;
+							}
+						}
+					}
+					if (containerClass != null) {
+						WodelMetricClass metricContainer = metricCommand.getClass(classMetrics.get(EcoreUtil.getURI(containerClass)));
+						if (metricContainer == null) {
+							metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+							metricCommand.addClass(metricContainer);
+						}
+						if (metricContainer != null) {
+							WodelMetricReference[] containerRef = metricContainer.getReferences();
+							for (EReference eReference : containerClass.getEAllReferences()) {
+								if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+									for (WodelMetricReference wmref : containerRef) {
+										if (wmref.getName().equals(eReference.getName())) {
+											wmref.imodification++;
+											break;
+										}
+									}
+									break;
+								}
+							}
+							metricContainer.imodification++;
+							metricContainer.immodification++;
+							metricCommand.imodification++;
+							metricCommand.immodification++;
+						}
+					}
+					List<EClass> subClasses = ModelManager.getESubClasses(packages, mutatedClass);
+					for (EClass subClass : subClasses) {
+						if (filterAbstract == true) {
+							if (subClass.isAbstract() == true) {
+								continue;
+							}
+						}
+						WodelMetricClass metricSubClass = classMetrics.get(EcoreUtil.getURI(subClass));
+						if (metricSubClass != null) {
+							WodelMetricAttribute[] metricSubAtt = metricSubClass.getAttributes();
+							counters[0] = 0;
+							for (EAttribute eAttribute : subClass.getEAllAttributes()) {
+								for (WodelMetricAttribute wmatt : metricSubAtt) {
+									if (wmatt.getName().equals(eAttribute.getName())) {
+										wmatt.ideletion++;
+										counters[0]++;
+										break;
+									}
+								}
+							}
+							WodelMetricReference[] metricSubRef = metricSubClass.getReferences();
+							for (EReference eReference : subClass.getEAllReferences()) {
+								for (WodelMetricReference wmref : metricSubRef) {
+									if (wmref.getName().equals(eReference.getName())) {
+										wmref.ideletion++;
+										counters[0]++;
+										break;
+									}
+								}
+							}
+							metricSubClass.ideletion+=counters[0];
+							metricCommand.ideletion+=counters[0];
+							metricSubClass.iddeletion++;
+							metricCommand.iddeletion++;
+							metricCommand.addClass(metricSubClass);
+						}
+					}
+					for (EReference ref : mutatedClass.getEAllReferences()) {
+						if (ref.isContainment()) {
+							List<EClass> recursion = new ArrayList<EClass>();
+							recursion.add((EClass) ref.getEType());
+							removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages, false);
+						}
+					}
+					previous = false;
+					for (WodelMetricClass metClass : metricCommand.getClasses()) {
+						if (metClass.getURI().equals(metricClass.getURI())) {
+							WodelMetricAttribute[] metatt = metClass.getAttributes();
+							WodelMetricAttribute[] mtatt = metricClass.getAttributes();
+							for (EAttribute eAttribute : mutatedClass.getEAllAttributes()) {
+								for (WodelMetricAttribute wmatt : metatt) {
+									for (WodelMetricAttribute wmtatt : mtatt) {
+										if (wmatt.getName().equals(eAttribute.getName()) && wmtatt.getName().equals(eAttribute.getName())) {
+											wmatt.ideletion = wmtatt.ideletion;
+											break;
+										}
+									}
+								}
+							}
+							WodelMetricReference[] metref = metClass.getReferences();
+							WodelMetricReference[] mtref = metricClass.getReferences();
+							for (EReference eReference : mutatedClass.getEAllReferences()) {
+								for (WodelMetricReference wmref : metref) {
+									for (WodelMetricReference wmtref : mtref) {
+										if (wmref.getName().equals(eReference.getName()) && wmtref.getName().equals(eReference.getName())) {
+											wmref.ideletion = wmtref.deletion;
+											break;
+										}
+									}
+								}
+							}
+							subClasses = ModelManager.getESubClasses(packages, mutatedClass);
+							for (EClass subClass : subClasses) {
+								if (filterAbstract == true) {
+									if (subClass.isAbstract() == true) {
+										continue;
+									}
+								}
+								WodelMetricClass metricSubClass = classMetrics.get(EcoreUtil.getURI(subClass));
+								for (WodelMetricClass metSubClass : metricCommand.getClasses()) {
+									if (metSubClass.getURI().equals(EcoreUtil.getURI(subClass))) {
+										WodelMetricAttribute[] metricSubAtt = metSubClass.getAttributes();
+										WodelMetricAttribute[] metricSubtAtt = metricSubClass.getAttributes();
+										counters[0] = 0;
+										for (EAttribute eAttribute : subClass.getEAllAttributes()) {
+											for (WodelMetricAttribute wmatt : metricSubAtt) {
+												for (WodelMetricAttribute wmtatt : metricSubtAtt) {
+													if (wmatt.getName().equals(eAttribute.getName()) && wmtatt.getName().equals(eAttribute.getName())) {
+														wmatt.ideletion = wmtatt.ideletion;
+														break;
+													}
+												}
+											}
+										}
+										WodelMetricReference[] metricSubRef = metSubClass.getReferences();
+										WodelMetricReference[] metricSubtRef = metricSubClass.getReferences();
+										for (EReference eReference : subClass.getEAllReferences()) {
+											for (WodelMetricReference wmref : metricSubRef) {
+												for (WodelMetricReference wmtref : metricSubtRef) {
+													if (wmref.getName().equals(eReference.getName()) && wmtref.getName().equals(eReference.getName())) {
+														wmref.ideletion = wmtref.ideletion;
+														break;
+													}
+												}
+											}
+										}
+										break;
+									}
+								}
+							}
+							metClass.deletion = metricClass.deletion;
+							metClass.ddeletion = metricClass.ddeletion;
+							metClass.icreation = metricClass.icreation;
+							metClass.iccreation = metricClass.iccreation;
+							metClass.imodification = metricClass.imodification;
+							metClass.immodification = metricClass.immodification;
+							metClass.ideletion = metricClass.ideletion;
+							metClass.iddeletion = metricClass.iddeletion;
+							previous = true;
+							break;
+						}
+					}
+					if (previous == false) {
+						metricCommand.addClass(metricClass);
+					}
+					if (container != null) {
+						if (container instanceof SpecificObjectSelection) {
+							SpecificObjectSelection selection = (SpecificObjectSelection) container;
+							if (selection.getRefType() != null) {
+								EReference refType = selection.getRefType();
+								EClass cl5 = null;
+								if (selection.getObjSel() instanceof SelectObjectMutator) {
+									cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+								}
+								if (selection.getObjSel() instanceof SelectSampleMutator) {
+									cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+								}
+								if (selection.getObjSel() instanceof CreateObjectMutator) {
+									cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
+								}
+								if (selection.getObjSel() instanceof CloneObjectMutator) {
+									cl5 = ((CloneObjectMutator) selection.getObjSel()).getType();
+								}
+								if (selection.getObjSel() instanceof RetypeObjectMutator) {
+									cl5 = ((RetypeObjectMutator) selection.getObjSel()).getType();
+								}
+								if (cl5 != null) {
+									ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+									RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+									rts.setType(cl5);
+									newCommand.setObject(rts);
+									ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+									newReferenceInit.getReference().add(refType);
+									newCommand.getReferences().add(newReferenceInit);
+									commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
+								}
+							}
+						}
+						if (container instanceof RandomTypeSelection) {
+							RandomTypeSelection selection = (RandomTypeSelection) container;
+							if (selection.getRefType() != null) {
+								EReference refType = selection.getRefType();
+								EClass cl5 = selection.getType();
+								ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+								RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+								rts.setType(cl5);
+								newCommand.setObject(rts);
+								ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+								newReferenceInit.getReference().add(refType);
+								newCommand.getReferences().add(newReferenceInit);
+								commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
+							}
+						}
+					}
 				}
 			}
-			for (EReference ref : targetClass.getEAllReferences()) {
-				if (ref.isContainment()) {
-					List<EClass> recursion = new ArrayList<EClass>();
-					recursion.add((EClass) ref.getEType());
-					cloneMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion);
+			else {
+				WodelMetricClass metricTarget = classMetrics.get(EcoreUtil.getURI(targetClass));
+				WodelMetricAttribute[] metricatttar = metricTarget.getAttributes();
+				for (EAttribute eAttribute : targetClass.getEAllAttributes()) {
+					for (WodelMetricAttribute wmatt : metricatttar) {
+						if (wmatt.getName().equals(eAttribute.getName())) {
+							if (eAttribute.getLowerBound() > 0) {
+								wmatt.icreation++;
+								metricTarget.icreation++;
+								metricCommand.icreation++;
+							}	
+							break;
+						}
+					}
+
 				}
-			}
-			metricCommand.addClass(metricTarget);
-			EObject container = ModelManager.getReference("container", command);
-			if (container != null) {
-				if (container instanceof SpecificObjectSelection) {
-					SpecificObjectSelection selection = (SpecificObjectSelection) container;
-					if (selection.getRefType() != null) {
-						EReference refType = selection.getRefType();
-						EClass cl5 = null;
-						if (selection.getObjSel() instanceof SelectObjectMutator) {
-							cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+				WodelMetricReference[] metricreftar = metricTarget.getReferences();
+				for (EReference eReference : targetClass.getEAllReferences()) {
+					for (WodelMetricReference wmref : metricreftar) {
+						if (wmref.getName().equals(eReference.getName())) {
+							if (eReference.getLowerBound() > 0) {
+								wmref.icreation++;
+								metricTarget.icreation++;
+								metricCommand.icreation++;
+							}
+							break;
 						}
-						if (selection.getObjSel() instanceof SelectSampleMutator) {
-							cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+					}
+				}
+				metricTarget.ccreation++;
+				metricCommand.ccreation++;
+				EClass containedClass = null;
+				EClass containerClass = null;
+				for (EClass ec : classes) {
+					for (EReference ref : ec.getEAllReferences()) {
+						if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(targetClass))) {
+							if (ref.isContainment()) {
+								containedClass = targetClass;
+								containerClass = ec;
+								break;
+							}
 						}
-						if (selection.getObjSel() instanceof CreateObjectMutator) {
-							cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
+					}
+					if (containerClass != null) {
+						break;
+					}
+				}
+				if (containerClass == null) {
+					List<EClass> superClasses = targetClass.getEAllSuperTypes();
+					for (EClass superCl : superClasses) {
+						for (EClass ec : classes) {
+							for (EReference ref : ec.getEAllReferences()) {
+								if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
+									if (ref.isContainment()) {
+										containedClass = superCl;
+										containerClass = ec;
+										break;
+									}
+								}
+							}
+							if (containerClass != null) {
+								break;
+							}
 						}
-						if (selection.getObjSel() instanceof CloneObjectMutator) {
-							cl5 = ((CloneObjectMutator) selection.getObjSel()).getType();
+						if (containerClass != null) {
+							break;
 						}
-						if (selection.getObjSel() instanceof RetypeObjectMutator) {
-							cl5 = ((RetypeObjectMutator) selection.getObjSel()).getType();
+					}
+				}
+				if (containerClass != null) {
+					WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
+					if (metricContainer != null) {
+						WodelMetricReference[] containerRef = metricContainer.getReferences();
+						for (EReference eReference : containerClass.getEAllReferences()) {
+							if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
+								for (WodelMetricReference wmref : containerRef) {
+									if (wmref.getName().equals(eReference.getName())) {
+										wmref.imodification++;
+										break;
+									}
+								}
+								break;
+							}
 						}
-						if (cl5 != null) {
+						metricContainer.imodification++;
+						metricContainer.immodification++;
+						metricCommand.imodification++;
+						metricCommand.immodification++;
+						metricCommand.addClass(metricContainer);
+					}
+				}
+				List<EClass> superClasses = targetClass.getEAllSuperTypes();
+				for (EClass superClass : superClasses) {
+					if (filterAbstract == true) {
+						if (superClass.isAbstract() == true) {
+							continue;
+						}
+					}
+					WodelMetricClass metricSuperClass = classMetrics.get(EcoreUtil.getURI(superClass));
+					if (metricSuperClass != null) {
+						WodelMetricAttribute[] metricSuperAtt = metricSuperClass.getAttributes();
+						counters[0] = 0;
+						for (EAttribute eAttribute : superClass.getEAllAttributes()) {
+							for (WodelMetricAttribute wmatt : metricSuperAtt) {
+								if (wmatt.getName().equals(eAttribute.getName())) {
+									if (eAttribute.getLowerBound() > 0) {
+										wmatt.icreation++;
+										counters[0]++;
+									}
+									break;
+								}
+							}
+						}
+						WodelMetricReference[] metricSuperRef = metricSuperClass.getReferences();
+						for (EReference eReference : superClass.getEAllReferences()) {
+							for (WodelMetricReference wmref : metricSuperRef) {
+								if (wmref.getName().equals(eReference.getName())) {
+									if (eReference.getLowerBound() > 0) {
+										wmref.icreation++;
+										counters[0]++;
+									}
+									break;
+								}
+							}
+						}
+						metricSuperClass.icreation+=counters[0];
+						metricCommand.icreation+=counters[0];
+						metricSuperClass.iccreation++;
+						metricCommand.iccreation++;
+						metricCommand.addClass(metricSuperClass);
+					}
+				}
+				for (EReference ref : targetClass.getEAllReferences()) {
+					if (ref.isContainment()) {
+						List<EClass> recursion = new ArrayList<EClass>();
+						recursion.add((EClass) ref.getEType());
+						cloneMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion);
+					}
+				}
+				metricCommand.addClass(metricTarget);
+				EObject container = ModelManager.getReference("container", command);
+				if (container != null) {
+					if (container instanceof SpecificObjectSelection) {
+						SpecificObjectSelection selection = (SpecificObjectSelection) container;
+						if (selection.getRefType() != null) {
+							EReference refType = selection.getRefType();
+							EClass cl5 = null;
+							if (selection.getObjSel() instanceof SelectObjectMutator) {
+								cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+							}
+							if (selection.getObjSel() instanceof SelectSampleMutator) {
+								cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+							}
+							if (selection.getObjSel() instanceof CreateObjectMutator) {
+								cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
+							}
+							if (selection.getObjSel() instanceof CloneObjectMutator) {
+								cl5 = ((CloneObjectMutator) selection.getObjSel()).getType();
+							}
+							if (selection.getObjSel() instanceof RetypeObjectMutator) {
+								cl5 = ((RetypeObjectMutator) selection.getObjSel()).getType();
+							}
+							if (cl5 != null) {
+								ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+								RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+								rts.setType(cl5);
+								newCommand.setObject(rts);
+								ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+								newReferenceInit.getReference().add(refType);
+								newCommand.getReferences().add(newReferenceInit);
+								commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
+							}
+						}
+					}
+					if (container instanceof RandomTypeSelection) {
+						RandomTypeSelection selection = (RandomTypeSelection) container;
+						if (selection.getRefType() != null) {
+							EReference refType = selection.getRefType();
+							EClass cl5 = selection.getType();
 							ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
 							RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
 							rts.setType(cl5);
@@ -1439,99 +1985,74 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 						}
 					}
 				}
-				if (container instanceof RandomTypeSelection) {
-					RandomTypeSelection selection = (RandomTypeSelection) container;
-					if (selection.getRefType() != null) {
-						EReference refType = selection.getRefType();
-						EClass cl5 = selection.getType();
-						ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
-						RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-						rts.setType(cl5);
-						newCommand.setObject(rts);
-						ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
-						newReferenceInit.getReference().add(refType);
-						newCommand.getReferences().add(newReferenceInit);
-						commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
-					}
-				}
-			}
-			WodelMetricAttribute[] metricatt = metricClass.getAttributes();
-			for (EAttribute eAttribute : mutatedClass.getEAllAttributes()) {
-				for (WodelMetricAttribute wmatt : metricatt) {
-					if (wmatt.getName().equals(eAttribute.getName())) {
-						wmatt.ideletion++;
-						metricClass.ideletion++;
-						metricCommand.ideletion++;
-						break;
-					}
-				}
-			}
-			WodelMetricReference[] metricref = metricClass.getReferences();
-			for (EReference eReference : mutatedClass.getEAllReferences()) {
-				for (WodelMetricReference wmref : metricref) {
-					if (wmref.getName().equals(eReference.getName())) {
-						wmref.ideletion++;
-						metricClass.ideletion++;
-						metricCommand.ideletion++;
-						break;
-					}
-				}
-			}
-			metricClass.ddeletion++;
-			metricCommand.ddeletion++;
-			containerClass = null;
-			for (EClass ec : classes) {
-				for (EReference ref : ec.getEAllReferences()) {
-					if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
-						if (ref.isContainment()) {
-							containerClass = ec;
+				WodelMetricAttribute[] metricatt = metricClass.getAttributes();
+				for (EAttribute eAttribute : mutatedClass.getEAllAttributes()) {
+					for (WodelMetricAttribute wmatt : metricatt) {
+						if (wmatt.getName().equals(eAttribute.getName())) {
+							wmatt.ideletion++;
+							metricClass.ideletion++;
+							metricCommand.ideletion++;
 							break;
 						}
 					}
 				}
-				if (containerClass != null) {
-					break;
-				}
-			}
-			if (containerClass == null) {
-				superClasses = mutatedClass.getEAllSuperTypes();
-				for (EClass superCl : superClasses) {
-					if (filterAbstract == true) {
-						if (superCl.isAbstract() == true) {
-							continue;
+				WodelMetricReference[] metricref = metricClass.getReferences();
+				for (EReference eReference : mutatedClass.getEAllReferences()) {
+					for (WodelMetricReference wmref : metricref) {
+						if (wmref.getName().equals(eReference.getName())) {
+							wmref.ideletion++;
+							metricClass.ideletion++;
+							metricCommand.ideletion++;
+							break;
 						}
 					}
-					for (EClass ec : classes) {
-						for (EReference ref : ec.getEAllReferences()) {
-							if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
-								if (ref.isContainment()) {
-									containerClass = ec;
-									break;
-								}
+				}
+				metricClass.ddeletion++;
+				metricCommand.ddeletion++;
+				containerClass = null;
+				containedClass = null;
+				for (EClass ec : classes) {
+					for (EReference ref : ec.getEAllReferences()) {
+						if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
+							if (ref.isContainment()) {
+								containerClass = ec;
+								containedClass = mutatedClass;
+								break;
 							}
-						}
-						if (containerClass != null) {
-							break;
 						}
 					}
 					if (containerClass != null) {
 						break;
 					}
 				}
-			}
-			if (containerClass != null) {
-				boolean proceed = true;
-				if (filterAbstract == true) {
-					if (containerClass.isAbstract() == true) {
-						proceed = false;
+				if (containerClass == null) {
+					superClasses = mutatedClass.getEAllSuperTypes();
+					for (EClass superCl : superClasses) {
+						for (EClass ec : classes) {
+							for (EReference ref : ec.getEAllReferences()) {
+								if (EcoreUtil.getURI(ref.getEType()).equals(EcoreUtil.getURI(superCl))) {
+									if (ref.isContainment()) {
+										containerClass = ec;
+										containedClass = superCl;
+										break;
+									}
+								}
+							}
+							if (containerClass != null) {
+								break;
+							}
+						}
+						if (containerClass != null) {
+							break;
+						}
 					}
 				}
-				if (proceed == true) {
+				if (containerClass != null) {
 					WodelMetricClass metricContainer = classMetrics.get(EcoreUtil.getURI(containerClass));
 					if (metricContainer != null) {
 						WodelMetricReference[] containerRef = metricContainer.getReferences();
 						for (EReference eReference : containerClass.getEAllReferences()) {
-							if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(mutatedClass))) {
+							if (EcoreUtil.getURI(eReference.getEType()).equals(EcoreUtil.getURI(containedClass))) {
 								for (WodelMetricReference wmref : containerRef) {
 									if (wmref.getName().equals(eReference.getName())) {
 										wmref.imodification++;
@@ -1548,74 +2069,89 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 						metricCommand.addClass(metricContainer);
 					}
 				}
-			}
-			List<EClass> subClasses = ModelManager.getESubClasses(packages, mutatedClass);
-			for (EClass subClass : subClasses) {
-				if (filterAbstract == true) {
-					if (subClass.isAbstract() == true) {
-						continue;
+				List<EClass> subClasses = ModelManager.getESubClasses(packages, mutatedClass);
+				for (EClass subClass : subClasses) {
+					if (filterAbstract == true) {
+						if (subClass.isAbstract() == true) {
+							continue;
+						}
+					}
+					WodelMetricClass metricSubClass = classMetrics.get(EcoreUtil.getURI(subClass));
+					if (metricSubClass != null) {
+						WodelMetricAttribute[] metricSubAtt = metricSubClass.getAttributes();
+						counters[0] = 0;
+						for (EAttribute eAttribute : subClass.getEAllAttributes()) {
+							for (WodelMetricAttribute wmatt : metricSubAtt) {
+								if (wmatt.getName().equals(eAttribute.getName())) {
+									wmatt.ideletion++;
+									counters[0]++;
+									break;
+								}
+							}
+						}
+						WodelMetricReference[] metricSubRef = metricSubClass.getReferences();
+						for (EReference eReference : subClass.getEAllReferences()) {
+							for (WodelMetricReference wmref : metricSubRef) {
+								if (wmref.getName().equals(eReference.getName())) {
+									wmref.ideletion++;
+									counters[0]++;
+									break;
+								}
+							}
+						}
+						metricSubClass.ideletion+=counters[0];
+						metricCommand.ideletion+=counters[0];
+						metricSubClass.iddeletion++;
+						metricCommand.iddeletion++;
+						metricCommand.addClass(metricSubClass);
 					}
 				}
-				WodelMetricClass metricSubClass = classMetrics.get(EcoreUtil.getURI(subClass));
-				if (metricSubClass != null) {
-					WodelMetricAttribute[] metricSubAtt = metricSubClass.getAttributes();
-					counters[0] = 0;
-					for (EAttribute eAttribute : subClass.getEAllAttributes()) {
-						for (WodelMetricAttribute wmatt : metricSubAtt) {
-							if (wmatt.getName().equals(eAttribute.getName())) {
-								wmatt.ideletion++;
-								counters[0]++;
-								break;
+				for (EReference ref : mutatedClass.getEAllReferences()) {
+					if (ref.isContainment()) {
+						List<EClass> recursion = new ArrayList<EClass>();
+						recursion.add((EClass) ref.getEType());
+						removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages, false);
+					}
+				}
+				metricCommand.addClass(metricClass);
+				if (container != null) {
+					if (container instanceof SpecificObjectSelection) {
+						SpecificObjectSelection selection = (SpecificObjectSelection) container;
+						if (selection.getRefType() != null) {
+							EReference refType = selection.getRefType();
+							EClass cl5 = null;
+							if (selection.getObjSel() instanceof SelectObjectMutator) {
+								cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
+							}
+							if (selection.getObjSel() instanceof SelectSampleMutator) {
+								cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
+							}
+							if (selection.getObjSel() instanceof CreateObjectMutator) {
+								cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
+							}
+							if (selection.getObjSel() instanceof CloneObjectMutator) {
+								cl5 = ((CloneObjectMutator) selection.getObjSel()).getType();
+							}
+							if (selection.getObjSel() instanceof RetypeObjectMutator) {
+								cl5 = ((RetypeObjectMutator) selection.getObjSel()).getType();
+							}
+							if (cl5 != null) {
+								ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
+								RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
+								rts.setType(cl5);
+								newCommand.setObject(rts);
+								ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
+								newReferenceInit.getReference().add(refType);
+								newCommand.getReferences().add(newReferenceInit);
+								commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
 							}
 						}
 					}
-					WodelMetricReference[] metricSubRef = metricSubClass.getReferences();
-					for (EReference eReference : subClass.getEAllReferences()) {
-						for (WodelMetricReference wmref : metricSubRef) {
-							if (wmref.getName().equals(eReference.getName())) {
-								wmref.ideletion++;
-								counters[0]++;
-								break;
-							}
-						}
-					}
-					metricSubClass.ideletion+=counters[0];
-					metricCommand.ideletion+=counters[0];
-					metricSubClass.iddeletion++;
-					metricCommand.iddeletion++;
-					metricCommand.addClass(metricSubClass);
-				}
-			}
-			for (EReference ref : mutatedClass.getEAllReferences()) {
-				if (ref.isContainment()) {
-					List<EClass> recursion = new ArrayList<EClass>();
-					recursion.add((EClass) ref.getEType());
-					removeMetricsHelper(model, classes, command, metricCommand, (EClass) ref.getEType(), classMetrics, filterAbstract, recursion, packages);
-				}
-			}
-			metricCommand.addClass(metricClass);
-			if (container != null) {
-				if (container instanceof SpecificObjectSelection) {
-					SpecificObjectSelection selection = (SpecificObjectSelection) container;
-					if (selection.getRefType() != null) {
-						EReference refType = selection.getRefType();
-						EClass cl5 = null;
-						if (selection.getObjSel() instanceof SelectObjectMutator) {
-							cl5 = ((SelectObjectMutator) selection.getObjSel()).getObject().getType();
-						}
-						if (selection.getObjSel() instanceof SelectSampleMutator) {
-							cl5 = ((SelectSampleMutator) selection.getObjSel()).getObject().getType();
-						}
-						if (selection.getObjSel() instanceof CreateObjectMutator) {
-							cl5 = ((CreateObjectMutator) selection.getObjSel()).getType();
-						}
-						if (selection.getObjSel() instanceof CloneObjectMutator) {
-							cl5 = ((CloneObjectMutator) selection.getObjSel()).getType();
-						}
-						if (selection.getObjSel() instanceof RetypeObjectMutator) {
-							cl5 = ((RetypeObjectMutator) selection.getObjSel()).getType();
-						}
-						if (cl5 != null) {
+					if (container instanceof RandomTypeSelection) {
+						RandomTypeSelection selection = (RandomTypeSelection) container;
+						if (selection.getRefType() != null) {
+							EReference refType = selection.getRefType();
+							EClass cl5 = selection.getType();
 							ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
 							RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
 							rts.setType(cl5);
@@ -1625,21 +2161,6 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 							newCommand.getReferences().add(newReferenceInit);
 							commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
 						}
-					}
-				}
-				if (container instanceof RandomTypeSelection) {
-					RandomTypeSelection selection = (RandomTypeSelection) container;
-					if (selection.getRefType() != null) {
-						EReference refType = selection.getRefType();
-						EClass cl5 = selection.getType();
-						ModifyInformationMutator newCommand = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createModifyInformationMutator();
-						RandomTypeSelection rts = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createRandomTypeSelection();
-						rts.setType(cl5);
-						newCommand.setObject(rts);
-						ReferenceInit newReferenceInit = mutatorenvironment.MutatorenvironmentFactory.eINSTANCE.createReferenceInit();
-						newReferenceInit.getReference().add(refType);
-						newCommand.getReferences().add(newReferenceInit);
-						commandMetricsHelper(model, classes, newCommand, metricCommand, cl5, classMetrics, filterAbstract, packages);
 					}
 				}
 			}
@@ -1653,32 +2174,36 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		try {
 			EObject cl = ModelManager.getReference(refName, command);
 			if (cl != null) {
-				URI classURI = getClassURI(model, classes, command, metricCommand, mutatedClass, strategies, classMetrics, filterAbstract, packages, cl);
-				if (EcoreUtil.getURI(mutatedClass).equals(classURI) == true) {
-					WodelMetricClass metricClass = classMetrics.get(classURI);
-					if (metricClass != null) {
-						int[] counters = new int[2];
-						processModificationMetrics(command, classMetrics, metricClass, atts, refs, counters); 
-						//modification mutations
-						if (operation == 0) {
-							processCreationMetrics(model, classes, command, metricCommand, mutatedClass, classMetrics, metricClass, counters, filterAbstract, packages);
-						}
-						if (operation == 1) {
-							metricClass.modification+= counters[0];
-							metricCommand.modification+= counters[0];
-							if (counters[1] > 0) {
-								metricClass.mmodification += counters[1] - 1;
-								metricCommand.mmodification += counters[1] - 1;
+				List<URI> classURIs = getClassURI(model, classes, command, metricCommand, mutatedClass, strategies, classMetrics, filterAbstract, packages, cl);
+				if (classURIs != null && classURIs.size() > 0) {
+					for (URI classURI : classURIs) {
+						if (EcoreUtil.getURI(mutatedClass).equals(classURI) == true) {
+							WodelMetricClass metricClass = classMetrics.get(classURI);
+							if (metricClass != null) {
+								int[] counters = new int[2];
+								processModificationMetrics(command, classMetrics, metricClass, atts, refs, counters); 
+								//modification mutations
+								if (operation == 0) {
+									processCreationMetrics(model, classes, command, metricCommand, mutatedClass, classMetrics, metricClass, counters, filterAbstract, packages);
+								}
+								if (operation == 1) {
+									metricClass.modification+= counters[0];
+									metricCommand.modification+= counters[0];
+									if (counters[1] > 0) {
+										metricClass.mmodification += counters[1] - 1;
+										metricCommand.mmodification += counters[1] - 1;
+									}
+									metricClass.mmodification++;
+									metricCommand.mmodification++;
+									metricCommand.addClass(metricClass);
+								}
+								if (operation == 2) {
+									processRemovalMetrics(model, classes, command, metricCommand, mutatedClass, classMetrics, metricClass, counters, filterAbstract, packages);
+								}
+								if (operation == 3) {
+									processRetypingMetrics(model, classes, command, metricCommand, mutatedClass, classMetrics, metricClass, counters, filterAbstract, packages);
+								}
 							}
-							metricClass.mmodification++;
-							metricCommand.mmodification++;
-							metricCommand.addClass(metricClass);
-						}
-						if (operation == 2) {
-							processRemovalMetrics(model, classes, command, metricCommand, mutatedClass, classMetrics, metricClass, counters, filterAbstract, packages);
-						}
-						if (operation == 3) {
-							processRetypingMetrics(model, classes, command, metricCommand, mutatedClass, classMetrics, metricClass, counters, filterAbstract, packages);
 						}
 					}
 				}
@@ -1792,73 +2317,96 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 		return classMetrics;
 	}
 
-	public static WodelMetricCommand[] createWodelCommandMetrics(String xmiFileName, String metamodel) {
+	public static WodelMetricCommand[] createWodelCommandMetrics(String projectName, String metamodel) {
 		try {
+			List<WodelMetricCommand> metricCommands = new ArrayList<WodelMetricCommand>();
 			Bundle bundle = Platform.getBundle("wodel.models");
 			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
 			String mutatorecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
-			Resource program = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
-
+	   		File mutatorFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + projectName + "/src/");
+	   		if (mutatorFolder.exists() == false) {
+				WodelMetricCommand[] ret = new WodelMetricCommand[metricCommands.size()];
+				metricCommands.toArray(ret);
+				return ret;
+	   		}
+	   		List<String> mutators = new ArrayList<String>();
+	   		for (File mutatorFile : mutatorFolder.listFiles()) {
+	   			if (mutatorFile.isFile() && mutatorFile.getName().endsWith(".mutator")) {
+	   				mutators.add(mutatorFile.getName());
+	   			}
+	   		}
+	   		List<Resource> models = new ArrayList<Resource>();
+	   		File modelFolder = new File(ModelManager.getOutputPath());
+	   		for (File modelFile : modelFolder.listFiles()) {
+	   			if (modelFile.isFile() && modelFile.getName().endsWith(".model")) {
+	   				String mutatorName = modelFile.getName().replace(".model", ".mutator");
+	   				if (mutators.contains(mutatorName)) {
+	   					Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath() + "/" + modelFile.getName());
+	   					models.add(model);
+	   				}
+	   			}
+	   		}
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 			List<EClass> classes = ModelManager.getEClasses(packages);
 
 			boolean filterAbstract = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Filter concrete classes", false, null);
 
-			List<WodelMetricCommand> metricCommands = new ArrayList<WodelMetricCommand>();
-			Map<String, List<EObject>> blocks = MutatorUtils.getBlockCommands(program);
-			if (blocks.size() > 0) {
-				for (String blockName : blocks.keySet()) {
-					WodelMetricCommand metricBlock = new WodelMetricCommand();
-					metricBlock.setName(blockName);
-					List<EObject> commands = blocks.get(blockName);
-					for (EObject command : commands) {
-						WodelMetricCommand metricCommand = new WodelMetricCommand();
-						//String uriID = EcoreUtil.getURI(command).toString().split("#/")[1];
-						metricCommand.setName(command.eClass().getName());
-						for (EClass cl : classes) {
-							if (filterAbstract == true) {
-								if (cl.isAbstract() == true) {
-									continue;
+			for (Resource program : models) {
+				Map<String, List<EObject>> blocks = MutatorUtils.getBlockCommands(program);
+				if (blocks.size() > 0) {
+					for (String blockName : blocks.keySet()) {
+						WodelMetricCommand metricBlock = new WodelMetricCommand();
+						metricBlock.setName(blockName);
+						List<EObject> commands = blocks.get(blockName);
+						for (EObject command : commands) {
+							WodelMetricCommand metricCommand = new WodelMetricCommand();
+							//String uriID = EcoreUtil.getURI(command).toString().split("#/")[1];
+							metricCommand.setName(command.eClass().getName());
+							for (EClass cl : classes) {
+								if (filterAbstract == true) {
+									if (cl.isAbstract() == true) {
+										continue;
+									}
 								}
+								LinkedHashMap<URI, WodelMetricClass> classMetrics = createClassMetrics(classes);
+								commandMetricsHelper(program, classes, command, metricCommand, cl, classMetrics, filterAbstract, packages);
 							}
-							LinkedHashMap<URI, WodelMetricClass> classMetrics = createClassMetrics(classes);
-							commandMetricsHelper(program, classes, command, metricCommand, cl, classMetrics, filterAbstract, packages);
+							metricBlock.creation += metricCommand.creation;
+							metricBlock.ccreation += metricCommand.ccreation;
+							metricBlock.modification += metricCommand.modification;
+							metricBlock.mmodification += metricCommand.mmodification;
+							metricBlock.deletion += metricCommand.deletion;
+							metricBlock.ddeletion += metricCommand.ddeletion;
+							metricBlock.icreation += metricCommand.icreation;
+							metricBlock.iccreation += metricCommand.iccreation;
+							metricBlock.imodification += metricCommand.imodification;
+							metricBlock.immodification += metricCommand.immodification;
+							metricBlock.ideletion += metricCommand.ideletion;
+							metricBlock.iddeletion += metricCommand.iddeletion;
+							metricBlock.addChild(metricCommand);
 						}
-						metricBlock.creation += metricCommand.creation;
-						metricBlock.ccreation += metricCommand.ccreation;
-						metricBlock.modification += metricCommand.modification;
-						metricBlock.mmodification += metricCommand.mmodification;
-						metricBlock.deletion += metricCommand.deletion;
-						metricBlock.ddeletion += metricCommand.ddeletion;
-						metricBlock.icreation += metricCommand.icreation;
-						metricBlock.iccreation += metricCommand.iccreation;
-						metricBlock.imodification += metricCommand.imodification;
-						metricBlock.immodification += metricCommand.immodification;
-						metricBlock.ideletion += metricCommand.ideletion;
-						metricBlock.iddeletion += metricCommand.iddeletion;
-						metricBlock.addChild(metricCommand);
+						metricCommands.add(metricBlock);
 					}
-					metricCommands.add(metricBlock);
 				}
-			}
-			else {
-				List<EObject> commands = MutatorUtils.getCommands(program);
-				if (commands.size() > 0) {
-					for (EObject command : commands) {
-						WodelMetricCommand metricCommand = new WodelMetricCommand();
-						//String uriID = EcoreUtil.getURI(command).toString().split("#/")[1];
-						metricCommand.setName(command.eClass().getName());
-						for (EClass cl : classes) {
-							if (filterAbstract == true) {
-								if (cl.isAbstract() == true) {
-									continue;
+				else {
+					List<EObject> commands = MutatorUtils.getCommands(program);
+					if (commands.size() > 0) {
+						for (EObject command : commands) {
+							WodelMetricCommand metricCommand = new WodelMetricCommand();
+							//String uriID = EcoreUtil.getURI(command).toString().split("#/")[1];
+							metricCommand.setName(command.eClass().getName());
+							for (EClass cl : classes) {
+								if (filterAbstract == true) {
+									if (cl.isAbstract() == true) {
+										continue;
+									}
 								}
+								LinkedHashMap<URI, WodelMetricClass> classMetrics = createClassMetrics(classes);
+								commandMetricsHelper(program, classes, command, metricCommand, cl, classMetrics, filterAbstract, packages);
 							}
-							LinkedHashMap<URI, WodelMetricClass> classMetrics = createClassMetrics(classes);
-							commandMetricsHelper(program, classes, command, metricCommand, cl, classMetrics, filterAbstract, packages);
+							metricCommands.add(metricCommand);
 						}
-						metricCommands.add(metricCommand);
 					}
 				}
 			}

@@ -72,7 +72,7 @@ public class RunWodel extends AbstractHandler {
 			}
 			Class<?> cls = null;
 			String mutatorName = file.getProject().getName();
-			String classname = "mutator." + mutatorName + "." + mutatorName + "Launcher";
+			String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "Launcher";
 
 			try {
 				cls = Class.forName(classname);

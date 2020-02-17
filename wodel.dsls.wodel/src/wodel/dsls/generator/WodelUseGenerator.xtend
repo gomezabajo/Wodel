@@ -26,6 +26,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.AbstractGenerator
 import java.io.File
 import java.util.ArrayList
+import mutatorenvironment.MutatorenvironmentFactory
 
 /**
  * @author Pablo Gomez-Abajo - Wodel USE code generator.
@@ -127,6 +128,20 @@ public class WodelUseGenerator extends AbstractGenerator {
 			fsa.generateFile(useName, e.use(resource).removeComments("use"))
 			fsa.generateFile(propertiesName, e.properties.removeComments("properties"))
 			mutatorEnvironment = e
+			for (b : mutatorEnvironment.blocks) {
+				fileName = resource.URI.lastSegment
+				fileName = fileName.replaceAll(".mutator", "_" + b.name + ".java").replace(".model", "_" + b.name + ".java")
+				modelName = fileName.replaceAll(".java", "")
+				useName = fileName.replaceAll(".java", ".use")
+				propertiesName = fileName.replaceAll(".java", ".properties")
+				val MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment
+				blockMutatorEnvironment.definition = EcoreUtil.copy(e.definition)
+				blockMutatorEnvironment.blocks.add(EcoreUtil.copy(b))
+				val Resource blockResource = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject + '/' + ModelManager.outputFolder + "/" + modelName + ".model")
+				blockResource.contents.add(blockMutatorEnvironment)
+				fsa.generateFile(useName, blockMutatorEnvironment.use(blockResource).removeComments("use"))
+				fsa.generateFile(propertiesName, blockMutatorEnvironment.properties.removeComments("properties"))
+			}
 		}
 	}
 	
@@ -287,7 +302,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 	«FOR Constraint constraint : e.constraints»
 	«IF constraint.expressions != null»
 	«FOR InvariantCS inv : constraint.expressions»
-	«var String constraintText = WodelUtils.getConstraintText(inv)»
+	«var String constraintText = WodelUtils.getConstraintText(fileName, inv)»
 	«IF constraintText.length > 0»
 	«var String feature = constraintText.substring(0, constraintText.indexOf("->"))»
 	«var EClass eclass = constraint.type»

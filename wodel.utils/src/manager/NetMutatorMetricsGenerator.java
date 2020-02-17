@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +48,7 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 					mutationData.primary = mutantObject;
 					mutationData.mutator = ((ObjectCreated) regObject).getDef();
 				}
-				if (regObject instanceof ObjectCloned) {
+				if (regObject instanceof ObjectCloned && ((ObjectCloned) regObject).getObject().size() > 0) {
 					mutantObject = ((ObjectCloned) regObject).getObject().get(0);
 					mutationData.name = "ObjectCloned";
 					mutationData.primary = mutantObject;
@@ -148,14 +147,18 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 	@Override
 	protected LinkedHashMap<String, WodelMutantMetric> createMetrics(List<EPackage> packages,
 			File seedFile, File folder, EObject met, List<EObject> folders, List<EPackage> registry,
-			Resource program, boolean filterAbstract) {
+			Resource program, List<String> blockNames, boolean filterAbstract) {
 		LinkedHashMap<String, WodelMutantMetric> mutantMetrics = null;
 		try {
 			if (folder != null) {
 				for (File mutantFile : folder.listFiles()) {
 					if (mutantFile != null) {
-						if (mutantFile.isDirectory() == true) {
-							mutantMetrics = createRegistryFolderMetrics(packages, mutantFile, met, seedFile, folder, folders, registry, program, filterAbstract);
+						boolean included = true;
+						if (blockNames.size() > 0) {
+							included = blockNames.contains(mutantFile.getName());
+						}
+						if (mutantFile.isDirectory() == true && included) {
+							mutantMetrics = createRegistryFolderMetrics(packages, mutantFile, met, seedFile, folder, folders, registry, program, blockNames, filterAbstract);
 						}
 						if (mutantFile.isFile() && mutantFile.getName().endsWith(".model")) {
 							File newSeed = null;
@@ -229,13 +232,23 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 			ecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> mutatorecore = ModelManager.loadMetaModel(ecore);
 			Resource program = ModelManager.loadModel(mutatorecore, URI.createURI(xmiFileName).toFileString());
+			List<EObject> blocks = MutatorUtils.getBlocks(program);
+			List<String> blockNames = new ArrayList<String>();
+			if (blocks != null && blocks.size() > 0) {
+				for (EObject block : blocks) {
+					String blockName = ModelManager.getStringAttribute("name", block);
+					if (blockName != null) {
+						blockNames.add(blockName);
+					}
+				}
+			}
 			boolean filterAbstract = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Filter concrete classes", false, null);
 			File out = new File(output);
 			for (File file : out.listFiles()) {
 				if (file != null) {
 					if (file.isDirectory() == true) {
 						File seed = new File(modelsFolder + "/" + file.getName() +  ".model");
-						createMetrics(packages, seed, file, met, null, registry, program, filterAbstract);
+						createMetrics(packages, seed, file, met, null, registry, program, blockNames, filterAbstract);
 					}
 				}
 			}

@@ -112,6 +112,9 @@ public class WodelSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     type=[EClass|ID] (ambiguity) '[' max=MaxCardinality
 	 *     type=[EClass|ID] (ambiguity) '[' min=EInt
 	 *     type=[EClass|ID] (ambiguity) (rule end)
+	 *     types+=[EClass|ID] ']' (ambiguity) '[' max=MaxCardinality
+	 *     types+=[EClass|ID] ']' (ambiguity) '[' min=EInt
+	 *     types+=[EClass|ID] ']' (ambiguity) (rule end)
 	 */
 	protected void emit_RetypeObjectMutator___WithKeyword_6_0_LeftCurlyBracketKeyword_6_1_RightCurlyBracketKeyword_6_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);

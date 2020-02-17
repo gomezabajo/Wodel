@@ -330,7 +330,7 @@ public class ModifyInformationMutator extends Mutator {
 								//EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), eObject);
 								EMFUtils.setReference(object.eClass().getEPackage(), object, e.getKey(), (EObject) refConfig.getValue(object));
 							}
-							else {
+							else if (ob != null) {
 								List<EObject> list = (List<EObject>) ob;
 								if (refConfig.getValue(object) instanceof EObject) {
 									//EObject eObject = EMFCopier.process(this.getModel(), (EObject) refConfig.getValue(object));

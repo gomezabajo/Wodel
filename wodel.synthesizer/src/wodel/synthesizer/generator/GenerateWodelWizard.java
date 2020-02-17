@@ -46,8 +46,12 @@ import kodkod.instance.TupleSet;
 import manager.EMFUtils;
 import manager.IOUtils;
 import manager.ModelManager;
+import manager.MutatorUtils;
 import manager.UseGeneratorUtils;
 import manager.WodelContext;
+import mutatorenvironment.Block;
+import mutatorenvironment.MutatorEnvironment;
+import mutatorenvironment.MutatorenvironmentFactory;
 import wodel.dsls.WodelStandaloneSetup;
 import wodel.dsls.generator.WodelUseGenerator;
 
@@ -74,7 +78,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
@@ -107,15 +110,18 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	
 	GenerateWodelWizardPage mainPage;
 
-	private ISelection selection;
+	private IStructuredSelection selection;
 
 	private static final String WIZARD_NAME = "Seed Models Generator";
 	
 	private static String initialPath = "";
-	private static IFile file;
+	public static IFile file;
 	private static int numSeeds = 3;
 	private static String customOCL = "";
 	private static boolean forceRoot = true;
+	private static List<String> blockNames = null;
+	
+	
 	
 	private static StringAdapter adapter = null;
 	
@@ -125,6 +131,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	 * Adding the page to the wizard.
 	 */
 
+	@Override
 	public void addPages() {
 		super.addPages();
 		mainPage = new GenerateWodelWizardPage(selection);
@@ -135,9 +142,9 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.selection = selection;
 		setWindowTitle(WIZARD_NAME);
 		setNeedsProgressMonitor(true);
+		this.selection = selection;
 		addPages();
 	}
 
@@ -148,6 +155,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 			numSeeds = mainPage.numSeeds;
 			customOCL = mainPage.customOCL;
 			forceRoot = mainPage.forceRoot;
+			blockNames = mainPage.selectedBlockNames;
 			
 			GenerateWodelWithProgress generateWodelWithProgress = new GenerateWodelWithProgress();
 			new ProgressMonitorDialog(new org.eclipse.swt.widgets.Shell()).run(true, true, generateWodelWithProgress);
@@ -537,17 +545,29 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 		    return model;
 		}
 		
-		private void generateUSEConfigurationFiles(String project, String fileName, String useFilePath, String propertiesFilePath) {
+		private void generateUSEConfigurationFiles(String project, String fileName, String blockName, String useFilePath, String propertiesFilePath) {
 			try {
 				Bundle bundle = Platform.getBundle("wodel.models");
 				URL mutatorURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
 				String mutatorecore = FileLocator.resolve(mutatorURL).getFile();
 				List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
 				Resource mutatormodel = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath() + "/" + fileName.replace(".mutator", ".model"));
+				Resource blockmodel = null;
+				if (blockName.equals("*")) {
+					blockmodel = mutatormodel;
+				}
+				else {
+					blockmodel = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath() + '/' + manager.WodelContext.getProject() + '/' + ModelManager.getOutputFolder() + "/" + fileName.replace(".mutator", "") + "_" + blockName + ".model");
+					MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
+					MutatorEnvironment mutMutatorEnvironment = (MutatorEnvironment) mutatormodel.getContents().get(0);
+					blockMutatorEnvironment.setDefinition(EcoreUtil.copy(mutMutatorEnvironment.getDefinition()));
+					blockMutatorEnvironment.getBlocks().add((Block) MutatorUtils.getBlock(mutatormodel, blockName));
+					blockmodel.getContents().add(blockMutatorEnvironment);
+				}
 				Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
 				InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
 				WodelUseGenerator generator = new WodelUseGenerator();
-				generator.doGenerate(mutatormodel, fsa, null);
+				generator.doGenerate(blockmodel, fsa, null);
 				Map<String, Object> map = fsa.getAllFiles();
 			
 				for (String f : map.keySet()) {
@@ -588,7 +608,8 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 					pw.close();
 					oclNames = USEUtils.xmi2oclNames(initial, classNames);
 				}
-				oclNames = USEUtils.oclAddNames(USEUtils.wodel2useNames(), oclNames);
+				System.out.println("file.getName(): " + file.getName());
+				oclNames = USEUtils.oclAddNames(USEUtils.wodel2useNames(file.getName()), oclNames);
 				if (customOCL != null & customOCL.length() > 0) {
 					String oclText = "inv custom_ocl : " + USEUtils.ocl2use(packages, customOCL, useReferences);
 					File useFile = procUseFilename.toFile();
@@ -655,142 +676,149 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 
 				// generates the .use and .properties configuration files
 				project = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject();
-				String useFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", ".use");
-				String propertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", ".properties");
-				generateUSEConfigurationFiles(project, fileName, useFilePath, propertiesFilePath);
-				
-				// configuration for the automated seed models synthesis
-				fLogWriter = new PrintWriter(project + "/src-gen/" + fileName.replaceAll(".mutator", ".log"));
-				useFilename = Paths.get(useFilePath);
-				String procUseFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", "_proc.use");
-				procUseFilename =Paths.get(procUseFilePath);
-				String procPropertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", "_proc.properties");
-				procPropertiesFilename = Paths.get(procPropertiesFilePath);
-				final String metamodel = ModelManager.getMetaModel();
-				final List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-				List<EClass> classes = ModelManager.getEClasses(packages);
-				HashMap<URI, String> classNames = UseGeneratorUtils.buildClassNames(classes);
-				HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = UseGeneratorUtils.getUseReferences(packages, classNames);
-				
-				// creates a new use file to operate with the seed models synthesizer
-				try {
-					FileReader fr = new FileReader (new File(useFilename.toAbsolutePath().toString()));
-					BufferedReader br = new BufferedReader(fr);
-					br.close();
-				} catch (FileNotFoundException e1) {
-					status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "File not found", null);
-					throw new InterruptedException("USE file not found");
-				} catch (IOException e) {
-				}
+				String suffix = "";
+				for (String blockName : blockNames) {
+					if (!blockName.equals("*")) {
+						suffix = "_" + blockName;
+					}
+					String useFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", suffix + ".use");
+					String propertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", suffix + ".properties");
+					generateUSEConfigurationFiles(project, fileName, blockName, useFilePath, propertiesFilePath);
 
-				IOUtils.copyFile(useFilePath, procUseFilePath);
-				// creates a new properties file to operate with the seed models synthesizer
-				IOUtils.copyFile(propertiesFilePath, procPropertiesFilePath);
+					// configuration for the automated seed models synthesis
+					fLogWriter = new PrintWriter(project + "/src-gen/" + fileName.replaceAll(".mutator", suffix + ".log"));
+					useFilename = Paths.get(useFilePath);
+					String procUseFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", suffix + "_proc.use");
+					procUseFilename =Paths.get(procUseFilePath);
+					String procPropertiesFilePath = project + "/src-gen/" + fileName.replaceAll(".mutator", suffix + "_proc.properties");
+					procPropertiesFilename = Paths.get(procPropertiesFilePath);
+					final String metamodel = ModelManager.getMetaModel();
+					final List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+					List<EClass> classes = ModelManager.getEClasses(packages);
+					HashMap<URI, String> classNames = UseGeneratorUtils.buildClassNames(classes);
+					HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = UseGeneratorUtils.getUseReferences(packages, classNames);
 
-				// process the .use and the .properties files
-				processUSEFiles(packages, procUseFilename, procPropertiesFilename, classNames, useReferences);
-				
-				Shell.createInstance(fSession, PluginRuntime.getInstance());
-				WrapperErrorConsole.start();  // wrapper for standard error console
-				final String use_file = procUseFilename.toAbsolutePath().toString();
-				Shell.getInstance().processLineSafely("open " + use_file);
-				String error = WrapperErrorConsole.read();
-
-				if (!fSession.hasSystem()) {
-					status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "Invalid USE file", null);
-					throw new InterruptedException("USE file contains errors: " + error);
-				}
-				final String properties_file = procPropertiesFilename.toAbsolutePath().toString();
-				WrapperErrorConsole.finish(); // restore standard error console
-
-				final KodkodScrollingValidateCmd c = new KodkodScrollingValidateCmd() {
-					@Override
-					public void performCommand(IPluginShellCmd pluginCommand) {
-						initialize(fSession);
-						mSystem = fSession.system();
-						mModel = mSystem.model();
-						//String arguments = " " + properties_file;
-						PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null);
-						String[] arguments = {properties_file};
-						handleArguments(arguments);
-						//System.out.println("current operation: " + mSystem.getCurrentOperation());
-						mSystem.registerPPCHandlerOverride(Shell.getInstance());
-
-						try {
-							int i = 0;
-							while (i < numSeedModels) {
-								Field solutionsField = UseScrollingKodkodModelValidator.class.getDeclaredField("solutions");
-								solutionsField.setAccessible(true);
-								List<Map<Relation, TupleSet>> solutions = (List<Map<Relation, TupleSet>>) solutionsField.get(validator);
-								if (solutions.size() > 0) {
-									MSystemState mSystemState = mSystem.state();
-									String xmiFileName = fileName.replaceAll(".mutator", i + ".model");
-									String seedPath = ModelManager.getMetaModelPath() + "/" + xmiFileName;
-									progressMonitor.subTask("Seed " + (i + 1) + "/" + numSeedModels + ": " + seedPath);
-									Resource seed = parseOutput2Emf(packages, seedPath, mSystemState, useReferences, forceRoot);
-									if (seed != null) {
-										boolean valid = ModelManager.validateModel(metamodel, seedPath);
-										if (valid == true) {
-											progressMonitor.worked(1);
-											i++;
-										}
-									}
-									if (progressMonitor.isCanceled()) {
-										progressMonitor.done();
-										break;
-									}
-									if (i < numSeedModels) {
-										validator.nextSolution();
-									}
-								}
-							}
-							finalize();
-							//System.out.println("done.");
-						} catch (ContainerNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NoSuchFieldException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (SecurityException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					// creates a new use file to operate with the seed models synthesizer
+					try {
+						FileReader fr = new FileReader (new File(useFilename.toAbsolutePath().toString()));
+						BufferedReader br = new BufferedReader(fr);
+						br.close();
+					} catch (FileNotFoundException e1) {
+						status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "File not found", null);
+						throw new InterruptedException("USE file not found");
+					} catch (IOException e) {
 					}
 
-				};
-				
-				ExecutorService executor = Executors.newCachedThreadPool();
-				Callable<Object> task = new Callable<Object>() {
-				   public Object call() {
-				      c.performCommand(null);
-				      return null;
-				   }
-				};
-				
-				Future<Object> future = executor.submit(task);
-				try {
-				   Object result = future.get(timeOut, TimeUnit.SECONDS); 
-				} catch (TimeoutException ex) {
-				   // handle the timeout
-				} catch (InterruptedException e) {
-				   // handle the interrupts
-				} catch (ExecutionException e) {
-				   // handle other exceptions
-				} finally {
-				   future.cancel(true); // may or may not desire this
+					IOUtils.copyFile(useFilePath, procUseFilePath);
+					// creates a new properties file to operate with the seed models synthesizer
+					IOUtils.copyFile(propertiesFilePath, procPropertiesFilePath);
+
+					// process the .use and the .properties files
+					processUSEFiles(packages, procUseFilename, procPropertiesFilename, classNames, useReferences);
+
+					Shell.createInstance(fSession, PluginRuntime.getInstance());
+					WrapperErrorConsole.start();  // wrapper for standard error console
+					final String use_file = procUseFilename.toAbsolutePath().toString();
+					Shell.getInstance().processLineSafely("open " + use_file);
+					String error = WrapperErrorConsole.read();
+
+					if (!fSession.hasSystem()) {
+						status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "Invalid USE file", null);
+						throw new InterruptedException("USE file contains errors: " + error);
+					}
+					final String properties_file = procPropertiesFilename.toAbsolutePath().toString();
+					final String suffix_final = suffix;
+					WrapperErrorConsole.finish(); // restore standard error console
+
+					final KodkodScrollingValidateCmd c = new KodkodScrollingValidateCmd() {
+						@Override
+						public void performCommand(IPluginShellCmd pluginCommand) {
+							initialize(fSession);
+							mSystem = fSession.system();
+							mModel = mSystem.model();
+							//String arguments = " " + properties_file;
+							PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null);
+							String[] arguments = {properties_file};
+							handleArguments(arguments);
+							//System.out.println("current operation: " + mSystem.getCurrentOperation());
+							mSystem.registerPPCHandlerOverride(Shell.getInstance());
+
+							try {
+								int i = 0;
+								while (i < numSeedModels) {
+									Field solutionsField = UseScrollingKodkodModelValidator.class.getDeclaredField("solutions");
+									solutionsField.setAccessible(true);
+									List<Map<Relation, TupleSet>> solutions = (List<Map<Relation, TupleSet>>) solutionsField.get(validator);
+									if (solutions.size() > 0) {
+										MSystemState mSystemState = mSystem.state();
+										String xmiFileName = fileName.replaceAll(".mutator", suffix_final + i + ".model");
+										String seedPath = ModelManager.getMetaModelPath() + "/" + xmiFileName;
+										progressMonitor.subTask("Seed " + (i + 1) + "/" + numSeedModels + ": " + seedPath);
+										Resource seed = parseOutput2Emf(packages, seedPath, mSystemState, useReferences, forceRoot);
+										if (seed != null) {
+											boolean valid = ModelManager.validateModel(metamodel, seedPath);
+											if (valid == true) {
+												progressMonitor.worked(1);
+												i++;
+											}
+										}
+										if (progressMonitor.isCanceled()) {
+											progressMonitor.done();
+											break;
+										}
+										if (i < numSeedModels) {
+											validator.nextSolution();
+										}
+									}
+								}
+								finalize();
+								//System.out.println("done.");
+							} catch (ContainerNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (NoSuchFieldException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (SecurityException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (Throwable e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+					};
+
+					ExecutorService executor = Executors.newCachedThreadPool();
+					Callable<Object> task = new Callable<Object>() {
+						public Object call() {
+							c.performCommand(null);
+							return null;
+						}
+					};
+
+					Future<Object> future = executor.submit(task);
+					try {
+						Object result = future.get(timeOut, TimeUnit.SECONDS); 
+					} catch (TimeoutException ex) {
+						// handle the timeout
+					} catch (InterruptedException e) {
+						// handle the interrupts
+					} catch (ExecutionException e) {
+						// handle other exceptions
+					} finally {
+						future.cancel(true); // may or may not desire this
+					}
 				}
 
 			} catch (IOException ex) {

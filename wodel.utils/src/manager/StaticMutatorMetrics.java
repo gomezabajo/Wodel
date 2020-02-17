@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class StaticMutatorMetrics {
 
 		private List<WodelMetricAttribute> attributes = new ArrayList<WodelMetricAttribute>();
 		private List<WodelMetricReference> references = new ArrayList<WodelMetricReference>();
-
+		
 		public void setEClass(EClass eclass) {
 			this.eclass = eclass;
 		}

@@ -3778,9 +3778,21 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cContainerAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
 		private final RuleCall cContainerObSelectionStrategyParserRuleCall_3_1_0 = (RuleCall)cContainerAssignment_3_1.eContents().get(0);
 		private final Keyword cAsKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cTypeAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final CrossReference cTypeEClassCrossReference_5_0 = (CrossReference)cTypeAssignment_5.eContents().get(0);
-		private final RuleCall cTypeEClassIDTerminalRuleCall_5_0_1 = (RuleCall)cTypeEClassCrossReference_5_0.eContents().get(1);
+		private final Alternatives cAlternatives_5 = (Alternatives)cGroup.eContents().get(5);
+		private final Assignment cTypeAssignment_5_0 = (Assignment)cAlternatives_5.eContents().get(0);
+		private final CrossReference cTypeEClassCrossReference_5_0_0 = (CrossReference)cTypeAssignment_5_0.eContents().get(0);
+		private final RuleCall cTypeEClassIDTerminalRuleCall_5_0_0_1 = (RuleCall)cTypeEClassCrossReference_5_0_0.eContents().get(1);
+		private final Group cGroup_5_1 = (Group)cAlternatives_5.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_5_1_0 = (Keyword)cGroup_5_1.eContents().get(0);
+		private final Assignment cTypesAssignment_5_1_1 = (Assignment)cGroup_5_1.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_5_1_1_0 = (CrossReference)cTypesAssignment_5_1_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_5_1_1_0_1 = (RuleCall)cTypesEClassCrossReference_5_1_1_0.eContents().get(1);
+		private final Group cGroup_5_1_2 = (Group)cGroup_5_1.eContents().get(2);
+		private final Keyword cCommaKeyword_5_1_2_0 = (Keyword)cGroup_5_1_2.eContents().get(0);
+		private final Assignment cTypesAssignment_5_1_2_1 = (Assignment)cGroup_5_1_2.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_5_1_2_1_0 = (CrossReference)cTypesAssignment_5_1_2_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_5_1_2_1_0_1 = (RuleCall)cTypesEClassCrossReference_5_1_2_1_0.eContents().get(1);
+		private final Keyword cRightSquareBracketKeyword_5_1_3 = (Keyword)cGroup_5_1.eContents().get(3);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
 		private final Keyword cWithKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
@@ -3809,13 +3821,15 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//RetypeObjectMutator:
 		//	(name=ID '=')? 'retype' object=ObSelectionStrategy ('in' container=ObSelectionStrategy)?
-		//	'as' type=[ecore::EClass] ('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? (","
-		//	(attributes+=AttributeSet | references+=ReferenceSet))* '}')? ('[' (min=EInt '..')? max=MaxCardinality ']')?;
+		//	'as' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('with' '{'
+		//	(attributes+=AttributeSet | references+=ReferenceSet)? ("," (attributes+=AttributeSet | references+=ReferenceSet))*
+		//	'}')? ('[' (min=EInt '..')? max=MaxCardinality ']')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(name=ID '=')? 'retype' object=ObSelectionStrategy ('in' container=ObSelectionStrategy)? 'as' type=[ecore::EClass]
-		//('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ("," (attributes+=AttributeSet |
-		//references+=ReferenceSet))* '}')? ('[' (min=EInt '..')? max=MaxCardinality ']')?
+		//(name=ID '=')? 'retype' object=ObSelectionStrategy ('in' container=ObSelectionStrategy)? 'as' (type=[ecore::EClass] |
+		//'[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('with' '{' (attributes+=AttributeSet |
+		//references+=ReferenceSet)? ("," (attributes+=AttributeSet | references+=ReferenceSet))* '}')? ('[' (min=EInt '..')?
+		//max=MaxCardinality ']')?
 		public Group getGroup() { return cGroup; }
 		
 		//(name=ID '=')?
@@ -3854,14 +3868,50 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'as'
 		public Keyword getAsKeyword_4() { return cAsKeyword_4; }
 		
+		//type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Alternatives getAlternatives_5() { return cAlternatives_5; }
+		
 		//type=[ecore::EClass]
-		public Assignment getTypeAssignment_5() { return cTypeAssignment_5; }
+		public Assignment getTypeAssignment_5_0() { return cTypeAssignment_5_0; }
 		
 		//[ecore::EClass]
-		public CrossReference getTypeEClassCrossReference_5_0() { return cTypeEClassCrossReference_5_0; }
+		public CrossReference getTypeEClassCrossReference_5_0_0() { return cTypeEClassCrossReference_5_0_0; }
 		
 		//ID
-		public RuleCall getTypeEClassIDTerminalRuleCall_5_0_1() { return cTypeEClassIDTerminalRuleCall_5_0_1; }
+		public RuleCall getTypeEClassIDTerminalRuleCall_5_0_0_1() { return cTypeEClassIDTerminalRuleCall_5_0_0_1; }
+		
+		//'[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Group getGroup_5_1() { return cGroup_5_1; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_5_1_0() { return cLeftSquareBracketKeyword_5_1_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_5_1_1() { return cTypesAssignment_5_1_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_5_1_1_0() { return cTypesEClassCrossReference_5_1_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_5_1_1_0_1() { return cTypesEClassIDTerminalRuleCall_5_1_1_0_1; }
+		
+		//("," types+=[ecore::EClass])*
+		public Group getGroup_5_1_2() { return cGroup_5_1_2; }
+		
+		//","
+		public Keyword getCommaKeyword_5_1_2_0() { return cCommaKeyword_5_1_2_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_5_1_2_1() { return cTypesAssignment_5_1_2_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_5_1_2_1_0() { return cTypesEClassCrossReference_5_1_2_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_5_1_2_1_0_1() { return cTypesEClassIDTerminalRuleCall_5_1_2_1_0_1; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_5_1_3() { return cRightSquareBracketKeyword_5_1_3; }
 		
 		//('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? ("," (attributes+=AttributeSet |
 		//references+=ReferenceSet))* '}')?
@@ -4515,9 +4565,21 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cRandomTypeSelectionAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cOneKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
-		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final CrossReference cTypeEClassCrossReference_2_0_0 = (CrossReference)cTypeAssignment_2_0.eContents().get(0);
+		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_0_1 = (RuleCall)cTypeEClassCrossReference_2_0_0.eContents().get(1);
+		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_1_0 = (CrossReference)cTypesAssignment_2_1_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_1_0.eContents().get(1);
+		private final Group cGroup_2_1_2 = (Group)cGroup_2_1.eContents().get(2);
+		private final Keyword cCommaKeyword_2_1_2_0 = (Keyword)cGroup_2_1_2.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_2_1 = (Assignment)cGroup_2_1_2.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_2_1_0 = (CrossReference)cTypesAssignment_2_1_2_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_2_1_0.eContents().get(1);
+		private final Keyword cRightSquareBracketKeyword_2_1_3 = (Keyword)cGroup_2_1.eContents().get(3);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final Assignment cRefTypeAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
@@ -4547,13 +4609,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//RandomTypeSelection:
 		//	{RandomTypeSelection}
-		//	'one' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->'
-		//	refRefRefType=[ecore::EReference])?)?)? ('from' resource=ID 'resources')? ('where' '{' expression=Expression '}')?;
+		//	'one' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+		//	refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+		//	('from' resource=ID 'resources')? ('where' '{' expression=Expression '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{RandomTypeSelection} 'one' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference]
-		//('->' refRefRefType=[ecore::EReference])?)?)? ('from' resource=ID 'resources')? ('where' '{' expression=Expression
-		//'}')?
+		//{RandomTypeSelection} 'one' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+		//refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)? ('from'
+		//resource=ID 'resources')? ('where' '{' expression=Expression '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//{RandomTypeSelection}
@@ -4562,14 +4625,50 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'one'
 		public Keyword getOneKeyword_1() { return cOneKeyword_1; }
 		
+		//type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+		
 		//type=[ecore::EClass]
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		public Assignment getTypeAssignment_2_0() { return cTypeAssignment_2_0; }
 		
 		//[ecore::EClass]
-		public CrossReference getTypeEClassCrossReference_2_0() { return cTypeEClassCrossReference_2_0; }
+		public CrossReference getTypeEClassCrossReference_2_0_0() { return cTypeEClassCrossReference_2_0_0; }
 		
 		//ID
-		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_1; }
+		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_0_1; }
+		
+		//'[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Group getGroup_2_1() { return cGroup_2_1; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_2_1_0() { return cLeftSquareBracketKeyword_2_1_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_1() { return cTypesAssignment_2_1_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_1_0() { return cTypesEClassCrossReference_2_1_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_1_0_1; }
+		
+		//("," types+=[ecore::EClass])*
+		public Group getGroup_2_1_2() { return cGroup_2_1_2; }
+		
+		//","
+		public Keyword getCommaKeyword_2_1_2_0() { return cCommaKeyword_2_1_2_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_2_1() { return cTypesAssignment_2_1_2_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_2_1_0() { return cTypesEClassCrossReference_2_1_2_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_2_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_2_1_3() { return cRightSquareBracketKeyword_2_1_3; }
 		
 		//('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
 		public Group getGroup_3() { return cGroup_3; }
@@ -4895,9 +4994,21 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cCompleteTypeSelectionAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cAllKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
-		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final CrossReference cTypeEClassCrossReference_2_0_0 = (CrossReference)cTypeAssignment_2_0.eContents().get(0);
+		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_0_1 = (RuleCall)cTypeEClassCrossReference_2_0_0.eContents().get(1);
+		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_1_0 = (CrossReference)cTypesAssignment_2_1_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_1_0.eContents().get(1);
+		private final Group cGroup_2_1_2 = (Group)cGroup_2_1.eContents().get(2);
+		private final Keyword cCommaKeyword_2_1_2_0 = (Keyword)cGroup_2_1_2.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_2_1 = (Assignment)cGroup_2_1_2.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_2_1_0 = (CrossReference)cTypesAssignment_2_1_2_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_2_1_0.eContents().get(1);
+		private final Keyword cRightSquareBracketKeyword_2_1_3 = (Keyword)cGroup_2_1.eContents().get(3);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final Assignment cRefTypeAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
@@ -4922,12 +5033,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//CompleteTypeSelection:
 		//	{CompleteTypeSelection}
-		//	'all' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->'
-		//	refRefRefType=[ecore::EReference])?)?)? ('where' '{' expression=Expression '}')?;
+		//	'all' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+		//	refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+		//	('where' '{' expression=Expression '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{CompleteTypeSelection} 'all' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->'
-		//refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)? ('where' '{' expression=Expression '}')?
+		//{CompleteTypeSelection} 'all' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']')
+		//('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+		//('where' '{' expression=Expression '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//{CompleteTypeSelection}
@@ -4936,14 +5049,50 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'all'
 		public Keyword getAllKeyword_1() { return cAllKeyword_1; }
 		
+		//type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+		
 		//type=[ecore::EClass]
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		public Assignment getTypeAssignment_2_0() { return cTypeAssignment_2_0; }
 		
 		//[ecore::EClass]
-		public CrossReference getTypeEClassCrossReference_2_0() { return cTypeEClassCrossReference_2_0; }
+		public CrossReference getTypeEClassCrossReference_2_0_0() { return cTypeEClassCrossReference_2_0_0; }
 		
 		//ID
-		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_1; }
+		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_0_1; }
+		
+		//'[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Group getGroup_2_1() { return cGroup_2_1; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_2_1_0() { return cLeftSquareBracketKeyword_2_1_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_1() { return cTypesAssignment_2_1_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_1_0() { return cTypesEClassCrossReference_2_1_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_1_0_1; }
+		
+		//("," types+=[ecore::EClass])*
+		public Group getGroup_2_1_2() { return cGroup_2_1_2; }
+		
+		//","
+		public Keyword getCommaKeyword_2_1_2_0() { return cCommaKeyword_2_1_2_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_2_1() { return cTypesAssignment_2_1_2_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_2_1_0() { return cTypesEClassCrossReference_2_1_2_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_2_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_2_1_3() { return cRightSquareBracketKeyword_2_1_3; }
 		
 		//('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
 		public Group getGroup_3() { return cGroup_3; }
@@ -5013,9 +5162,21 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cOtherTypeSelectionAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cOtherKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
-		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final CrossReference cTypeEClassCrossReference_2_0_0 = (CrossReference)cTypeAssignment_2_0.eContents().get(0);
+		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_0_1 = (RuleCall)cTypeEClassCrossReference_2_0_0.eContents().get(1);
+		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_1_0 = (CrossReference)cTypesAssignment_2_1_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_1_0.eContents().get(1);
+		private final Group cGroup_2_1_2 = (Group)cGroup_2_1.eContents().get(2);
+		private final Keyword cCommaKeyword_2_1_2_0 = (Keyword)cGroup_2_1_2.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_2_1 = (Assignment)cGroup_2_1_2.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_2_1_0 = (CrossReference)cTypesAssignment_2_1_2_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_2_1_0.eContents().get(1);
+		private final Keyword cRightSquareBracketKeyword_2_1_3 = (Keyword)cGroup_2_1.eContents().get(3);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final Assignment cRefTypeAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
@@ -5040,12 +5201,14 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//OtherTypeSelection:
 		//	{OtherTypeSelection}
-		//	'other' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->'
-		//	refRefRefType=[ecore::EReference])?)?)? ('where' '{' expression=Expression '}')?;
+		//	'other' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+		//	refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+		//	('where' '{' expression=Expression '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{OtherTypeSelection} 'other' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference]
-		//('->' refRefRefType=[ecore::EReference])?)?)? ('where' '{' expression=Expression '}')?
+		//{OtherTypeSelection} 'other' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+		//refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+		//('where' '{' expression=Expression '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//{OtherTypeSelection}
@@ -5054,14 +5217,50 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'other'
 		public Keyword getOtherKeyword_1() { return cOtherKeyword_1; }
 		
+		//type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+		
 		//type=[ecore::EClass]
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		public Assignment getTypeAssignment_2_0() { return cTypeAssignment_2_0; }
 		
 		//[ecore::EClass]
-		public CrossReference getTypeEClassCrossReference_2_0() { return cTypeEClassCrossReference_2_0; }
+		public CrossReference getTypeEClassCrossReference_2_0_0() { return cTypeEClassCrossReference_2_0_0; }
 		
 		//ID
-		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_1; }
+		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_0_1; }
+		
+		//'[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Group getGroup_2_1() { return cGroup_2_1; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_2_1_0() { return cLeftSquareBracketKeyword_2_1_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_1() { return cTypesAssignment_2_1_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_1_0() { return cTypesEClassCrossReference_2_1_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_1_0_1; }
+		
+		//("," types+=[ecore::EClass])*
+		public Group getGroup_2_1_2() { return cGroup_2_1_2; }
+		
+		//","
+		public Keyword getCommaKeyword_2_1_2_0() { return cCommaKeyword_2_1_2_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_2_1() { return cTypesAssignment_2_1_2_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_2_1_0() { return cTypesEClassCrossReference_2_1_2_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_2_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_2_1_3() { return cRightSquareBracketKeyword_2_1_3; }
 		
 		//('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
 		public Group getGroup_3() { return cGroup_3; }
@@ -5131,9 +5330,21 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cTypedSelectionAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cTypedKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
-		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final CrossReference cTypeEClassCrossReference_2_0_0 = (CrossReference)cTypeAssignment_2_0.eContents().get(0);
+		private final RuleCall cTypeEClassIDTerminalRuleCall_2_0_0_1 = (RuleCall)cTypeEClassCrossReference_2_0_0.eContents().get(1);
+		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_1_0 = (CrossReference)cTypesAssignment_2_1_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_1_0.eContents().get(1);
+		private final Group cGroup_2_1_2 = (Group)cGroup_2_1.eContents().get(2);
+		private final Keyword cCommaKeyword_2_1_2_0 = (Keyword)cGroup_2_1_2.eContents().get(0);
+		private final Assignment cTypesAssignment_2_1_2_1 = (Assignment)cGroup_2_1_2.eContents().get(1);
+		private final CrossReference cTypesEClassCrossReference_2_1_2_1_0 = (CrossReference)cTypesAssignment_2_1_2_1.eContents().get(0);
+		private final RuleCall cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1 = (RuleCall)cTypesEClassCrossReference_2_1_2_1_0.eContents().get(1);
+		private final Keyword cRightSquareBracketKeyword_2_1_3 = (Keyword)cGroup_2_1.eContents().get(3);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Keyword cWhereKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
@@ -5143,10 +5354,12 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//TypedSelection:
 		//	{TypedSelection}
-		//	'typed' type=[ecore::EClass] ('where' '{' expression=Expression '}')?;
+		//	'typed' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('where' '{'
+		//	expression=Expression '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{TypedSelection} 'typed' type=[ecore::EClass] ('where' '{' expression=Expression '}')?
+		//{TypedSelection} 'typed' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('where'
+		//'{' expression=Expression '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//{TypedSelection}
@@ -5155,14 +5368,50 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'typed'
 		public Keyword getTypedKeyword_1() { return cTypedKeyword_1; }
 		
+		//type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+		
 		//type=[ecore::EClass]
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		public Assignment getTypeAssignment_2_0() { return cTypeAssignment_2_0; }
 		
 		//[ecore::EClass]
-		public CrossReference getTypeEClassCrossReference_2_0() { return cTypeEClassCrossReference_2_0; }
+		public CrossReference getTypeEClassCrossReference_2_0_0() { return cTypeEClassCrossReference_2_0_0; }
 		
 		//ID
-		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_1; }
+		public RuleCall getTypeEClassIDTerminalRuleCall_2_0_0_1() { return cTypeEClassIDTerminalRuleCall_2_0_0_1; }
+		
+		//'[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']'
+		public Group getGroup_2_1() { return cGroup_2_1; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_2_1_0() { return cLeftSquareBracketKeyword_2_1_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_1() { return cTypesAssignment_2_1_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_1_0() { return cTypesEClassCrossReference_2_1_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_1_0_1; }
+		
+		//("," types+=[ecore::EClass])*
+		public Group getGroup_2_1_2() { return cGroup_2_1_2; }
+		
+		//","
+		public Keyword getCommaKeyword_2_1_2_0() { return cCommaKeyword_2_1_2_0; }
+		
+		//types+=[ecore::EClass]
+		public Assignment getTypesAssignment_2_1_2_1() { return cTypesAssignment_2_1_2_1; }
+		
+		//[ecore::EClass]
+		public CrossReference getTypesEClassCrossReference_2_1_2_1_0() { return cTypesEClassCrossReference_2_1_2_1_0; }
+		
+		//ID
+		public RuleCall getTypesEClassIDTerminalRuleCall_2_1_2_1_0_1() { return cTypesEClassIDTerminalRuleCall_2_1_2_1_0_1; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_2_1_3() { return cRightSquareBracketKeyword_2_1_3; }
 		
 		//('where' '{' expression=Expression '}')?
 		public Group getGroup_3() { return cGroup_3; }
@@ -7639,8 +7888,9 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//RetypeObjectMutator:
 	//	(name=ID '=')? 'retype' object=ObSelectionStrategy ('in' container=ObSelectionStrategy)?
-	//	'as' type=[ecore::EClass] ('with' '{' (attributes+=AttributeSet | references+=ReferenceSet)? (","
-	//	(attributes+=AttributeSet | references+=ReferenceSet))* '}')? ('[' (min=EInt '..')? max=MaxCardinality ']')?;
+	//	'as' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('with' '{'
+	//	(attributes+=AttributeSet | references+=ReferenceSet)? ("," (attributes+=AttributeSet | references+=ReferenceSet))*
+	//	'}')? ('[' (min=EInt '..')? max=MaxCardinality ']')?;
 	public RetypeObjectMutatorElements getRetypeObjectMutatorAccess() {
 		return pRetypeObjectMutator;
 	}
@@ -7785,8 +8035,9 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//RandomTypeSelection:
 	//	{RandomTypeSelection}
-	//	'one' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->'
-	//	refRefRefType=[ecore::EReference])?)?)? ('from' resource=ID 'resources')? ('where' '{' expression=Expression '}')?;
+	//	'one' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+	//	refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+	//	('from' resource=ID 'resources')? ('where' '{' expression=Expression '}')?;
 	public RandomTypeSelectionElements getRandomTypeSelectionAccess() {
 		return pRandomTypeSelection;
 	}
@@ -7821,8 +8072,9 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//CompleteTypeSelection:
 	//	{CompleteTypeSelection}
-	//	'all' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->'
-	//	refRefRefType=[ecore::EReference])?)?)? ('where' '{' expression=Expression '}')?;
+	//	'all' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+	//	refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+	//	('where' '{' expression=Expression '}')?;
 	public CompleteTypeSelectionElements getCompleteTypeSelectionAccess() {
 		return pCompleteTypeSelection;
 	}
@@ -7833,8 +8085,9 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//OtherTypeSelection:
 	//	{OtherTypeSelection}
-	//	'other' type=[ecore::EClass] ('->' refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->'
-	//	refRefRefType=[ecore::EReference])?)?)? ('where' '{' expression=Expression '}')?;
+	//	'other' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('->'
+	//	refType=[ecore::EReference] ('->' refRefType=[ecore::EReference] ('->' refRefRefType=[ecore::EReference])?)?)?
+	//	('where' '{' expression=Expression '}')?;
 	public OtherTypeSelectionElements getOtherTypeSelectionAccess() {
 		return pOtherTypeSelection;
 	}
@@ -7845,7 +8098,8 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//TypedSelection:
 	//	{TypedSelection}
-	//	'typed' type=[ecore::EClass] ('where' '{' expression=Expression '}')?;
+	//	'typed' (type=[ecore::EClass] | '[' types+=[ecore::EClass] ("," types+=[ecore::EClass])* ']') ('where' '{'
+	//	expression=Expression '}')?;
 	public TypedSelectionElements getTypedSelectionAccess() {
 		return pTypedSelection;
 	}

@@ -10,9 +10,9 @@ import mutatorenvironment.Load
 import mutatorenvironment.Mutator
 import mutatorenvironment.MutatorEnvironment
 import mutatorenvironment.Program
+import wodel.dsls.services.WodelGrammarAccess
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import wodel.dsls.services.WodelGrammarAccess
 
 public class WodelFormatter extends AbstractFormatter2 {
 	
@@ -38,5 +38,6 @@ public class WodelFormatter extends AbstractFormatter2 {
 	def dispatch void format(Program program, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 		program.getSource.format;
+		
 	}
 }

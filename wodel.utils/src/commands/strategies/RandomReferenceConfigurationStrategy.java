@@ -197,7 +197,7 @@ public class RandomReferenceConfigurationStrategy extends
 	}
 	
 	public Object getPrevious() {
-		return obj.eGet(reference);
+		return obj != null ? obj.eGet(reference) : null;
 	}
 	
 	public Object getNext() {

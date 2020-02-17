@@ -58,6 +58,7 @@
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//ObjectEmitter">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObjectEmitter/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//ObjectEmitter/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//ObjectEmitter/types"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MutatorEnvironment.ecore#//Mutator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/min"/>

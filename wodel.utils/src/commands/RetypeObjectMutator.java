@@ -59,6 +59,11 @@ public class RetypeObjectMutator extends Mutator {
 	private String objName = null;
 	
 	/**
+	 * Target class name of the retype
+	 */
+	private List<String> objNames = null;
+
+	/**
 	 * Configuration of the attributes of the new object
 	 */
 	private Map<String, AttributeConfigurationStrategy> attributeConfig;
@@ -161,6 +166,19 @@ public class RetypeObjectMutator extends Mutator {
 		// TODO Auto-generated constructor stub
 	}
 
+	public RetypeObjectMutator(Resource model, List<EPackage> metaModel, EObject object, 
+			ObSelectionStrategy referenceSelection, ObSelectionStrategy containerSelection, Map<String, AttributeConfigurationStrategy> attributeConfig, Map<String, ObSelectionStrategy> referenceConfig, List<String> objNames) {
+		super(model, metaModel, "RetypeObjectMutator");
+		this.object = object;
+		this.referenceSelection = referenceSelection;
+		this.containerSelection = containerSelection;
+		this.objNames = objNames;
+		this.identification = "";
+		this.attributeConfig = attributeConfig;
+		this.referenceConfig = referenceConfig;
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public Object mutate() throws ReferenceNonExistingException, WrongAttributeTypeException, AbstractCreationException, ObjectNotContainedException {		
 
@@ -180,7 +198,13 @@ public class RetypeObjectMutator extends Mutator {
 			result = null;
 			return null;
 		}
-		
+		if (objNames != null) {
+			objNames.remove(obj.eClass().getName());
+			int index = ModelManager.getRandomIndex(objNames);
+			if (index < objNames.size()) {
+				objName = objNames.get(index);
+			}
+		}
 		newEType = ModelManager.getEClassByName(this.getMetaModel(), objName);
 		//If there is not a selected reference we choose a random one
 		if(reference == null && objName != null){
@@ -237,28 +261,60 @@ public class RetypeObjectMutator extends Mutator {
 		
 		// copies compatible features
 		for (EStructuralFeature sf1 : obj.eClass().getEAllStructuralFeatures()) {
+			boolean sameFeature = false;
 			for (EStructuralFeature sf2 : newObj.eClass().getEAllStructuralFeatures()) {
 				if (EcoreUtil.getURI(sf1.getEType()).equals(EcoreUtil.getURI(sf2.getEType()))) {
-					if (sf1.getUpperBound() == 1) {
-						if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
-							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
-							newoo.add((EObject) obj.eGet(sf1)); 
+					if (sf1.getName().equals(sf2.getName())) {
+						sameFeature = true;
+						if (sf1.getUpperBound() == 1) {
+							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
+								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+								newoo.add((EObject) obj.eGet(sf1)); 
+							}
+							else {
+								newObj.eSet(sf2, obj.eGet(sf1));
+							}
 						}
-						else {
-							newObj.eSet(sf2, obj.eGet(sf1));
+						if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
+							List<EObject> oo = (List<EObject>) obj.eGet(sf1);
+							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
+								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+								if (sf1.getUpperBound() > 1) {
+									newoo = newoo.subList(0, sf1.getUpperBound());
+								}
+								oo.addAll(newoo);
+							}
+							else if (oo.size() > 0) {
+								newObj.eSet(sf2, oo.get(0));
+							}
 						}
 					}
-					if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
-						List<EObject> oo = (List<EObject>) obj.eGet(sf1);
-						if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
-							List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
-							if (sf1.getUpperBound() > 1) {
-								newoo = newoo.subList(0, sf1.getUpperBound());
+				}
+			}
+			if (sameFeature == false) {
+				for (EStructuralFeature sf2 : newObj.eClass().getEAllStructuralFeatures()) {
+					if (EcoreUtil.getURI(sf1.getEType()).equals(EcoreUtil.getURI(sf2.getEType()))) {
+						if (sf1.getUpperBound() == 1) {
+							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
+								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+								newoo.add((EObject) obj.eGet(sf1)); 
 							}
-							oo.addAll(newoo);
+							else {
+								newObj.eSet(sf2, obj.eGet(sf1));
+							}
 						}
-						else if (oo.size() > 0) {
-							newObj.eSet(sf2, oo.get(0));
+						if (sf1.getUpperBound() == -1 || sf1.getUpperBound() > 1) {
+							List<EObject> oo = (List<EObject>) obj.eGet(sf1);
+							if (sf2.getUpperBound() == -1 || sf2.getUpperBound() > 1) {
+								List<EObject> newoo = (List<EObject>) newObj.eGet(sf2);
+								if (sf1.getUpperBound() > 1) {
+									newoo = newoo.subList(0, sf1.getUpperBound());
+								}
+								oo.addAll(newoo);
+							}
+							else if (oo.size() > 0) {
+								newObj.eSet(sf2, oo.get(0));
+							}
 						}
 					}
 				}
@@ -323,6 +379,7 @@ public class RetypeObjectMutator extends Mutator {
 						objects.add(newObj);
 					}
 					else if (o.eGet(r) instanceof EObject && EcoreUtil.equals((EObject) o.eGet(r), obj)) {
+						o.eUnset(r);
 						o.eSet(r, newObj);
 					}
 				}	

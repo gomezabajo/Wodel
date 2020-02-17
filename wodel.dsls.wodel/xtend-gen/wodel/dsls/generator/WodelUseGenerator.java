@@ -16,7 +16,9 @@ import manager.UseGeneratorUtils;
 import manager.WodelContext;
 import mutatorenvironment.Block;
 import mutatorenvironment.Constraint;
+import mutatorenvironment.Definition;
 import mutatorenvironment.MutatorEnvironment;
+import mutatorenvironment.MutatorenvironmentFactory;
 import mutatorenvironment.miniOCL.InvariantCS;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -171,6 +173,41 @@ public class WodelUseGenerator extends AbstractGenerator {
         fsa.generateFile(this.useName, this.removeComments(this.use(e, resource), "use"));
         fsa.generateFile(this.propertiesName, this.removeComments(this.properties(e), "properties"));
         mutatorEnvironment = e;
+        EList<Block> _blocks = mutatorEnvironment.getBlocks();
+        for (final Block b : _blocks) {
+          {
+            this.fileName = resource.getURI().lastSegment();
+            String _name = b.getName();
+            String _plus_2 = ("_" + _name);
+            String _plus_3 = (_plus_2 + ".java");
+            String _replaceAll = this.fileName.replaceAll(".mutator", _plus_3);
+            String _name_1 = b.getName();
+            String _plus_4 = ("_" + _name_1);
+            String _plus_5 = (_plus_4 + ".java");
+            this.fileName = _replaceAll.replace(".model", _plus_5);
+            this.modelName = this.fileName.replaceAll(".java", "");
+            this.useName = this.fileName.replaceAll(".java", ".use");
+            this.propertiesName = this.fileName.replaceAll(".java", ".properties");
+            final MutatorEnvironment blockMutatorEnvironment = MutatorenvironmentFactory.eINSTANCE.createMutatorEnvironment();
+            blockMutatorEnvironment.setDefinition(EcoreUtil.<Definition>copy(e.getDefinition()));
+            blockMutatorEnvironment.getBlocks().add(EcoreUtil.<Block>copy(b));
+            String _workspaceAbsolutePath_1 = ModelManager.getWorkspaceAbsolutePath();
+            String _plus_6 = ("file://" + _workspaceAbsolutePath_1);
+            String _plus_7 = (_plus_6 + "/");
+            String _project_1 = WodelContext.getProject();
+            String _plus_8 = (_plus_7 + _project_1);
+            String _plus_9 = (_plus_8 + "/");
+            String _outputFolder = ModelManager.getOutputFolder();
+            String _plus_10 = (_plus_9 + _outputFolder);
+            String _plus_11 = (_plus_10 + "/");
+            String _plus_12 = (_plus_11 + this.modelName);
+            String _plus_13 = (_plus_12 + ".model");
+            final Resource blockResource = ModelManager.createModel(_plus_13);
+            blockResource.getContents().add(blockMutatorEnvironment);
+            fsa.generateFile(this.useName, this.removeComments(this.use(blockMutatorEnvironment, blockResource), "use"));
+            fsa.generateFile(this.propertiesName, this.removeComments(this.properties(blockMutatorEnvironment), "properties"));
+          }
+        }
       }
     }
   }
@@ -550,7 +587,7 @@ public class WodelUseGenerator extends AbstractGenerator {
             {
               EList<InvariantCS> _expressions_1 = constraint.getExpressions();
               for(final InvariantCS inv : _expressions_1) {
-                String constraintText = WodelUtils.getConstraintText(inv);
+                String constraintText = WodelUtils.getConstraintText(this.fileName, inv);
                 _builder.newLineIfNotEmpty();
                 {
                   int _length = constraintText.length();

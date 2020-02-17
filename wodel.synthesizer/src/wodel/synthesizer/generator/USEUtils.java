@@ -1154,10 +1154,10 @@ public class USEUtils {
 	 * Takes Wodel strings onto USE strings
 	 * @return
 	 */
-	public static String wodel2useNames() {
+	public static String wodel2useNames(String filename) {
 		String useNames = "String = Set{";
 		try {
-			String xmiFileName = "file:/" + ModelManager.getOutputPath() +  "/" + WodelContext.getProject() + ".model";
+			String xmiFileName = "file:/" + ModelManager.getOutputPath() +  "/" + filename.replace(".mutator", ".model");
 			Bundle bundle = Platform.getBundle("wodel.models");
 			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
 			String ecore = FileLocator.resolve(fileURL).getFile();

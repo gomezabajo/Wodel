@@ -62,13 +62,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.*;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -163,18 +161,10 @@ public class WodelMetricsFixedView extends ViewPart implements ISelectionChanged
 
 	public void createPartControl(Composite parent) {
 		WodelContext.setProject(null);
-		String output = ModelManager.getOutputPath();
 		String metamodel = ModelManager.getMetaModel();
-		String fileName = manager.WodelContext.getFileName();
-		if (fileName.endsWith(".mutator") == false) {
-			//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-			//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
-			//msgbox.open();
-			return;
-		}
-		String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");
+		String project = manager.WodelContext.getProject();
 		metrics = new ArrayList<WodelMetricClass>();
-		metrics.addAll(Arrays.asList(MetaModelMutatorMetrics.createWodelStaticMetrics(xmiFileName, metamodel)));
+		metrics.addAll(Arrays.asList(MetaModelMutatorMetrics.createWodelStaticMetrics(project, metamodel)));
 
 		Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION);

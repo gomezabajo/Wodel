@@ -2195,10 +2195,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10147:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // InternalWodel.g:10147:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalWodel.g:10372:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalWodel.g:10372:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // InternalWodel.g:10147:11: ( '^' )?
+            // InternalWodel.g:10372:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -2207,7 +2207,7 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // InternalWodel.g:10147:11: '^'
+                    // InternalWodel.g:10372:11: '^'
                     {
                     match('^'); 
 
@@ -2225,7 +2225,7 @@ public class InternalWodelLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalWodel.g:10147:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalWodel.g:10372:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -2274,10 +2274,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10149:10: ( ( '0' .. '9' )+ )
-            // InternalWodel.g:10149:12: ( '0' .. '9' )+
+            // InternalWodel.g:10374:10: ( ( '0' .. '9' )+ )
+            // InternalWodel.g:10374:12: ( '0' .. '9' )+
             {
-            // InternalWodel.g:10149:12: ( '0' .. '9' )+
+            // InternalWodel.g:10374:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -2291,7 +2291,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // InternalWodel.g:10149:13: '0' .. '9'
+            	    // InternalWodel.g:10374:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -2323,10 +2323,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10151:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // InternalWodel.g:10151:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalWodel.g:10376:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalWodel.g:10376:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // InternalWodel.g:10151:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalWodel.g:10376:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -2344,10 +2344,10 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // InternalWodel.g:10151:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalWodel.g:10376:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // InternalWodel.g:10151:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalWodel.g:10376:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -2363,7 +2363,7 @@ public class InternalWodelLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // InternalWodel.g:10151:21: '\\\\' .
+                    	    // InternalWodel.g:10376:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -2371,7 +2371,7 @@ public class InternalWodelLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalWodel.g:10151:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalWodel.g:10376:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2396,10 +2396,10 @@ public class InternalWodelLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalWodel.g:10151:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalWodel.g:10376:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // InternalWodel.g:10151:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalWodel.g:10376:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -2415,7 +2415,7 @@ public class InternalWodelLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // InternalWodel.g:10151:54: '\\\\' .
+                    	    // InternalWodel.g:10376:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -2423,7 +2423,7 @@ public class InternalWodelLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalWodel.g:10151:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalWodel.g:10376:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2466,12 +2466,12 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10153:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalWodel.g:10153:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalWodel.g:10378:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalWodel.g:10378:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalWodel.g:10153:24: ( options {greedy=false; } : . )*
+            // InternalWodel.g:10378:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -2496,7 +2496,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // InternalWodel.g:10153:52: .
+            	    // InternalWodel.g:10378:52: .
             	    {
             	    matchAny(); 
 
@@ -2526,12 +2526,12 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10155:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalWodel.g:10155:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalWodel.g:10380:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalWodel.g:10380:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalWodel.g:10155:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalWodel.g:10380:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -2544,7 +2544,7 @@ public class InternalWodelLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // InternalWodel.g:10155:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalWodel.g:10380:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -2564,7 +2564,7 @@ public class InternalWodelLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalWodel.g:10155:40: ( ( '\\r' )? '\\n' )?
+            // InternalWodel.g:10380:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -2573,9 +2573,9 @@ public class InternalWodelLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // InternalWodel.g:10155:41: ( '\\r' )? '\\n'
+                    // InternalWodel.g:10380:41: ( '\\r' )? '\\n'
                     {
-                    // InternalWodel.g:10155:41: ( '\\r' )?
+                    // InternalWodel.g:10380:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -2584,7 +2584,7 @@ public class InternalWodelLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // InternalWodel.g:10155:41: '\\r'
+                            // InternalWodel.g:10380:41: '\\r'
                             {
                             match('\r'); 
 
@@ -2616,10 +2616,10 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10157:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalWodel.g:10157:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalWodel.g:10382:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalWodel.g:10382:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalWodel.g:10157:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalWodel.g:10382:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -2673,8 +2673,8 @@ public class InternalWodelLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalWodel.g:10159:16: ( . )
-            // InternalWodel.g:10159:18: .
+            // InternalWodel.g:10384:16: ( . )
+            // InternalWodel.g:10384:18: .
             {
             matchAny(); 
 

@@ -660,7 +660,11 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     CompleteTypeSelection returns CompleteTypeSelection
 	 *
 	 * Constraint:
-	 *     (type=[EClass|ID] (refType=[EReference|ID] (refRefType=[EReference|ID] refRefRefType=[EReference|ID]?)?)? expression=Expression?)
+	 *     (
+	 *         (type=[EClass|ID] | (types+=[EClass|ID] types+=[EClass|ID]*)) 
+	 *         (refType=[EReference|ID] (refRefType=[EReference|ID] refRefRefType=[EReference|ID]?)?)? 
+	 *         expression=Expression?
+	 *     )
 	 */
 	protected void sequence_CompleteTypeSelection(ISerializationContext context, CompleteTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1159,7 +1163,11 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     OtherTypeSelection returns OtherTypeSelection
 	 *
 	 * Constraint:
-	 *     (type=[EClass|ID] (refType=[EReference|ID] (refRefType=[EReference|ID] refRefRefType=[EReference|ID]?)?)? expression=Expression?)
+	 *     (
+	 *         (type=[EClass|ID] | (types+=[EClass|ID] types+=[EClass|ID]*)) 
+	 *         (refType=[EReference|ID] (refRefType=[EReference|ID] refRefRefType=[EReference|ID]?)?)? 
+	 *         expression=Expression?
+	 *     )
 	 */
 	protected void sequence_OtherTypeSelection(ISerializationContext context, OtherTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1370,7 +1378,12 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     RandomTypeSelection returns RandomTypeSelection
 	 *
 	 * Constraint:
-	 *     (type=[EClass|ID] (refType=[EReference|ID] (refRefType=[EReference|ID] refRefRefType=[EReference|ID]?)?)? resource=ID? expression=Expression?)
+	 *     (
+	 *         (type=[EClass|ID] | (types+=[EClass|ID] types+=[EClass|ID]*)) 
+	 *         (refType=[EReference|ID] (refRefType=[EReference|ID] refRefRefType=[EReference|ID]?)?)? 
+	 *         resource=ID? 
+	 *         expression=Expression?
+	 *     )
 	 */
 	protected void sequence_RandomTypeSelection(ISerializationContext context, RandomTypeSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1606,10 +1619,10 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         name=ID? 
 	 *         object=ObSelectionStrategy 
 	 *         container=ObSelectionStrategy? 
-	 *         type=[EClass|ID] 
+	 *         (type=[EClass|ID] | (types+=[EClass|ID] types+=[EClass|ID]*)) 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         attributes+=AttributeSet? 
-	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
+	 *         references+=ReferenceSet? 
+	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */
@@ -1831,7 +1844,7 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     TypedSelection returns TypedSelection
 	 *
 	 * Constraint:
-	 *     (type=[EClass|ID] expression=Expression?)
+	 *     ((type=[EClass|ID] | (types+=[EClass|ID] types+=[EClass|ID]*)) expression=Expression?)
 	 */
 	protected void sequence_TypedSelection(ISerializationContext context, TypedSelection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

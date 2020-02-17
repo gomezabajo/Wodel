@@ -40,8 +40,8 @@ public class WodelContext implements Runnable {
 
 	@Override
 	public void run() {
-		IWorkbenchWindow ww = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-	    IWorkbenchPage wp = ww.getActivePage();		
+		IWorkbenchWindow ww = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
+	    IWorkbenchPage wp = ww.getPages()[0];		
 		IEditorPart wbp = wp.getActiveEditor();
 		if (wbp != null) {
 			IFile file = (IFile)wbp.getEditorInput().getAdapter(IFile.class);

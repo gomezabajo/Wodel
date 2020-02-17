@@ -78,8 +78,17 @@ public class WodelMetricsFixedWizardReferencePage extends WizardPage {
 		for (EObject eObject : blockObjects) {
 			blockNames.add(ModelManager.getStringAttribute("name", eObject));
 		}
-		blockItems = new String[blockNames.size()];
-		blockNames.toArray(blockItems);
+		if (blockNames.size() > 0) {
+			blockItems = new String[blockNames.size() + 1];
+			blockItems[0] = "*";
+			int i = 1;
+			for (String blockName : blockNames) {
+				blockItems[i++] = blockName;
+			}
+		}
+		else {
+			blockItems = new String[0];
+		}
 		List<EClass> mutatorClasses = MutatorUtils.getModificationReferenceClassMutators(mutatorPackages);
 		List<String> mutatorNames = new ArrayList<String>();
 		for (EClass eClass : mutatorClasses) {

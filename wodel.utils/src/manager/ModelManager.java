@@ -2276,7 +2276,7 @@ public class ModelManager {
 	// ESTHER -----------------------------
 
 	/**
-	 * It returns the types that declare some reference to the received type.
+	 * It returns the types that declare some containment reference to the received type.
 	 * 
 	 * @param List
 	 *            <EPackage> metaModel
@@ -2322,6 +2322,83 @@ public class ModelManager {
 		return classifiers;
 	}
 	
+	/**
+	 * It returns the types that declare some reference to the received type.
+	 * 
+	 * @param List
+	 *            <EPackage> metaModel
+	 * @param String
+	 *            type
+	 */
+	public static List<EClassifier> getReferringTypes(List<EPackage> metaModel, URI uri) {
+		List<EClassifier> classifiers = new ArrayList<EClassifier>();
+		EObject object = getObjectOfURI(uri, metaModel);
+		if (object instanceof EClass) {
+			EClass classifier = (EClass) object;
+			if (classifier != null) {
+				for (EPackage p : metaModel) {
+					for (EClassifier c : p.getEClassifiers()) {
+						if (c instanceof EClass) {
+							for (EReference r : ((EClass) c).getEAllReferences()) {
+								// relations!
+								if (r.getEReferenceType().isSuperTypeOf(
+										classifier)
+										&& !classifiers.contains(c)) {
+									classifiers.add(c);
+									break;
+								}
+							}
+						}
+					}
+					for (EPackage sp : p.getESubpackages()) {
+						List<EPackage> packages = new ArrayList<EPackage>();
+						packages.add(sp);
+						List<EClassifier> containerTypes = getContainerTypes(packages, uri);
+						for (EClassifier containerType : containerTypes) {
+							if (!classifiers.contains(containerType)) {
+								classifiers.add(containerType);
+							}
+						}
+					}
+				}
+			}
+		}
+		return classifiers;
+	}
+
+	/**
+	 * It returns the containment referenced types for the given type
+	 * 
+	 * @param List
+	 *            <EPackage> metaModel
+	 * @param String
+	 *            type
+	 */
+	public static List<EClass> getContainmentTypes(List<EPackage> metaModel, URI uri) {
+		List<EClass> classifiers = new ArrayList<EClass>();
+		EObject object = getObjectOfURI(uri, metaModel);
+		if (object instanceof EClass) {
+			EClass classifier = (EClass) object;
+			if (classifier != null) {
+				for (EReference r : classifier.getEAllReferences()) {
+					if (r.isContainment()) { // only containment
+						// relations!
+						EClass c = r.getEReferenceType();
+						List<EClass> types = new ArrayList<EClass>();
+						types.add(c);
+						types.addAll(ModelManager.getESubClasses(metaModel, c));
+						for (EClass type : types) {
+							if (!classifiers.contains(type)) {
+								classifiers.add(type);
+							}
+						}
+
+					}
+				}
+			}
+		}
+		return classifiers;
+	}
 
 	public static boolean compareModels(Resource model1, Resource model2) {
 		IComparisonScope scope = new DefaultComparisonScope(model1, model2, null);
@@ -2628,6 +2705,45 @@ public class ModelManager {
 		return sibling;
 	}
 	
+	/**
+	 * Gets the compatible list of EClass for the given type
+	 */
+	public static List<EClass> getSiblingEClasses(String metamodel, List<EClass> types) {
+		List<EClass> sibling = new ArrayList<EClass>();
+		try {
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+
+			for (EClass type : types) {
+				List<EClass> superTypes = type.getESuperTypes();
+				sibling.addAll(ModelManager.getESubClasses(packages, type));
+				List<EClass> classes = ModelManager.getEClasses(packages);
+				for (EClass superType : superTypes) {
+					for (EClass cl : classes) {
+						List<EClass> clSuperTypes = cl.getESuperTypes();
+						for (EClass clSuperType : clSuperTypes) {
+							if (EcoreUtil.equals(superType, clSuperType)) {
+								if (!sibling.contains(cl) && !EcoreUtil.equals(cl, type)) {
+									sibling.add(cl);
+									List<EClass> clSubClasses = ModelManager.getESubClasses(packages, cl);
+									for (EClass clSubClass : clSubClasses) {
+										if (!sibling.contains(clSubClass) && !EcoreUtil.equals(clSubClass, type)) {
+											sibling.add(clSubClass);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sibling;
+	}
+
 	/**
 	 * Removes an eobject list from an eobject list by its URI ending
 	 */

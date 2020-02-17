@@ -124,6 +124,90 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
   }
   
   /**
+   * ObjectEmitter.type can contain any EClass from the input meta-model.
+   * Except the RetypeObjectMutator that can contain any compatible EClass.
+   */
+  public IScope scope_ObjectEmitter_types(final ObjectEmitter obj, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(obj);
+      final Definition definition = env.getDefinition();
+      List<EClass> classes = null;
+      if ((obj instanceof RetypeObjectMutator)) {
+        final RetypeObjectMutator retypeObjectMutator = ((RetypeObjectMutator) obj);
+        classes = ModelManager.getSiblingEClasses(definition.getMetamodel(), MutatorUtils.getStrategyTypes(retypeObjectMutator.getObject()));
+      } else {
+        if (((obj instanceof RandomTypeSelection) && (obj.eContainer() instanceof SelectObjectMutator))) {
+          ArrayList<EClass> _arrayList = new ArrayList<EClass>();
+          classes = _arrayList;
+          classes.addAll(this.getEClasses(definition.getMetamodel()));
+          if ((definition instanceof Program)) {
+            final Program program = ((Program) definition);
+            EList<Resource> _resources = program.getResources();
+            for (final Resource resource : _resources) {
+              classes.addAll(this.getEClasses(resource.getMetamodel()));
+            }
+          }
+        } else {
+          classes = this.getEClasses(definition.getMetamodel());
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(classes);
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a specific object is used as a container,
+   * can contain any previous object whose type is a container for the created object.
+   */
+  public IScope scope_SpecificObjectSelection_objSel(final ReferenceInit com, final EReference ref) {
+    try {
+      IScope _xblockexpression = null;
+      {
+        final MutatorEnvironment env = this.getMutatorEnvironment(((ReferenceSet) com));
+        final Definition definition = env.getDefinition();
+        String _metamodel = null;
+        if (definition!=null) {
+          _metamodel=definition.getMetamodel();
+        }
+        String metamodel = _metamodel;
+        String className = com.getReference().get(0).getEType().getName();
+        final ArrayList<Mutator> scope = new ArrayList<Mutator>();
+        boolean _notEquals = (!Objects.equal(className, null));
+        if (_notEquals) {
+          EObject _eContainer = com.eContainer();
+          final List<Mutator> commands = this.getCommands(((Mutator) _eContainer));
+          List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+          EClass eclass = ModelManager.getEClassByName(packages, className);
+          boolean _equals = Objects.equal(eclass, null);
+          if (_equals) {
+            metamodel = this.getMetamodel(definition, className);
+          }
+          List<EClass> classes = new ArrayList<EClass>();
+          classes.add(eclass);
+          classes.addAll(this.getESubClasses(metamodel, eclass));
+          List<String> classNames = new ArrayList<String>();
+          for (final EClass cl : classes) {
+            classNames.add(cl.getName());
+          }
+          for (final Mutator mutator : commands) {
+            if (((((!Objects.equal(mutator.getName(), null)) && 
+              (commands.indexOf(mutator) < commands.indexOf(((Mutator) com.eContainer())))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
+              classNames.contains(mutator.getType().getName()))) {
+              scope.add(mutator);
+            }
+          }
+        }
+        _xblockexpression = Scopes.scopeFor(scope);
+      }
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  /**
    * CreateObjectMutator.container, when a specific object is used as a container,
    * can contain any previous object whose type is a container for the created object.
    */
@@ -882,6 +966,216 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
    * can contain any EClass which is a container for the retyped object.
    */
   public IScope scope_TypeSelection_type(final RetypeObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the created object.
+   */
+  public IScope scope_RandomTypeSelection_types(final CreateObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the selected object.
+   */
+  public IScope scope_RandomTypeSelection_types(final SelectObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectSampleMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the selected objects.
+   */
+  public IScope scope_RandomTypeSelection_types(final SelectSampleMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CloneObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the cloned object.
+   */
+  public IScope scope_RandomTypeSelection_types(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RetypeObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the retyped object.
+   */
+  public IScope scope_RandomTypeSelection_types(final RetypeObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the created object.
+   */
+  public IScope scope_OtherTypeSelection_types(final CreateObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the selected object.
+   */
+  public IScope scope_OtherTypeSelection_types(final SelectObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectSampleMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the selected objects.
+   */
+  public IScope scope_OtherTypeSelection_types(final SelectSampleMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CloneObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the cloned object.
+   */
+  public IScope scope_OtherTypeSelection_types(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RetypeObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the retyped object.
+   */
+  public IScope scope_OtherTypeSelection_types(final RetypeObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CreateObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the created object.
+   */
+  public IScope scope_TypeSelection_types(final CreateObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the selected object.
+   */
+  public IScope scope_TypeSelection_types(final SelectObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * SelectSampleMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the selected objects.
+   */
+  public IScope scope_TypeSelection_types(final SelectSampleMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * CloneObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the cloned object.
+   */
+  public IScope scope_TypeSelection_types(final CloneObjectMutator com, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final MutatorEnvironment env = this.getMutatorEnvironment(com);
+      final Definition definition = env.getDefinition();
+      _xblockexpression = Scopes.scopeFor(this.getEContainers(definition.getMetamodel(), com.getType()));
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * RetypeObjectMutator.container, when a random type is used as a container,
+   * can contain any EClass which is a container for the retyped object.
+   */
+  public IScope scope_TypeSelection_types(final RetypeObjectMutator com, final EReference ref) {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);

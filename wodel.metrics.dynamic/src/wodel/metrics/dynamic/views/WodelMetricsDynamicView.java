@@ -106,15 +106,24 @@ public class WodelMetricsDynamicView extends ViewPart implements ISelectionChang
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsmetamodel);
 			String metamodel = ModelManager.getMetaModel();
 			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
-			String model = "file:/" + output +  "/" + fileName.replace(".mutator", "") + "_metrics.model";
-			if (new File(output +  "/" + fileName.replace(".mutator", "") + "_metrics.model").exists() == false) {
+			File outputFolder = new File(output);
+			List<String> models = new ArrayList<String>();
+			for (File f : outputFolder.listFiles()) {
+				if (f.isFile() && f.getName().endsWith("_metrics.model")) {
+					String model = output +  "/" + f.getName();
+					models.add(model);
+				}
+			}
+			//String model = "file:/" + output +  "/" + fileName.replace(".mutator", "") + "_metrics.model";
+			//if (new File(output +  "/" + fileName.replace(".mutator", "") + "_metrics.model").exists() == false) {
+			if (models.size() == 0) {
 				MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				msgbox.setMessage("The net footprint model has not been generated. Check Wodel Footprints Preferences page");
 				msgbox.open();
 				return;
 			}
 			List<WodelMetricClassifier> classifiers = new ArrayList<WodelMetricClassifier>();
-			classifiers.addAll(Arrays.asList(NetMutatorMetrics.createWodelDynamicMetrics(model, metricspackages, packages)));
+			classifiers.addAll(Arrays.asList(NetMutatorMetrics.createWodelDynamicMetrics(models, metricspackages, packages)));
 			
 			Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL);

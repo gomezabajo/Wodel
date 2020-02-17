@@ -75,18 +75,10 @@ public class WodelMetricsCommandView extends ViewPart implements IEditorActionDe
 	@Override
 	public void createPartControl(Composite parent) {
 		WodelContext.setProject(null);
-		String output = ModelManager.getOutputPath();
 		String metamodel = ModelManager.getMetaModel();
-		String fileName = manager.WodelContext.getFileName();
-		if (fileName.endsWith(".mutator") == false) {
-			//MessageBox msgbox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-			//msgbox.setMessage("To show this view you have to right-click on the file .mutator opened in the editor");
-			//msgbox.open();
-			return;
-		}
-		String xmiFileName = "file:/" + output +  "/" + fileName.replace(".mutator", ".model");
+		String project = manager.WodelContext.getProject();
 		List<WodelMetricCommand> metrics = new ArrayList<WodelMetricCommand>();
-		metrics.addAll(Arrays.asList(CommandMutatorMetrics.createWodelCommandMetrics(xmiFileName, metamodel)));
+		metrics.addAll(Arrays.asList(CommandMutatorMetrics.createWodelCommandMetrics(project, metamodel)));
 
 		Tree addressTree = new Tree(parent, SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL);

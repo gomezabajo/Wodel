@@ -11,9 +11,21 @@
 package wodel.synthesizer.generator;
 
 import manager.ModelManager;
+import manager.MutatorUtils;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -38,6 +50,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.Bundle;
 
 import wodel.synthesizer.utils.MultiLineStringFieldEditor;
 import exceptions.MetaModelNotFoundException;
@@ -59,6 +72,7 @@ public class GenerateWodelWizardPage extends WizardPage {
 	private StringFieldEditor numberOfSeedsFieldEditor;
 	private MultiLineStringFieldEditor customOCLFieldEditor;
 	private Button forceSeedRoot;
+	private org.eclipse.swt.widgets.List mutatorBlockSelector;
 	private Label separator;
 	private Composite container;
 	private ScrolledComposite scrolledComposite;
@@ -78,6 +92,29 @@ public class GenerateWodelWizardPage extends WizardPage {
 		setDescription("This wizard generates seed models.");
 		this.selection = selection;
 		this.metamodel = ModelManager.getMetaModel();
+		IFile mutatorFile = GenerateWodelWizard.file;
+		Bundle bundle = Platform.getBundle("wodel.models");
+		URL mutatorURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+		blockNames.add("*");
+		try {
+			String mutatorecore = FileLocator.resolve(mutatorURL).getFile();
+			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+			Resource model = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath() + "/" + mutatorFile.getName().replace(".mutator", ".model"));
+			List<EObject> blocks = MutatorUtils.getBlocks(model);
+			for (EObject block : blocks) {
+				String name = ModelManager.getStringAttribute("name", block);
+				blockNames.add(name);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean valid = false;
@@ -87,6 +124,10 @@ public class GenerateWodelWizardPage extends WizardPage {
 	public String customOCL = "";
 	
 	public boolean forceRoot = true;
+	
+	private List<String> blockNames = new ArrayList<String>();
+	
+	public List<String> selectedBlockNames = new ArrayList<String>();
 
 	/**
 	 * Create contents of the wizard.
@@ -137,6 +178,30 @@ public class GenerateWodelWizardPage extends WizardPage {
 		        forceRoot = button.getSelection();
 		    }
 		});
+    	
+		Label mutatorBlockSelectorLabel = new Label(container, SWT.NONE);
+		mutatorBlockSelectorLabel.setText("Select mutation operator(s)");
+    	mutatorBlockSelector = new org.eclipse.swt.widgets.List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+    	for (String blockName : blockNames) {
+    		mutatorBlockSelector.add(blockName);
+    	}
+    	mutatorBlockSelector.addSelectionListener(new SelectionAdapter() {
+    		@Override
+		    public void widgetSelected(SelectionEvent e)
+		    {
+    			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e.widget;
+    			int[] selectionIndices = list.getSelectionIndices();
+    			if (selectionIndices[0] == 0) {
+    				selectedBlockNames.add(blockNames.get(0));
+    			}
+    			else {
+    				for (int i = 0; i < selectionIndices.length; i++) {
+    					selectedBlockNames.add(blockNames.get(selectionIndices[i]));
+    				}
+    			}
+		    }
+    	});
+
 		forceSeedRoot.setParent(container);
 		
 		separator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);

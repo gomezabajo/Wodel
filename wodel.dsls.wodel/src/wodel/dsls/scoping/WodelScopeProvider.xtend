@@ -115,6 +115,72 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	}				
 	
 	/**
+	 * ObjectEmitter.type can contain any EClass from the input meta-model.
+	 * Except the RetypeObjectMutator that can contain any compatible EClass.
+	 */
+	def IScope scope_ObjectEmitter_types(ObjectEmitter obj, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(obj)
+        val Definition  definition = env.definition
+        var List<EClass> classes = null
+       	// add metamodel classes to scope
+       	if (obj instanceof RetypeObjectMutator) {
+       		val RetypeObjectMutator retypeObjectMutator = obj as RetypeObjectMutator
+       		classes = ModelManager.getSiblingEClasses(definition.metamodel, MutatorUtils.getStrategyTypes(retypeObjectMutator.object))
+       	}
+       	else if (obj instanceof RandomTypeSelection && obj.eContainer instanceof SelectObjectMutator) {
+  			classes = new ArrayList<EClass>()
+			classes.addAll(getEClasses(definition.metamodel))
+			if (definition instanceof Program) {
+				val Program program = definition as Program
+				for (mutatorenvironment.Resource resource : program.resources) {
+					classes.addAll(getEClasses(resource.metamodel))
+				}
+   			}
+       	}
+       	else {
+       		classes = getEClasses(definition.metamodel)
+       	}
+       	Scopes.scopeFor( classes )   
+	}				
+
+	/**
+	 * CreateObjectMutator.container, when a specific object is used as a container,
+	 * can contain any previous object whose type is a container for the created object. 
+	 */
+	def IScope scope_SpecificObjectSelection_objSel(ReferenceInit com, EReference ref) {				
+		val MutatorEnvironment env = getMutatorEnvironment(com as ReferenceSet) 
+        val Definition definition  = env.definition
+        var String metamodel       = definition?.metamodel
+        var String className = com.reference.get(0).getEType.getName
+        
+        val scope = new ArrayList()
+       	if (className != null) {
+	        val List<Mutator> commands = getCommands(com.eContainer as Mutator)
+    	    var List<EPackage> packages = ModelManager.loadMetaModel(metamodel)
+	        var EClass eclass = ModelManager.getEClassByName(packages, className)
+   			if (eclass == null) {
+				metamodel = getMetamodel(definition, className)
+   			}
+   			var List<EClass> classes = new ArrayList<EClass>()
+   			classes.add(eclass)
+   			classes.addAll(getESubClasses(metamodel, eclass))
+   			var List<String> classNames = new ArrayList<String>()
+   			for (EClass cl : classes) {
+   				classNames.add(cl.name)
+   			}
+        	for (mutator : commands) {
+        		if (mutator.name!=null && 
+        			commands.indexOf(mutator) < commands.indexOf(com.eContainer as Mutator) &&
+        			(mutator instanceof CreateObjectMutator || mutator instanceof ModifyInformationMutator || mutator instanceof SelectObjectMutator || mutator instanceof SelectSampleMutator || mutator instanceof CloneObjectMutator || mutator instanceof RetypeObjectMutator) &&
+        			classNames.contains(mutator.type.name))
+				scope.add(mutator)
+			}
+		}
+        
+   		Scopes.scopeFor( scope )  
+	}
+
+	/**
 	 * CreateObjectMutator.container, when a specific object is used as a container,
 	 * can contain any previous object whose type is a container for the created object. 
 	 */
@@ -687,6 +753,156 @@ class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
 	}
 	
+	/**
+	 * CreateObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the created object.
+	 */
+	def IScope scope_RandomTypeSelection_types(CreateObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * SelectObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected object.
+	 */
+	def IScope scope_RandomTypeSelection_types(SelectObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * SelectSampleMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected objects.
+	 */
+	def IScope scope_RandomTypeSelection_types(SelectSampleMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * CloneObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the cloned object.
+	 */
+	def IScope scope_RandomTypeSelection_types(CloneObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * RetypeObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the retyped object.
+	 */
+	def IScope scope_RandomTypeSelection_types(RetypeObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+
+/**
+	 * CreateObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the created object.
+	 */
+	def IScope scope_OtherTypeSelection_types(CreateObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * SelectObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected object.
+	 */
+	def IScope scope_OtherTypeSelection_types(SelectObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * SelectSampleMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected objects.
+	 */
+	def IScope scope_OtherTypeSelection_types(SelectSampleMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * CloneObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the cloned object.
+	 */
+	def IScope scope_OtherTypeSelection_types(CloneObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * RetypeObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the retyped object.
+	 */
+	def IScope scope_OtherTypeSelection_types(RetypeObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	/**
+	 * CreateObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the created object.
+	 */
+	def IScope scope_TypeSelection_types(CreateObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * SelectObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected object.
+	 */
+	def IScope scope_TypeSelection_types(SelectObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * SelectSampleMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the selected objects.
+	 */
+	def IScope scope_TypeSelection_types(SelectSampleMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * CloneObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the cloned object.
+	 */
+	def IScope scope_TypeSelection_types(CloneObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+	
+	/**
+	 * RetypeObjectMutator.container, when a random type is used as a container, 
+	 * can contain any EClass which is a container for the retyped object.
+	 */
+	def IScope scope_TypeSelection_types(RetypeObjectMutator com, EReference ref) {
+		val MutatorEnvironment env = getMutatorEnvironment(com) 
+        val Definition  definition = env.definition
+        Scopes.scopeFor( getEContainers(definition.metamodel, com.type) )              
+	}
+
 	/**
 	 * ObSelectionStrategy.refType can contain any EReference defined by the 
 	 * SelectedObject.eContainer whose type is CreateObjetMutator.type.

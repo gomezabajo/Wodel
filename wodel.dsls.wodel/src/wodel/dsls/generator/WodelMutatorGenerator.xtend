@@ -91,6 +91,7 @@ import mutatorenvironment.RandomStringNumberType
 import java.util.List
 import mutatorenvironment.Source
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.EClass
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -206,7 +207,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 		
 		var List<String> mutators = getMutators(files)
 		
-		fsa.generateFile("mutator/" + manager.WodelContext.getProject + "/" + manager.WodelContext.getProject + "Launcher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
+		fsa.generateFile("mutator/" + manager.WodelContext.getProject.replaceAll("[.]", "/") + "/" + manager.WodelContext.getProject.replaceAll("[.]", "_") + "Launcher.java", JavaUtils.format(mutatorEnvironment.launcher(mutators), false))
 	}
 	
 	def launcher(MutatorEnvironment e, List<String> mutators) '''
@@ -235,7 +236,7 @@ import manager.ModelManager;
 import manager.MutatorUtils;
 import manager.MutatorUtils.MutationResults;
 
-public class «manager.WodelContext.getProject»Launcher implements IMutatorExecutor {
+public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher implements IMutatorExecutor {
 
 	public MutationResults execute(int maxAttempts, int numMutants, boolean registry, boolean metrics, boolean debugMetrics, String[] blockNames, IProject project, IProgressMonitor monitor, boolean serialize, Object testObject, TreeMap<String, List<String>> classes) throws ReferenceNonExistingException, WrongAttributeTypeException, 
 												  MaxSmallerThanMinException, AbstractCreationException, ObjectNoTargetableException, 
@@ -706,7 +707,11 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 	   							refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   						}
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceInit.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceInit.object as SpecificObjectSelection).objSel.name»");
+							«IF (referenceInit.object as SpecificObjectSelection).refType == null»
 	   						refs.add(new SpecificReferenceConfigurationStrategy(entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getValue().getKey(), objectSelection.getObject(), entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getKey(), "«referenceInit.getReference().get(0).name»"));
+	   						«ELSE»
+	   						refs.add(new SpecificReferenceConfigurationStrategy(entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getValue().getKey(), objectSelection.getObject(), (EObject) entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getKey().eGet(ModelManager.getReferenceByName("«(referenceInit.object as SpecificObjectSelection).refType.name»", entry_«(referenceInit.object as SpecificObjectSelection).objSel.name».getKey())), "«referenceInit.getReference().get(0).name»", false));
+	   						«ENDIF»
 	   						refsList.put("«referenceName»", refs);
 	   					} else {
 	   						return mutations;
@@ -740,7 +745,11 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 	   							refs = new ArrayList<ReferenceConfigurationStrategy>();
 	   						}
 							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(referenceAdd.object as SpecificObjectSelection).objSel.name»");
+							«IF (referenceAdd.object as SpecificObjectSelection).refType == null»
 	   						refs.add(new SpecificReferenceConfigurationStrategy(entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getValue().getKey(), objectSelection.getObject(), entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getKey(), "«referenceAdd.getReference().get(0).name»", false));
+	   						«ELSE»
+	   						refs.add(new SpecificReferenceConfigurationStrategy(entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getValue().getKey(), objectSelection.getObject(), (EObject) entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getKey().eGet(ModelManager.getReferenceByName("«(referenceAdd.object as SpecificObjectSelection).refType.name»", entry_«(referenceAdd.object as SpecificObjectSelection).objSel.name».getKey())), "«referenceAdd.getReference().get(0).name»", false));
+	   						«ENDIF»
 	   						refsList.put("«referenceName»", refs);
 	   					} else {
 	   						return mutations;
@@ -1503,7 +1512,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
 					«FOR expression : constraint.expressions»
-					newrules.add("«WodelUtils.getConstraintText(expression)»");
+					newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
 				«ENDFOR»
 				«ENDIF»
 				«IF constraint.rules != null»
@@ -1740,7 +1749,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
 					«FOR expression : constraint.expressions»
-					newrules.add("«WodelUtils.getConstraintText(expression)»");
+					newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
 				«ENDFOR»
 				«ENDIF»
 				«IF constraint.rules != null»
@@ -2557,7 +2566,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
 					«FOR expression : constraint.expressions»
-					newrules.add("«WodelUtils.getConstraintText(expression)»");
+					newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
 				«ENDFOR»
 				«ENDIF»
 				«IF constraint.rules != null»
@@ -2881,7 +2890,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
 					«FOR expression : constraint.expressions»
-					newrules.add("«WodelUtils.getConstraintText(expression)»");
+					newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
 				«ENDFOR»
 				«ENDIF»
 				«IF constraint.rules != null»
@@ -3596,7 +3605,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
 					«FOR expression : constraint.expressions»
-					newrules.add("«WodelUtils.getConstraintText(expression)»");
+					newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
 				«ENDFOR»
 				«ENDIF»
 				«IF constraint.rules != null»
@@ -3632,8 +3641,36 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 	
 	def retypeObjectMutator(RetypeObjectMutator mut) '''
 			//RETYPE OBJECT «methodName»
+			List<String> mutTypes = new ArrayList<String>();
 			«IF mut.object instanceof RandomTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»");
+			//«var RandomTypeSelection selection = mut.object as RandomTypeSelection»
+			«IF selection.types != null && selection.types.size > 0»
+			«FOR EClass type : selection.types»
+			mutTypes.add("«type.name»");
+			«ENDFOR»
+			«ELSEIF selection.type != null»
+			mutTypes.add("«selection.type.name»");
+			«ENDIF»
+			«ELSEIF mut.object instanceof CompleteTypeSelection»
+			//«var CompleteTypeSelection selection = mut.object as CompleteTypeSelection»
+			«IF selection.types != null»
+			«FOR EClass type : selection.types»
+			mutTypes.add("«type.name»");
+			«ENDFOR»
+			«ELSEIF selection.type != null»
+			mutTypes.add("«selection.type.name»");
+			«ENDIF»
+			«ENDIF»
+			List<String> targetTypes = new ArrayList<String>();
+			«IF mut.types != null && mut.types.size > 0»
+			«FOR EClass type : mut.types»
+			targetTypes.add("«type.name»");
+			«ENDFOR»
+			«ELSEIF mut.type != null»
+			targetTypes.add("«mut.type.name»");
+			«ENDIF»
+			«IF mut.object instanceof RandomTypeSelection»
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, mutTypes);
 				«IF mut.object.expression == null»
 					EObject object = rts.getObject();
 				«ELSE»
@@ -3654,7 +3691,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 					objectSelection = new SpecificObjectSelection(packages, model, object);
 				}
 			«ELSEIF mut.object instanceof CompleteTypeSelection»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»");
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, mutTypes);
 				EObject object = rts.getObject();
 				ObSelectionStrategy objectSelection = new SpecificObjectSelection(packages, model, object»);
 			«ELSEIF mut.object instanceof SpecificObjectSelection»
@@ -3742,10 +3779,16 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 					return mutations;
 				}
 				«ELSE»
-				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), "«mut.refType.name»", containerSelection);
+				SpecificReferenceSelection referenceSelection = null;
+				if (containerSelection != null) {
+					referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), "«mut.refType.name»", containerSelection);
+				}
 				«ENDIF»
 			«ELSE»
-				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);
+				SpecificReferenceSelection referenceSelection = null;
+				if (containerSelection != null) {
+					referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);
+				}
 			«ENDIF»
 			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
 			//«var counter = 0»
@@ -3759,14 +3802,13 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 			«ENDFOR»
 			RetypeObjectMutator mut = null;
 			if (objectSelection != null && objectSelection.getObject() != null) {
-				mut = new RetypeObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, "«mut.type.name»");
+				mut = new RetypeObjectMutator(objectSelection.getModel(), objectSelection.getMetaModel(), objectSelection.getObject(), referenceSelection, containerSelection, atts, refs, targetTypes);
 			}
 			//INC COUNTER: «nMutation++»
 			if (mut != null) {
 				mut.setId("m«nMutation»");
 				mutations.add(mut);
 			}
-			//END RETYPE OBJECT «methodName»
 	'''
 	
 	def retypeObjectMutatorExhaustive(RetypeObjectMutator mut) '''
@@ -3985,19 +4027,39 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 	'''
 
 	def removeObjectMutator(RemoveObjectMutator mut) '''
-		// REMOVE OBJECT «methodName»
+			// REMOVE OBJECT «methodName»
 			ObSelectionStrategy containerSelection = null;
 			SpecificReferenceSelection referenceSelection = null;
+			List<String> mutTypes = new ArrayList<String>();
+			«IF mut.object instanceof RandomTypeSelection»
+			//«var RandomTypeSelection selection = mut.object as RandomTypeSelection»
+			«IF selection.types != null && selection.types.size > 0»
+			«FOR EClass type : selection.types»
+			mutTypes.add("«type.name»");
+			«ENDFOR»
+			«ELSEIF selection.type != null»
+			mutTypes.add("«selection.type.name»");
+			«ENDIF»
+			«ELSEIF mut.object instanceof CompleteTypeSelection»
+			//«var CompleteTypeSelection selection = mut.object as CompleteTypeSelection»
+			«IF selection.types != null»
+			«FOR EClass type : selection.types»
+			mutTypes.add("«type.name»");
+			«ENDFOR»
+			«ELSEIF selection.type != null»
+			mutTypes.add("«selection.type.name»");
+			«ENDIF»
+			«ENDIF»
 			//«var boolean rts = false»
 			«IF mut.object instanceof RandomTypeSelection || mut.object instanceof CompleteTypeSelection»
 				«IF mut.container == null»
 				«IF mut.object instanceof RandomTypeSelection»
 				//«rts = true»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as RandomTypeSelection).type.name»", mutatedObjects);
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, mutTypes, mutatedObjects);
 				«ENDIF»
 				«IF mut.object instanceof CompleteTypeSelection»
 				//«rts = true»
-				RandomTypeSelection rts = new RandomTypeSelection(packages, model, "«(mut.object as CompleteTypeSelection).type.name»", mutatedObjects);
+				RandomTypeSelection rts = new RandomTypeSelection(packages, model, mutTypes, mutatedObjects);
 				«ENDIF»
 				«ELSE»
 					«IF mut.container instanceof RandomTypeSelection»
@@ -4039,9 +4101,9 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 						«ENDIF»
 					«ENDIF»
 					«IF rts == true»
-					rts = new RandomTypeSelection(containerSelection.getMetaModel(), containerSelection.getModel(), "«(mut.object as RandomTypeSelection).type.name»", referenceSelection, containerSelection);
+					rts = new RandomTypeSelection(containerSelection.getMetaModel(), containerSelection.getModel(), mutTypes, referenceSelection, containerSelection);
 					«ELSE»
-					RandomTypeSelection rts = new RandomTypeSelection(containerSelection.getMetaModel(), containerSelection.getModel(), "«(mut.object as RandomTypeSelection).type.name»", referenceSelection, containerSelection);
+					RandomTypeSelection rts = new RandomTypeSelection(containerSelection.getMetaModel(), containerSelection.getModel(), mutTypes, referenceSelection, containerSelection);
 					«ENDIF»
 					«IF ((mut.object.expression == null) && (mut.container.expression == null))»
 						EObject object = rts.getObject();
@@ -4487,7 +4549,7 @@ public class «manager.WodelContext.getProject»Launcher implements IMutatorExecut
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
 					«FOR expression : constraint.expressions»
-					newrules.add("«WodelUtils.getConstraintText(expression)»");
+					newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
 				«ENDFOR»
 				«ENDIF»
 				«IF constraint.rules != null»
@@ -5622,7 +5684,7 @@ public class «className» extends MutatorUtils {
 		//NAME:«referenceName = ""»
 		«ENDIF»
 		«IF e instanceof ReferenceInit || e instanceof ReferenceRemove || e instanceof ReferenceAdd»
-		«e.object.method(exhaustive)»
+		«e.object.method(referenceName, exhaustive)»
    		refs.put("«referenceName»", refSelection«nReference»);
    		«ENDIF»
 	'''	
@@ -5810,7 +5872,7 @@ public class «className» extends MutatorUtils {
 	//************************
 	//********************
 	//REFERENCES COMPILES
-	def method(ObSelectionStrategy e, boolean exhaustive) '''
+	def method(ObSelectionStrategy e, String referenceName, boolean exhaustive) '''
   		//REFERENCES COMPILES	«nReference=nReference+1»
 		«IF e instanceof RandomTypeSelection»
 			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as RandomTypeSelection).type.name»");
@@ -5832,6 +5894,26 @@ public class «className» extends MutatorUtils {
 			refSelection«nReference» = 
 				new SpecificObjectSelection(packages, model, refObject«nReference»);
 			}
+	    «ELSEIF e instanceof OtherTypeSelection»
+			OtherTypeSelection refOts«nReference» = new OtherTypeSelection(packages, model, "«(e as OtherTypeSelection).type.name»", ModelManager.getReference("«referenceName»", objectSelection.getObject()));
+			«IF e.expression != null && expressionList != null»
+			List<EObject> refObjects«nReference» = refOts«nReference».getObjects();
+			//INDEX EXPRESSION: « var indexExpression = expressionList.size() - 1»
+			Expression exp«expressionList.get(indexExpression)» = new Expression();
+	   		«e.expression.method(0)»
+	   		List<EObject> refSelectedObjects«nReference» = evaluate(refObjects«nReference», exp«expressionList.get(indexExpression)»);
+			EObject refObject«nReference» = null;
+			if (refSelectedObjects«nReference».size() > 0) {
+				refObject«nReference» = refSelectedObjects«nReference».get(ModelManager.getRandomIndex(refSelectedObjects«nReference»));
+			}
+			«ELSE»
+			EObject refObject«nReference» = refOts«nReference».getObject();
+			«ENDIF»
+			ObSelectionStrategy refSelection«nReference» = null;
+			if (refObject«nReference» != null) {
+			refSelection«nReference» = new SpecificObjectSelection(packages, model, refObject«nReference»);
+			}
+	    
 		«ELSEIF e instanceof CompleteTypeSelection»
 			RandomTypeSelection refRts«nReference» = new RandomTypeSelection(packages, model, "«(e as CompleteTypeSelection).type.name»");
 			EObject refObject«nReference» = refRts«nReference».getObject();
@@ -6009,19 +6091,23 @@ public class «className» extends MutatorUtils {
 	   		«ELSE»
 	   		«IF refev.refType != null»
 	   		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«expressionList.get(indexExpression)» = hmObjects.get("«(refev.value as SpecificObjectSelection).objSel.name»");
-	   		EObject srcObjExp = entry_«expressionList.get(indexExpression)».getKey();
-	   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
-	   			if (ref.getName().equals("«refev.refType.name»")) {
-	   			((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = srcObjExp.eGet(ref);		
+	   		if (entry_«expressionList.get(indexExpression)» != null) {
+	   			EObject srcObjExp = entry_«expressionList.get(indexExpression)».getKey();
+	   			for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+	   				if (ref.getName().equals("«refev.refType.name»")) {
+	   				((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = srcObjExp.eGet(ref);		
+	   				}
 	   			}
 	   		}
 			«ENDIF»
 	   		«IF refev.value.refType != null»
 	   		SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«expressionList.get(indexExpression)» = hmObjects.get("«(refev.value as SpecificObjectSelection).objSel.name»");
-	   		EObject srcObjExp = entry_«expressionList.get(indexExpression)».getKey();
-	   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
-	   			if (ref.getName().equals("«refev.value.refType.name»")) {
-	   				((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = srcObjExp.eGet(ref);		
+	   		if (entry_«expressionList.get(indexExpression)» != null) {
+		   		EObject srcObjExp = entry_«expressionList.get(indexExpression)».getKey();
+		   		for (EReference ref : srcObjExp.eClass().getEAllReferences()) {
+	   				if (ref.getName().equals("«refev.value.refType.name»")) {
+	   					((ReferenceEvaluation) exp«expressionList.get(indexExpression)».first).value = srcObjExp.eGet(ref);		
+	   				}
 	   			}
 	   		}
 			«ENDIF»
@@ -6354,7 +6440,7 @@ public class «className» extends MutatorUtils {
 				List<String> newrules = rules.get("«constraint.type.name»");
 				«IF constraint.expressions != null»
        			«FOR expression : constraint.expressions»
-				newrules.add("«WodelUtils.getConstraintText(expression)»");
+				newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
        			«ENDFOR»
       			«ENDIF»
        			«IF constraint.rules != null»
@@ -6463,7 +6549,7 @@ public class «className» extends MutatorUtils {
 				List<String> newrules = rules.get("«constraint.type.name»");
 	       		«IF constraint.expressions != null»
        			«FOR expression : constraint.expressions»
-				newrules.add("«WodelUtils.getConstraintText(expression)»");
+				newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
        			«ENDFOR»
        			«ENDIF»
        			«IF constraint.rules != null»

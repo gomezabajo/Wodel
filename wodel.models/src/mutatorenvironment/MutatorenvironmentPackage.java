@@ -325,13 +325,22 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int OBJECT_EMITTER__NAME = 1;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_EMITTER__TYPES = 2;
+
+	/**
 	 * The number of structural features of the '<em>Object Emitter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_EMITTER_FEATURE_COUNT = 2;
+	int OBJECT_EMITTER_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Object Emitter</em>' class.
@@ -369,6 +378,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int MUTATOR__NAME = OBJECT_EMITTER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUTATOR__TYPES = OBJECT_EMITTER__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -442,6 +460,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPOSITE_MUTATOR__NAME = MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITE_MUTATOR__TYPES = MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -563,6 +590,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int CREATE_OBJECT_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_OBJECT_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -663,6 +699,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int OB_SELECTION_STRATEGY__NAME = OBJECT_EMITTER__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OB_SELECTION_STRATEGY__TYPES = OBJECT_EMITTER__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -752,6 +797,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int RANDOM_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_SELECTION__TYPES = OB_SELECTION_STRATEGY__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -845,6 +899,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int RANDOM_TYPE_SELECTION__NAME = RANDOM_SELECTION__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANDOM_TYPE_SELECTION__TYPES = RANDOM_SELECTION__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -936,6 +999,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SPECIFIC_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_SELECTION__TYPES = OB_SELECTION_STRATEGY__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1025,6 +1097,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SPECIFIC_OBJECT_SELECTION__NAME = SPECIFIC_SELECTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_OBJECT_SELECTION__TYPES = SPECIFIC_SELECTION__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -1882,6 +1963,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int MODIFY_SOURCE_REFERENCE_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODIFY_SOURCE_REFERENCE_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1980,6 +2070,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SPECIFIC_REFERENCE_SELECTION__NAME = SPECIFIC_SELECTION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_REFERENCE_SELECTION__TYPES = SPECIFIC_SELECTION__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -2082,6 +2181,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int MODIFY_TARGET_REFERENCE_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODIFY_TARGET_REFERENCE_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2180,6 +2288,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CREATE_REFERENCE_MUTATOR__NAME = MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_REFERENCE_MUTATOR__TYPES = MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -2282,6 +2399,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REMOVE_OBJECT_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REMOVE_OBJECT_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2373,6 +2499,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REMOVE_REFERENCE_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REMOVE_REFERENCE_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2444,6 +2579,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODIFY_INFORMATION_MUTATOR__NAME = MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODIFY_INFORMATION_MUTATOR__TYPES = MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -2960,6 +3104,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REMOVE_RANDOM_REFERENCE_MUTATOR__NAME = REMOVE_REFERENCE_MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REMOVE_RANDOM_REFERENCE_MUTATOR__TYPES = REMOVE_REFERENCE_MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3040,6 +3193,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int REMOVE_SPECIFIC_REFERENCE_MUTATOR__NAME = REMOVE_REFERENCE_MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REMOVE_SPECIFIC_REFERENCE_MUTATOR__TYPES = REMOVE_REFERENCE_MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -3133,6 +3295,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int COMPLETE_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_SELECTION__TYPES = OB_SELECTION_STRATEGY__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3224,6 +3395,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int COMPLETE_TYPE_SELECTION__NAME = COMPLETE_SELECTION__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLETE_TYPE_SELECTION__TYPES = COMPLETE_SELECTION__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3313,6 +3493,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int REMOVE_COMPLETE_REFERENCE_MUTATOR__NAME = REMOVE_REFERENCE_MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REMOVE_COMPLETE_REFERENCE_MUTATOR__TYPES = REMOVE_REFERENCE_MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -3434,6 +3623,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int OTHER_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_SELECTION__TYPES = OB_SELECTION_STRATEGY__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3525,6 +3723,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int OTHER_TYPE_SELECTION__NAME = OTHER_SELECTION__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER_TYPE_SELECTION__TYPES = OTHER_SELECTION__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3614,6 +3821,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SELECT_OBJECT_MUTATOR__NAME = MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SELECT_OBJECT_MUTATOR__TYPES = MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -4422,6 +4638,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int CLONE_OBJECT_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLONE_OBJECT_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4980,6 +5205,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SPECIFIC_CLOSURE_SELECTION__NAME = SPECIFIC_SELECTION__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_CLOSURE_SELECTION__TYPES = SPECIFIC_SELECTION__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5078,6 +5312,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SELECT_SAMPLE_MUTATOR__NAME = MUTATOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SELECT_SAMPLE_MUTATOR__TYPES = MUTATOR__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
@@ -5272,6 +5515,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int RETYPE_OBJECT_MUTATOR__NAME = MUTATOR__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETYPE_OBJECT_MUTATOR__TYPES = MUTATOR__TYPES;
+
+	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5388,6 +5640,15 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int TYPED_SELECTION__NAME = OB_SELECTION_STRATEGY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_SELECTION__TYPES = OB_SELECTION_STRATEGY__TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -5825,6 +6086,17 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getObjectEmitter_Name();
+
+	/**
+	 * Returns the meta object for the reference list '{@link mutatorenvironment.ObjectEmitter#getTypes <em>Types</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Types</em>'.
+	 * @see mutatorenvironment.ObjectEmitter#getTypes()
+	 * @see #getObjectEmitter()
+	 * @generated
+	 */
+	EReference getObjectEmitter_Types();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.Mutator <em>Mutator</em>}'.
@@ -8245,6 +8517,14 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute OBJECT_EMITTER__NAME = eINSTANCE.getObjectEmitter_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Types</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBJECT_EMITTER__TYPES = eINSTANCE.getObjectEmitter_Types();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.MutatorImpl <em>Mutator</em>}' class.

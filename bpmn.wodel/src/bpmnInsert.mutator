@@ -1,0 +1,14 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/bpmn.wodel/data/model/simplebpmn.ecore"
+
+with blocks {
+	insert {
+		s = select one Sequence where {^to not typed EndEv}
+    	f = select one FlowObject in s->^to
+    	a = create Activity with {name = 'newActivity'}
+    	modify target ^to from s to a
+   		create Sequence with {name = 'newSeq', ^from = a, ^to = f}
+	}
+}

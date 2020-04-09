@@ -39,7 +39,7 @@
 
 <p><u>[<a href="#">High-level change operations for BPMN</a>].</u></p>
 
-<p>Insert activity:</p>
+<p>Insert activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>
     s = select one Sequence where {^to not typed EndEv}
@@ -49,7 +49,7 @@
     create Sequence with {name = 'newSeq', ^from = a, ^to = f}
 </code></pre>
 
-<p>Remove activity:</p>
+<p>Remove activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>
     s0 = select one Sequence where {^to is typed Activity}
@@ -60,7 +60,7 @@
     modify target ^to from s0 to f
 </code></pre>
 
-<p>Move activity:</p>
+<p>Move activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>
     a = select one Activity
@@ -73,7 +73,7 @@
            s2 with {^from = a}
 </code></pre>
 
-<p>Replace activity:</p>
+<p>Replace activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>
     a0 = select one Activity
@@ -86,7 +86,7 @@
            src1 with {^to = a0}, tar1 with {^from = a0}
 </code></pre>
 
-<p>Retype activity:</p>
+<p>Retype activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
 <pre><code>
     retype one [AND, OR, XOR] as [AND, OR, XOR]
@@ -94,8 +94,8 @@
 
 <p>Here you can download all these examples of Wodel applied to BPMN.<br />
 
-	  <a href="#">BPMN samples .zip</a><br />
-	  <a href="#">BPMN samples .tar.gz</a>
+	  <a href="https://github.com/gomezabajo/Wodel/zipball/BPMNWodelSamples">BPMN samples .zip</a><br />
+	  <a href="https://github.com/gomezabajo/Wodel/tarball/BPMNWodelSamples">BPMN samples .tar.gz</a>
 </p>
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel">Wodel</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span>

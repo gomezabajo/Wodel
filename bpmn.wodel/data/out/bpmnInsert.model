@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="C:/eclipse/runtime-EclipseApplication/bpmn.wodel/data/model/simplebpmn.ecore" output="data/out/" num="2">
+    <source path="data/model/"/>
+  </definition>
+  <blocks name="insert">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="s">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/simplebpmn.ecore#//Sequence"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="not">
+            <name href="../model/simplebpmn.ecore#//ConnectingObject/to"/>
+            <value xsi:type="mutatorenvironment:TypedSelection">
+              <type href="../model/simplebpmn.ecore#//EndEv"/>
+            </value>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="f">
+      <container xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0">
+        <refType href="../model/simplebpmn.ecore#//ConnectingObject/to"/>
+      </container>
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="../model/simplebpmn.ecore#//FlowObject"/>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator" name="a">
+      <type href="../model/simplebpmn.ecore#//Activity"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/simplebpmn.ecore#//BPMNElement/name"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="newActivity"/>
+      </attributes>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="../model/simplebpmn.ecore#//ConnectingObject/to"/>
+      <source xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.0"/>
+      <newTarget xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
+    </commands>
+    <commands xsi:type="mutatorenvironment:CreateObjectMutator">
+      <type href="../model/simplebpmn.ecore#//Sequence"/>
+      <attributes xsi:type="mutatorenvironment:AttributeScalar">
+        <attribute href="../model/simplebpmn.ecore#//BPMNElement/name"/>
+        <value xsi:type="mutatorenvironment:SpecificStringType" value="newSeq"/>
+      </attributes>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/simplebpmn.ecore#//ConnectingObject/from"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.2"/>
+      </references>
+      <references xsi:type="mutatorenvironment:ReferenceInit">
+        <reference href="../model/simplebpmn.ecore#//ConnectingObject/to"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.0/@commands.1"/>
+      </references>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

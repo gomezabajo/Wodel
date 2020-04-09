@@ -1,0 +1,17 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/bpmn.wodel/data/model/simplebpmn.ecore"
+
+with blocks {
+	move {
+		a = select one Activity
+		s0 = select one Sequence where {^to = a and ^from <> null}
+		s1 = select one Sequence where {^from = a and ^to <> null}
+		o = select one FlowObject where {self = s1->^to}
+		s2 = select one Sequence where {^from = o and ^to <> null}
+		modify s0 with {^to = o}
+		modify s1 with {^from = o, ^to = a}
+		modify s2 with {^from = a}
+	}
+}

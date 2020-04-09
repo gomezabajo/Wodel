@@ -1,0 +1,19 @@
+generate 2 mutants
+in "data/out/"
+from "data/model/"
+metamodel "C:/eclipse/runtime-EclipseApplication/bpmn.wodel/data/model/simplebpmn.ecore"
+
+with blocks {
+	^replace {
+		 a0 = select one Activity
+		 src0 = select one Sequence where {^to = a0}
+		 tar0 = select one Sequence where {^from = a0}
+		 a1 = select one Activity where {self <> a0}
+		 src1 = select one Sequence where {^to = a1}
+		 tar1 = select one Sequence where {^from = a1}
+		 modify src0 with {^to = a1}
+		 modify tar0 with {^from = a1}
+		 modify src1 with {^to = a0}
+		 modify tar1 with {^from = a0}
+	}
+}

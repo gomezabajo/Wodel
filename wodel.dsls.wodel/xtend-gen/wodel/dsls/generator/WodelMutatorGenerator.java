@@ -12922,16 +12922,30 @@ public class WodelMutatorGenerator extends AbstractGenerator {
               _builder.append("}");
               _builder.newLine();
             } else {
-              _builder.append("SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), \"");
+              _builder.append("SpecificReferenceSelection referenceSelection = null;");
+              _builder.newLine();
+              _builder.append("if (containerSelection != null) {");
+              _builder.newLine();
+              _builder.append("\t");
+              _builder.append("referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), \"");
               String _name_50 = mut.getContainer().getRefType().getName();
-              _builder.append(_name_50);
+              _builder.append(_name_50, "\t");
               _builder.append("\", containerSelection);");
               _builder.newLineIfNotEmpty();
+              _builder.append("}");
+              _builder.newLine();
             }
           }
         }
       } else {
-        _builder.append("SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);");
+        _builder.append("SpecificReferenceSelection referenceSelection = null;");
+        _builder.newLine();
+        _builder.append("if (containerSelection != null) {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);");
+        _builder.newLine();
+        _builder.append("}");
         _builder.newLine();
       }
     }

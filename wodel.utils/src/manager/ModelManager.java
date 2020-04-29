@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -569,6 +568,7 @@ public class ModelManager {
 			// model = resourceSet.getResource(URI.createURI(modelURI),true); //
 			// load model using the URI
 		} catch (IOException r) {
+			r.printStackTrace();
 			throw new ModelNotFoundException(modelURI);
 		}
 
@@ -2399,7 +2399,7 @@ public class ModelManager {
 		}
 		return classifiers;
 	}
-
+	
 	public static boolean compareModels(Resource model1, Resource model2) {
 		IComparisonScope scope = new DefaultComparisonScope(model1, model2, null);
 		Comparison comparison = EMFCompare.builder().build().compare(scope);

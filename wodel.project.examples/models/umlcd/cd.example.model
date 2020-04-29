@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<umlclassdiagram:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:miniOCL="http://www.ac.uk/york/cs/miniocl/MiniOCLCS" xmlns:umlclassdiagram="http://umlclassdiagram/1.0" xsi:schemaLocation="http://umlclassdiagram/1.0 http://www.ac.uk/york/cs/miniocl/MiniOCLCS" xmi:id="_X5wWUNBSEeeA66FQ4hHrOQ">
+<umlclassdiagram:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:umlclassdiagram="http://umlclassdiagram/1.0" xsi:schemaLocation="http://umlclassdiagram/1.0" xmi:id="_X5wWUNBSEeeA66FQ4hHrOQ">
   <classes xsi:type="umlclassdiagram:Class" xmi:id="_Y_U3QNBSEeeA66FQ4hHrOQ" name="A">
-    <features xsi:type="umlclassdiagram:Attribute" xmi:id="_b6irMNBSEeeA66FQ4hHrOQ" name="value" type="_fTwCsNBSEeeA66FQ4hHrOQ" max="1" derived="true"/>
+    <features xsi:type="umlclassdiagram:Attribute" xmi:id="_b6irMNBSEeeA66FQ4hHrOQ" name="value" type="_fTwCsNBSEeeA66FQ4hHrOQ" derived="true"/>
     <features xsi:type="umlclassdiagram:Operation" xmi:id="_jH-iQNBSEeeA66FQ4hHrOQ" name="op" type="_nas7sNBSEeeA66FQ4hHrOQ">
       <params xmi:id="_mF3PsNBSEeeA66FQ4hHrOQ" name="param" type="_ntZOMNBSEeeA66FQ4hHrOQ"/>
     </features>
@@ -30,22 +30,22 @@
       <packages xmi:id="_bFDYMNBTEeeA66FQ4hHrOQ" name="p1">
         <classes xmi:id="_c1TN0NBTEeeA66FQ4hHrOQ" name="c1">
           <operations xmi:id="_eb5_QNBTEeeA66FQ4hHrOQ" name="op1">
-            <body xsi:type="miniOCL:IntLiteralExpCS" xmi:id="_ilUrsNBTEeeA66FQ4hHrOQ" op="add" intSymbol="1">
-              <right xsi:type="miniOCL:IntLiteralExpCS" xmi:id="_ntjJwNBTEeeA66FQ4hHrOQ" op="subtract" intSymbol="2">
-                <right xsi:type="miniOCL:IntLiteralExpCS" xmi:id="_aGbBMNBdEeeOYrPVAve4mA" op="negative" intSymbol="1"/>
+            <body xsi:type="umlclassdiagram:IntLiteralExpCS" xmi:id="_ilUrsNBTEeeA66FQ4hHrOQ" op="add" intSymbol="1">
+              <right xsi:type="umlclassdiagram:IntLiteralExpCS" xmi:id="_ntjJwNBTEeeA66FQ4hHrOQ" op="subtract" intSymbol="2">
+                <right xsi:type="umlclassdiagram:IntLiteralExpCS" xmi:id="_aGbBMNBdEeeOYrPVAve4mA" op="negative" intSymbol="1"/>
               </right>
             </body>
           </operations>
           <operations xmi:id="_fegEsNBTEeeA66FQ4hHrOQ" name="op2">
-            <body xsi:type="miniOCL:LogicExpCS" xmi:id="_qpFGwNBTEeeA66FQ4hHrOQ" op="not"/>
+            <body xsi:type="umlclassdiagram:LogicExpCS" xmi:id="_qpFGwNBTEeeA66FQ4hHrOQ" op="not"/>
           </operations>
           <operations xmi:id="_gYp_0NBTEeeA66FQ4hHrOQ" name="op3">
-            <body xsi:type="miniOCL:BooleanExpCS" xmi:id="_tW9CQNBTEeeA66FQ4hHrOQ" op="and">
-              <right xsi:type="miniOCL:BooleanExpCS" xmi:id="_wX2AYNBTEeeA66FQ4hHrOQ" op="or">
-                <right xsi:type="miniOCL:BooleanExpCS" xmi:id="_znOGcNBTEeeA66FQ4hHrOQ" op="lt">
-                  <right xsi:type="miniOCL:BooleanExpCS" xmi:id="_1yC_QNBTEeeA66FQ4hHrOQ" op="lte">
-                    <right xsi:type="miniOCL:BooleanExpCS" xmi:id="_3l0C8NBTEeeA66FQ4hHrOQ" op="gt">
-                      <right xsi:type="miniOCL:BooleanExpCS" xmi:id="_5dCDQNBTEeeA66FQ4hHrOQ" op="gte"/>
+            <body xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_tW9CQNBTEeeA66FQ4hHrOQ" op="and">
+              <right xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_wX2AYNBTEeeA66FQ4hHrOQ" op="or">
+                <right xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_znOGcNBTEeeA66FQ4hHrOQ" op="lt">
+                  <right xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_1yC_QNBTEeeA66FQ4hHrOQ" op="lte">
+                    <right xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_3l0C8NBTEeeA66FQ4hHrOQ" op="gt">
+                      <right xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_5dCDQNBTEeeA66FQ4hHrOQ" op="gte"/>
                     </right>
                   </right>
                 </right>
@@ -56,11 +56,11 @@
       </packages>
       <constraints xmi:id="_8sQ_YNBTEeeA66FQ4hHrOQ">
         <typeRef xmi:id="__XQmANBTEeeA66FQ4hHrOQ">
-          <path xsi:type="miniOCL:PathElementCS" xmi:id="_AhXosNBUEeeA66FQ4hHrOQ" pathName="_b6irMNBSEeeA66FQ4hHrOQ"/>
+          <path xsi:type="umlclassdiagram:PathElementCS" xmi:id="_AhXosNBUEeeA66FQ4hHrOQ" pathName="_b6irMNBSEeeA66FQ4hHrOQ"/>
         </typeRef>
         <invariants xmi:id="_CyuAQNBUEeeA66FQ4hHrOQ">
-          <exp xsi:type="miniOCL:BooleanExpCS" xmi:id="_EPfgQNBUEeeA66FQ4hHrOQ" op="and">
-            <right xsi:type="miniOCL:BooleanExpCS" xmi:id="_Fpn78NBUEeeA66FQ4hHrOQ" op="or"/>
+          <exp xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_EPfgQNBUEeeA66FQ4hHrOQ" op="and">
+            <right xsi:type="umlclassdiagram:BooleanExpCS" xmi:id="_Fpn78NBUEeeA66FQ4hHrOQ" op="or"/>
           </exp>
         </invariants>
       </constraints>

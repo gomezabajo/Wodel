@@ -236,20 +236,32 @@ public class EMFUtils {
 				return true;
 			}
 			// enumerates 
-			//else if (feature.getEType() instanceof EEnum) {
-			//	EEnum        enumerate = (EEnum)feature.getEType();
-			//	int intvalue = Integer.parseInt(attvalue) >= 0 ? Integer.parseInt(attvalue) : - Integer.parseInt(attvalue);
-			//	//EEnumLiteral literal   = enumerate.getEEnumLiteral(attvalue.substring(attvalue.indexOf("::")+2));
-			//	EEnumLiteral literal = enumerate.getEEnumLiteral(intvalue % enumerate.getELiterals().size());
-			//	if (object.eGet(feature) instanceof List<?>) {
-			//		List<EObject> values = (List<EObject>) object.eGet(feature);
-			//		values.add(literal);
-			//	}
-			//	else {
-			//		object.eSet(feature, literal);
-			//	}
-			//	return true;
-			//}
+			else if (feature.getEType() instanceof EEnum) {
+				EEnum        enumerate = (EEnum)feature.getEType();
+				EEnumLiteral literal = null;
+				int intvalue = 0;
+				boolean int_ok = true;
+				try {
+					intvalue = Integer.parseInt(attvalue) >= 0 ? Integer.parseInt(attvalue) : - Integer.parseInt(attvalue);
+				}
+				catch (NumberFormatException ex) {
+					int_ok = false;
+				}
+				if (int_ok == true) {
+					literal = enumerate.getEEnumLiteral(intvalue % enumerate.getELiterals().size());
+				}
+				else {
+					literal  = enumerate.getEEnumLiteral(attvalue);
+				}
+				if (object.eGet(feature) instanceof List<?>) {
+					List<EObject> values = (List<EObject>) object.eGet(feature);
+					values.add(literal);
+				}
+				else {
+					object.eSet(feature, literal);
+				}
+				return true;
+			}
 			// user-defined data-types
 			else {
 				if      (isInteger(featureTypeName)) setAttribute(metamodel, object, feature, "java.lang.Integer", new Integer(attvalue));

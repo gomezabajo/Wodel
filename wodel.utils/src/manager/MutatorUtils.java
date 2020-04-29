@@ -7959,6 +7959,60 @@ public class MutatorUtils {
 	}
 
 	/**
+	 * Gets the type name as string
+	 * @param oe
+	 * @return
+	 */
+	public static List<String> getTypeNames(ObjectEmitter oe) {
+		List<String> types = new ArrayList<String>();
+		if (oe instanceof ObjectEmitter) {
+			if (oe instanceof SpecificObjectSelection) {
+				types.addAll(getTypeNames(((SpecificObjectSelection) oe).getObjSel()));
+			}
+			if (oe instanceof mutatorenvironment.RandomTypeSelection) {
+				for (EClass type : ((mutatorenvironment.RandomTypeSelection) oe).getTypes()) {
+					types.add(type.getName());
+				}
+			}
+			if (oe instanceof mutatorenvironment.CompleteTypeSelection) {
+				for (EClass type : ((mutatorenvironment.CompleteTypeSelection) oe).getTypes()) {
+					types.add(type.getName());
+				}
+			}
+			if (oe instanceof mutatorenvironment.OtherTypeSelection) {
+				for (EClass type : ((mutatorenvironment.OtherTypeSelection) oe).getTypes()) {
+					types.add(type.getName());
+				}
+			}
+			if (oe instanceof mutatorenvironment.SpecificClosureSelection) {
+				types.add(((mutatorenvironment.SpecificClosureSelection) oe).getRefType().getEType().getName());
+			}
+			if (oe instanceof mutatorenvironment.SelectObjectMutator) {
+				types.addAll(getTypeNames((ObjectEmitter) ((mutatorenvironment.SelectObjectMutator) oe).getObject()));
+			}
+			if (oe instanceof mutatorenvironment.SelectSampleMutator) {
+				types.addAll(getTypeNames((ObjectEmitter) ((mutatorenvironment.SelectSampleMutator) oe).getObject()));
+			}
+			if (oe instanceof mutatorenvironment.CreateObjectMutator) {
+				for (EClass type : ((mutatorenvironment.CreateObjectMutator) oe).getTypes()) {
+					types.add(type.getName());
+				}
+			}
+			if (oe instanceof mutatorenvironment.CloneObjectMutator) {
+				for (EClass type : ((mutatorenvironment.CloneObjectMutator) oe).getTypes()) {
+					types.add(type.getName());
+				}
+			}
+			if (oe instanceof mutatorenvironment.RetypeObjectMutator) {
+				for (EClass type : ((mutatorenvironment.RetypeObjectMutator) oe).getTypes()) {
+					types.add(type.getName());
+				}
+			}
+		}
+		return types;
+	}
+
+	/**
 	 * Gets the type of the objectemitter
 	 * @param oe
 	 * @return

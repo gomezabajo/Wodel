@@ -42,7 +42,7 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 		for (EObject regObject : regObjects) {
 			if (regObject instanceof AppMutation) {
 				mutationData = new MutationData();
-				if (regObject instanceof ObjectCreated) {
+				if (regObject instanceof ObjectCreated && ((ObjectCreated) regObject).getObject().size() > 0) {
 					mutantObject = ((ObjectCreated) regObject).getObject().get(0);
 					mutationData.name = "ObjectCreated";
 					mutationData.primary = mutantObject;

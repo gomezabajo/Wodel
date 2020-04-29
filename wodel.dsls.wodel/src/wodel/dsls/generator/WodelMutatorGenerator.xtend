@@ -3353,10 +3353,16 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					return mutations;
 				}
 				«ELSE»
-				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), "«mut.container.refType.name»", containerSelection);
+				SpecificReferenceSelection referenceSelection = null;
+				if (containerSelection != null) {
+					referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), "«mut.container.refType.name»", containerSelection);
+				}
 				«ENDIF»
 			«ELSE»
-				SpecificReferenceSelection referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);
+				SpecificReferenceSelection referenceSelection = null;
+				if (containerSelection != null) {
+					referenceSelection = new SpecificReferenceSelection(containerSelection.getMetaModel(), containerSelection.getModel(), null, null);
+				}
 			«ENDIF»
 			Map<String, AttributeConfigurationStrategy> atts = new HashMap<String, AttributeConfigurationStrategy>();
 			//«var counter = 0»

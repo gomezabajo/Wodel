@@ -2983,9 +2983,9 @@ public class UseGeneratorUtils {
 											}
 										}
 										if (ocl.indexOf("oclIsKindOf") == -1) {
-											if (classNames.get(EcoreUtil.getURI(ref.getEType())) != null) {
+											if (classNames.get(EcoreUtil.getURI(ref.getEReferenceType())) != null) {
 												//String refETypeName = classNames.get(EcoreUtil.getURI(ref.getEType()));
-												String className = classNames.get(EcoreUtil.getURI(eClass));
+												String className = classNames.get(EcoreUtil.getURI(ref.getEReferenceType()));
 												String v1 = ocl.substring(0, ocl.indexOf("|"));
 												v1 = v1.substring(ocl.indexOf("(") + 1, v1.length()).trim();
 												//ocl = ocl.replace("self." + refName, refETypeName + ".allInstances()");
@@ -2993,6 +2993,30 @@ public class UseGeneratorUtils {
 												if (constraint.text.indexOf("self.") != -1) {
 													constraint.text = constraint.text.replace(" =", "." + encodeWord(refName) + " =");
 													constraint.text = constraint.text.replace("self.", v1 + ".");
+												}
+												if (constraint.text.indexOf("=") == -1) {
+													constraint.text = constraint.text.substring(0, constraint.text.lastIndexOf(")")) + " = true)";
+												}
+												if (constraint.text.indexOf(".") != -1) {
+													refName = constraint.text.substring(constraint.text.indexOf(".") + 1, constraint.text.length());
+													if (refName.indexOf(" ") != -1) {
+														refName = refName.substring(0, refName.indexOf(" ")).trim();
+													}
+													if (refName.indexOf("=") != -1) {
+														refName = refName.substring(0, refName.indexOf("=")).trim();
+													}
+													EReference foundRef = null;
+													for (EReference r : ref.getEReferenceType().getEReferences()) {
+														if (r.getName().equals(refName)) {
+															foundRef = r;
+															break;
+														}
+													}
+													if (foundRef != null) {
+														while (constraint.text.indexOf("." + refName) != -1) {
+															constraint.text = constraint.text.replace("." + refName, "->" + refName);
+														}
+													}
 												}
 												constraint.type = "metamodel";
 												//constraint.className = refETypeName;

@@ -40,26 +40,22 @@
 
 <p>Adds a redundant constraint to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco1.zip">uco1</a>]:</p>
 
-<pre><code>
-    clone contents one Constraint
+<pre><code>    deep clone one Constraint
 </code></pre>
 
 <p>Adds an extraneous constraint to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco2.zip">uco2</a>]:</p>
 
-<pre><code>
-    create Constraint with {type = one Class, id = random-string(1, 4)}
+<pre><code>    create Constraint with {type = one Class, id = random-string(1, 4)}
 </code></pre>
 
 <p>Adds a redundant association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas1.zip">uas1</a>]:</p>
 
-<pre><code>
-    clone one Association
+<pre><code>    clone one Association
 </code></pre>
 
 <p>Adds a redundant derived association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas2.zip">uas2</a>]:</p>
 
-<pre><code>
-    a1 = select one Association
+<pre><code>    a1 = select one Association
     a2 = select one Association where {src = a1->tar}
     a3 = create Association with {
         name = random-string(1, 4),
@@ -71,20 +67,17 @@
 
 <p>Adds an extraneous association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas3.zip">uas3</a>]:</p>
 
-<pre><code>
-    create Association with {src = one Class, tar = one Class, name = random-string(1, 4)}
+<pre><code>    create Association with {src = one Class, tar = one Class, name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds an extraneous derived association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas4.zip">uas4</a>]:</p>
 
-<pre><code>
-    create Association with {src = one Class, tar = one Class, name = random-string(1, 4), derived = true}
+<pre><code>    create Association with {src = one Class, tar = one Class, name = random-string(1, 4), derived = true}
 </code></pre>
 
 <p>Adds a redundant generalization to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge1.zip">uge1</a>]:</p>
 
-<pre><code>
-    cl = select one Class where {super <> null and super->super <> null}
+<pre><code>    cl = select one Class where {super <> null and super->super <> null}
     sup1 = select one Class in cl->super where {super <> null}
     sup2 = select one Class in sup1->super where {self <> cl->super}
     modify cl with {super = sup2}
@@ -92,8 +85,7 @@
 
 <p>Adds an extraneous generalization to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge2.zip">uge2</a>]:</p>
 
-<pre><code>
-    cl1 = select one Class where {super <> null}
+<pre><code>    cl1 = select one Class where {super <> null}
     sup = select all Class in closure(cl1->super)
     cl2 = select one Class where {self <> sup}
     modify cl1 with {super = cl2}
@@ -101,320 +93,177 @@
 
 <p>Adds a redundant class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl1.zip">ucl1</a>]:</p>
 
-<pre><code>
-    clone contents one Class
+<pre><code>    deep clone one Class
 </code></pre>
 
 <p>Adds an extraneous class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl2.zip">ucl2</a>]:</p>
 
-<pre><code>
-    create Class with {name = random-string(1, 4)}
+<pre><code>    create Class with {name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds a redundant association class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl3.zip">ucl3</a>]:</p>
 
-<pre><code>
-    clone one AssociationClass
+<pre><code>    clone one AssociationClass
 </code></pre>
 
 <p>Adds an extraneous association class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl4.zip">ucl4</a>]:</p>
 
-<pre><code>
-    create AssociationClass with {name = random-string(1, 4)}
+<pre><code>    create AssociationClass with {name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds a redundant attribute to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat1.zip">uat1</a>]:</p>
 
-<pre><code>
-    clone one Attribute
+<pre><code>    clone one Attribute
 </code></pre>
 
 <p>Adds an extraneous attribute to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat2.zip">uat2</a>]:</p>
 
-<pre><code>
-    create Attribute with {type = one Class, name = random-string(1, 4)}
+<pre><code>    create Attribute with {type = one Class, name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds a redundant operation to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop1.zip">uop1</a>]:</p>
 
-<pre><code>
-    clone contents one Operation
+<pre><code>    deep clone one Operation
 </code></pre>
 
 <p>Adds an extraneous operation to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop2.zip">uop2</a>]:</p>
 
-<pre><code>
-    create Operation with {type = one Class, name = random-string(1, 4)}
+<pre><code>    create Operation with {type = one Class, name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds a redundant parameter to an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa1.zip">upa1</a>]:</p>
 
-<pre><code>
-    clone one Parameter
+<pre><code>    clone one Parameter
 </code></pre>
 
 <p>Adds an extraneous Parameter to an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa2.zip">upa2</a>]:</p>
 
-<pre><code>
-    create Parameter with {name = random-string(1, 4)}
+<pre><code>    create Parameter with {name = random-string(1, 4)}
 </code></pre>
 
 <p>Changes the constraint by deleting the references to a class Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">wco1</a>]:</p>
 
-<pre><code>
+<pre><code>    remove one PathElementCS where {pathName = one Attribute}
     <!--remove reference attributes in one Constraint where {attributes <> null}-->
-    remove one PathElementCS where {pathName = one Attribute}
 </code></pre>
 
 <p>Changes the Attribute data type in the constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">wco2</a>]:</p>
 
-<pre><code>
-    <!--c = select one Constraint where {attributes <> null}
-    modify c->attributes with {type = other Class}-->
-    path = select one PathElementCS where {pathName = one Attribute}
+<pre><code>    path = select one PathElementCS where {pathName = one Attribute}
     att = select one Attribute in path->pathName
     modify att with {type = other Class}
+    <!--c = select one Constraint where {attributes <> null}
+    modify c->attributes with {type = other Class}-->
 </code></pre>
 
 <p>Change the constraint by deleting the calls to specific operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>
 
-<pre><code>
+<pre><code>    remove one OperationCS
     <!--c = select one Constraint where {operations <> null}
     remove reference operations in c-->
-    remove one OperationCS
 </code></pre>
 
 <p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">wco4</a>]:</p>
 
-<pre><code>
+<pre><code>    modify one IntLiteralExpCS with {op in ['add', 'subtract', 'multiply', 'divide']}
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators
     modify op with {operator in {add, subtract, multiply, divide}}-->
-    modify one IntLiteralExpCS with {op in ['add', 'subtract', 'multiply', 'divide']}
 </code></pre>
 
 <p>Changes the constraint by adding the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">wco5</a>]:</p>
 
-<pre><code>
+<pre><code>    inv = select one InvariantCS where {exp <> null}
+    create LogicExpCS in inv->exp with {op = 'not'}
     <!--c = select one Constraint where {operations <> null}
     oper = select one Operation in c->operations
     op = create Operator in oper->operators
     modify op with {operator in {not}}-->
-    inv = select one InvariantCS where {exp <> null}
-    create LogicExpCS in inv->exp with {op = 'not'}
 </code></pre>
 
 <p>Changes a conditional operator "and" for a conditional operator "or" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">wco6a</a>]:</p>
 
-<pre><code>
+<pre><code>    modify one BooleanExpCS where {op = 'and'} with {op = 'or'} 
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators where {operator = {^and}}
     modify op with {operator = {^or}}-->
-    modify one BooleanExpCS where {op = 'and'} with {op = 'or'} 
 </code></pre>
 
 <p>Changes a conditional operator "or" for a conditional operator "and" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">wco6b</a>]:</p>
 
-<pre><code>
+<pre><code>    modify one BooleanExpCS where {op = 'or'} with {op = 'and'}
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators where {operator = {^or}}
     modify op with {operator = {^and}}-->
-    modify one BooleanExpCS where {op = 'or'} with {op = 'and'}
 </code></pre>
 
 <p>Changes the constraint by deleting the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">wco7</a>]:</p>
 
-<pre><code>
+<pre><code>    remove one LogicExpCS where {op = 'not'}
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators where {operator = {^not}}
     remove op-->
-    remove one LogicExpCS where {op = 'not'}
 </code></pre>
 
 <p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">wco8</a>]:</p>
 
-<pre><code>
+<pre><code>    modify one BooleanExpCS where {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
+        with {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators where {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
     modify op with {operator in {lt, lte, gt, gte, ^equals, ^distinct}}-->
-    modify one BooleanExpCS where {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
-        with {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
 </code></pre>
 
 <p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">wco9</a>]:</p>
 
-<pre><code>
+<pre><code>    modify one IntLiteralExpCS where {op = 'negative'} with {op = ''}
     <!--c = select one Constraint where {operations <> null and operations->operators <> null}
     oper = select one Operation in c->operations where {operators <> null}
     op = select one Operator in oper->operators where {operator = {negative}}
     remove op-->
-    modify one IntLiteralExpCS where {op = 'negative'} with {op = ''}
 </code></pre>
 
 <p>Interchange the members (src and tar) of an Association [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was1.zip">was1</a>]:</p>
 
-<pre><code>
-    modify one Association with {swapref(src, tar)}
+<pre><code>    modify one Association with {swapref(src, tar)}
 </code></pre>
 
-<p>Changes the association type (association, aggregation) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2a.zip">was2a</a>]:</p>
+<p>Changes the association type (association, aggregation, composition, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2.zip">was2</a>]:</p>
 
-<pre><code>
+<pre><code>    retype one [Association, Aggregation, Aggregation, Composition, Dependency]
+         as [Association, Aggregation, Composition, Dependency]
     <!--
     as = select one Association
     rel = create Aggregation with {src = as->src, tar = as->tar}
     modify rel with {copy(name, as.name)}
     remove as-->
-    retype one Association as Aggregation
 </code></pre>
 
-<p>Changes the association type (aggregation, association) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2b.zip">was2b</a>]:</p>
-
-<pre><code>
-    <!--
-    ag = select one Aggregation
-    rel = create Association with {src = ag->src, tar = ag->tar}
-    modify rel with {copy(name, ag.name)}
-    remove ag-->
-    retype one Aggregation as Association
-</code></pre>
-
-<p>Changes the association type (association, composition) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2c.zip">was2c</a>]:</p>
-
-<pre><code>
-	<!--
-    as = select one Association
-    rel = create Composition with {src = as->src, tar = as->tar}
-    modify rel with {copy(name, as.name)}
-    remove as-->
-    retype one Association as Composition
-</code></pre>
-
-<p>Changes the association type (composition, association) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2d.zip">was2d</a>]:</p>
-
-<pre><code>
-	<!--
-    comp = select one Composition
-    rel = create Association with {src = comp->src, tar = comp->tar}
-    modify rel with {copy(name, comp.name)}
-    remove comp-->
-    retype one Composition as Association
-</code></pre>
-
-<p>Changes the association type (association, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2e.zip">was2e</a>]:</p>
-
-<pre><code>
-    <!--
-	as = select one Association
-    rel = create Dependency with {src = as->src, tar = as->tar}
-    modify rel with {copy(name, as.name)}
-    remove as-->
-    retype one Association as Dependency
-</code></pre>
-
-<p>Changes the association type (dependency, association) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2f.zip">was2f</a>]:</p>
-
-<pre><code>
-	<!--
-    dep = select one Dependency
-    rel = create Association with {src = dep->src, tar = dep->tar}
-    modify rel with {copy(name, dep.name)}
-    remove dep-->
-    retype one Dependency as Association
-</code></pre>
-
-<p>Changes the association type (aggregation, composition) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2g.zip">was2g</a>]:</p>
-
-<pre><code>
-    <!--
-    ag = select one Aggregation
-    rel = create Composition with {src = ag->src, tar = ag->tar}
-    modify rel with {copy(name, ag.name)}	
-    remove ag-->
-    retype one Aggregation as Composition
-</code></pre>
-
-<p>Changes the association type (composition, aggregation) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2h.zip">was2h</a>]:</p>
-
-<pre><code>
-    <!--
-    comp = select one Composition
-    rel = create Aggregation with {src = comp->src, tar = comp->tar}
-    modify rel with{copy(name, comp.name)}
-    remove comp-->
-    retype one Composition as Aggregation
-</code></pre>
-
-<p>Changes the association type (aggregation, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2i.zip">was2i</a>]:</p>
-
-<pre><code>
-    <!--
-    ag = select one Aggregation
-    rel = create Dependency with {src = ag->src, tar = ag->tar}
-    modify rel with {copy(name, ag.name)}
-    remove ag-->
-    retype one Aggregation as Dependency
-</code></pre>
-
-<p>Changes the association type (dependency, aggregation) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2j.zip">was2j</a>]:</p>
-
-<pre><code>
-    <!--
-    dep = select one Dependency
-    rel = create Aggregation with {src = dep->src, tar = dep->tar}
-    modify rel with {copy(name, dep.name)}
-    remove dep-->
-    retype one Dependency as Aggregation
-</code></pre>
-
-<p>Changes the association type (composition, dependency) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2k.zip">was2k</a>]:</p>
-
-<pre><code>
-    <!--
-    comp = select one Composition
-    rel = create Dependency with {src = comp->src, tar = comp->tar}
-    modify rel with {copy(name, comp.name)}
-    remove comp-->
-    retype one Composition as Dependency
-</code></pre>
-
-<p>Changes the association type (dependency, composition) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was2l.zip">was2l</a>]:</p>
-
-<pre><code>
-    <!--
-    dep = select one Dependency
-    rel = create Composition with {src = dep->src, tar = dep->tar}
-    modify rel with {copy(name, dep.name)}
-    remove dep-->
-    retype one Dependency as Composition
-</code></pre>
 
 <p>Changes the tar multiplicity of an Association (i.e. *, 0..1, 1..1, 1..*) [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was3.zip">was3</a>]:</p>
 
-<pre><code>
-    modify one Association with {ntar in ['*', '0..1', '1..1', '1..*']}
+<pre><code>    modify one Association with {ntar in ['*', '0..1', '1..1', '1..*']}
 </code></pre>
 
 <p>Changes the Generalization member ends [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wge.zip">wge</a>]:</p>
 
-<pre><code>
-    modify one Class with {super = other Class}
+<pre><code>    modify one Class with {super = other Class}
 </code></pre>
 
 <p>Changes visibility kind of the Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl1.zip">wcl1</a>]:</p>
 
-<pre><code>
-    modify one Class with {visibility in {public, private, protected, package}}
+<pre><code>    modify one Class with {visibility in {public, private, protected, package}}
 </code></pre>
 
 <p>Changes Class by an Association Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl2.zip">wcl2</a>]:</p>
 
-<pre><code>
+<pre><code>    retype one Class as AssociationClass
+        with {association = one Association}
     <!--
     cl = select one Class
     ac = create AssociationClass with {
@@ -430,118 +279,87 @@
         copy (visibility, cl.visibility)
     }
     remove cl-->
-    retype one Class as AssociationClass
-        with {association = one Association}
 </code></pre>
 
 <p>Changes Association Class for a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl3.zip">wcl3</a>]:</p>
 
-<pre><code>
-    <!--
-    ac = select one AssociationClass
-    cl = create Class with {
-        features = ac->features,
-        super = ac->super,
-        supplier = ac->supplier
-    }
-    modify cl with {
-        copy(abstract, ac.abstract),
-        copy(derived, ac.derived),
-        copy(name, ac.name),
-        copy(scope, ac.scope),
-        copy(visibility, ac.visibility)
-    }
-    remove ac-->
-    retype one AssociationClass as Class
+<pre><code>    retype one AssociationClass as Class
 </code></pre>
 
 <p>Changes the Class feature "abstract" to true [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl4.zip">wcl4</a>]:</p>
 
-<pre><code>
-    modify one Class where {abstract = false} with {abstract = true}
+<pre><code>    modify one Class where {abstract = false} with {abstract = true}
 </code></pre>
 
 <p>Changes the Attribute feature "derived" to true [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat1.zip">wat1</a>]:</p>
 
-<pre><code>
-    modify one Attribute where {derived = false} with {derived = true}
+<pre><code>    modify one Attribute where {derived = false} with {derived = true}
 </code></pre>
 
 <p>Changes the Attribute property "derived" to false [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat2.zip">wat2</a>]:</p>
 
-<pre><code>
-    modify one Attribute where {derived = true} with {derived = false}
+<pre><code>    modify one Attribute where {derived = true} with {derived = false}
 </code></pre>
 
 <p>Changes the Attribute data type [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat3.zip">wat3</a>]:</p>
 
-<pre><code>
-    modify one Attribute with {type = other NamedElement}
+<pre><code>    modify one Attribute with {type = other NamedElement}
 </code></pre>
 
 <p>Changes the Attribute visibility property [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wat4.zip">wat4</a>]:</p>
 
-<pre><code>
-    modify one Attribute with {visibility in {public, private, protected, package}}
+<pre><code>    modify one Attribute with {visibility in {public, private, protected, package}}
 </code></pre>
 
 <p>Changes the order of the parameters [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop1.zip">wop1</a>]:</p>
 
-<pre><code>
+<pre><code>    oper = select one Operation where {params <> null}
+    p = select one Parameter in oper->params
+    modify oper with {params -= p, params += p}
     <!--
     oper = select one Operation where {params <> null}
     p = select one Parameter in oper->params
     remove p from oper->params
     modify oper with {params = p}-->
-    oper = select one Operation where {params <> null}
-    p = select one Parameter in oper->params
-    modify oper with {params -= p, params += p}
 </code></pre>
 
 <p>Changes the visibility kind of an operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop2.zip">wop2</a>]:</p>
 
-<pre><code>
-    modify one Operation with {visibility in {public, private, protected, package}}
+<pre><code>    modify one Operation with {visibility in {public, private, protected, package}}
 </code></pre>
 
 <p>Changes the data type returned by operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop3.zip">wop3</a>]:</p>
 
-<pre><code>
-    modify one Operation with {type = other NamedElement}
+<pre><code>    modify one Operation with {type = other NamedElement}
 </code></pre>
 
 <p>Changes the Parameter data type [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">wpa</a>]:</p>
 
-<pre><code>
-    modify one Parameter with {type = other NamedElement}
+<pre><code>    modify one Parameter with {type = other NamedElement}
 </code></pre>
 
 <p>Deletes a constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wpa.zip">mco</a>]:</p>
 
-<pre><code>
-    remove one Constraint
+<pre><code>    remove one Constraint
 </code></pre>
 
 <p>Deletes an Association [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mas.zip">mas</a>]:</p>
 
-<pre><code>
-    remove one Association
+<pre><code>    remove one Association
 </code></pre>
 
 <p>Deletes a Generalization relation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mge.zip">mge</a>]:</p>
 
-<pre><code>
-<!--cl = select one Class where {super <> null}
-    sup = select one Class in cl->super
-    remove sup from cl->super-->
-    cl = select one Class where {super <> null}
+<pre><code>    cl = select one Class where {super <> null}
     remove one Class from cl->super
+    <!--cl = select one Class where {super <> null}
+    sup = select one Class in cl->super
+    remove sup from cl->super-->	
 </code></pre>
 
 <p>Deletes the class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mcl.zip">mcl</a>]:</p>
 
-<pre><code>
-    cl = select one Class
+<pre><code>    cl = select one Class
     remove all Relation where {src = cl or tar = cl}
     remove all Operation where {type = cl}
     remove all Feature where {type = cl}
@@ -551,20 +369,17 @@
 
 <p>Deletes an Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mat.zip">mat</a>]:</p>
 
-<pre><code>
-    remove one Attribute
+<pre><code>    remove one Attribute
 </code></pre>
 
 <p>Deletes the operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mop.zip">mop</a>]:</p>
 
-<pre><code>
-    remove one Operation
+<pre><code>    remove one Operation
 </code></pre>
 
 <p>Deletes a Parameter from an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mpa.zip">mpa</a>]:</p>
 
-<pre><code>
-    remove one Parameter
+<pre><code>    remove one Parameter
 </code></pre>
 
 <p>Here you can download all these examples of Wodel applied to UML Class Diagrams.<br />

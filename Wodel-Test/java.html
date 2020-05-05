@@ -553,7 +553,7 @@ create InfixExpression in exp->rightOperand
   with {leftOperand = n, operator = '-', rightOperand = dec}
 </code></pre></div></div>
 
-<p>Subtract 1 to a number literal a return statement</p>
+<p>Subtract 1 to a number literal in a return statement</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exp = select one ReturnStatement where {expression is typed NumberLiteral}
 n = select one NumberLiteral in exp->expression
 dec = deep clone n with {tokenValue = '1'}

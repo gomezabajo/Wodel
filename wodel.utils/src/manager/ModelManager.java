@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.ui.PlatformUI;
 
 import commands.selection.strategies.ObSelectionStrategy;
 import commands.strategies.AttributeConfigurationStrategy;
@@ -105,6 +106,48 @@ public class ModelManager {
 			metamodel = new ArrayList<EPackage>();
 			
 			// check if it is already registered
+			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(uri);
+			
+			// otherwise
+			if (pck==null) {
+				EPackage.Registry.INSTANCE.put(uri, EPackage.class);
+				if (Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().size() == 0)
+					Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+				
+				ResourceSetImpl resourceSet = new ResourceSetImpl();
+				Resource        resource    = resourceSet.getResource(URI.createFileURI(uri), true);
+				for (EObject obj : resource.getContents()) {
+					if (obj instanceof EPackage) {
+						resourceSet.getPackageRegistry().put(((EPackage)obj).getNsURI(), ((EPackage)obj).getEFactoryInstance().getEPackage());
+						metamodel.add((EPackage)obj);
+					}
+				}
+			}
+			else metamodel.add(pck);
+
+			
+		}
+		catch (Exception e) {
+			throw new MetaModelNotFoundException(uri);
+		}
+		
+		return metamodel;
+	}
+
+
+	public static List<EPackage> loadMetaModel (String uri, Class<?> cls) throws MetaModelNotFoundException {
+		List<EPackage> metamodel = null;
+		try {
+			metamodel = new ArrayList<EPackage>();
+			
+			// check if it is already registered
+			File fmm = new File(uri);
+			if (fmm.exists() == false && uri.indexOf("/") != -1) {
+				uri = getMetaModelPath(cls) + "/" + uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+			}
+			if (fmm.exists() == false && uri.indexOf("/") == -1) {
+				uri = getMetaModelPath(cls) + "/" + uri;
+			}
 			EPackage pck = EPackage.Registry.INSTANCE.getEPackage(uri);
 			
 			// otherwise
@@ -553,6 +596,9 @@ public class ModelManager {
 	 */
 	public static Resource loadModel(List<EPackage> packages,
 			String modelURI) throws ModelNotFoundException {
+		if (new File(modelURI).exists() == false) {
+			throw new ModelNotFoundException(modelURI);
+		}
 		ResourceSet resourceSet = ModelManager.initializeResource(modelURI);
 		URI uri = ModelManager.getModelWithFolder(modelURI);
 		for (EPackage p : packages) {

@@ -14,5 +14,5 @@ public abstract class Comparison implements IExecutableExtension {
 	
 	public abstract String getURI();
 
-	public abstract boolean doCompare(String metamodel, String model1, String model2, IProject project);
+	public abstract boolean doCompare(String metamodel, String model1, String model2, IProject project, Class<?> cls);
 }

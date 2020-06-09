@@ -5492,7 +5492,7 @@ public class MutatorUtils {
 	 * @throws ModelNotFoundException
 	 */
 	protected boolean different(String metamodel, String model,
-			Set<String> hashset_mutants, IProject project) throws ModelNotFoundException {
+			Set<String> hashset_mutants, IProject project, Class<?> cls) throws ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean discardDuplicate = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Discard synctactic duplicate mutants", false, null);
 		if (discardDuplicate == true) {
@@ -5508,7 +5508,7 @@ public class MutatorUtils {
 						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
 						Object comparison =  extensionClass.newInstance();
 						Method getURI = extensionClass.getDeclaredMethod("getURI");
-						List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+						List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 						String uri = (String) getURI.invoke(comparison);
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						String name = (String) getName.invoke(comparison);
@@ -5529,9 +5529,9 @@ public class MutatorUtils {
 						Object comparison =  extensionClass.newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(comparison).equals(extensionName)) {
-							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class});
+							Method doCompare = extensionClass.getDeclaredMethod("doCompare", new Class[]{String.class, String.class, String.class, IProject.class, Class.class});
 							for (String mutFilename : hashset_mutants) {
-								isRepeated = (boolean) doCompare.invoke(comparison, metamodel, model, mutFilename, project);
+								isRepeated = (boolean) doCompare.invoke(comparison, metamodel, model, mutFilename, project, cls);
 								if (isRepeated == true) {
 									break;
 								}
@@ -8783,7 +8783,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFilenames,
 			int n, List<String> mutPaths, Map<String,
 			List<String>> hashmapMutVersions, IProject project,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws MetaModelNotFoundException, ModelNotFoundException {
+			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -8837,7 +8837,7 @@ public class MutatorUtils {
 				}
 				// VERIFY IF MUTANT IS DIFFERENT
 				if (isValid == true) {
-					isRepeated = different(metamodel, mutFilename, hashsetMutants, project);
+					isRepeated = different(metamodel, mutFilename, hashsetMutants, project, cls);
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
 					}
@@ -9078,7 +9078,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFolders, String block,
 			List<String> fromBlocks, int n, List<String> mutPaths,
 			Map<String, List<String>> hashmapMutVersions, IProject project,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes) throws MetaModelNotFoundException, ModelNotFoundException {
+			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -9144,7 +9144,7 @@ public class MutatorUtils {
 				}
 				if (isValid == true) {
 					// VERIFY IF MUTANT IS DIFFERENT
-					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project);
+					isRepeated = different(metamodel, mutFilename, hashsetMutantsBlock, project, cls);
 					if (isRepeated == true) {
 						IOUtils.deleteFile(mutFilename);
 					}

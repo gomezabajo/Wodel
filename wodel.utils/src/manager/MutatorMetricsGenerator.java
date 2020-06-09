@@ -42,6 +42,7 @@ public abstract class MutatorMetricsGenerator {
 	protected String modelsFolder = null;
 	protected String fileName = null;
 	protected Map<String, List<String>> hashmapMutVersions = null;
+	protected Class<?> cls = null;
 
 	protected class MutationData {
 		public String name = null;

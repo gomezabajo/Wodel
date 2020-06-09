@@ -246,7 +246,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 	«IF e.definition instanceof Program»
 	String ecoreURI = "«e.definition.metamodel»";
 	//Load MetaModel
-	List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI);
+	List<EPackage> packages = ModelManager.loadMetaModel(ecoreURI, this.getClass());
 	//checks whether the meta-model is dynamically registered
     boolean isRegistered = ModelManager.isRegistered(packages);
     Map<String, EPackage> registeredPackages = new HashMap<String, EPackage>();
@@ -1532,9 +1532,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -1769,9 +1769,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -1995,7 +1995,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
-			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»");
+			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
 			resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
 			resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI»").toFileString()));
@@ -2586,9 +2586,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = (ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+		   			boolean isRepeated = (ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -2621,7 +2621,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
-			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»");
+			resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
 			resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
 			resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI»").toFileString()));
@@ -2910,9 +2910,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -3088,7 +3088,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				«ENDIF»
 			«ENDFOR»
 			//«val String metamodelPath = resource.metamodel.replace("\\", "/")»
-			List<EPackage> resourcePackages = ModelManager.loadMetaModel("«metamodelPath»");
+			List<EPackage> resourcePackages = ModelManager.loadMetaModel("«metamodelPath»", this.getClass());
 			List<Resource> resources = new ArrayList<Resource>();
 			«FOR resourceURI : resourceURIs»
 			resources.add(ModelManager.loadModel(resourcePackages, URI.createURI("file:/" + "«resourceURI»").toFileString()));
@@ -3631,9 +3631,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -4575,9 +4575,9 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -5344,14 +5344,14 @@ public class «className» extends MutatorUtils {
 	   	if (metrics == true) {
 	   		List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic net metrics");
-	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions);
+	   		metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
 	   	}
 	   	if (debugMetrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 	   		monitor.subTask("Generating dynamic debug metrics");
-	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions);
+	   		metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 	   		monitor.worked(1);   			
 	   	}
@@ -5430,14 +5430,14 @@ public class «className» extends MutatorUtils {
 		if (metrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic net metrics");
-			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions);
+			metricsGenerator = new NetMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 	   		monitor.worked(1);
 		}
 		if (debugMetrics == true) {
 			List<EPackage> metricspackages = ModelManager.loadMetaModel(metricsecore);
 			monitor.subTask("Generating dynamic debug metrics");
-			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions);
+			metricsGenerator = new DebugMutatorMetricsGenerator(metricspackages, "«ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject+ "/" + ((e as MutatorEnvironment).definition as Program).output»", "«((e as MutatorEnvironment).definition as Program).metamodel»", "«path+"/"+((e as MutatorEnvironment).definition as Program).source.path»", "«fileName»", hashmapMutVersions, this.getClass());
 	   		metricsGenerator.run();
 			monitor.worked(1);   			
 		}
@@ -6457,7 +6457,7 @@ public class «className» extends MutatorUtils {
 				rules.put("«constraint.type.name»", newrules);
       			«ENDFOR»
 				
-				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				if (isRepeated == false) {
 					mutationResults.numMutantsGenerated++;
 				}
@@ -6566,7 +6566,7 @@ public class «className» extends MutatorUtils {
 				rules.put("«constraint.type.name»", newrules);
        			«ENDFOR»
 
-				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes);
+				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
 				if (isRepeated == false) {
 					numMutantsGenerated++;
 				}

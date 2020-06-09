@@ -221,7 +221,7 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 	@Override
 	public void run() throws MetaModelNotFoundException {
 		try {
-			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 			EObject met = EcoreUtil.create(ModelManager.getEClassByName(metrics, "MutatorMetrics"));
 			Bundle bundle = Platform.getBundle("wodel.models");
 	   		URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
@@ -264,12 +264,13 @@ public class NetMutatorMetricsGenerator extends MutatorMetricsGenerator {
 	}
 	
 	public NetMutatorMetricsGenerator(List<EPackage> metrics, String output, String metamodel, String modelsFolder,
-			String fileName, Map<String, List<String>> hashmapMutVersions) {
+			String fileName, Map<String, List<String>> hashmapMutVersions, Class<?> cls) {
 		this.metrics = metrics;
 		this.output = output;
 		this.metamodel = metamodel;
 		this.modelsFolder = modelsFolder;
 		this.fileName = fileName;
 		this.hashmapMutVersions = hashmapMutVersions;
+		this.cls = cls;
 	}
 }

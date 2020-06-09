@@ -39,10 +39,10 @@ public class SynctacticComparison extends Comparison {
 	}
 
 	@Override
-	public boolean doCompare(String metamodel, String model1, String model2, IProject project) {
+	public boolean doCompare(String metamodel, String model1, String model2, IProject project, Class<?> cls) {
 		boolean isRepeated = false;
 		try {
-			List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+			List<EPackage> packages = ModelManager.loadMetaModel(metamodel, cls);
 			Resource resource1 = ModelManager.loadModel(packages, model1);
 			Resource resource2 = ModelManager.loadModel(packages, model2);
 			isRepeated = ModelManager.compareModels(resource1, resource2);

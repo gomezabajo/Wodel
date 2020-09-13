@@ -300,11 +300,6 @@
 <pre><code>    op = select one Operation where {params <> null}
     p = select one Parameter in op->params
     modify op with {params -= p, params += p}
-    <!--
-    oper = select one Operation where {params <> null}
-    p = select one Parameter in oper->params
-    remove p from oper->params
-    modify oper with {params = p}-->
 </code></pre>
 
 <p>Changes the visibility kind of an operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop2.zip">wop2</a>]:</p>

@@ -41,8 +41,7 @@
 
 <p>Insert activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
-<pre><code>
-    s = select one Sequence where {^to not typed EndEv}
+<pre><code>    s = select one Sequence where {^to not typed EndEv}
     f = select one FlowObject in s->^to
     a = create Activity with {name = 'newActivity'}
     modify target ^to from s to a
@@ -51,8 +50,7 @@
 
 <p>Remove activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
-<pre><code>
-    s0 = select one Sequence where {^to is typed Activity}
+<pre><code>    s0 = select one Sequence where {^to is typed Activity}
     a = select one Activity in s0->^to
     s1 = select one Sequence where {^from = a}
     f = select one FlowObject in s1->^to
@@ -62,8 +60,7 @@
 
 <p>Move activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
-<pre><code>
-    a = select one Activity
+<pre><code>    a = select one Activity
     s0 = select one Sequence where {^to = a and ^from <> null}
     s1 = select one Sequence where {^from = a and ^to <> null}
     o = select one FlowObject where {self = s1->^to}
@@ -75,8 +72,7 @@
 
 <p>Replace activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
-<pre><code>
-    a0 = select one Activity
+<pre><code>    a0 = select one Activity
     src0 = select one Sequence where {^to = a0}
     tar0 = select one Sequence where {^from = a0}
     a1 = select one Activity where {self <> a0}
@@ -88,8 +84,7 @@
 
 <p>Retype activity [<a href="http://gomezabajo.github.io/Wodel/zip/bpmn/bpmn.zip">bpmn</a>]:</p>
 
-<pre><code>
-    retype one [AND, OR, XOR] as [AND, OR, XOR]
+<pre><code>    retype one [AND, OR, XOR] as [AND, OR, XOR]
 </code></pre>
 
 <p>Here you can download all these examples of Wodel applied to BPMN.<br />

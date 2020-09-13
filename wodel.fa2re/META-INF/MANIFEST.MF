@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Fa2re
+Bundle-SymbolicName: wodel.fa2re
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: wodel.fa2re
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.google.guava,
+ org.antlr.runtime
+Export-Package: wodel.fa2re

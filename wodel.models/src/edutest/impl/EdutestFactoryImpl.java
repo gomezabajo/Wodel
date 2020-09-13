@@ -64,6 +64,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 			case EdutestPackage.ALTERNATIVE_RESPONSE: return createAlternativeResponse();
 			case EdutestPackage.MULTI_CHOICE_DIAGRAM: return createMultiChoiceDiagram();
 			case EdutestPackage.MULTI_CHOICE_EMENDATION: return createMultiChoiceEmendation();
+			case EdutestPackage.MATCH_PAIRS: return createMatchPairs();
 			case EdutestPackage.TEST: return createTest();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -176,6 +177,16 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	public MultiChoiceEmendation createMultiChoiceEmendation() {
 		MultiChoiceEmendationImpl multiChoiceEmendation = new MultiChoiceEmendationImpl();
 		return multiChoiceEmendation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MatchPairs createMatchPairs() {
+		MatchPairsImpl matchPairs = new MatchPairsImpl();
+		return matchPairs;
 	}
 
 	/**

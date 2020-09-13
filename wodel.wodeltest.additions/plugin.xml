@@ -117,7 +117,7 @@
            class="preference.WodelTestPreferencePage"
            id="WodelTest"
            name="Wodel-Test">
-           <keywordReference id="wodel.dsls.ui.keyword_Wodel"/>
+           <keywordReference id="wodel.dsls.ui.keyword_WodelTest"/>
       </page>
    </extension>
 </plugin>

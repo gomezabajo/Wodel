@@ -169,10 +169,13 @@ public class RunWodel extends AbstractHandler {
 												for (int k = 0; k < regfiles.length; k++) {
 													String pathfile = regfiles[k].getPath();
 													if (pathfile.endsWith(".model") == true) {
-														Resource blockmodelfile = ModelManager.loadModel(packages, ecoreURI);
-														hashmap_regpostseed.put(pathfile, blockmodelfile);
-														Resource mutant = ModelManager.loadModel(packages, files[i].getPath() + "/" + regfiles[k].getName().replace("Registry", "")); 
-														hashmap_regpostmutant.put(pathfile, mutant);
+														File check = new File(regfiles[k].getName().replace("Registry", ""));
+														if (check.exists()) {
+															Resource blockmodelfile = ModelManager.loadModel(packages, ecoreURI);
+															hashmap_regpostseed.put(pathfile, blockmodelfile);
+															Resource mutant = ModelManager.loadModel(packages, files[i].getPath() + "/" + regfiles[k].getName().replace("Registry", "")); 
+															hashmap_regpostmutant.put(pathfile, mutant);
+														}
 													}
 												}
 											}

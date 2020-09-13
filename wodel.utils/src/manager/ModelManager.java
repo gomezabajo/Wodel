@@ -397,7 +397,11 @@ public class ModelManager {
 		HashSet<String> extensions = new HashSet<String>();
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.substring(0, path.lastIndexOf("/"));
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -448,8 +452,12 @@ public class ModelManager {
 		List<String> modelpaths = null;
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.substring(0, path.lastIndexOf("/"));
-
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
+			
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
@@ -480,7 +488,8 @@ public class ModelManager {
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
-			String ret = br.readLine();
+			String ret = getWorkspaceAbsolutePath() + '/' + WodelContext.getProject()
+				+ '/' + br.readLine();
 			br.close();
 			return ret;
 		} catch (IOException e) {
@@ -502,7 +511,8 @@ public class ModelManager {
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
-			String ret = br.readLine();
+			String ret = path
+				+ '/' + br.readLine();
 			br.close();
 			return ret;
 		} catch (IOException e) {
@@ -535,7 +545,11 @@ public class ModelManager {
 	public static String getOutputPath(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.substring(0, path.lastIndexOf("/"));
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -559,6 +573,50 @@ public class ModelManager {
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
 
+			br.readLine();
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static String getMutatorName(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			br.readLine();
+			br.readLine();
+			String mutantName = br.readLine();
+			br.close();
+			return mutantName;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getMutatorName() {
+		try {
+			String path = getWorkspaceAbsolutePath() + '/'
+					+ WodelContext.getProject();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			br.readLine();
 			br.readLine();
 			String ret = br.readLine();
 			br.close();
@@ -1666,6 +1724,10 @@ public class ModelManager {
 			ReferenceNonExistingException {
 
 		EClass tipo = object.eClass();
+		if (oss == null) {
+			unsetReference(ref, object);
+			return;
+		}
 		EObject tarObj = oss.getObject();
 		// EClass tipo = tarObj.eClass();
 

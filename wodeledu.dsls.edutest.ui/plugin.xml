@@ -79,24 +79,24 @@
 	<extension
 			point="org.eclipse.ui.preferencePages">
 		<page
-			class="wodeledu.dsls.ui.EduTestExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			class="wodeledu.dsls.ui.EduTestExecutableExtensionFactory:wodeledu.dsls.ui.customize.WodelEduGeneralPreferencePage"
 			id="wodeledu.dsls.EduTest"
-			name="EduTest">
-			<keywordReference id="wodeledu.dsls.ui.keyword_EduTest"/>
+			name="Wodel-Edu">
+			<keywordReference id="wodeledu.dsls.ui.keyword_WodelEdu"/>
 		</page>
 		<page
 			category="wodeledu.dsls.EduTest"
 			class="wodeledu.dsls.ui.EduTestExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
 			id="wodeledu.dsls.EduTest.coloring"
 			name="Syntax Coloring">
-			<keywordReference id="wodeledu.dsls.ui.keyword_EduTest"/>
+			<keywordReference id="wodeledu.dsls.ui.keyword_WodelEdu"/>
 		</page>
 		<page
 			category="wodeledu.dsls.EduTest"
 			class="wodeledu.dsls.ui.EduTestExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
 			id="wodeledu.dsls.EduTest.templates"
 			name="Templates">
-			<keywordReference id="wodeledu.dsls.ui.keyword_EduTest"/>
+			<keywordReference id="wodeledu.dsls.ui.keyword_WodelEdu"/>
 		</page>
 	</extension>
 	<extension
@@ -104,8 +104,8 @@
 		<page
 			class="wodeledu.dsls.ui.EduTestExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
 			id="wodeledu.dsls.EduTest"
-			name="EduTest">
-			<keywordReference id="wodeledu.dsls.ui.keyword_EduTest"/>
+			name="Wodel_Edu">
+			<keywordReference id="wodeledu.dsls.ui.keyword_WodelEdu"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>

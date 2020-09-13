@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link edutest.impl.ProgramConfigurationImpl#getNavigation <em>Navigation</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -153,7 +153,7 @@ public class ProgramConfigurationImpl extends ConfigurationImpl implements Progr
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (navigation: ");
 		result.append(navigation);
 		result.append(')');

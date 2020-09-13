@@ -9,6 +9,7 @@ import mutatorenvironment.Mutator;
 import mutatorenvironment.MutatorenvironmentPackage;
 import mutatorenvironment.Repeat;
 
+import mutatorenvironment.Reverse;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -36,10 +37,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getCommands <em>Commands</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getFrom <em>From</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getRepeat <em>Repeat</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.BlockImpl#getReverse <em>Reverse</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getFixed <em>Fixed</em>}</li>
  *   <li>{@link mutatorenvironment.impl.BlockImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link mutatorenvironment.impl.BlockImpl#isMode <em>Mode</em>}</li>
  * </ul>
  *
  * @generated
@@ -104,6 +107,26 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	 * @ordered
 	 */
 	protected Repeat repeat = REPEAT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getReverse() <em>Reverse</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReverse()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Reverse REVERSE_EDEFAULT = Reverse.NO;
+
+	/**
+	 * The cached value of the '{@link #getReverse() <em>Reverse</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReverse()
+	 * @generated
+	 * @ordered
+	 */
+	protected Reverse reverse = REVERSE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getMin() <em>Min</em>}' attribute.
@@ -184,6 +207,26 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	 * @ordered
 	 */
 	protected String description = DESCRIPTION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isMode() <em>Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isMode()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean MODE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isMode() <em>Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isMode()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean mode = MODE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -275,6 +318,27 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Reverse getReverse() {
+		return reverse;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReverse(Reverse newReverse) {
+		Reverse oldReverse = reverse;
+		reverse = newReverse == null ? REVERSE_EDEFAULT : newReverse;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.BLOCK__REVERSE, oldReverse, reverse));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public int getMin() {
 		return min;
 	}
@@ -359,6 +423,27 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isMode() {
+		return mode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMode(boolean newMode) {
+		boolean oldMode = mode;
+		mode = newMode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.BLOCK__MODE, oldMode, mode));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -384,6 +469,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return getFrom();
 			case MutatorenvironmentPackage.BLOCK__REPEAT:
 				return getRepeat();
+			case MutatorenvironmentPackage.BLOCK__REVERSE:
+				return getReverse();
 			case MutatorenvironmentPackage.BLOCK__MIN:
 				return getMin();
 			case MutatorenvironmentPackage.BLOCK__MAX:
@@ -392,6 +479,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return getFixed();
 			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
 				return getDescription();
+			case MutatorenvironmentPackage.BLOCK__MODE:
+				return isMode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -419,6 +508,9 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 			case MutatorenvironmentPackage.BLOCK__REPEAT:
 				setRepeat((Repeat)newValue);
 				return;
+			case MutatorenvironmentPackage.BLOCK__REVERSE:
+				setReverse((Reverse)newValue);
+				return;
 			case MutatorenvironmentPackage.BLOCK__MIN:
 				setMin((Integer)newValue);
 				return;
@@ -430,6 +522,9 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return;
 			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
 				setDescription((String)newValue);
+				return;
+			case MutatorenvironmentPackage.BLOCK__MODE:
+				setMode((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -455,6 +550,9 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 			case MutatorenvironmentPackage.BLOCK__REPEAT:
 				setRepeat(REPEAT_EDEFAULT);
 				return;
+			case MutatorenvironmentPackage.BLOCK__REVERSE:
+				setReverse(REVERSE_EDEFAULT);
+				return;
 			case MutatorenvironmentPackage.BLOCK__MIN:
 				setMin(MIN_EDEFAULT);
 				return;
@@ -466,6 +564,9 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return;
 			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case MutatorenvironmentPackage.BLOCK__MODE:
+				setMode(MODE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -487,6 +588,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return from != null && !from.isEmpty();
 			case MutatorenvironmentPackage.BLOCK__REPEAT:
 				return repeat != REPEAT_EDEFAULT;
+			case MutatorenvironmentPackage.BLOCK__REVERSE:
+				return reverse != REVERSE_EDEFAULT;
 			case MutatorenvironmentPackage.BLOCK__MIN:
 				return min != MIN_EDEFAULT;
 			case MutatorenvironmentPackage.BLOCK__MAX:
@@ -495,6 +598,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 				return fixed != FIXED_EDEFAULT;
 			case MutatorenvironmentPackage.BLOCK__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case MutatorenvironmentPackage.BLOCK__MODE:
+				return mode != MODE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -513,6 +618,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 		result.append(name);
 		result.append(", repeat: ");
 		result.append(repeat);
+		result.append(", reverse: ");
+		result.append(reverse);
 		result.append(", min: ");
 		result.append(min);
 		result.append(", max: ");
@@ -521,6 +628,8 @@ public class BlockImpl extends MinimalEObjectImpl.Container implements Block {
 		result.append(fixed);
 		result.append(", description: ");
 		result.append(description);
+		result.append(", mode: ");
+		result.append(mode);
 		result.append(')');
 		return result.toString();
 	}

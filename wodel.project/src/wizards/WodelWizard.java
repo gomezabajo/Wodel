@@ -152,6 +152,8 @@ public class WodelWizard extends Wizard implements INewWizard {
 		requiredBundles.add("org.eclipse.core.runtime;bundle-version=\"3.10.0\"");
 		requiredBundles.add("org.eclipse.core.resources;bundle-version=\"3.12.0\"");
 		requiredBundles.add("org.eclipse.text");
+		requiredBundles.add("org.eclipse.ui");
+		requiredBundles.add("org.eclipse.e4.ui.workbench");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
@@ -167,7 +169,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 
 		final IFile config = configFolder.getFile(new Path("config.txt"));
 		try {
-			InputStream stream = openConfigStream(modelName, mutantName);
+			InputStream stream = openConfigStream(modelName, mutantName, fileName);
 			if (config.exists()) {
 				config.setContents(stream, true, true, monitor);
 			} else {
@@ -342,8 +344,8 @@ public class WodelWizard extends Wizard implements INewWizard {
 	 * the name of the mutants folder.
 	 */
 
-	private InputStream openConfigStream(String modelName, String mutantName) {
-		String contents = modelName + "\n" + mutantName;
+	private InputStream openConfigStream(String modelName, String mutantName, String fileName) {
+		String contents = modelName + "\n" + mutantName + "\n" + fileName;
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 

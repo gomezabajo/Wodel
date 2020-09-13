@@ -18,11 +18,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link edutest.impl.TestImpl#getSource <em>Source</em>}</li>
  *   <li>{@link edutest.impl.TestImpl#getQuestion <em>Question</em>}</li>
+ *   <li>{@link edutest.impl.TestImpl#isExpression <em>Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,6 +67,26 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * @ordered
 	 */
 	protected String question = QUESTION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isExpression() <em>Expression</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean EXPRESSION_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isExpression() <em>Expression</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean expression = EXPRESSION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,6 +154,27 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isExpression() {
+		return expression;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExpression(boolean newExpression) {
+		boolean oldExpression = expression;
+		expression = newExpression;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST__EXPRESSION, oldExpression, expression));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -140,6 +182,8 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 				return getSource();
 			case EdutestPackage.TEST__QUESTION:
 				return getQuestion();
+			case EdutestPackage.TEST__EXPRESSION:
+				return isExpression();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -157,6 +201,9 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 				return;
 			case EdutestPackage.TEST__QUESTION:
 				setQuestion((String)newValue);
+				return;
+			case EdutestPackage.TEST__EXPRESSION:
+				setExpression((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -176,6 +223,9 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 			case EdutestPackage.TEST__QUESTION:
 				setQuestion(QUESTION_EDEFAULT);
 				return;
+			case EdutestPackage.TEST__EXPRESSION:
+				setExpression(EXPRESSION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -192,6 +242,8 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
 			case EdutestPackage.TEST__QUESTION:
 				return QUESTION_EDEFAULT == null ? question != null : !QUESTION_EDEFAULT.equals(question);
+			case EdutestPackage.TEST__EXPRESSION:
+				return expression != EXPRESSION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -205,11 +257,13 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (source: ");
 		result.append(source);
 		result.append(", question: ");
 		result.append(question);
+		result.append(", expression: ");
+		result.append(expression);
 		result.append(')');
 		return result.toString();
 	}

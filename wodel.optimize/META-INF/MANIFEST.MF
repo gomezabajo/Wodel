@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MutOptimize
+Bundle-SymbolicName: wodel.optimize;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.optimize.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: wodel.optimize
+Bundle-ActivationPolicy: lazy
+Export-Package: wodel.optimize,
+ wodel.optimize.run

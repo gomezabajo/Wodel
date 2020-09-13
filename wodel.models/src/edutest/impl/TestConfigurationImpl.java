@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link edutest.impl.TestConfigurationImpl#isRetry <em>Retry</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -152,7 +152,7 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (retry: ");
 		result.append(retry);
 		result.append(')');

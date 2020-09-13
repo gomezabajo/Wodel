@@ -11,11 +11,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link edutest.Test#getSource <em>Source</em>}</li>
  *   <li>{@link edutest.Test#getQuestion <em>Question</em>}</li>
+ *   <li>{@link edutest.Test#isExpression <em>Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getTest()
  * @model
@@ -73,5 +74,31 @@ public interface Test extends EObject {
 	 * @generated
 	 */
 	void setQuestion(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Expression</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Expression</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Expression</em>' attribute.
+	 * @see #setExpression(boolean)
+	 * @see edutest.EdutestPackage#getTest_Expression()
+	 * @model
+	 * @generated
+	 */
+	boolean isExpression();
+
+	/**
+	 * Sets the value of the '{@link edutest.Test#isExpression <em>Expression</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Expression</em>' attribute.
+	 * @see #isExpression()
+	 * @generated
+	 */
+	void setExpression(boolean value);
 
 } // Test

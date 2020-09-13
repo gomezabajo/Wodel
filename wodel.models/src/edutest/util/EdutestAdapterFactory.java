@@ -104,6 +104,10 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 				return createMultiChoiceEmendationAdapter();
 			}
 			@Override
+			public Adapter caseMatchPairs(MatchPairs object) {
+				return createMatchPairsAdapter();
+			}
+			@Override
 			public Adapter caseTest(Test object) {
 				return createTestAdapter();
 			}
@@ -250,6 +254,20 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMultiChoiceEmendationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link edutest.MatchPairs <em>Match Pairs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.MatchPairs
+	 * @generated
+	 */
+	public Adapter createMatchPairsAdapter() {
 		return null;
 	}
 

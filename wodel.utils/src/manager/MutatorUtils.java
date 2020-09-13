@@ -86,12 +86,15 @@ import exceptions.ReferenceNonExistingException;
 import exceptions.WrongAttributeTypeException;
 import appliedMutations.AppMutation;
 import appliedMutations.AppliedMutationsFactory;
+import appliedMutations.AttributeChanged;
 import appliedMutations.InformationChanged;
 import appliedMutations.Mutations;
 import appliedMutations.ObjectCloned;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
 import appliedMutations.ObjectRetyped;
+import appliedMutations.ReferenceChanged;
+import appliedMutations.TargetReferenceChanged;
 
 /**
  * @author Pablo Gomez-Abajo
@@ -6174,8 +6177,11 @@ public class MutatorUtils {
 						if (pathfileblock.endsWith(".model") == true && (new File(blockModelFolder + ".model")).exists()) {
 							Resource blockmodelfile = ModelManager.loadModel(packages, blockModelFolder + ".model");
 							hashmap_postproc.put(pathfileblock, blockmodelfile);
-							Resource mutant = ModelManager.loadModel(packages,	block.getPath()	+ "/" + regfiles[j].getName().replace("Registry", ""));
-							hashmap_mutpostproc.put(pathfileblock, mutant);
+							File check = new File(block.getPath()	+ "/" + regfiles[j].getName().replace("Registry", ""));
+							if (check.exists()) {
+								Resource mutant = ModelManager.loadModel(packages,	block.getPath()	+ "/" + regfiles[j].getName().replace("Registry", ""));
+								hashmap_mutpostproc.put(pathfileblock, mutant);
+							}
 						}
 					}
 				} else {
@@ -8783,7 +8789,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFilenames,
 			int n, List<String> mutPaths, Map<String,
 			List<String>> hashmapMutVersions, IProject project,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls) throws MetaModelNotFoundException, ModelNotFoundException {
+			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save) throws MetaModelNotFoundException, ModelNotFoundException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -8825,7 +8831,9 @@ public class MutatorUtils {
 				if (outputFolder.exists() != true) {
 					outputFolder.mkdir();
 				}
-				ModelManager.saveOutModel(model, mutFilename);
+				if (save == true) {
+					ModelManager.saveOutModel(model, mutFilename);
+				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
 					ModelManager.registerMetaModel(registeredPackages);
@@ -9069,6 +9077,8 @@ public class MutatorUtils {
 	 * @param project
 	 * @return
 	 * @throws ModelNotFoundException
+	 * @throws ReferenceNonExistingException 
+	 * @throws IOException 
 	 */
 	public boolean registryMutantWithBlocks(String metamodel, List<EPackage> packages,
 			Map<String, EPackage> registeredPackages, Resource seed, Resource model, Map<String, List<String>> rules,
@@ -9078,7 +9088,7 @@ public class MutatorUtils {
 			Map<String, String> hashmapModelFolders, String block,
 			List<String> fromBlocks, int n, List<String> mutPaths,
 			Map<String, List<String>> hashmapMutVersions, IProject project,
-			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls) throws MetaModelNotFoundException, ModelNotFoundException {
+			boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes, Class<?> cls, boolean save, boolean reverse) throws MetaModelNotFoundException, ModelNotFoundException, ReferenceNonExistingException, IOException {
 		boolean isRepeated = false;
 		boolean isEquivalent = false;
 		boolean isValid = false;
@@ -9132,7 +9142,9 @@ public class MutatorUtils {
 						outputFolder.mkdir();
 					}
 				}
-				ModelManager.saveOutModel(model, mutFilename);
+				if (save == true) {
+					ModelManager.saveOutModel(model, mutFilename);
+				}
 				// VERIFY IF MUTANT IS VALID
 				if (registeredPackages != null) {
 					ModelManager.registerMetaModel(registeredPackages);
@@ -9355,6 +9367,212 @@ public class MutatorUtils {
 							registryFilename = hashmapModelFilenames.get(modelFilename) + "/" + block + '/'	+ hashmapModelFolders.get(modelFilename) + "/registry/" + "Output" + n + "Registry.model";
 						}
 						ModelManager.createModel(muts, registryFilename);
+
+						if (reverse == true && save == true) {
+							System.out.println("modelFilename: " + modelFilename);
+							System.out.println("hashmapModelFilenames.get(modelFilename): " + hashmapModelFilenames.get(modelFilename));
+							System.out.println("hashmapModelFolders.get(modelFilename): " + hashmapModelFolders.get(modelFilename));
+							System.out.println("block: " + block);
+							List<EPackage> registryPackages = new ArrayList<EPackage>();
+							if (muts.getMuts().size() > 0) {
+								registryPackages.add(muts.getMuts().get(0).eClass().getEPackage());
+								System.out.println("registryFilename: " + registryFilename);
+								Resource currentRegistry = ModelManager.loadModel(registryPackages, registryFilename);
+								List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(currentRegistry));
+								Resource mutant = ModelManager.loadModel(packages, mutFilename);
+								for (EObject mutation : mutations) {
+									String text = "";
+									List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+									boolean flag = false;
+									for (EClass cl : superTypes) {
+										if (cl.getName().equals("AppMutation")) {
+											flag = true;
+											break;
+										}
+									}
+									if (flag == true) {
+										if (mutation instanceof InformationChanged) {
+											InformationChanged modify = (InformationChanged) mutation;
+											EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
+											System.out.println(EcoreUtil.getURI(modify.getObject()));
+											List<AttributeChanged> attChanges = modify.getAttChanges();
+											for (AttributeChanged attChange : attChanges) {
+												System.out.println(attChange.getAttName());
+												System.out.println(attChange.getOldVal());
+												System.out.println(attChange.getNewVal());
+												EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
+											}
+											List<ReferenceChanged> refChanges = modify.getRefChanges();
+											for (ReferenceChanged refChange : refChanges) {
+												System.out.println(refChange.getObject());
+												System.out.println(refChange.getFrom());
+												System.out.println(refChange.getTo());
+											}
+										}
+										if (mutation instanceof TargetReferenceChanged) {
+											TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
+											EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+											System.out.println(EcoreUtil.getURI(modifyRef.getObject().get(0)));
+											System.out.println(EcoreUtil.getURI(modifyRef.getFrom()));
+											System.out.println(EcoreUtil.getURI(modifyRef.getOldTo()));
+											System.out.println(EcoreUtil.getURI(modifyRef.getTo()));
+											//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
+											EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
+										}
+									}
+									String reverseFilename = mutFilename.replace(".model", "/" + block + "/Reverse.model");
+									ModelManager.saveOutModel(mutant, reverseFilename);
+								}
+								
+								for (String fromBlock : fromBlocks) {
+									System.out.println("fromBlock: " + fromBlock);
+									String previousRegistryFilename = modelFilename.replaceAll("\\\\", "/");
+									previousRegistryFilename = previousRegistryFilename.substring(0, previousRegistryFilename.lastIndexOf("/")) + "/registry/" + previousRegistryFilename.substring(previousRegistryFilename.lastIndexOf("/") + "/".length(), previousRegistryFilename.length());
+									previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
+									System.out.println("previousRegistryFilename: " + previousRegistryFilename);
+									Resource previousRegistry = ModelManager.loadModel(registryPackages, previousRegistryFilename);
+									mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
+									mutant = ModelManager.loadModel(packages, mutFilename);
+									for (EObject mutation : mutations) {
+										String text = "";
+										List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+										boolean flag = false;
+										for (EClass cl : superTypes) {
+											if (cl.getName().equals("AppMutation")) {
+												flag = true;
+												break;
+											}
+										}
+										if (flag == true) {
+											if (mutation instanceof InformationChanged) {
+												InformationChanged modify = (InformationChanged) mutation;
+												EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
+												System.out.println(EcoreUtil.getURI(modify.getObject()));
+												List<AttributeChanged> attChanges = modify.getAttChanges();
+												for (AttributeChanged attChange : attChanges) {
+													System.out.println(attChange.getAttName());
+													System.out.println(attChange.getOldVal());
+													System.out.println(attChange.getNewVal());
+													EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
+												}
+												List<ReferenceChanged> refChanges = modify.getRefChanges();
+												for (ReferenceChanged refChange : refChanges) {
+													System.out.println(refChange.getObject());
+													System.out.println(refChange.getFrom());
+													System.out.println(refChange.getTo());
+												}
+											}
+											if (mutation instanceof TargetReferenceChanged) {
+												TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
+												EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+												System.out.println(EcoreUtil.getURI(modifyRef.getObject().get(0)));
+												System.out.println(EcoreUtil.getURI(modifyRef.getFrom()));
+												System.out.println(EcoreUtil.getURI(modifyRef.getOldTo()));
+												System.out.println(EcoreUtil.getURI(modifyRef.getTo()));
+												//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
+												EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
+											}
+										}
+										String reverseFilename = mutFilename.replace(".model", "/" + fromBlock + "/Reverse.model");
+										ModelManager.saveOutModel(mutant, reverseFilename);
+									}
+									Bundle bundle = Platform.getBundle("wodel.models");
+									URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+									String ecore = FileLocator.resolve(fileURL).getFile();
+									List<EPackage> ecorePackages = ModelManager.loadMetaModel(ecore);
+									String xmiFileName = "file:/" + ModelManager.getOutputPath(cls) + "/" + ModelManager.getMutatorName(cls).replace(".mutator", ".model");
+									System.out.println(xmiFileName);
+									Resource program = ModelManager.loadModel(ecorePackages, URI.createURI(xmiFileName).toFileString());
+									List<EObject> blocks = ModelManager.getObjectsOfType("Block", program);
+									for (String prevBlock : fromBlocks) {
+										EObject previousBlock = null;
+										for (EObject b : blocks) {
+											if (ModelManager.getStringAttribute("name", b).equals(prevBlock)) {
+												previousBlock = b;
+												break;
+											}
+										}
+										String iterateModelFilename = modelFilename;
+										String iterateFromBlock = fromBlock;
+										while (previousBlock != null) {
+											List<EObject> from = ModelManager.getReferences("from", previousBlock);
+											if (from.size() == 0) {
+												break;
+											}
+											for (EObject f : from) {
+												String fName = ModelManager.getStringAttribute("name", f);
+												System.out.println(fName);
+												String previousModelFilename = iterateModelFilename.replaceAll("\\\\", "/");
+												previousModelFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/"));
+												previousModelFilename = previousModelFilename.replace("/" + iterateFromBlock + "/", "/");
+												previousModelFilename = previousModelFilename + ".model";
+												if (previousModelFilename.contains("/" + fName + "/")) {
+													System.out.println("modelFilename: " + previousModelFilename);
+													System.out.println("block: " + fName);
+													previousRegistryFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/")) + "/registry/" + previousModelFilename.substring(previousModelFilename.lastIndexOf("/") + "/".length(), previousModelFilename.length());
+													previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
+													System.out.println("previousRegistryFilename: " + previousRegistryFilename);
+													previousRegistry = ModelManager.loadModel(registryPackages, previousRegistryFilename);
+													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
+													mutant = ModelManager.loadModel(packages, mutFilename);
+													for (EObject mutation : mutations) {
+														String text = "";
+														List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+														boolean flag = false;
+														for (EClass cl : superTypes) {
+															if (cl.getName().equals("AppMutation")) {
+																flag = true;
+																break;
+															}
+														}
+														if (flag == true) {
+															if (mutation instanceof InformationChanged) {
+																InformationChanged modify = (InformationChanged) mutation;
+																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
+																System.out.println(EcoreUtil.getURI(modify.getObject()));
+																List<AttributeChanged> attChanges = modify.getAttChanges();
+																for (AttributeChanged attChange : attChanges) {
+																	System.out.println(attChange.getAttName());
+																	System.out.println(attChange.getOldVal());
+																	System.out.println(attChange.getNewVal());
+																	EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
+																}
+																List<ReferenceChanged> refChanges = modify.getRefChanges();
+																for (ReferenceChanged refChange : refChanges) {
+																	System.out.println(refChange.getObject());
+																	System.out.println(refChange.getFrom());
+																	System.out.println(refChange.getTo());
+																}
+															}
+															if (mutation instanceof TargetReferenceChanged) {
+																TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
+																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
+																System.out.println(EcoreUtil.getURI(modifyRef.getObject().get(0)));
+																System.out.println(EcoreUtil.getURI(modifyRef.getFrom()));
+																System.out.println(EcoreUtil.getURI(modifyRef.getOldTo()));
+																System.out.println(EcoreUtil.getURI(modifyRef.getTo()));
+																//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
+																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
+															}
+														}
+														String reverseFilename = mutFilename.replace(".model", "/" + fName + "/Reverse.model");
+														ModelManager.saveOutModel(mutant, reverseFilename);
+													}
+													for (EObject b : blocks) {
+														if (ModelManager.getStringAttribute("name", b).equals(fName)) {
+															previousBlock = b;
+															break;
+														}
+													}
+													iterateModelFilename = previousModelFilename;
+													iterateFromBlock = fName;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 				else {

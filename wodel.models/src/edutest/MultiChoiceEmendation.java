@@ -10,10 +10,10 @@ package edutest;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link edutest.MultiChoiceEmendation#getConfig <em>Config</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getMultiChoiceEmendation()
  * @model

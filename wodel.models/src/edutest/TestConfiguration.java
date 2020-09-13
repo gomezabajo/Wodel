@@ -10,10 +10,10 @@ package edutest;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link edutest.TestConfiguration#isRetry <em>Retry</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getTestConfiguration()
  * @model

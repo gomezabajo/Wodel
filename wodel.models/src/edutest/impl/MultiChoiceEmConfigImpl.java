@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#isWeighted <em>Weighted</em>}</li>
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#getPenalty <em>Penalty</em>}</li>
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#getOrder <em>Order</em>}</li>
  *   <li>{@link edutest.impl.MultiChoiceEmConfigImpl#getMode <em>Mode</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -310,7 +310,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (weighted: ");
 		result.append(weighted);
 		result.append(", penalty: ");

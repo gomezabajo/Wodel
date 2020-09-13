@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
- *   <li>{@link edutest.MutatorTests#getBlock <em>Block</em>}</li>
+ *   <li>{@link edutest.MutatorTests#getBlocks <em>Blocks</em>}</li>
  *   <li>{@link edutest.MutatorTests#getTests <em>Tests</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getMutatorTests()
  * @model abstract="true"
@@ -27,30 +27,20 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface MutatorTests extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Block</b></em>' reference.
+	 * Returns the value of the '<em><b>Blocks</b></em>' reference list.
+	 * The list contents are of type {@link mutatorenvironment.Block}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Block</em>' reference isn't clear,
+	 * If the meaning of the '<em>Blocks</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Block</em>' reference.
-	 * @see #setBlock(Block)
-	 * @see edutest.EdutestPackage#getMutatorTests_Block()
+	 * @return the value of the '<em>Blocks</em>' reference list.
+	 * @see edutest.EdutestPackage#getMutatorTests_Blocks()
 	 * @model
 	 * @generated
 	 */
-	Block getBlock();
-
-	/**
-	 * Sets the value of the '{@link edutest.MutatorTests#getBlock <em>Block</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Block</em>' reference.
-	 * @see #getBlock()
-	 * @generated
-	 */
-	void setBlock(Block value);
+	EList<Block> getBlocks();
 
 	/**
 	 * Returns the value of the '<em><b>Tests</b></em>' containment reference list.

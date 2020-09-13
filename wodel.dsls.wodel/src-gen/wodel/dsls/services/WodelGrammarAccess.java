@@ -472,32 +472,41 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cEqualsSignKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
 		private final Assignment cRepeatAssignment_3_2 = (Assignment)cGroup_3.eContents().get(2);
 		private final RuleCall cRepeatRepeatEnumRuleCall_3_2_0 = (RuleCall)cRepeatAssignment_3_2.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cCommandsAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cCommandsMutatorParserRuleCall_5_0 = (RuleCall)cCommandsAssignment_5.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cReverseKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Assignment cReverseAssignment_4_2 = (Assignment)cGroup_4.eContents().get(2);
+		private final RuleCall cReverseReverseEnumRuleCall_4_2_0 = (RuleCall)cReverseAssignment_4_2.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final Assignment cCommandsAssignment_6 = (Assignment)cGroup.eContents().get(6);
 		private final RuleCall cCommandsMutatorParserRuleCall_6_0 = (RuleCall)cCommandsAssignment_6.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
-		private final Keyword cLeftSquareBracketKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
-		private final Alternatives cAlternatives_8_1 = (Alternatives)cGroup_8.eContents().get(1);
-		private final Group cGroup_8_1_0 = (Group)cAlternatives_8_1.eContents().get(0);
-		private final Assignment cMinAssignment_8_1_0_0 = (Assignment)cGroup_8_1_0.eContents().get(0);
-		private final RuleCall cMinEIntParserRuleCall_8_1_0_0_0 = (RuleCall)cMinAssignment_8_1_0_0.eContents().get(0);
-		private final Keyword cFullStopFullStopKeyword_8_1_0_1 = (Keyword)cGroup_8_1_0.eContents().get(1);
-		private final Assignment cMaxAssignment_8_1_0_2 = (Assignment)cGroup_8_1_0.eContents().get(2);
-		private final RuleCall cMaxMaxCardinalityParserRuleCall_8_1_0_2_0 = (RuleCall)cMaxAssignment_8_1_0_2.eContents().get(0);
-		private final Assignment cFixedAssignment_8_1_1 = (Assignment)cAlternatives_8_1.eContents().get(1);
-		private final RuleCall cFixedEIntParserRuleCall_8_1_1_0 = (RuleCall)cFixedAssignment_8_1_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_8_2 = (Keyword)cGroup_8.eContents().get(2);
+		private final Assignment cCommandsAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cCommandsMutatorParserRuleCall_7_0 = (RuleCall)cCommandsAssignment_7.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_8 = (Keyword)cGroup.eContents().get(8);
+		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
+		private final Keyword cLeftSquareBracketKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
+		private final Alternatives cAlternatives_9_1 = (Alternatives)cGroup_9.eContents().get(1);
+		private final Group cGroup_9_1_0 = (Group)cAlternatives_9_1.eContents().get(0);
+		private final Assignment cMinAssignment_9_1_0_0 = (Assignment)cGroup_9_1_0.eContents().get(0);
+		private final RuleCall cMinEIntParserRuleCall_9_1_0_0_0 = (RuleCall)cMinAssignment_9_1_0_0.eContents().get(0);
+		private final Keyword cFullStopFullStopKeyword_9_1_0_1 = (Keyword)cGroup_9_1_0.eContents().get(1);
+		private final Assignment cMaxAssignment_9_1_0_2 = (Assignment)cGroup_9_1_0.eContents().get(2);
+		private final RuleCall cMaxMaxCardinalityParserRuleCall_9_1_0_2_0 = (RuleCall)cMaxAssignment_9_1_0_2.eContents().get(0);
+		private final Assignment cFixedAssignment_9_1_1 = (Assignment)cAlternatives_9_1.eContents().get(1);
+		private final RuleCall cFixedEIntParserRuleCall_9_1_1_0 = (RuleCall)cFixedAssignment_9_1_1.eContents().get(0);
+		private final Assignment cModeAssignment_9_1_2 = (Assignment)cAlternatives_9_1.eContents().get(2);
+		private final Keyword cModeAsteriskKeyword_9_1_2_0 = (Keyword)cModeAssignment_9_1_2.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_9_2 = (Keyword)cGroup_9.eContents().get(2);
 		
 		//Block:
-		//	name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? '{'
-		//	commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?;
+		//	name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? ('reverse'
+		//	'=' reverse=Reverse)? '{' commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality |
+		//	fixed=EInt | mode?='*') ']')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? '{'
-		//commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
+		//name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? ('reverse' '='
+		//reverse=Reverse)? '{' commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt |
+		//mode?='*') ']')?
 		public Group getGroup() { return cGroup; }
 		
 		//name=ID
@@ -557,59 +566,80 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//Repeat
 		public RuleCall getRepeatRepeatEnumRuleCall_3_2_0() { return cRepeatRepeatEnumRuleCall_3_2_0; }
 		
+		//('reverse' '=' reverse=Reverse)?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'reverse'
+		public Keyword getReverseKeyword_4_0() { return cReverseKeyword_4_0; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_4_1() { return cEqualsSignKeyword_4_1; }
+		
+		//reverse=Reverse
+		public Assignment getReverseAssignment_4_2() { return cReverseAssignment_4_2; }
+		
+		//Reverse
+		public RuleCall getReverseReverseEnumRuleCall_4_2_0() { return cReverseReverseEnumRuleCall_4_2_0; }
+		
 		//'{'
-		public Keyword getLeftCurlyBracketKeyword_4() { return cLeftCurlyBracketKeyword_4; }
+		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 		
 		//commands+=Mutator
-		public Assignment getCommandsAssignment_5() { return cCommandsAssignment_5; }
-		
-		//Mutator
-		public RuleCall getCommandsMutatorParserRuleCall_5_0() { return cCommandsMutatorParserRuleCall_5_0; }
-		
-		//commands+=Mutator*
 		public Assignment getCommandsAssignment_6() { return cCommandsAssignment_6; }
 		
 		//Mutator
 		public RuleCall getCommandsMutatorParserRuleCall_6_0() { return cCommandsMutatorParserRuleCall_6_0; }
 		
-		//'}'
-		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
+		//commands+=Mutator*
+		public Assignment getCommandsAssignment_7() { return cCommandsAssignment_7; }
 		
-		//('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
-		public Group getGroup_8() { return cGroup_8; }
+		//Mutator
+		public RuleCall getCommandsMutatorParserRuleCall_7_0() { return cCommandsMutatorParserRuleCall_7_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_8() { return cRightCurlyBracketKeyword_8; }
+		
+		//('[' (min=EInt '..' max=MaxCardinality | fixed=EInt | mode?='*') ']')?
+		public Group getGroup_9() { return cGroup_9; }
 		
 		//'['
-		public Keyword getLeftSquareBracketKeyword_8_0() { return cLeftSquareBracketKeyword_8_0; }
+		public Keyword getLeftSquareBracketKeyword_9_0() { return cLeftSquareBracketKeyword_9_0; }
 		
-		//min=EInt '..' max=MaxCardinality | fixed=EInt
-		public Alternatives getAlternatives_8_1() { return cAlternatives_8_1; }
+		//min=EInt '..' max=MaxCardinality | fixed=EInt | mode?='*'
+		public Alternatives getAlternatives_9_1() { return cAlternatives_9_1; }
 		
 		//min=EInt '..' max=MaxCardinality
-		public Group getGroup_8_1_0() { return cGroup_8_1_0; }
+		public Group getGroup_9_1_0() { return cGroup_9_1_0; }
 		
 		//min=EInt
-		public Assignment getMinAssignment_8_1_0_0() { return cMinAssignment_8_1_0_0; }
+		public Assignment getMinAssignment_9_1_0_0() { return cMinAssignment_9_1_0_0; }
 		
 		//EInt
-		public RuleCall getMinEIntParserRuleCall_8_1_0_0_0() { return cMinEIntParserRuleCall_8_1_0_0_0; }
+		public RuleCall getMinEIntParserRuleCall_9_1_0_0_0() { return cMinEIntParserRuleCall_9_1_0_0_0; }
 		
 		//'..'
-		public Keyword getFullStopFullStopKeyword_8_1_0_1() { return cFullStopFullStopKeyword_8_1_0_1; }
+		public Keyword getFullStopFullStopKeyword_9_1_0_1() { return cFullStopFullStopKeyword_9_1_0_1; }
 		
 		//max=MaxCardinality
-		public Assignment getMaxAssignment_8_1_0_2() { return cMaxAssignment_8_1_0_2; }
+		public Assignment getMaxAssignment_9_1_0_2() { return cMaxAssignment_9_1_0_2; }
 		
 		//MaxCardinality
-		public RuleCall getMaxMaxCardinalityParserRuleCall_8_1_0_2_0() { return cMaxMaxCardinalityParserRuleCall_8_1_0_2_0; }
+		public RuleCall getMaxMaxCardinalityParserRuleCall_9_1_0_2_0() { return cMaxMaxCardinalityParserRuleCall_9_1_0_2_0; }
 		
 		//fixed=EInt
-		public Assignment getFixedAssignment_8_1_1() { return cFixedAssignment_8_1_1; }
+		public Assignment getFixedAssignment_9_1_1() { return cFixedAssignment_9_1_1; }
 		
 		//EInt
-		public RuleCall getFixedEIntParserRuleCall_8_1_1_0() { return cFixedEIntParserRuleCall_8_1_1_0; }
+		public RuleCall getFixedEIntParserRuleCall_9_1_1_0() { return cFixedEIntParserRuleCall_9_1_1_0; }
+		
+		//mode?='*'
+		public Assignment getModeAssignment_9_1_2() { return cModeAssignment_9_1_2; }
+		
+		//'*'
+		public Keyword getModeAsteriskKeyword_9_1_2_0() { return cModeAsteriskKeyword_9_1_2_0; }
 		
 		//']'
-		public Keyword getRightSquareBracketKeyword_8_2() { return cRightSquareBracketKeyword_8_2; }
+		public Keyword getRightSquareBracketKeyword_9_2() { return cRightSquareBracketKeyword_9_2; }
 	}
 	public class ConstraintElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.Constraint");
@@ -6765,6 +6795,33 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		//'no'
 		public Keyword getNoNoKeyword_1_0() { return cNoNoKeyword_1_0; }
 	}
+	public class ReverseElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.Reverse");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cYesEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cYesYesKeyword_0_0 = (Keyword)cYesEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cNoEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cNoNoKeyword_1_0 = (Keyword)cNoEnumLiteralDeclaration_1.eContents().get(0);
+		
+		//enum Reverse:
+		//	yes | no;
+		public EnumRule getRule() { return rule; }
+		
+		//yes | no
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//yes
+		public EnumLiteralDeclaration getYesEnumLiteralDeclaration_0() { return cYesEnumLiteralDeclaration_0; }
+		
+		//'yes'
+		public Keyword getYesYesKeyword_0_0() { return cYesYesKeyword_0_0; }
+		
+		//no
+		public EnumLiteralDeclaration getNoEnumLiteralDeclaration_1() { return cNoEnumLiteralDeclaration_1; }
+		
+		//'no'
+		public Keyword getNoNoKeyword_1_0() { return cNoNoKeyword_1_0; }
+	}
 	public class SampleClauseElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "wodel.dsls.Wodel.SampleClause");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -6848,6 +6905,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	private final OperatorElements eOperator;
 	private final ArithmeticOperatorElements eArithmeticOperator;
 	private final RepeatElements eRepeat;
+	private final ReverseElements eReverse;
 	private final SampleClauseElements eSampleClause;
 	private final BinaryOperatorElements pBinaryOperator;
 	private final AttributeEvaluationElements pAttributeEvaluation;
@@ -6980,6 +7038,7 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 		this.eOperator = new OperatorElements();
 		this.eArithmeticOperator = new ArithmeticOperatorElements();
 		this.eRepeat = new RepeatElements();
+		this.eReverse = new ReverseElements();
 		this.eSampleClause = new SampleClauseElements();
 		this.pBinaryOperator = new BinaryOperatorElements();
 		this.pAttributeEvaluation = new AttributeEvaluationElements();
@@ -7147,8 +7206,9 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Block:
-	//	name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? '{'
-	//	commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?;
+	//	name=ID description=EString? ('from' from+=[Block] (',' from+=[Block])*)? ('repeat' '=' repeat=Repeat)? ('reverse'
+	//	'=' reverse=Reverse)? '{' commands+=Mutator commands+=Mutator* '}' ('[' (min=EInt '..' max=MaxCardinality |
+	//	fixed=EInt | mode?='*') ']')?;
 	public BlockElements getBlockAccess() {
 		return pBlock;
 	}
@@ -7651,6 +7711,16 @@ public class WodelGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public EnumRule getRepeatRule() {
 		return getRepeatAccess().getRule();
+	}
+	
+	//enum Reverse:
+	//	yes | no;
+	public ReverseElements getReverseAccess() {
+		return eReverse;
+	}
+	
+	public EnumRule getReverseRule() {
+		return getReverseAccess().getRule();
 	}
 	
 	//enum SampleClause:

@@ -13,26 +13,33 @@ Program returns Program:
 ;
 
 MutatorTests returns MutatorTests:
-	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation
+	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs
 ;
 
 AlternativeResponse returns AlternativeResponse:
-	'AlternativeResponse' (block=[mutatorenvironment::Block|ID])? '{'
+	'AlternativeResponse' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
 		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 MultiChoiceDiagram returns MultiChoiceDiagram:
-	'MultiChoiceDiagram' (block=[mutatorenvironment::Block|ID])? '{'
+	'MultiChoiceDiagram' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
 		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
 
 MultiChoiceEmendation returns MultiChoiceEmendation:
-	'MultiChoiceEmendation' (block=[mutatorenvironment::Block|ID])? '{'
+	'MultiChoiceEmendation' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
 		config = MultiChoiceEmConfig
+		(tests += Test)*
+	'}'
+;
+
+MatchPairs returns MatchPairs:
+	'MatchPairs' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		config = TestConfiguration
 		(tests += Test)*
 	'}'
 ;
@@ -52,7 +59,7 @@ MultiChoiceEmConfig returns MultiChoiceEmConfig:
 ;
 
 Test returns Test:
-	'description' 'for' source=EString '=' question=EString
+	'description' 'for' source=EString '=' question=EString  (expression?='%text')?
 ;
 
 EString returns ecore::EString:

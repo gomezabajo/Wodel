@@ -10,13 +10,13 @@ package edutest;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link edutest.MultiChoiceEmConfig#isWeighted <em>Weighted</em>}</li>
  *   <li>{@link edutest.MultiChoiceEmConfig#getPenalty <em>Penalty</em>}</li>
  *   <li>{@link edutest.MultiChoiceEmConfig#getOrder <em>Order</em>}</li>
  *   <li>{@link edutest.MultiChoiceEmConfig#getMode <em>Mode</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getMultiChoiceEmConfig()
  * @model

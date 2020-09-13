@@ -80,6 +80,7 @@ import mutatorenvironment.Repeat;
 import mutatorenvironment.ReplaceStringType;
 import mutatorenvironment.Resource;
 import mutatorenvironment.RetypeObjectMutator;
+import mutatorenvironment.Reverse;
 import mutatorenvironment.SampleClause;
 import mutatorenvironment.SelectObjectMutator;
 import mutatorenvironment.SelectSampleMutator;
@@ -753,6 +754,13 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	private EEnum sampleClauseEEnum = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum reverseEEnum = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -1033,6 +1041,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 */
 	public EAttribute getMutator_Fixed() {
 		return (EAttribute)mutatorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMutator_Mode() {
+		return (EAttribute)mutatorEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2309,7 +2326,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBlock_Min() {
+	public EAttribute getBlock_Reverse() {
 		return (EAttribute)blockEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -2318,7 +2335,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBlock_Max() {
+	public EAttribute getBlock_Min() {
 		return (EAttribute)blockEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -2327,7 +2344,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBlock_Fixed() {
+	public EAttribute getBlock_Max() {
 		return (EAttribute)blockEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -2336,8 +2353,26 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBlock_Description() {
+	public EAttribute getBlock_Fixed() {
 		return (EAttribute)blockEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Description() {
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBlock_Mode() {
+		return (EAttribute)blockEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -2903,6 +2938,15 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getReverse() {
+		return reverseEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MutatorenvironmentFactory getMutatorenvironmentFactory() {
 		return (MutatorenvironmentFactory)getEFactoryInstance();
 	}
@@ -2955,6 +2999,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEAttribute(mutatorEClass, MUTATOR__MIN);
 		createEAttribute(mutatorEClass, MUTATOR__MAX);
 		createEAttribute(mutatorEClass, MUTATOR__FIXED);
+		createEAttribute(mutatorEClass, MUTATOR__MODE);
 
 		compositeMutatorEClass = createEClass(COMPOSITE_MUTATOR);
 		createEReference(compositeMutatorEClass, COMPOSITE_MUTATOR__COMMANDS);
@@ -3155,10 +3200,12 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		createEReference(blockEClass, BLOCK__COMMANDS);
 		createEReference(blockEClass, BLOCK__FROM);
 		createEAttribute(blockEClass, BLOCK__REPEAT);
+		createEAttribute(blockEClass, BLOCK__REVERSE);
 		createEAttribute(blockEClass, BLOCK__MIN);
 		createEAttribute(blockEClass, BLOCK__MAX);
 		createEAttribute(blockEClass, BLOCK__FIXED);
 		createEAttribute(blockEClass, BLOCK__DESCRIPTION);
+		createEAttribute(blockEClass, BLOCK__MODE);
 
 		constraintEClass = createEClass(CONSTRAINT);
 		createEAttribute(constraintEClass, CONSTRAINT__ID);
@@ -3244,6 +3291,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		repeatEEnum = createEEnum(REPEAT);
 		arithmeticOperatorEEnum = createEEnum(ARITHMETIC_OPERATOR);
 		sampleClauseEEnum = createEEnum(SAMPLE_CLAUSE);
+		reverseEEnum = createEEnum(REVERSE);
 	}
 
 	/**
@@ -3384,6 +3432,7 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEAttribute(getMutator_Min(), ecorePackage.getEInt(), "min", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMutator_Max(), ecorePackage.getEInt(), "max", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMutator_Fixed(), ecorePackage.getEInt(), "fixed", null, 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMutator_Mode(), ecorePackage.getEBoolean(), "mode", "false", 0, 1, Mutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compositeMutatorEClass, CompositeMutator.class, "CompositeMutator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompositeMutator_Commands(), this.getMutator(), null, "commands", null, 0, -1, CompositeMutator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -3584,10 +3633,12 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEReference(getBlock_Commands(), this.getMutator(), null, "commands", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBlock_From(), this.getBlock(), null, "from", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBlock_Repeat(), this.getRepeat(), "repeat", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBlock_Reverse(), this.getReverse(), "reverse", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBlock_Min(), ecorePackage.getEInt(), "min", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBlock_Max(), ecorePackage.getEInt(), "max", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBlock_Fixed(), ecorePackage.getEInt(), "fixed", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBlock_Description(), ecorePackage.getEString(), "description", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBlock_Mode(), ecorePackage.getEBoolean(), "mode", "false", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConstraint_Id(), ecorePackage.getEString(), "id", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3697,6 +3748,10 @@ public class MutatorenvironmentPackageImpl extends EPackageImpl implements Mutat
 		initEEnum(sampleClauseEEnum, SampleClause.class, "SampleClause");
 		addEEnumLiteral(sampleClauseEEnum, SampleClause.EQUALS);
 		addEEnumLiteral(sampleClauseEEnum, SampleClause.DISTINCT);
+
+		initEEnum(reverseEEnum, Reverse.class, "Reverse");
+		addEEnumLiteral(reverseEEnum, Reverse.NO);
+		addEEnumLiteral(reverseEEnum, Reverse.YES);
 
 		// Create resource
 		createResource(eNS_URI);

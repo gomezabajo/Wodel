@@ -659,6 +659,51 @@ public class RunWodelTestHandler extends AbstractHandler {
 							}
 						}
 					}
+
+					boolean optimize = Platform.getPreferencesService().getBoolean("wodel.dsls.Wodel", "Optimize mutants", false, null);
+					Method doOptimize = null;
+					Object optimizer = null;
+					if (optimize == true) {
+						String optimizerExtensionName = Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Mutants optimizer extension", "", null);
+						if (Platform.getExtensionRegistry() != null) {
+							IConfigurationElement[] extensions = Platform
+									.getExtensionRegistry().getConfigurationElementsFor(
+											"wodel.optimize.MutOptimize");
+							IConfigurationElement appropriateExtension = null;
+							for (IConfigurationElement extension : extensions) {
+								Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
+								optimizer =  extensionClass.newInstance();
+								Method getURI = extensionClass.getDeclaredMethod("getURI");
+								String uri = (String) getURI.invoke(optimizer);
+								Method getName = extensionClass.getDeclaredMethod("getName");
+								String name = (String) getName.invoke(optimizer);
+								if (name.equals(optimizerExtensionName) && uri.equals("")) {
+									appropriateExtension = extension;
+									break;
+								}
+								if (name.equals(optimizerExtensionName) && uri.equals(packages.get(0).getNsURI())) {
+									appropriateExtension = extension;
+									break;
+								}
+								if (uri.equals("")) {
+									appropriateExtension = extension;
+								}
+							}
+							if (appropriateExtension != null) {
+								Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+								optimizer = extensionClass.newInstance();
+								Method getName = extensionClass.getDeclaredMethod("getName");
+								outputPath = outputPath.substring(outputPath.indexOf(test.getProjectName()) + test.getProjectName().length() + 1, outputPath.length());
+								if (getName.invoke(optimizer).equals(optimizerExtensionName) ) {
+									doOptimize = extensionClass.getDeclaredMethod("doOptimize", new Class[]{IProject.class});
+								}
+							}
+						}
+					}
+					if (doOptimize != null) {
+						boolean result = (boolean) doOptimize.invoke(optimizer, sourceProject);
+						System.out.println(result);
+					}
 				}
 				String mutatorNames = "";
 				for (String mutatorName : mutatorsApplied) {

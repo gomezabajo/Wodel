@@ -6,6 +6,7 @@ import edutest.AlternativeResponse;
 import edutest.Configuration;
 import edutest.EdutestFactory;
 import edutest.EdutestPackage;
+import edutest.MatchPairs;
 import edutest.Mode;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmConfig;
@@ -103,6 +104,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass matchPairsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass testEClass = null;
 
 	/**
@@ -154,7 +162,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link EdutestPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -168,7 +176,8 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		if (isInited) return (EdutestPackage)EPackage.Registry.INSTANCE.getEPackage(EdutestPackage.eNS_URI);
 
 		// Obtain or create and register package
-		EdutestPackageImpl theEdutestPackage = (EdutestPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EdutestPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EdutestPackageImpl());
+		Object registeredEdutestPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		EdutestPackageImpl theEdutestPackage = registeredEdutestPackage instanceof EdutestPackageImpl ? (EdutestPackageImpl)registeredEdutestPackage : new EdutestPackageImpl();
 
 		isInited = true;
 
@@ -184,7 +193,6 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		// Mark meta-data to indicate it can't be changed
 		theEdutestPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(EdutestPackage.eNS_URI, theEdutestPackage);
 		return theEdutestPackage;
@@ -231,7 +239,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMutatorTests_Block() {
+	public EReference getMutatorTests_Blocks() {
 		return (EReference)mutatorTestsEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -393,6 +401,24 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMatchPairs() {
+		return matchPairsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMatchPairs_Config() {
+		return (EReference)matchPairsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTest() {
 		return testEClass;
 	}
@@ -413,6 +439,15 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 */
 	public EAttribute getTest_Question() {
 		return (EAttribute)testEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTest_Expression() {
+		return (EAttribute)testEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -475,7 +510,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		createEReference(programEClass, PROGRAM__EXERCISES);
 
 		mutatorTestsEClass = createEClass(MUTATOR_TESTS);
-		createEReference(mutatorTestsEClass, MUTATOR_TESTS__BLOCK);
+		createEReference(mutatorTestsEClass, MUTATOR_TESTS__BLOCKS);
 		createEReference(mutatorTestsEClass, MUTATOR_TESTS__TESTS);
 
 		configurationEClass = createEClass(CONFIGURATION);
@@ -501,9 +536,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		multiChoiceEmendationEClass = createEClass(MULTI_CHOICE_EMENDATION);
 		createEReference(multiChoiceEmendationEClass, MULTI_CHOICE_EMENDATION__CONFIG);
 
+		matchPairsEClass = createEClass(MATCH_PAIRS);
+		createEReference(matchPairsEClass, MATCH_PAIRS__CONFIG);
+
 		testEClass = createEClass(TEST);
 		createEAttribute(testEClass, TEST__SOURCE);
 		createEAttribute(testEClass, TEST__QUESTION);
+		createEAttribute(testEClass, TEST__EXPRESSION);
 
 		// Create enums
 		orderEEnum = createEEnum(ORDER);
@@ -548,6 +587,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		alternativeResponseEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceDiagramEClass.getESuperTypes().add(this.getMutatorTests());
 		multiChoiceEmendationEClass.getESuperTypes().add(this.getMutatorTests());
+		matchPairsEClass.getESuperTypes().add(this.getMutatorTests());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(programEClass, Program.class, "Program", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -555,7 +595,7 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEReference(getProgram_Exercises(), this.getMutatorTests(), null, "exercises", null, 0, -1, Program.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mutatorTestsEClass, MutatorTests.class, "MutatorTests", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMutatorTests_Block(), theMutatorenvironmentPackage.getBlock(), null, "block", null, 0, 1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMutatorTests_Blocks(), theMutatorenvironmentPackage.getBlock(), null, "blocks", null, 0, -1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMutatorTests_Tests(), this.getTest(), null, "tests", null, 0, -1, MutatorTests.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(configurationEClass, Configuration.class, "Configuration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -581,9 +621,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 		initEClass(multiChoiceEmendationEClass, MultiChoiceEmendation.class, "MultiChoiceEmendation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMultiChoiceEmendation_Config(), this.getMultiChoiceEmConfig(), null, "config", null, 1, 1, MultiChoiceEmendation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(matchPairsEClass, MatchPairs.class, "MatchPairs", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMatchPairs_Config(), this.getTestConfiguration(), null, "config", null, 1, 1, MatchPairs.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(testEClass, Test.class, "Test", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTest_Source(), ecorePackage.getEString(), "source", null, 1, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTest_Question(), ecorePackage.getEString(), "question", null, 1, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTest_Expression(), ecorePackage.getEBoolean(), "expression", null, 0, 1, Test.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(orderEEnum, Order.class, "Order");
@@ -615,13 +659,13 @@ public class EdutestPackageImpl extends EPackageImpl implements EdutestPackage {
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore",
-			 "mutatorenvironment", "MutatorEnvironment.ecore#/"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore",
+			   "mutatorenvironment", "MutatorEnvironment.ecore#/"
 		   });
 	}
 

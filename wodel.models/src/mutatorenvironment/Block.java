@@ -19,10 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link mutatorenvironment.Block#getCommands <em>Commands</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getFrom <em>From</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getRepeat <em>Repeat</em>}</li>
+ *   <li>{@link mutatorenvironment.Block#getReverse <em>Reverse</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getFixed <em>Fixed</em>}</li>
  *   <li>{@link mutatorenvironment.Block#getDescription <em>Description</em>}</li>
+ *   <li>{@link mutatorenvironment.Block#isMode <em>Mode</em>}</li>
  * </ul>
  *
  * @see mutatorenvironment.MutatorenvironmentPackage#getBlock()
@@ -116,6 +118,35 @@ public interface Block extends EObject {
 	 * @generated
 	 */
 	void setRepeat(Repeat value);
+
+	/**
+	 * Returns the value of the '<em><b>Reverse</b></em>' attribute.
+	 * The literals are from the enumeration {@link mutatorenvironment.Reverse}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Reverse</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Reverse</em>' attribute.
+	 * @see mutatorenvironment.Reverse
+	 * @see #setReverse(Reverse)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getBlock_Reverse()
+	 * @model required="true"
+	 * @generated
+	 */
+	Reverse getReverse();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.Block#getReverse <em>Reverse</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Reverse</em>' attribute.
+	 * @see mutatorenvironment.Reverse
+	 * @see #getReverse()
+	 * @generated
+	 */
+	void setReverse(Reverse value);
 
 	/**
 	 * Returns the value of the '<em><b>Min</b></em>' attribute.
@@ -220,5 +251,32 @@ public interface Block extends EObject {
 	 * @generated
 	 */
 	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Mode</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Mode</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mode</em>' attribute.
+	 * @see #setMode(boolean)
+	 * @see mutatorenvironment.MutatorenvironmentPackage#getBlock_Mode()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isMode();
+
+	/**
+	 * Sets the value of the '{@link mutatorenvironment.Block#isMode <em>Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Mode</em>' attribute.
+	 * @see #isMode()
+	 * @generated
+	 */
+	void setMode(boolean value);
 
 } // Block

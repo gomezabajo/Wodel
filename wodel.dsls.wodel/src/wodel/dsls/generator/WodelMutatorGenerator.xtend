@@ -92,6 +92,9 @@ import java.util.List
 import mutatorenvironment.Source
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.EClass
+import java.util.Map
+import java.util.HashMap
+import mutatorenvironment.Reverse
 
 /**
  * @author Pablo Gomez-Abajo - Wodel Java code generator.
@@ -135,6 +138,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 	private String xmiFileName;
 	private int nMut;
 	private Program program;
+	private Map<Mutator, Integer> mutIndexes = new HashMap<Mutator, Integer>();
 	
 	def List<String> getMutators(File[] files) {
 		var List<String> mutators = new ArrayList<String>()
@@ -182,6 +186,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 	}
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		
 		manager.WodelContext.setProject(null)
 		manager.WodelContext.getProject
 		path = ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject		
@@ -201,6 +206,15 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 			/* Write the EObject into a file */
 			fileName = fileName.replaceAll(".mutator", ".java")
 			className = fileName.replaceAll(".java", "")
+			var int i = 1
+			for (mut : e.commands) {
+				mutIndexes.put(mut, i++)
+			}
+			for (b : e.blocks) {
+				for (mut : b.commands) {
+					mutIndexes.put(mut, i++)
+				}
+			}
      		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
      		mutatorEnvironment = e
 		}
@@ -1532,9 +1546,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+		   		«ELSEIF b.reverse == Reverse.YES»
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -1769,9 +1785,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+		   		«ELSEIF b.reverse == Reverse.YES»
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -2586,9 +2604,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = (ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+		   			boolean isRepeated = (ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+		   		«ELSEIF b.reverse == Reverse.YES»
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -2910,9 +2930,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+		   		«ELSEIF b.reverse == Reverse.YES»
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -3631,9 +3653,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+		   		«ELSEIF b.reverse == Reverse.YES»
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -4354,7 +4378,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 								if (recovered == null) {
 									recovered = entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey();
 								}
-								referenceSelection = new SpecificObjectSelection(packages, model, "«mut.container.refType.name»", recovered);
+								referenceSelection = new SpecificReferenceSelection(packages, model, "«mut.container.refType.name»", recovered);
 							} else {
 								return numMutantsGenerated;
 							}
@@ -4575,9 +4599,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		   		«ENDIF»
 		   		«ENDIF»
 		   		«IF b == null»
-		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+		   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+		   		«ELSEIF b.reverse == Reverse.YES»
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
 		   		«ELSE»
-					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+					boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
 				«ENDIF»
 					if (isRepeated == false) {
 						numMutantsGenerated++;
@@ -4712,7 +4738,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					Set<String> hashsetMutantsBlock, List<String> fromNames, Map<String,
 					List<String>> hashmapMutVersions, IProject project, IProgressMonitor monitor, int k, boolean serialize, IWodelTest test, TreeMap<String, List<String>> classes)
 					throws ReferenceNonExistingException, MetaModelNotFoundException, ModelNotFoundException,
-					ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException {
+					ObjectNotContainedException, ObjectNoTargetableException, AbstractCreationException, WrongAttributeTypeException, IOException {
 		int numMutantsGenerated = 0;
 		«IF mut instanceof ModifyInformationMutator»
 			«(mut as ModifyInformationMutator).modifyInformationMutatorExhaustive(e, b, last)»
@@ -5277,6 +5303,8 @@ import manager.MutatorUtils;
 
 public class «className» extends MutatorUtils {
 	
+	private Map<Integer, Mutator> overallMutators = new HashMap<Integer, Mutator>(); 
+
 	private List<EObject> mutatedObjects = null;
 
 	«IF e.definition instanceof Program»
@@ -6393,7 +6421,7 @@ public class «className» extends MutatorUtils {
 			Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
 			List<String> mutPaths = new ArrayList<String>();
-		//COUNTER: «nMethod = nMethod + 1»	
+		//COUNTER: «nMethod = nMethod + 1»
 		//COMMAND: «nCommands = nCommands + 1»
 		//REGISTRY COUNTER: «nRegistryMethod = nRegistryMethod + 1»
 		//«var c = e.commands.get(0)»
@@ -6457,7 +6485,7 @@ public class «className» extends MutatorUtils {
 				rules.put("«constraint.type.name»", newrules);
       			«ENDFOR»
 				
-				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+				isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutants, hashmapModelFilenames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
 				if (isRepeated == false) {
 					mutationResults.numMutantsGenerated++;
 				}
@@ -6514,6 +6542,8 @@ public class «className» extends MutatorUtils {
 							modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
 							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
 		«ELSE»
+		//CODE NOT USED YET: I DON'T REMOVE IT BECAUSE IT MAY BE USEFUL IN OTHER WODEL APPLICATIONS
+		«IF b.mode == true»
 		int numMutantsToGenerate = numMutants;
 		for (int i = 0; i < numMutantsToGenerate; i++) {
 			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
@@ -6542,7 +6572,96 @@ public class «className» extends MutatorUtils {
    	   			
    	   			«FOR c : b.commands »
    	   				«IF c instanceof Mutator»
-   	   				«c.compile»		
+   	   				«c.compile(mutIndexes.get(c))»
+   	   				«ENDIF»
+				«ENDFOR»
+				
+       			//«var List<Mutator> muts = new ArrayList<Mutator>()»
+       			«FOR block : e.blocks»
+       			«IF block.mode == true && !block.equals(b)»
+       			//«muts.addAll(block.commands)»
+       			«ENDIF»
+       			«ENDFOR»
+       			
+				// MUTANT COMPLETION AND REGISTRY
+				Map<String, List<String>> rules = new HashMap<String, List<String>>();
+	       		«FOR constraint : e.constraints»
+				if (rules.get("«constraint.type.name»") == null) {
+					rules.put("«constraint.type.name»", new ArrayList<String>());
+				}
+				List<String> newrules = rules.get("«constraint.type.name»");
+	       		«IF constraint.expressions != null»
+       			«FOR expression : constraint.expressions»
+				newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
+       			«ENDFOR»
+       			«ENDIF»
+       			«IF constraint.rules != null»
+       			«FOR rule : constraint.rules»
+				newrules.add("«rule»");
+       			«ENDFOR»
+       			«ENDIF»
+				rules.put("«constraint.type.name»", newrules);
+       			«ENDFOR»
+       			
+		   		«IF b.reverse == Reverse.YES»
+					isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
+				«ELSE»
+					isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
+				«ENDIF»
+
+       			«FOR m : muts»
+       			«m.compile(mutIndexes.get(m))»
+       			«ENDFOR»
+
+				«IF b.reverse == Reverse.YES»
+					isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), false, true);
+				«ELSE»
+					isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), false, false);
+				«ENDIF»
+				if (isRepeated == false) {
+					numMutantsGenerated++;
+				}
+
+				//Reload input
+				try {
+					model.unload();
+					model.load(null);
+					seed.unload();
+					seed.load(null);
+				} catch (Exception e) {}
+			}
+		}
+		//FINISHED CODE NOT USED YET
+		«ELSE»
+		int numMutantsToGenerate = numMutants;
+		for (int i = 0; i < numMutantsToGenerate; i++) {
+			Map<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> hashmapEObject = new HashMap<String, SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+			Map<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>> hashmapList = new HashMap<String, List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>>();
+   	   		«IF b.from.size == 0»
+			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + ".model";
+			String mutPath = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + i + "vs";
+   	   		«ELSE»
+			String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + i + ".model";
+			String mutPath = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + i + "vs";
+   	   		«ENDIF»
+			boolean isRepeated = true;
+			int attempts = 0;
+			int max = 0;
+			while ((isRepeated == true) && (attempts < maxAttempts)) {
+				Resource model = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
+				Resource seed = ModelManager.loadModel(packages, URI.createURI("file:/" + modelFilename).toFileString());
+				List<String> mutPaths = new ArrayList<String>();
+				Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+				attempts++;
+				«IF !(b instanceof Block)»
+				int k = 0;
+				«ELSE»
+				k = 0;
+				«ENDIF»
+   	   			
+   	   			«FOR c : b.commands »
+   	   				«IF c instanceof Mutator»
+   	   				«c.compile»
    	   				«ENDIF»
 				«ENDFOR»
 				
@@ -6566,7 +6685,11 @@ public class «className» extends MutatorUtils {
 				rules.put("«constraint.type.name»", newrules);
        			«ENDFOR»
 
-				isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass());
+				«IF b.reverse == Reverse.YES»
+					isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, true);
+				«ELSE»
+					isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, model, rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, i, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
+				«ENDIF»
 				if (isRepeated == false) {
 					numMutantsGenerated++;
 				}
@@ -6579,7 +6702,8 @@ public class «className» extends MutatorUtils {
 					seed.load(null);
 				} catch (Exception e) {}
 			}
-		}
+		}		
+		«ENDIF»
 		«ENDIF»
    		«IF b.repeat == Repeat.YES»
    		hashmapMutants.put(modelFilename, hashsetMutantsBlock);
@@ -6776,6 +6900,260 @@ public class «className» extends MutatorUtils {
 		}
 		}
 	«ENDIF»
+    '''
+	def compile(Mutator e, int index)'''
+		//COUNTER: «nMethod = index»	
+		//COMMAND: «nCommands = nCommands + 1»
+		//REGISTRY COUNTER: «nRegistryMethod = index»
+		«IF (e.fixed == 0)»
+		«IF (e.max - e.min > 0)»
+		max = getRandom(«e.max - e.min») + «e.min»;
+		«ENDIF»
+		«IF (e.min == 0) && (e.max == 0)»
+		max = 1;
+		«ELSEIF (e.min == e.max)»
+		max = «e.min»;
+		«ENDIF»
+		«ELSE»
+		max = «e.fixed»;
+		«ENDIF»
+		«IF !(e.eContainer instanceof Block)»
+		k = 0;
+		«ENDIF»
+		for (int j = 0; j < max; j++) {
+		«IF e.name != null»
+			//NAME:«commandName = e.name + nCommands.toString()»
+		«ELSE»
+			//NAME:«commandName = nCommands.toString()»
+		«ENDIF»
+		//METHOD NAME:«methodName = "mutation" + nMethod.toString()»
+		
+		List<Mutator> l«commandName» = «methodName»(packages, model, hashmapEObject, hashmapList, serialize, test, classes);
+		//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
+		//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethod.toString()»
+		
+		if (l«commandName» != null) {
+		if (overallMutators.get(«index») == null) {
+			for (Mutator mut : l«commandName») {
+				«IF executeMutation == true»
+				if (mut != null) {
+					Object mutated = mut.mutate();
+					if (mutated != null) {
+						«IF e instanceof CreateObjectMutator || e instanceof SelectObjectMutator || e instanceof CloneObjectMutator || e instanceof RetypeObjectMutator»
+						«IF e.name != null»
+						if (mutated instanceof EObject) {
+						«IF e instanceof CreateObjectMutator»
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							hashmapEObject.put("«e.name»", entry);
+						«ENDIF»
+						«IF e instanceof SelectObjectMutator»
+							«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							hashmapEObject.put("«e.name»", entry);
+							«ENDIF»
+							«IF e.object instanceof CompleteTypeSelection»
+							List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+							}
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							listEObjects.add(entry);
+							hashmapList.put("«e.name»", listEObjects);
+							«ENDIF»
+						«ENDIF»
+						«IF e instanceof CloneObjectMutator»
+							«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							hashmapEObject.put("«e.name»", entry);
+							«ENDIF»
+							«IF e.object instanceof CompleteTypeSelection»
+							List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+							}
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							listEObjects.add(entry);
+							hashmapList.put("«e.name»", listEObjects);
+							«ENDIF»
+						«ENDIF»
+						«IF e instanceof RetypeObjectMutator»
+							«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							hashmapEObject.put("«e.name»", entry);
+							«ENDIF»
+							«IF e.object instanceof CompleteTypeSelection»
+							List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+							}
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							listEObjects.add(entry);
+							hashmapList.put("«e.name»", listEObjects);
+							«ENDIF»
+						«ENDIF»
+						}
+						«ENDIF»
+						«ENDIF»
+						«IF e.name != null»
+						«IF e instanceof SelectSampleMutator»
+						if (mutated instanceof List<?>) {
+							List<EObject> mutObjects = ((SelectSampleMutator) mut).getObjects();
+							List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+							if (hashmapList.get("«e.name»") != null) {
+								listEObjects = hashmapList.get("«e.name»");
+							}
+							else {
+								listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+							}
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							listEObjects.add(entry);
+							hashmapList.put("«e.name»", listEObjects);
+						}
+						«ENDIF»
+						«ENDIF»
+						«IF (e instanceof SelectObjectMutator == false) && (e instanceof SelectSampleMutator == false)»
+						String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
+						ModelManager.saveOutModel(model, mutatorPath);
+						if (mutPaths.contains(mutatorPath) == false) {
+							mutPaths.add(mutatorPath);
+						}
+						«ENDIF»
+						AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+						if (appMut != null) {
+							muts.getMuts().add(appMut);
+						}
+					}
+				}
+				«ENDIF»
+				k++;
+			}
+		}
+		else {
+			Mutator mut = overallMutators.get(«index»);
+			mut.setModel(model);
+			Object mutated = mut.mutate();
+			if (mutated != null) {
+				«IF e instanceof CreateObjectMutator || e instanceof SelectObjectMutator || e instanceof CloneObjectMutator || e instanceof RetypeObjectMutator»
+				«IF e.name != null»
+				if (mutated instanceof EObject) {
+				«IF e instanceof CreateObjectMutator»
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					hashmapEObject.put("«e.name»", entry);
+				«ENDIF»
+				«IF e instanceof SelectObjectMutator»
+					«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					hashmapEObject.put("«e.name»", entry);
+				«ENDIF»
+				«IF e.object instanceof CompleteTypeSelection»
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+					if (hashmapList.get("«e.name»") != null) {
+						listEObjects = hashmapList.get("«e.name»");
+					}
+					else {
+						listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					}
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					listEObjects.add(entry);
+					hashmapList.put("«e.name»", listEObjects);
+					«ENDIF»
+				«ENDIF»
+				«IF e instanceof CloneObjectMutator»
+					«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					hashmapEObject.put("«e.name»", entry);
+				«ENDIF»
+				«IF e.object instanceof CompleteTypeSelection»
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+					if (hashmapList.get("«e.name»") != null) {
+						listEObjects = hashmapList.get("«e.name»");
+					}
+					else {
+						listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					}
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					listEObjects.add(entry);
+					hashmapList.put("«e.name»", listEObjects);
+				«ENDIF»
+				«ENDIF»
+				«IF e instanceof RetypeObjectMutator»
+					«IF e.object instanceof SpecificObjectSelection || e.object instanceof RandomTypeSelection»
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					hashmapEObject.put("«e.name»", entry);
+				«ENDIF»
+				«IF e.object instanceof CompleteTypeSelection»
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+					if (hashmapList.get("«e.name»") != null) {
+						listEObjects = hashmapList.get("«e.name»");
+					}
+					else {
+						listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					}
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					listEObjects.add(entry);
+					hashmapList.put("«e.name»", listEObjects);
+				«ENDIF»
+				«ENDIF»
+				}
+				«ENDIF»
+				«ENDIF»
+				«IF e.name != null»
+				«IF e instanceof SelectSampleMutator»
+				if (mutated instanceof List<?>) {
+					List<EObject> mutObjects = ((SelectSampleMutator) mut).getObjects();
+					List<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>> listEObjects = null;
+					if (hashmapList.get("«e.name»") != null) {
+						listEObjects = hashmapList.get("«e.name»");
+					}
+					else {
+						listEObjects = new ArrayList<SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>>>();
+					}
+					SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+					listEObjects.add(entry);
+					hashmapList.put("«e.name»", listEObjects);
+				}
+				«ENDIF»
+				«ENDIF»
+				«IF (e instanceof SelectObjectMutator == false) && (e instanceof SelectSampleMutator == false)»
+				String mutatorPath = mutPath + "/Output" + i + "_" + j + "_" + k + "_«nMethod».model";
+				ModelManager.saveOutModel(model, mutatorPath);
+				if (mutPaths.contains(mutatorPath) == false) {
+					mutPaths.add(mutatorPath);
+				}
+				«ENDIF»
+				AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+				if (appMut != null) {
+					muts.getMuts().add(appMut);
+			}
+		}
+		}
+		}
+		}
 	'''
 	
    //END COMMANDS

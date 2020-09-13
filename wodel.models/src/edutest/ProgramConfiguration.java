@@ -10,10 +10,10 @@ package edutest;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link edutest.ProgramConfiguration#getNavigation <em>Navigation</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getProgramConfiguration()
  * @model

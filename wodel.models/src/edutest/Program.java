@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link edutest.Program#getConfig <em>Config</em>}</li>
  *   <li>{@link edutest.Program#getExercises <em>Exercises</em>}</li>
  * </ul>
- * </p>
  *
  * @see edutest.EdutestPackage#getProgram()
  * @model

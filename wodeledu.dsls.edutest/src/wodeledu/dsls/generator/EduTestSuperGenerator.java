@@ -6,8 +6,15 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -39,6 +48,7 @@ import appliedMutations.ReferenceRemoved;
 import appliedMutations.SourceReferenceChanged;
 import appliedMutations.TargetReferenceChanged;
 import edutest.AlternativeResponse;
+import edutest.MatchPairs;
 import edutest.Mode;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmendation;
@@ -47,6 +57,8 @@ import edutest.Program;
 import edutest.Test;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
+import manager.DFA2Regex;
+import manager.DFAUtils;
 import manager.ModelManager;
 import manager.MutatorUtils;
 import manager.WodelContext;
@@ -72,7 +84,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 
 	private class Registry {
 		public Resource seed;
-		public List<Resource> mutants;
+		public List<SimpleEntry<Resource, Resource>> mutants;
 		public List<Resource> history;
 		public Map<Resource, List<Registry>> wrong;
 	}
@@ -81,7 +93,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		public String path;
 		public Resource resource;
 		public Resource seed;
-		public ArrayList<String> text;
+		public Resource mutant;
+		public List<SimpleEntry<Resource, List<String>>> reverse;
+		public List<String> text;
 		public boolean solution;
 		public int total;
 		
@@ -124,8 +138,41 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 
         return text.replaceAll("(?m)^[ \t]*\r?\n", "");
 	}
-
 	
+	/**
+	 * Removes comments from xml code
+	 */
+	protected static CharSequence removeXMLComments(CharSequence sequence) {
+		List<String> comments = new ArrayList<String>();
+		Pattern commentsPattern = Pattern.compile("<!--.*-->");
+
+        String text = sequence.toString();
+        String noStrings = text.replaceAll("(\".*?(?<!\\\\)\")", "");
+        Matcher commentsMatcher = commentsPattern.matcher(noStrings);
+
+        while (commentsMatcher.find()) {
+            String comment = commentsMatcher.group();
+            if (!comments.contains(comment)) {
+            	comments.add(comment);
+            }
+        }
+        comments.sort((c1, c2) -> c2.length() - c1.length());
+        
+        for (String comment : comments) {
+        	Pattern commentPattern = null;
+        	if (comment.length() == 2) {
+        		commentPattern = Pattern.compile(Pattern.quote(comment) + "\r?\n");
+        	}
+        	else {
+        		commentPattern = Pattern.compile(Pattern.quote(comment));
+        	}
+        	Matcher commentMatcher = commentPattern.matcher(text);
+        	text = commentMatcher.replaceAll("");
+        }
+
+        return text.replaceAll("(?m)^[ \t]*\r?\n", "");
+	}
+
 	/**
 	 * Gets the registry object for the test exercise
 	 * It stores the solution and the wrong answers
@@ -137,99 +184,102 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @return
 	 * @throws ModelNotFoundException
 	 */
-	private Registry getRegistry(MultiChoiceEmendation exercise, Test test, List<EObject> blocks, List<EPackage> packages, List<EPackage> registrypackages) throws ModelNotFoundException {
+	private Registry getRegistry(MutatorTests exercise, Test test, List<EObject> blocks, List<EPackage> packages, List<EPackage> registrypackages) throws ModelNotFoundException {
 		Registry registry = new Registry();
 		File outFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", ""));
 		String modelPath = ModelManager.getModelsFolder() + '/' + test.getSource();
 		registry.seed = ModelManager.loadModel(packages, modelPath);
-		registry.mutants = new ArrayList<Resource>();
+		registry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
 		registry.history = new ArrayList<Resource>();
 		registry.wrong = new HashMap<Resource, List<Registry>>();
 		if (outFolder.isDirectory() == true) {
-			if (exercise.getBlock() != null) {
-				for (File f : outFolder.listFiles()) {
-					if (f.isFile() == true) {
-						if (f.getName().endsWith(".model")) {
-							registry.mutants.add(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + f.getName()));
-							for (File r : outFolder.listFiles()) {
-								if (r.isDirectory() == true) {
-									if (r.getName().equals("registry")) {
-										for (File reg : r.listFiles()) {
-											if (reg.getName().endsWith(".model")) {
-												if (reg.getName().startsWith(f.getName().replace(".model", ""))) {
-													registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + "/registry/" + reg.getName()));
+			if (exercise.getBlocks() != null) {
+				for (Block block : exercise.getBlocks()) {
+					if (block.getFrom() == null || block.getFrom().size() == 0) {
+						for (File f : outFolder.listFiles()) {
+							if (f.isFile() == true) {
+								if (f.getName().endsWith(".model") && !f.getName().contains("_") && !f.getName().equals("Reverse.model")) {
+									registry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + f.getName()), null));
+									for (File r : outFolder.listFiles()) {
+										if (r.isDirectory() == true) {
+											if (r.getName().equals("registry")) {
+												for (File reg : r.listFiles()) {
+													if (reg.getName().endsWith(".model")) {
+														if (reg.getName().startsWith(f.getName().replace(".model", ""))) {
+															registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + "/registry/" + reg.getName()));
+														}
+													}
 												}
 											}
 										}
 									}
 								}
 							}
-						}
-					}
-					else {
-						if (f.getName().equals(exercise.getBlock().getName())) {
-							for (File s : f.listFiles()) {
-								if (s.isFile() == true) {
-									if (s.getName().endsWith(".model")) {
-										registry.mutants.add(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + exercise.getBlock().getName() +'/' + s.getName()));
-										for (File r : f.listFiles()) {
-											if (r.getName().equals("registry")) {
-												for (File reg : r.listFiles()) {
-													if (reg.getName().endsWith(".model")) {
-														if (reg.getName().startsWith(s.getName().replace(".model", ""))) {
-															registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + exercise.getBlock().getName() + "/registry/" + reg.getName()));
-
+							else {
+								if (f.getName().equals(block.getName())) {
+									for (File s : f.listFiles()) {
+										if (s.isFile() == true) {
+											if (s.getName().endsWith(".model") && !s.getName().contains("_") && !f.getName().equals("Reverse.model")) {
+												registry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + block.getName() +'/' + s.getName()), null));
+												for (File r : f.listFiles()) {
+													if (r.getName().equals("registry")) {
+														for (File reg : r.listFiles()) {
+															if (reg.getName().endsWith(".model")) {
+																if (reg.getName().startsWith(s.getName().replace(".model", ""))) {
+																	registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + block.getName() + "/registry/" + reg.getName()));
+																}
+															}
 														}
 													}
 												}
-											}
-										}
-										if (registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1)) == null) {
-											registry.wrong.put(registry.mutants.get(registry.mutants.size()- 1), new ArrayList<Registry>());
-										}
-										for (EObject b : blocks) {
-											List<EObject> from = null;
-											String name = "";
-											for (EReference ref : b.eClass().getEAllReferences()) {
-												if (ref.getName().equals("from")) {
-													from = (List<EObject>) b.eGet(ref);
-													break;
+												if (registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()) == null) {
+													registry.wrong.put(registry.mutants.get(registry.mutants.size()- 1).getKey(), new ArrayList<Registry>());
 												}
-											}
-											for (EAttribute att : b.eClass().getEAllAttributes()) {
-												if (att.getName().equals("name")) {
-													name = (String) b.eGet(att);
-													break;
-												}
-											}
-											if (from != null) {
-												for (EObject block : from) {
-													String blockName = "";
-													for (EAttribute att : block.eClass().getEAllAttributes()) {
-														if (att.getName().equals("name")) {
-															blockName = (String) block.eGet(att);
+												for (EObject b : blocks) {
+													List<EObject> from = null;
+													String name = "";
+													for (EReference ref : b.eClass().getEAllReferences()) {
+														if (ref.getName().equals("from")) {
+															from = (List<EObject>) b.eGet(ref);
 															break;
 														}
 													}
-													if (blockName.equals(exercise.getBlock().getName())) {
-														Registry wrongRegistry = new Registry();
-														wrongRegistry.seed = ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + exercise.getBlock().getName() +'/' + s.getName());
-														wrongRegistry.mutants = new ArrayList<Resource>();
-														wrongRegistry.history = new ArrayList<Resource>();
-														File wrongOutFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + "/" + name + '/' +  exercise.getBlock().getName());
-														if (wrongOutFolder.isDirectory() == true) {
-															for (File wf : wrongOutFolder.listFiles()) {
-																if (wf.getName().equals(s.getName().replace(".model", ""))) {
-																	for (File w : wf.listFiles()) {
-																		if (w.isFile() == true) {
-																			if (w.getName().endsWith(".model")) {
-																				wrongRegistry.mutants.add(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + name + '/' + exercise.getBlock().getName() +'/' + s.getName().replace(".model", "") + '/' + w.getName()));
-																				for (File r : wf.listFiles()) {
-																					if (r.isDirectory() == true) {
-																						if (r.getName().equals("registry")) {
-																							for (File reg : r.listFiles()) {
-																								if (reg.getName().endsWith(".model")) {
-																									wrongRegistry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + name + '/' + exercise.getBlock().getName() + '/' + s.getName().replace(".model", "") + "/registry/" + reg.getName()));
+													for (EAttribute att : b.eClass().getEAllAttributes()) {
+														if (att.getName().equals("name")) {
+															name = (String) b.eGet(att);
+															break;
+														}
+													}
+													if (from != null) {
+														for (EObject bl : from) {
+															String blockName = "";
+															for (EAttribute att : bl.eClass().getEAllAttributes()) {
+																if (att.getName().equals("name")) {
+																	blockName = (String) bl.eGet(att);
+																	break;
+																}
+															}
+															if (blockName.equals(block.getName())) {
+																Registry wrongRegistry = new Registry();
+																wrongRegistry.seed = ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + block.getName() +'/' + s.getName());
+																wrongRegistry.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+																wrongRegistry.history = new ArrayList<Resource>();
+																File wrongOutFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + "/" + name + '/' + block.getName());
+																if (wrongOutFolder.isDirectory() == true) {
+																	for (File wf : wrongOutFolder.listFiles()) {
+																		if (wf.getName().equals(s.getName().replace(".model", ""))) {
+																			for (File w : wf.listFiles()) {
+																				if (w.isFile() == true) {
+																					if (w.getName().endsWith(".model")) {
+																						wrongRegistry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/'  + test.getSource().replace(".model", "") + '/' + name + '/' + block.getName() +'/' + s.getName().replace(".model", "") + '/' + w.getName()), null));
+																						for (File r : wf.listFiles()) {
+																							if (r.isDirectory() == true) {
+																								if (r.getName().equals("registry")) {
+																									for (File reg : r.listFiles()) {
+																										if (reg.getName().endsWith(".model")) {
+																											wrongRegistry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + name + '/' + block.getName() + '/' + s.getName().replace(".model", "") + "/registry/" + reg.getName()));
+																										}
+																									}
 																								}
 																							}
 																						}
@@ -239,9 +289,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 																		}
 																	}
 																}
+																registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()).add(wrongRegistry);
 															}
 														}
-														registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1)).add(wrongRegistry);
 													}
 												}
 											}
@@ -251,11 +301,267 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							}
 						}
 					}
+					else {
+						Block b = block;
+						while (b != null) {
+							Block fr = b;
+							String blockPath = b.getName() + '/' ;
+							while (fr != null) {
+								outFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + blockPath);
+								if (outFolder.exists()) {
+									for (File f : outFolder.listFiles()) {
+										if (f.isFile() == true) {
+											if (f.getName().endsWith(".model") && !f.getName().contains("_") && !f.getName().equals("Reverse.model")) {
+												registry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + blockPath + '/' + f.getName()), null));
+												for (File r : outFolder.listFiles()) {
+													if (r.isDirectory() == true) {
+														if (r.getName().equals("registry")) {
+															for (File reg : r.listFiles()) {
+																if (reg.getName().endsWith(".model")) {
+																	if (reg.getName().startsWith(f.getName().replace(".model", ""))) {
+																		registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + blockPath + "/registry/" + reg.getName()));
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+										else {
+											if (f.getName().startsWith("Output") && !f.getName().endsWith("vs")) {
+												File ss = f;
+												String mutantPath = blockPath;
+												while (ss.isFile() == false || ss == null) {
+													if (!ss.getName().startsWith("Output")) {
+														break;
+													}
+													if (ss.listFiles() != null && ss.listFiles().length > 0) {
+														f = ss;
+														ss = ss.listFiles()[0];
+														mutantPath += "/" + f.getName();
+													}
+													else {
+														ss = null;
+													}
+												}
+												boolean found = false;
+												for (File s : f.listFiles()) {
+													if (s.isFile()) {
+														found = true;
+														break;
+													}
+												}
+												if (found == false) {
+													mutantPath = mutantPath.substring(0, mutantPath.lastIndexOf("/"));
+													f = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath);
+												}
+												for (File s : f.listFiles()) {
+													if (s.isFile() == true) {
+														if (s.getName().endsWith(".model") && ! s.getName().contains("_") && !f.getName().equals("Reverse.model")) {
+															registry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + '/' + s.getName()), null));
+															for (File r : f.listFiles()) {
+																if (r.getName().equals("registry")) {
+																	for (File reg : r.listFiles()) {
+																		if (reg.getName().endsWith(".model")) {
+																			if (reg.getName().startsWith(s.getName().replace(".model", ""))) {
+																				registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + "/registry/" + reg.getName()));
+																			}
+																		}
+																	}
+																}
+															}
+															if (registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()) == null) {
+																registry.wrong.put(registry.mutants.get(registry.mutants.size() - 1).getKey(), new ArrayList<Registry>());
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								if (fr.getFrom() == null || fr.getFrom().size() == 0) {
+									break;
+								}
+								fr = fr.getFrom().get(0);
+								blockPath = "/" + blockPath + "/" + fr.getName();
+							}
+							for (Block from : b.getFrom()) {
+								fr = from;
+								blockPath = b.getName() + '/' + from.getName();
+								while (fr != null) {
+									outFolder = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + blockPath);
+									if (outFolder.exists()) {
+										for (File f : outFolder.listFiles()) {
+											if (f.isFile() == true) {
+												if (f.getName().endsWith(".model") && !f.getName().contains("_") && !f.getName().equals("Reverse.model")) {
+													registry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + blockPath + '/' + f.getName()), null));
+													for (File r : outFolder.listFiles()) {
+														if (r.isDirectory() == true) {
+															if (r.getName().equals("registry")) {
+																for (File reg : r.listFiles()) {
+																	if (reg.getName().endsWith(".model")) {
+																		if (reg.getName().startsWith(f.getName().replace(".model", ""))) {
+																			registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + blockPath + "/registry/" + reg.getName()));
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+											else {
+												if (f.getName().startsWith("Output") && !f.getName().endsWith("vs")) {
+													File ss = f;
+													String mutantPath = blockPath;
+													while (ss.isFile() == false || ss == null) {
+														if (!ss.getName().startsWith("Output")) {
+															break;
+														}
+														if (ss.listFiles() != null && ss.listFiles().length > 0) {
+															f = ss;
+															ss = ss.listFiles()[0];
+															mutantPath += "/" + f.getName();
+														}
+														else {
+															ss = null;
+														}
+													}
+													boolean found = false;
+													for (File s : f.listFiles()) {
+														if (s.isFile()) {
+															found = true;
+															break;
+														}
+													}
+													if (found == false) {
+														mutantPath = mutantPath.substring(0, mutantPath.lastIndexOf("/"));
+														f = new File(ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath);
+													}
+													for (File s : f.listFiles()) {
+														if (s.isFile() == true) {
+															if (s.getName().endsWith(".model") && ! s.getName().contains("_") && !f.getName().equals("Reverse.model")) {
+																registry.mutants.add(new SimpleEntry<Resource, Resource>(ModelManager.loadModel(packages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + '/' + s.getName()), null));
+																for (File r : f.listFiles()) {
+																	if (r.getName().equals("registry")) {
+																		for (File reg : r.listFiles()) {
+																			if (reg.getName().endsWith(".model")) {
+																				if (reg.getName().startsWith(s.getName().replace(".model", ""))) {
+																					registry.history.add(ModelManager.loadModel(registrypackages, ModelManager.getOutputPath() + '/' + test.getSource().replace(".model", "") + '/' + mutantPath + "/registry/" + reg.getName()));
+																				}
+																			}
+																		}
+																	}
+																}
+																if (registry.wrong.get(registry.mutants.get(registry.mutants.size() - 1).getKey()) == null) {
+																	registry.wrong.put(registry.mutants.get(registry.mutants.size() - 1).getKey(), new ArrayList<Registry>());
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+									if (fr.getFrom() == null || fr.getFrom().size() == 0) {
+										break;
+									}
+									fr = fr.getFrom().get(0);
+									blockPath = "/" + blockPath + "/" + fr.getName();
+								}
+							}
+							if (b.getFrom() != null && b.getFrom().size() != 0) {
+								b = b.getFrom().get(0);
+							}
+							else {
+								b = null;
+							}
+						}
+					}
 				}
 			}
 		}
 
 		return registry;
+	}
+	
+	protected String getText(String fileName, Resource resource) throws ModelNotFoundException {
+		String text = "";
+		try {
+			Bundle bundle = Platform.getBundle("wodel.models");
+			URL fileURL = bundle.getEntry("/models/MutatorEnvironment.ecore");
+			String mutatorecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> mutatorpackages = ModelManager.loadMetaModel(mutatorecore);
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + manager.WodelContext.getProject() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", ".model");
+			Resource mutatormodel = ModelManager.loadModel(mutatorpackages, URI.createURI(xmiFileName).toFileString());
+			EObject definition = ModelManager.getObjectsOfType("Definition", mutatormodel).get(0);
+			String metamodel = ModelManager.getStringAttribute("metamodel", definition);
+
+			if (Platform.getExtensionRegistry() != null) {
+				IConfigurationElement[] extensions = Platform
+						.getExtensionRegistry().getConfigurationElementsFor(
+								"wodel.model2text.ModelToText");
+
+				IConfigurationElement appropriateExtension = null;
+				for (IConfigurationElement extension : extensions) {
+					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
+					Object model2Text =  extensionClass.newInstance();
+					Method getURI = extensionClass.getDeclaredMethod("getURI");
+					List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+					String uri = (String) getURI.invoke(model2Text);
+					if (uri.equals(packages.get(0).getNsURI())) {
+						appropriateExtension = extension;
+						break;
+					}
+				}
+				if (appropriateExtension != null) {
+					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
+					Object model2Text =  extensionClass.newInstance();
+					Method getText = extensionClass.getDeclaredMethod("getText", new Class[]{String.class, String.class});
+					text = (String) getText.invoke(model2Text, metamodel, fileName);
+				}
+				//List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
+				//Resource model = ModelManager.loadModel(packages, URI.createURI("file://" + ModelManager.getModelsFolder() + "/" + fileName).toFileString());
+				//Resource model = ModelManager.loadModel(packages, fileName);
+				//if (packages.get(0).getNsURI().equals("http://dfaAutomaton/1.0")) {
+				//	text = DFA2Regex.toRegExp(DFAUtils.convertToDFA(packages, model));
+				//}
+			}
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidRegistryObjectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return text;
 	}
 
 	/**
@@ -331,23 +637,25 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					}
 				}
 			}
-			if (exercise.getBlock() != null) {
-				folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + exercise.getBlock().getName());
-				if (folder.isDirectory() == true) {
-					for (File f : folder.listFiles()) {
-						if (f.getName().endsWith(".png")) {
-							fileNames.add(exercise.getBlock().getName() + "/" + f.getName());
+			if (exercise.getBlocks() != null) {
+				for (Block block : exercise.getBlocks()) {
+					folder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + block.getName());
+					if (folder.isDirectory() == true) {
+						for (File f : folder.listFiles()) {
+							if (f.getName().endsWith(".png")) {
+								fileNames.add(block.getName() + "/" + f.getName());
+							}
 						}
 					}
-				}
-				if (exercise.getBlock().getFrom().size() > 0) {
-					for (Block b : exercise.getBlock().getFrom()) {
-						File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + b.getName() + "/" + exercise.getBlock().getName());
-						if (wrongFolder.isDirectory() == true) {
-							for (File f : wrongFolder.listFiles()) {
-								for (File w : f.listFiles()) {
-									if (w.getName().endsWith(".png")) {
-										fileNames.add(b.getName() + "/" + exercise.getBlock().getName() + "/" + f.getName() + "/" + w.getName());
+					if (block.getFrom().size() > 0) {
+						for (Block b : block.getFrom()) {
+						File wrongFolder = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/diagrams/" + test.getSource().replace(".model", "") + "/" + b.getName() + "/" + block.getName());
+							if (wrongFolder.isDirectory() == true) {
+								for (File f : wrongFolder.listFiles()) {
+									for (File w : f.listFiles()) {
+										if (w.getName().endsWith(".png")) {
+											fileNames.add(b.getName() + "/" + block.getName() + "/" + f.getName() + "/" + w.getName());
+										}
 									}
 								}
 							}
@@ -377,7 +685,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opt
 	 * @param opts
 	 */
-	private void storeMultiChoiceEmendationOption(MultiChoiceEmendation exercise, String text, Mode mode, TestOption opt, List<TestOption> opts) {
+	private void storeOption(MutatorTests exercise, String text, Mode mode, TestOption opt, List<TestOption> opts) {
 		try {
 			if (mode == Mode.RADIOBUTTON) {
 				if (opt.text.contains(text) != true) {
@@ -385,6 +693,16 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 			}
 			if (mode == Mode.CHECKBOX) {
+				opt.text = new ArrayList<String>();
+				opt.text.add(text);
+				TestOption optClone = (TestOption) opt.clone();
+				boolean isRepeated = subsumeCheckbox(opts, optClone);
+				if (isRepeated == false) {
+					total.put(exercise, total.get(exercise) + 1);
+					opts.add(optClone);
+				}
+			}
+			if (mode == null) {
 				opt.text = new ArrayList<String>();
 				opt.text.add(text);
 				TestOption optClone = (TestOption) opt.clone();
@@ -411,7 +729,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opt
 	 * @param opts
 	 */
-	private void storeMultiChoiceEmendationOptionList(MultiChoiceEmendation exercise, String text, List<String> list, Mode mode, TestOption opt, List<TestOption> opts) {
+	private void storeOptionList(MutatorTests exercise, String text, List<String> list, Mode mode, TestOption opt, List<TestOption> opts) {
 		try {
 			if (mode == Mode.RADIOBUTTON) { 
 				if (text.length() > 0 && list.contains(text) != true) {
@@ -419,6 +737,16 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 			}
 			if (mode == Mode.CHECKBOX) {
+				opt.text = new ArrayList<String>();
+				opt.text.add(text);
+				TestOption optClone = (TestOption) opt.clone();
+				boolean isRepeated = subsumeCheckbox(opts, optClone);
+				if (isRepeated == false) {
+					total.put(exercise, total.get(exercise) + 1);
+					opts.add(optClone);
+				}
+			}
+			if (mode == null) {
 				opt.text = new ArrayList<String>();
 				opt.text.add(text);
 				TestOption optClone = (TestOption) opt.clone();
@@ -873,7 +1201,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opts
 	 * @param mode
 	 */
-	private void storeAttributeChangedOptions(MultiChoiceEmendation exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode) {
+	private void storeAttributeChangedOptions(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode) {
 		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> attributes = new ArrayList<String>();
@@ -1005,7 +1333,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					}
 				}
 			}
-			storeMultiChoiceEmendationOptionList(exercise, text, attributes, mode, opt, opts);
+			storeOptionList(exercise, text, attributes, mode, opt, opts);
 		}
 		if (mode == Mode.RADIOBUTTON) { 
 			for (String txt : attributes) {
@@ -1086,7 +1414,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 								o = to;
 							}
 							else {
-								o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
+								o = (EObject) to.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), to));
 							}
 							if (o != null) {
 								text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
@@ -1333,7 +1661,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opts
 	 * @param mode
 	 */
-	private void storeReferenceChangedOptions(MultiChoiceEmendation exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode) {
+	private void storeReferenceChangedOptions(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode) {
 		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> references = new ArrayList<String>();
@@ -1370,7 +1698,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			if (!newer) {
 				text += getReferenceChangedOptionNotNewer(opt, t, object, from, fromElement, toElement, refSrcElement);
 			}
-			storeMultiChoiceEmendationOptionList(exercise, text, references, mode, opt, opts);
+			storeOptionList(exercise, text, references, mode, opt, opts);
 		}
 		if (mode == Mode.RADIOBUTTON) { 
 			for (String txt : references) {
@@ -1410,29 +1738,29 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						if (flag == true) {
 							if (mutation instanceof ObjectCreated) {
 								text = getObjectCreatedOption(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt);
-								storeMultiChoiceEmendationOption(exercise, text, mode, opt, opts);
+								storeOption(exercise, text, mode, opt, opts);
 							}
 							if (mutation instanceof ObjectRemoved) {
 								text = getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt);
-								storeMultiChoiceEmendationOption(exercise, text, mode, opt, opts);
+								storeOption(exercise, text, mode, opt, opts);
 							}							
 							if (mutation instanceof SourceReferenceChanged) {
 								text = getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt);
-								storeMultiChoiceEmendationOption(exercise, text, mode, opt, opts);
+								storeOption(exercise, text, mode, opt, opts);
 							}
 							if (mutation instanceof TargetReferenceChanged) {
 								text = getTargetReferenceChangedOption(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt);
-								storeMultiChoiceEmendationOption(exercise, text, mode, opt, opts);
+								storeOption(exercise, text, mode, opt, opts);
 							}
 //							if (mutation instanceof ReferenceSwap) {
 //							}
 							if (mutation instanceof ReferenceCreated) {
 								text = getReferenceCreatedOption(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt);
-								storeMultiChoiceEmendationOption(exercise, text, mode, opt, opts);
+								storeOption(exercise, text, mode, opt, opts);
 							}
 							if (mutation instanceof ReferenceRemoved) {
 								text = getReferenceRemovedOption(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt);
-								storeMultiChoiceEmendationOption(exercise, text, mode, opt, opts);
+								storeOption(exercise, text, mode, opt, opts);
 							}
 							if (mutation instanceof InformationChanged) {
 								storeAttributeChangedOptions(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, mode);
@@ -1464,12 +1792,12 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param exercise
 	 * @param blocks
 	 */
-	private void buildMultiChoiceEmendation(Resource resource, MultiChoiceEmendation exercise, List<EObject> blocks) {
+	private void buildMultiChoiceEmendation(Resource resource, MultiChoiceEmendation exercise, List<EObject> blocks, Class<?> cls) {
 		try {
 			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
 			Bundle bundle = Platform.getBundle("wodel.models");
 			String ecore = ModelManager.getMetaModel().replace("\\", "/");
-			List<EPackage> packages = ModelManager.loadMetaModel(ecore);
+			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
 			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
 			String registryecore = FileLocator.resolve(fileURL).getFile();
 			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
@@ -1497,10 +1825,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					Registry reg = dataRegistry.get(exercise).get(test);
 					String diagramPath = "";
 					if (ModelManager.getOutputPath().indexOf(":") != -1) {
-						diagramPath = reg.mutants.get(rnd).getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+						diagramPath = reg.mutants.get(rnd).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
 					}
 					else {
-						diagramPath = reg.mutants.get(rnd).getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
+						diagramPath = reg.mutants.get(rnd).getKey().getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
 					}
 					opt.path = "diagrams" + diagramPath;
 					opt.resource = reg.history.get(rnd);
@@ -1508,11 +1836,11 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 					opt.solution = true;
 					List<TestOption> opts = new ArrayList<TestOption>();
 					opts.add(opt);
-					for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(rnd))) {
+					for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(rnd).getKey())) {
 						if (wrongRegistry.mutants.size() > 0) {
 							rnd = ModelManager.getRandomIndex(wrongRegistry.mutants);
 							opt = new TestOption();
-							opt.path = "diagrams" + wrongRegistry.mutants.get(rnd).getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+							opt.path = "diagrams" + wrongRegistry.mutants.get(rnd).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
 							opt.resource = wrongRegistry.history.get(rnd);
 							opt.seed = wrongRegistry.seed;
 							opt.solution = false;
@@ -1538,12 +1866,430 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	}
 
 	/**
+	 * Builds the match pairs
+	 * natural language options
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param exercise
+	 * @param testOptions
+	 * @param mode
+	 */
+	private void buildOptionsMatchPairs(Resource cfgoptsresource, Resource idelemsresource, MatchPairs exercise, Map<Test, List<TestOption>> testOptions) {
+		for (Test test : exercise.getTests()) {
+			List<TestOption> opts = new ArrayList<TestOption>();
+			if (options.get(exercise).get(test) != null) {
+				for (TestOption opt : options.get(exercise).get(test)) {
+					opt.text = new ArrayList<String>();
+					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
+					for (EObject mutation : mutations) {
+						String text = "";
+						List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+						boolean flag = false;
+						for (EClass cl : superTypes) {
+							if (cl.getName().equals("AppMutation")) {
+								flag = true;
+								break;
+							}
+						}
+						if (flag == true) {
+							if (mutation instanceof ObjectCreated) {
+								text = getObjectCreatedOption(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt);
+								storeOption(exercise, text, null, opt, opts);
+							}
+							if (mutation instanceof ObjectRemoved) {
+								text = getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt);
+								storeOption(exercise, text, null, opt, opts);
+							}							
+							if (mutation instanceof SourceReferenceChanged) {
+								text = getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt);
+								storeOption(exercise, text, null, opt, opts);
+							}
+							if (mutation instanceof TargetReferenceChanged) {
+								text = getTargetReferenceChangedOption(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt);
+								storeOption(exercise, text, null, opt, opts);
+							}
+//							if (mutation instanceof ReferenceSwap) {
+//							}
+							if (mutation instanceof ReferenceCreated) {
+								text = getReferenceCreatedOption(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt);
+								storeOption(exercise, text, null, opt, opts);
+							}
+							if (mutation instanceof ReferenceRemoved) {
+								text = getReferenceRemovedOption(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt);
+								storeOption(exercise, text, null, opt, opts);
+							}
+							if (mutation instanceof InformationChanged) {
+								storeAttributeChangedOptions(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null);
+								storeReferenceChangedOptions(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null);
+							}
+//							if (mutation instanceof ObjectRetyped) {
+//							}
+						}
+					}
+				}
+				Collections.shuffle(opts);
+				testOptions.put(test, opts);
+			}
+		}
+	}
+
+	/**
+	 * Builds the options for the MultiChoiceEmendation
+	 * @param resource
+	 * @param exercise
+	 * @param blocks
+	 */
+	private void buildMatchPairs(Resource resource, MatchPairs exercise, List<EObject> blocks, Class<?> cls) {
+		try {
+			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Bundle bundle = Platform.getBundle("wodel.models");
+			String ecore = ModelManager.getMetaModel().replace("\\", "/");
+			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
+			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			String registryecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
+			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			String idelemsecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
+			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
+			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
+			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
+			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			for (Test test : exercise.getTests()) {
+				dataReg.put(test, getRegistry((MatchPairs) exercise, test, blocks, packages, registrypackages));
+			}
+			for (Test test : dataReg.keySet()) {
+				Registry reg = dataReg.get(test);
+				if (reg.mutants.size() == 0) {
+					options.put(exercise, testOptions);
+					return;
+				}
+				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+					System.out.println(mut.getKey().getURI());
+				}
+				for (Resource hist : reg.history) {
+					System.out.println(hist.getURI());
+				}
+			}
+			int longestMutantPath = Integer.MIN_VALUE;
+			int longestHistoryPath = Integer.MIN_VALUE;
+			for (Test test : dataReg.keySet()) {
+				Registry reg = dataReg.get(test);
+				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+					if (mut.getKey().getURI().toFileString().length() > longestMutantPath) {
+						longestMutantPath = mut.getKey().getURI().toFileString().length();
+					}
+				}
+				for (Resource hist : reg.history) {
+					if (hist.getURI().toFileString().length() > longestHistoryPath) {
+						longestHistoryPath = hist.getURI().toFileString().length();
+					}
+				}
+			}
+			Map<Test, Registry> selectedDataReg = new HashMap<Test, Registry>();
+			for (Test test : dataReg.keySet()) {
+				Registry reg = dataReg.get(test);
+				Registry newReg = new Registry();
+				newReg.seed = reg.seed; 
+				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+				newReg.history = new ArrayList<Resource>();
+				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+					if (mut.getKey().getURI().toFileString().length() == longestMutantPath) {
+						newReg.mutants.add(new SimpleEntry<Resource, Resource>(mut.getKey(), null));
+					}
+				}
+				for (Resource hist : reg.history) {
+					if (hist.getURI().toFileString().length() == longestHistoryPath) {
+						newReg.history.add(hist);
+					}
+				}
+				selectedDataReg.put(test, newReg);
+			}
+			for (Test test : selectedDataReg.keySet()) {
+				Registry reg = selectedDataReg.get(test);
+				System.out.println(reg.seed.getURI());
+				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+					System.out.println(mut.getKey().getURI());
+				}
+				for (Resource st : reg.history) {
+					System.out.println(st.getURI());
+				}
+			}
+			Map<Test, Registry> exerciseDataReg = new HashMap<Test, Registry>();
+			for (Test test : selectedDataReg.keySet()) {
+				Registry reg = selectedDataReg.get(test);
+				Registry newReg = new Registry();
+				newReg.seed = reg.seed;
+				System.out.println(reg.seed.getURI());
+				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+				newReg.history = new ArrayList<Resource>();
+				int rnd = ModelManager.getRandomIndex(reg.mutants);
+				newReg.mutants.add(reg.mutants.get(rnd));
+				newReg.history.add(reg.history.get(rnd));
+				System.out.println(newReg.mutants.get(0).getKey().getURI());
+				System.out.println(newReg.history.get(0).getURI());
+				exerciseDataReg.put(test, newReg);
+			}
+			for (Test test : dataReg.keySet()) {
+				Registry reg = dataReg.get(test);
+				Registry newReg = exerciseDataReg.get(test);
+				String ex = reg.seed.getURI().toString().substring(reg.seed.getURI().toString().lastIndexOf("/") + 1, reg.seed.getURI().toString().length());
+				System.out.println(ex);
+				Resource mutant = newReg.mutants.get(0).getKey();
+				List<String> bks = new ArrayList<String>();
+				List<String> muts = new ArrayList<String>();
+				String path = mutant.getURI().toString().substring(mutant.getURI().toString().lastIndexOf(ex.substring(0, ex.indexOf("."))) + ex.substring(0, ex.indexOf(".")).length(), mutant.getURI().toString().length());
+				while (path.charAt(0) == '/') {
+					path = path.substring(1, path.length());
+				}
+				String[] bckNames = path.split("/");
+				for (String bckName : bckNames) {
+					if (!bckName.endsWith(".model") && !bckName.startsWith("Output") && !bckName.equals("")) {
+						bks.add(bckName.trim());
+					}
+					if (bckName.startsWith("Output") && !bckName.endsWith(".model")) {
+						muts.add(bckName.trim());
+					}
+					if (bckName.startsWith("Output") && bckName.endsWith(".model")) {
+						muts.add(bckName.substring(0, bckName.indexOf(".")).trim());
+					}
+				}
+				int j = 0;
+				while (true) {
+					int i = j + 1;
+					String previous = "";
+					for (; i < bks.size(); i++) {
+						previous += "/" + bks.get(i);
+					}
+					System.out.println(previous);
+					for (int k = 0; k < bks.size() - (j + 1); k++) {
+						previous += "/" + muts.get(k);
+					}
+					if (previous.length() == 0) {
+						break;
+					}
+					previous += ".model";
+					System.out.println(previous);
+					int index = -1;
+					i = 0;
+					for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+						if (mut.getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/").contains(previous) && !mut.getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/").equals(newReg.mutants.get(j).getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/"))) {
+							index = i;
+						}
+						System.out.println(mut.getKey().getURI());
+						i++;
+					}
+					if (index != -1) {
+						newReg.mutants.add(reg.mutants.get(index));
+						newReg.history.add(reg.history.get(index));
+					}
+					else {
+						break;
+					}
+					j++;
+				}
+			}
+			Map<Test, List<Integer>> orderedTestMap = new HashMap<Test, List<Integer>>();
+			for (Test test : exerciseDataReg.keySet()) {
+				List<Integer> orderedList = new ArrayList<Integer>();
+				Registry reg = exerciseDataReg.get(test);
+				while (orderedList.size() < reg.mutants.size()) {
+					int min = Integer.MAX_VALUE;
+					int index = -1;
+					for (int i = 0; i < reg.mutants.size(); i++) {
+						if (!orderedList.contains(i) && reg.mutants.get(i).getKey().getURI().toFileString().length() < min) {
+							min = reg.mutants.get(i).getKey().getURI().toFileString().length();
+							index = i;
+						}
+					}
+					if (index != -1) {
+						orderedList.add(index);
+					}
+					else {
+						break;
+					}
+				}
+				orderedTestMap.put(test, orderedList);
+			}
+			for (Test test : exerciseDataReg.keySet()) {
+				List<Integer> orderedList = orderedTestMap.get(test);
+				Registry reg = exerciseDataReg.get(test);
+				SimpleEntry<Resource, Resource> entry = reg.mutants.get(orderedList.get(0));
+				entry.setValue(reg.seed);
+				for (int i = 1; i < orderedList.size(); i++) {
+					entry = reg.mutants.get(orderedList.get(i));
+					entry.setValue(reg.mutants.get(orderedList.get(i - 1)).getKey());
+				}
+			}
+			for (Test test : exerciseDataReg.keySet()) {
+				Registry reg = exerciseDataReg.get(test);
+				System.out.println(reg.seed.getURI());
+				for (SimpleEntry<Resource, Resource> mut : reg.mutants) { 
+					System.out.println(mut.getKey().getURI());
+					System.out.println(mut.getValue().getURI());
+				}
+				for (SimpleEntry<Resource, Resource> pre : reg.mutants) { 
+					System.out.println(pre.getValue().getURI());
+				}
+				for (Resource hist : reg.history) {
+					System.out.println(hist.getURI());
+				}
+			}
+			dataRegistry.put(exercise, exerciseDataReg);
+			List<String> coveredBlocks = new ArrayList<String>();
+			for (Test test : exercise.getTests()) {
+				List<TestOption> opts = new ArrayList<TestOption>();
+				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
+					for (int i = 0; i < dataRegistry.get(exercise).get(test).mutants.size(); i++) {
+						Registry reg = dataRegistry.get(exercise).get(test);
+						boolean covered = false;
+						List<Integer> indexes = new ArrayList<Integer>();
+						for (int j = 0; j < reg.mutants.size(); j++) {
+							indexes.add(j);
+						}
+						int k = i;
+						while (covered == false && indexes.size() > 0) {
+							for (EObject block : exercise.getBlocks()) {
+								String name = ModelManager.getStringAttribute("name", block);
+								if (reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").contains("/" + name + "/") && !coveredBlocks.contains(name)) {
+									coveredBlocks.add(name);
+									covered = true;
+									break;
+								}
+								else if (coveredBlocks.size() == exercise.getBlocks().size()) {
+									covered = true;
+									break;
+								}
+								else {
+									indexes.remove(Integer.valueOf(k));
+									if (indexes.size() > 0) {
+										int index = ModelManager.getRandomIndex(indexes);
+										k = indexes.get(index);
+									}
+								}
+							}
+							String diagramPath = "";
+							if (ModelManager.getOutputPath().indexOf(":") != -1) {
+								diagramPath = reg.mutants.get(i).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+							}
+							else {
+								diagramPath = reg.mutants.get(i).getKey().getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
+							}
+							TestOption opt = new TestOption();
+							opt.path = "diagrams" + diagramPath;
+							opt.resource = reg.history.get(i);
+							opt.seed = reg.mutants.get(i).getValue();
+							opt.mutant = reg.mutants.get(i).getKey();
+							opt.solution = true;
+							opts.add(opt);
+//							for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(k))) {
+//								if (wrongRegistry.mutants.size() > 0) {
+//									k = ModelManager.getRandomIndex(wrongRegistry.mutants);
+//									opt = new TestOption();
+//									opt.path = "diagrams" + wrongRegistry.mutants.get(k).getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+//									opt.resource = wrongRegistry.history.get(k);
+//									opt.seed = wrongRegistry.seed;
+//									opt.solution = false;
+//									opts.add(opt);
+//								}
+//							}
+						}
+					}
+					testOptions.put(test, opts);
+				}
+			}
+			options.put(exercise, testOptions);
+			buildOptionsMatchPairs(cfgoptsresource, idelemsresource, exercise, testOptions);
+			for (Test test : testOptions.keySet()) {
+				List<TestOption> finalTestOptions = new ArrayList<TestOption>();
+				for (TestOption testOption : testOptions.get(test)) {
+					boolean found = false;
+					for (TestOption finalTestOption : finalTestOptions) {
+						if (testOption.text.equals(finalTestOption.text)) {
+							found = true;
+							break;
+						}
+					}
+					if (found == false) {
+						finalTestOptions.add(testOption);
+					}
+				}
+				testOptions.put(test, finalTestOptions);
+			}
+			for (Test test : testOptions.keySet()) {
+				for (TestOption testOption : testOptions.get(test)) {
+					String previousBlock = testOption.mutant.getURI().path();
+					previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
+					while (previousBlock.indexOf("/") == 0) {
+						previousBlock = previousBlock.substring(1, previousBlock.length());
+					}
+					previousBlock = previousBlock.substring(0, previousBlock.indexOf("/"));
+					String reversePath = testOption.mutant.getURI().path();
+					reversePath = reversePath.replace(".model", "/" + previousBlock + "/Reverse.model");
+					System.out.println(reversePath);
+					reversePath = ModelManager.getOutputPath() + "/" + reversePath.substring(reversePath.indexOf("/" + test.getSource().replace(".model", "") + "/"), reversePath.length());
+					File check = new File(reversePath);
+					System.out.println(reversePath);
+					if (check.exists()) {
+						testOption.reverse = new ArrayList<SimpleEntry<Resource, List<String>>>();
+						testOption.reverse.add(new SimpleEntry<Resource, List<String>>(ModelManager.loadModel(packages, reversePath), testOption.text));
+						SimpleEntry<Resource, Resource> previous = new SimpleEntry<Resource, Resource>(testOption.mutant, testOption.seed);
+						while (previous != null) {
+							boolean found = false;
+							for (TestOption op : testOptions.get(test)) {
+								if (op.mutant.getURI().equals(previous.getValue().getURI())) {
+									previous = new SimpleEntry<Resource, Resource>(op.mutant, op.seed);
+									found = true;
+									previousBlock = previous.getKey().getURI().path();
+									previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
+									while (previousBlock.indexOf("/") == 0) {
+										previousBlock = previousBlock.substring(1, previousBlock.length());
+									}
+									previousBlock = previousBlock.substring(0, previousBlock.indexOf("/"));
+									reversePath = testOption.mutant.getURI().path();
+									reversePath = reversePath.replace(".model", "/" + previousBlock + "/Reverse.model");
+									System.out.println(reversePath);
+									reversePath = ModelManager.getOutputPath() + "/" + reversePath.substring(reversePath.indexOf("/" + test.getSource().replace(".model", "") + "/"), reversePath.length());
+									check = new File(reversePath);
+									System.out.println(reversePath);
+									testOption.reverse.add(new SimpleEntry<Resource, List<String>>(ModelManager.loadModel(packages, reversePath), op.text));
+									break;
+								}
+							}
+							if (found == false) {
+								previous = null;
+								break;
+							}
+						}
+					}
+				}
+			}
+			options.put(exercise, testOptions);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Generates the options for the test exercises application
 	 * @param program
 	 * @param resource
 	 * @return
 	 */
-	protected void buildOptions(Program program, Resource resource, List<EObject> blocks) {
+	protected void buildOptions(Program program, Resource resource, List<EObject> blocks, Class<?> cls) {
 		for (MutatorTests exercise : program.getExercises()) {
 			total.put(exercise, 0);
 			Map<Test, List<String>> diags = new HashMap<Test, List<String>>();
@@ -1551,16 +2297,32 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				buildAlternativeResponseOrMultiChoiceDiagram(exercise, diags);
 			}
 			if (exercise instanceof MultiChoiceEmendation) {
-				buildMultiChoiceEmendation(resource, (MultiChoiceEmendation) exercise, blocks);
+				buildMultiChoiceEmendation(resource, (MultiChoiceEmendation) exercise, blocks, cls);
+			}
+			if (exercise instanceof MatchPairs) {
+				buildMatchPairs(resource, (MatchPairs) exercise, blocks, cls);
 			}
 		}
+	}
+	
+	protected String getStringBase64(String fileName) {
+		String base64 = "";
+		File file = new File(ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/src-gen/html/" + fileName);
+		try {
+			byte[] bytes = Base64.getEncoder().withoutPadding().encode(Files.readAllBytes(file.toPath()));
+			base64 = new String(bytes, StandardCharsets.UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return base64;
 	}
 	
 	@Override
 	public void doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		// TODO Auto-generated method stub
-		
 	}
-	
-
 }

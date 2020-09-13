@@ -85,6 +85,15 @@ public interface EdutestFactory extends EFactory {
 	MultiChoiceEmendation createMultiChoiceEmendation();
 
 	/**
+	 * Returns a new object of class '<em>Match Pairs</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Match Pairs</em>'.
+	 * @generated
+	 */
+	MatchPairs createMatchPairs();
+
+	/**
 	 * Returns a new object of class '<em>Test</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

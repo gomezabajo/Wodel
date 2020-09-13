@@ -43,7 +43,7 @@ Resource returns Resource:
 ;
 
 Block returns Block:
-	name=ID (description=EString)? ('from' from+=[Block|ID] (',' from+=[Block|ID])*)? ('repeat' '=' repeat=Repeat)? '{' commands+=Mutator (commands+=Mutator)* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt) ']')?
+	name=ID (description=EString)? ('from' from+=[Block|ID] (',' from+=[Block|ID])*)? ('repeat' '=' repeat=Repeat)? ('reverse' '=' reverse=Reverse)? '{' commands+=Mutator (commands+=Mutator)* '}' ('[' (min=EInt '..' max=MaxCardinality | fixed=EInt | mode ?= '*') ']')?
 ;
 
 Constraint returns Constraint:
@@ -243,6 +243,10 @@ enum ArithmeticOperator returns ArithmeticOperator:
 ;
 
 enum Repeat returns Repeat:
+	yes = 'yes' | no = 'no'	
+;
+
+enum Reverse returns Reverse:
 	yes = 'yes' | no = 'no'	
 ;
 

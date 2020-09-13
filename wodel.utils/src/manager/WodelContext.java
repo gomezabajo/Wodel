@@ -2,10 +2,13 @@ package manager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -16,14 +19,22 @@ import org.eclipse.ui.PlatformUI;
 public class WodelContext implements Runnable {
 	private static String project;
 	private static String fileName;
-
+	
 	private WodelContext(){
 	}
 	
 	
+	public static Display getDisplay() {
+		Display display = Display.getCurrent();
+		//may be null if outside the UI thread
+		if (display == null)
+			display = Display.getDefault();
+		return display;		
+	}
+
 	public static String getProject() {
 		if (project == null) {
-			Display.getDefault().syncExec(new WodelContext());
+			getDisplay().syncExec(new WodelContext());
 		}
 		return project;
 	}
@@ -33,7 +44,7 @@ public class WodelContext implements Runnable {
 	
 	public static String getFileName() {
 		if (fileName == null) {
-			Display.getDefault().syncExec(new WodelContext());
+			getDisplay().syncExec(new WodelContext());
 		}
 		return fileName;
 	}
@@ -41,7 +52,7 @@ public class WodelContext implements Runnable {
 	@Override
 	public void run() {
 		IWorkbenchWindow ww = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
-	    IWorkbenchPage wp = ww.getPages()[0];		
+		IWorkbenchPage wp = ww.getPages()[0];		
 		IEditorPart wbp = wp.getActiveEditor();
 		if (wbp != null) {
 			IFile file = (IFile)wbp.getEditorInput().getAdapter(IFile.class);

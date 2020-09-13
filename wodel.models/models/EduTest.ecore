@@ -12,7 +12,8 @@
         eType="#//MutatorTests" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MutatorTests" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="block" eType="ecore:EClass MutatorEnvironment.ecore#//Block"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blocks" upperBound="-1"
+        eType="ecore:EClass MutatorEnvironment.ecore#//Block"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
         eType="#//Test" containment="true"/>
   </eClassifiers>
@@ -45,11 +46,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
         eType="#//MultiChoiceEmConfig" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MatchPairs" eSuperTypes="#//MutatorTests">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" lowerBound="1"
+        eType="#//TestConfiguration" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Test">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="question" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Order">
     <eLiterals name="fixed"/>

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model2text
+Bundle-SymbolicName: wodel.model2text;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: wodel.model2text.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: wodel.model2text
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.jface.resource
+Export-Package: wodel.model2text.run

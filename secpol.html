@@ -43,16 +43,14 @@
 <p>Selects two rule types with the same parameter types. Then modifies the type of a
 rule whose type is the first selected rule type with the second rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rtt.zip">rtt</a>]:</p>
 
-<pre><code>
-     t1 = select one RuleType
+<pre><code>     t1 = select one RuleType
      t2 = select one RuleType where {self <> t1 and parameters = t1->parameters}
      modify one Rule where {type = t1} with {type = t2}
 </code></pre>
 
 <p>Replaces a parameter of a rule with a different parameter of the same type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppr.zip">ppr</a>]:</p>
 
-<pre><code>
-     p1 = select one Parameter
+<pre><code>     p1 = select one Parameter
      p2 = select one Parameter where {type = p1->type and self <> p1}
      r = select one Rule where {parameters = p1}
      modify r with {parameters -= p1, parameters += p2}
@@ -60,8 +58,7 @@ rule whose type is the first selected rule type with the second rule type [<a hr
 
 <p>Creates a new rule using a selected rule type [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/anr.zip">anr</a>]:</p>
 
-<pre><code>
-     t = select one RuleType
+<pre><code>     t = select one RuleType
      setp = select all Parameter where {type in t->parameters}
      p = select sample from setp with distinct {type}
      create Rule with {type = t, parameters = p}
@@ -69,15 +66,13 @@ rule whose type is the first selected rule type with the second rule type [<a hr
 
 <p>Removes a rule [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/rer.zip">rer</a>]:</p>
 
-<pre><code>
-     remove one Rule
+<pre><code>     remove one Rule
 </code></pre>
 
 <p>Replaces a parameter on a rule with one of its descending parameters (using the
 children reference) [<a href="http://gomezabajo.github.io/Wodel/zip/secpol/ppd.zip">ppd</a>]:</p>
 
-<pre><code>
-     r = select one Rule where {parameters->children <> null}
+<pre><code>     r = select one Rule where {parameters->children <> null}
      p = select one Parameter in r->parameters where {children <> null}
      c = select one Parameter in closure(p->children)
      modify r with {parameters -= p, parameters += c}

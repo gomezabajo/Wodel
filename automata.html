@@ -41,81 +41,69 @@
 
 <p>Create transition [<a href="http://gomezabajo.github.io/Wodel/zip/automata/ctr.zip">ctr</a>]:</p>
 
-<pre><code>
-     create Transition with {symbol = one Symbol}
+<pre><code>     create Transition with {symbol = one Symbol}
 </code></pre>
 
 <p>Create final state [<a href="http://gomezabajo.github.io/Wodel/zip/automata/cfs.zip">cfs</a>]:</p>
 
-<pre><code>
-     s = create State with {isFinal = true}
+<pre><code>     s = create State with {isFinal = true}
      create Transition with {tar = s, symbol = one Symbol}
 </code></pre>
 
 <p>Create connected state [<a href="http://gomezabajo.github.io/Wodel/zip/automata/ccs.zip">ccs</a>]:</p>
 
-<pre><code>
-     s = create State with {name = random-string(1, 4)}
+<pre><code>     s = create State with {name = random-string(1, 4)}
      t = create Transition with {tar = s, symbol = one Symbol}
 </code></pre>
 
 <p>Delete transition [<a href="http://gomezabajo.github.io/Wodel/zip/automata/dtr.zip">dtr</a>]:</p>
 
-<pre><code>
-     remove one Transition
+<pre><code>     remove one Transition
 </code></pre>
 
 <p>Delete state and adjacent transitions [<a href="http://gomezabajo.github.io/Wodel/zip/automata/dst.zip">dst</a>]:</p>
 
-<pre><code>
-     remove one State where {isInitial = false}
+<pre><code>     remove one State where {isInitial = false}
      remove all Transition where {src = null}
      remove all Transition where {tar = null}
 </code></pre>
 
 <p>Change symbol in transition [<a href="http://gomezabajo.github.io/Wodel/zip/automata/mst.zip">mst</a>]:</p>
 
-<pre><code>
-     modify target symbol from one Transition to other Symbol
+<pre><code>     modify target symbol from one Transition to other Symbol
 </code></pre>
 
 <p>Change final state to non-final [<a href="http://gomezabajo.github.io/Wodel/zip/automata/mfs.zip">mfs</a>]:</p>
 
-<pre><code>
-     modify one State where {isFinal = true} with {reverse(isFinal)}
+<pre><code>     modify one State where {isFinal = true} with {reverse(isFinal)}
 </code></pre>
 
 <p>Change initial state to a different one [<a href="http://gomezabajo.github.io/Wodel/zip/automata/mis.zip">mis</a>]:</p>
 
-<pre><code>
-     s0 = modify one State where {isInitial = true} with {isInitial = false}
+<pre><code>     s0 = modify one State where {isInitial = true} with {isInitial = false}
      s1 = modify one State where {self <> s0} with {isInitial = true}
 </code></pre>
 
 <p>Swap direction of transition [<a href="http://gomezabajo.github.io/Wodel/zip/automata/sdt.zip">sdt</a>]:</p>
 
-<pre><code>
-     modify one Transition with {swapref(src, tar)}
+<pre><code>     modify one Transition with {swapref(src, tar)}
 </code></pre>
 
 <p>Swap symbol of two sibling transitions [<a href="http://gomezabajo.github.io/Wodel/zip/automata/sst.zip">sst</a>]:</p>
 
-<pre><code>
-     t = select one Transition
+<pre><code>     t = select one Transition
      modify one Transition where {self <> t and src = t->src} with {swapref(symbol, t->symbol)}
 </code></pre>
 
 <p>Redirect transition to a new final state [<a href="http://gomezabajo.github.io/Wodel/zip/automata/rts.zip">rts</a>]:</p>
 
-<pre><code>
-     s = create State with {name = 'f', isFinal = true}
+<pre><code>     s = create State with {name = 'f', isFinal = true}
      modify target tar from one Transition to s
 </code></pre>
 
 <p>Combination of adding a new transition and changing the initial state [<a href="http://gomezabajo.github.io/Wodel/zip/automata/ctr_mis.zip">ctr_mis</a>]:</p>
 
-<pre><code>
-     s0 = modify one State where {isInitial = true} with {reverse(isInitial)}
+<pre><code>     s0 = modify one State where {isInitial = true} with {reverse(isInitial)}
      s1 = modify one State where {self <> s0} with {isInitial = true}
      create Transition with {src = s1, tar = s0, symbol = one Symbol}
 </code></pre>
@@ -124,14 +112,12 @@
 
 <p>Create lambda-transition [<a href="http://gomezabajo.github.io/Wodel/zip/automata/clt.zip">clt</a>]:</p>
 
-<pre><code>
-     create Transition
+<pre><code>     create Transition
 </code></pre>
 
 <p>Create transition with same symbol from a state to a different one [<a href="http://gomezabajo.github.io/Wodel/zip/automata/cst.zip">cst</a>]:</p>
 
-<pre><code>
-     t = select one Transition where {symbol <> null}
+<pre><code>     t = select one Transition where {symbol <> null}
      create Transition with {src = t->src, symbol = t->symbol, tar = one State where {self <> t->tar}}
 </code></pre>
 

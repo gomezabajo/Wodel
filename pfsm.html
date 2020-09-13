@@ -40,15 +40,13 @@
 
 <p>Changes the initial state [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cis.zip">cis</a>]:</p>
 
-<pre><code>
-    s0 = modify one State where {isInitial = true} with {isInitial = false}
+<pre><code>    s0 = modify one State where {isInitial = true} with {isInitial = false}
     s1 = modify one State where {self <> s0} with {isInitial = true}
 </code></pre>
 
 <p>Alters transition probabilities [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/alp.zip">alp</a>]:</p>
 
-<pre><code>
-     t0 = select one Transition where {probability = min(probability)}
+<pre><code>     t0 = select one Transition where {probability = min(probability)}
      t1 = select one Transition where {self <> t0 and src = t0->src}
      modify t1 with {probability += random(0.0, t0.probability)}
      t2 = select one Transition where {self <> t0 and self <> t1 and src = t0->src}
@@ -57,14 +55,12 @@
 
 <p>Changes the target state of a transition [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cts.zip">cts</a>]:</p>
 
-<pre><code>
-     modify target tar from one Transition to other State
+<pre><code>     modify target tar from one Transition to other State
 </code></pre>
 
 <p>Creates a new transition [<a href="http://gomezabajo.github.io/Wodel/zip/pfsm/cnt.zip">cnt</a>]:</p>
 
-<pre><code>
-     t0 = select one Transition where {probability = min(probability)}
+<pre><code>     t0 = select one Transition where {probability = min(probability)}
      t1 = select one Transition where {self <> t0 and src = t0->src}
      t2 = create Transition with {probability = random(0.0, t0.probability), src = t0->src}
      modify t1 with {probability -= t2.probability}

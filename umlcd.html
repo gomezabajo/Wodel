@@ -248,21 +248,6 @@
 
 <pre><code>    retype one Class as AssociationClass
         with {association = one Association}
-    <!--
-    cl = select one Class
-    ac = create AssociationClass with {
-        features = cl->features,
-        super = cl->super,
-        supplier = cl->supplier
-    }
-    modify ac with {
-        copy (abstract, cl.abstract),
-        copy (derived, cl.derived),
-        copy (name, cl.name),
-        copy (scope, cl.scope),
-        copy (visibility, cl.visibility)
-    }
-    remove cl-->
 </code></pre>
 
 <p>Changes Association Class for a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wcl3.zip">wcl3</a>]:</p>

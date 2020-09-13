@@ -221,11 +221,6 @@
 
 <pre><code>    retype one [Association, Aggregation, Aggregation, Composition, Dependency]
          as [Association, Aggregation, Composition, Dependency]
-    <!--
-    as = select one Association
-    rel = create Aggregation with {src = as->src, tar = as->tar}
-    modify rel with {copy(name, as.name)}
-    remove as-->
 </code></pre>
 
 

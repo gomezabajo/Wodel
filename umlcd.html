@@ -40,7 +40,9 @@
 
 <p>Adds a redundant constraint to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco1.zip">uco1</a>]:</p>
 
-<pre><code>    deep clone one Constraint
+<pre><code>    cd = select one ClassDiagram where {^constraints <> null}
+    c = select one Constraint in cd->^constraints
+    deep clone c in cd->^constraints
 </code></pre>
 
 <p>Adds an extraneous constraint to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uco2.zip">uco2</a>]:</p>
@@ -50,14 +52,17 @@
 
 <p>Adds a redundant association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas1.zip">uas1</a>]:</p>
 
-<pre><code>    clone one Association
+<pre><code>    cd = select one ClassDiagram where {relations is typed Association}
+    a = select one Association in cd->relations
+    deep clone a in cd->relations
 </code></pre>
 
 <p>Adds a redundant derived association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas2.zip">uas2</a>]:</p>
 
-<pre><code>    a1 = select one Association
-    a2 = select one Association where {src = a1->tar}
-    a3 = create Association with {
+<pre><code>    cd = select one ClassDiagram where {relations is typed Association}
+    a1 = select one Association in cd->relations
+    a2 = select one Association in cd->relations where {src = a1->tar}
+    a3 = create Association in cd->relations with {
         name = random-string(1, 4),
         src = a1->src, tar = a2->tar,
         copy(nsrc, a1.nsrc), copy(ntar, a2.ntar),
@@ -67,12 +72,14 @@
 
 <p>Adds an extraneous association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas3.zip">uas3</a>]:</p>
 
-<pre><code>    create Association with {src = one Class, tar = one Class, name = random-string(1, 4)}
+<pre><code>    create Association
+        with {src = one Class, tar = one Class, name = random-string(1, 4)}
 </code></pre>
 
 <p>Adds an extraneous derived association to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uas4.zip">uas4</a>]:</p>
 
-<pre><code>    create Association with {src = one Class, tar = one Class, name = random-string(1, 4), derived = true}
+<pre><code>    create Association
+        with {src = one Class, tar = one Class, name = random-string(1, 4), derived = true}
 </code></pre>
 
 <p>Adds a redundant generalization to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge1.zip">uge1</a>]:</p>
@@ -85,15 +92,17 @@
 
 <p>Adds an extraneous generalization to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uge2.zip">uge2</a>]:</p>
 
-<pre><code>    cl1 = select one Class where {super <> null}
-    sup = select all Class in closure(cl1->super)
-    cl2 = select one Class where {self <> sup}
-    modify cl1 with {super = cl2}
+<pre><code>    c1 = select one Class where {super <> null}
+    s = select all Class in closure(c1->super)
+    c2 = select one Class where {self <> s}
+    modify c1 with {super = c2}
 </code></pre>
 
 <p>Adds a redundant class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl1.zip">ucl1</a>]:</p>
 
-<pre><code>    deep clone one Class
+<pre><code>    cd = select one ClassDiagram where {classes is typed Class}
+    c = select one Class in cd->classes
+    deep clone c in cd->classes
 </code></pre>
 
 <p>Adds an extraneous class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl2.zip">ucl2</a>]:</p>
@@ -103,7 +112,9 @@
 
 <p>Adds a redundant association class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl3.zip">ucl3</a>]:</p>
 
-<pre><code>    clone one AssociationClass
+<pre><code>    cd = select one ClassDiagram where {classes is typed AssociationClass}
+    ac = select one AssociationClass in cd->classes
+    clone ac in cd->classes
 </code></pre>
 
 <p>Adds an extraneous association class to the CD [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/ucl4.zip">ucl4</a>]:</p>
@@ -113,7 +124,9 @@
 
 <p>Adds a redundant attribute to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat1.zip">uat1</a>]:</p>
 
-<pre><code>    clone one Attribute
+<pre><code>    c = select one Class where {features is typed Attribute}
+    att = select one Attribute in c->features
+    deep clone att in c->features
 </code></pre>
 
 <p>Adds an extraneous attribute to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uat2.zip">uat2</a>]:</p>
@@ -123,7 +136,9 @@
 
 <p>Adds a redundant operation to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop1.zip">uop1</a>]:</p>
 
-<pre><code>    deep clone one Operation
+<pre><code>    c = select one Class where {features is typed Operation}
+    op = select one Operation in c->features
+    deep clone op in c->features
 </code></pre>
 
 <p>Adds an extraneous operation to a Class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/uop2.zip">uop2</a>]:</p>
@@ -133,7 +148,9 @@
 
 <p>Adds a redundant parameter to an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa1.zip">upa1</a>]:</p>
 
-<pre><code>    clone one Parameter
+<pre><code>    op = select one Operation where {params <> null}
+    p = select one Parameter in op->params
+    clone p in op->params
 </code></pre>
 
 <p>Adds an extraneous Parameter to an Operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/upa2.zip">upa2</a>]:</p>
@@ -149,9 +166,9 @@
 
 <p>Changes the Attribute data type in the constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">wco2</a>]:</p>
 
-<pre><code>    path = select one PathElementCS where {pathName = one Attribute}
-    att = select one Attribute in path->pathName
-    modify att with {type = other Class}
+<pre><code>    p = select one PathElementCS where {pathName = one Attribute}
+    a = select one Attribute in p->pathName
+    modify a with {type = other Class}
     <!--c = select one Constraint where {attributes <> null}
     modify c->attributes with {type = other Class}-->
 </code></pre>
@@ -313,9 +330,9 @@
 
 <p>Changes the order of the parameters [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wop1.zip">wop1</a>]:</p>
 
-<pre><code>    oper = select one Operation where {params <> null}
-    p = select one Parameter in oper->params
-    modify oper with {params -= p, params += p}
+<pre><code>    op = select one Operation where {params <> null}
+    p = select one Parameter in op->params
+    modify op with {params -= p, params += p}
     <!--
     oper = select one Operation where {params <> null}
     p = select one Parameter in oper->params
@@ -350,8 +367,8 @@
 
 <p>Deletes a Generalization relation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mge.zip">mge</a>]:</p>
 
-<pre><code>    cl = select one Class where {super <> null}
-    remove one Class from cl->super
+<pre><code>    l = select one Class where {super <> null}
+    remove one Class from c->super
     <!--cl = select one Class where {super <> null}
     sup = select one Class in cl->super
     remove sup from cl->super-->	
@@ -359,12 +376,12 @@
 
 <p>Deletes the class [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mcl.zip">mcl</a>]:</p>
 
-<pre><code>    cl = select one Class
-    remove all Relation where {src = cl or tar = cl}
-    remove all Operation where {type = cl}
-    remove all Feature where {type = cl}
+<pre><code>    c = select one Class
+    remove all Relation where {src = c or tar = c}
+    remove all Operation where {type = c}
+    remove all Feature where {type = c}
     remove all AssociationClass where {association = null}
-    remove cl
+    remove c
 </code></pre>
 
 <p>Deletes an Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/mat.zip">mat</a>]:</p>

@@ -161,7 +161,6 @@
 <p>Changes the constraint by deleting the references to a class Attribute [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco1.zip">wco1</a>]:</p>
 
 <pre><code>    remove one PathElementCS where {pathName = one Attribute}
-    <!--remove reference attributes in one Constraint where {attributes <> null}-->
 </code></pre>
 
 <p>Changes the Attribute data type in the constraint [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco2.zip">wco2</a>]:</p>
@@ -169,80 +168,48 @@
 <pre><code>    p = select one PathElementCS where {pathName = one Attribute}
     a = select one Attribute in p->pathName
     modify a with {type = other Class}
-    <!--c = select one Constraint where {attributes <> null}
-    modify c->attributes with {type = other Class}-->
 </code></pre>
 
 <p>Change the constraint by deleting the calls to specific operation [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco3.zip">wco3</a>]:</p>
 
 <pre><code>    remove one OperationCS
-    <!--c = select one Constraint where {operations <> null}
-    remove reference operations in c-->
 </code></pre>
 
 <p>Changes an arithmetic operator for another and supports binary operators: "add", "subtract", "multiply", "divide" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco4.zip">wco4</a>]:</p>
 
 <pre><code>    modify one IntLiteralExpCS with {op in ['add', 'subtract', 'multiply', 'divide']}
-    <!--c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators
-    modify op with {operator in {add, subtract, multiply, divide}}-->
 </code></pre>
 
 <p>Changes the constraint by adding the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco5.zip">wco5</a>]:</p>
 
 <pre><code>    inv = select one InvariantCS where {exp <> null}
     create LogicExpCS in inv->exp with {op = 'not'}
-    <!--c = select one Constraint where {operations <> null}
-    oper = select one Operation in c->operations
-    op = create Operator in oper->operators
-    modify op with {operator in {not}}-->
 </code></pre>
 
 <p>Changes a conditional operator "and" for a conditional operator "or" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6a.zip">wco6a</a>]:</p>
 
 <pre><code>    modify one BooleanExpCS where {op = 'and'} with {op = 'or'} 
-    <!--c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators where {operator = {^and}}
-    modify op with {operator = {^or}}-->
 </code></pre>
 
 <p>Changes a conditional operator "or" for a conditional operator "and" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco6b.zip">wco6b</a>]:</p>
 
 <pre><code>    modify one BooleanExpCS where {op = 'or'} with {op = 'and'}
-    <!--c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators where {operator = {^or}}
-    modify op with {operator = {^and}}-->
 </code></pre>
 
 <p>Changes the constraint by deleting the conditional operator "not" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco7.zip">wco7</a>]:</p>
 
 <pre><code>    remove one LogicExpCS where {op = 'not'}
-    <!--c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators where {operator = {^not}}
-    remove op-->
 </code></pre>
 
 <p>Changes a relational operator for another operators: "lt" , "lte", "gt" , "gte", "equals", "distinct" [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco8.zip">wco8</a>]:</p>
 
 <pre><code>    modify one BooleanExpCS where {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
         with {op in ['lt', 'lte', 'gt', 'gte', 'equals', 'distinct']}
-    <!--c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators where {operator in {lt, lte, gt, gte, ^equals, ^distinct}}
-    modify op with {operator in {lt, lte, gt, gte, ^equals, ^distinct}}-->
 </code></pre>
 
 <p>Changes a constraint by deleting a unary arithmetic operator ("negative") [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/wco9.zip">wco9</a>]:</p>
 
 <pre><code>    modify one IntLiteralExpCS where {op = 'negative'} with {op = ''}
-    <!--c = select one Constraint where {operations <> null and operations->operators <> null}
-    oper = select one Operation in c->operations where {operators <> null}
-    op = select one Operator in oper->operators where {operator = {negative}}
-    remove op-->
 </code></pre>
 
 <p>Interchange the members (src and tar) of an Association [<a href="http://gomezabajo.github.io/Wodel/zip/umlcd/was1.zip">was1</a>]:</p>

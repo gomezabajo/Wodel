@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: wodeledufa
+Bundle-SymbolicName: wodeledufa; singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle:  org.eclipse.emf.ecore,
+ wodel.models;bundle-version="1.0.0",
+ wodel.wodeltest;bundle-version="1.0.0",
+ org.eclipse.emf.compare;bundle-version="3.1.2",
+ org.eclipse.text,
+ org.eclipse.ocl.ecore;bundle-version="3.3.100",
+ wodel.utils;bundle-version="1.0.0",
+ org.eclipse.emf.common,
+ org.eclipse.e4.ui.workbench,
+ org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.ui,
+ org.eclipse.core.runtime;bundle-version="3.10.0",
+ com.google.guava;bundle-version="15.0.0",
+ org.eclipse.ocl;bundle-version="3.4.2",
+ org.eclipse.core.resources;bundle-version="3.12.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.9.0"

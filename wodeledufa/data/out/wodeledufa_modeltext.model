@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<modeltext:IdentifyElements xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeltext="http://modeltext/1.0" metamodel="/wodeledufa/data/model/DFAAutomaton.ecore">
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+    <words xsi:type="modeltext:Constant" value="State"/>
+    <words xsi:type="modeltext:Variable">
+      <id href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/name"/>
+    </words>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+    <att>
+      <att href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+    </att>
+    <words xsi:type="modeltext:Constant" value="final"/>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+    <att negation="true">
+      <att href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+    </att>
+    <words xsi:type="modeltext:Constant" value="non"/>
+    <words xsi:type="modeltext:Constant" value="final"/>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+    <att>
+      <att href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+    </att>
+    <words xsi:type="modeltext:Constant" value="initial"/>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+    <att negation="true">
+      <att href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+    </att>
+    <words xsi:type="modeltext:Constant" value="non"/>
+    <words xsi:type="modeltext:Constant" value="initial"/>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+    <words xsi:type="modeltext:Constant" value="Transition"/>
+    <words xsi:type="modeltext:Variable">
+      <ref href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/symbol"/>
+      <id href="/wodeledufa/data/model/DFAAutomaton.ecore#//Symbol/symbol"/>
+    </words>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+    <ref href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+    <words xsi:type="modeltext:Constant" value="target"/>
+  </elements>
+  <elements>
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+    <ref href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/src"/>
+    <words xsi:type="modeltext:Constant" value="source"/>
+  </elements>
+</modeltext:IdentifyElements>

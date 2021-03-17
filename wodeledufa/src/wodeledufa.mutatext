@@ -1,0 +1,8 @@
+metamodel "/wodeledufa/data/model/DFAAutomaton.ecore"
+
+>TargetReferenceChanged: 
+	Change %object from %fromObject to %toObject with the new %refName %oldToObject /
+	Change %object from %fromObject to %oldToObject with the new %refName %toObject
+>AttributeChanged: 
+	Change %object to %value /
+	Change %object to %value

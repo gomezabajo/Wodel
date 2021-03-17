@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatext:Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatext="http://mutatext/1.0" metamodel="/wodeledufa/data/model/DFAAutomaton.ecore">
+  <options>
+    <type href="../../../../plugins/wodel.models_1.0.0.202103161657/models/AppliedMutations.ecore#//TargetReferenceChanged"/>
+    <valid>
+      <words xsi:type="mutatext:Constant" value="Change"/>
+      <words xsi:type="mutatext:Variable"/>
+      <words xsi:type="mutatext:Constant" value="from"/>
+      <words xsi:type="mutatext:Variable" type="fromObject"/>
+      <words xsi:type="mutatext:Constant" value="to"/>
+      <words xsi:type="mutatext:Variable" type="toObject"/>
+      <words xsi:type="mutatext:Constant" value="with"/>
+      <words xsi:type="mutatext:Constant" value="the"/>
+      <words xsi:type="mutatext:Constant" value="new"/>
+      <words xsi:type="mutatext:Variable" type="refName"/>
+      <words xsi:type="mutatext:Variable" type="oldToObject"/>
+    </valid>
+    <invalid>
+      <words xsi:type="mutatext:Constant" value="Change"/>
+      <words xsi:type="mutatext:Variable"/>
+      <words xsi:type="mutatext:Constant" value="from"/>
+      <words xsi:type="mutatext:Variable" type="fromObject"/>
+      <words xsi:type="mutatext:Constant" value="to"/>
+      <words xsi:type="mutatext:Variable" type="oldToObject"/>
+      <words xsi:type="mutatext:Constant" value="with"/>
+      <words xsi:type="mutatext:Constant" value="the"/>
+      <words xsi:type="mutatext:Constant" value="new"/>
+      <words xsi:type="mutatext:Variable" type="refName"/>
+      <words xsi:type="mutatext:Variable" type="toObject"/>
+    </invalid>
+  </options>
+  <options>
+    <type href="../../../../plugins/wodel.models_1.0.0.202103161657/models/AppliedMutations.ecore#//AttributeChanged"/>
+    <valid>
+      <words xsi:type="mutatext:Constant" value="Change"/>
+      <words xsi:type="mutatext:Variable"/>
+      <words xsi:type="mutatext:Constant" value="to"/>
+      <words xsi:type="mutatext:Variable" type="value"/>
+    </valid>
+    <invalid>
+      <words xsi:type="mutatext:Constant" value="Change"/>
+      <words xsi:type="mutatext:Variable"/>
+      <words xsi:type="mutatext:Constant" value="to"/>
+      <words xsi:type="mutatext:Variable" type="value"/>
+    </invalid>
+  </options>
+</mutatext:Configuration>

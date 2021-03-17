@@ -1,6 +1,0 @@
-metamodel "C:/eclipse/workspace/wodeledu_fa/data/model/DFAAutomaton.ecore"
-
->TargetReferenceChanged: Change %object from %fromObject to %toObject with new %refName %oldToObject   /
-						 Change %object from %fromObject to %oldToObject with new %refName %toObject						 
->AttributeChanged: Change attribute %attName from %object with value %newValue to %oldValue  /
-                   Change attribute %attName from %object with value %oldValue to %newValue

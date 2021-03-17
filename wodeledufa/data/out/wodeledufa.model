@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/wodeledufa/data/model/DFAAutomaton.ecore" output="data/out/" num="10">
+    <source path="data/model/"/>
+  </definition>
+  <blocks name="mts1" fixed="4">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </newTarget>
+    </commands>
+  </blocks>
+  <blocks name="mts2nf" fixed="3">
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="s0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isInitial"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType" value="true"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="s1">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:AttributeEvaluation">
+            <name href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+            <value xsi:type="mutatorenvironment:SpecificBooleanType"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:SelectObjectMutator" name="t0">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/src"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.0"/>
+          </first>
+        </expression>
+      </object>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+        <expression>
+          <first xsi:type="mutatorenvironment:ReferenceEvaluation" operator="different">
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2"/>
+          </first>
+          <operator/>
+          <second xsi:type="mutatorenvironment:ReferenceEvaluation">
+            <name href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+            <value xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.1"/>
+          </second>
+        </expression>
+      </object>
+      <references xsi:type="mutatorenvironment:ReferenceSwap">
+        <reference href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+        <reference href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+        <object xsi:type="mutatorenvironment:SpecificObjectSelection" objSel="//@blocks.1/@commands.2"/>
+      </references>
+    </commands>
+  </blocks>
+  <blocks name="rfs1">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeReverse">
+        <attribute href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="mts2">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </newTarget>
+    </commands>
+  </blocks>
+  <blocks name="rfs2">
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeReverse">
+        <attribute href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="mtsrfs1" fixed="3">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </newTarget>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeReverse">
+        <attribute href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="mtsrfs2" from="//@blocks.5" repeat="no" fixed="3">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </newTarget>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeReverse">
+        <attribute href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      </attributes>
+    </commands>
+  </blocks>
+  <blocks name="mtsrfs3" from="//@blocks.5" repeat="no" fixed="3">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </newTarget>
+    </commands>
+    <commands xsi:type="mutatorenvironment:ModifyInformationMutator">
+      <object xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+      </object>
+      <attributes xsi:type="mutatorenvironment:AttributeReverse">
+        <attribute href="/wodeledufa/data/model/DFAAutomaton.ecore#//State/isFinal"/>
+      </attributes>
+    </commands>
+  </blocks>
+</mutatorenvironment:MutatorEnvironment>

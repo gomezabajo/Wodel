@@ -1,0 +1,10 @@
+metamodel "/wodeledufa/data/model/DFAAutomaton.ecore"
+
+>State: State %name
+>State(isFinal): final
+>State(not isFinal): non final
+>State(isInitial) : initial
+>State(not isInitial) : non initial
+>Transition: Transition %symbol.symbol
+>Transition.tar: target
+>Transition.src: source

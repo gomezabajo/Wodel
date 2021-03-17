@@ -1,0 +1,38 @@
+generate 10 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/wodeledufa/data/model/DFAAutomaton.ecore"
+
+with blocks {
+	mts1 {
+		modify target tar from one Transition to other State
+	} [4]
+	mts2nf {
+		s0 = select one State where {isInitial = true}
+		s1 = select one State where {isFinal = false}
+		t0 = select one Transition where {src = s0}
+		modify one Transition where {self <> t0 and tar = s1} 
+		   with {swapref(tar, t0->tar)}
+	} [3]
+	rfs1 {
+		modify one State with {reverse(isFinal)}
+	}
+	mts2 {
+		modify target tar from one Transition to other State
+	}
+	rfs2 {
+		modify one State with {reverse(isFinal)}
+	}
+	mtsrfs1 {
+		modify target tar from one Transition to other State
+		modify one State with {reverse(isFinal)}
+	} [3]
+	mtsrfs2 from mtsrfs1 repeat=no {
+		modify target tar from one Transition to other State
+		modify one State with {reverse(isFinal)}
+	} [3]
+	mtsrfs3 from mtsrfs1 repeat=no {
+		modify target tar from one Transition to other State
+		modify one State with {reverse(isFinal)}
+	} [3]
+}

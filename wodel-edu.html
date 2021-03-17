@@ -71,9 +71,9 @@ MultiChoiceDiagram simple {
 
 Automaton: diagram {
     State(isInitial): markednode
-	State(not isFinal): node shape=circle
-	State(isFinal): node shape=doublecircle
-	Transition(src, tar): edge label=symbol.symbol
+    State(not isFinal): node shape=circle
+    State(isFinal): node shape=doublecircle
+    Transition(src, tar): edge label=symbol.symbol
 }
 </code></pre>
 
@@ -82,6 +82,8 @@ Automaton: diagram {
 <pre><code>metamodel "http://dfaAutomaton/1.0"
 
 &gt;State: State %name
+&gt;State(isFinal): final
+&gt;State(isInitial): initial
 &gt;Transition: Transition %symbol.symbol
 &gt;Transition.tar: target
 &gt;Transition.src: source
@@ -95,10 +97,8 @@ Automaton: diagram {
                          to %toObject with new %refName %oldToObject /
     Change %object from %fromObject to %oldToObject
                          with new %refName %toObject
-&gt;AttributeChanged: Change attribute %attName from %object
-                         with value %newValue to %oldValue /
-    Change attribute %attName from %object
-                         with value %oldValue to %newValue
+&gt;AttributeChanged: Change %object to %oldValue /
+                      Change %object to %value
 </code></pre>
 
 <p>You can view an example of a test exercises web application generated with Wodel-Edu at <a href="http://www.wodel.eu/">www.wodel.eu</a>.</p>

@@ -50,18 +50,34 @@
 <p><strong>eduTest</strong>: DSL for the configuration of the questionnaire, and the exercises' definition:</p>
 
 <pre><code>navigation=free
+MultiChoiceDiagram simple {
+    retry=no
+    description for 'exercise4.model' = 'Select which of these automata
+                                         accepts "a*bab*"'
+}
 MultiChoiceEmendation complex {
     retry=no, weighted=no, penalty=0.0,
     order=options-descending, mode=checkbox
-    description for 'exercise4.model' = 'Select the required changes so that
+    description for 'exercise5.model' = 'Select the required changes so that
                                          the automaton accepts "a+b+"'
     description for 'exercise6.model' = 'Select the required changes so that
                                          the automaton accepts "a*b+"?'
 }
-MultiChoiceDiagram simple {
-    retry=no
-    description for 'exercise8.model' = 'Select which of these automata
-                                         accepts "a*bab*"'
+MatchPairs rfs1, mts2, rfs2 {
+	retry=no
+	description for 'exercise7.model' = 'Select which of these options modifies
+                                         the above automaton to accept only the language defined by ' %text
+	description for 'exercise8.model' = 'Select which of these options modifies
+                                         the above automaton to accept only the language defined by ' %text
+}
+MissingWords mtsrfs1 {
+	retry=no
+	description for 'exercise9.model' = 'Complete the following text with the
+                                        options for each gap that modify this automaton
+                                        to accept only the language defined by "ab(ba)*"'
+	description for 'exercise10.model' = 'Complete the following text with the
+                                        options for each gap that modify this automaton
+                                        to accept only the language defined by "ba*|ba*b"'
 }
 </code></pre>
 
@@ -98,7 +114,7 @@ Automaton: diagram {
     Change %object from %fromObject to %oldToObject
                          with new %refName %toObject
 &gt;AttributeChanged: Change %object to %oldValue /
-                      Change %object to %value
+                   Change %object to %value
 </code></pre>
 
 <p>You can view an example of a test exercises web application generated with Wodel-Edu at <a href="http://www.wodel.eu/">www.wodel.eu</a>.</p>

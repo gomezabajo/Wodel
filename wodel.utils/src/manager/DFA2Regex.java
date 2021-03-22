@@ -1,7 +1,13 @@
 package manager;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,13 +141,40 @@ final public class DFA2Regex {
 	    // Options.verbose = Py.DEBUG;
 	    PythonInterpreter.initialize(pre_props, props, new String[0]);
 		PythonInterpreter interpreter = new PythonInterpreter();
-		String scriptPath = DFA2Regex.class.getProtectionDomain().getCodeSource().getLocation().toString();
-		scriptPath = scriptPath.replace("file:", "");
-		interpreter.execfile(scriptPath + "py/dfa2re.py");
-		PyObject callFunction = interpreter.get("getRegEx");
-		PyObject result = callFunction.__call__(new PyString(dictionaryString));
-		interpreter.close();
-		String regex = result.toString();
+		String regex = "";
+		try {
+			final File jarFile = new File(DFA2Regex.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+			if (jarFile.isFile()) {
+				final JarFile jar = new JarFile(jarFile);
+				final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+				while(entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					if (!entry.isDirectory()) {
+						if (entry.getName().startsWith("py") && entry.getName().endsWith("dfa2re.py")) {
+							InputStream input = jar.getInputStream(entry);
+							interpreter.execfile(input);
+							PyObject callFunction = interpreter.get("getRegEx");
+							PyObject result = callFunction.__call__(new PyString(dictionaryString));
+							regex = result.toString();
+							interpreter.close();
+							input.close();
+						}
+					}
+				}
+				jar.close();
+			}
+			else {
+				String scriptPath = DFA2Regex.class.getProtectionDomain().getCodeSource().getLocation().toString();
+				scriptPath = scriptPath.replace("file:", "");
+				interpreter.execfile(scriptPath + "py/dfa2re.py");
+				PyObject callFunction = interpreter.get("getRegEx");
+				PyObject result = callFunction.__call__(new PyString(dictionaryString));
+				regex = result.toString();
+				interpreter.close();
+			}
+		} catch (IOException e) {
+		}
+
 		if (initial.isFinal == true) {
 			regex += "*";
 		}

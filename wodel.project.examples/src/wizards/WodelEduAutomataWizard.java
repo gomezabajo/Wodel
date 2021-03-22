@@ -404,7 +404,7 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 					+ "\tdescription for 'exercise6.model' = 'Which changes shall be applied to this automaton to accept only the language defined by \"a<sup>+</sup>b<sup>+</sup>'\n"
 					+ "}\n"
 					+ "MatchPairs rfs1, mts2, rfs2 {\n"
-					+ "\tretry=no"
+					+ "\tretry=no\n"
 					+ "\tdescription for 'exercise7.model' = 'Select which of these options modifies the above automaton to accept only the language defined by ' %text('reg-exp')\n"
 					+ "\tdescription for 'exercise8.model' = 'Select which of these options modifies the above automaton to accept only the language defined by ' %text('reg-exp')\n"
 					+ "}\n"

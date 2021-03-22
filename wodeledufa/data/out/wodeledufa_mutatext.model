@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <mutatext:Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatext="http://mutatext/1.0" metamodel="/wodeledufa/data/model/DFAAutomaton.ecore">
   <options>
-    <type href="../../../../plugins/wodel.models_1.0.0.202103161657/models/AppliedMutations.ecore#//TargetReferenceChanged"/>
+    <type href="../../../../workspace/wodel.models/models/AppliedMutations.ecore#//TargetReferenceChanged"/>
     <valid>
       <words xsi:type="mutatext:Constant" value="Change"/>
       <words xsi:type="mutatext:Variable"/>
@@ -30,7 +30,7 @@
     </invalid>
   </options>
   <options>
-    <type href="../../../../plugins/wodel.models_1.0.0.202103161657/models/AppliedMutations.ecore#//AttributeChanged"/>
+    <type href="../../../../workspace/wodel.models/models/AppliedMutations.ecore#//AttributeChanged"/>
     <valid>
       <words xsi:type="mutatext:Constant" value="Change"/>
       <words xsi:type="mutatext:Variable"/>

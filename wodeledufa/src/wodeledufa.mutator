@@ -11,8 +11,7 @@ with blocks {
 		s0 = select one State where {isInitial = true}
 		s1 = select one State where {isFinal = false}
 		t0 = select one Transition where {src = s0}
-		modify one Transition where {self <> t0 and tar = s1} 
-		   with {swapref(tar, t0->tar)}
+		modify one Transition where {self <> t0 and tar = s1} with {swapref(tar, t0->tar)}
 	} [3]
 	rfs1 {
 		modify one State with {reverse(isFinal)}
@@ -35,4 +34,8 @@ with blocks {
 		modify target tar from one Transition to other State
 		modify one State with {reverse(isFinal)}
 	} [3]
+}
+
+constraints {
+	context State connected:: "isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
 }

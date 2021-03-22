@@ -157,4 +157,8 @@
       </attributes>
     </commands>
   </blocks>
+  <constraints id="connected">
+    <type href="/wodeledufa/data/model/DFAAutomaton.ecore#//State"/>
+    <rules>isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)</rules>
+  </constraints>
 </mutatorenvironment:MutatorEnvironment>

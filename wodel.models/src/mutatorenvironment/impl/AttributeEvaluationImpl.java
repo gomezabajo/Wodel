@@ -74,6 +74,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getName() {
 		if (name != null && name.eIsProxy()) {
 			InternalEObject oldName = (InternalEObject)name;
@@ -100,6 +101,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(EAttribute newName) {
 		EAttribute oldName = name;
 		name = newName;
@@ -112,6 +114,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeEvaluationType getValue() {
 		return value;
 	}
@@ -136,6 +139,7 @@ public class AttributeEvaluationImpl extends EvaluationImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(AttributeEvaluationType newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;

@@ -85,6 +85,7 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -111,6 +112,7 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;
@@ -123,6 +125,7 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getSource() {
 		return source;
 	}
@@ -147,6 +150,7 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(ObSelectionStrategy newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -166,6 +170,7 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getNewSource() {
 		return newSource;
 	}
@@ -190,6 +195,7 @@ public class ModifySourceReferenceMutatorImpl extends MutatorImpl implements Mod
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNewSource(ObSelectionStrategy newNewSource) {
 		if (newNewSource != newSource) {
 			NotificationChain msgs = null;

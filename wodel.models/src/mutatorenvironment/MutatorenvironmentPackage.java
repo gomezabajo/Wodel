@@ -416,22 +416,13 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int MUTATOR__FIXED = OBJECT_EMITTER_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MUTATOR__MODE = OBJECT_EMITTER_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>Mutator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MUTATOR_FEATURE_COUNT = OBJECT_EMITTER_FEATURE_COUNT + 4;
+	int MUTATOR_FEATURE_COUNT = OBJECT_EMITTER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Mutator</em>' class.
@@ -505,15 +496,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPOSITE_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPOSITE_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Commands</b></em>' containment reference list.
@@ -642,15 +624,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CREATE_OBJECT_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CREATE_OBJECT_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Container</b></em>' containment reference.
@@ -2026,15 +1999,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int MODIFY_SOURCE_REFERENCE_MUTATOR__FIXED = MUTATOR__FIXED;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODIFY_SOURCE_REFERENCE_MUTATOR__MODE = MUTATOR__MODE;
-
-	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2253,15 +2217,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int MODIFY_TARGET_REFERENCE_MUTATOR__FIXED = MUTATOR__FIXED;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODIFY_TARGET_REFERENCE_MUTATOR__MODE = MUTATOR__MODE;
-
-	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2369,15 +2324,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CREATE_REFERENCE_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CREATE_REFERENCE_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -2489,15 +2435,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REMOVE_OBJECT_MUTATOR__FIXED = MUTATOR__FIXED;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REMOVE_OBJECT_MUTATOR__MODE = MUTATOR__MODE;
-
-	/**
 	 * The feature id for the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2598,15 +2535,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REMOVE_REFERENCE_MUTATOR__FIXED = MUTATOR__FIXED;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REMOVE_REFERENCE_MUTATOR__MODE = MUTATOR__MODE;
-
-	/**
 	 * The number of structural features of the '<em>Remove Reference Mutator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2687,15 +2615,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODIFY_INFORMATION_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODIFY_INFORMATION_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Object</b></em>' containment reference.
@@ -3221,15 +3140,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int REMOVE_RANDOM_REFERENCE_MUTATOR__FIXED = REMOVE_REFERENCE_MUTATOR__FIXED;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REMOVE_RANDOM_REFERENCE_MUTATOR__MODE = REMOVE_REFERENCE_MUTATOR__MODE;
-
-	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3319,15 +3229,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int REMOVE_SPECIFIC_REFERENCE_MUTATOR__FIXED = REMOVE_REFERENCE_MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REMOVE_SPECIFIC_REFERENCE_MUTATOR__MODE = REMOVE_REFERENCE_MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -3628,15 +3529,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int REMOVE_COMPLETE_REFERENCE_MUTATOR__FIXED = REMOVE_REFERENCE_MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REMOVE_COMPLETE_REFERENCE_MUTATOR__MODE = REMOVE_REFERENCE_MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
@@ -3965,15 +3857,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int SELECT_OBJECT_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SELECT_OBJECT_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Container</b></em>' containment reference.
@@ -4572,22 +4455,13 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int BLOCK__REPEAT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Reverse</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLOCK__REVERSE = 4;
-
-	/**
 	 * The feature id for the '<em><b>Min</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK__MIN = 5;
+	int BLOCK__MIN = 4;
 
 	/**
 	 * The feature id for the '<em><b>Max</b></em>' attribute.
@@ -4596,7 +4470,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK__MAX = 6;
+	int BLOCK__MAX = 5;
 
 	/**
 	 * The feature id for the '<em><b>Fixed</b></em>' attribute.
@@ -4605,7 +4479,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK__FIXED = 7;
+	int BLOCK__FIXED = 6;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -4614,16 +4488,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK__DESCRIPTION = 8;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BLOCK__MODE = 9;
+	int BLOCK__DESCRIPTION = 7;
 
 	/**
 	 * The number of structural features of the '<em>Block</em>' class.
@@ -4632,7 +4497,7 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BLOCK_FEATURE_COUNT = 10;
+	int BLOCK_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Block</em>' class.
@@ -4807,15 +4672,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLONE_OBJECT_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLONE_OBJECT_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' attribute.
@@ -5494,15 +5350,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	int SELECT_SAMPLE_MUTATOR__FIXED = MUTATOR__FIXED;
 
 	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SELECT_SAMPLE_MUTATOR__MODE = MUTATOR__MODE;
-
-	/**
 	 * The feature id for the '<em><b>Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5702,15 +5549,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @ordered
 	 */
 	int RETYPE_OBJECT_MUTATOR__FIXED = MUTATOR__FIXED;
-
-	/**
-	 * The feature id for the '<em><b>Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RETYPE_OBJECT_MUTATOR__MODE = MUTATOR__MODE;
 
 	/**
 	 * The feature id for the '<em><b>Object</b></em>' containment reference.
@@ -6046,17 +5884,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 
 
 	/**
-	 * The meta object id for the '{@link mutatorenvironment.Reverse <em>Reverse</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see mutatorenvironment.Reverse
-	 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReverse()
-	 * @generated
-	 */
-	int REVERSE = 91;
-
-
-	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.MutatorEnvironment <em>Mutator Environment</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6313,17 +6140,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMutator_Fixed();
-
-	/**
-	 * Returns the meta object for the attribute '{@link mutatorenvironment.Mutator#isMode <em>Mode</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Mode</em>'.
-	 * @see mutatorenvironment.Mutator#isMode()
-	 * @see #getMutator()
-	 * @generated
-	 */
-	EAttribute getMutator_Mode();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.CompositeMutator <em>Composite Mutator</em>}'.
@@ -7818,17 +7634,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EAttribute getBlock_Repeat();
 
 	/**
-	 * Returns the meta object for the attribute '{@link mutatorenvironment.Block#getReverse <em>Reverse</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Reverse</em>'.
-	 * @see mutatorenvironment.Block#getReverse()
-	 * @see #getBlock()
-	 * @generated
-	 */
-	EAttribute getBlock_Reverse();
-
-	/**
 	 * Returns the meta object for the attribute '{@link mutatorenvironment.Block#getMin <em>Min</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7871,17 +7676,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBlock_Description();
-
-	/**
-	 * Returns the meta object for the attribute '{@link mutatorenvironment.Block#isMode <em>Mode</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Mode</em>'.
-	 * @see mutatorenvironment.Block#isMode()
-	 * @see #getBlock()
-	 * @generated
-	 */
-	EAttribute getBlock_Mode();
 
 	/**
 	 * Returns the meta object for class '{@link mutatorenvironment.Constraint <em>Constraint</em>}'.
@@ -8540,16 +8334,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 	EEnum getSampleClause();
 
 	/**
-	 * Returns the meta object for enum '{@link mutatorenvironment.Reverse <em>Reverse</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Reverse</em>'.
-	 * @see mutatorenvironment.Reverse
-	 * @generated
-	 */
-	EEnum getReverse();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8775,14 +8559,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MUTATOR__FIXED = eINSTANCE.getMutator_Fixed();
-
-		/**
-		 * The meta object literal for the '<em><b>Mode</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MUTATOR__MODE = eINSTANCE.getMutator_Mode();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.CompositeMutatorImpl <em>Composite Mutator</em>}' class.
@@ -10031,14 +9807,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 		EAttribute BLOCK__REPEAT = eINSTANCE.getBlock_Repeat();
 
 		/**
-		 * The meta object literal for the '<em><b>Reverse</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute BLOCK__REVERSE = eINSTANCE.getBlock_Reverse();
-
-		/**
 		 * The meta object literal for the '<em><b>Min</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -10069,14 +9837,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BLOCK__DESCRIPTION = eINSTANCE.getBlock_Description();
-
-		/**
-		 * The meta object literal for the '<em><b>Mode</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute BLOCK__MODE = eINSTANCE.getBlock_Mode();
 
 		/**
 		 * The meta object literal for the '{@link mutatorenvironment.impl.ConstraintImpl <em>Constraint</em>}' class.
@@ -10625,16 +10385,6 @@ public interface MutatorenvironmentPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SAMPLE_CLAUSE = eINSTANCE.getSampleClause();
-
-		/**
-		 * The meta object literal for the '{@link mutatorenvironment.Reverse <em>Reverse</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see mutatorenvironment.Reverse
-		 * @see mutatorenvironment.impl.MutatorenvironmentPackageImpl#getReverse()
-		 * @generated
-		 */
-		EEnum REVERSE = eINSTANCE.getReverse();
 
 	}
 

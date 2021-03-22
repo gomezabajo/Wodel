@@ -81,6 +81,7 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EReference> getReference() {
 		if (reference == null) {
 			reference = new EObjectResolvingEList<EReference>(EReference.class, this, MutatorenvironmentPackage.REFERENCE_SET__REFERENCE);
@@ -93,6 +94,7 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -117,6 +119,7 @@ public class ReferenceSetImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;

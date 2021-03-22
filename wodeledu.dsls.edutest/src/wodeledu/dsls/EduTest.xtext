@@ -13,7 +13,7 @@ Program returns Program:
 ;
 
 MutatorTests returns MutatorTests:
-	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs
+	AlternativeResponse | MultiChoiceDiagram | MultiChoiceEmendation | MatchPairs | MissingWords
 ;
 
 AlternativeResponse returns AlternativeResponse:
@@ -44,6 +44,13 @@ MatchPairs returns MatchPairs:
 	'}'
 ;
 
+MissingWords returns MissingWords:
+	'MissingWords' (blocks+=[mutatorenvironment::Block|ID] (',' blocks+=[mutatorenvironment::Block|ID])*)? '{'
+		config = TestConfiguration
+		(tests += Test)*
+	'}'
+;
+
 ProgramConfiguration returns ProgramConfiguration:
 	'navigation' '=' navigation=Navigation
 ;
@@ -59,7 +66,7 @@ MultiChoiceEmConfig returns MultiChoiceEmConfig:
 ;
 
 Test returns Test:
-	'description' 'for' source=EString '=' question=EString  (expression?='%text')?
+	'description' 'for' source=EString '=' question=EString  (expression?='%text' ('(' identifier=EString')')? )?
 ;
 
 EString returns ecore::EString:

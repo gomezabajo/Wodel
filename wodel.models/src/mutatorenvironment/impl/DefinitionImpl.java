@@ -70,6 +70,7 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMetamodel() {
 		return metamodel;
 	}
@@ -79,6 +80,7 @@ public abstract class DefinitionImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMetamodel(String newMetamodel) {
 		String oldMetamodel = metamodel;
 		metamodel = newMetamodel;

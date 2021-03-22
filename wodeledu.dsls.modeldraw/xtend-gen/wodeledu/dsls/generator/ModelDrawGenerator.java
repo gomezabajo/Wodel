@@ -49,21 +49,25 @@ public class ModelDrawGenerator extends AbstractGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     int i = 0;
+    this.fileName = resource.getURI().lastSegment();
+    String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");
+    String _plus = (_replaceAll + ".draw");
+    this.fileName = _plus;
     Iterable<MutatorDraw> _filter = Iterables.<MutatorDraw>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), MutatorDraw.class);
     for (final MutatorDraw e : _filter) {
       {
         if ((i == 0)) {
-          String _replace = resource.getURI().lastSegment().replace(".draw", "");
-          String _plus = (_replace + "_Draw.java");
-          this.fileName = _plus;
+          String _replace = this.fileName.replace(".draw", "");
+          String _plus_1 = (_replace + "Draw.java");
+          this.fileName = _plus_1;
         } else {
-          String _replace_1 = resource.getURI().lastSegment().replace(".draw", "");
-          String _plus_1 = (_replace_1 + Integer.valueOf(i));
-          String _plus_2 = (_plus_1 + "_Draw.java");
-          this.fileName = _plus_2;
+          String _replace_1 = this.fileName.replace(".draw", "");
+          String _plus_2 = (_replace_1 + Integer.valueOf(i));
+          String _plus_3 = (_plus_2 + "Draw.java");
+          this.fileName = _plus_3;
         }
-        this.className = this.fileName.replaceAll(".java", "");
-        fsa.generateFile(this.fileName, JavaUtils.format(this.compile(e), false));
+        this.className = this.fileName.replaceAll("Draw.java", "");
+        fsa.generateFile(((("mutator/" + this.className) + "/") + this.fileName), JavaUtils.format(this.compile(e), false));
         i++;
       }
     }
@@ -81,8 +85,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     _builder.newLine();
     {
       EList<Node> _nodes = draw.getNodes();
-      boolean _notEquals = (!Objects.equal(_nodes, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_nodes != null);
+      if (_tripleNotEquals) {
         {
           int _size = draw.getNodes().size();
           boolean _greaterThan = (_size > 0);
@@ -95,8 +99,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     }
     {
       EList<Relation> _relations = draw.getRelations();
-      boolean _notEquals_1 = (!Objects.equal(_relations, null));
-      if (_notEquals_1) {
+      boolean _tripleNotEquals_1 = (_relations != null);
+      if (_tripleNotEquals_1) {
         {
           int _size_1 = draw.getRelations().size();
           boolean _greaterThan_1 = (_size_1 > 0);
@@ -110,7 +114,7 @@ public class ModelDrawGenerator extends AbstractGenerator {
     _builder.append("dotcode.add(\"digraph ");
     String _name = draw.getName().getName();
     _builder.append(_name);
-    _builder.append(" {\\n\");");
+    _builder.append(" {\\n\\nrankdir=LR;\\n\");");
     _builder.newLineIfNotEmpty();
     _builder.append("for (EObject dotnode : dotnodes.keySet()) {");
     _builder.newLine();
@@ -176,10 +180,9 @@ public class ModelDrawGenerator extends AbstractGenerator {
   public CharSequence compile(final Content content, final String hmname) {
     StringConcatenation _builder = new StringConcatenation();
     {
-      boolean _notEquals = (!Objects.equal(content, null));
-      if (_notEquals) {
+      if ((content != null)) {
         {
-          if (((!Objects.equal(content.getNodenum(), null)) && (content.getNodenum().size() > 0))) {
+          if (((content.getNodenum() != null) && (content.getNodenum().size() > 0))) {
             {
               EList<NodeEnumerator> _nodenum = content.getNodenum();
               for(final NodeEnumerator nodenum : _nodenum) {
@@ -187,8 +190,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   EAttribute _att = nodenum.getAtt();
-                  boolean _notEquals_1 = (!Objects.equal(_att, null));
-                  if (_notEquals_1) {
+                  boolean _tripleNotEquals = (_att != null);
+                  if (_tripleNotEquals) {
                     _builder.append("\t");
                     _builder.append("if (attribute.getName().equals(\"");
                     String _name = nodenum.getAtt().getName();
@@ -214,7 +217,7 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.append("EEnumLiteral lit = (EEnumLiteral) o;");
                 _builder.newLine();
                 {
-                  if (((!Objects.equal(nodenum.getEnumerator(), null)) && (nodenum.getEnumerator().size() > 0))) {
+                  if (((nodenum.getEnumerator() != null) && (nodenum.getEnumerator().size() > 0))) {
                     {
                       EList<Enumerator> _enumerator = nodenum.getEnumerator();
                       for(final Enumerator lit : _enumerator) {
@@ -271,7 +274,7 @@ public class ModelDrawGenerator extends AbstractGenerator {
           }
         }
         {
-          if (((!Objects.equal(content.getInfo(), null)) && (content.getInfo().size() > 0))) {
+          if (((content.getInfo() != null) && (content.getInfo().size() > 0))) {
             {
               EList<Information> _info = content.getInfo();
               for(final Information info : _info) {
@@ -279,8 +282,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   EReference _type = info.getType();
-                  boolean _notEquals_2 = (!Objects.equal(_type, null));
-                  if (_notEquals_2) {
+                  boolean _tripleNotEquals_1 = (_type != null);
+                  if (_tripleNotEquals_1) {
                     _builder.append("\t");
                     _builder.append("if (r.getName().equals(\"");
                     String _name_2 = info.getType().getName();
@@ -304,8 +307,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   EAttribute _att_1 = info.getAtt();
-                  boolean _notEquals_3 = (!Objects.equal(_att_1, null));
-                  if (_notEquals_3) {
+                  boolean _tripleNotEquals_2 = (_att_1 != null);
+                  if (_tripleNotEquals_2) {
                     _builder.append("\t\t\t\t");
                     _builder.append("if (attribute.getName().equals(\"");
                     String _name_3 = info.getAtt().getName();
@@ -358,8 +361,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           EAttribute _attName = content.getAttName();
-          boolean _notEquals_4 = (!Objects.equal(_attName, null));
-          if (_notEquals_4) {
+          boolean _tripleNotEquals_3 = (_attName != null);
+          if (_tripleNotEquals_3) {
             _builder.append("\t");
             _builder.append("if (attribute.getName().equals(\"");
             String _name_4 = content.getAttName().getName();
@@ -394,8 +397,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           String _symbol = content.getSymbol();
-          boolean _notEquals_5 = (!Objects.equal(_symbol, null));
-          if (_notEquals_5) {
+          boolean _tripleNotEquals_4 = (_symbol != null);
+          if (_tripleNotEquals_4) {
             _builder.append("text = ");
             _builder.append(hmname);
             _builder.append(".get(obj);");
@@ -418,17 +421,15 @@ public class ModelDrawGenerator extends AbstractGenerator {
   public CharSequence decorate(final Relation rel) {
     StringConcatenation _builder = new StringConcatenation();
     {
-      EAttribute _label = rel.getLabel();
-      boolean _notEquals = (!Objects.equal(_label, null));
-      if (_notEquals) {
+      if (((rel.getLabel() != null) && (rel.getLabel().size() > 0))) {
         _builder.append("parameters.put(\"label\", label);");
         _builder.newLine();
       }
     }
     {
       Decoration _tar_decoration = rel.getTar_decoration();
-      boolean _notEquals_1 = (!Objects.equal(_tar_decoration, Decoration.NONE));
-      if (_notEquals_1) {
+      boolean _notEquals = (!Objects.equal(_tar_decoration, Decoration.NONE));
+      if (_notEquals) {
         _builder.append("if (parameters.containsKey(\"dir\") == false) {");
         _builder.newLine();
         _builder.append("\t");
@@ -452,8 +453,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
           } else {
             {
               Decoration _tar_decoration_2 = rel.getTar_decoration();
-              boolean _notEquals_2 = (!Objects.equal(_tar_decoration_2, Decoration.EMPTY));
-              if (_notEquals_2) {
+              boolean _notEquals_1 = (!Objects.equal(_tar_decoration_2, Decoration.EMPTY));
+              if (_notEquals_1) {
                 _builder.append("parameters.put(\"arrowhead\", \"");
                 Decoration _tar_decoration_3 = rel.getTar_decoration();
                 _builder.append(_tar_decoration_3);
@@ -470,8 +471,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     }
     {
       EAttribute _tar_label = rel.getTar_label();
-      boolean _notEquals_3 = (!Objects.equal(_tar_label, null));
-      if (_notEquals_3) {
+      boolean _tripleNotEquals = (_tar_label != null);
+      if (_tripleNotEquals) {
         _builder.append("if (parameters.containsKey(\"dir\") == false) {");
         _builder.newLine();
         _builder.append("\t");
@@ -499,8 +500,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     }
     {
       Decoration _src_decoration = rel.getSrc_decoration();
-      boolean _notEquals_4 = (!Objects.equal(_src_decoration, Decoration.NONE));
-      if (_notEquals_4) {
+      boolean _notEquals_2 = (!Objects.equal(_src_decoration, Decoration.NONE));
+      if (_notEquals_2) {
         _builder.append("if (parameters.containsKey(\"dir\") == false) {");
         _builder.newLine();
         _builder.append("\t");
@@ -524,8 +525,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
           } else {
             {
               Decoration _src_decoration_2 = rel.getSrc_decoration();
-              boolean _notEquals_5 = (!Objects.equal(_src_decoration_2, Decoration.EMPTY));
-              if (_notEquals_5) {
+              boolean _notEquals_3 = (!Objects.equal(_src_decoration_2, Decoration.EMPTY));
+              if (_notEquals_3) {
                 _builder.append("parameters.put(\"arrowtail\", \"");
                 Decoration _src_decoration_3 = rel.getSrc_decoration();
                 _builder.append(_src_decoration_3);
@@ -542,8 +543,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     }
     {
       EAttribute _src_label = rel.getSrc_label();
-      boolean _notEquals_6 = (!Objects.equal(_src_label, null));
-      if (_notEquals_6) {
+      boolean _tripleNotEquals_1 = (_src_label != null);
+      if (_tripleNotEquals_1) {
         _builder.append("if (parameters.containsKey(\"dir\") == false) {");
         _builder.newLine();
         _builder.append("\t");
@@ -574,6 +575,12 @@ public class ModelDrawGenerator extends AbstractGenerator {
   
   public CharSequence compile(final MutatorDraw draw) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("package mutator.");
+    String _project = WodelContext.getProject();
+    _builder.append(_project);
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
     _builder.append("import java.io.File;");
     _builder.newLine();
     _builder.append("import java.io.FileNotFoundException;");
@@ -599,6 +606,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.EClass;");
     _builder.newLine();
+    _builder.append("import org.eclipse.emf.ecore.EEnum;");
+    _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.EEnumLiteral;");
     _builder.newLine();
     _builder.append("import org.eclipse.emf.ecore.EObject;");
@@ -623,21 +632,21 @@ public class ModelDrawGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("public class ");
     _builder.append(this.className);
-    _builder.append(" implements manager.IMutatorDraw {");
+    _builder.append("Draw implements manager.IMutatorDraw {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
     _builder.append("   \t\t");
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
-    String _project = WodelContext.getProject();
-    String folder = (_plus + _project);
+    String _project_1 = WodelContext.getProject();
+    String folder = (_plus + _project_1);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     {
       EList<Node> _nodes = draw.getNodes();
-      boolean _notEquals = (!Objects.equal(_nodes, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_nodes != null);
+      if (_tripleNotEquals) {
         {
           int _size = draw.getNodes().size();
           boolean _greaterThan = (_size > 0);
@@ -690,8 +699,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   EAttribute _attName = node.getAttName();
-                  boolean _notEquals_1 = (!Objects.equal(_attName, null));
-                  if (_notEquals_1) {
+                  boolean _tripleNotEquals_1 = (_attName != null);
+                  if (_tripleNotEquals_1) {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t\t");
@@ -730,8 +739,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   EList<BooleanAttribute> _attribute = node.getAttribute();
-                  boolean _notEquals_2 = (!Objects.equal(_attribute, null));
-                  if (_notEquals_2) {
+                  boolean _tripleNotEquals_2 = (_attribute != null);
+                  if (_tripleNotEquals_2) {
                     {
                       int _size_1 = node.getAttribute().size();
                       boolean _greaterThan_1 = (_size_1 > 0);
@@ -1075,8 +1084,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             }
                             {
                               EList<EReference> _reference = node.getReference();
-                              boolean _notEquals_3 = (!Objects.equal(_reference, null));
-                              if (_notEquals_3) {
+                              boolean _tripleNotEquals_3 = (_reference != null);
+                              if (_tripleNotEquals_3) {
                                 {
                                   int _size_2 = node.getReference().size();
                                   boolean _greaterThan_2 = (_size_2 > 0);
@@ -1092,8 +1101,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                                       for(final EReference ref : _reference_1) {
                                         {
                                           EList<Content> _contents = draw.getContents();
-                                          boolean _notEquals_4 = (!Objects.equal(_contents, null));
-                                          if (_notEquals_4) {
+                                          boolean _tripleNotEquals_4 = (_contents != null);
+                                          if (_tripleNotEquals_4) {
                                             {
                                               int _size_3 = draw.getContents().size();
                                               boolean _greaterThan_3 = (_size_3 > 0);
@@ -1893,8 +1902,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
     _builder.newLine();
     {
       EList<Relation> _relations = draw.getRelations();
-      boolean _notEquals_5 = (!Objects.equal(_relations, null));
-      if (_notEquals_5) {
+      boolean _tripleNotEquals_5 = (_relations != null);
+      if (_tripleNotEquals_5) {
         {
           int _size_4 = draw.getRelations().size();
           boolean _greaterThan_4 = (_size_4 > 0);
@@ -1974,8 +1983,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.newLine();
                     {
                       EReference _source = edge.getSource();
-                      boolean _notEquals_6 = (!Objects.equal(_source, null));
-                      if (_notEquals_6) {
+                      boolean _tripleNotEquals_6 = (_source != null);
+                      if (_tripleNotEquals_6) {
                         _builder.append("\t");
                         _builder.append("\t");
                         _builder.append("\t\t");
@@ -2004,8 +2013,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.newLine();
                         {
                           EAttribute _attName_1 = edge.getAttName();
-                          boolean _notEquals_7 = (!Objects.equal(_attName_1, null));
-                          if (_notEquals_7) {
+                          boolean _tripleNotEquals_7 = (_attName_1 != null);
+                          if (_tripleNotEquals_7) {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t\t");
@@ -2063,8 +2072,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     }
                     {
                       EReference _target = edge.getTarget();
-                      boolean _notEquals_8 = (!Objects.equal(_target, null));
-                      if (_notEquals_8) {
+                      boolean _tripleNotEquals_8 = (_target != null);
+                      if (_tripleNotEquals_8) {
                         _builder.append("\t");
                         _builder.append("if (ref.getName().equals(\"");
                         String _name_10 = edge.getTarget().getName();
@@ -2082,8 +2091,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.newLine();
                         {
                           EAttribute _attName_2 = edge.getAttName();
-                          boolean _notEquals_9 = (!Objects.equal(_attName_2, null));
-                          if (_notEquals_9) {
+                          boolean _tripleNotEquals_9 = (_attName_2 != null);
+                          if (_tripleNotEquals_9) {
                             _builder.append("\t\t\t\t");
                             _builder.append("if (att.getName().equals(\"");
                             String _name_11 = edge.getAttName().getName();
@@ -2119,140 +2128,397 @@ public class ModelDrawGenerator extends AbstractGenerator {
                       }
                     }
                     {
-                      EReference _reference_2 = edge.getReference();
-                      boolean _notEquals_10 = (!Objects.equal(_reference_2, null));
-                      if (_notEquals_10) {
+                      EList<EReference> _reference_2 = edge.getReference();
+                      boolean _tripleNotEquals_10 = (_reference_2 != null);
+                      if (_tripleNotEquals_10) {
                         {
-                          if ((((!Objects.equal(edge.getLabel(), null)) || (!Objects.equal(edge.getSrc_label(), null))) || (!Objects.equal(edge.getTar_label(), null)))) {
+                          if ((((edge.getLabel() != null) || (edge.getSrc_label() != null)) || (edge.getTar_label() != null))) {
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("label += \"\\\"\";");
+                            _builder.newLine();
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("for (EReference ref : edge.eClass().getEAllReferences()) {");
                             _builder.newLine();
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("if (ref.getName().equals(\"");
-                            String _name_12 = edge.getReference().getName();
-                            _builder.append(_name_12, "\t\t\t\t");
-                            _builder.append("\")) {");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t\t");
-                            _builder.append("EObject obj = (EObject) edge.eGet(ref);");
-                            _builder.newLine();
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t\t");
-                            _builder.append("if (obj != null) {");
-                            _builder.newLine();
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t\t\t");
-                            _builder.append("for (EAttribute att : obj.eClass().getEAllAttributes()) {");
-                            _builder.newLine();
                             {
-                              EAttribute _label = edge.getLabel();
-                              boolean _notEquals_11 = (!Objects.equal(_label, null));
-                              if (_notEquals_11) {
+                              int _size_5 = edge.getReference().size();
+                              boolean _greaterThan_5 = (_size_5 > 0);
+                              if (_greaterThan_5) {
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("if (att.getName().equals(\"");
-                                String _name_13 = edge.getLabel().getName();
-                                _builder.append(_name_13, "\t\t\t\t\t\t");
-                                _builder.append("\")) {");
+                                _builder.append("\t");
+                                int i = 0;
                                 _builder.newLineIfNotEmpty();
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("\t");
-                                _builder.append("\t\t\t");
                                 _builder.append("\t");
-                                _builder.append("label = \"\\\"\" + (String) obj.eGet(att) + \"\\\"\";");
-                                _builder.newLine();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("}");
-                                _builder.newLine();
-                              }
-                            }
-                            {
-                              EAttribute _src_label = edge.getSrc_label();
-                              boolean _notEquals_12 = (!Objects.equal(_src_label, null));
-                              if (_notEquals_12) {
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("if (att.getName().equals(\"");
-                                String _name_14 = edge.getSrc_label().getName();
-                                _builder.append(_name_14, "\t\t\t\t\t\t");
-                                _builder.append("\")) {");
+                                int j = 0;
                                 _builder.newLineIfNotEmpty();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("\t");
-                                _builder.append("src_label = \"\\\"\" + (String) obj.eGet(att) + \"\\\"\";");
-                                _builder.newLine();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("}");
-                                _builder.newLine();
+                                {
+                                  EList<EReference> _reference_3 = edge.getReference();
+                                  for(final EReference reference : _reference_3) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("if (ref.getName().equals(\"");
+                                    String _name_12 = reference.getName();
+                                    _builder.append(_name_12, "\t\t\t\t");
+                                    _builder.append("\")) {");
+                                    _builder.newLineIfNotEmpty();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("EObject obj = (EObject) edge.eGet(ref);");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("if (obj != null) {");
+                                    _builder.newLine();
+                                    {
+                                      if (((edge.getLabel() != null) && (edge.getLabel().size() > i))) {
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("\t");
+                                        _builder.append("\t\t");
+                                        boolean found = false;
+                                        _builder.newLineIfNotEmpty();
+                                        {
+                                          EList<EAttribute> _eAllAttributes = reference.getEReferenceType().getEAllAttributes();
+                                          for(final EAttribute att_1 : _eAllAttributes) {
+                                            {
+                                              boolean _equals_6 = att_1.getName().equals(edge.getLabel().get(i).getName());
+                                              if (_equals_6) {
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("for (EAttribute att : obj.eClass().getEAllAttributes()) {");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("    ");
+                                                _builder.append("if (att.getName().equals(\"");
+                                                String _name_13 = edge.getLabel().get(i).getName();
+                                                _builder.append(_name_13, "\t\t\t\t\t\t    ");
+                                                _builder.append("\")) {");
+                                                _builder.newLineIfNotEmpty();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t    ");
+                                                _builder.append("if (att.getEType().getName().equals(\"EString\")) {");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t\t    ");
+                                                _builder.append("label += (String) obj.eGet(att) + \", \";");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t    ");
+                                                _builder.append("}");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t    ");
+                                                _builder.append("if (att.getEType() instanceof EEnum) {");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t\t    ");
+                                                _builder.append("EEnumLiteral value = (EEnumLiteral) obj.eGet(att);");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t\t    ");
+                                                _builder.append("label += value.getName() + \", \";");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("\t    ");
+                                                _builder.append("}");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("    ");
+                                                _builder.append("}");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("}");
+                                                _builder.newLine();
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t");
+                                                _builder.append("\t\t");
+                                                _builder.append("//");
+                                                _builder.append(found = true, "\t\t\t\t\t\t");
+                                                _builder.newLineIfNotEmpty();
+                                                _builder.append("                            ");
+                                                _builder.append("//");
+                                                int _plusPlus_1 = i++;
+                                                _builder.append(_plusPlus_1, "                            ");
+                                                _builder.newLineIfNotEmpty();
+                                              }
+                                            }
+                                          }
+                                        }
+                                        {
+                                          if ((found == false)) {
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("for (EReference refType : obj.eClass().getEAllReferences()) {");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("    ");
+                                            _builder.append("if (refType.getName().equals(\"");
+                                            String _name_14 = edge.getRefType().get(j).getName();
+                                            _builder.append(_name_14, "\t\t\t\t\t\t    ");
+                                            _builder.append("\")) {");
+                                            _builder.newLineIfNotEmpty();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("    \t");
+                                            _builder.append("EObject o = (EObject) ((EObject) edge.eGet(ref)).eGet(refType);");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("    \t");
+                                            _builder.append("if (o != null) {");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("    \t    ");
+                                            _builder.append("for (EAttribute att : o.eClass().getEAllAttributes()) {");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("    \t\t    ");
+                                            _builder.append("if (att.getName().equals(\"");
+                                            String _name_15 = edge.getLabel().get(i).getName();
+                                            _builder.append(_name_15, "\t\t\t\t\t\t    \t\t    ");
+                                            _builder.append("\")) {");
+                                            _builder.newLineIfNotEmpty();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t    \t        ");
+                                            _builder.append("if (att.getEType().getName().equals(\"EString\")) {");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t\t    \t        ");
+                                            _builder.append("label += (String) o.eGet(att) + \", \";");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t    \t        ");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t    \t        ");
+                                            _builder.append("if (att.getEType() instanceof EEnum) {");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t\t    \t        ");
+                                            _builder.append("EEnumLiteral value = (EEnumLiteral) o.eGet(att);");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t\t    \t        ");
+                                            _builder.append("label += value.getName() + \", \";");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t\t    \t    ");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t    \t    ");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t        ");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("\t    ");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("    ");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t");
+                                            _builder.append("\t\t");
+                                            _builder.append("}");
+                                            _builder.newLine();
+                                            _builder.append("\t\t\t\t\t\t    ");
+                                            _builder.append("//");
+                                            int _plusPlus_2 = i++;
+                                            _builder.append(_plusPlus_2, "\t\t\t\t\t\t    ");
+                                            _builder.newLineIfNotEmpty();
+                                            _builder.append("\t\t\t\t\t\t    ");
+                                            _builder.append("//");
+                                            int _plusPlus_3 = j++;
+                                            _builder.append(_plusPlus_3, "\t\t\t\t\t\t    ");
+                                            _builder.newLineIfNotEmpty();
+                                          }
+                                        }
+                                      }
+                                    }
+                                    {
+                                      EAttribute _src_label = edge.getSrc_label();
+                                      boolean _tripleNotEquals_11 = (_src_label != null);
+                                      if (_tripleNotEquals_11) {
+                                        _builder.append("if (att.getName().equals(\"");
+                                        String _name_16 = edge.getSrc_label().getName();
+                                        _builder.append(_name_16);
+                                        _builder.append("\")) {");
+                                        _builder.newLineIfNotEmpty();
+                                        _builder.append("\t\t\t\t\t\t\t    ");
+                                        _builder.append("src_label = \"\\\"\" + (String) obj.eGet(att) + \"\\\"\";");
+                                        _builder.newLine();
+                                        _builder.append("}");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                    {
+                                      EAttribute _tar_label = edge.getTar_label();
+                                      boolean _tripleNotEquals_12 = (_tar_label != null);
+                                      if (_tripleNotEquals_12) {
+                                        _builder.append("if (att.getName().equals(\"");
+                                        String _name_17 = edge.getTar_label().getName();
+                                        _builder.append(_name_17);
+                                        _builder.append("\")) {");
+                                        _builder.newLineIfNotEmpty();
+                                        _builder.append("    ");
+                                        _builder.append("tar_label = \"\\\"\" + (String) obj.eGet(att) + \"\\\"\";");
+                                        _builder.newLine();
+                                        _builder.append("}");
+                                        _builder.newLine();
+                                      }
+                                    }
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("}");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("}");
+                                    _builder.newLine();
+                                  }
+                                }
                               }
                             }
-                            {
-                              EAttribute _tar_label = edge.getTar_label();
-                              boolean _notEquals_13 = (!Objects.equal(_tar_label, null));
-                              if (_notEquals_13) {
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("if (att.getName().equals(\"");
-                                String _name_15 = edge.getTar_label().getName();
-                                _builder.append(_name_15, "\t\t\t\t\t\t");
-                                _builder.append("\")) {");
-                                _builder.newLineIfNotEmpty();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("\t");
-                                _builder.append("tar_label = \"\\\"\" + (String) obj.eGet(att) + \"\\\"\";");
-                                _builder.newLine();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t\t\t");
-                                _builder.append("}");
-                                _builder.newLine();
-                              }
-                            }
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t\t\t");
-                            _builder.append("}");
-                            _builder.newLine();
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t");
-                            _builder.append("\t\t");
-                            _builder.append("}");
-                            _builder.newLine();
-                            _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t");
@@ -2261,53 +2527,125 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t");
+                            _builder.append("if (label.indexOf(\",\") > 0) {");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("label = label.substring(0, label.lastIndexOf(\",\"));");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
                             _builder.append("}");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("label += \"\\\"\";");
                             _builder.newLine();
                           }
                         }
                       } else {
                         {
-                          if ((((!Objects.equal(edge.getLabel(), null)) || (!Objects.equal(edge.getSrc_label(), null))) || (!Objects.equal(edge.getTar_label(), null)))) {
+                          if ((((edge.getLabel() != null) || (edge.getSrc_label() != null)) || (edge.getTar_label() != null))) {
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("label = \"\\\"\";");
+                            _builder.newLine();
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("for (EAttribute att : edge.eClass().getEAllAttributes()) {");
                             _builder.newLine();
                             {
-                              EAttribute _label_1 = edge.getLabel();
-                              boolean _notEquals_14 = (!Objects.equal(_label_1, null));
-                              if (_notEquals_14) {
+                              if (((edge.getLabel() != null) && (edge.getLabel().size() > 0))) {
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("\t");
-                                _builder.append("if (att.getName().equals(\"");
-                                String _name_16 = edge.getLabel().getName();
-                                _builder.append(_name_16, "\t\t\t");
-                                _builder.append("\")) {");
+                                int i_1 = 0;
                                 _builder.newLineIfNotEmpty();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("label = \"\\\"\" + (String) edge.eGet(att) + \"\\\"\";");
-                                _builder.newLine();
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("\t");
-                                _builder.append("}");
-                                _builder.newLine();
+                                {
+                                  EList<EAttribute> _label = edge.getLabel();
+                                  for(final EAttribute label : _label) {
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("if (att.getName().equals(\"");
+                                    String _name_18 = label.getName();
+                                    _builder.append(_name_18, "\t\t\t");
+                                    _builder.append("\")) {");
+                                    _builder.newLineIfNotEmpty();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("if (att.getEType().getName().equals(\"EString\")) {");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t\t");
+                                    _builder.append("label += (String) edge.eGet(att) + \", \";");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("}");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("if (att.getEType() instanceof EEnum) {");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t\t");
+                                    _builder.append("EEnumLiteral value = (EEnumLiteral) obj.eGet(att);");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t\t");
+                                    _builder.append("label += value.getName() + \", \";");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("}");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("}");
+                                    _builder.newLine();
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("\t");
+                                    _builder.append("//");
+                                    int _plusPlus_4 = i_1++;
+                                    _builder.append(_plusPlus_4, "\t\t\t");
+                                    _builder.newLineIfNotEmpty();
+                                  }
+                                }
                               }
                             }
                             {
                               EAttribute _src_label_1 = edge.getSrc_label();
-                              boolean _notEquals_15 = (!Objects.equal(_src_label_1, null));
-                              if (_notEquals_15) {
+                              boolean _tripleNotEquals_13 = (_src_label_1 != null);
+                              if (_tripleNotEquals_13) {
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("if (att.getName().equals(\"");
-                                String _name_17 = edge.getSrc_label().getName();
-                                _builder.append(_name_17, "\t\t\t");
+                                String _name_19 = edge.getSrc_label().getName();
+                                _builder.append(_name_19, "\t\t\t");
                                 _builder.append("\")) {");
                                 _builder.newLineIfNotEmpty();
                                 _builder.append("\t");
@@ -2325,14 +2663,14 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             }
                             {
                               EAttribute _tar_label_1 = edge.getTar_label();
-                              boolean _notEquals_16 = (!Objects.equal(_tar_label_1, null));
-                              if (_notEquals_16) {
+                              boolean _tripleNotEquals_14 = (_tar_label_1 != null);
+                              if (_tripleNotEquals_14) {
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("\t");
                                 _builder.append("if (att.getName().equals(\"");
-                                String _name_18 = edge.getTar_label().getName();
-                                _builder.append(_name_18, "\t\t\t");
+                                String _name_20 = edge.getTar_label().getName();
+                                _builder.append(_name_20, "\t\t\t");
                                 _builder.append("\")) {");
                                 _builder.newLineIfNotEmpty();
                                 _builder.append("\t");
@@ -2352,6 +2690,27 @@ public class ModelDrawGenerator extends AbstractGenerator {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("}");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("if (label.indexOf(\",\") > 0) {");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("label = label.substring(0, label.lastIndexOf(\",\"));");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("}");
+                            _builder.newLine();
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("\t");
+                            _builder.append("label += \"\\\"\"; ");
                             _builder.newLine();
                           }
                         }
@@ -2401,7 +2760,87 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t\t");
+                    _builder.append("boolean found = false;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t");
+                    _builder.append("for (HashMap<String, String> rel : rels) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("for (String key : rel.keySet()) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("for (String keyParameters : parameters.keySet()) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t");
+                    _builder.append("if (key.equals(keyParameters)) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("String value = rel.get(key);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("value = value.substring(0, value.length() - 1);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("value += \"\\n\" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("rel.put(key, value);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t\t");
+                    _builder.append("found = true;");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t");
+                    _builder.append("}");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t");
+                    _builder.append("if (found == false) {");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t\t");
                     _builder.append("rels.add(parameters);");
+                    _builder.newLine();
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    _builder.append("\t\t");
+                    _builder.append("}");
                     _builder.newLine();
                     _builder.append("\t");
                     _builder.append("\t");
@@ -2431,8 +2870,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.append("ArrayList<EObject> llevel_");
                     _builder.append(counter_1, "\t\t");
                     _builder.append(" = ModelManager.getObjectsOfType(\"");
-                    String _name_19 = level.getName().getName();
-                    _builder.append(_name_19, "\t\t");
+                    String _name_21 = level.getName().getName();
+                    _builder.append(_name_21, "\t\t");
                     _builder.append("\", model);");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2468,14 +2907,14 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.newLine();
                     {
                       EAttribute _attName_3 = level.getAttName();
-                      boolean _notEquals_17 = (!Objects.equal(_attName_3, null));
-                      if (_notEquals_17) {
+                      boolean _tripleNotEquals_15 = (_attName_3 != null);
+                      if (_tripleNotEquals_15) {
                         _builder.append("\t");
                         _builder.append("\t");
                         _builder.append("\t\t");
                         _builder.append("if (att.getName().equals(\"");
-                        String _name_20 = level.getAttName().getName();
-                        _builder.append(_name_20, "\t\t\t\t");
+                        String _name_22 = level.getAttName().getName();
+                        _builder.append(_name_22, "\t\t\t\t");
                         _builder.append("\")) {");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -2513,14 +2952,14 @@ public class ModelDrawGenerator extends AbstractGenerator {
                     _builder.newLine();
                     {
                       EReference _upper = level.getUpper();
-                      boolean _notEquals_18 = (!Objects.equal(_upper, null));
-                      if (_notEquals_18) {
+                      boolean _tripleNotEquals_16 = (_upper != null);
+                      if (_tripleNotEquals_16) {
                         _builder.append("\t");
                         _builder.append("\t");
                         _builder.append("\t\t");
                         _builder.append("if (ref.getName().equals(\"");
-                        String _name_21 = level.getUpper().getName();
-                        _builder.append(_name_21, "\t\t\t\t");
+                        String _name_23 = level.getUpper().getName();
+                        _builder.append(_name_23, "\t\t\t\t");
                         _builder.append("\")) {");
                         _builder.newLineIfNotEmpty();
                         _builder.append("\t");
@@ -2561,15 +3000,15 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.newLine();
                         {
                           EAttribute _attName_4 = level.getAttName();
-                          boolean _notEquals_19 = (!Objects.equal(_attName_4, null));
-                          if (_notEquals_19) {
+                          boolean _tripleNotEquals_17 = (_attName_4 != null);
+                          if (_tripleNotEquals_17) {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t\t");
                             _builder.append("\t\t\t\t\t\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_22 = level.getAttName().getName();
-                            _builder.append(_name_22, "\t\t\t\t\t\t\t\t\t\t");
+                            String _name_24 = level.getAttName().getName();
+                            _builder.append(_name_24, "\t\t\t\t\t\t\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                           } else {
@@ -2655,15 +3094,15 @@ public class ModelDrawGenerator extends AbstractGenerator {
                         _builder.newLine();
                         {
                           EAttribute _attName_5 = level.getAttName();
-                          boolean _notEquals_20 = (!Objects.equal(_attName_5, null));
-                          if (_notEquals_20) {
+                          boolean _tripleNotEquals_18 = (_attName_5 != null);
+                          if (_tripleNotEquals_18) {
                             _builder.append("\t");
                             _builder.append("\t");
                             _builder.append("\t\t");
                             _builder.append("\t\t\t");
                             _builder.append("if (att.getName().equals(\"");
-                            String _name_23 = level.getAttName().getName();
-                            _builder.append(_name_23, "\t\t\t\t\t\t\t");
+                            String _name_25 = level.getAttName().getName();
+                            _builder.append(_name_25, "\t\t\t\t\t\t\t");
                             _builder.append("\")) {");
                             _builder.newLineIfNotEmpty();
                           } else {

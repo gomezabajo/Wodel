@@ -66,6 +66,7 @@ public class CompositeMutatorImpl extends MutatorImpl implements CompositeMutato
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Mutator> getCommands() {
 		if (commands == null) {
 			commands = new EObjectContainmentEList<Mutator>(Mutator.class, this, MutatorenvironmentPackage.COMPOSITE_MUTATOR__COMMANDS);

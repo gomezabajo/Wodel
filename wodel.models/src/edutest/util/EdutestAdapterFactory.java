@@ -108,6 +108,10 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 				return createMatchPairsAdapter();
 			}
 			@Override
+			public Adapter caseMissingWords(MissingWords object) {
+				return createMissingWordsAdapter();
+			}
+			@Override
 			public Adapter caseTest(Test object) {
 				return createTestAdapter();
 			}
@@ -268,6 +272,20 @@ public class EdutestAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMatchPairsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link edutest.MissingWords <em>Missing Words</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see edutest.MissingWords
+	 * @generated
+	 */
+	public Adapter createMissingWordsAdapter() {
 		return null;
 	}
 

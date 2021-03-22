@@ -17,6 +17,7 @@ public class DFAUtils {
 		public String name = null;
 		public boolean isInitial = false;
 		public boolean isFinal = false;
+		public int index = -1;
 	}
 	
 	public static class Symbol {
@@ -28,6 +29,60 @@ public class DFAUtils {
 		public State tar = null;
 		public Symbol symbol = null;
 	}
+	
+	private static class Distinguishable {
+		private int nStates;
+		private int nDistinguishables;
+		private boolean[] triangle;
+		
+		public Distinguishable(int nStates) {
+			if (nStates > 0) {
+				this.nStates = nStates;
+				this.triangle = new boolean[nStates * (nStates - 1) / 2];
+			}
+		}
+		
+		public int position(int i, int j) {
+			if (j < i && i > 0 && j >= 0) {
+				return ((i - 1) * i) / 2 + j;
+			}
+			return -1;
+		}
+		
+		public boolean get(int i, int j) {
+			if (i >= 0 && i < this.nStates) {
+				if (j >= 0 && j < this.nStates) {
+					if (i == j) {
+						return false;
+					}
+					int position = i < j ? position(j, i) : position(i, j);
+					if (this.triangle[position] != false) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
+		public void set(int i, int j) {
+			if (i >= 0 && i < this.nStates) {
+				if (j >= 0 && j < this.nStates) {
+					if (i != j) {
+						int position = i < j ? position(j, i) : position(i, j);
+						if (this.triangle[position] != true) {
+							this.triangle[position] = true;
+							this.nDistinguishables++;
+						}
+					}
+				}
+			}
+		}
+		
+		public int count() {
+			return this.nDistinguishables;
+		}
+	}
+	
 	public static class DFA {
 		public List<State> states = new ArrayList<State>();
 		public List<Transition> transitions = new ArrayList<Transition>();
@@ -53,6 +108,233 @@ public class DFAUtils {
 				}
 			}
 			return existsTransition;
+		}
+		
+		public boolean process(String value) {
+			State current = this.getInitial();
+			int count = 0;
+			for (char symbol : value.toCharArray()) {
+				boolean found = false;
+				for (Transition tr : this.transitions) {
+					if (tr.src.equals(current) && tr.symbol.symbol.equals("" + symbol)) {
+						current = tr.tar;
+						found = true;
+						break;
+					}
+				}
+				if (found == false) {
+					break;
+				}
+				count++;
+			}
+			return (count == value.length() && current.isFinal);
+		}
+
+		public String toPythonDictionaryString() {
+			String dString = "";
+			dString += "{";
+			DFAUtils.State initial = this.getInitial();
+			if (initial != null) {
+				dString += initial.index + ":(";
+				dString += (initial.isFinal ? "True" : "False") + ",";
+				if (this.transitions != null && this.transitions.size() > 0) {
+					dString += "{";
+					for (DFAUtils.Transition transition : this.transitions) {
+						if (transition.src.equals(initial) && transition.symbol != null && transition.tar != null) {
+							dString += "'" + transition.symbol.symbol + "'";
+							dString += ":";
+							dString += transition.tar.index + ",";
+						}
+					}
+					if (dString.endsWith(",")) {
+						dString = dString.substring(0, dString.lastIndexOf(","));
+					}
+					dString += "}),";
+				}
+				for (DFAUtils.State state : this.states) {
+					if (state.equals(initial)) {
+						continue;
+					}
+					dString += state.index + ":(";
+					dString += (state.isFinal ? "True" : "False") + ",";
+					if (this.transitions != null && this.transitions.size() > 0) {
+						dString += "{";
+						for (DFAUtils.Transition transition : this.transitions) {
+							if (transition.src.equals(state) && transition.symbol != null && transition.tar != null) {
+								dString += "'" + transition.symbol.symbol + "'";
+								dString += ":";
+								dString += transition.tar.index + ",";
+							}
+						}
+						if (dString.endsWith(",")) {
+							dString = dString.substring(0, dString.lastIndexOf(","));
+						}
+						dString += "}),";
+					}
+				}
+				if (dString.endsWith(",")) {
+					dString = dString.substring(0, dString.lastIndexOf(","));
+				}
+			}
+			dString += "}";
+			return dString;
+		}
+	}
+	
+	public static class StatesSet {
+		public int contents;
+		public boolean[] bits;
+		
+		public StatesSet(int size) {
+			this.bits = new boolean[size];
+			this.contents = 0;
+		}
+		
+		public boolean contains(int value) {
+			if (this.bits != null && value < this.bits.length && this.bits[value] == true) {
+				return true;
+			}
+			return false;
+		}
+		public void insert(int value) {
+			if (this.bits != null && value < this.bits.length && this.bits[value] == false) {
+				this.bits[value] = true;
+				this.contents++;
+			}
+		}
+		public void delete(int value) {
+			if (this.bits != null && value < this.bits.length && this.bits[value] == true) {
+				this.bits[value] = false;
+				this.contents--;
+			}
+		}
+		public int compare(StatesSet other) {
+			if (this.equals(other)) {
+				return 0;
+			}
+			if (this.contents != other.contents) {
+				return -1;
+			}
+			int size = this.bits.length;
+			if (other.bits != null && other.bits.length > size) {
+				size = other.bits.length;
+			}
+			for (int i = 0; i < size; i++) {
+				boolean b1 = this.contains(i);
+				boolean b2 = other.contains(i);
+				if (b1 != b2) {
+					return 1;
+				}
+			}
+			return 0;
+		}
+		public String getStatesSetName(DFAUtils.DFA dfa) {
+			String name = "";
+			for (int i = 0; i < this.bits.length; i++) {
+				if (this.contains(i) == true) {
+					name += dfa.states.get(i).name;
+				}
+			}
+			return name;
+		}
+		
+		public int searchStatesSet(StatesSet[] statesSet) {
+			for (int i = 0; i < statesSet.length; i++) {
+				if (this.compare(statesSet[i]) == 0) {
+					return i;
+				}
+			}
+			return -1;
+		}
+		
+		public boolean isFinalStatesSet(DFAUtils.DFA dfa) {
+			if (this.bits != null) {
+				for (int i = 0; i < dfa.states.size(); i++) {
+					if (this.contains(i) == true) {
+						if (dfa.states.get(i).isFinal == true) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+		
+		private int nextState(int previous) {
+			int r = previous + 1;
+			int max = this.bits.length;
+			while (r < max && this.contains(r) == false) {
+				r++;
+			}
+			return r;
+		}
+		
+		public boolean isFinal(DFAUtils.DFA dfa, int i) {
+			return dfa.states.get(i).isFinal;
+		}
+		
+		public int getTransition(DFAUtils.DFA dfa, int i, int symbol, int acc) {
+			int nStates = dfa.states.size();
+			if (i == acc) {
+				return acc;
+			}
+			for (int j = this.nextState(-1); j < nStates; j = this.nextState(j)) {
+				if (dfa.existsTransition(dfa.states.get(i), dfa.alphabet.get(symbol), dfa.states.get(j)) == true) {
+					return j;
+				}
+			}
+			return acc;
+		}
+		
+	
+		public int[][] createTransitions(DFAUtils.DFA source, StatesSet[] newStates, int[] cl, int acc) {
+			int[][] newTransitions = new int[newStates.length][source.alphabet.size()];
+			for (int i = 0; i < newStates.length; i++) {
+				int j = newStates[i].nextState(-1);
+				for (int l = 0; l < source.alphabet.size(); l++) {
+					int tar = this.getTransition(source, j, l, acc);
+					if (tar != acc) {
+						newTransitions[i][l] = cl[tar];
+					}
+					else {
+						newTransitions[i][l] = -1;
+					}
+				}
+			}
+			return newTransitions;
+		}
+		
+		public int createClasses(int nStates, int[] cl, Distinguishable d) {
+			int nNewStates = 0;
+			
+			for (int i = 0; i < nStates; i++) {
+				cl[i] = -1;
+			}
+			for (int i = this.nextState(-1); i < nStates; i = this.nextState(i)) {
+				if (cl[i] == -1) {
+					for (int j = i; j < nStates; j = this.nextState(j)) {
+						if (d.get(i, j) == false) {
+							cl[j] = nNewStates;
+						}
+					}
+					nNewStates++;
+				}
+			}
+			return nNewStates;
+		}
+		
+		public StatesSet[] classes2sets(int nStates, int nNewStates, int[] cl) {
+			StatesSet[] newStates = new StatesSet[nNewStates];
+			for (int i = 0; i < nNewStates; i++) {
+				newStates[i] = new StatesSet(nStates);
+			}
+			for (int i = 0; i < nStates; i++) {
+				int c = cl[i];
+				if (c != -1) {
+					newStates[c].insert(i);
+				}
+			}
+			return newStates;
 		}
 	}
 	
@@ -222,11 +504,13 @@ public class DFAUtils {
 				}
 				index++;
 			}
+			index = 0;
 			for (EObject state : states) {
 				State st = new State();
 				st.isInitial = ModelManager.getBooleanAttribute("isInitial", state);
 				st.isFinal = ModelManager.getBooleanAttribute("isFinal", state);
 				st.name = ModelManager.getStringAttribute("name", state);
+				st.index = index++;
 				dfa.states.add(st);
 			}
 			for (EObject symbol : alphabet) {
@@ -290,5 +574,135 @@ public class DFAUtils {
 		return dfa;
 		
 		//return transitionTable;
+	}
+	
+	public static StatesSet reachableSet(DFAUtils.DFA dfa) {
+		StatesSet statesSet = new StatesSet(dfa.states.size());
+		DFAUtils.State initial = dfa.getInitial();
+		reachableSetFrom(dfa, statesSet, initial);
+		return statesSet;
+	}
+	
+	private static void reachableSetFrom(DFAUtils.DFA dfa, StatesSet statesSet, DFAUtils.State initial) {
+		if (statesSet.contains(initial.index) == false) {
+			statesSet.insert(initial.index);
+			for (int i = 0; i < dfa.alphabet.size(); i++) {
+				for (int j = 0; j < dfa.states.size(); j++) {
+					if (dfa.existsTransition(initial, dfa.alphabet.get(i), dfa.states.get(j)) == true) {
+						reachableSetFrom(dfa, statesSet, dfa.states.get(j));
+					}
+				}
+			}
+		}
+	}
+	
+	public static void distinguishFinals(DFAUtils.DFA dfa, int acc, StatesSet statesSet, Distinguishable d) {
+		int nStates = dfa.states.size();
+		
+		for (int i = statesSet.nextState(-1); i < nStates; i = statesSet.nextState(i)) {
+			boolean endI = statesSet.isFinal(dfa, i);
+			for (int j = statesSet.nextState(i); j <= nStates; j = statesSet.nextState(j)) {
+				boolean endJ = false;
+				if (j != acc) {
+					endJ = statesSet.isFinal(dfa, j);
+				}
+				if (endI != endJ) {
+					d.set(i, j);
+				}
+			}
+		}
+	}
+	
+
+	public static Distinguishable getDistinguishable(DFAUtils.DFA dfa, StatesSet statesSet) {
+		Distinguishable d = new Distinguishable(dfa.states.size() + 1);
+		int acc = dfa.states.size();
+		distinguishFinals(dfa, acc, statesSet, d);
+		int nPairs = 0;
+		
+		while (nPairs != d.count()) {
+			nPairs = d.count();
+			for (int i = statesSet.nextState(-1); i < dfa.states.size(); i = statesSet.nextState(i)) {
+				for (int j = statesSet.nextState(i); j <= dfa.states.size(); j = statesSet.nextState(j)) {
+					if (d.get(i, j) == false) {
+						for (int l = 0; l < dfa.alphabet.size(); l++) {
+							int tarI = statesSet.getTransition(dfa, i, l, acc);
+							int tarJ = statesSet.getTransition(dfa, j, l, acc);
+							if (d.get(tarI, tarJ)) {
+								d.set(i, j);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		return d;
+	}
+
+	public static DFAUtils.DFA createAutomata(DFAUtils.DFA source, int nStates, StatesSet[] statesSet, int initial, int[][] transitions) {
+		DFAUtils.DFA ret = new DFAUtils.DFA();
+		String[] names = new String[nStates];
+		for (int i = 0; i < nStates; i++) {
+			names[i] = statesSet[i].getStatesSetName(source);
+			boolean isFinal = statesSet[i].isFinalStatesSet(source);
+			DFAUtils.State state = new DFAUtils.State();
+			state.index = i;
+			state.name = names[i];
+			if (i == initial) {
+				state.isFinal = source.getInitial().isFinal;
+				state.isInitial = true;
+			}
+			else {
+				state.isFinal = isFinal;
+				state.isInitial = false;
+			}
+			ret.states.add(state);
+		}
+		for (int i = 0; i < source.alphabet.size(); i++) {
+			DFAUtils.Symbol symbol = new DFAUtils.Symbol();
+			symbol.symbol = source.alphabet.get(i).symbol;
+			ret.alphabet.add(symbol);
+		}
+		for (int i = 0; i < nStates; i++) {
+			for (int j = 0; j < ret.alphabet.size(); j++) {
+				int end = transitions[i][j];
+				if (end != -1) {
+					DFAUtils.Transition transition = new DFAUtils.Transition();
+					transition.src = ret.states.get(i);
+					transition.symbol = ret.alphabet.get(j);
+					transition.tar = ret.states.get(end);
+					ret.transitions.add(transition);
+				}
+			}
+		}
+		return ret;
+	}
+
+	public static DFAUtils.DFA getDFA(Distinguishable d, StatesSet statesSet, DFAUtils.DFA source) {
+		int nStates = source.states.size();
+		int acc = nStates;
+		int[] cl = new int[nStates];
+		
+		for (int i = statesSet.nextState(-1); i < nStates; i = statesSet.nextState(i)) {
+			if (d.get(acc, i) == false) {
+				statesSet.delete(i);
+			}
+		}
+		int nNewStates = statesSet.createClasses(nStates, cl, d);
+		StatesSet[] newStatesSet = statesSet.classes2sets(nStates, nNewStates, cl);
+		
+		int[][] newTransitions = statesSet.createTransitions(source, newStatesSet, cl, acc);
+		int initial = cl[source.getInitial().index];
+		DFAUtils.DFA ret = createAutomata(source, nNewStates, newStatesSet, initial, newTransitions);
+		
+		return ret;
+	}
+
+	public static DFAUtils.DFA minimize(DFAUtils.DFA source) {
+		StatesSet statesSet = reachableSet(source);
+		Distinguishable d = getDistinguishable(source, statesSet);
+		DFAUtils.DFA result = getDFA(d, statesSet, source);
+		return result;
 	}
 }

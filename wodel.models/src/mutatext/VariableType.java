@@ -236,7 +236,103 @@ public enum VariableType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SECOND_VALUE(21, "secondValue", "secondValue");
+	SECOND_VALUE(21, "secondValue", "secondValue"), /**
+	 * The '<em><b>Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #VALUE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	VALUE(22, "value", "value"), /**
+	 * The '<em><b>Described Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_OBJECT(23, "describedObject", "describedObject"), /**
+	 * The '<em><b>Described From Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FROM_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_FROM_OBJECT(24, "describedFromObject", "describedFromObject"), /**
+	 * The '<em><b>Described Old From Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_OLD_FROM_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_OLD_FROM_OBJECT(25, "describedOldFromObject", "describedOldFromObject"), /**
+	 * The '<em><b>Described To Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_TO_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_TO_OBJECT(26, "describedToObject", "describedToObject"), /**
+	 * The '<em><b>Described Old To Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_OLD_TO_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_OLD_TO_OBJECT(27, "describedOldToObject", "describedOldToObject"), /**
+	 * The '<em><b>Described First Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FIRST_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_FIRST_OBJECT(28, "describedFirstObject", "describedFirstObject"), /**
+	 * The '<em><b>Described First From Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FIRST_FROM_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_FIRST_FROM_OBJECT(29, "describedFirstFromObject", "describedFirstFromObject"), /**
+	 * The '<em><b>Described First To Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FIRST_TO_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_FIRST_TO_OBJECT(30, "describedFirstToObject", "describedFirstToObject"), /**
+	 * The '<em><b>Described Second Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_SECOND_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_SECOND_OBJECT(31, "describedSecondObject", "describedSecondObject"), /**
+	 * The '<em><b>Described Second From Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_SECOND_FROM_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_SECOND_FROM_OBJECT(32, "describedSecondFromObject", "describedSecondFromObject"), /**
+	 * The '<em><b>Described Second To Object</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_SECOND_TO_OBJECT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DESCRIBED_SECOND_TO_OBJECT(33, "describedSecondToObject", "describedSecondToObject");
 
 	/**
 	 * The '<em><b>Object</b></em>' literal value.
@@ -569,6 +665,186 @@ public enum VariableType implements Enumerator {
 	public static final int SECOND_VALUE_VALUE = 21;
 
 	/**
+	 * The '<em><b>Value</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Value</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #VALUE
+	 * @model name="value"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int VALUE_VALUE = 22;
+
+	/**
+	 * The '<em><b>Described Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_OBJECT
+	 * @model name="describedObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_OBJECT_VALUE = 23;
+
+	/**
+	 * The '<em><b>Described From Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described From Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FROM_OBJECT
+	 * @model name="describedFromObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_FROM_OBJECT_VALUE = 24;
+
+	/**
+	 * The '<em><b>Described Old From Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described Old From Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_OLD_FROM_OBJECT
+	 * @model name="describedOldFromObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_OLD_FROM_OBJECT_VALUE = 25;
+
+	/**
+	 * The '<em><b>Described To Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described To Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_TO_OBJECT
+	 * @model name="describedToObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_TO_OBJECT_VALUE = 26;
+
+	/**
+	 * The '<em><b>Described Old To Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described Old To Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_OLD_TO_OBJECT
+	 * @model name="describedOldToObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_OLD_TO_OBJECT_VALUE = 27;
+
+	/**
+	 * The '<em><b>Described First Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described First Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FIRST_OBJECT
+	 * @model name="describedFirstObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_FIRST_OBJECT_VALUE = 28;
+
+	/**
+	 * The '<em><b>Described First From Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described First From Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FIRST_FROM_OBJECT
+	 * @model name="describedFirstFromObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_FIRST_FROM_OBJECT_VALUE = 29;
+
+	/**
+	 * The '<em><b>Described First To Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described First To Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_FIRST_TO_OBJECT
+	 * @model name="describedFirstToObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_FIRST_TO_OBJECT_VALUE = 30;
+
+	/**
+	 * The '<em><b>Described Second Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described Second Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_SECOND_OBJECT
+	 * @model name="describedSecondObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_SECOND_OBJECT_VALUE = 31;
+
+	/**
+	 * The '<em><b>Described Second From Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described Second From Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_SECOND_FROM_OBJECT
+	 * @model name="describedSecondFromObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_SECOND_FROM_OBJECT_VALUE = 32;
+
+	/**
+	 * The '<em><b>Described Second To Object</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Described Second To Object</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DESCRIBED_SECOND_TO_OBJECT
+	 * @model name="describedSecondToObject"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DESCRIBED_SECOND_TO_OBJECT_VALUE = 33;
+
+	/**
 	 * An array of all the '<em><b>Variable Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -598,6 +874,18 @@ public enum VariableType implements Enumerator {
 			FIRST_VALUE,
 			SECOND_ATT_NAME,
 			SECOND_VALUE,
+			VALUE,
+			DESCRIBED_OBJECT,
+			DESCRIBED_FROM_OBJECT,
+			DESCRIBED_OLD_FROM_OBJECT,
+			DESCRIBED_TO_OBJECT,
+			DESCRIBED_OLD_TO_OBJECT,
+			DESCRIBED_FIRST_OBJECT,
+			DESCRIBED_FIRST_FROM_OBJECT,
+			DESCRIBED_FIRST_TO_OBJECT,
+			DESCRIBED_SECOND_OBJECT,
+			DESCRIBED_SECOND_FROM_OBJECT,
+			DESCRIBED_SECOND_TO_OBJECT,
 		};
 
 	/**
@@ -676,6 +964,18 @@ public enum VariableType implements Enumerator {
 			case FIRST_VALUE_VALUE: return FIRST_VALUE;
 			case SECOND_ATT_NAME_VALUE: return SECOND_ATT_NAME;
 			case SECOND_VALUE_VALUE: return SECOND_VALUE;
+			case VALUE_VALUE: return VALUE;
+			case DESCRIBED_OBJECT_VALUE: return DESCRIBED_OBJECT;
+			case DESCRIBED_FROM_OBJECT_VALUE: return DESCRIBED_FROM_OBJECT;
+			case DESCRIBED_OLD_FROM_OBJECT_VALUE: return DESCRIBED_OLD_FROM_OBJECT;
+			case DESCRIBED_TO_OBJECT_VALUE: return DESCRIBED_TO_OBJECT;
+			case DESCRIBED_OLD_TO_OBJECT_VALUE: return DESCRIBED_OLD_TO_OBJECT;
+			case DESCRIBED_FIRST_OBJECT_VALUE: return DESCRIBED_FIRST_OBJECT;
+			case DESCRIBED_FIRST_FROM_OBJECT_VALUE: return DESCRIBED_FIRST_FROM_OBJECT;
+			case DESCRIBED_FIRST_TO_OBJECT_VALUE: return DESCRIBED_FIRST_TO_OBJECT;
+			case DESCRIBED_SECOND_OBJECT_VALUE: return DESCRIBED_SECOND_OBJECT;
+			case DESCRIBED_SECOND_FROM_OBJECT_VALUE: return DESCRIBED_SECOND_FROM_OBJECT;
+			case DESCRIBED_SECOND_TO_OBJECT_VALUE: return DESCRIBED_SECOND_TO_OBJECT;
 		}
 		return null;
 	}

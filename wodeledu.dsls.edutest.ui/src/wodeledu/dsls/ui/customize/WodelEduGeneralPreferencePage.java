@@ -16,13 +16,15 @@ public class WodelEduGeneralPreferencePage extends LanguageRootPreferencePage {
     @Override
     protected void createFieldEditors() {
     	Composite composite = getFieldEditorParent();
-		String[][] values = new String[3][2];
+		String[][] values = new String[4][2];
 		values[0][0] = "";
 		values[0][1] = "";
 		values[1][0] = "Web";
 		values[1][1] = "Web";
 		values[2][0] = "Moodle";
 		values[2][1] = "Moodle";
+		values[3][0] = "MobileApp";
+		values[3][1] = "MobileApp";
 	    	
     	new LabelFieldEditor("Wodel-Edu mode", composite);
     	ComboFieldEditor combo = new ComboFieldEditor("Wodel-Edu mode", "", values, composite);

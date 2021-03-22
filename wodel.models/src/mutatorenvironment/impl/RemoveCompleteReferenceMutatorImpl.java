@@ -61,6 +61,7 @@ public class RemoveCompleteReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -87,6 +88,7 @@ public class RemoveCompleteReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;

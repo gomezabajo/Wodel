@@ -90,6 +90,7 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOldstring() {
 		return oldstring;
 	}
@@ -99,6 +100,7 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOldstring(String newOldstring) {
 		String oldOldstring = oldstring;
 		oldstring = newOldstring;
@@ -111,6 +113,7 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getNewstring() {
 		return newstring;
 	}
@@ -120,6 +123,7 @@ public class ReplaceStringTypeImpl extends StringTypeImpl implements ReplaceStri
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNewstring(String newNewstring) {
 		String oldNewstring = newstring;
 		newstring = newNewstring;

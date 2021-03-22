@@ -34,7 +34,7 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMutatorEnvironmentAccess().getAlternatives_3(), "rule__MutatorEnvironment__Alternatives_3");
 					put(grammarAccess.getDefinitionAccess().getAlternatives(), "rule__Definition__Alternatives");
 					put(grammarAccess.getProgramAccess().getAlternatives_2(), "rule__Program__Alternatives_2");
-					put(grammarAccess.getBlockAccess().getAlternatives_9_1(), "rule__Block__Alternatives_9_1");
+					put(grammarAccess.getBlockAccess().getAlternatives_8_1(), "rule__Block__Alternatives_8_1");
 					put(grammarAccess.getConstraintAccess().getAlternatives_3(), "rule__Constraint__Alternatives_3");
 					put(grammarAccess.getLogicExpCSAccess().getOpAlternatives_1_1_0(), "rule__LogicExpCS__OpAlternatives_1_1_0");
 					put(grammarAccess.getCallExpCSAccess().getOpAlternatives_1_1_0(), "rule__CallExpCS__OpAlternatives_1_1_0");
@@ -89,7 +89,6 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getOperatorAccess().getAlternatives(), "rule__Operator__Alternatives");
 					put(grammarAccess.getArithmeticOperatorAccess().getAlternatives(), "rule__ArithmeticOperator__Alternatives");
 					put(grammarAccess.getRepeatAccess().getAlternatives(), "rule__Repeat__Alternatives");
-					put(grammarAccess.getReverseAccess().getAlternatives(), "rule__Reverse__Alternatives");
 					put(grammarAccess.getSampleClauseAccess().getAlternatives(), "rule__SampleClause__Alternatives");
 					put(grammarAccess.getMutatorEnvironmentAccess().getGroup(), "rule__MutatorEnvironment__Group__0");
 					put(grammarAccess.getMutatorEnvironmentAccess().getGroup_3_0(), "rule__MutatorEnvironment__Group_3_0__0");
@@ -106,9 +105,8 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getBlockAccess().getGroup_2(), "rule__Block__Group_2__0");
 					put(grammarAccess.getBlockAccess().getGroup_2_2(), "rule__Block__Group_2_2__0");
 					put(grammarAccess.getBlockAccess().getGroup_3(), "rule__Block__Group_3__0");
-					put(grammarAccess.getBlockAccess().getGroup_4(), "rule__Block__Group_4__0");
-					put(grammarAccess.getBlockAccess().getGroup_9(), "rule__Block__Group_9__0");
-					put(grammarAccess.getBlockAccess().getGroup_9_1_0(), "rule__Block__Group_9_1_0__0");
+					put(grammarAccess.getBlockAccess().getGroup_8(), "rule__Block__Group_8__0");
+					put(grammarAccess.getBlockAccess().getGroup_8_1_0(), "rule__Block__Group_8_1_0__0");
 					put(grammarAccess.getConstraintAccess().getGroup(), "rule__Constraint__Group__0");
 					put(grammarAccess.getConstraintAccess().getGroup_3_0(), "rule__Constraint__Group_3_0__0");
 					put(grammarAccess.getConstraintAccess().getGroup_3_1(), "rule__Constraint__Group_3_1__0");
@@ -328,13 +326,11 @@ public class WodelParser extends AbstractContentAssistParser {
 					put(grammarAccess.getBlockAccess().getFromAssignment_2_1(), "rule__Block__FromAssignment_2_1");
 					put(grammarAccess.getBlockAccess().getFromAssignment_2_2_1(), "rule__Block__FromAssignment_2_2_1");
 					put(grammarAccess.getBlockAccess().getRepeatAssignment_3_2(), "rule__Block__RepeatAssignment_3_2");
-					put(grammarAccess.getBlockAccess().getReverseAssignment_4_2(), "rule__Block__ReverseAssignment_4_2");
+					put(grammarAccess.getBlockAccess().getCommandsAssignment_5(), "rule__Block__CommandsAssignment_5");
 					put(grammarAccess.getBlockAccess().getCommandsAssignment_6(), "rule__Block__CommandsAssignment_6");
-					put(grammarAccess.getBlockAccess().getCommandsAssignment_7(), "rule__Block__CommandsAssignment_7");
-					put(grammarAccess.getBlockAccess().getMinAssignment_9_1_0_0(), "rule__Block__MinAssignment_9_1_0_0");
-					put(grammarAccess.getBlockAccess().getMaxAssignment_9_1_0_2(), "rule__Block__MaxAssignment_9_1_0_2");
-					put(grammarAccess.getBlockAccess().getFixedAssignment_9_1_1(), "rule__Block__FixedAssignment_9_1_1");
-					put(grammarAccess.getBlockAccess().getModeAssignment_9_1_2(), "rule__Block__ModeAssignment_9_1_2");
+					put(grammarAccess.getBlockAccess().getMinAssignment_8_1_0_0(), "rule__Block__MinAssignment_8_1_0_0");
+					put(grammarAccess.getBlockAccess().getMaxAssignment_8_1_0_2(), "rule__Block__MaxAssignment_8_1_0_2");
+					put(grammarAccess.getBlockAccess().getFixedAssignment_8_1_1(), "rule__Block__FixedAssignment_8_1_1");
 					put(grammarAccess.getConstraintAccess().getTypeAssignment_1(), "rule__Constraint__TypeAssignment_1");
 					put(grammarAccess.getConstraintAccess().getIdAssignment_2(), "rule__Constraint__IdAssignment_2");
 					put(grammarAccess.getConstraintAccess().getExpressionsAssignment_3_0_1(), "rule__Constraint__ExpressionsAssignment_3_0_1");

@@ -1,6 +1,7 @@
 package wodeledu.dsls.generator;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +51,7 @@ import appliedMutations.SourceReferenceChanged;
 import appliedMutations.TargetReferenceChanged;
 import edutest.AlternativeResponse;
 import edutest.MatchPairs;
+import edutest.MissingWords;
 import edutest.Mode;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmendation;
@@ -57,8 +60,6 @@ import edutest.Program;
 import edutest.Test;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
-import manager.DFA2Regex;
-import manager.DFAUtils;
 import manager.ModelManager;
 import manager.MutatorUtils;
 import manager.WodelContext;
@@ -70,6 +71,7 @@ import mutatext.Variable;
 import mutatext.VariableType;
 import mutatext.Word;
 import mutatorenvironment.Block;
+import mutatorenvironment.ModifyInformationMutator;
 
 public class EduTestSuperGenerator extends AbstractGenerator {
 
@@ -94,10 +96,13 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		public Resource resource;
 		public Resource seed;
 		public Resource mutant;
-		public List<SimpleEntry<Resource, List<String>>> reverse;
-		public List<String> text;
+		public SimpleEntry<Resource, Resource> entry;
+		public List<SimpleEntry<Resource, Map<String, List<String>>>> reverse;
+		public Map<String, List<String>> text;
 		public boolean solution;
 		public int total;
+		
+		public Map<String, List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>> options;
 		
 		@Override
 		public Object clone() throws CloneNotSupportedException {
@@ -487,7 +492,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		return registry;
 	}
 	
-	protected String getText(String fileName, Resource resource) throws ModelNotFoundException {
+	protected String getText(String identifier, String fileName, Resource resource) throws ModelNotFoundException {
 		String text = "";
 		try {
 			Bundle bundle = Platform.getBundle("wodel.models");
@@ -508,18 +513,22 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				IConfigurationElement appropriateExtension = null;
 				for (IConfigurationElement extension : extensions) {
 					Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-					Object model2Text =  extensionClass.newInstance();
+					Object model2Text =  extensionClass.getDeclaredConstructor().newInstance();
 					Method getURI = extensionClass.getDeclaredMethod("getURI");
 					List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
 					String uri = (String) getURI.invoke(model2Text);
 					if (uri.equals(packages.get(0).getNsURI())) {
-						appropriateExtension = extension;
-						break;
+						Method getId = extensionClass.getDeclaredMethod("getId");
+						String id = (String) getId.invoke(model2Text);
+						if (identifier.equals(id)) { 
+							appropriateExtension = extension;
+							break;
+						}
 					}
 				}
 				if (appropriateExtension != null) {
 					Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-					Object model2Text =  extensionClass.newInstance();
+					Object model2Text =  extensionClass.getDeclaredConstructor().newInstance();
 					Method getText = extensionClass.getDeclaredMethod("getText", new Class[]{String.class, String.class});
 					text = (String) getText.invoke(model2Text, metamodel, fileName);
 				}
@@ -573,22 +582,24 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	private boolean subsumeRadio(List<TestOption> testOptions, TestOption opt) {
 		for (TestOption optCheck : testOptions) {
 			List<String> textOptions = new ArrayList<String>();
-			textOptions.addAll(optCheck.text);
-			int equals = 0;
-			for (String text : optCheck.text) {
-				for (String newText : opt.text) {
-					if (text.equals(newText)) {
-						equals++;
+			for (String mutationURI : optCheck.text.keySet()) {
+				textOptions.addAll(optCheck.text.get(mutationURI));
+				int equals = 0;
+				for (String text : optCheck.text.get(mutationURI)) {
+					for (String newText : opt.text.get(mutationURI)) {
+						if (text.equals(newText)) {
+							equals++;
+						}
 					}
 				}
-			}
-			if (equals == optCheck.text.size()) {
-				if (optCheck.solution == false) {
-					testOptions.remove(optCheck);
-					return false;
-				}
-				else {
-					return true;
+				if (equals == optCheck.text.size()) {
+					if (optCheck.solution == false) {
+						testOptions.remove(optCheck);
+						return false;
+					}
+					else {
+						return true;
+					}
 				}
 			}
 		}
@@ -601,18 +612,20 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opt
 	 * @return
 	 */
-	private boolean subsumeCheckbox(List<TestOption> testOptions, TestOption opt) {
+	private boolean subsumeCheckbox(List<TestOption> testOptions, TestOption opt, String mutationURI) {
 		for (TestOption optCheck : testOptions) {
 			if (optCheck.text.size() > 0) {
-				String textOption = optCheck.text.get(0);
-				String newText = opt.text.get(0);
-				if (newText.equals(textOption) ) {
-					if (optCheck.solution == false) {
-						testOptions.remove(optCheck);
-						return false;
-					}
-					else {
-						return true;
+				if (optCheck.text.get(mutationURI) != null && optCheck.text.get(mutationURI).size() > 0) {
+					String textOption = optCheck.text.get(mutationURI).get(0);
+					String newText = opt.text.get(mutationURI).get(0);
+					if (newText.equals(textOption) ) {
+						if (optCheck.solution == false) {
+							testOptions.remove(optCheck);
+							return false;
+						}
+						else {
+							return true;
+						}
 					}
 				}
 			}
@@ -685,28 +698,59 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opt
 	 * @param opts
 	 */
-	private void storeOption(MutatorTests exercise, String text, Mode mode, TestOption opt, List<TestOption> opts) {
+	private void storeOption(MutatorTests exercise, List<String> text, Mode mode, TestOption opt, List<TestOption> opts, String mutationURI) {
 		try {
 			if (mode == Mode.RADIOBUTTON) {
-				if (opt.text.contains(text) != true) {
-					opt.text.add(text);
+				for (String txt : text) {
+					boolean found = false;
+					for (String mutURI : opt.text.keySet()) {
+						if (opt.text.get(mutURI).contains(txt)) {
+							found = true;
+							break;
+						}
+					}
+					if (txt.length() > 0 && found == false) {
+						opt.text.get(mutationURI).add(txt);
+					}
 				}
 			}
 			if (mode == Mode.CHECKBOX) {
-				opt.text = new ArrayList<String>();
-				opt.text.add(text);
+				opt.text.put(mutationURI, new ArrayList<String>());
+				for (String txt : text) {
+					boolean found = false;
+					for (String mutURI : opt.text.keySet()) {
+						if (opt.text.get(mutURI).contains(txt)) {
+							found = true;
+							break;
+						}
+					}
+					if (txt.length() > 0 && found == false) {
+						opt.text.get(mutationURI).add(txt);
+					}
+				}
 				TestOption optClone = (TestOption) opt.clone();
-				boolean isRepeated = subsumeCheckbox(opts, optClone);
+				boolean isRepeated = subsumeCheckbox(opts, optClone, mutationURI);
 				if (isRepeated == false) {
 					total.put(exercise, total.get(exercise) + 1);
 					opts.add(optClone);
 				}
 			}
 			if (mode == null) {
-				opt.text = new ArrayList<String>();
-				opt.text.add(text);
+				opt.text.put(mutationURI, new ArrayList<String>());
+				for (String txt : text) {
+					boolean found = false;
+					for (String mutURI : opt.text.keySet()) {
+						if (opt.text.get(mutURI).contains(txt)) {
+							found = true;
+							break;
+						}
+					}
+					if (txt.length() > 0 && found == false) {
+						opt.text.get(mutationURI).add(txt);
+					}
+				}
 				TestOption optClone = (TestOption) opt.clone();
-				boolean isRepeated = subsumeCheckbox(opts, optClone);
+				boolean isRepeated = subsumeCheckbox(opts, optClone, mutationURI);
 				if (isRepeated == false) {
 					total.put(exercise, total.get(exercise) + 1);
 					opts.add(optClone);
@@ -729,28 +773,52 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 	 * @param opt
 	 * @param opts
 	 */
-	private void storeOptionList(MutatorTests exercise, String text, List<String> list, Mode mode, TestOption opt, List<TestOption> opts) {
+	private void storeOptionList(MutatorTests exercise, List<String> text, List<String> list, Mode mode, TestOption opt, List<TestOption> opts, String mutationURI) {
 		try {
-			if (mode == Mode.RADIOBUTTON) { 
-				if (text.length() > 0 && list.contains(text) != true) {
-					list.add(text);
+			if (mode == Mode.RADIOBUTTON) {
+				for (String txt : text) {
+					if (txt.length() > 0 && opt.text.get(mutationURI).contains(txt) != true) {
+						list.add(txt);
+					}
 				}
 			}
 			if (mode == Mode.CHECKBOX) {
-				opt.text = new ArrayList<String>();
-				opt.text.add(text);
+				opt.text.put(mutationURI, new ArrayList<String>());
+				for (String txt : text) {
+					boolean found = false;
+					for (String mutURI : opt.text.keySet()) {
+						if (opt.text.get(mutURI).contains(txt)) {
+							found = true;
+							break;
+						}
+					}
+					if (txt.length() > 0 && found == false) {
+						opt.text.get(mutationURI).add(txt);
+					}
+				}
 				TestOption optClone = (TestOption) opt.clone();
-				boolean isRepeated = subsumeCheckbox(opts, optClone);
+				boolean isRepeated = subsumeCheckbox(opts, optClone, mutationURI);
 				if (isRepeated == false) {
 					total.put(exercise, total.get(exercise) + 1);
 					opts.add(optClone);
 				}
 			}
 			if (mode == null) {
-				opt.text = new ArrayList<String>();
-				opt.text.add(text);
+				opt.text.put(mutationURI, new ArrayList<String>());
+				for (String txt : text) {
+					boolean found = false;
+					for (String mutURI : opt.text.keySet()) {
+						if (opt.text.get(mutURI).contains(txt)) {
+							found = true;
+							break;
+						}
+					}
+					if (txt.length() > 0 && found == false) {
+						opt.text.get(mutationURI).add(txt);
+					}
+				}
 				TestOption optClone = (TestOption) opt.clone();
-				boolean isRepeated = subsumeCheckbox(opts, optClone);
+				boolean isRepeated = subsumeCheckbox(opts, optClone, mutationURI);
 				if (isRepeated == false) {
 					total.put(exercise, total.get(exercise) + 1);
 					opts.add(optClone);
@@ -1205,8 +1273,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> attributes = new ArrayList<String>();
+		List<String> text = new ArrayList<String>();
 		for (AttributeChanged att : attChanges) {
-			String text = "";
+			String txt = "";
 			if (att instanceof AttributeSwap) {
 				AttributeSwap attSwap = (AttributeSwap) att;
 				String attName = attSwap.getAttName();
@@ -1226,14 +1295,14 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 				for (Word w : t.getWords()) {
 					if (w instanceof Constant) {
-						text += ((Constant) w).getValue() + " ";
+						txt += ((Constant) w).getValue() + " ";
 					}
 					if (w instanceof Variable) {
 						Variable variable = (Variable) w;
 						if (variable.getType() == VariableType.FIRST_OBJECT) {
 							for (modeltext.Word v : firstElement.getWords()) {
 								if (v instanceof modeltext.Constant) {
-									text += ((modeltext.Constant) v).getValue() + " ";
+									txt += ((modeltext.Constant) v).getValue() + " ";
 								}
 								if (v instanceof modeltext.Variable) {
 									EObject o = null;
@@ -1244,7 +1313,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 									}
 									if (o != null) {
-										text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+										txt +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									}
 								}
 							}
@@ -1252,7 +1321,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						if (variable.getType() == VariableType.SECOND_OBJECT) {
 							for (modeltext.Word v : secondElement.getWords()) {
 								if (v instanceof modeltext.Constant) {
-									text += ((modeltext.Constant) v).getValue() + " ";
+									txt += ((modeltext.Constant) v).getValue() + " ";
 								}
 								if (v instanceof modeltext.Variable) {
 									EObject o = null;
@@ -1263,22 +1332,22 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										o = (EObject) attObject.eGet(((modeltext.Variable) v).getRef());
 									}
 									if (o != null) {
-										text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+										txt +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									}
 								}
 							}
 						}
 						if (variable.getType() == VariableType.FIRST_ATT_NAME) {
-							text += attName + " ";
+							txt += attName + " ";
 						}
 						if (variable.getType() == VariableType.SECOND_ATT_NAME) {
-							text += firstName + " ";
+							txt += firstName + " ";
 						}
 						if (variable.getType() == VariableType.FIRST_VALUE) {
-							text += object.eGet(attributeName) + " ";
+							txt += object.eGet(attributeName) + " ";
 						}
 						if (variable.getType() == VariableType.SECOND_VALUE) {
-							text += newVal + " ";
+							txt += newVal + " ";
 						}
 					}
 				}
@@ -1289,6 +1358,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				String oldVal = att.getOldVal();
 				String newVal = att.getNewVal();
 				Element element = MutatorUtils.getElement(object, idelemsresource);
+				Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
 				Text t = null;
 				if (opt.solution == true) {
 					t = cfgopt.getValid();
@@ -1298,17 +1368,17 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 				}
 				for (Word w : t.getWords()) {
 					if (w instanceof Constant) {
-						text += ((Constant) w).getValue() + " ";
+						txt += ((Constant) w).getValue() + " ";
 					}
 					if (w instanceof Variable) {
 						Variable variable = (Variable) w;
 						if (variable.getType() == VariableType.OBJECT) {
 							for (modeltext.Word v : element.getWords()) {
 								if (v instanceof modeltext.Constant) {
-									text += ((modeltext.Constant) v).getValue() + " ";
+									txt += ((modeltext.Constant) v).getValue() + " ";
 								}
+								EObject o = null;
 								if (v instanceof modeltext.Variable) {
-									EObject o = null;
 									if (((modeltext.Variable) v).getRef() == null) {
 										o = object;
 									}
@@ -1316,34 +1386,42 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
 									}
 									if (o != null) {
-										text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+										txt +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
 									}
 								}
 							}
 						}
 						if (variable.getType() == VariableType.ATT_NAME) {
-							text += attName + " ";
+							txt += attName + " ";
 						}
 						if (variable.getType() == VariableType.OLD_VALUE) {
-							text += oldVal + " ";
+							txt += oldVal + " ";
 						}
 						if (variable.getType() == VariableType.NEW_VALUE) {
-							text += newVal + " ";
+							txt += newVal + " ";
+						}
+						if (variable.getType() == VariableType.VALUE) {
+							for (modeltext.Word v : elementValues.getWords()) {
+								if (v instanceof modeltext.Constant) {
+									txt += ((modeltext.Constant) v).getValue() + " ";
+								}
+							}
 						}
 					}
 				}
 			}
-			storeOptionList(exercise, text, attributes, mode, opt, opts);
+			text.add(txt);
+			storeOptionList(exercise, text, attributes, mode, opt, opts, EcoreUtil.getURI(informationChanged.getDef()).toString());
 		}
 		if (mode == Mode.RADIOBUTTON) { 
 			for (String txt : attributes) {
-				if (!opt.text.contains(txt)) {
-					opt.text.add(txt);
+				if (!opt.text.get(EcoreUtil.getURI(informationChanged.getDef()).toString()).contains(txt)) {
+					opt.text.get(EcoreUtil.getURI(informationChanged.getDef()).toString()).add(txt);
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the natural language option for the
 	 * reference changed mutation
@@ -1665,8 +1743,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
 		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
 		List<String> references = new ArrayList<String>();
+		List<String> text = new ArrayList<String>();
 		for (ReferenceChanged ref : refChanges) {
-			String text = "";
+			String txt = "";
 			ReferenceChanged referenceChanged = (ReferenceChanged) ref;
 			Option cfgopt = MutatorUtils.getConfigureOption("ReferenceChanged", cfgoptsresource);
 			Element element = MutatorUtils.getElement(object, idelemsresource);
@@ -1690,22 +1769,2032 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			boolean older = fromElement != null;
 			boolean newer = toElement != null;
 			if (older && newer) {
-				text += getReferenceChangedOptionNewerOlder(t, object, from, to, element, fromElement, toElement, refTarElement, refSrcElement);
+				txt += getReferenceChangedOptionNewerOlder(t, object, from, to, element, fromElement, toElement, refTarElement, refSrcElement);
 			}
 			if (!older) {
-				text += getReferenceChangedOptionNotOlder(opt, t, object, to, element, toElement, refSrcElement);
+				txt += getReferenceChangedOptionNotOlder(opt, t, object, to, element, toElement, refSrcElement);
 			}
 			if (!newer) {
-				text += getReferenceChangedOptionNotNewer(opt, t, object, from, fromElement, toElement, refSrcElement);
+				txt += getReferenceChangedOptionNotNewer(opt, t, object, from, fromElement, toElement, refSrcElement);
 			}
-			storeOptionList(exercise, text, references, mode, opt, opts);
+			text.add(txt);
+			storeOptionList(exercise, text, references, mode, opt, opts, EcoreUtil.getURI(informationChanged.getDef()).toString());
 		}
 		if (mode == Mode.RADIOBUTTON) { 
 			for (String txt : references) {
-				if (!opt.text.contains(txt)) {
-					opt.text.add(txt);
+				if (!opt.text.get(EcoreUtil.getURI(informationChanged.getDef()).toString()).contains(txt)) {
+					opt.text.get(EcoreUtil.getURI(informationChanged.getDef()).toString()).add(txt);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Gets the natural language option
+	 * for the create object mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param objectCreated
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getObjectCreatedText(Resource cfgoptsresource, Resource idelemsresource, ObjectCreated objectCreated, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		Option cfgopt = MutatorUtils.getConfigureOption("ObjectCreated", cfgoptsresource);
+		EObject object = ModelManager.getEObject(objectCreated.getObject().get(0), opt.seed);
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(objectCreated.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+	
+	/**
+	 * Gets the natural language option
+	 * for the remove object mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param objectRemoved
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getObjectRemovedText(Resource cfgoptsresource, Resource idelemsresource, ObjectRemoved objectRemoved, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		Option cfgopt = MutatorUtils.getConfigureOption("ObjectRemoved", cfgoptsresource);
+		EObject object = ModelManager.getEObject(objectRemoved.getObject().get(0), opt.seed);
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(objectRemoved.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Gets the natural language options
+	 * for the modify source reference mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param sourceReferenceChanged
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getSourceReferenceChangedText(Resource cfgoptsresource, Resource idelemsresource, SourceReferenceChanged sourceReferenceChanged, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		Option cfgopt = MutatorUtils.getConfigureOption("SourceReferenceChanged", cfgoptsresource);
+		EObject from = ModelManager.getEObject(sourceReferenceChanged.getFrom(), opt.seed);
+		String refName = sourceReferenceChanged.getRefName();
+		EStructuralFeature srcRef = from.eClass().getEStructuralFeature(refName);
+		Element srcElement = MutatorUtils.getElement((EObject) from.eGet(srcRef), idelemsresource);
+		EObject to = ModelManager.getEObject(sourceReferenceChanged.getTo(), opt.seed);
+		EStructuralFeature tarRef = to.eClass().getEStructuralFeature(refName);
+		Element tarElement = MutatorUtils.getElement((EObject) to.eGet(tarRef), idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OLD_FROM_OBJECT) {
+					for (modeltext.Word v : srcElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = (EObject) from.eGet(srcRef);
+							}
+							else {
+								o = (EObject) ((EObject) from.eGet(srcRef)).eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), (EObject) from.eGet(srcRef)));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(sourceReferenceChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;									
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.FROM_OBJECT) {
+					for (modeltext.Word v : tarElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = (EObject) to.eGet(tarRef);
+							}
+							else {
+								o = (EObject) ((EObject) to.eGet(tarRef)).eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), (EObject) to.eGet(tarRef)));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(sourceReferenceChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.REF_NAME) {
+					for (modeltext.Word v : tarElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+ 						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Gets the natural language options
+	 * for the modify target reference mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param targetReferenceChanged
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getTargetReferenceChangedText(Resource cfgoptsresource, Resource idelemsresource, TargetReferenceChanged targetReferenceChanged, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		Option cfgopt = MutatorUtils.getConfigureOption("TargetReferenceChanged", cfgoptsresource);
+		EObject object = ModelManager.getEObject(targetReferenceChanged.getObject().get(0), opt.seed);
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		String refName = targetReferenceChanged.getRefName();
+		EStructuralFeature refSrc = ModelManager.getReferenceByName(refName, object);
+		Element refSrcElement = MutatorUtils.getRefElement(object, refSrc, idelemsresource);
+		EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
+		Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+		EObject from = ModelManager.getEObject(targetReferenceChanged.getFrom(), opt.seed);
+		Element fromElement = MutatorUtils.getElement(from, idelemsresource);
+		EObject to = ModelManager.getEObject(targetReferenceChanged.getTo(), opt.seed);
+		Element toElement = MutatorUtils.getElement(to, idelemsresource);
+		EObject oldTo = ModelManager.getEObject(targetReferenceChanged.getOldTo(), opt.seed);
+		Element oldToElement = MutatorUtils.getElement(oldTo, idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.FROM_OBJECT) {
+					for (modeltext.Word v : fromElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = from;
+							}
+							else {
+								o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.TO_OBJECT) {
+					for (modeltext.Word v : toElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = to;
+							}
+							else {
+								o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.OLD_TO_OBJECT) {
+					for (modeltext.Word v : oldToElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = oldTo;
+							}
+							else {
+								o = (EObject) oldTo.eGet(((modeltext.Variable) v).getRef());
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(targetReferenceChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.REF_NAME) {
+					for (modeltext.Word v : refTarElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+ 						}
+					}
+				}
+				if (variable.getType() == VariableType.SRC_REF_NAME) {
+					for (modeltext.Word v : refSrcElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+ 						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Gets the natural language options
+	 * for the create reference mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param referenceCreated
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getReferenceCreatedText(Resource cfgoptsresource, Resource idelemsresource, ReferenceCreated referenceCreated, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceCreated", cfgoptsresource);
+		EObject object = ModelManager.getEObject(referenceCreated.getObject().get(0), opt.seed);
+		String refName = referenceCreated.getRefName();
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(referenceCreated.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.REF_NAME) {
+					if (createText == true) {
+						text.add(txt);
+						txt = "";
+						createText = false;
+					}
+					txt += refName + " ";
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Gets the natural language options
+	 * for the remove reference mutation
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param referenceRemoved
+	 * @param opt
+	 * @return
+	 */
+	private List<String> getReferenceRemovedText(Resource cfgoptsresource, Resource idelemsresource, ReferenceRemoved referenceRemoved, TestOption opt, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		Option cfgopt = MutatorUtils.getConfigureOption("ReferenceRemoved", cfgoptsresource);
+		EObject object = ModelManager.getEObject(referenceRemoved.getObject().get(0), opt.seed);
+		EObject ref = ModelManager.getEObject(referenceRemoved.getRef().get(0), opt.seed);
+		String refName = (String) ModelManager.getAttribute("name", ref);
+		Element element = MutatorUtils.getElement(object, idelemsresource);
+		Text t = null;
+		if (opt.solution == true) {
+			t = cfgopt.getValid();
+		}
+		else {
+			t = cfgopt.getInvalid();
+		}
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(referenceRemoved.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.REF_NAME) {
+					if (createText == true) {
+						text.add(txt);
+						txt = "";
+						createText = false;
+					}
+					txt += refName + " ";
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Stores the natural language options
+	 * for the modify attributes mutation
+	 * @param exercise
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param informationChanged
+	 * @param opt
+	 * @param opts
+	 * @param mode
+	 */
+	private void storeAttributeChangedText(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode, String[] mutURI, int[] index) {
+		List<AttributeChanged> attChanges = informationChanged.getAttChanges();
+		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
+		List<String> attributes = new ArrayList<String>();
+		List<String> text = new ArrayList<String>();
+		for (AttributeChanged att : attChanges) {
+			if (att instanceof AttributeSwap) {
+				AttributeSwap attSwap = (AttributeSwap) att;
+				String attName = attSwap.getAttName();
+				EStructuralFeature attributeName = object.eClass().getEStructuralFeature(attName);
+				EObject attObject = ModelManager.getEObject(attSwap.getAttObject(), opt.seed);
+				String firstName = attSwap.getFirstName();
+				String newVal = attSwap.getNewVal();
+				Option cfgopt = MutatorUtils.getConfigureOption("AttributeSwap", cfgoptsresource);
+				Element firstElement = MutatorUtils.getElement(object, idelemsresource);
+				Element secondElement = MutatorUtils.getElement(attObject, idelemsresource);
+				Text t = null;
+				if (opt.solution == true) {
+					t = cfgopt.getValid();
+				}
+				else {
+					t = cfgopt.getInvalid();
+				}
+				String txt = "";
+				boolean createText = false;
+				for (Word w : t.getWords()) {
+					if (w instanceof Constant) {
+						if (createText == true) {
+							text.add(txt);
+							txt = "";
+							createText = false;
+						}
+						txt += ((Constant) w).getValue() + " ";
+					}
+					if (w instanceof Variable) {
+						Variable variable = (Variable) w;
+						if (variable.getType() == VariableType.FIRST_OBJECT) {
+							for (modeltext.Word v : firstElement.getWords()) {
+								if (v instanceof modeltext.Constant) {
+									if (createText == true) {
+										text.add(txt);
+										txt = "";
+										createText = false;
+									}
+									txt += ((modeltext.Constant) v).getValue() + " ";
+								}
+								if (v instanceof modeltext.Variable) {
+									createText = true;
+									EObject o = null;
+									if (((modeltext.Variable) v).getRef() == null) {
+										o = object;
+									}
+									else {
+										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+									}
+									if (o != null) {
+										List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+										if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+											entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+											opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+										}
+										else {
+											entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+										}
+										//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+										String type = o.eClass().getName();
+										List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+										index[0]++;
+										for (EObject ob : objects) {
+											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											if (EcoreUtil.equals(o, ob)) {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											}
+											else {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											}
+											entries.add(value);
+										}
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.SECOND_OBJECT) {
+							for (modeltext.Word v : secondElement.getWords()) {
+								if (v instanceof modeltext.Constant) {
+									if (createText == true) {
+										text.add(txt);
+										txt = "";
+										createText = false;
+									}
+									txt += ((modeltext.Constant) v).getValue() + " ";
+								}
+								if (v instanceof modeltext.Variable) {
+									createText = true;
+									EObject o = null;
+									if (((modeltext.Variable) v).getRef() == null) {
+										o = attObject;
+									}
+									else {
+										o = (EObject) attObject.eGet(((modeltext.Variable) v).getRef());
+									}
+									if (o != null) {
+										List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+										mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
+										if (opt.options.get(mutURI[0]) == null) {
+											entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+											opt.options.put(mutURI[0], entries);
+										}
+										else {
+											entries = opt.options.get(mutURI[0]);
+										}
+										//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+										String type = o.eClass().getName();
+										List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+										index[0]++;
+										for (EObject ob : objects) {
+											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											if (EcoreUtil.equals(o, ob)) {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											}
+											else {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											}
+											entries.add(value);
+										}
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.FIRST_ATT_NAME) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									for (EAttribute attribute : eClass.getEAllAttributes()) {
+										if (attribute.getEAttributeType().getInstanceTypeName().equals(eAttribute.getEAttributeType().getInstanceTypeName())) {
+											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											if (attribute.getName().equals(eAttribute.getName())) {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true));
+											}
+											else {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false));
+											}
+											entries.add(value);
+										}
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.SECOND_ATT_NAME) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(firstName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									for (EAttribute attribute : eClass.getEAllAttributes()) {
+										if (attribute.getEAttributeType().getInstanceTypeName().equals(eAttribute.getEAttributeType().getInstanceTypeName())) {
+											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											if (attribute.getName().equals(eAttribute.getName())) {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true));
+											}
+											else {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false));
+											}
+											entries.add(value);
+										}
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.FIRST_VALUE) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attributeName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									if (eAttribute.getEAttributeType().getInstanceTypeName().equals("boolean")) {
+										boolean solution = false;
+										if (object.eGet(attributeName).equals("true")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										solution = false;
+										if (object.eGet(attributeName).equals("false")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.SECOND_VALUE) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									if (eAttribute.getEAttributeType().getInstanceTypeName().equals("boolean")) {
+										boolean solution = false;
+										if (newVal.equals("true")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										solution = false;
+										if (newVal.equals("false")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+									}
+								}
+							}
+						}
+					}
+				}
+				if (txt.length() > 0) {
+					text.add(txt);
+				}
+			}
+			else {
+				Option cfgopt = MutatorUtils.getConfigureOption("AttributeChanged", cfgoptsresource);
+				String attName = att.getAttName();
+				String oldVal = att.getOldVal();
+				String newVal = att.getNewVal();
+				Element element = MutatorUtils.getElement(object, idelemsresource);
+				Element elementValues = MutatorUtils.getElementValues(object, idelemsresource, opt.solution);
+				Text t = null;
+				if (opt.solution == true) {
+					t = cfgopt.getValid();
+				}
+				else {
+					t = cfgopt.getInvalid();
+				}
+				String txt = "";
+				boolean createText = false;
+				for (Word w : t.getWords()) {
+					if (w instanceof Constant) {
+						if (createText == true) {
+							text.add(txt);
+							txt = "";
+							createText = false;
+						}
+						txt += ((Constant) w).getValue() + " ";
+					}
+					if (w instanceof Variable) {
+						Variable variable = (Variable) w;
+						if (variable.getType() == VariableType.OBJECT) {
+							for (modeltext.Word v : element.getWords()) {
+								if (v instanceof modeltext.Constant) {
+									if (createText == true) {
+										text.add(txt);
+										txt = "";
+										createText = false;
+									}
+									txt += ((modeltext.Constant) v).getValue() + " ";
+								}
+								if (v instanceof modeltext.Variable) {
+									createText = true;
+									EObject o = null;
+									if (((modeltext.Variable) v).getRef() == null) {
+										o = object;
+									}
+									else {
+										o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+									}
+									if (o != null) {
+										List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+										mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
+										if (opt.options.get(mutURI[0]) == null) {
+											entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+											opt.options.put(mutURI[0], entries);
+										}
+										else {
+											entries = opt.options.get(mutURI[0]);
+										}
+										//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+										String type = o.eClass().getName();
+										List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+										index[0]++;
+										for (EObject ob : objects) {
+											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											if (EcoreUtil.equals(o, ob)) {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+											}
+											else {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+											}
+											entries.add(value);
+										}
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.ATT_NAME) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									for (EAttribute attribute : eClass.getEAllAttributes()) {
+										if (attribute.getEAttributeType().getInstanceTypeName().equals(eAttribute.getEAttributeType().getInstanceTypeName())) {
+											SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+											if (attribute.getName().equals(eAttribute.getName())) {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], true));
+											}
+											else {
+												value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(attribute.getName(), new SimpleEntry<Integer, Boolean>(index[0], false));
+											}
+											entries.add(value);
+										}
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.OLD_VALUE) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									if (eAttribute.getEAttributeType().getInstanceTypeName().equals("boolean")) {
+										boolean solution = false;
+										if (oldVal.equals("true")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										solution = false;
+										if (oldVal.equals("false")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.NEW_VALUE) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									if (eAttribute.getEAttributeType().getInstanceTypeName().equals("boolean")) {
+										boolean solution = false;
+										if (newVal.equals("true")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>("true", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+										solution = false;
+										if (newVal.equals("false")) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean >>("false", new SimpleEntry<Integer, Boolean>(index[0], solution)));
+									}
+								}
+							}
+						}
+						if (variable.getType() == VariableType.VALUE) {
+							createText = true;
+							ModifyInformationMutator modify = (ModifyInformationMutator) att.getDef();
+							if (modify != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								EClass eClass = modify.getObject().getType();
+								EAttribute eAttribute = null;
+								for (EAttribute attribute : eClass.getEAllAttributes()) {
+									if (attribute.getName().equals(attName)) {
+										eAttribute = attribute;
+										break;
+									}
+								}
+								if (eAttribute != null) {
+									index[0]++;
+									String solutionText = "";
+									for (modeltext.Word v : elementValues.getWords()) {
+										solutionText += ((modeltext.Constant) v).getValue() + " ";
+									}
+									List<Element> elements = MutatorUtils.getAllElementValues(object, idelemsresource);
+									for (Element elem : elements) {
+										String optionText = "";
+										for (modeltext.Word v : elem.getWords()) {
+											optionText += ((modeltext.Constant) v).getValue() + " ";
+										}
+										boolean solution = false;
+										if (optionText.equals(solutionText)) {
+											solution = true;
+										}
+										entries.add(new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(optionText, new SimpleEntry<Integer, Boolean>(index[0], solution)));
+									}
+								}
+							}
+						}
+					}
+				}
+				if (txt.length() > 0) {
+					text.add(txt);
+				}
+			}
+			storeOptionList(exercise, text, attributes, mode, opt, opts, EcoreUtil.getURI(informationChanged.getDef()).toString());
+		}
+		if (mode == Mode.RADIOBUTTON) { 
+			for (String txt : attributes) {
+				if (!opt.text.get(EcoreUtil.getURI(informationChanged.getDef()).toString()).contains(txt)) {
+					opt.text.get(EcoreUtil.getURI(informationChanged.getDef()).toString()).add(txt);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Gets the natural language option for the
+	 * reference changed mutation
+	 * @param t
+	 * @param object
+	 * @param from
+	 * @param to
+	 * @param element
+	 * @param fromElement
+	 * @param refTarElement
+	 * @param refSrcElement
+	 * @return
+	 */
+	private List<String> getReferenceChangedTextNewerOlder(Text t, InformationChanged informationChanged, TestOption opt, EObject object, EObject from, EObject to, Element element, Element fromElement, Element toElement, Element refTarElement, Element refSrcElement, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		String txt = "";
+		boolean createText = false;
+		for (Word w : t.getWords()) {
+			if (w instanceof Constant) {
+				if (createText == true) {
+					text.add(txt);
+					txt = "";
+					createText = false;
+				}
+				txt += ((Constant) w).getValue() + " ";
+			}
+			if (w instanceof Variable) {
+				Variable variable = (Variable) w;
+				if (variable.getType() == VariableType.OBJECT) {
+					for (modeltext.Word v : element.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = object;
+							}
+							else {
+								o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+								}
+								else {
+									entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.FROM_OBJECT) {
+					for (modeltext.Word v : fromElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = from;
+							}
+							else {
+								o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.TO_OBJECT) {
+					for (modeltext.Word v : toElement.getWords()) {
+						if (v instanceof modeltext.Constant) {
+							if (createText == true) {
+								text.add(txt);
+								txt = "";
+								createText = false;
+							}
+							txt += ((modeltext.Constant) v).getValue() + " ";
+						}
+						if (v instanceof modeltext.Variable) {
+							createText = true;
+							EObject o = null;
+							if (((modeltext.Variable) v).getRef() == null) {
+								o = to;
+							}
+							else {
+								o = (EObject) to.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), to));
+							}
+							if (o != null) {
+								List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+								mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
+								if (opt.options.get(mutURI[0]) == null) {
+									entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+									opt.options.put(mutURI[0], entries);
+								}
+								else {
+									entries = opt.options.get(mutURI[0]);
+								}
+								//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+								String type = o.eClass().getName();
+								List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+								index[0]++;
+								for (EObject ob : objects) {
+									SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+									if (EcoreUtil.equals(o, ob)) {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+									}
+									else {
+										value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+									}
+									entries.add(value);
+								}
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.REF_NAME) {
+					if (refTarElement != null) {
+						for (modeltext.Word v : refTarElement.getWords()) {
+							if (v instanceof modeltext.Constant) {
+								if (createText == true) {
+									text.add(txt);
+									txt = "";
+									createText = false;
+								}
+								txt += ((modeltext.Constant) v).getValue() + " ";
+							}
+						}
+					}
+				}
+				if (variable.getType() == VariableType.SRC_REF_NAME) {
+					if (refTarElement != null) {
+						for (modeltext.Word v : refSrcElement.getWords()) {
+							if (v instanceof modeltext.Constant) {
+								if (createText == true) {
+									text.add(txt);
+									txt = "";
+									createText = false;
+								}
+								txt += ((modeltext.Constant) v).getValue() + " ";
+							}
+						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+	
+	/**
+	 * Gets the natural language option for the
+	 * reference changed mutation
+	 * @param opt
+	 * @param t
+	 * @param object
+	 * @param to
+	 * @param element
+	 * @param refSrcElement
+	 * @return
+	 */
+	private List<String> getReferenceChangedTextNotOlder(Text t, InformationChanged informationChanged, TestOption opt, EObject object, EObject to, Element element, Element toElement, Element refSrcElement, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		String txt = "";
+		boolean createText = false;
+		if (opt.solution == true) {
+			txt += "Delete ";
+			for (modeltext.Word w : refSrcElement.getWords()) {
+				if (w instanceof Constant) {
+					if (createText == true) {
+						text.add(txt);
+						txt = "";
+						createText = false;
+					}
+					txt += ((Constant) w).getValue() + " ";
+				}
+			}
+			txt += " from ";
+			for (Word w : t.getWords()) {
+				if (w instanceof Variable) {
+					Variable variable = (Variable) w;
+					if (variable.getType() == VariableType.OBJECT) {
+						for (modeltext.Word v : element.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = object;
+								}
+								else {
+									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+									}
+									else {
+										entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+									}
+									//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+					if (variable.getType() == VariableType.TO_OBJECT) {
+						for (modeltext.Word v : toElement.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = to;
+								}
+								else {
+									o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
+									if (opt.options.get(mutURI[0]) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(mutURI[0], entries);
+									}
+									else {
+										entries = opt.options.get(mutURI[0]);
+									}
+									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else {
+			txt += "Create ";
+			for (modeltext.Word w : refSrcElement.getWords()) {
+				if (w instanceof modeltext.Constant) {
+					if (w instanceof Constant) {
+						if (createText == true) {
+							text.add(txt);
+							txt = "";
+							createText = false;
+						}
+						txt += ((Constant) w).getValue() + " ";
+					}
+				}
+			}
+			txt += " from ";
+			for (Word w : t.getWords()) {
+				if (w instanceof Variable) {
+					Variable variable = (Variable) w;
+					if (variable.getType() == VariableType.OBJECT) {
+						for (modeltext.Word v : element.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = object;
+								}
+								else {
+									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+									}
+									else {
+										entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+									}
+									//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+					if (variable.getType() == VariableType.TO_OBJECT) {
+						for (modeltext.Word v : toElement.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = to;
+								}
+								else {
+									o = (EObject) to.eGet(((modeltext.Variable) v).getRef());
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+									}
+									else {
+										entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+									}
+									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+	
+	private List<String> getReferenceChangedTextNotNewer(Text t, InformationChanged informationChanged, TestOption opt, EObject object, EObject from, Element fromElement, Element toElement, Element refSrcElement, String[] mutURI, int[] index) {
+		List<String> text = new ArrayList<String>();
+		String txt = "";
+		boolean createText = false;
+		if (opt.solution == true) {
+			txt += "Create ";
+			for (modeltext.Word w : refSrcElement.getWords()) {
+				if (w instanceof Constant) {
+					if (createText == true) {
+						text.add(txt);
+						txt = "";
+						createText = false;
+					}
+					txt += ((Constant) w).getValue() + " ";
+				}
+			}
+			txt += " from ";
+			for (Word w : t.getWords()) {
+				if (w instanceof Variable) {
+					Variable variable = (Variable) w;
+					if (variable.getType() == VariableType.FROM_OBJECT) {
+						for (modeltext.Word v : fromElement.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = from;
+								}
+								else {
+									o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+									}
+									else {
+										entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+									}
+									//text +=  o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+					if (variable.getType() == VariableType.OBJECT) {
+						for (modeltext.Word v : toElement.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = object;
+								}
+								else {
+									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									mutURI[0] = EcoreUtil.getURI(informationChanged.getDef()).toString();
+									if (opt.options.get(mutURI[0]) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(mutURI[0], entries);
+									}
+									else {
+										entries = opt.options.get(mutURI[0]);
+									}
+									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else {
+			txt += "Delete ";
+			for (modeltext.Word w : refSrcElement.getWords()) {
+				if (w instanceof modeltext.Constant) {
+					if (w instanceof Constant) {
+						if (createText == true) {
+							text.add(txt);
+							txt = "";
+							createText = false;
+						}
+						txt += ((Constant) w).getValue() + " ";
+					}
+				}
+			}
+			txt += " from ";
+			for (Word w : t.getWords()) {
+				if (w instanceof Variable) {
+					Variable variable = (Variable) w;
+					if (variable.getType() == VariableType.FROM_OBJECT) {
+						for (modeltext.Word v : fromElement.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = from;
+								}
+								else {
+									o = (EObject) from.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), from));
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+									}
+									else {
+										entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+									}
+									//text += o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+					if (variable.getType() == VariableType.OBJECT) {
+						for (modeltext.Word v : toElement.getWords()) {
+							if (v instanceof modeltext.Variable) {
+								createText = true;
+								EObject o = null;
+								if (((modeltext.Variable) v).getRef() == null) {
+									o = object;
+								}
+								else {
+									o = (EObject) object.eGet(ModelManager.getReferenceByName(((modeltext.Variable) v).getRef().getName(), object));
+								}
+								if (o != null) {
+									List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = null;
+									if (opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString()) == null) {
+										entries = new ArrayList<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>();
+										opt.options.put(EcoreUtil.getURI(informationChanged.getDef()).toString(), entries);
+									}
+									else {
+										entries = opt.options.get(EcoreUtil.getURI(informationChanged.getDef()).toString());
+									}
+									//text +=  "to " + o.eGet(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), o)) + " ";
+									String type = o.eClass().getName();
+									List<EObject> objects = ModelManager.getObjectsOfType(type, o.eResource());
+									index[0]++;
+									for (EObject ob : objects) {
+										SimpleEntry<String, SimpleEntry<Integer, Boolean>> value = null;
+										if (EcoreUtil.equals(o, ob)) {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], true));
+										}
+										else {
+											value = new SimpleEntry<String, SimpleEntry<Integer, Boolean>>(ModelManager.getStringAttribute(ModelManager.getAttributeByName(((modeltext.Variable) v).getId().getName(), ob).getName(), ob), new SimpleEntry<Integer, Boolean>(index[0], false));
+										}
+										entries.add(value);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if (txt.length() > 0) {
+			text.add(txt);
+		}
+		return text;
+	}
+
+	/**
+	 * Stores the natural language options
+	 * for the modify references mutation
+	 * @param exercise
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param informationChanged
+	 * @param opt
+	 * @param opts
+	 * @param mode
+	 */
+	private void storeReferenceChangedText(MutatorTests exercise, Resource cfgoptsresource, Resource idelemsresource, InformationChanged informationChanged, TestOption opt, List<TestOption> opts, Mode mode, String[] mutURI, int[] index) {
+		List<ReferenceChanged> refChanges = informationChanged.getRefChanges();
+		EObject object = ModelManager.getEObject(informationChanged.getObject(), opt.seed);
+		List<String> references = new ArrayList<String>();
+		List<String> text = new ArrayList<String>();
+		for (ReferenceChanged ref : refChanges) {
+			ReferenceChanged referenceChanged = (ReferenceChanged) ref;
+			Option cfgopt = MutatorUtils.getConfigureOption("ReferenceChanged", cfgoptsresource);
+			Element element = MutatorUtils.getElement(object, idelemsresource);
+			String srcRefName = referenceChanged.getSrcRefName();
+			EStructuralFeature refSrc = object.eClass().getEStructuralFeature(srcRefName);
+			Element refSrcElement = MutatorUtils.getRefElement(object, refSrc, idelemsresource);
+			String refName = referenceChanged.getRefName();
+			EStructuralFeature refTar = ModelManager.getReferenceByName(refName, object);
+			Element refTarElement = MutatorUtils.getRefElement(object, refTar, idelemsresource);
+			EObject from = ModelManager.getEObject(referenceChanged.getFrom(), opt.seed);
+			Element fromElement = MutatorUtils.getElement(from, idelemsresource);
+			EObject to = ModelManager.getEObject(referenceChanged.getTo(), opt.seed);
+			Element toElement = MutatorUtils.getElement(to, idelemsresource);
+			Text t = null;
+			if (opt.solution == true) {
+				t = cfgopt.getValid();
+			}
+			else {
+				t = cfgopt.getInvalid();
+			}
+			boolean older = fromElement != null;
+			boolean newer = toElement != null;
+			if (older && newer) {
+				text.addAll(getReferenceChangedTextNewerOlder(t, informationChanged, opt, object, from, to, element, fromElement, toElement, refTarElement, refSrcElement, mutURI, index));
+			}
+			if (!older) {
+				text.addAll(getReferenceChangedTextNotOlder(t, informationChanged, opt, object, to, element, toElement, refSrcElement, mutURI, index));
+			}
+			if (!newer) {
+				text.addAll(getReferenceChangedTextNotNewer(t, informationChanged, opt, object, from, fromElement, toElement, refSrcElement, mutURI, index));
+			}
+			storeOptionList(exercise, text, references, mode, opt, opts, EcoreUtil.getURI(informationChanged.getDef()).toString());
 		}
 	}
 	
@@ -1723,10 +3812,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			List<TestOption> opts = new ArrayList<TestOption>();
 			if (options.get(exercise).get(test) != null) {
 				for (TestOption opt : options.get(exercise).get(test)) {
-					opt.text = new ArrayList<String>();
+					opt.text = new HashMap<String, List<String>>();
 					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
 					for (EObject mutation : mutations) {
-						String text = "";
+						List<String> text = new ArrayList<String>();
 						List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
 						boolean flag = false;
 						for (EClass cl : superTypes) {
@@ -1737,30 +3826,30 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 						if (flag == true) {
 							if (mutation instanceof ObjectCreated) {
-								text = getObjectCreatedOption(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt);
-								storeOption(exercise, text, mode, opt, opts);
+								text.add(getObjectCreatedOption(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof ObjectRemoved) {
-								text = getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt);
-								storeOption(exercise, text, mode, opt, opts);
+								text.add(getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}							
 							if (mutation instanceof SourceReferenceChanged) {
-								text = getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt);
-								storeOption(exercise, text, mode, opt, opts);
+								text.add(getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof TargetReferenceChanged) {
-								text = getTargetReferenceChangedOption(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt);
-								storeOption(exercise, text, mode, opt, opts);
+								text.add(getTargetReferenceChangedOption(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 //							if (mutation instanceof ReferenceSwap) {
 //							}
 							if (mutation instanceof ReferenceCreated) {
-								text = getReferenceCreatedOption(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt);
-								storeOption(exercise, text, mode, opt, opts);
+								text.add(getReferenceCreatedOption(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof ReferenceRemoved) {
-								text = getReferenceRemovedOption(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt);
-								storeOption(exercise, text, mode, opt, opts);
+								text.add(getReferenceRemovedOption(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt));
+								storeOption(exercise, text, mode, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof InformationChanged) {
 								storeAttributeChangedOptions(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, mode);
@@ -1771,7 +3860,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 					}
 					if (mode == Mode.RADIOBUTTON) {
-						if (opt.text != null) {
+						if (opt.text != null && opt.text.size() > 0) {
 							boolean isRepeated = subsumeRadio(opts, opt);
 							if (isRepeated == false) {
 								total.put(exercise, total.get(exercise) + 1);
@@ -1879,10 +3968,10 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			List<TestOption> opts = new ArrayList<TestOption>();
 			if (options.get(exercise).get(test) != null) {
 				for (TestOption opt : options.get(exercise).get(test)) {
-					opt.text = new ArrayList<String>();
+					opt.text = new HashMap<String, List<String>>();
 					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
 					for (EObject mutation : mutations) {
-						String text = "";
+						List<String> text = new ArrayList<String>();
 						List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
 						boolean flag = false;
 						for (EClass cl : superTypes) {
@@ -1893,30 +3982,30 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 						}
 						if (flag == true) {
 							if (mutation instanceof ObjectCreated) {
-								text = getObjectCreatedOption(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt);
-								storeOption(exercise, text, null, opt, opts);
+								text.add(getObjectCreatedOption(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof ObjectRemoved) {
-								text = getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt);
-								storeOption(exercise, text, null, opt, opts);
+								text.add(getObjectRemovedOption(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}							
 							if (mutation instanceof SourceReferenceChanged) {
-								text = getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt);
-								storeOption(exercise, text, null, opt, opts);
+								text.add(getSourceReferenceChangedOption(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof TargetReferenceChanged) {
-								text = getTargetReferenceChangedOption(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt);
-								storeOption(exercise, text, null, opt, opts);
+								text.add(getTargetReferenceChangedOption(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 //							if (mutation instanceof ReferenceSwap) {
 //							}
 							if (mutation instanceof ReferenceCreated) {
-								text = getReferenceCreatedOption(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt);
-								storeOption(exercise, text, null, opt, opts);
+								text.add(getReferenceCreatedOption(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof ReferenceRemoved) {
-								text = getReferenceRemovedOption(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt);
-								storeOption(exercise, text, null, opt, opts);
+								text.add(getReferenceRemovedOption(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt));
+								storeOption(exercise, text, null, opt, opts, EcoreUtil.getURI(mutation).toString());
 							}
 							if (mutation instanceof InformationChanged) {
 								storeAttributeChangedOptions(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null);
@@ -1933,6 +4022,356 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 	}
 
+//	/**
+//	 * Builds the options for the MultiChoiceEmendation
+//	 * @param resource
+//	 * @param exercise
+//	 * @param blocks
+//	 */
+//	private void buildMatchPairs(Resource resource, MatchPairs exercise, List<EObject> blocks, Class<?> cls) {
+//		try {
+//			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+//			Bundle bundle = Platform.getBundle("wodel.models");
+//			String ecore = ModelManager.getMetaModel().replace("\\", "/");
+//			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
+//			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+//			String registryecore = FileLocator.resolve(fileURL).getFile();
+//			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
+//			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+//					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
+//			fileURL = bundle.getEntry("/models/ModelText.ecore");
+//			String idelemsecore = FileLocator.resolve(fileURL).getFile();
+//			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
+//			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
+//			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+//					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
+//			fileURL = bundle.getEntry("/models/MutaText.ecore");
+//			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
+//			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
+//			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
+//			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+//			for (Test test : exercise.getTests()) {
+//				dataReg.put(test, getRegistry((MatchPairs) exercise, test, blocks, packages, registrypackages));
+//			}
+//			for (Test test : dataReg.keySet()) {
+//				Registry reg = dataReg.get(test);
+//				if (reg.mutants.size() == 0) {
+//					options.put(exercise, testOptions);
+//					return;
+//				}
+//				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+//					System.out.println(mut.getKey().getURI());
+//				}
+//				for (Resource hist : reg.history) {
+//					System.out.println(hist.getURI());
+//				}
+//			}
+//			int longestMutantPath = Integer.MIN_VALUE;
+//			int longestHistoryPath = Integer.MIN_VALUE;
+//			for (Test test : dataReg.keySet()) {
+//				Registry reg = dataReg.get(test);
+//				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+//					if (mut.getKey().getURI().toFileString().length() > longestMutantPath) {
+//						longestMutantPath = mut.getKey().getURI().toFileString().length();
+//					}
+//				}
+//				for (Resource hist : reg.history) {
+//					if (hist.getURI().toFileString().length() > longestHistoryPath) {
+//						longestHistoryPath = hist.getURI().toFileString().length();
+//					}
+//				}
+//			}
+//			Map<Test, Registry> selectedDataReg = new HashMap<Test, Registry>();
+//			for (Test test : dataReg.keySet()) {
+//				Registry reg = dataReg.get(test);
+//				Registry newReg = new Registry();
+//				newReg.seed = reg.seed; 
+//				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+//				newReg.history = new ArrayList<Resource>();
+//				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+//					if (mut.getKey().getURI().toFileString().length() == longestMutantPath) {
+//						newReg.mutants.add(new SimpleEntry<Resource, Resource>(mut.getKey(), null));
+//					}
+//				}
+//				for (Resource hist : reg.history) {
+//					if (hist.getURI().toFileString().length() == longestHistoryPath) {
+//						newReg.history.add(hist);
+//					}
+//				}
+//				selectedDataReg.put(test, newReg);
+//			}
+//			for (Test test : selectedDataReg.keySet()) {
+//				Registry reg = selectedDataReg.get(test);
+//				System.out.println(reg.seed.getURI());
+//				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+//					System.out.println(mut.getKey().getURI());
+//				}
+//				for (Resource st : reg.history) {
+//					System.out.println(st.getURI());
+//				}
+//			}
+//			Map<Test, Registry> exerciseDataReg = new HashMap<Test, Registry>();
+//			for (Test test : selectedDataReg.keySet()) {
+//				Registry reg = selectedDataReg.get(test);
+//				Registry newReg = new Registry();
+//				newReg.seed = reg.seed;
+//				System.out.println(reg.seed.getURI());
+//				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
+//				newReg.history = new ArrayList<Resource>();
+//				int rnd = ModelManager.getRandomIndex(reg.mutants);
+//				newReg.mutants.add(reg.mutants.get(rnd));
+//				newReg.history.add(reg.history.get(rnd));
+//				System.out.println(newReg.mutants.get(0).getKey().getURI());
+//				System.out.println(newReg.history.get(0).getURI());
+//				exerciseDataReg.put(test, newReg);
+//			}
+//			for (Test test : dataReg.keySet()) {
+//				Registry reg = dataReg.get(test);
+//				Registry newReg = exerciseDataReg.get(test);
+//				String ex = reg.seed.getURI().toString().substring(reg.seed.getURI().toString().lastIndexOf("/") + 1, reg.seed.getURI().toString().length());
+//				System.out.println(ex);
+//				Resource mutant = newReg.mutants.get(0).getKey();
+//				List<String> bks = new ArrayList<String>();
+//				List<String> muts = new ArrayList<String>();
+//				String path = mutant.getURI().toString().substring(mutant.getURI().toString().lastIndexOf(ex.substring(0, ex.indexOf("."))) + ex.substring(0, ex.indexOf(".")).length(), mutant.getURI().toString().length());
+//				while (path.charAt(0) == '/') {
+//					path = path.substring(1, path.length());
+//				}
+//				String[] bckNames = path.split("/");
+//				for (String bckName : bckNames) {
+//					if (!bckName.endsWith(".model") && !bckName.startsWith("Output") && !bckName.equals("")) {
+//						bks.add(bckName.trim());
+//					}
+//					if (bckName.startsWith("Output") && !bckName.endsWith(".model")) {
+//						muts.add(bckName.trim());
+//					}
+//					if (bckName.startsWith("Output") && bckName.endsWith(".model")) {
+//						muts.add(bckName.substring(0, bckName.indexOf(".")).trim());
+//					}
+//				}
+//				int j = 0;
+//				while (true) {
+//					int i = j + 1;
+//					String previous = "";
+//					for (; i < bks.size(); i++) {
+//						previous += "/" + bks.get(i);
+//					}
+//					System.out.println(previous);
+//					for (int k = 0; k < bks.size() - (j + 1); k++) {
+//						previous += "/" + muts.get(k);
+//					}
+//					if (previous.length() == 0) {
+//						break;
+//					}
+//					previous += ".model";
+//					System.out.println(previous);
+//					int index = -1;
+//					i = 0;
+//					for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
+//						if (mut.getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/").contains(previous) && !mut.getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/").equals(newReg.mutants.get(j).getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/"))) {
+//							index = i;
+//						}
+//						System.out.println(mut.getKey().getURI());
+//						i++;
+//					}
+//					if (index != -1) {
+//						newReg.mutants.add(reg.mutants.get(index));
+//						newReg.history.add(reg.history.get(index));
+//					}
+//					else {
+//						break;
+//					}
+//					j++;
+//				}
+//			}
+//			Map<Test, List<Integer>> orderedTestMap = new HashMap<Test, List<Integer>>();
+//			for (Test test : exerciseDataReg.keySet()) {
+//				List<Integer> orderedList = new ArrayList<Integer>();
+//				Registry reg = exerciseDataReg.get(test);
+//				while (orderedList.size() < reg.mutants.size()) {
+//					int min = Integer.MAX_VALUE;
+//					int index = -1;
+//					for (int i = 0; i < reg.mutants.size(); i++) {
+//						if (!orderedList.contains(i) && reg.mutants.get(i).getKey().getURI().toFileString().length() < min) {
+//							min = reg.mutants.get(i).getKey().getURI().toFileString().length();
+//							index = i;
+//						}
+//					}
+//					if (index != -1) {
+//						orderedList.add(index);
+//					}
+//					else {
+//						break;
+//					}
+//				}
+//				orderedTestMap.put(test, orderedList);
+//			}
+//			for (Test test : exerciseDataReg.keySet()) {
+//				List<Integer> orderedList = orderedTestMap.get(test);
+//				Registry reg = exerciseDataReg.get(test);
+//				SimpleEntry<Resource, Resource> entry = reg.mutants.get(orderedList.get(0));
+//				entry.setValue(reg.seed);
+//				for (int i = 1; i < orderedList.size(); i++) {
+//					entry = reg.mutants.get(orderedList.get(i));
+//					entry.setValue(reg.mutants.get(orderedList.get(i - 1)).getKey());
+//				}
+//			}
+//			for (Test test : exerciseDataReg.keySet()) {
+//				Registry reg = exerciseDataReg.get(test);
+//				System.out.println(reg.seed.getURI());
+//				for (SimpleEntry<Resource, Resource> mut : reg.mutants) { 
+//					System.out.println(mut.getKey().getURI());
+//					System.out.println(mut.getValue().getURI());
+//				}
+//				for (SimpleEntry<Resource, Resource> pre : reg.mutants) { 
+//					System.out.println(pre.getValue().getURI());
+//				}
+//				for (Resource hist : reg.history) {
+//					System.out.println(hist.getURI());
+//				}
+//			}
+//			dataRegistry.put(exercise, exerciseDataReg);
+//			List<String> coveredBlocks = new ArrayList<String>();
+//			for (Test test : exercise.getTests()) {
+//				List<TestOption> opts = new ArrayList<TestOption>();
+//				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
+//					for (int i = 0; i < dataRegistry.get(exercise).get(test).mutants.size(); i++) {
+//						Registry reg = dataRegistry.get(exercise).get(test);
+//						boolean covered = false;
+//						List<Integer> indexes = new ArrayList<Integer>();
+//						for (int j = 0; j < reg.mutants.size(); j++) {
+//							indexes.add(j);
+//						}
+//						int k = i;
+//						while (covered == false && indexes.size() > 0) {
+//							for (EObject block : exercise.getBlocks()) {
+//								String name = ModelManager.getStringAttribute("name", block);
+//								if (reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").contains("/" + name + "/") && !coveredBlocks.contains(name)) {
+//									coveredBlocks.add(name);
+//									covered = true;
+//									break;
+//								}
+//								else if (coveredBlocks.size() == exercise.getBlocks().size()) {
+//									covered = true;
+//									break;
+//								}
+//								else {
+//									indexes.remove(Integer.valueOf(k));
+//									if (indexes.size() > 0) {
+//										int index = ModelManager.getRandomIndex(indexes);
+//										k = indexes.get(index);
+//									}
+//								}
+//							}
+//							String diagramPath = "";
+//							if (ModelManager.getOutputPath().indexOf(":") != -1) {
+//								diagramPath = reg.mutants.get(i).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+//							}
+//							else {
+//								diagramPath = reg.mutants.get(i).getKey().getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
+//							}
+//							TestOption opt = new TestOption();
+//							opt.path = "diagrams" + diagramPath;
+//							opt.resource = reg.history.get(i);
+//							opt.seed = reg.mutants.get(i).getValue();
+//							opt.mutant = reg.mutants.get(i).getKey();
+//							opt.solution = true;
+//							opts.add(opt);
+////							for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(k))) {
+////								if (wrongRegistry.mutants.size() > 0) {
+////									k = ModelManager.getRandomIndex(wrongRegistry.mutants);
+////									opt = new TestOption();
+////									opt.path = "diagrams" + wrongRegistry.mutants.get(k).getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+////									opt.resource = wrongRegistry.history.get(k);
+////									opt.seed = wrongRegistry.seed;
+////									opt.solution = false;
+////									opts.add(opt);
+////								}
+////							}
+//						}
+//					}
+//					testOptions.put(test, opts);
+//				}
+//			}
+//			options.put(exercise, testOptions);
+//			buildOptionsMatchPairs(cfgoptsresource, idelemsresource, exercise, testOptions);
+//			for (Test test : testOptions.keySet()) {
+//				List<TestOption> finalTestOptions = new ArrayList<TestOption>();
+//				for (TestOption testOption : testOptions.get(test)) {
+//					boolean found = false;
+//					for (TestOption finalTestOption : finalTestOptions) {
+//						if (testOption.text.equals(finalTestOption.text)) {
+//							found = true;
+//							break;
+//						}
+//					}
+//					if (found == false) {
+//						finalTestOptions.add(testOption);
+//					}
+//				}
+//				testOptions.put(test, finalTestOptions);
+//			}
+//			for (Test test : testOptions.keySet()) {
+//				for (TestOption testOption : testOptions.get(test)) {
+//					String previousBlock = testOption.mutant.getURI().path();
+//					previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
+//					while (previousBlock.indexOf("/") == 0) {
+//						previousBlock = previousBlock.substring(1, previousBlock.length());
+//					}
+//					previousBlock = previousBlock.substring(0, previousBlock.indexOf("/"));
+//					String reversePath = testOption.mutant.getURI().path();
+//					reversePath = reversePath.replace(".model", "/" + previousBlock + "/Reverse.model");
+//					System.out.println(reversePath);
+//					reversePath = ModelManager.getOutputPath() + "/" + reversePath.substring(reversePath.indexOf("/" + test.getSource().replace(".model", "") + "/"), reversePath.length());
+//					File check = new File(reversePath);
+//					System.out.println(reversePath);
+//					if (check.exists()) {
+//						testOption.reverse = new ArrayList<SimpleEntry<Resource, Map<String, List<String>>>>();
+//						testOption.reverse.add(new SimpleEntry<Resource, Map<String, List<String>>>(ModelManager.loadModel(packages, reversePath), testOption.text));
+//						SimpleEntry<Resource, Resource> previous = new SimpleEntry<Resource, Resource>(testOption.mutant, testOption.seed);
+//						while (previous != null) {
+//							boolean found = false;
+//							for (TestOption op : testOptions.get(test)) {
+//								if (op.mutant.getURI().equals(previous.getValue().getURI())) {
+//									previous = new SimpleEntry<Resource, Resource>(op.mutant, op.seed);
+//									found = true;
+//									previousBlock = previous.getKey().getURI().path();
+//									previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
+//									while (previousBlock.indexOf("/") == 0) {
+//										previousBlock = previousBlock.substring(1, previousBlock.length());
+//									}
+//									previousBlock = previousBlock.substring(0, previousBlock.indexOf("/"));
+//									reversePath = testOption.mutant.getURI().path();
+//									reversePath = reversePath.replace(".model", "/" + previousBlock + "/Reverse.model");
+//									System.out.println(reversePath);
+//									reversePath = ModelManager.getOutputPath() + "/" + reversePath.substring(reversePath.indexOf("/" + test.getSource().replace(".model", "") + "/"), reversePath.length());
+//									check = new File(reversePath);
+//									System.out.println(reversePath);
+//									testOption.reverse.add(new SimpleEntry<Resource, Map<String, List<String>>>(ModelManager.loadModel(packages, reversePath), op.text));
+//									break;
+//								}
+//							}
+//							if (found == false) {
+//								previous = null;
+//								break;
+//							}
+//						}
+//					}
+//				}
+//			}
+//			options.put(exercise, testOptions);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (MetaModelNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (ModelNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
 	/**
 	 * Builds the options for the MultiChoiceEmendation
 	 * @param resource
@@ -1964,184 +4403,7 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			for (Test test : exercise.getTests()) {
 				dataReg.put(test, getRegistry((MatchPairs) exercise, test, blocks, packages, registrypackages));
 			}
-			for (Test test : dataReg.keySet()) {
-				Registry reg = dataReg.get(test);
-				if (reg.mutants.size() == 0) {
-					options.put(exercise, testOptions);
-					return;
-				}
-				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
-					System.out.println(mut.getKey().getURI());
-				}
-				for (Resource hist : reg.history) {
-					System.out.println(hist.getURI());
-				}
-			}
-			int longestMutantPath = Integer.MIN_VALUE;
-			int longestHistoryPath = Integer.MIN_VALUE;
-			for (Test test : dataReg.keySet()) {
-				Registry reg = dataReg.get(test);
-				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
-					if (mut.getKey().getURI().toFileString().length() > longestMutantPath) {
-						longestMutantPath = mut.getKey().getURI().toFileString().length();
-					}
-				}
-				for (Resource hist : reg.history) {
-					if (hist.getURI().toFileString().length() > longestHistoryPath) {
-						longestHistoryPath = hist.getURI().toFileString().length();
-					}
-				}
-			}
-			Map<Test, Registry> selectedDataReg = new HashMap<Test, Registry>();
-			for (Test test : dataReg.keySet()) {
-				Registry reg = dataReg.get(test);
-				Registry newReg = new Registry();
-				newReg.seed = reg.seed; 
-				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
-				newReg.history = new ArrayList<Resource>();
-				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
-					if (mut.getKey().getURI().toFileString().length() == longestMutantPath) {
-						newReg.mutants.add(new SimpleEntry<Resource, Resource>(mut.getKey(), null));
-					}
-				}
-				for (Resource hist : reg.history) {
-					if (hist.getURI().toFileString().length() == longestHistoryPath) {
-						newReg.history.add(hist);
-					}
-				}
-				selectedDataReg.put(test, newReg);
-			}
-			for (Test test : selectedDataReg.keySet()) {
-				Registry reg = selectedDataReg.get(test);
-				System.out.println(reg.seed.getURI());
-				for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
-					System.out.println(mut.getKey().getURI());
-				}
-				for (Resource st : reg.history) {
-					System.out.println(st.getURI());
-				}
-			}
-			Map<Test, Registry> exerciseDataReg = new HashMap<Test, Registry>();
-			for (Test test : selectedDataReg.keySet()) {
-				Registry reg = selectedDataReg.get(test);
-				Registry newReg = new Registry();
-				newReg.seed = reg.seed;
-				System.out.println(reg.seed.getURI());
-				newReg.mutants = new ArrayList<SimpleEntry<Resource, Resource>>();
-				newReg.history = new ArrayList<Resource>();
-				int rnd = ModelManager.getRandomIndex(reg.mutants);
-				newReg.mutants.add(reg.mutants.get(rnd));
-				newReg.history.add(reg.history.get(rnd));
-				System.out.println(newReg.mutants.get(0).getKey().getURI());
-				System.out.println(newReg.history.get(0).getURI());
-				exerciseDataReg.put(test, newReg);
-			}
-			for (Test test : dataReg.keySet()) {
-				Registry reg = dataReg.get(test);
-				Registry newReg = exerciseDataReg.get(test);
-				String ex = reg.seed.getURI().toString().substring(reg.seed.getURI().toString().lastIndexOf("/") + 1, reg.seed.getURI().toString().length());
-				System.out.println(ex);
-				Resource mutant = newReg.mutants.get(0).getKey();
-				List<String> bks = new ArrayList<String>();
-				List<String> muts = new ArrayList<String>();
-				String path = mutant.getURI().toString().substring(mutant.getURI().toString().lastIndexOf(ex.substring(0, ex.indexOf("."))) + ex.substring(0, ex.indexOf(".")).length(), mutant.getURI().toString().length());
-				while (path.charAt(0) == '/') {
-					path = path.substring(1, path.length());
-				}
-				String[] bckNames = path.split("/");
-				for (String bckName : bckNames) {
-					if (!bckName.endsWith(".model") && !bckName.startsWith("Output") && !bckName.equals("")) {
-						bks.add(bckName.trim());
-					}
-					if (bckName.startsWith("Output") && !bckName.endsWith(".model")) {
-						muts.add(bckName.trim());
-					}
-					if (bckName.startsWith("Output") && bckName.endsWith(".model")) {
-						muts.add(bckName.substring(0, bckName.indexOf(".")).trim());
-					}
-				}
-				int j = 0;
-				while (true) {
-					int i = j + 1;
-					String previous = "";
-					for (; i < bks.size(); i++) {
-						previous += "/" + bks.get(i);
-					}
-					System.out.println(previous);
-					for (int k = 0; k < bks.size() - (j + 1); k++) {
-						previous += "/" + muts.get(k);
-					}
-					if (previous.length() == 0) {
-						break;
-					}
-					previous += ".model";
-					System.out.println(previous);
-					int index = -1;
-					i = 0;
-					for (SimpleEntry<Resource, Resource> mut : reg.mutants) {
-						if (mut.getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/").contains(previous) && !mut.getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/").equals(newReg.mutants.get(j).getKey().getURI().toString().replaceAll("//", "/").replaceAll("//", "/"))) {
-							index = i;
-						}
-						System.out.println(mut.getKey().getURI());
-						i++;
-					}
-					if (index != -1) {
-						newReg.mutants.add(reg.mutants.get(index));
-						newReg.history.add(reg.history.get(index));
-					}
-					else {
-						break;
-					}
-					j++;
-				}
-			}
-			Map<Test, List<Integer>> orderedTestMap = new HashMap<Test, List<Integer>>();
-			for (Test test : exerciseDataReg.keySet()) {
-				List<Integer> orderedList = new ArrayList<Integer>();
-				Registry reg = exerciseDataReg.get(test);
-				while (orderedList.size() < reg.mutants.size()) {
-					int min = Integer.MAX_VALUE;
-					int index = -1;
-					for (int i = 0; i < reg.mutants.size(); i++) {
-						if (!orderedList.contains(i) && reg.mutants.get(i).getKey().getURI().toFileString().length() < min) {
-							min = reg.mutants.get(i).getKey().getURI().toFileString().length();
-							index = i;
-						}
-					}
-					if (index != -1) {
-						orderedList.add(index);
-					}
-					else {
-						break;
-					}
-				}
-				orderedTestMap.put(test, orderedList);
-			}
-			for (Test test : exerciseDataReg.keySet()) {
-				List<Integer> orderedList = orderedTestMap.get(test);
-				Registry reg = exerciseDataReg.get(test);
-				SimpleEntry<Resource, Resource> entry = reg.mutants.get(orderedList.get(0));
-				entry.setValue(reg.seed);
-				for (int i = 1; i < orderedList.size(); i++) {
-					entry = reg.mutants.get(orderedList.get(i));
-					entry.setValue(reg.mutants.get(orderedList.get(i - 1)).getKey());
-				}
-			}
-			for (Test test : exerciseDataReg.keySet()) {
-				Registry reg = exerciseDataReg.get(test);
-				System.out.println(reg.seed.getURI());
-				for (SimpleEntry<Resource, Resource> mut : reg.mutants) { 
-					System.out.println(mut.getKey().getURI());
-					System.out.println(mut.getValue().getURI());
-				}
-				for (SimpleEntry<Resource, Resource> pre : reg.mutants) { 
-					System.out.println(pre.getValue().getURI());
-				}
-				for (Resource hist : reg.history) {
-					System.out.println(hist.getURI());
-				}
-			}
-			dataRegistry.put(exercise, exerciseDataReg);
+			dataRegistry.put(exercise, dataReg);
 			List<String> coveredBlocks = new ArrayList<String>();
 			for (Test test : exercise.getTests()) {
 				List<TestOption> opts = new ArrayList<TestOption>();
@@ -2176,29 +4438,20 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 							}
 							String diagramPath = "";
 							if (ModelManager.getOutputPath().indexOf(":") != -1) {
-								diagramPath = reg.mutants.get(i).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+								diagramPath = reg.seed.getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png").replaceAll("\\\\", "/");
 							}
 							else {
-								diagramPath = reg.mutants.get(i).getKey().getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
+								diagramPath = reg.seed.getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png").replaceAll("\\\\", "/");
 							}
+							diagramPath = diagramPath.substring(diagramPath.lastIndexOf("/") + 1, diagramPath.length());
+							diagramPath = "diagrams/" + diagramPath.replace(".png", "") + "/" + diagramPath;
 							TestOption opt = new TestOption();
-							opt.path = "diagrams" + diagramPath;
-							opt.resource = reg.history.get(i);
-							opt.seed = reg.mutants.get(i).getValue();
-							opt.mutant = reg.mutants.get(i).getKey();
-							opt.solution = true;
+							opt.path = diagramPath;
+							opt.resource = reg.history.get(k);
+							opt.seed = reg.seed;
+							opt.entry = reg.mutants.get(k);
+							opt.solution = false;
 							opts.add(opt);
-//							for (Registry wrongRegistry : dataRegistry.get(exercise).get(test).wrong.get(reg.mutants.get(k))) {
-//								if (wrongRegistry.mutants.size() > 0) {
-//									k = ModelManager.getRandomIndex(wrongRegistry.mutants);
-//									opt = new TestOption();
-//									opt.path = "diagrams" + wrongRegistry.mutants.get(k).getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
-//									opt.resource = wrongRegistry.history.get(k);
-//									opt.seed = wrongRegistry.seed;
-//									opt.solution = false;
-//									opts.add(opt);
-//								}
-//							}
 						}
 					}
 					testOptions.put(test, opts);
@@ -2206,70 +4459,6 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			}
 			options.put(exercise, testOptions);
 			buildOptionsMatchPairs(cfgoptsresource, idelemsresource, exercise, testOptions);
-			for (Test test : testOptions.keySet()) {
-				List<TestOption> finalTestOptions = new ArrayList<TestOption>();
-				for (TestOption testOption : testOptions.get(test)) {
-					boolean found = false;
-					for (TestOption finalTestOption : finalTestOptions) {
-						if (testOption.text.equals(finalTestOption.text)) {
-							found = true;
-							break;
-						}
-					}
-					if (found == false) {
-						finalTestOptions.add(testOption);
-					}
-				}
-				testOptions.put(test, finalTestOptions);
-			}
-			for (Test test : testOptions.keySet()) {
-				for (TestOption testOption : testOptions.get(test)) {
-					String previousBlock = testOption.mutant.getURI().path();
-					previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
-					while (previousBlock.indexOf("/") == 0) {
-						previousBlock = previousBlock.substring(1, previousBlock.length());
-					}
-					previousBlock = previousBlock.substring(0, previousBlock.indexOf("/"));
-					String reversePath = testOption.mutant.getURI().path();
-					reversePath = reversePath.replace(".model", "/" + previousBlock + "/Reverse.model");
-					System.out.println(reversePath);
-					reversePath = ModelManager.getOutputPath() + "/" + reversePath.substring(reversePath.indexOf("/" + test.getSource().replace(".model", "") + "/"), reversePath.length());
-					File check = new File(reversePath);
-					System.out.println(reversePath);
-					if (check.exists()) {
-						testOption.reverse = new ArrayList<SimpleEntry<Resource, List<String>>>();
-						testOption.reverse.add(new SimpleEntry<Resource, List<String>>(ModelManager.loadModel(packages, reversePath), testOption.text));
-						SimpleEntry<Resource, Resource> previous = new SimpleEntry<Resource, Resource>(testOption.mutant, testOption.seed);
-						while (previous != null) {
-							boolean found = false;
-							for (TestOption op : testOptions.get(test)) {
-								if (op.mutant.getURI().equals(previous.getValue().getURI())) {
-									previous = new SimpleEntry<Resource, Resource>(op.mutant, op.seed);
-									found = true;
-									previousBlock = previous.getKey().getURI().path();
-									previousBlock = previousBlock.substring(previousBlock.indexOf("/" + test.getSource().replace(".model", "") + "/") + ("/" + test.getSource().replace(".model", "") + "/").length(), previousBlock.length());
-									while (previousBlock.indexOf("/") == 0) {
-										previousBlock = previousBlock.substring(1, previousBlock.length());
-									}
-									previousBlock = previousBlock.substring(0, previousBlock.indexOf("/"));
-									reversePath = testOption.mutant.getURI().path();
-									reversePath = reversePath.replace(".model", "/" + previousBlock + "/Reverse.model");
-									System.out.println(reversePath);
-									reversePath = ModelManager.getOutputPath() + "/" + reversePath.substring(reversePath.indexOf("/" + test.getSource().replace(".model", "") + "/"), reversePath.length());
-									check = new File(reversePath);
-									System.out.println(reversePath);
-									testOption.reverse.add(new SimpleEntry<Resource, List<String>>(ModelManager.loadModel(packages, reversePath), op.text));
-									break;
-								}
-							}
-							if (found == false) {
-								previous = null;
-								break;
-							}
-						}
-					}
-				}
-			}
 			options.put(exercise, testOptions);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -2283,6 +4472,174 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 		}
 	}
 
+	
+	/**
+	 * Builds the match pairs
+	 * natural language options
+	 * @param cfgoptsresource
+	 * @param idelemsresource
+	 * @param exercise
+	 * @param testOptions
+	 * @param mode
+	 */
+	private void buildOptionsMissingWords(Resource cfgoptsresource, Resource idelemsresource, MissingWords exercise, Map<Test, List<TestOption>> testOptions) {
+		for (Test test : exercise.getTests()) {
+			List<TestOption> opts = new ArrayList<TestOption>();
+			if (options.get(exercise).get(test) != null) {
+				for (TestOption opt : options.get(exercise).get(test)) {
+					opt.options = new TreeMap<String, List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>>>();
+					opt.text = new TreeMap<String, List<String>>();
+					List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(opt.resource));
+					int[] index = new int[1];
+					index[0] = 0;
+					for (EObject mutation : mutations) {
+						List<String> text = new ArrayList<String>();
+						List<EClass> superTypes = mutation.eClass().getEAllSuperTypes();
+						boolean flag = false;
+						for (EClass cl : superTypes) {
+							if (cl.getName().equals("AppMutation")) {
+								flag = true;
+								break;
+							}
+						}
+						if (flag == true) {
+							String[] mutationURI = new String[1];
+							if (mutation instanceof ObjectCreated) {
+								text = getObjectCreatedText(cfgoptsresource, idelemsresource, (ObjectCreated) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof ObjectRemoved) {
+								text = getObjectRemovedText(cfgoptsresource, idelemsresource, (ObjectRemoved) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}							
+							if (mutation instanceof SourceReferenceChanged) {
+								text = getSourceReferenceChangedText(cfgoptsresource, idelemsresource, (SourceReferenceChanged) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof TargetReferenceChanged) {
+								text = getTargetReferenceChangedText(cfgoptsresource, idelemsresource, (TargetReferenceChanged) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+//							if (mutation instanceof ReferenceSwap) {
+//							}
+							if (mutation instanceof ReferenceCreated) {
+								text = getReferenceCreatedText(cfgoptsresource, idelemsresource, (ReferenceCreated) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof ReferenceRemoved) {
+								text = getReferenceRemovedText(cfgoptsresource, idelemsresource, (ReferenceRemoved) mutation, opt, mutationURI, index);
+								storeOption(exercise, text, null, opt, opts, mutationURI[0]);
+							}
+							if (mutation instanceof InformationChanged) {
+								storeAttributeChangedText(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null, mutationURI, index);
+								storeReferenceChangedText(exercise, cfgoptsresource, idelemsresource, (InformationChanged) mutation, opt, opts, null, mutationURI, index);
+							}
+//							if (mutation instanceof ObjectRetyped) {
+//							}
+						}
+					}
+				}
+			}
+			Collections.shuffle(opts);
+			testOptions.put(test, opts);
+		}
+	}
+
+	/**
+	 * Builds the options for the MultiChoiceEmendation
+	 * @param resource
+	 * @param exercise
+	 * @param blocks
+	 */
+	private void buildMissingWords(Resource resource, MissingWords exercise, List<EObject> blocks, Class<?> cls) {
+		try {
+			Map<Test, Registry> dataReg = new HashMap<Test, Registry>();
+			Bundle bundle = Platform.getBundle("wodel.models");
+			String ecore = ModelManager.getMetaModel().replace("\\", "/");
+			List<EPackage> packages = ModelManager.loadMetaModel(ecore, cls);
+			URL fileURL = bundle.getEntry("/models/AppliedMutations.ecore");
+			String registryecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> registrypackages = ModelManager.loadMetaModel(registryecore);
+			String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_modeltext.model");
+			fileURL = bundle.getEntry("/models/ModelText.ecore");
+			String idelemsecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> idelemspackages = ModelManager.loadMetaModel(idelemsecore);
+			Resource idelemsresource = ModelManager.loadModel(idelemspackages, URI.createURI(xmiFileName).toFileString());
+			xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+					"/" + ModelManager.getOutputFolder() + "/" + resource.getURI().lastSegment().replaceAll(".test", "_mutatext.model");
+			fileURL = bundle.getEntry("/models/MutaText.ecore");
+			String cfgoptsecore = FileLocator.resolve(fileURL).getFile();
+			List<EPackage> cfgoptspackages = ModelManager.loadMetaModel(cfgoptsecore);
+			Resource cfgoptsresource = ModelManager.loadModel(cfgoptspackages, URI.createURI(xmiFileName).toFileString());
+			for (Test test : exercise.getTests()) {
+				dataReg.put(test, getRegistry((MissingWords) exercise, test, blocks, packages, registrypackages));
+			}
+			dataRegistry.put(exercise, dataReg);
+			Map<Test, List<TestOption>> testOptions = new HashMap<Test, List<TestOption>>();
+			for (Test test : exercise.getTests()) {
+				if (dataRegistry.get(exercise).get(test).mutants.size() > 0) {
+					List<TestOption> opts = new ArrayList<TestOption>();
+					for (int k = 0; k < dataRegistry.get(exercise).get(test).mutants.size(); k++) {
+						TestOption opt = new TestOption();
+						Registry reg = dataRegistry.get(exercise).get(test);
+						String diagramPath = "";
+						if (ModelManager.getOutputPath().indexOf(":") != -1) {
+							diagramPath = reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath().substring(2, ModelManager.getOutputPath().length()), "").replace(".model", ".png");
+						}
+						else {
+							diagramPath = reg.mutants.get(k).getKey().getURI().path().replace(ModelManager.getOutputPath(), "").replace(".model", ".png");
+						}
+						opt.path = "diagrams" + diagramPath;
+						opt.resource = reg.history.get(k);
+						opt.seed = reg.seed;
+						opt.solution = true;
+						opts.add(opt);
+					}
+					testOptions.put(test, opts);
+				}
+			}
+			options.put(exercise, testOptions);
+			buildOptionsMissingWords(cfgoptsresource, idelemsresource, exercise, testOptions);
+	        for (Test test : exercise.getTests()) {
+		        String textWithGaps = "";
+				int k = 0;
+				int solution = 0;
+	        	for (TestOption opt : options.get(exercise).get(test)) {
+	        		for (String key : opt.options.keySet()) {
+        				String opWithGaps = "";
+        				int tmp = k;
+	        			for (String text : opt.text.get(key)) {
+	        				k++;
+	        				opWithGaps += text + "%" + k+ " ";
+	        			}
+	        			k = tmp;
+	        			List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = opt.options.get(key);
+	        			for (SimpleEntry<String, SimpleEntry<Integer, Boolean>> entry : entries) {
+	        				solution++;
+	        				if (entry.getValue().getValue() == true) {
+	        					k++;
+	        					opWithGaps = opWithGaps.replace("%" + k, "[[" + solution + "]]");
+	        				}
+	        			}
+	    	        	textWithGaps += opWithGaps.trim() + ". ";
+	        		}
+	        	}
+	        }
+			options.put(exercise, testOptions);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MetaModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
 	/**
 	 * Generates the options for the test exercises application
 	 * @param program
@@ -2301,6 +4658,9 @@ public class EduTestSuperGenerator extends AbstractGenerator {
 			}
 			if (exercise instanceof MatchPairs) {
 				buildMatchPairs(resource, (MatchPairs) exercise, blocks, cls);
+			}
+			if (exercise instanceof MissingWords) {
+				buildMissingWords(resource, (MissingWords) exercise, blocks, cls);
 			}
 		}
 	}

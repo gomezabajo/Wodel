@@ -62,6 +62,7 @@ public class AttributeCopyImpl extends AttributeSetImpl implements AttributeCopy
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -86,6 +87,7 @@ public class AttributeCopyImpl extends AttributeSetImpl implements AttributeCopy
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;

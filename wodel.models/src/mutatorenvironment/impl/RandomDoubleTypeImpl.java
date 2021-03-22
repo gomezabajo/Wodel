@@ -111,6 +111,7 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getMin() {
 		return min;
 	}
@@ -120,6 +121,7 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMin(double newMin) {
 		double oldMin = min;
 		min = newMin;
@@ -132,6 +134,7 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getMax() {
 		return max;
 	}
@@ -141,6 +144,7 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMax(double newMax) {
 		double oldMax = max;
 		max = newMax;
@@ -153,6 +157,7 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isAllowsNull() {
 		return allowsNull;
 	}
@@ -162,6 +167,7 @@ public class RandomDoubleTypeImpl extends DoubleTypeImpl implements RandomDouble
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAllowsNull(boolean newAllowsNull) {
 		boolean oldAllowsNull = allowsNull;
 		allowsNull = newAllowsNull;

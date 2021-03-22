@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+import org.eclipse.modisco.java.emf.JavaPackage;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -147,6 +147,7 @@ public class JavaValidate extends Validate {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static boolean hasErrors(List<ICompilationUnit> compilationUnits) {
 		try {
 			// use working copy to hold source with error

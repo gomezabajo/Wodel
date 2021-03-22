@@ -313,8 +313,8 @@ public class Generator implements IGenerator {
 	@Override
 	public void doRun(IFile file) {
 		Class<?> cls = null;
-		String fileName = file.getName();
-		String classname = fileName.replaceAll(".mutator", "") + "_Draw";
+		String mutatorName = file.getProject().getName();
+		String classname = "mutator." + mutatorName + "." + mutatorName.replaceAll("[.]", "_") + "Draw";
 		
 		try {
 			cls = Class.forName(classname);
@@ -354,7 +354,7 @@ public class Generator implements IGenerator {
 		
 		Object ob = null;
 		try {
-			ob = cls.newInstance();
+			ob = cls.getDeclaredConstructor().newInstance();
 			Method m = cls.getMethod("generate");
 			m.invoke(ob);
 			// ime = (IMutatorExecutor)ob;

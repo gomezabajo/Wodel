@@ -11,7 +11,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -19,8 +18,11 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import wodel.synthesizer.generator.GenerateWodelWizard;
+import wodel.synthesizer.generator.GenerateWodelWizardDialog;
 
 public class GenerateWodel extends AbstractHandler {
+	
+	private GenerateWodelWizard wodelWizard = null;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -39,10 +41,10 @@ public class GenerateWodel extends AbstractHandler {
 		} catch (IOException e) {
 		}
 		Shell shell = HandlerUtil.getActiveShell(event);
-		GenerateWodelWizard wizard = new GenerateWodelWizard();
-		GenerateWodelWizard.setFile(file);
-		WizardDialog wd = new WizardDialog(shell, wizard);
-		wd.setTitle(wizard.getWindowTitle());
+		wodelWizard = new GenerateWodelWizard();
+		wodelWizard.setFile(file);
+		GenerateWodelWizardDialog wd = new GenerateWodelWizardDialog(shell, wodelWizard);
+		wd.setTitle(wodelWizard.getWindowTitle());
 		wd.open();
 		return null;
 	}

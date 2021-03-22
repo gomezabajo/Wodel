@@ -2,18 +2,21 @@
  */
 package modeldraw.impl;
 
+import java.util.Collection;
 import modeldraw.Decoration;
 import modeldraw.ModeldrawPackage;
 import modeldraw.Relation;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,6 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link modeldraw.impl.RelationImpl#getReference <em>Reference</em>}</li>
+ *   <li>{@link modeldraw.impl.RelationImpl#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link modeldraw.impl.RelationImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link modeldraw.impl.RelationImpl#getSrc_decoration <em>Src decoration</em>}</li>
  *   <li>{@link modeldraw.impl.RelationImpl#getSrc_label <em>Src label</em>}</li>
@@ -35,24 +39,34 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	/**
-	 * The cached value of the '{@link #getReference() <em>Reference</em>}' reference.
+	 * The cached value of the '{@link #getReference() <em>Reference</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getReference()
 	 * @generated
 	 * @ordered
 	 */
-	protected EReference reference;
+	protected EList<EReference> reference;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' reference.
+	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRefType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EReference> refType;
+
+	/**
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
 	 */
-	protected EAttribute label;
+	protected EList<EAttribute> label;
 
 	/**
 	 * The default value of the '{@link #getSrc_decoration() <em>Src decoration</em>}' attribute.
@@ -138,14 +152,9 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReference() {
-		if (reference != null && reference.eIsProxy()) {
-			InternalEObject oldReference = (InternalEObject)reference;
-			reference = (EReference)eResolveProxy(oldReference);
-			if (reference != oldReference) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeldrawPackage.RELATION__REFERENCE, oldReference, reference));
-			}
+	public EList<EReference> getReference() {
+		if (reference == null) {
+			reference = new EObjectResolvingEList<EReference>(EReference.class, this, ModeldrawPackage.RELATION__REFERENCE);
 		}
 		return reference;
 	}
@@ -155,8 +164,11 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference basicGetReference() {
-		return reference;
+	public EList<EReference> getRefType() {
+		if (refType == null) {
+			refType = new EObjectResolvingEList<EReference>(EReference.class, this, ModeldrawPackage.RELATION__REF_TYPE);
+		}
+		return refType;
 	}
 
 	/**
@@ -164,49 +176,11 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReference(EReference newReference) {
-		EReference oldReference = reference;
-		reference = newReference;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModeldrawPackage.RELATION__REFERENCE, oldReference, reference));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getLabel() {
-		if (label != null && label.eIsProxy()) {
-			InternalEObject oldLabel = (InternalEObject)label;
-			label = (EAttribute)eResolveProxy(oldLabel);
-			if (label != oldLabel) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModeldrawPackage.RELATION__LABEL, oldLabel, label));
-			}
+	public EList<EAttribute> getLabel() {
+		if (label == null) {
+			label = new EObjectResolvingEList<EAttribute>(EAttribute.class, this, ModeldrawPackage.RELATION__LABEL);
 		}
 		return label;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute basicGetLabel() {
-		return label;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLabel(EAttribute newLabel) {
-		EAttribute oldLabel = label;
-		label = newLabel;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModeldrawPackage.RELATION__LABEL, oldLabel, label));
 	}
 
 	/**
@@ -336,11 +310,11 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ModeldrawPackage.RELATION__REFERENCE:
-				if (resolve) return getReference();
-				return basicGetReference();
+				return getReference();
+			case ModeldrawPackage.RELATION__REF_TYPE:
+				return getRefType();
 			case ModeldrawPackage.RELATION__LABEL:
-				if (resolve) return getLabel();
-				return basicGetLabel();
+				return getLabel();
 			case ModeldrawPackage.RELATION__SRC_DECORATION:
 				return getSrc_decoration();
 			case ModeldrawPackage.RELATION__SRC_LABEL:
@@ -360,14 +334,21 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ModeldrawPackage.RELATION__REFERENCE:
-				setReference((EReference)newValue);
+				getReference().clear();
+				getReference().addAll((Collection<? extends EReference>)newValue);
+				return;
+			case ModeldrawPackage.RELATION__REF_TYPE:
+				getRefType().clear();
+				getRefType().addAll((Collection<? extends EReference>)newValue);
 				return;
 			case ModeldrawPackage.RELATION__LABEL:
-				setLabel((EAttribute)newValue);
+				getLabel().clear();
+				getLabel().addAll((Collection<? extends EAttribute>)newValue);
 				return;
 			case ModeldrawPackage.RELATION__SRC_DECORATION:
 				setSrc_decoration((Decoration)newValue);
@@ -394,10 +375,13 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ModeldrawPackage.RELATION__REFERENCE:
-				setReference((EReference)null);
+				getReference().clear();
+				return;
+			case ModeldrawPackage.RELATION__REF_TYPE:
+				getRefType().clear();
 				return;
 			case ModeldrawPackage.RELATION__LABEL:
-				setLabel((EAttribute)null);
+				getLabel().clear();
 				return;
 			case ModeldrawPackage.RELATION__SRC_DECORATION:
 				setSrc_decoration(SRC_DECORATION_EDEFAULT);
@@ -424,9 +408,11 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ModeldrawPackage.RELATION__REFERENCE:
-				return reference != null;
+				return reference != null && !reference.isEmpty();
+			case ModeldrawPackage.RELATION__REF_TYPE:
+				return refType != null && !refType.isEmpty();
 			case ModeldrawPackage.RELATION__LABEL:
-				return label != null;
+				return label != null && !label.isEmpty();
 			case ModeldrawPackage.RELATION__SRC_DECORATION:
 				return src_decoration != SRC_DECORATION_EDEFAULT;
 			case ModeldrawPackage.RELATION__SRC_LABEL:
@@ -448,7 +434,7 @@ public abstract class RelationImpl extends NamedItemImpl implements Relation {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (src_decoration: ");
 		result.append(src_decoration);
 		result.append(", tar_decoration: ");

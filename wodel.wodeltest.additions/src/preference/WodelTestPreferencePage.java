@@ -1,6 +1,7 @@
 package preference;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,7 +76,7 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 				Map<String, Class<?>> mutators = null;
 				try {
 					Class<?> extensionClass = Platform.getBundle(extensions[j].getDeclaringExtension().getContributor().getName()).loadClass(extensions[j].getAttribute("class"));
-					IWodelTest test =  (IWodelTest) extensionClass.newInstance();
+					IWodelTest test =  (IWodelTest) extensionClass.getDeclaredConstructor().newInstance();
 					projectName = test.getProjectName();
 					MutatorHelper mutatorHelper = new MutatorHelper(test);
 					mutators = mutatorHelper.getMutators();
@@ -92,6 +93,12 @@ public class WodelTestPreferencePage extends FieldEditorPreferencePage implement
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

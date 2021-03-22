@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class MultiLineStringFieldEditor extends StringFieldEditor {
 
-	private static final String ERROR_MESSAGE = "Multiline.error.message"; //$NON-NLS-1$
+//	private static final String ERROR_MESSAGE = "Multiline.error.message"; //$NON-NLS-1$
 	public static final int VALIDATE_ON_KEY_STROKE = 0;
 	public static final int VALIDATE_ON_FOCUS_LOST = 1;
 	public static int UNLIMITED = -1;

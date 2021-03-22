@@ -115,6 +115,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -124,6 +125,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -136,6 +138,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ParameterCS> getParams() {
 		if (params == null) {
 			params = new EObjectContainmentEList<ParameterCS>(ParameterCS.class, this, MiniOCLPackage.OPERATION_CS__PARAMS);
@@ -148,6 +151,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getResultRef() {
 		return resultRef;
 	}
@@ -172,6 +176,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setResultRef(PathNameCS newResultRef) {
 		if (newResultRef != resultRef) {
 			NotificationChain msgs = null;
@@ -191,6 +196,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExpCS getBody() {
 		return body;
 	}
@@ -215,6 +221,7 @@ public class OperationCSImpl extends MinimalEObjectImpl.Container implements Ope
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(ExpCS newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;

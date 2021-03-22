@@ -69,6 +69,7 @@ public class RandomDoubleNumberTypeImpl extends RandomNumberTypeImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getMin() {
 		return min;
 	}
@@ -78,6 +79,7 @@ public class RandomDoubleNumberTypeImpl extends RandomNumberTypeImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMin(double newMin) {
 		double oldMin = min;
 		min = newMin;

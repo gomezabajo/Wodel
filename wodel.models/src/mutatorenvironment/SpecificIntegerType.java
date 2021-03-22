@@ -31,7 +31,7 @@ public interface SpecificIntegerType extends IntegerType {
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(int)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificIntegerType_Value()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	int getValue();

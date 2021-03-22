@@ -82,6 +82,7 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProgramConfiguration getConfig() {
 		return config;
 	}
@@ -106,6 +107,7 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfig(ProgramConfiguration newConfig) {
 		if (newConfig != config) {
 			NotificationChain msgs = null;
@@ -125,6 +127,7 @@ public class ProgramImpl extends MinimalEObjectImpl.Container implements Program
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<MutatorTests> getExercises() {
 		if (exercises == null) {
 			exercises = new EObjectContainmentEList<MutatorTests>(MutatorTests.class, this, EdutestPackage.PROGRAM__EXERCISES);

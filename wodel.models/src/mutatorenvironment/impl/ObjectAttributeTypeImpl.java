@@ -95,6 +95,7 @@ public class ObjectAttributeTypeImpl extends AttributeEvaluationTypeImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectEmitter getObjSel() {
 		if (objSel != null && objSel.eIsProxy()) {
 			InternalEObject oldObjSel = (InternalEObject)objSel;
@@ -121,6 +122,7 @@ public class ObjectAttributeTypeImpl extends AttributeEvaluationTypeImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjSel(ObjectEmitter newObjSel) {
 		ObjectEmitter oldObjSel = objSel;
 		objSel = newObjSel;
@@ -133,6 +135,7 @@ public class ObjectAttributeTypeImpl extends AttributeEvaluationTypeImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute() {
 		if (attribute != null && attribute.eIsProxy()) {
 			InternalEObject oldAttribute = (InternalEObject)attribute;
@@ -159,6 +162,7 @@ public class ObjectAttributeTypeImpl extends AttributeEvaluationTypeImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttribute(EAttribute newAttribute) {
 		EAttribute oldAttribute = attribute;
 		attribute = newAttribute;
@@ -171,6 +175,7 @@ public class ObjectAttributeTypeImpl extends AttributeEvaluationTypeImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operator getOperator() {
 		return operator;
 	}
@@ -180,6 +185,7 @@ public class ObjectAttributeTypeImpl extends AttributeEvaluationTypeImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperator(Operator newOperator) {
 		Operator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;

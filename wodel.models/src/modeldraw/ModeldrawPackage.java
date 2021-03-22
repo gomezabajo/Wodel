@@ -407,7 +407,7 @@ public interface ModeldrawPackage extends EPackage {
 	int RELATION__ATT_NAME = NAMED_ITEM__ATT_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Reference</b></em>' reference.
+	 * The feature id for the '<em><b>Reference</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -416,13 +416,22 @@ public interface ModeldrawPackage extends EPackage {
 	int RELATION__REFERENCE = NAMED_ITEM_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' reference.
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION__LABEL = NAMED_ITEM_FEATURE_COUNT + 1;
+	int RELATION__REF_TYPE = NAMED_ITEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__LABEL = NAMED_ITEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Src decoration</b></em>' attribute.
@@ -431,7 +440,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION__SRC_DECORATION = NAMED_ITEM_FEATURE_COUNT + 2;
+	int RELATION__SRC_DECORATION = NAMED_ITEM_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Src label</b></em>' reference.
@@ -440,7 +449,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION__SRC_LABEL = NAMED_ITEM_FEATURE_COUNT + 3;
+	int RELATION__SRC_LABEL = NAMED_ITEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Tar decoration</b></em>' attribute.
@@ -449,7 +458,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION__TAR_DECORATION = NAMED_ITEM_FEATURE_COUNT + 4;
+	int RELATION__TAR_DECORATION = NAMED_ITEM_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Tar label</b></em>' reference.
@@ -458,7 +467,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION__TAR_LABEL = NAMED_ITEM_FEATURE_COUNT + 5;
+	int RELATION__TAR_LABEL = NAMED_ITEM_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Relation</em>' class.
@@ -467,7 +476,7 @@ public interface ModeldrawPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION_FEATURE_COUNT = NAMED_ITEM_FEATURE_COUNT + 6;
+	int RELATION_FEATURE_COUNT = NAMED_ITEM_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Relation</em>' class.
@@ -507,7 +516,7 @@ public interface ModeldrawPackage extends EPackage {
 	int EDGE__ATT_NAME = RELATION__ATT_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Reference</b></em>' reference.
+	 * The feature id for the '<em><b>Reference</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -516,7 +525,16 @@ public interface ModeldrawPackage extends EPackage {
 	int EDGE__REFERENCE = RELATION__REFERENCE;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' reference.
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__REF_TYPE = RELATION__REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -625,7 +643,7 @@ public interface ModeldrawPackage extends EPackage {
 	int LEVEL__ATT_NAME = RELATION__ATT_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Reference</b></em>' reference.
+	 * The feature id for the '<em><b>Reference</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -634,7 +652,16 @@ public interface ModeldrawPackage extends EPackage {
 	int LEVEL__REFERENCE = RELATION__REFERENCE;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' reference.
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL__REF_TYPE = RELATION__REF_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1221,10 +1248,10 @@ public interface ModeldrawPackage extends EPackage {
 	EClass getRelation();
 
 	/**
-	 * Returns the meta object for the reference '{@link modeldraw.Relation#getReference <em>Reference</em>}'.
+	 * Returns the meta object for the reference list '{@link modeldraw.Relation#getReference <em>Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Reference</em>'.
+	 * @return the meta object for the reference list '<em>Reference</em>'.
 	 * @see modeldraw.Relation#getReference()
 	 * @see #getRelation()
 	 * @generated
@@ -1232,10 +1259,21 @@ public interface ModeldrawPackage extends EPackage {
 	EReference getRelation_Reference();
 
 	/**
-	 * Returns the meta object for the reference '{@link modeldraw.Relation#getLabel <em>Label</em>}'.
+	 * Returns the meta object for the reference list '{@link modeldraw.Relation#getRefType <em>Ref Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Label</em>'.
+	 * @return the meta object for the reference list '<em>Ref Type</em>'.
+	 * @see modeldraw.Relation#getRefType()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EReference getRelation_RefType();
+
+	/**
+	 * Returns the meta object for the reference list '{@link modeldraw.Relation#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Label</em>'.
 	 * @see modeldraw.Relation#getLabel()
 	 * @see #getRelation()
 	 * @generated
@@ -1742,7 +1780,7 @@ public interface ModeldrawPackage extends EPackage {
 		EClass RELATION = eINSTANCE.getRelation();
 
 		/**
-		 * The meta object literal for the '<em><b>Reference</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Reference</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1750,7 +1788,15 @@ public interface ModeldrawPackage extends EPackage {
 		EReference RELATION__REFERENCE = eINSTANCE.getRelation_Reference();
 
 		/**
-		 * The meta object literal for the '<em><b>Label</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Ref Type</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATION__REF_TYPE = eINSTANCE.getRelation_RefType();
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

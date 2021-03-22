@@ -74,6 +74,7 @@ public abstract class RandomNumberTypeImpl extends NumberTypeImpl implements Ran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -98,6 +99,7 @@ public abstract class RandomNumberTypeImpl extends NumberTypeImpl implements Ran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;
@@ -117,6 +119,7 @@ public abstract class RandomNumberTypeImpl extends NumberTypeImpl implements Ran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMax() {
 		if (max != null && max.eIsProxy()) {
 			InternalEObject oldMax = (InternalEObject)max;
@@ -143,6 +146,7 @@ public abstract class RandomNumberTypeImpl extends NumberTypeImpl implements Ran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMax(EAttribute newMax) {
 		EAttribute oldMax = max;
 		max = newMax;

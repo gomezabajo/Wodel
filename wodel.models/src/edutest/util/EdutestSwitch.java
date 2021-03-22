@@ -134,6 +134,13 @@ public class EdutestSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case EdutestPackage.MISSING_WORDS: {
+				MissingWords missingWords = (MissingWords)theEObject;
+				T result = caseMissingWords(missingWords);
+				if (result == null) result = caseMutatorTests(missingWords);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case EdutestPackage.TEST: {
 				Test test = (Test)theEObject;
 				T result = caseTest(test);
@@ -291,6 +298,21 @@ public class EdutestSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMatchPairs(MatchPairs object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Missing Words</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Missing Words</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMissingWords(MissingWords object) {
 		return null;
 	}
 

@@ -61,6 +61,7 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectEmitter getObjSel() {
 		if (objSel != null && objSel.eIsProxy()) {
 			InternalEObject oldObjSel = (InternalEObject)objSel;
@@ -87,6 +88,7 @@ public class SpecificObjectSelectionImpl extends SpecificSelectionImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObjSel(ObjectEmitter newObjSel) {
 		ObjectEmitter oldObjSel = objSel;
 		objSel = newObjSel;

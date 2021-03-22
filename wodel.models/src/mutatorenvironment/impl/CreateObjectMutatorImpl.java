@@ -93,6 +93,7 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getContainer() {
 		return container;
 	}
@@ -117,6 +118,7 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContainer(ObSelectionStrategy newContainer) {
 		if (newContainer != container) {
 			NotificationChain msgs = null;
@@ -136,6 +138,7 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeSet> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentEList<AttributeSet>(AttributeSet.class, this, MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__ATTRIBUTES);
@@ -148,6 +151,7 @@ public class CreateObjectMutatorImpl extends MutatorImpl implements CreateObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ReferenceSet> getReferences() {
 		if (references == null) {
 			references = new EObjectContainmentEList<ReferenceSet>(ReferenceSet.class, this, MutatorenvironmentPackage.CREATE_OBJECT_MUTATOR__REFERENCES);

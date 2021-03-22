@@ -62,6 +62,7 @@ public class AttributeScalarImpl extends AttributeSetImpl implements AttributeSc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeType getValue() {
 		return value;
 	}
@@ -86,6 +87,7 @@ public class AttributeScalarImpl extends AttributeSetImpl implements AttributeSc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(AttributeType newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;

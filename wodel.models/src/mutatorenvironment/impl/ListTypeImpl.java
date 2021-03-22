@@ -62,6 +62,7 @@ public class ListTypeImpl extends AttributeTypeImpl implements ListType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getValue() {
 		if (value == null) {
 			value = new EObjectResolvingEList<EObject>(EObject.class, this, MutatorenvironmentPackage.LIST_TYPE__VALUE);

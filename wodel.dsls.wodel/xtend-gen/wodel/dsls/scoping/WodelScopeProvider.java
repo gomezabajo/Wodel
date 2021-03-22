@@ -174,14 +174,12 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         String metamodel = _metamodel;
         String className = com.getReference().get(0).getEType().getName();
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
-        boolean _notEquals = (!Objects.equal(className, null));
-        if (_notEquals) {
+        if ((className != null)) {
           EObject _eContainer = com.eContainer();
           final List<Mutator> commands = this.getCommands(((Mutator) _eContainer));
           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
           EClass eclass = ModelManager.getEClassByName(packages, className);
-          boolean _equals = Objects.equal(eclass, null);
-          if (_equals) {
+          if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
           List<EClass> classes = new ArrayList<EClass>();
@@ -192,7 +190,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             classNames.add(cl.getName());
           }
           for (final Mutator mutator : commands) {
-            if (((((!Objects.equal(mutator.getName(), null)) && 
+            if (((((mutator.getName() != null) && 
               (commands.indexOf(mutator) < commands.indexOf(((Mutator) com.eContainer())))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
               classNames.contains(mutator.getType().getName()))) {
               scope.add(mutator);
@@ -225,8 +223,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         String metamodel = _metamodel;
         List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
         EClass eclass = ModelManager.getEClassByName(packages, com.getType().getName());
-        boolean _equals = Objects.equal(eclass, null);
-        if (_equals) {
+        if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
         final List<EClass> containers = this.getEContainers(metamodel, com.getType());
@@ -240,7 +237,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
-          if (((((!Objects.equal(mutator.getName(), null)) && 
+          if (((((mutator.getName() != null) && 
             (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
             scontainers.contains(mutator.getType().getName()))) {
             scope.add(mutator);
@@ -272,8 +269,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         String metamodel = _metamodel;
         List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
         EClass eclass = ModelManager.getEClassByName(packages, com.getType().getName());
-        boolean _equals = Objects.equal(eclass, null);
-        if (_equals) {
+        if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
         final List<EClass> containers = this.getEContainers(metamodel, com.getType());
@@ -283,7 +279,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
-          if (((((!Objects.equal(mutator.getName(), null)) && 
+          if (((((mutator.getName() != null) && 
             (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
             scontainers.contains(mutator.getType().getName()))) {
             scope.add(mutator);
@@ -315,8 +311,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         String metamodel = _metamodel;
         List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
         EClass eclass = ModelManager.getEClassByName(packages, com.getType().getName());
-        boolean _equals = Objects.equal(eclass, null);
-        if (_equals) {
+        if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
         final List<EClass> containers = this.getEContainers(metamodel, com.getType());
@@ -330,7 +325,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
-          if (((((!Objects.equal(mutator.getName(), null)) && 
+          if (((((mutator.getName() != null) && 
             (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
             scontainers.contains(mutator.getType().getName()))) {
             scope.add(mutator);
@@ -362,8 +357,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         String metamodel = _metamodel;
         List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
         EClass eclass = ModelManager.getEClassByName(packages, com.getType().getName());
-        boolean _equals = Objects.equal(eclass, null);
-        if (_equals) {
+        if ((eclass == null)) {
           metamodel = this.getMetamodel(definition, com.getType().getName());
         }
         final List<EClass> containers = this.getEContainers(metamodel, com.getType());
@@ -373,7 +367,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
         final ArrayList<Mutator> scope = new ArrayList<Mutator>();
         for (final Mutator mutator : commands) {
-          if (((((!Objects.equal(mutator.getName(), null)) && 
+          if (((((mutator.getName() != null) && 
             (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
             scontainers.contains(mutator.getType().getName()))) {
             scope.add(mutator);
@@ -436,18 +430,17 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           final ModifyTargetReferenceMutator mutator = ((ModifyTargetReferenceMutator) _eContainer_1);
           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
           EClass eclass = ModelManager.getEClassByName(packages, mutator.getRefType().getName());
-          boolean _equals = Objects.equal(eclass, null);
-          if (_equals) {
+          if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, com.getType().getName());
           }
           ObSelectionStrategy _source = mutator.getSource();
-          boolean _equals_1 = Objects.equal(_source, com);
-          if (_equals_1) {
+          boolean _equals = Objects.equal(_source, com);
+          if (_equals) {
             scope.addAll(this.getESources(metamodel, mutator.getRefType().getName()));
           } else {
             ObSelectionStrategy _newTarget = mutator.getNewTarget();
-            boolean _equals_2 = Objects.equal(_newTarget, com);
-            if (_equals_2) {
+            boolean _equals_1 = Objects.equal(_newTarget, com);
+            if (_equals_1) {
               scope.addAll(this.getETargets(metamodel, mutator.getRefType().getName()));
             }
           }
@@ -458,18 +451,17 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             final CreateReferenceMutator mutator_1 = ((CreateReferenceMutator) _eContainer_3);
             List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
             EClass eclass_1 = ModelManager.getEClassByName(packages_1, mutator_1.getRefType().getName());
-            boolean _equals_3 = Objects.equal(eclass_1, null);
-            if (_equals_3) {
+            if ((eclass_1 == null)) {
               metamodel = this.getMetamodel(definition, com.getType().getName());
             }
             ObSelectionStrategy _source_1 = mutator_1.getSource();
-            boolean _equals_4 = Objects.equal(_source_1, com);
-            if (_equals_4) {
+            boolean _equals_2 = Objects.equal(_source_1, com);
+            if (_equals_2) {
               scope.addAll(this.getESources(metamodel, mutator_1.getRefType().getName()));
             } else {
               ObSelectionStrategy _target = mutator_1.getTarget();
-              boolean _equals_5 = Objects.equal(_target, com);
-              if (_equals_5) {
+              boolean _equals_3 = Objects.equal(_target, com);
+              if (_equals_3) {
                 scope.addAll(this.getETargets(metamodel, mutator_1.getRefType().getName()));
               }
             }
@@ -530,7 +522,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 scontainers.add(cl.getName());
               }
               for (final Mutator c : commands) {
-                if (((((!Objects.equal(c.getName(), null)) && 
+                if (((((c.getName() != null) && 
                   (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                   scontainers.contains(c.getType().getName()))) {
                   scope.add(c);
@@ -552,7 +544,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   scontainments.add(cl.getName());
                 }
                 for (final Mutator c : commands) {
-                  if (((((!Objects.equal(c.getName(), null)) && 
+                  if (((((c.getName() != null) && 
                     (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                     scontainments.contains(c.getType().getName()))) {
                     scope.add(c);
@@ -588,7 +580,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   scontainers.add(cl.getName());
                 }
                 for (final Mutator c : commands) {
-                  if (((((!Objects.equal(c.getName(), null)) && 
+                  if (((((c.getName() != null) && 
                     (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                     scontainers.contains(c.getType().getName()))) {
                     scope.add(c);
@@ -610,7 +602,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                     scontainments.add(cl.getName());
                   }
                   for (final Mutator c : commands) {
-                    if (((((!Objects.equal(c.getName(), null)) && 
+                    if (((((c.getName() != null) && 
                       (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                       scontainments.contains(c.getType().getName()))) {
                       scope.add(c);
@@ -662,7 +654,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 scontainers.add(cl.getName());
               }
               for (final Mutator c : commands) {
-                if (((((!Objects.equal(c.getName(), null)) && 
+                if (((((c.getName() != null) && 
                   (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                   scontainers.contains(c.getType().getName()))) {
                   scope.add(c);
@@ -684,7 +676,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   scontainments.add(cl.getName());
                 }
                 for (final Mutator c : commands) {
-                  if (((((!Objects.equal(c.getName(), null)) && 
+                  if (((((c.getName() != null) && 
                     (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                     scontainments.contains(c.getType().getName()))) {
                     scope.add(c);
@@ -720,7 +712,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   scontainers.add(cl.getName());
                 }
                 for (final Mutator c : commands) {
-                  if (((((!Objects.equal(c.getName(), null)) && 
+                  if (((((c.getName() != null) && 
                     (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                     scontainers.contains(c.getType().getName()))) {
                     scope.add(c);
@@ -742,7 +734,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                     scontainments.add(cl.getName());
                   }
                   for (final Mutator c : commands) {
-                    if (((((!Objects.equal(c.getName(), null)) && 
+                    if (((((c.getName() != null) && 
                       (commands.indexOf(c) < commands.indexOf(mutator))) && ((((((c instanceof CreateObjectMutator) || (c instanceof SelectObjectMutator)) || (c instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                       scontainments.contains(c.getType().getName()))) {
                       scope.add(c);
@@ -1741,11 +1733,10 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final List<EReference> scope = new ArrayList<EReference>();
       EObject container = refEv.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
-      boolean _notEquals = (!Objects.equal(container, null));
-      if (_notEquals) {
+      if ((container != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
         final Definition definition = env.getDefinition();
         ObSelectionStrategy _value = refEv.getValue();
@@ -1831,11 +1822,10 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final List<EReference> scope = new ArrayList<EReference>();
       EObject container = refEv.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
-      boolean _notEquals = (!Objects.equal(container, null));
-      if (_notEquals) {
+      if ((container != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
         final Definition definition = env.getDefinition();
         scope.addAll(this.getEReferences(definition.getMetamodel(), refEv.getValue().getRefType().getEType().getName()));
@@ -1854,11 +1844,10 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final List<EReference> scope = new ArrayList<EReference>();
       EObject container = refEv.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
-      boolean _notEquals = (!Objects.equal(container, null));
-      if (_notEquals) {
+      if ((container != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(((Mutator) container));
         final Definition definition = env.getDefinition();
         scope.addAll(this.getEReferences(definition.getMetamodel(), refEv.getValue().getRefRefType().getEType().getName()));
@@ -1908,8 +1897,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             sourceClassName = ((SelectObjectMutator) _objSel_2).getObject().getType().getName();
             ObjectEmitter _objSel_3 = selection.getObjSel();
             String _resource = ((SelectObjectMutator) _objSel_3).getObject().getResource();
-            boolean _notEquals = (!Objects.equal(_resource, null));
-            if (_notEquals) {
+            boolean _tripleNotEquals = (_resource != null);
+            if (_tripleNotEquals) {
               ObjectEmitter _objSel_4 = selection.getObjSel();
               final String resourceName = ((SelectObjectMutator) _objSel_4).getObject().getResource();
               if ((definition instanceof Program)) {
@@ -1922,8 +1911,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                     resource = res;
                   }
                 }
-                boolean _notEquals_1 = (!Objects.equal(resource, null));
-                if (_notEquals_1) {
+                if ((resource != null)) {
                   metamodel = resource.getMetamodel();
                 }
               }
@@ -2718,7 +2706,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         scontainers.add(cl.getName());
       }
       for (final Mutator mutator : commands) {
-        if (((((!Objects.equal(mutator.getName(), null)) && 
+        if (((((mutator.getName() != null) && 
           (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
           scontainers.contains(mutator.getType().getName()))) {
           scope.add(mutator);
@@ -2746,7 +2734,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         scontainers.add(cl.getName());
       }
       for (final Mutator mutator : commands) {
-        if (((((!Objects.equal(mutator.getName(), null)) && 
+        if (((((mutator.getName() != null) && 
           (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
           scontainers.contains(mutator.getType().getName()))) {
           scope.add(mutator);
@@ -2995,7 +2983,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             {
               final List<Mutator> objects = new ArrayList<Mutator>();
               for (final Mutator mutator : commands) {
-                if (((((!Objects.equal(mutator.getName(), null)) && 
+                if (((((mutator.getName() != null) && 
                   (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                   sclasses.contains(mutator.getType().getName()))) {
                   objects.add(mutator);
@@ -3037,7 +3025,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             {
               final List<Mutator> objects = new ArrayList<Mutator>();
               for (final Mutator mutator : commands) {
-                if (((((!Objects.equal(mutator.getName(), null)) && 
+                if (((((mutator.getName() != null) && 
                   (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                   sclasses_1.contains(mutator.getType().getName()))) {
                   objects.add(mutator);
@@ -3088,7 +3076,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             {
               final List<Mutator> objects = new ArrayList<Mutator>();
               for (final Mutator mutator : commands) {
-                if (((((!Objects.equal(mutator.getName(), null)) && 
+                if (((((mutator.getName() != null) && 
                   (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                   sclasses.contains(mutator.getType().getName()))) {
                   objects.add(mutator);
@@ -3130,7 +3118,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             {
               final List<Mutator> objects = new ArrayList<Mutator>();
               for (final Mutator mutator : commands) {
-                if (((((!Objects.equal(mutator.getName(), null)) && 
+                if (((((mutator.getName() != null) && 
                   (commands.indexOf(mutator) < commands.indexOf(com))) && ((((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof SelectSampleMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                   sclasses_1.contains(mutator.getType().getName()))) {
                   objects.add(mutator);
@@ -3454,7 +3442,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
             final List<Mutator> objects = new ArrayList<Mutator>();
             for (final Mutator mutator : commands) {
-              if (((((!Objects.equal(mutator.getName(), null)) && 
+              if (((((mutator.getName() != null) && 
                 (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                 scontainers.contains(mutator.getType().getName()))) {
                 objects.add(mutator);
@@ -3494,7 +3482,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
             final List<Mutator> objects_1 = new ArrayList<Mutator>();
             for (final Mutator mutator_1 : commands) {
-              if (((((!Objects.equal(mutator_1.getName(), null)) && 
+              if (((((mutator_1.getName() != null) && 
                 (commands.indexOf(mutator_1) < commands.indexOf(com))) && (((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator)) || (mutator_1 instanceof RetypeObjectMutator))) && 
                 scontainers_1.contains(mutator_1.getType().getName()))) {
                 objects_1.add(mutator_1);
@@ -3543,7 +3531,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
             final List<Mutator> objects = new ArrayList<Mutator>();
             for (final Mutator mutator : commands) {
-              if (((((!Objects.equal(mutator.getName(), null)) && 
+              if (((((mutator.getName() != null) && 
                 (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
                 scontainers.contains(mutator.getType().getName()))) {
                 objects.add(mutator);
@@ -3583,7 +3571,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
             final List<Mutator> objects_1 = new ArrayList<Mutator>();
             for (final Mutator mutator_1 : commands) {
-              if (((((!Objects.equal(mutator_1.getName(), null)) && 
+              if (((((mutator_1.getName() != null) && 
                 (commands.indexOf(mutator_1) < commands.indexOf(com))) && (((((mutator_1 instanceof CreateObjectMutator) || (mutator_1 instanceof SelectObjectMutator)) || (mutator_1 instanceof ModifyInformationMutator)) || (mutator_1 instanceof CloneObjectMutator)) || (mutator_1 instanceof RetypeObjectMutator))) && 
                 scontainers_1.contains(mutator_1.getType().getName()))) {
                 objects_1.add(mutator_1);
@@ -3638,8 +3626,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                       className = strategy.getType().getName();
                       List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                       EClass eclass = ModelManager.getEClassByName(packages, className);
-                      boolean _equals = Objects.equal(eclass, null);
-                      if (_equals) {
+                      if ((eclass == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
                       attributes.addAll(this.getEAttributes(metamodel, className));
@@ -3663,8 +3650,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                       className = strategy_1.getType().getName();
                       List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                       EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
-                      boolean _equals_1 = Objects.equal(eclass_1, null);
-                      if (_equals_1) {
+                      if ((eclass_1 == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
                       attributes.addAll(this.getEAttributes(metamodel, className));
@@ -3717,8 +3703,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObSelectionStrategy _object_1 = com.getObject();
           final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
           Mutator command = this.getCommand(name, commands, commands.indexOf(com));
-          boolean _notEquals = (!Objects.equal(command, null));
-          if (_notEquals) {
+          if ((command != null)) {
             scope.addAll(this.getEAttributes(metamodel, this.getType(command)));
             String className = "";
             int _size = com.getAttributes().size();
@@ -3743,8 +3728,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                           className = strategy.getType().getName();
                           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                           EClass eclass = ModelManager.getEClassByName(packages, className);
-                          boolean _equals = Objects.equal(eclass, null);
-                          if (_equals) {
+                          if ((eclass == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
                           scope.addAll(this.getEAttributes(metamodel, className));
@@ -3768,8 +3752,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                           className = strategy_1.getType().getName();
                           List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                           EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
-                          boolean _equals_1 = Objects.equal(eclass_1, null);
-                          if (_equals_1) {
+                          if ((eclass_1 == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
                           scope.addAll(this.getEAttributes(metamodel, className));
@@ -3787,8 +3770,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObSelectionStrategy _object_3 = com.getObject();
             final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
             Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
-            boolean _notEquals_1 = (!Objects.equal(command_1, null));
-            if (_notEquals_1) {
+            if ((command_1 != null)) {
               scope.addAll(this.getEAttributes(metamodel, this.getType(command_1)));
               String className_1 = "";
               int _size_1 = com.getAttributes().size();
@@ -3813,8 +3795,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_1 = strategy.getType().getName();
                             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                             EClass eclass = ModelManager.getEClassByName(packages, className_1);
-                            boolean _equals = Objects.equal(eclass, null);
-                            if (_equals) {
+                            if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_1));
@@ -3838,8 +3819,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_1 = strategy_1.getType().getName();
                             List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                             EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_1);
-                            boolean _equals_1 = Objects.equal(eclass_1, null);
-                            if (_equals_1) {
+                            if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_1));
@@ -3880,8 +3860,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_2 = strategy.getType().getName();
                             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                             EClass eclass = ModelManager.getEClassByName(packages, className_2);
-                            boolean _equals = Objects.equal(eclass, null);
-                            if (_equals) {
+                            if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_2));
@@ -3905,8 +3884,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_2 = strategy_1.getType().getName();
                             List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                             EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_2);
-                            boolean _equals_1 = Objects.equal(eclass_1, null);
-                            if (_equals_1) {
+                            if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_2));
@@ -3946,8 +3924,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                               className_3 = strategy.getType().getName();
                               List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                               EClass eclass = ModelManager.getEClassByName(packages, className_3);
-                              boolean _equals = Objects.equal(eclass, null);
-                              if (_equals) {
+                              if ((eclass == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
                               scope.addAll(this.getEAttributes(metamodel, className_3));
@@ -3971,8 +3948,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                               className_3 = strategy_1.getType().getName();
                               List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                               EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_3);
-                              boolean _equals_1 = Objects.equal(eclass_1, null);
-                              if (_equals_1) {
+                              if ((eclass_1 == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
                               scope.addAll(this.getEAttributes(metamodel, className_3));
@@ -4013,8 +3989,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                                   className_4 = strategy.getType().getName();
                                   List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                                   EClass eclass = ModelManager.getEClassByName(packages, className_4);
-                                  boolean _equals = Objects.equal(eclass, null);
-                                  if (_equals) {
+                                  if ((eclass == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
                                   scope.addAll(this.getEAttributes(metamodel, className_4));
@@ -4038,8 +4013,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                                   className_4 = strategy_1.getType().getName();
                                   List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                                   EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_4);
-                                  boolean _equals_1 = Objects.equal(eclass_1, null);
-                                  if (_equals_1) {
+                                  if ((eclass_1 == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
                                   scope.addAll(this.getEAttributes(metamodel, className_4));
@@ -4079,8 +4053,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         ObSelectionStrategy _object_1 = com.getObject();
         final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
         Mutator command = this.getCommand(name, commands, commands.indexOf(com));
-        boolean _notEquals = (!Objects.equal(command, null));
-        if (_notEquals) {
+        if ((command != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -4093,8 +4066,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObSelectionStrategy _object_3 = com.getObject();
           final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
           Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
-          boolean _notEquals_1 = (!Objects.equal(command_1, null));
-          if (_notEquals_1) {
+          if ((command_1 != null)) {
             String _metamodel_1 = null;
             if (definition!=null) {
               _metamodel_1=definition.getMetamodel();
@@ -4150,8 +4122,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObSelectionStrategy _object_1 = com.getObject();
           final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
           Mutator command = this.getCommand(name, commands, commands.indexOf(com));
-          boolean _notEquals = (!Objects.equal(command, null));
-          if (_notEquals) {
+          if ((command != null)) {
             scope.addAll(this.getEAttributes(metamodel, this.getType(command)));
             String className = "";
             int _size = com.getAttributes().size();
@@ -4176,8 +4147,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                           className = strategy.getType().getName();
                           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                           EClass eclass = ModelManager.getEClassByName(packages, className);
-                          boolean _equals = Objects.equal(eclass, null);
-                          if (_equals) {
+                          if ((eclass == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
                           scope.addAll(this.getEAttributes(metamodel, className));
@@ -4201,8 +4171,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                           className = strategy_1.getType().getName();
                           List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                           EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
-                          boolean _equals_1 = Objects.equal(eclass_1, null);
-                          if (_equals_1) {
+                          if ((eclass_1 == null)) {
                             metamodel = this.getMetamodel(definition, className);
                           }
                           scope.addAll(this.getEAttributes(metamodel, className));
@@ -4220,8 +4189,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             ObSelectionStrategy _object_3 = com.getObject();
             final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
             Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
-            boolean _notEquals_1 = (!Objects.equal(command_1, null));
-            if (_notEquals_1) {
+            if ((command_1 != null)) {
               scope.addAll(this.getEAttributes(metamodel, this.getType(command_1)));
               String className_1 = "";
               int _size_1 = com.getAttributes().size();
@@ -4246,8 +4214,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_1 = strategy.getType().getName();
                             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                             EClass eclass = ModelManager.getEClassByName(packages, className_1);
-                            boolean _equals = Objects.equal(eclass, null);
-                            if (_equals) {
+                            if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_1));
@@ -4271,8 +4238,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_1 = strategy_1.getType().getName();
                             List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                             EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_1);
-                            boolean _equals_1 = Objects.equal(eclass_1, null);
-                            if (_equals_1) {
+                            if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_1);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_1));
@@ -4313,8 +4279,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_2 = strategy.getType().getName();
                             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                             EClass eclass = ModelManager.getEClassByName(packages, className_2);
-                            boolean _equals = Objects.equal(eclass, null);
-                            if (_equals) {
+                            if ((eclass == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_2));
@@ -4338,8 +4303,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                             className_2 = strategy_1.getType().getName();
                             List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                             EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_2);
-                            boolean _equals_1 = Objects.equal(eclass_1, null);
-                            if (_equals_1) {
+                            if ((eclass_1 == null)) {
                               metamodel = this.getMetamodel(definition, className_2);
                             }
                             scope.addAll(this.getEAttributes(metamodel, className_2));
@@ -4379,8 +4343,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                               className_3 = strategy.getType().getName();
                               List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                               EClass eclass = ModelManager.getEClassByName(packages, className_3);
-                              boolean _equals = Objects.equal(eclass, null);
-                              if (_equals) {
+                              if ((eclass == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
                               scope.addAll(this.getEAttributes(metamodel, className_3));
@@ -4404,8 +4367,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                               className_3 = strategy_1.getType().getName();
                               List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                               EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_3);
-                              boolean _equals_1 = Objects.equal(eclass_1, null);
-                              if (_equals_1) {
+                              if ((eclass_1 == null)) {
                                 metamodel = this.getMetamodel(definition, className_3);
                               }
                               scope.addAll(this.getEAttributes(metamodel, className_3));
@@ -4446,8 +4408,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                                   className_4 = strategy.getType().getName();
                                   List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                                   EClass eclass = ModelManager.getEClassByName(packages, className_4);
-                                  boolean _equals = Objects.equal(eclass, null);
-                                  if (_equals) {
+                                  if ((eclass == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
                                   scope.addAll(this.getEAttributes(metamodel, className_4));
@@ -4471,8 +4432,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                                   className_4 = strategy_1.getType().getName();
                                   List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                                   EClass eclass_1 = ModelManager.getEClassByName(packages_1, className_4);
-                                  boolean _equals_1 = Objects.equal(eclass_1, null);
-                                  if (_equals_1) {
+                                  if ((eclass_1 == null)) {
                                     metamodel = this.getMetamodel(definition, className_4);
                                   }
                                   scope.addAll(this.getEAttributes(metamodel, className_4));
@@ -4512,8 +4472,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         ObSelectionStrategy _object_1 = com.getObject();
         final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
         Mutator command = this.getCommand(name, commands, commands.indexOf(com));
-        boolean _notEquals = (!Objects.equal(command, null));
-        if (_notEquals) {
+        if ((command != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -4526,8 +4485,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObSelectionStrategy _object_3 = com.getObject();
           final String name_1 = ((SpecificObjectSelection) _object_3).getObjSel().getName();
           Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
-          boolean _notEquals_1 = (!Objects.equal(command_1, null));
-          if (_notEquals_1) {
+          if ((command_1 != null)) {
             String _metamodel_1 = null;
             if (definition!=null) {
               _metamodel_1=definition.getMetamodel();
@@ -4601,8 +4559,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                       className = strategy.getType().getName();
                       List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
                       EClass eclass = ModelManager.getEClassByName(packages, className);
-                      boolean _equals = Objects.equal(eclass, null);
-                      if (_equals) {
+                      if ((eclass == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
                       scope.addAll(this.getEAttributes(metamodel, className));
@@ -4626,8 +4583,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                       className = strategy_1.getType().getName();
                       List<EPackage> packages_1 = ModelManager.loadMetaModel(metamodel);
                       EClass eclass_1 = ModelManager.getEClassByName(packages_1, className);
-                      boolean _equals_1 = Objects.equal(eclass_1, null);
-                      if (_equals_1) {
+                      if ((eclass_1 == null)) {
                         metamodel = this.getMetamodel(definition, className);
                       }
                       scope.addAll(this.getEAttributes(metamodel, className));
@@ -4670,8 +4626,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
         final List<Mutator> commands = this.getCommands(currentMutator);
@@ -4712,8 +4667,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           objectName = _name_2;
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-        boolean _notEquals_1 = (!Objects.equal(command, null));
-        if (_notEquals_1) {
+        if ((command != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -4735,14 +4689,13 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
         final List<Mutator> commands = this.getCommands(currentMutator);
         ObSelectionStrategy _object = com.getObject();
-        boolean _equals = Objects.equal(_object, null);
-        if (_equals) {
+        boolean _tripleEquals = (_object == null);
+        if (_tripleEquals) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -4786,8 +4739,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           objectName = _name_2;
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-        boolean _notEquals_1 = (!Objects.equal(command, null));
-        if (_notEquals_1) {
+        if ((command != null)) {
           String _metamodel_1 = null;
           if (definition!=null) {
             _metamodel_1=definition.getMetamodel();
@@ -4809,8 +4761,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       ArrayList<EAttribute> atts = new ArrayList<EAttribute>();
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         String className = com.getReference().get(0).getEType().getName();
         String _metamodel = null;
@@ -4831,8 +4782,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
         final List<Mutator> commands = this.getCommands(currentMutator);
@@ -4873,8 +4823,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           objectName = _name_2;
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-        boolean _notEquals_1 = (!Objects.equal(command, null));
-        if (_notEquals_1) {
+        if ((command != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -4895,8 +4844,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
         final List<Mutator> commands = this.getCommands(currentMutator);
@@ -4937,8 +4885,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           objectName = _name_2;
         }
         Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-        boolean _notEquals_1 = (!Objects.equal(command, null));
-        if (_notEquals_1) {
+        if ((command != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -4961,8 +4908,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -4979,8 +4925,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -5007,8 +4952,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -5025,8 +4969,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -5052,8 +4995,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -5087,8 +5029,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       IScope _xblockexpression = null;
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
           final List<Mutator> commands = this.getCommands(currentMutator);
@@ -5099,8 +5040,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           String metamodel = _metamodel;
           String className = "";
           EReference _refType = com.getRefType();
-          boolean _equals = Objects.equal(_refType, null);
-          if (_equals) {
+          boolean _tripleEquals = (_refType == null);
+          if (_tripleEquals) {
             ObjectEmitter _objSel = com.getObjSel();
             String _name = null;
             if (_objSel!=null) {
@@ -5108,8 +5049,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
             final String objectName = _name;
             Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-            boolean _notEquals_1 = (!Objects.equal(command, null));
-            if (_notEquals_1) {
+            if ((command != null)) {
               className = this.getType(command);
             }
           } else {
@@ -5117,8 +5057,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           }
           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
           EClass eclass = ModelManager.getEClassByName(packages, className);
-          boolean _equals_1 = Objects.equal(eclass, null);
-          if (_equals_1) {
+          if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
           return Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -5139,14 +5078,13 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
         final List<Mutator> commands = this.getCommands(currentMutator);
         EReference _refType = com.getRefType();
-        boolean _equals = Objects.equal(_refType, null);
-        if (_equals) {
+        boolean _tripleEquals = (_refType == null);
+        if (_tripleEquals) {
           ObjectEmitter _objSel = com.getObjSel();
           String _name = null;
           if (_objSel!=null) {
@@ -5154,8 +5092,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           }
           final String objectName = _name;
           Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-          boolean _notEquals_1 = (!Objects.equal(command, null));
-          if (_notEquals_1) {
+          if ((command != null)) {
             String _metamodel = null;
             if (definition!=null) {
               _metamodel=definition.getMetamodel();
@@ -5184,8 +5121,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -5220,8 +5156,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -5238,8 +5173,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
@@ -5266,8 +5200,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -5284,8 +5217,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
@@ -5311,8 +5243,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -5346,8 +5277,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       IScope _xblockexpression = null;
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           final Definition definition = env.getDefinition();
           String _metamodel = null;
           if (definition!=null) {
@@ -5356,8 +5286,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           String metamodel = _metamodel;
           String className = "";
           EReference _refType = com.getRefType();
-          boolean _equals = Objects.equal(_refType, null);
-          if (_equals) {
+          boolean _tripleEquals = (_refType == null);
+          if (_tripleEquals) {
             final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
             final List<Mutator> commands = this.getCommands(currentMutator);
             ObjectEmitter _objSel = com.getObjSel();
@@ -5367,8 +5297,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
             final String objectName = _name;
             Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-            boolean _notEquals_1 = (!Objects.equal(command, null));
-            if (_notEquals_1) {
+            if ((command != null)) {
               className = this.getType(command);
             }
           } else {
@@ -5376,8 +5305,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           }
           List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
           EClass eclass = ModelManager.getEClassByName(packages, className);
-          boolean _equals_1 = Objects.equal(eclass, null);
-          if (_equals_1) {
+          if ((eclass == null)) {
             metamodel = this.getMetamodel(definition, className);
           }
           return Scopes.scopeFor(this.getEAttributes(metamodel, className));
@@ -5398,12 +5326,11 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         final Definition definition = env.getDefinition();
         EReference _refType = com.getRefType();
-        boolean _equals = Objects.equal(_refType, null);
-        if (_equals) {
+        boolean _tripleEquals = (_refType == null);
+        if (_tripleEquals) {
           final Mutator currentMutator = EcoreUtil2.<Mutator>getContainerOfType(com, Mutator.class);
           final List<Mutator> commands = this.getCommands(currentMutator);
           ObjectEmitter _objSel = com.getObjSel();
@@ -5413,8 +5340,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           }
           final String objectName = _name;
           Mutator command = this.getCommand(objectName, commands, commands.indexOf(currentMutator));
-          boolean _notEquals_1 = (!Objects.equal(command, null));
-          if (_notEquals_1) {
+          if ((command != null)) {
             String _metamodel = null;
             if (definition!=null) {
               _metamodel=definition.getMetamodel();
@@ -5443,8 +5369,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -5485,8 +5410,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         ObSelectionStrategy _object_1 = com.getObject();
         final String name = ((SpecificObjectSelection) _object_1).getObjSel().getName();
         Mutator command = this.getCommand(name, commands, commands.indexOf(com));
-        boolean _notEquals = (!Objects.equal(command, null));
-        if (_notEquals) {
+        if ((command != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -5499,8 +5423,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObSelectionStrategy _object_3 = com.getObject();
           final String name_1 = ((SpecificClosureSelection) _object_3).getObjSel().getName();
           Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(com));
-          boolean _notEquals_1 = (!Objects.equal(command_1, null));
-          if (_notEquals_1) {
+          if ((command_1 != null)) {
             String _metamodel_1 = null;
             if (definition!=null) {
               _metamodel_1=definition.getMetamodel();
@@ -5555,33 +5478,31 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           mut = com.eContainer();
         }
       }
-      boolean _notEquals = (!Objects.equal(mut, null));
-      if (_notEquals) {
+      if ((mut != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         final Definition definition = env.getDefinition();
         final List<Mutator> commands = this.getCommands(((Mutator) mut));
         Expression _expression = com.getExpression();
-        boolean _notEquals_1 = (!Objects.equal(_expression, null));
-        if (_notEquals_1) {
+        boolean _tripleNotEquals = (_expression != null);
+        if (_tripleNotEquals) {
           final Expression exp = com.getExpression();
           Evaluation _first = exp.getFirst();
           if ((_first instanceof ReferenceEvaluation)) {
             Evaluation _first_1 = exp.getFirst();
             final ReferenceEvaluation first = ((ReferenceEvaluation) _first_1);
             ObSelectionStrategy _value = first.getValue();
-            boolean _notEquals_2 = (!Objects.equal(_value, null));
-            if (_notEquals_2) {
+            boolean _tripleNotEquals_1 = (_value != null);
+            if (_tripleNotEquals_1) {
               ObSelectionStrategy _value_1 = first.getValue();
               if ((_value_1 instanceof SpecificObjectSelection)) {
                 ObSelectionStrategy _value_2 = first.getValue();
                 ObjectEmitter _objSel = ((SpecificObjectSelection) _value_2).getObjSel();
-                boolean _notEquals_3 = (!Objects.equal(_objSel, null));
-                if (_notEquals_3) {
+                boolean _tripleNotEquals_2 = (_objSel != null);
+                if (_tripleNotEquals_2) {
                   ObSelectionStrategy _value_3 = first.getValue();
                   final String name = ((SpecificObjectSelection) _value_3).getObjSel().getName();
                   Mutator command = this.getCommand(name, commands, commands.indexOf(mut));
-                  boolean _notEquals_4 = (!Objects.equal(command, null));
-                  if (_notEquals_4) {
+                  if ((command != null)) {
                     String _metamodel = null;
                     if (definition!=null) {
                       _metamodel=definition.getMetamodel();
@@ -5598,13 +5519,12 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if ((_value_4 instanceof SpecificObjectSelection)) {
                   ObSelectionStrategy _value_5 = ((ReferenceEvaluation)second).getValue();
                   ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _value_5).getObjSel();
-                  boolean _notEquals_5 = (!Objects.equal(_objSel_1, null));
-                  if (_notEquals_5) {
+                  boolean _tripleNotEquals_3 = (_objSel_1 != null);
+                  if (_tripleNotEquals_3) {
                     ObSelectionStrategy _value_6 = ((ReferenceEvaluation)second).getValue();
                     final String name_1 = ((SpecificObjectSelection) _value_6).getObjSel().getName();
                     Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(mut));
-                    boolean _notEquals_6 = (!Objects.equal(command_1, null));
-                    if (_notEquals_6) {
+                    if ((command_1 != null)) {
                       String _metamodel_1 = null;
                       if (definition!=null) {
                         _metamodel_1=definition.getMetamodel();
@@ -5643,33 +5563,31 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           mut = com.eContainer();
         }
       }
-      boolean _notEquals = (!Objects.equal(mut, null));
-      if (_notEquals) {
+      if ((mut != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         final Definition definition = env.getDefinition();
         final List<Mutator> commands = this.getCommands(((Mutator) mut));
         Expression _expression = com.getExpression();
-        boolean _notEquals_1 = (!Objects.equal(_expression, null));
-        if (_notEquals_1) {
+        boolean _tripleNotEquals = (_expression != null);
+        if (_tripleNotEquals) {
           final Expression exp = com.getExpression();
           Evaluation _first = exp.getFirst();
           if ((_first instanceof ReferenceEvaluation)) {
             Evaluation _first_1 = exp.getFirst();
             final ReferenceEvaluation first = ((ReferenceEvaluation) _first_1);
             ObSelectionStrategy _value = first.getValue();
-            boolean _notEquals_2 = (!Objects.equal(_value, null));
-            if (_notEquals_2) {
+            boolean _tripleNotEquals_1 = (_value != null);
+            if (_tripleNotEquals_1) {
               ObSelectionStrategy _value_1 = first.getValue();
               if ((_value_1 instanceof SpecificObjectSelection)) {
                 ObSelectionStrategy _value_2 = first.getValue();
                 ObjectEmitter _objSel = ((SpecificObjectSelection) _value_2).getObjSel();
-                boolean _notEquals_3 = (!Objects.equal(_objSel, null));
-                if (_notEquals_3) {
+                boolean _tripleNotEquals_2 = (_objSel != null);
+                if (_tripleNotEquals_2) {
                   ObSelectionStrategy _value_3 = first.getValue();
                   final String name = ((SpecificObjectSelection) _value_3).getObjSel().getName();
                   Mutator command = this.getCommand(name, commands, commands.indexOf(mut));
-                  boolean _notEquals_4 = (!Objects.equal(command, null));
-                  if (_notEquals_4) {
+                  if ((command != null)) {
                     String _metamodel = null;
                     if (definition!=null) {
                       _metamodel=definition.getMetamodel();
@@ -5686,13 +5604,12 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if ((_value_4 instanceof SpecificObjectSelection)) {
                   ObSelectionStrategy _value_5 = ((ReferenceEvaluation)second).getValue();
                   ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _value_5).getObjSel();
-                  boolean _notEquals_5 = (!Objects.equal(_objSel_1, null));
-                  if (_notEquals_5) {
+                  boolean _tripleNotEquals_3 = (_objSel_1 != null);
+                  if (_tripleNotEquals_3) {
                     ObSelectionStrategy _value_6 = ((ReferenceEvaluation)second).getValue();
                     final String name_1 = ((SpecificObjectSelection) _value_6).getObjSel().getName();
                     Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(mut));
-                    boolean _notEquals_6 = (!Objects.equal(command_1, null));
-                    if (_notEquals_6) {
+                    if ((command_1 != null)) {
                       String _metamodel_1 = null;
                       if (definition!=null) {
                         _metamodel_1=definition.getMetamodel();
@@ -5731,33 +5648,31 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           mut = com.eContainer();
         }
       }
-      boolean _notEquals = (!Objects.equal(mut, null));
-      if (_notEquals) {
+      if ((mut != null)) {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         final Definition definition = env.getDefinition();
         final List<Mutator> commands = this.getCommands(((Mutator) mut));
         Expression _expression = com.getExpression();
-        boolean _notEquals_1 = (!Objects.equal(_expression, null));
-        if (_notEquals_1) {
+        boolean _tripleNotEquals = (_expression != null);
+        if (_tripleNotEquals) {
           final Expression exp = com.getExpression();
           Evaluation _first = exp.getFirst();
           if ((_first instanceof ReferenceEvaluation)) {
             Evaluation _first_1 = exp.getFirst();
             final ReferenceEvaluation first = ((ReferenceEvaluation) _first_1);
             ObSelectionStrategy _value = first.getValue();
-            boolean _notEquals_2 = (!Objects.equal(_value, null));
-            if (_notEquals_2) {
+            boolean _tripleNotEquals_1 = (_value != null);
+            if (_tripleNotEquals_1) {
               ObSelectionStrategy _value_1 = first.getValue();
               if ((_value_1 instanceof SpecificObjectSelection)) {
                 ObSelectionStrategy _value_2 = first.getValue();
                 ObjectEmitter _objSel = ((SpecificObjectSelection) _value_2).getObjSel();
-                boolean _notEquals_3 = (!Objects.equal(_objSel, null));
-                if (_notEquals_3) {
+                boolean _tripleNotEquals_2 = (_objSel != null);
+                if (_tripleNotEquals_2) {
                   ObSelectionStrategy _value_3 = first.getValue();
                   final String name = ((SpecificObjectSelection) _value_3).getObjSel().getName();
                   Mutator command = this.getCommand(name, commands, commands.indexOf(mut));
-                  boolean _notEquals_4 = (!Objects.equal(command, null));
-                  if (_notEquals_4) {
+                  if ((command != null)) {
                     String _metamodel = null;
                     if (definition!=null) {
                       _metamodel=definition.getMetamodel();
@@ -5774,13 +5689,12 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                 if ((_value_4 instanceof SpecificObjectSelection)) {
                   ObSelectionStrategy _value_5 = ((ReferenceEvaluation)second).getValue();
                   ObjectEmitter _objSel_1 = ((SpecificObjectSelection) _value_5).getObjSel();
-                  boolean _notEquals_5 = (!Objects.equal(_objSel_1, null));
-                  if (_notEquals_5) {
+                  boolean _tripleNotEquals_3 = (_objSel_1 != null);
+                  if (_tripleNotEquals_3) {
                     ObSelectionStrategy _value_6 = ((ReferenceEvaluation)second).getValue();
                     final String name_1 = ((SpecificObjectSelection) _value_6).getObjSel().getName();
                     Mutator command_1 = this.getCommand(name_1, commands, commands.indexOf(mut));
-                    boolean _notEquals_6 = (!Objects.equal(command_1, null));
-                    if (_notEquals_6) {
+                    if ((command_1 != null)) {
                       String _metamodel_1 = null;
                       if (definition!=null) {
                         _metamodel_1=definition.getMetamodel();
@@ -5808,8 +5722,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -5827,8 +5740,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -5855,8 +5767,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -5874,8 +5785,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -5901,8 +5811,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -5938,8 +5847,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -5957,8 +5865,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -5984,8 +5891,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6020,8 +5926,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6036,12 +5941,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          final List<EReference> refs = this.getEReferences(_metamodel, className);
-          String _metamodel_1 = null;
-          if (definition!=null) {
-            _metamodel_1=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel_1, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -6062,8 +5962,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -6081,8 +5980,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -6109,8 +6007,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -6128,8 +6025,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -6156,8 +6052,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -6175,8 +6070,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
@@ -6203,8 +6097,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -6222,8 +6115,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
@@ -6249,8 +6141,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6286,8 +6177,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -6305,8 +6195,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(metamodel, className));
@@ -6332,8 +6221,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6368,8 +6256,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6384,12 +6271,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          final List<EReference> refs = this.getEReferences(_metamodel, className);
-          String _metamodel_1 = null;
-          if (definition!=null) {
-            _metamodel_1=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel_1, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEAttributes(_metamodel, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -6409,8 +6291,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6446,8 +6327,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       {
         final MutatorEnvironment env = this.getMutatorEnvironment(com);
         IScope _xifexpression = null;
-        boolean _notEquals = (!Objects.equal(env, null));
-        if (_notEquals) {
+        if ((env != null)) {
           IScope _xblockexpression_1 = null;
           {
             final Definition definition = env.getDefinition();
@@ -6465,8 +6345,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             String metamodel = _metamodel;
             List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
             EClass eclass = ModelManager.getEClassByName(packages, className);
-            boolean _equals = Objects.equal(eclass, null);
-            if (_equals) {
+            if ((eclass == null)) {
               metamodel = this.getMetamodel(definition, className);
             }
             _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(metamodel, className));
@@ -6492,8 +6371,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6528,8 +6406,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final MutatorEnvironment env = this.getMutatorEnvironment(com);
       IScope _xifexpression = null;
-      boolean _notEquals = (!Objects.equal(env, null));
-      if (_notEquals) {
+      if ((env != null)) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6544,12 +6421,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
           }
-          final List<EReference> refs = this.getEReferences(_metamodel, className);
-          String _metamodel_1 = null;
-          if (definition!=null) {
-            _metamodel_1=definition.getMetamodel();
-          }
-          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel_1, className));
+          _xblockexpression_1 = Scopes.scopeFor(this.getEReferences(_metamodel, className));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -6651,7 +6523,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       }
       final ArrayList<Mutator> scope = new ArrayList<Mutator>();
       for (final Mutator mutator : commands) {
-        if (((((!Objects.equal(mutator.getName(), null)) && 
+        if (((((mutator.getName() != null) && 
           (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
           scontainers.contains(mutator.getType().getName()))) {
           scope.add(mutator);
@@ -6682,7 +6554,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       }
       final ArrayList<Mutator> scope = new ArrayList<Mutator>();
       for (final Mutator mutator : commands) {
-        if (((((!Objects.equal(mutator.getName(), null)) && 
+        if (((((mutator.getName() != null) && 
           (commands.indexOf(mutator) < commands.indexOf(com))) && (((((mutator instanceof CreateObjectMutator) || (mutator instanceof ModifyInformationMutator)) || (mutator instanceof SelectObjectMutator)) || (mutator instanceof CloneObjectMutator)) || (mutator instanceof RetypeObjectMutator))) && 
           scontainers.contains(mutator.getType().getName()))) {
           scope.add(mutator);
@@ -6702,7 +6574,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       final MutatorEnvironment env = this.getMutatorEnvironment(com.getObjSel());
       Mutator mut = null;
       EObject container = com.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
       mut = ((Mutator) container);
@@ -6710,8 +6582,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       String className = null;
       for (final Mutator command : commands) {
         String _name = command.getName();
-        boolean _notEquals = (!Objects.equal(_name, null));
-        if (_notEquals) {
+        boolean _tripleNotEquals = (_name != null);
+        if (_tripleNotEquals) {
           boolean _equals = command.getName().equals(com.getObjSel().getName());
           if (_equals) {
             className = this.getType(command);
@@ -6719,7 +6591,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       }
       IScope _xifexpression = null;
-      if (((!Objects.equal(env, null)) && (!Objects.equal(className, null)))) {
+      if (((env != null) && (className != null))) {
         IScope _xblockexpression_1 = null;
         {
           final Definition definition = env.getDefinition();
@@ -6727,7 +6599,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           EObject sel = com.getObjSel();
           if ((((sel instanceof SelectObjectMutator) && 
             (((SelectObjectMutator) sel).getObject() instanceof RandomTypeSelection)) && 
-            (!Objects.equal(((RandomTypeSelection) ((SelectObjectMutator) sel).getObject()).getResource(), null)))) {
+            (((RandomTypeSelection) ((SelectObjectMutator) sel).getObject()).getResource() != null))) {
             ObSelectionStrategy _object = ((SelectObjectMutator) sel).getObject();
             final String resourceName = ((RandomTypeSelection) _object).getResource();
             if ((definition instanceof Program)) {
@@ -6740,8 +6612,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
                   resource = res;
                 }
               }
-              boolean _notEquals_1 = (!Objects.equal(resource, null));
-              if (_notEquals_1) {
+              if ((resource != null)) {
                 metamodel = resource.getMetamodel();
               }
             }
@@ -6773,11 +6644,10 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       ArrayList<EAttribute> scopes = new ArrayList<EAttribute>();
       Mutator mut = null;
       EObject container = com.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
-      boolean _notEquals = (!Objects.equal(container, null));
-      if (_notEquals) {
+      if ((container != null)) {
         mut = ((Mutator) container);
         final MutatorEnvironment env = this.getMutatorEnvironment(mut);
         final Definition definition = env.getDefinition();
@@ -7007,8 +6877,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             className = selection_14.getType().getName();
           }
         }
-        boolean _notEquals_1 = (!Objects.equal(className, null));
-        if (_notEquals_1) {
+        if ((className != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -7030,11 +6899,10 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       ArrayList<EAttribute> scopes = new ArrayList<EAttribute>();
       Mutator mut = null;
       EObject container = com.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         container = container.eContainer();
       }
-      boolean _notEquals = (!Objects.equal(container, null));
-      if (_notEquals) {
+      if ((container != null)) {
         mut = ((Mutator) container);
         final MutatorEnvironment env = this.getMutatorEnvironment(mut);
         final Definition definition = env.getDefinition();
@@ -7264,8 +7132,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             className = selection_14.getType().getName();
           }
         }
-        boolean _notEquals_1 = (!Objects.equal(className, null));
-        if (_notEquals_1) {
+        if ((className != null)) {
           String _metamodel = null;
           if (definition!=null) {
             _metamodel=definition.getMetamodel();
@@ -7289,7 +7156,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       Definition definition = null;
       Mutator mut = null;
       EObject container = com.eContainer();
-      while ((((container instanceof Mutator) == false) && (!Objects.equal(container, null)))) {
+      while ((((container instanceof Mutator) == false) && (container != null))) {
         {
           container = container.eContainer();
           mut = ((Mutator) container);
@@ -7298,8 +7165,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
         }
       }
       ObSelectionStrategy _object = com.getObject();
-      boolean _notEquals = (!Objects.equal(_object, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_object != null);
+      if (_tripleNotEquals) {
         ObSelectionStrategy _object_1 = com.getObject();
         if ((_object_1 instanceof SpecificObjectSelection)) {
           ObSelectionStrategy _object_2 = com.getObject();
@@ -7408,8 +7275,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           ObSelectionStrategy _object_4 = com.getObject();
           final SpecificObjectSelection selection = ((SpecificObjectSelection) _object_4);
           EReference _refType = selection.getRefType();
-          boolean _equals = Objects.equal(_refType, null);
-          if (_equals) {
+          boolean _tripleEquals = (_refType == null);
+          if (_tripleEquals) {
             ObjectEmitter _objSel = selection.getObjSel();
             if ((_objSel instanceof CreateObjectMutator)) {
               className = selection.getObjSel().getType().getName();
@@ -7484,7 +7351,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
       EObject container = constraint.eContainer();
-      while (((!Objects.equal(container, null)) && ((container instanceof MutatorEnvironment) == false))) {
+      while (((container != null) && ((container instanceof MutatorEnvironment) == false))) {
         container = container.eContainer();
       }
       final MutatorEnvironment env = ((MutatorEnvironment) container);
@@ -7504,7 +7371,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     {
       final List<EStructuralFeature> scope = new ArrayList<EStructuralFeature>();
       EObject container = invariant.eContainer();
-      while (((!Objects.equal(container, null)) && ((container instanceof MutatorEnvironment) == false))) {
+      while (((container != null) && ((container instanceof MutatorEnvironment) == false))) {
         container = container.eContainer();
       }
       final MutatorEnvironment env = ((MutatorEnvironment) container);
@@ -7601,8 +7468,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       if ((_object_3 instanceof SpecificObjectSelection)) {
         ObSelectionStrategy _object_4 = ((SelectSampleMutator) mutator).getObject();
         EReference _refType = ((SpecificObjectSelection) _object_4).getRefType();
-        boolean _equals = Objects.equal(_refType, null);
-        if (_equals) {
+        boolean _tripleEquals = (_refType == null);
+        if (_tripleEquals) {
           ObSelectionStrategy _object_5 = ((SelectSampleMutator) mutator).getObject();
           final ObjectEmitter o = ((SpecificObjectSelection) _object_5).getObjSel();
           if ((o instanceof SelectObjectMutator)) {
@@ -7661,8 +7528,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       if ((_object_10 instanceof SpecificClosureSelection)) {
         ObSelectionStrategy _object_11 = ((SelectSampleMutator) mutator).getObject();
         EReference _refType_1 = ((SpecificObjectSelection) _object_11).getRefType();
-        boolean _equals_1 = Objects.equal(_refType_1, null);
-        if (_equals_1) {
+        boolean _tripleEquals_1 = (_refType_1 == null);
+        if (_tripleEquals_1) {
           ObSelectionStrategy _object_12 = ((SelectSampleMutator) mutator).getObject();
           final ObjectEmitter o_1 = ((SpecificClosureSelection) _object_12).getObjSel();
           if ((o_1 instanceof SelectObjectMutator)) {
@@ -7911,8 +7778,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
           }
         }
         EList<EPackage> _eSubpackages = pck.getESubpackages();
-        boolean _notEquals = (!Objects.equal(_eSubpackages, null));
-        if (_notEquals) {
+        boolean _tripleNotEquals = (_eSubpackages != null);
+        if (_tripleNotEquals) {
           classes.addAll(this.getEClassesHelper(pck.getESubpackages()));
         }
       }
@@ -7938,8 +7805,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             }
           }
           EList<EPackage> _eSubpackages = pck.getESubpackages();
-          boolean _notEquals = (!Objects.equal(_eSubpackages, null));
-          if (_notEquals) {
+          boolean _tripleNotEquals = (_eSubpackages != null);
+          if (_tripleNotEquals) {
             classes.addAll(this.getEClassesHelper(pck.getESubpackages()));
           }
         }
@@ -8065,8 +7932,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     final List<EClass> esources = new ArrayList<EClass>();
     for (final EClass cl : eclasses) {
       EStructuralFeature _eStructuralFeature = cl.getEStructuralFeature(ereferenceName);
-      boolean _notEquals = (!Objects.equal(_eStructuralFeature, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_eStructuralFeature != null);
+      if (_tripleNotEquals) {
         esources.add(cl);
         esources.addAll(this.getESubClasses(metamodelFile, cl));
       }
@@ -8106,8 +7973,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
     final List<EClass> esources = new ArrayList<EClass>();
     for (final EClass cl : eclasses) {
       EStructuralFeature _eStructuralFeature = cl.getEStructuralFeature(ereferenceName);
-      boolean _notEquals = (!Objects.equal(_eStructuralFeature, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_eStructuralFeature != null);
+      if (_tripleNotEquals) {
         esources.add(cl);
         esources.addAll(this.getESubClasses(metamodelFile, cl));
       }
@@ -8182,8 +8049,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
+      if ((eclass != null)) {
         final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
         List<EAttribute> attributes = new ArrayList<EAttribute>();
         for (final EClass subclass : subclasses) {
@@ -8210,8 +8076,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
+      if ((eclass != null)) {
         final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
         List<EReference> references = new ArrayList<EReference>();
         for (final EClass subclass : subclasses) {
@@ -8238,8 +8103,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
+      if ((eclass != null)) {
         final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
         List<EReference> references = new ArrayList<EReference>();
         for (final EClass subclass : subclasses) {
@@ -8271,10 +8135,8 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       final List<EPackage> metamodel = ModelManager.loadMetaModel(metamodelFile);
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
-        boolean _notEquals_1 = (!Objects.equal(eclass, null));
-        if (_notEquals_1) {
+      if ((eclass != null)) {
+        if ((eclass != null)) {
           final List<EClass> subclasses = ModelManager.getESubClasses(metamodel, eclass);
           List<EStructuralFeature> features = new ArrayList<EStructuralFeature>();
           for (final EClass subclass : subclasses) {
@@ -8301,8 +8163,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
       String metamodel = _metamodel;
       List<EPackage> packages = ModelManager.loadMetaModel(metamodel);
       EClass eclass = ModelManager.getEClassByName(packages, className);
-      boolean _equals = Objects.equal(eclass, null);
-      if (_equals) {
+      if ((eclass == null)) {
         if ((definition instanceof Program)) {
           final Program program = ((Program) definition);
           EList<Resource> _resources = program.getResources();
@@ -8310,8 +8171,7 @@ public class WodelScopeProvider extends AbstractDeclarativeScopeProvider {
             {
               packages = ModelManager.loadMetaModel(resource.getMetamodel());
               eclass = ModelManager.getEClassByName(packages, className);
-              boolean _notEquals = (!Objects.equal(eclass, null));
-              if (_notEquals) {
+              if ((eclass != null)) {
                 return resource.getMetamodel();
               }
             }

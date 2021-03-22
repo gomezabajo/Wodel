@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -108,20 +109,31 @@ import exceptions.ModelNotFoundException;
 
 public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	
-	GenerateWodelWizardPage mainPage;
+	public static GenerateWodelWizardMainPage mainPage;
+	public static GenerateWodelWizardSecondPage secondPage;
+	public static GenerateWodelWizardFinalPage finalPage;
+	public static ConfigurationFile savedConfiguration;
+	public static String configurationFile;
 
 	private IStructuredSelection selection;
 
 	private static final String WIZARD_NAME = "Seed Models Generator";
 	
-	private static String initialPath = "";
+	public static String initialPath = "";
 	public static IFile file;
-	private static int numSeeds = 3;
-	private static String customOCL = "";
-	private static boolean forceRoot = true;
-	private static List<String> blockNames = null;
-	
-	
+	public static int numSeeds = 3;
+	public static String customOCL = "";
+	public static boolean forceRoot = true;
+	public static List<String> blockNames = null;
+	private static String predefinedConfiguration = "";
+	private static String configurationName = "";
+	public static Map<String, Integer> numObjects = null;
+	public static List<String> classNames = new ArrayList<String>();
+//	private static Object oclSynthesizer = null;	
+//	private static List<String> classesWithAttributeName = null;
+//	private static List<String> specificOCLCode = null;
+//	private static Method propertiesNamesMethod = null;	
+	public static Map<String, SimpleEntry<String, String>> tagsByClass = null;
 	
 	private static StringAdapter adapter = null;
 	
@@ -130,14 +142,25 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	/**
 	 * Adding the page to the wizard.
 	 */
-
+	
 	@Override
 	public void addPages() {
 		super.addPages();
-		mainPage = new GenerateWodelWizardPage(selection);
+		savedConfiguration = null;
+		configurationFile = null;
+		mainPage = new GenerateWodelWizardMainPage(selection);
 		mainPage.setTitle("Seed Models Generator");
-		mainPage.setDescription("Generates seed models");
+		mainPage.setDescription("Select the number of seeds to generate and the mutation operators");
 		addPage(mainPage);
+		secondPage = new GenerateWodelWizardSecondPage(selection);
+		secondPage.setTitle("Seed Models Generator");
+		secondPage.setDescription("Select the number of objects of each class and the string values for their identifiers");
+		addPage(secondPage);
+		finalPage = new GenerateWodelWizardFinalPage(selection);
+		finalPage.setTitle("Seed Models Generator");
+		finalPage.setDescription("Add customized OCL constraints and an initial model");
+		addPage(finalPage);
+		
 	}
 
 	@Override
@@ -151,14 +174,22 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	@Override
 	public boolean performFinish() {
 		try {
-			initialPath = mainPage.file;
 			numSeeds = mainPage.numSeeds;
-			customOCL = mainPage.customOCL;
 			forceRoot = mainPage.forceRoot;
 			blockNames = mainPage.selectedBlockNames;
+			classNames = secondPage.classNames;
+			numObjects = secondPage.numObjects;
+			tagsByClass = secondPage.tagsByClass;
+			initialPath = finalPage.file;
+			customOCL = finalPage.customOCL;
+//			oclSynthesizer = mainPage.oclSynthesizer;
+//			classesWithAttributeName = mainPage.classesWithAttributeName;
+//			specificOCLCode = mainPage.specificOCLCode;
+//			propertiesNamesMethod = mainPage.propertiesNamesMethod;
 			
 			GenerateWodelWithProgress generateWodelWithProgress = new GenerateWodelWithProgress();
-			new ProgressMonitorDialog(new org.eclipse.swt.widgets.Shell()).run(true, true, generateWodelWithProgress);
+			org.eclipse.swt.widgets.Shell shell = new org.eclipse.swt.widgets.Shell();
+			new ProgressMonitorDialog(shell).run(true, true, generateWodelWithProgress);
 
 			IProject project = file.getProject();
 			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -181,7 +212,6 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 	}
 
 	private static class GenerateWodelWithProgress implements IRunnableWithProgress {
-
 
 		private int timeOut = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Seed models generation timeout", "600", null));
 
@@ -566,8 +596,24 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 				}
 				Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
 				InMemoryFileSystemAccess fsa = injector.getInstance(InMemoryFileSystemAccess.class);
+				Resource program = ModelManager.loadModel(mutatorpackages, ModelManager.getOutputPath() + "/" + fileName.replace(".mutator", ".model"));
 				WodelUseGenerator generator = new WodelUseGenerator();
-				generator.doGenerate(blockmodel, fsa, null);
+				generator.predefinedConfiguration = predefinedConfiguration;
+				generator.configurationName = configurationName;
+				generator.numObjects = numObjects;
+				generator.tagsByClass = tagsByClass;
+//				if (oclSynthesizer != null) {
+//					generator.classesWithAttributeName = classesWithAttributeName;
+//					generator.specificOCLCode = specificOCLCode;
+//					int[] parameters = new int[classesWithSpecificNames.size()];
+//					int i = 0;
+//					for (String classWithSpecificName : classesWithSpecificNames) {
+//						parameters[i++] = numObjects.get(classWithSpecificName);
+//					}
+//					List<String> propertiesNames = Arrays.asList((String[]) propertiesNamesMethod.invoke(oclSynthesizer, parameters));
+//					generator.propertiesNames = propertiesNames;
+//				}
+				generator.doGenerate(program, fsa, null);
 				Map<String, Object> map = fsa.getAllFiles();
 			
 				for (String f : map.keySet()) {
@@ -591,6 +637,15 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+//			} catch (InvocationTargetException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
 			}
 
 		}
@@ -606,17 +661,16 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 					PrintWriter pw = new PrintWriter(new FileWriter(useFile, true));
 					pw.println(oclText);
 					pw.close();
-					oclNames = USEUtils.xmi2oclNames(initial, classNames);
+					//oclNames = USEUtils.xmi2oclNames(initial, classNames);
 				}
-				System.out.println("file.getName(): " + file.getName());
-				oclNames = USEUtils.oclAddNames(USEUtils.wodel2useNames(file.getName()), oclNames);
-				if (customOCL != null & customOCL.length() > 0) {
-					String oclText = "inv custom_ocl : " + USEUtils.ocl2use(packages, customOCL, useReferences);
+				//oclNames = USEUtils.oclAddNames(USEUtils.wodel2useNames(file.getName()), oclNames);
+				if (customOCL != null && customOCL.length() > 0) {
+					String oclText = "inv custom_ocl : " + USEUtils.ocl2use(packages, customOCL, classNames, useReferences);
 					File useFile = procUseFilename.toFile();
 					PrintWriter pw = new PrintWriter(new FileWriter(useFile, true));
 					pw.println(oclText);
 					pw.close();
-					oclNames = USEUtils.oclAddNames(oclNames, oclText);
+					//oclNames = USEUtils.oclAddNames(oclNames, oclText);
 				}
 				if (oclNames != null && oclNames.length() > 0) {
 					File propertiesFile = procPropertiesFilename.toFile();
@@ -705,6 +759,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 						br.close();
 					} catch (FileNotFoundException e1) {
 						status = new Status(IStatus.ERROR, wodel.synthesizer.Activator.PLUGIN_ID, 0, "File not found", null);
+						fLogWriter.close();
 						throw new InterruptedException("USE file not found");
 					} catch (IOException e) {
 					}
@@ -830,7 +885,7 @@ public class GenerateWodelWizard extends Wizard implements IImportWizard {
 		}
 	}
 	
-	public static void setFile(IFile f) {
+	public void setFile(IFile f) {
 		file = f;
 	}
 }

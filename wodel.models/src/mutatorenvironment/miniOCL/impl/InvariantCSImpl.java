@@ -63,6 +63,7 @@ public class InvariantCSImpl extends MinimalEObjectImpl.Container implements Inv
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExpCS getExp() {
 		return exp;
 	}
@@ -87,6 +88,7 @@ public class InvariantCSImpl extends MinimalEObjectImpl.Container implements Inv
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExp(ExpCS newExp) {
 		if (newExp != exp) {
 			NotificationChain msgs = null;

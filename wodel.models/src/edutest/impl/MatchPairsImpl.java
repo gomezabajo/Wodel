@@ -62,6 +62,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TestConfiguration getConfig() {
 		return config;
 	}
@@ -86,6 +87,7 @@ public class MatchPairsImpl extends MutatorTestsImpl implements MatchPairs {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfig(TestConfiguration newConfig) {
 		if (newConfig != config) {
 			NotificationChain msgs = null;

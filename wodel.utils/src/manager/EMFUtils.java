@@ -19,8 +19,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import manager.ModelManager;
-
 /**
  * Auxiliary methods on EMF models. 
  * @author eguerra

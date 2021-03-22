@@ -66,6 +66,7 @@ public class ExistsExpCSImpl extends LoopExpCSImpl implements ExistsExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AccVarCS> getAccVars() {
 		if (accVars == null) {
 			accVars = new EObjectContainmentEList<AccVarCS>(AccVarCS.class, this, MiniOCLPackage.EXISTS_EXP_CS__ACC_VARS);

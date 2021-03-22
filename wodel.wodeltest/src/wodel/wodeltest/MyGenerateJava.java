@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.eclipse.acceleo.common.IAcceleoConstants;
 import org.eclipse.acceleo.common.internal.utils.AcceleoPackageRegistry;
-import org.eclipse.acceleo.common.utils.ModelUtils;
 import org.eclipse.acceleo.model.mtl.Module;
 import org.eclipse.acceleo.model.mtl.resource.AcceleoResourceSetImpl;
 import org.eclipse.emf.common.util.URI;
@@ -17,7 +16,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.gmt.modisco.java.generation.files.GenerateJava;
+import org.eclipse.modisco.java.generation.files.GenerateJava;
 
 public class MyGenerateJava extends GenerateJava {
 	

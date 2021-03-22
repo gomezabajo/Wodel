@@ -49,7 +49,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.ui.PlatformUI;
 
 import commands.selection.strategies.ObSelectionStrategy;
 import commands.strategies.AttributeConfigurationStrategy;
@@ -267,7 +266,10 @@ public class ModelManager {
 	public static String getMetaModel(Class<?> cls) {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
-			path = path.substring(0, path.lastIndexOf("/"));
+			path = path.substring(0, path.lastIndexOf("/")).replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));
@@ -313,6 +315,9 @@ public class ModelManager {
 		try {
 			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
 			path = path.substring(0, path.lastIndexOf("/")).replaceAll("\\\\", "/");
+			if (path.contains("/bin")) {
+				path = path.substring(0, path.lastIndexOf("/bin"));
+			}
 
 			BufferedReader br = new BufferedReader(new FileReader(path
 					+ "/data/config/config.txt"));

@@ -52,5 +52,17 @@
     <eLiterals name="firstValue" value="19"/>
     <eLiterals name="secondAttName" value="20"/>
     <eLiterals name="secondValue" value="21"/>
+    <eLiterals name="value" value="22"/>
+    <eLiterals name="describedObject" value="23" literal="describedObject"/>
+    <eLiterals name="describedFromObject" value="24" literal="describedFromObject"/>
+    <eLiterals name="describedOldFromObject" value="25" literal="describedOldFromObject"/>
+    <eLiterals name="describedToObject" value="26" literal="describedToObject"/>
+    <eLiterals name="describedOldToObject" value="27" literal="describedOldToObject"/>
+    <eLiterals name="describedFirstObject" value="28" literal="describedFirstObject"/>
+    <eLiterals name="describedFirstFromObject" value="29" literal="describedFirstFromObject"/>
+    <eLiterals name="describedFirstToObject" value="30" literal="describedFirstToObject"/>
+    <eLiterals name="describedSecondObject" value="31" literal="describedSecondObject"/>
+    <eLiterals name="describedSecondFromObject" value="32" literal="describedSecondFromObject"/>
+    <eLiterals name="describedSecondToObject" value="33" literal="describedSecondToObject"/>
   </eClassifiers>
 </ecore:EPackage>

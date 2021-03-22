@@ -36,7 +36,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean NEGATION_EDEFAULT = true;
+	protected static final boolean NEGATION_EDEFAULT = false;
 
 	/**
 	 * The cached value of the '{@link #isNegation() <em>Negation</em>}' attribute.
@@ -214,7 +214,7 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (negation: ");
 		result.append(negation);
 		result.append(')');

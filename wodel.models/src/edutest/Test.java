@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link edutest.Test#getSource <em>Source</em>}</li>
  *   <li>{@link edutest.Test#getQuestion <em>Question</em>}</li>
  *   <li>{@link edutest.Test#isExpression <em>Expression</em>}</li>
+ *   <li>{@link edutest.Test#getIdentifier <em>Identifier</em>}</li>
  * </ul>
  *
  * @see edutest.EdutestPackage#getTest()
@@ -100,5 +101,27 @@ public interface Test extends EObject {
 	 * @generated
 	 */
 	void setExpression(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Identifier</em>' attribute.
+	 * @see #setIdentifier(String)
+	 * @see edutest.EdutestPackage#getTest_Identifier()
+	 * @model
+	 * @generated
+	 */
+	String getIdentifier();
+
+	/**
+	 * Sets the value of the '{@link edutest.Test#getIdentifier <em>Identifier</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Identifier</em>' attribute.
+	 * @see #getIdentifier()
+	 * @generated
+	 */
+	void setIdentifier(String value);
 
 } // Test

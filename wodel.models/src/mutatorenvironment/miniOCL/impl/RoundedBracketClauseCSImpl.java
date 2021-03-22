@@ -68,6 +68,7 @@ public class RoundedBracketClauseCSImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ExpCS> getArgs() {
 		if (args == null) {
 			args = new EObjectContainmentEList<ExpCS>(ExpCS.class, this, MiniOCLPackage.ROUNDED_BRACKET_CLAUSE_CS__ARGS);

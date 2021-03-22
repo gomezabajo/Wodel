@@ -69,6 +69,7 @@ public class StringLiteralExpCSImpl extends LiteralExpCSImpl implements StringLi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getStringSymbol() {
 		return stringSymbol;
 	}
@@ -78,6 +79,7 @@ public class StringLiteralExpCSImpl extends LiteralExpCSImpl implements StringLi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStringSymbol(String newStringSymbol) {
 		String oldStringSymbol = stringSymbol;
 		stringSymbol = newStringSymbol;

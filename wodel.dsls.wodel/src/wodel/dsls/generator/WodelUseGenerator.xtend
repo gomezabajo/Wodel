@@ -27,6 +27,8 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import java.io.File
 import java.util.ArrayList
 import mutatorenvironment.MutatorenvironmentFactory
+import java.util.Map
+import java.util.AbstractMap.SimpleEntry
 
 /**
  * @author Pablo Gomez-Abajo - Wodel USE code generator.
@@ -50,7 +52,14 @@ public class WodelUseGenerator extends AbstractGenerator {
 	private String path
 	private EClass root
 	private String dummyClassName = "Dummy"
-	private HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences = new HashMap<URI, HashMap<URI, Entry<String, String>>>()
+	private Map<URI, Map<URI, Entry<String, String>>> useReferences = new HashMap<URI, Map<URI, Entry<String, String>>>()
+	public String predefinedConfiguration = null;
+	public String configurationName = null;
+	public Map<String, Integer> numObjects = null;
+	public Map<String, SimpleEntry<String, String>> tagsByClass = null;
+//	public List<String> classesWithAttributeName = null;
+//	public List<String> specificOCLCode = null;
+//	public List<String> propertiesNames = null;
 	
 	private int maxInteger
 	private int minInteger
@@ -63,7 +72,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 	def List<String> getMutators(File[] files) {
 		var List<String> mutators = new ArrayList<String>()
 		var int i = 0
-		while (files != null && i < files.size) {
+		while (files !== null && i < files.size) {
 			var File file = files.get(i)
 			if (file.isFile == true) {
 				if (file.getName().endsWith(".mutator")) {
@@ -89,7 +98,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 	def String getMutatorPath(File[] files) {
 		var String mutatorPath = null
 		var int i = 0
-		while (mutatorPath == null && files != null && i < files.size) {
+		while (mutatorPath === null && files !== null && i < files.size) {
 			var File file = files.get(i)
 			if (file.isFile == true) {
 				if (file.getName().equals(fileName)) {
@@ -125,8 +134,8 @@ public class WodelUseGenerator extends AbstractGenerator {
 			modelName = fileName.replaceAll(".java", "")
 			useName = fileName.replaceAll(".java", ".use")
 			propertiesName = fileName.replaceAll(".java", ".properties")
-			fsa.generateFile(useName, e.use(resource).removeComments("use"))
-			fsa.generateFile(propertiesName, e.properties.removeComments("properties"))
+			fsa.generateFile(useName, e.use(resource, resource).removeComments("use"))
+			fsa.generateFile(propertiesName, e.properties(resource, resource).removeComments("properties"))
 			mutatorEnvironment = e
 			for (b : mutatorEnvironment.blocks) {
 				fileName = resource.URI.lastSegment
@@ -139,8 +148,8 @@ public class WodelUseGenerator extends AbstractGenerator {
 				blockMutatorEnvironment.blocks.add(EcoreUtil.copy(b))
 				val Resource blockResource = ModelManager.createModel("file://" + ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject + '/' + ModelManager.outputFolder + "/" + modelName + ".model")
 				blockResource.contents.add(blockMutatorEnvironment)
-				fsa.generateFile(useName, blockMutatorEnvironment.use(blockResource).removeComments("use"))
-				fsa.generateFile(propertiesName, blockMutatorEnvironment.properties.removeComments("properties"))
+				fsa.generateFile(useName, blockMutatorEnvironment.use(resource, blockResource).removeComments("use"))
+				fsa.generateFile(propertiesName, blockMutatorEnvironment.properties(resource, blockResource).removeComments("properties"))
 			}
 		}
 	}
@@ -197,8 +206,9 @@ public class WodelUseGenerator extends AbstractGenerator {
 		}
    }
    
-   def generate(MutatorEnvironment e, List<EPackage> packages, List<EClass> eclasses, HashMap<URI, String> classNames) '''
+   def generate(MutatorEnvironment e, Resource program, List<EClass> eclasses, HashMap<URI, String> classNames) '''
 		# «var HashMap<String, Cardinality> classes = new HashMap<String, Cardinality>()»
+		«IF numObjects === null»
 		«FOR classURI : classNames.keySet()»
 		# «var Cardinality cardinality = new Cardinality»
 		# «cardinality.min = 0»
@@ -230,12 +240,62 @@ public class WodelUseGenerator extends AbstractGenerator {
 		
 		#«classes.processBlocks(blockCardinalities)»
 		«ENDIF»
+		
+		«FOR classURI : classNames.keySet()»
+		«var String useClassName = classNames.get(classURI)»
+		«UseGeneratorUtils.encodeWord(useClassName)»_min = «classes.get(useClassName).min»
+		«UseGeneratorUtils.encodeWord(useClassName)»_max = «classes.get(useClassName).max»
+		«ENDFOR»
+		«ELSE»
+		
+		«FOR eclass : eclasses»
+		# «var Cardinality cardinality = new Cardinality»
+		# «cardinality.min = 0»
+		«IF EcoreUtil.getURI(root).equals(EcoreUtil.getURI(eclass))»
+		# «cardinality.min++»
+		# «cardinality.max = 1»
+		«ELSE»
+		«IF numObjects.containsKey(eclass.getName())»
+		# «cardinality.min = numObjects.get(eclass.getName())»
+		# «cardinality.max = numObjects.get(eclass.getName())»
+		«ENDIF»
+		«ENDIF»
+		# «classes.put(classNames.get(EcoreUtil.getURI(eclass)), cardinality)»
+		«ENDFOR»
+		
+		«FOR classURI : classNames.keySet()»
+		«var String useClassName = classNames.get(classURI)»
+		«UseGeneratorUtils.encodeWord(useClassName)»_min = «classes.get(useClassName).min»
+		«UseGeneratorUtils.encodeWord(useClassName)»_max = «classes.get(useClassName).max»
+		«ENDFOR»
+		«ENDIF»
+		
+		«IF tagsByClass !== null && tagsByClass.size() > 0»
+		# «var Map<String, SimpleEntry<String, String>> tagsByClassURI = new HashMap<String, SimpleEntry<String, String>>()»
+		«FOR eclass : eclasses»
+		«IF tagsByClass.containsKey(eclass.getName())»
+		# «tagsByClassURI.put(classNames.get(EcoreUtil.getURI(eclass)), tagsByClass.get(eclass.getName()))»
+		«ENDIF»
+		«ENDFOR»
+		
+		«FOR classURI : classNames.keySet()»
+		«var String useClassName = classNames.get(classURI)»
+		«IF tagsByClassURI.containsKey(classNames.get(classURI))»
+		«UseGeneratorUtils.encodeWord(useClassName)»_«tagsByClassURI.get(classNames.get(classURI)).getKey()» = Set{«tagsByClassURI.get(classNames.get(classURI)).getValue()»}
+		«ENDIF»
+		«ENDFOR»
+		«ENDIF»
+		
 
 		«FOR classURI : classNames.keySet()»
 		«var String useClassName = classNames.get(classURI)»
 		«UseGeneratorUtils.encodeWord(useClassName)»_min = «classes.get(useClassName).min»
 		«UseGeneratorUtils.encodeWord(useClassName)»_max = «classes.get(useClassName).max»
 		«ENDFOR»
+
+«««		«IF configurationName != null && configurationName.length > 0»
+«««		«UseGeneratorUtils.processPropertiesConfiguration(e, program, modelName, useReferences, predefinedConfiguration, configurationName)»
+«««		«ENDIF»
 
 		# Associations
 		# «var HashMap<String, Integer> associationNames = new HashMap<String, Integer>()»
@@ -245,16 +305,16 @@ public class WodelUseGenerator extends AbstractGenerator {
 		«IF refs.size > 0»
 		«FOR ref : refs»
 		# «var EPackage refEPackage = ref.EReferenceType.EPackage»
-		«IF refEPackage != null»
+		«IF refEPackage !== null»
 		# «var String associationName = pck.name + "XxxX" + eclass.name + "XxxX" + refEPackage.name + "XxxX" + ref.EType.name»
-		«IF associationNames.get(associationName) != null»
+		«IF associationNames.get(associationName) !== null»
 		# «associationNames.put(associationName, associationNames.get(associationName) + 1)»
 		# «associationName += associationNames.get(associationName)»
 		«ELSE»
 		# «associationNames.put(associationName, 0)»
 		«ENDIF»
 		# «var int min = 0»
-		«IF classes.get(refEPackage.name + "XxxX" + ref.EType.name) != null»
+		«IF classes.get(refEPackage.name + "XxxX" + ref.EType.name) !== null»
 		«IF (classes.get(pck.name + "XxxX" + eclass.name).min < classes.get(refEPackage.name + "XxxX" + ref.EType.name).min)»
 		# «min = classes.get(pck.name + "XxxX" + eclass.name).min»
 		«ELSE»
@@ -271,7 +331,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 		«ENDFOR»
    '''
    
-   def properties(MutatorEnvironment e) '''
+   def properties(MutatorEnvironment e, Resource program, Resource model) '''
 		[default]
 		
 		Integer_min = «minInteger»
@@ -290,17 +350,18 @@ public class WodelUseGenerator extends AbstractGenerator {
 		# «var HashMap<URI, String> classNames = UseGeneratorUtils.buildClassNames(eclasses)»
 		# «root = ModelManager.getRootEClass(packages)»
 		
-		«e.generate(packages, eclasses, classNames)»
+		«e.generate(program, eclasses, classNames)»
 		aggregationcyclefreeness = on
 		forbiddensharing = on
 		
    '''
    
-   def use(MutatorEnvironment e, Resource model) '''
+   def use(MutatorEnvironment e, Resource program, Resource model) '''
+«««	«UseGeneratorUtils.generateUSE(model, e, modelName, useReferences, numObjects, classesWithAttributeName, specificOCLCode)»
 	«UseGeneratorUtils.generateUSE(model, e, modelName, useReferences)»
 	«var int i = 0»
 	«FOR Constraint constraint : e.constraints»
-	«IF constraint.expressions != null»
+	«IF constraint.expressions !== null»
 	«FOR InvariantCS inv : constraint.expressions»
 	«var String constraintText = WodelUtils.getConstraintText(fileName, inv)»
 	«IF constraintText.length > 0»
@@ -312,14 +373,14 @@ public class WodelUseGenerator extends AbstractGenerator {
 	-- «featureclass = sf.EType as EClass»
 	«ENDIF»
 	«ENDFOR»
-	«IF featureclass != null»
+	«IF featureclass !== null»
 	inv mutcode«i» : «featureclass.name».allInstances()->«constraintText.substring(constraintText.indexOf("->") + "->".length, constraintText.length())»
 	-- «i++»
 	«ENDIF»
 	«ENDIF»
 	«ENDFOR»
 	«ENDIF»
-	«IF constraint.rules != null»
+	«IF constraint.rules !== null»
 	«FOR String rule : constraint.rules»
 	«IF rule.length > 0»
 	«var String feature = rule.substring(0, rule.indexOf("->"))»
@@ -330,7 +391,7 @@ public class WodelUseGenerator extends AbstractGenerator {
 	-- «featureclass = sf.EType as EClass»
 	«ENDIF»
 	«ENDFOR»
-	«IF featureclass != null»
+	«IF featureclass !== null»
 	inv mutcode«i» : «featureclass.name».allInstances()->«rule.substring(rule.indexOf("->") + "->".length, rule.length())»
 	-- «i++»
 	«ENDIF»

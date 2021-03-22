@@ -62,6 +62,7 @@ public class IterateExpCSImpl extends LoopExpCSImpl implements IterateExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AccVarCS getAccVar() {
 		return accVar;
 	}
@@ -86,6 +87,7 @@ public class IterateExpCSImpl extends LoopExpCSImpl implements IterateExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAccVar(AccVarCS newAccVar) {
 		if (newAccVar != accVar) {
 			NotificationChain msgs = null;

@@ -1,18 +1,11 @@
 package commands.selection;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import manager.ModelManager;
-
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-
-import exceptions.ReferenceNonExistingException;
 
 /**
  * @author Victor Lopez Rivero

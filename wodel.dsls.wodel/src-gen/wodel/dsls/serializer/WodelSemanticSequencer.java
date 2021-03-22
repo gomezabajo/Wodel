@@ -524,10 +524,9 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         description=EString? 
 	 *         (from+=[Block|ID] from+=[Block|ID]*)? 
 	 *         repeat=Repeat? 
-	 *         reverse=Reverse? 
 	 *         commands+=Mutator 
 	 *         commands+=Mutator* 
-	 *         ((min=EInt max=MaxCardinality) | fixed=EInt | mode?='*')?
+	 *         ((min=EInt max=MaxCardinality) | fixed=EInt)?
 	 *     )
 	 */
 	protected void sequence_Block(ISerializationContext context, Block semanticObject) {
@@ -630,8 +629,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         object=ObSelectionStrategy 
 	 *         container=ObSelectionStrategy? 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         references+=ReferenceSet? 
-	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
+	 *         attributes+=AttributeSet? 
+	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */
@@ -708,8 +707,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         type=[EClass|ID] 
 	 *         container=ObSelectionStrategy? 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         attributes+=AttributeSet? 
-	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
+	 *         references+=ReferenceSet? 
+	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */
@@ -998,8 +997,8 @@ public class WodelSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         name=ID? 
 	 *         object=ObSelectionStrategy 
 	 *         (attributes+=AttributeSet | references+=ReferenceSet)? 
-	 *         attributes+=AttributeSet? 
-	 *         (references+=ReferenceSet? attributes+=AttributeSet?)* 
+	 *         references+=ReferenceSet? 
+	 *         (attributes+=AttributeSet? references+=ReferenceSet?)* 
 	 *         (min=EInt? max=MaxCardinality)?
 	 *     )
 	 */

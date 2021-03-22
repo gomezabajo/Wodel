@@ -22,32 +22,19 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalMutaTextParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'metamodel'", "'>'", "'('", "')'", "':'", "'/'", "'%object'", "'%attName'", "'%oldValue'", "'%newValue'", "'%refName'", "'%fromObject'", "'%oldFromObject'", "'%srcRefName'", "'%toObject'", "'%oldToObject'", "'%firstRefName'", "'%firstObject'", "'%firstFromObject'", "'%firstToObject'", "'%secondRefName'", "'%secondObject'", "'%secondFromObject'", "'%secondToObject'", "'%firstAttName'", "'%firstValue'", "'%secondAttName'", "'%secondValue'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'metamodel'", "'>'", "'('", "')'", "':'", "'/'", "'%object'", "'%attName'", "'%oldValue'", "'%newValue'", "'%refName'", "'%fromObject'", "'%oldFromObject'", "'%srcRefName'", "'%toObject'", "'%oldToObject'", "'%firstRefName'", "'%firstObject'", "'%firstFromObject'", "'%firstToObject'", "'%secondRefName'", "'%secondObject'", "'%secondFromObject'", "'%secondToObject'", "'%firstAttName'", "'%firstValue'", "'%secondAttName'", "'%secondValue'", "'%value'", "'%describedObject'", "'%describedFromObject'", "'%describedOldFromObject'", "'%describedToObject'", "'%describedOldToObject'", "'%describedFirstObject'", "'%describedFirstFromObject'", "'%describedFirstToObject'", "'%describedSecondObject'", "'%describedSecondFromObject'", "'%describedSecondToObject'"
     };
-    public static final int RULE_STRING=4;
-    public static final int RULE_SL_COMMENT=8;
+    public static final int T__50=50;
     public static final int T__19=19;
     public static final int T__15=15;
-    public static final int T__37=37;
     public static final int T__16=16;
-    public static final int T__38=38;
     public static final int T__17=17;
     public static final int T__18=18;
     public static final int T__11=11;
-    public static final int T__33=33;
     public static final int T__12=12;
-    public static final int T__34=34;
     public static final int T__13=13;
-    public static final int T__35=35;
     public static final int T__14=14;
-    public static final int T__36=36;
-    public static final int EOF=-1;
-    public static final int T__30=30;
-    public static final int T__31=31;
-    public static final int T__32=32;
     public static final int RULE_ID=5;
-    public static final int RULE_WS=9;
-    public static final int RULE_ANY_OTHER=10;
     public static final int T__26=26;
     public static final int T__27=27;
     public static final int T__28=28;
@@ -60,6 +47,31 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
     public static final int T__25=25;
     public static final int T__20=20;
     public static final int T__21=21;
+    public static final int RULE_STRING=4;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T__37=37;
+    public static final int T__38=38;
+    public static final int T__39=39;
+    public static final int T__33=33;
+    public static final int T__34=34;
+    public static final int T__35=35;
+    public static final int T__36=36;
+    public static final int EOF=-1;
+    public static final int T__30=30;
+    public static final int T__31=31;
+    public static final int T__32=32;
+    public static final int RULE_WS=9;
+    public static final int RULE_ANY_OTHER=10;
+    public static final int T__48=48;
+    public static final int T__49=49;
+    public static final int T__44=44;
+    public static final int T__45=45;
+    public static final int T__46=46;
+    public static final int T__47=47;
+    public static final int T__40=40;
+    public static final int T__41=41;
+    public static final int T__42=42;
+    public static final int T__43=43;
 
     // delegates
     // delegators
@@ -644,7 +656,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             int alt5=2;
             int LA5_0 = input.LA(1);
 
-            if ( ((LA5_0>=RULE_STRING && LA5_0<=RULE_ID)||(LA5_0>=17 && LA5_0<=38)) ) {
+            if ( ((LA5_0>=RULE_STRING && LA5_0<=RULE_ID)||(LA5_0>=17 && LA5_0<=50)) ) {
                 alt5=1;
             }
             switch (alt5) {
@@ -688,7 +700,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
                         int alt4=2;
                         int LA4_0 = input.LA(1);
 
-                        if ( ((LA4_0>=RULE_STRING && LA4_0<=RULE_ID)||(LA4_0>=17 && LA4_0<=38)) ) {
+                        if ( ((LA4_0>=RULE_STRING && LA4_0<=RULE_ID)||(LA4_0>=17 && LA4_0<=50)) ) {
                             alt4=1;
                         }
 
@@ -819,7 +831,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             if ( ((LA6_0>=RULE_STRING && LA6_0<=RULE_ID)) ) {
                 alt6=1;
             }
-            else if ( ((LA6_0>=17 && LA6_0<=38)) ) {
+            else if ( ((LA6_0>=17 && LA6_0<=50)) ) {
                 alt6=2;
             }
             else {
@@ -1240,7 +1252,7 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVariableType"
-    // InternalMutaText.g:498:1: ruleVariableType returns [Enumerator current=null] : ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) ) ;
+    // InternalMutaText.g:498:1: ruleVariableType returns [Enumerator current=null] : ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) | (enumLiteral_22= '%value' ) | (enumLiteral_23= '%describedObject' ) | (enumLiteral_24= '%describedFromObject' ) | (enumLiteral_25= '%describedOldFromObject' ) | (enumLiteral_26= '%describedToObject' ) | (enumLiteral_27= '%describedOldToObject' ) | (enumLiteral_28= '%describedFirstObject' ) | (enumLiteral_29= '%describedFirstFromObject' ) | (enumLiteral_30= '%describedFirstToObject' ) | (enumLiteral_31= '%describedSecondObject' ) | (enumLiteral_32= '%describedSecondFromObject' ) | (enumLiteral_33= '%describedSecondToObject' ) ) ;
     public final Enumerator ruleVariableType() throws RecognitionException {
         Enumerator current = null;
 
@@ -1266,16 +1278,28 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
         Token enumLiteral_19=null;
         Token enumLiteral_20=null;
         Token enumLiteral_21=null;
+        Token enumLiteral_22=null;
+        Token enumLiteral_23=null;
+        Token enumLiteral_24=null;
+        Token enumLiteral_25=null;
+        Token enumLiteral_26=null;
+        Token enumLiteral_27=null;
+        Token enumLiteral_28=null;
+        Token enumLiteral_29=null;
+        Token enumLiteral_30=null;
+        Token enumLiteral_31=null;
+        Token enumLiteral_32=null;
+        Token enumLiteral_33=null;
 
 
         	enterRule();
 
         try {
-            // InternalMutaText.g:504:2: ( ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) ) )
-            // InternalMutaText.g:505:2: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) )
+            // InternalMutaText.g:504:2: ( ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) | (enumLiteral_22= '%value' ) | (enumLiteral_23= '%describedObject' ) | (enumLiteral_24= '%describedFromObject' ) | (enumLiteral_25= '%describedOldFromObject' ) | (enumLiteral_26= '%describedToObject' ) | (enumLiteral_27= '%describedOldToObject' ) | (enumLiteral_28= '%describedFirstObject' ) | (enumLiteral_29= '%describedFirstFromObject' ) | (enumLiteral_30= '%describedFirstToObject' ) | (enumLiteral_31= '%describedSecondObject' ) | (enumLiteral_32= '%describedSecondFromObject' ) | (enumLiteral_33= '%describedSecondToObject' ) ) )
+            // InternalMutaText.g:505:2: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) | (enumLiteral_22= '%value' ) | (enumLiteral_23= '%describedObject' ) | (enumLiteral_24= '%describedFromObject' ) | (enumLiteral_25= '%describedOldFromObject' ) | (enumLiteral_26= '%describedToObject' ) | (enumLiteral_27= '%describedOldToObject' ) | (enumLiteral_28= '%describedFirstObject' ) | (enumLiteral_29= '%describedFirstFromObject' ) | (enumLiteral_30= '%describedFirstToObject' ) | (enumLiteral_31= '%describedSecondObject' ) | (enumLiteral_32= '%describedSecondFromObject' ) | (enumLiteral_33= '%describedSecondToObject' ) )
             {
-            // InternalMutaText.g:505:2: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) )
-            int alt8=22;
+            // InternalMutaText.g:505:2: ( (enumLiteral_0= '%object' ) | (enumLiteral_1= '%attName' ) | (enumLiteral_2= '%oldValue' ) | (enumLiteral_3= '%newValue' ) | (enumLiteral_4= '%refName' ) | (enumLiteral_5= '%fromObject' ) | (enumLiteral_6= '%oldFromObject' ) | (enumLiteral_7= '%srcRefName' ) | (enumLiteral_8= '%toObject' ) | (enumLiteral_9= '%oldToObject' ) | (enumLiteral_10= '%firstRefName' ) | (enumLiteral_11= '%firstObject' ) | (enumLiteral_12= '%firstFromObject' ) | (enumLiteral_13= '%firstToObject' ) | (enumLiteral_14= '%secondRefName' ) | (enumLiteral_15= '%secondObject' ) | (enumLiteral_16= '%secondFromObject' ) | (enumLiteral_17= '%secondToObject' ) | (enumLiteral_18= '%firstAttName' ) | (enumLiteral_19= '%firstValue' ) | (enumLiteral_20= '%secondAttName' ) | (enumLiteral_21= '%secondValue' ) | (enumLiteral_22= '%value' ) | (enumLiteral_23= '%describedObject' ) | (enumLiteral_24= '%describedFromObject' ) | (enumLiteral_25= '%describedOldFromObject' ) | (enumLiteral_26= '%describedToObject' ) | (enumLiteral_27= '%describedOldToObject' ) | (enumLiteral_28= '%describedFirstObject' ) | (enumLiteral_29= '%describedFirstFromObject' ) | (enumLiteral_30= '%describedFirstToObject' ) | (enumLiteral_31= '%describedSecondObject' ) | (enumLiteral_32= '%describedSecondFromObject' ) | (enumLiteral_33= '%describedSecondToObject' ) )
+            int alt8=34;
             switch ( input.LA(1) ) {
             case 17:
                 {
@@ -1385,6 +1409,66 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
             case 38:
                 {
                 alt8=22;
+                }
+                break;
+            case 39:
+                {
+                alt8=23;
+                }
+                break;
+            case 40:
+                {
+                alt8=24;
+                }
+                break;
+            case 41:
+                {
+                alt8=25;
+                }
+                break;
+            case 42:
+                {
+                alt8=26;
+                }
+                break;
+            case 43:
+                {
+                alt8=27;
+                }
+                break;
+            case 44:
+                {
+                alt8=28;
+                }
+                break;
+            case 45:
+                {
+                alt8=29;
+                }
+                break;
+            case 46:
+                {
+                alt8=30;
+                }
+                break;
+            case 47:
+                {
+                alt8=31;
+                }
+                break;
+            case 48:
+                {
+                alt8=32;
+                }
+                break;
+            case 49:
+                {
+                alt8=33;
+                }
+                break;
+            case 50:
+                {
+                alt8=34;
                 }
                 break;
             default:
@@ -1769,6 +1853,210 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
+                case 23 :
+                    // InternalMutaText.g:682:3: (enumLiteral_22= '%value' )
+                    {
+                    // InternalMutaText.g:682:3: (enumLiteral_22= '%value' )
+                    // InternalMutaText.g:683:4: enumLiteral_22= '%value'
+                    {
+                    enumLiteral_22=(Token)match(input,39,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getValueEnumLiteralDeclaration_22().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_22, grammarAccess.getVariableTypeAccess().getValueEnumLiteralDeclaration_22());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 24 :
+                    // InternalMutaText.g:690:3: (enumLiteral_23= '%describedObject' )
+                    {
+                    // InternalMutaText.g:690:3: (enumLiteral_23= '%describedObject' )
+                    // InternalMutaText.g:691:4: enumLiteral_23= '%describedObject'
+                    {
+                    enumLiteral_23=(Token)match(input,40,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedObjectEnumLiteralDeclaration_23().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_23, grammarAccess.getVariableTypeAccess().getDescribedObjectEnumLiteralDeclaration_23());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 25 :
+                    // InternalMutaText.g:698:3: (enumLiteral_24= '%describedFromObject' )
+                    {
+                    // InternalMutaText.g:698:3: (enumLiteral_24= '%describedFromObject' )
+                    // InternalMutaText.g:699:4: enumLiteral_24= '%describedFromObject'
+                    {
+                    enumLiteral_24=(Token)match(input,41,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedFromObjectEnumLiteralDeclaration_24().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_24, grammarAccess.getVariableTypeAccess().getDescribedFromObjectEnumLiteralDeclaration_24());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 26 :
+                    // InternalMutaText.g:706:3: (enumLiteral_25= '%describedOldFromObject' )
+                    {
+                    // InternalMutaText.g:706:3: (enumLiteral_25= '%describedOldFromObject' )
+                    // InternalMutaText.g:707:4: enumLiteral_25= '%describedOldFromObject'
+                    {
+                    enumLiteral_25=(Token)match(input,42,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedOldFromObjectEnumLiteralDeclaration_25().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_25, grammarAccess.getVariableTypeAccess().getDescribedOldFromObjectEnumLiteralDeclaration_25());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 27 :
+                    // InternalMutaText.g:714:3: (enumLiteral_26= '%describedToObject' )
+                    {
+                    // InternalMutaText.g:714:3: (enumLiteral_26= '%describedToObject' )
+                    // InternalMutaText.g:715:4: enumLiteral_26= '%describedToObject'
+                    {
+                    enumLiteral_26=(Token)match(input,43,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedToObjectEnumLiteralDeclaration_26().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_26, grammarAccess.getVariableTypeAccess().getDescribedToObjectEnumLiteralDeclaration_26());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 28 :
+                    // InternalMutaText.g:722:3: (enumLiteral_27= '%describedOldToObject' )
+                    {
+                    // InternalMutaText.g:722:3: (enumLiteral_27= '%describedOldToObject' )
+                    // InternalMutaText.g:723:4: enumLiteral_27= '%describedOldToObject'
+                    {
+                    enumLiteral_27=(Token)match(input,44,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedOldToObjectEnumLiteralDeclaration_27().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_27, grammarAccess.getVariableTypeAccess().getDescribedOldToObjectEnumLiteralDeclaration_27());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 29 :
+                    // InternalMutaText.g:730:3: (enumLiteral_28= '%describedFirstObject' )
+                    {
+                    // InternalMutaText.g:730:3: (enumLiteral_28= '%describedFirstObject' )
+                    // InternalMutaText.g:731:4: enumLiteral_28= '%describedFirstObject'
+                    {
+                    enumLiteral_28=(Token)match(input,45,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedFirstObjectEnumLiteralDeclaration_28().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_28, grammarAccess.getVariableTypeAccess().getDescribedFirstObjectEnumLiteralDeclaration_28());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 30 :
+                    // InternalMutaText.g:738:3: (enumLiteral_29= '%describedFirstFromObject' )
+                    {
+                    // InternalMutaText.g:738:3: (enumLiteral_29= '%describedFirstFromObject' )
+                    // InternalMutaText.g:739:4: enumLiteral_29= '%describedFirstFromObject'
+                    {
+                    enumLiteral_29=(Token)match(input,46,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedFirstFromObjectEnumLiteralDeclaration_29().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_29, grammarAccess.getVariableTypeAccess().getDescribedFirstFromObjectEnumLiteralDeclaration_29());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 31 :
+                    // InternalMutaText.g:746:3: (enumLiteral_30= '%describedFirstToObject' )
+                    {
+                    // InternalMutaText.g:746:3: (enumLiteral_30= '%describedFirstToObject' )
+                    // InternalMutaText.g:747:4: enumLiteral_30= '%describedFirstToObject'
+                    {
+                    enumLiteral_30=(Token)match(input,47,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedFirstToObjectEnumLiteralDeclaration_30().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_30, grammarAccess.getVariableTypeAccess().getDescribedFirstToObjectEnumLiteralDeclaration_30());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 32 :
+                    // InternalMutaText.g:754:3: (enumLiteral_31= '%describedSecondObject' )
+                    {
+                    // InternalMutaText.g:754:3: (enumLiteral_31= '%describedSecondObject' )
+                    // InternalMutaText.g:755:4: enumLiteral_31= '%describedSecondObject'
+                    {
+                    enumLiteral_31=(Token)match(input,48,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedSecondObjectEnumLiteralDeclaration_31().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_31, grammarAccess.getVariableTypeAccess().getDescribedSecondObjectEnumLiteralDeclaration_31());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 33 :
+                    // InternalMutaText.g:762:3: (enumLiteral_32= '%describedSecondFromObject' )
+                    {
+                    // InternalMutaText.g:762:3: (enumLiteral_32= '%describedSecondFromObject' )
+                    // InternalMutaText.g:763:4: enumLiteral_32= '%describedSecondFromObject'
+                    {
+                    enumLiteral_32=(Token)match(input,49,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedSecondFromObjectEnumLiteralDeclaration_32().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_32, grammarAccess.getVariableTypeAccess().getDescribedSecondFromObjectEnumLiteralDeclaration_32());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 34 :
+                    // InternalMutaText.g:770:3: (enumLiteral_33= '%describedSecondToObject' )
+                    {
+                    // InternalMutaText.g:770:3: (enumLiteral_33= '%describedSecondToObject' )
+                    // InternalMutaText.g:771:4: enumLiteral_33= '%describedSecondToObject'
+                    {
+                    enumLiteral_33=(Token)match(input,50,FOLLOW_2); 
+
+                    				current = grammarAccess.getVariableTypeAccess().getDescribedSecondToObjectEnumLiteralDeclaration_33().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_33, grammarAccess.getVariableTypeAccess().getDescribedSecondToObjectEnumLiteralDeclaration_33());
+                    			
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
@@ -1802,9 +2090,9 @@ public class InternalMutaTextParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x000000000000A000L});
     public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000004000L});
     public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000007FFFFF0030L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0007FFFFFFFF0030L});
     public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000007FFFFE0030L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000007FFFFE0032L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0007FFFFFFFE0030L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0007FFFFFFFE0032L});
 
 }

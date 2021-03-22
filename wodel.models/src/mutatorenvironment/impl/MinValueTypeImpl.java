@@ -61,6 +61,7 @@ public class MinValueTypeImpl extends NumberTypeImpl implements MinValueType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute() {
 		if (attribute != null && attribute.eIsProxy()) {
 			InternalEObject oldAttribute = (InternalEObject)attribute;
@@ -87,6 +88,7 @@ public class MinValueTypeImpl extends NumberTypeImpl implements MinValueType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttribute(EAttribute newAttribute) {
 		EAttribute oldAttribute = attribute;
 		attribute = newAttribute;

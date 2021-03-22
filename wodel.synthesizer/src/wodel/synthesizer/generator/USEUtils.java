@@ -24,7 +24,6 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import manager.ModelManager;
 import manager.UseGeneratorUtils;
-import manager.WodelContext;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.Expression;
@@ -1417,7 +1416,7 @@ public class USEUtils {
 	 * @param useReferences
 	 * @return
 	 */
-	public static String ocl2use(List<EPackage> packages, String oclText, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
+	public static String ocl2use(List<EPackage> packages, String oclText, HashMap<URI, String> classNames, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
 		String oclUseText = oclText;
 		char[] chars = oclUseText.toCharArray();
 		for (URI classURI : useReferences.keySet()) {
@@ -1462,6 +1461,11 @@ public class USEUtils {
 				}
 				oclUseText = oclUseText.replace(part, newPart);
 			}
+		}
+		for (URI classURI : classNames.keySet()) {
+			EClass eClass = ModelManager.getEClassByURI(packages, classURI);
+			String className = eClass.getName();
+			oclUseText = oclUseText.replaceAll(className, classNames.get(classURI));
 		}
 		
 		return oclUseText;

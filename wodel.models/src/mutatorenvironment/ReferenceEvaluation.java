@@ -253,7 +253,7 @@ public interface ReferenceEvaluation extends Evaluation {
 	 * @return the value of the '<em>Container</em>' attribute.
 	 * @see #setContainer(boolean)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getReferenceEvaluation_Container()
-	 * @model default="false"
+	 * @model default="false" required="true"
 	 * @generated
 	 */
 	boolean isContainer();

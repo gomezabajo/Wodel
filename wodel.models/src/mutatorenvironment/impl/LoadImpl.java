@@ -70,6 +70,7 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFile() {
 		return file;
 	}
@@ -79,6 +80,7 @@ public class LoadImpl extends MinimalEObjectImpl.Container implements Load {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFile(String newFile) {
 		String oldFile = file;
 		file = newFile;

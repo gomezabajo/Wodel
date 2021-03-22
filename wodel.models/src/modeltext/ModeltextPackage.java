@@ -132,7 +132,7 @@ public interface ModeltextPackage extends EPackage {
 	int ELEMENT__REF = 1;
 
 	/**
-	 * The feature id for the '<em><b>Att</b></em>' containment reference.
+	 * The feature id for the '<em><b>Att</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -390,10 +390,10 @@ public interface ModeltextPackage extends EPackage {
 	EReference getElement_Ref();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link modeltext.Element#getAtt <em>Att</em>}'.
+	 * Returns the meta object for the containment reference list '{@link modeltext.Element#getAtt <em>Att</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Att</em>'.
+	 * @return the meta object for the containment reference list '<em>Att</em>'.
 	 * @see modeltext.Element#getAtt()
 	 * @see #getElement()
 	 * @generated
@@ -582,7 +582,7 @@ public interface ModeltextPackage extends EPackage {
 		EReference ELEMENT__REF = eINSTANCE.getElement_Ref();
 
 		/**
-		 * The meta object literal for the '<em><b>Att</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Att</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

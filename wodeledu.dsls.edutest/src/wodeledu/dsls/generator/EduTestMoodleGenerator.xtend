@@ -29,6 +29,11 @@ import java.text.NumberFormat
 import java.util.Locale
 import edutest.Test
 import java.util.AbstractMap.SimpleEntry
+import edutest.MissingWords
+import java.util.Map
+import java.util.ArrayList
+import java.util.TreeMap
+import java.util.HashMap
 
 /**
  * @author Pablo Gomez-Abajo - eduTest code generator.
@@ -81,10 +86,11 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		<quiz>
 		  <question type="category">
 		    <category>
-		      <text>$course$/top/Por defecto en Automatas</text>
+		      <text>$course$/top/dfa</text>
 		    </category>
 		    <info format="moodle_auto_format">
-		      <text>Categoria por defecto para preguntas compartidas en el contexto Automatas.</text>
+		      <text>Default category in the context of deterministic finite automata.</text>
+		      <!--<text>Categoria por defecto para preguntas compartidas en el contexto Aut&#243;matas.</text>-->
 		    </info>
 		    <idnumber></idnumber>
 		  </question>
@@ -94,14 +100,15 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		«FOR exercise : program.exercises»
     	«IF exercise instanceof AlternativeResponse»
 		«FOR test : exercise.tests»
+	    «IF rand.get(exercise).get(test).size() > 0»
           <question type="truefalse">
 		    <name>
-		      <text>«test.question.replace("\"", "'")»</text>
+		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
 		    </name>
 		    <questiontext format="html">
 		      <!-- «var diagram = rand.get(exercise).get(test).get(0)»-->
 		      <!-- «var UUID uuid = UUID.randomUUID()»-->
-		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="40%" height="40%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+		      <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p><p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="«test.question.replace("\"", "'")»" width="46%" height="46%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
 		<file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
 		    </questiontext>
 		    <generalfeedback format="html">
@@ -139,9 +146,17 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 		    </answer>
 		      «ENDIF»
 		  </question>
+		«ENDIF»
     	«ENDFOR»
 		«ENDIF»
     	«IF exercise instanceof MultiChoiceDiagram»
+           «var int min = Integer.MAX_VALUE»
+		«FOR test : exercise.tests»
+           «var int counter = diagrams.get(exercise).get(test).size()»
+           «IF min > diagrams.get(exercise).get(test).size()»
+           «{min = counter; ""}»
+           «ENDIF»
+         «ENDFOR»
 		«FOR test : exercise.tests»
          <question type="multichoice">
            <name>
@@ -161,36 +176,78 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
            <shuffleanswers>true</shuffleanswers>
            <answernumbering>abc</answernumbering>
            <correctfeedback format="html">
-           <text>Respuesta correcta</text>
+           <!--<text>Respuesta correcta</text>-->
+           <text>Right answer.</text>
            </correctfeedback>
            <partiallycorrectfeedback format="html">
-           <text>Respuesta parcialmente correcta.</text>
+           <!--<text>Respuesta parcialmente correcta.</text>-->
+           <text>Partially right answer.</text>
            </partiallycorrectfeedback>
            <incorrectfeedback format="html">
-           <text>Respuesta incorrecta.</text>
+           <!--<text>Respuesta incorrecta.</text>-->
+           <text>Wrong answer.</text>
            </incorrectfeedback>
            <shownumcorrect/>
+           «var counter = 0»
            «FOR diagram : diagrams.get(exercise).get(test)»
 		   <!-- «var UUID uuid = UUID.randomUUID()»-->
            «IF diagram.equals(test.source.replace('.model', '.png'))»
            <answer fraction="100" format="html">
-           «ELSE»
-           <answer fraction="0" format="html">
-           «ENDIF»
-           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="40%" height="40%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
            <feedback format="html">
            <text></text>
            </feedback>
            </answer>
+           «ELSE»
+           «IF counter < min - 1»
+           «{counter++; ""}»
+           <answer fraction="0" format="html">
+           <text><![CDATA[<p><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+           <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64("diagrams/" + test.source.replace('.model', '') + "/" + diagram)»</file>
+           <feedback format="html">
+           <text></text>
+           </feedback>
+           </answer>
+           «ENDIF»
+           «ENDIF»
            «ENDFOR»
          </question>
     	«ENDFOR»
 		«ENDIF»
+		«var Map<Test, List<SimpleEntry<String, Boolean>>> mapTextOptions = new HashMap<Test, List<SimpleEntry<String, Boolean>>>()»
 		«IF exercise instanceof MultiChoiceEmendation»
+        «var int min = Integer.MAX_VALUE»
 		«FOR test : exercise.tests»
+		«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
+          «var counter = 0»
+          «var List<SimpleEntry<String, Boolean>> textOptions = new ArrayList<SimpleEntry<String, Boolean>>()»
+          «FOR opt : options.get(exercise).get(test)»
+          «FOR String key : opt.text.keySet()»
+          «FOR String text : opt.text.get(key)»
+          «var boolean found = false»
+          «FOR SimpleEntry<String, Boolean> entry : textOptions»
+          «IF entry.getKey().equals(text)»
+          «{found = true; ""}»
+          «ENDIF»
+          «ENDFOR»
+          «IF found == false»
+          «{counter ++; ""}»
+          «{textOptions.add(new SimpleEntry<String, Boolean>(text, false)); ""}»
+          «ENDIF»
+          «ENDFOR»
+          «ENDFOR»
+          «ENDFOR»
+          «{mapTextOptions.put(test, textOptions); ""}»
+          «IF min > counter»
+          «{min = counter; ""}»
+          «ENDIF»
+        «ENDIF»
+        «ENDFOR»
+		«FOR test : exercise.tests»
+		«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
             <!--«var String diagram = ''»-->
-			«IF (options.get(exercise).get(test) != null)»
+			«IF (options.get(exercise).get(test) !== null)»
 			«FOR opt : options.get(exercise).get(test)»
 			«IF opt.text.size > 0»
 			«IF opt.solution == true»
@@ -206,7 +263,7 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           </name>
           <questiontext format="html">
             <!-- «var UUID uuid = UUID.randomUUID()»-->
-			<text><![CDATA[<p>«test.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="multiple choice" width="40%" height="40%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+			<text><![CDATA[<p>«test.question.replace("\"", "'")»<br><br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="multiple choice" width="46%" height="46%" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
             <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
           </questiontext>
           <generalfeedback format="html">
@@ -220,58 +277,175 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           <shuffleanswers>true</shuffleanswers>
           <answernumbering>abc«/*var char car = 'a'»«FOR opt : options.get(exercise).get(test)»«car++»«ENDFOR*/»</answernumbering>
           <correctfeedback format="html">
-          <text>Respuesta correcta</text>
+          <!--<text>Respuesta correcta</text>-->
+          <text>Right answer.</text>
           </correctfeedback>
           <partiallycorrectfeedback format="html">
-          <text>Respuesta parcialmente correcta.</text>
+          <!--<text>Respuesta parcialmente correcta.</text>-->
+          <text>Partially right answer.</text>
           </partiallycorrectfeedback>
           <incorrectfeedback format="html">
-          <text>Respuesta incorrecta.</text>
+          <!--<text>Respuesta incorrecta.</text>-->
+          <text>Wrong answer.</text>
           </incorrectfeedback>
           <shownumcorrect/>
           «var int solutions = 0»
-          «IF (options.get(exercise).get(test) != null)»
+          «IF (options.get(exercise).get(test) !== null)»
           «FOR opt : options.get(exercise).get(test)»
+          «var List<String> textOptions = new ArrayList<String>()»
           «IF opt.text.size > 0»
           «IF opt.solution == true»
-                «{solutions++; ""}»
+          «FOR String key : opt.text.keySet()»
+          «FOR String text : opt.text.get(key)»
+          «IF !textOptions.contains(text)»
+                «{solutions ++; ""}»
+                «{textOptions.add(text); ""}»
+          «ENDIF»
+          «ENDFOR»
+          «ENDFOR»
           «ENDIF»
           «ENDIF»
           «ENDFOR»
-          «ENDIF»
-          «IF options.get(exercise).get(test) != null»
           «FOR opt : options.get(exercise).get(test)»
-          «IF opt.text.size > 0»
           «IF opt.solution == true»
+          «IF opt.text.size > 0»
+          «FOR String key : opt.text.keySet()»
+          «FOR String text : opt.text.get(key)»
+          «var boolean found = false»
+          «FOR SimpleEntry<String, Boolean> entry : mapTextOptions.get(test)»
+          «IF entry.getKey().equals(text) && !entry.getValue()»
+          «{found = true; ""}»
+          «{entry.setValue(true); ""}»
+          «ENDIF»
+          «ENDFOR»
+          «IF found == true»
           «IF 100 % solutions == 0»
           <answer fraction="«100/solutions»" format="html">
+          <text><![CDATA[<p>«text.trim()»<br></p>]]></text>
+          <feedback format="html">
+          <text></text>
+          </feedback>
+          </answer>
           «ELSE»
           <!--«var DecimalFormat formatter = (NumberFormat.getNumberInstance(new Locale("en", "UK")) as DecimalFormat)»-->
           «{formatter.applyPattern("###.#####"); ""}»
           <answer fraction="«formatter.format(100.0/solutions)»" format="html">
-          «ENDIF»
-          «ELSE»
-          <answer fraction="0" format="html">
-          «ENDIF»
-          <text><![CDATA[<p>«opt.text.get(0).trim()»<br></p>]]></text>
+          <text><![CDATA[<p>«text.trim()»<br></p>]]></text>
           <feedback format="html">
           <text></text>
           </feedback>
           </answer>
           «ENDIF»
+          «ENDIF»
+          «ENDFOR»
+          «ENDFOR»
+          «ENDIF»
+          «ENDIF»
+          «ENDFOR»
+          «FOR opt : options.get(exercise).get(test)»
+          «IF opt.solution == false»
+          «var int counter = 0»
+          «IF opt.text.size > 0»
+          «FOR String key : opt.text.keySet()»
+          «FOR String text : opt.text.get(key)»
+          «var boolean found = false»
+          «FOR SimpleEntry<String, Boolean> entry : mapTextOptions.get(test)»
+          «IF entry.getKey().equals(text) && !entry.getValue()»
+          «{found = true; ""}»
+          «{entry.setValue(true); ""}»
+          «ENDIF»
+          «ENDFOR»
+          «IF found == true»
+          «IF counter < min - solutions»
+          <answer fraction="0" format="html">
+          <text><![CDATA[<p>«text.trim()»<br></p>]]></text>
+          <feedback format="html">
+          <text></text>
+          </feedback>
+          </answer>
+          «{counter++; ""}»
+          «ENDIF»
+          «ENDIF»
+          «ENDFOR»
+          «ENDFOR»
+          «ENDIF»
+          «ENDIF»
+          «ENDFOR»
+          «FOR SimpleEntry<String, Boolean> entry : mapTextOptions.get(test)»
+          «IF entry.getValue() == true»
+          «ENDIF»
           «ENDFOR»
           «ENDIF»
         </question>
           «ENDIF»
+          «ENDIF»
 		«ENDFOR»
 		«ENDIF»
 		«IF exercise instanceof MatchPairs»
+        «var int min = Integer.MAX_VALUE»
+        «var int index = 0»
+        «var int max = Integer.MIN_VALUE»
+		«FOR test : exercise.tests»
+		«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
+          «var List<String> textOptions = new ArrayList<String>()»
+          «var int k = 0»
+          «var int counter = 0»
+          «FOR TestOption opt : options.get(exercise).get(test)»
+          «FOR String key : opt.text.keySet()»
+          «FOR String text : opt.text.get(key)»
+          «IF !textOptions.contains(text)»
+          «{counter++; ""}»
+          «{textOptions.add(text); ""}»
+          «ENDIF»
+          «ENDFOR»
+          «ENDFOR»
+          «ENDFOR»
+          «IF counter > max»
+          «{max = counter; ""}»
+          «{index = k; ""}»
+          «ENDIF»
+          «{k++; ""}»
+        «ENDIF»
+        «ENDFOR»
+		«FOR test : exercise.tests»
+		«IF options.get(exercise) !== null && options.get(exercise).get(test) !== null»
+          «var int k = 0»
+          «var int counter = 0»
+          «var List<String> textOptions = new ArrayList<String>()»
+          «FOR TestOption opt : options.get(exercise).get(test)»
+          «FOR String key : opt.text.keySet()»
+          «FOR String text : opt.text.get(key)»
+          «IF !textOptions.contains(text)»
+          «{counter++; ""}»
+          «{textOptions.add(text); ""}»
+          «ENDIF»
+          «ENDFOR»
+          «ENDFOR»
+          «ENDFOR»
+          «IF min > counter»
+          «{min = counter; ""}»
+          «ENDIF»
+          «{k++; ""}»
+        «ENDIF»
+        «ENDFOR»
+        «var int k = 0»
+        «FOR Test test : exercise.tests»
+        <!--«var TestOption opt = null»-->
+        «IF (options.get(exercise).get(test) !== null && options.get(exercise).get(test).size() > index)»
+        <!--«opt = options.get(exercise).get(test).get(index)»-->
+        «ENDIF»
+        «IF opt !== null»
+        <!--«var String diagram = ''»-->
+        <!--«diagram = opt.path»-->
         <question type="matching">
           <name>
              <text>Question «i++»</text>
           </name>
           <questiontext format="html">
-          <text><![CDATA[<p>Match the diagram on the left with the correct option on the right.</p>]]></text>
+          <!-- «var UUID uuid = UUID.randomUUID()»-->
+          <text><![CDATA[<p>Match the correct option on the right with each of the statements on the left<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
+          <!--<text><![CDATA[<p>Empareja cada uno de los enunciados de la izquierda con la opci&#243;n correcta de la derecha<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>-->
+          <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
           </questiontext>
           <generalfeedback format="html">
           <text></text>
@@ -282,42 +456,130 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
           <idnumber></idnumber>
           <shuffleanswers>true</shuffleanswers>
           <correctfeedback format="html">
-          <text>Respuesta correcta</text>
+          <!--<text>Respuesta correcta</text>-->
+          <text>Right answer.</text>
           </correctfeedback>
           <partiallycorrectfeedback format="html">
-          <text>Respuesta parcialmente correcta.</text>
+          <!--<text>Respuesta parcialmente correcta.</text>-->
+          <text>Partially right answer.</text>
           </partiallycorrectfeedback>
           <incorrectfeedback format="html">
-          <text>Respuesta incorrecta.</text>
+          <!--<text>Respuesta incorrecta.</text>-->
+          <text>Wrong answer.</text>
           </incorrectfeedback>
           <shownumcorrect/>
-          «FOR Test test : exercise.tests»
-          <!--«var String diagram = ''»-->
-          «IF (options.get(exercise).get(test) != null && options.get(exercise).get(test).size() > 0)»
-          «FOR TestOption opt : options.get(exercise).get(test)»
-          «IF opt.path.contains(exercise.blocks.get(0).name)»
-          <!--«diagram = opt.path»-->
-          «FOR SimpleEntry<Resource, List<String>> entry: opt.reverse»
+          «var TreeMap<Integer, SimpleEntry<String, String>> entries = new TreeMap<Integer, SimpleEntry<String, String>>()»
+          «FOR TestOption op : options.get(exercise).get(test)»
+            «IF test.expression == true»
+            «var String key = getText(test.identifier, op.entry.getKey().getURI().toFileString(), resource)»
+            «IF key.length() <= 36»
+            «var boolean found = false»
+            «FOR int length : entries.keySet()»
+            «var SimpleEntry<String, String> entry = entries.get(length)»
+            «IF entry.getValue().equals(key)»
+            «{found = true; ""}»
+            «ENDIF»
+            «ENDFOR»
+            «IF found == false»
+            «var SimpleEntry<String, String> entry = new SimpleEntry<String, String>(key, op.text.get(op.text.keySet().get(index)).get(index).trim())»
+            «{entries.put(key.length,  entry); ""}»
+            «ENDIF»
+            «ENDIF»
+            «ENDIF»
+          «ENDFOR»          
+          «var String question = test.question.replace("\"", "'")»
+          «var int counter = 0»
+          «FOR int length : entries.keySet()»
+          «IF counter < min»
+          «var SimpleEntry<String, String> entry = entries.get(length)»
           <subquestion format="html">
-            <!-- «var UUID uuid = UUID.randomUUID()»-->
-            <!-- «var String question = test.question.replace("\"", "'")»-->
-            <!-- «IF test.expression == true»-->
-            <!-- «question += getText(entry.getKey().getURI().toFileString(), resource)»-->
-            <!-- «System.out.println(entry.getKey().getURI().toFileString())»-->
-            <!-- «ENDIF»-->
-			<text><![CDATA[<p>«question»<br><br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="40%" height="40%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br></p>]]></text>
-            <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
+			<text><![CDATA[<p>«question + entry.getKey()»<br></p>]]></text>
           <answer>
-          <text><![CDATA[<p>«entry.getValue().get(0).trim()»<br></p>]]></text>
+          <text><![CDATA[<p>«entry.getValue()»<br></p>]]></text>
           </answer>
           </subquestion>
-          «ENDFOR»
+          «{counter++; ""}»
           «ENDIF»
           «ENDFOR»
           «ENDIF»
-          «ENDFOR»
         </question>
-          «ENDIF»
+        «{k++; ""}»
+          «ENDFOR»
+        «ENDIF»
+        «IF exercise instanceof MissingWords»
+        «FOR test : exercise.tests»
+        <question type="gapselect">
+          <name>
+             <text><![CDATA[<p>«test.question.replace("\"", "'")»<br></p>]]></text>
+          </name>
+          <questiontext format="html">
+        <!-- «var int k = 0»-->
+        <!-- «var int solution = 0»-->
+        <!-- «var String textWithGaps = ""»-->
+        <!-- «var TestOption op = null»-->
+        «FOR TestOption opt : options.get(exercise).get(test)»
+        «IF opt.path.contains(exercise.blocks.get(0).name)»
+        <!--«op = opt»-->
+        «ENDIF»
+        «ENDFOR»
+        «IF op !== null»
+        <!-- «var String diagram = op.path»-->
+        <!-- «var UUID uuid = UUID.randomUUID()»-->
+        «FOR String key : op.options.keySet()»
+		<!-- «var int tmp = k»-->
+        <!--«var String opWithGaps = ""»-->
+        «FOR String text : op.text.get(key)»
+        <!--«k++»-->
+        <!--«opWithGaps += text + "%" + k + " "»-->
+        «ENDFOR»
+        <!-- «k = tmp»-->
+        <!-- «var List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = op.options.get(key)»-->
+        «FOR SimpleEntry<String, SimpleEntry<Integer, Boolean>> entry : entries»
+        <!--«solution++»-->
+        «IF entry.getValue().getValue() == true»
+        <!-- «k++»-->
+        <!-- «opWithGaps = opWithGaps.replace("%" + k, "[[" + solution + "]]")»-->
+        «ENDIF»
+        «ENDFOR»
+		<!-- «textWithGaps += opWithGaps.trim() + ".<br>"»-->
+        «ENDFOR»
+          <text><![CDATA[<p>«test.question.replace("\"", "'")»<br><img src="@@PLUGINFILE@@/exercise_«uuid».png" alt="" width="46%" height="46%" role="presentation" class="img-responsive atto_image_button_text-bottom"><br><br></p><p>«textWithGaps.trim()»<br></p>]]></text>
+          <file name="exercise_«uuid».png" path="/" encoding="base64">«getStringBase64(diagram)»</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <shuffleanswers>0</shuffleanswers>
+    <correctfeedback format="html">
+      <!--<text>Respuesta correcta</text>-->
+      <text>Right answer.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <!--<text>Respuesta parcialmente correcta.</text>-->
+      <text>Partially right answer.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <!--<text>Respuesta incorrecta.</text>-->
+      <text>Wrong answer.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+        «FOR String key : op.options.keySet()»
+        <!-- «var List<SimpleEntry<String, SimpleEntry<Integer, Boolean>>> entries = op.options.get(key)»-->
+        «FOR SimpleEntry<String, SimpleEntry<Integer, Boolean>> entry : entries»
+        <selectoption>
+        <text>«entry.getKey().trim()»</text>
+        <group>«entry.getValue().getKey()»</group>
+        </selectoption>
+        «ENDFOR»
+        «ENDFOR»
+        «ENDIF»
+        </question>
+	    «ENDFOR»
+        «ENDIF»
 	    «ENDFOR»
 		</quiz>
 	'''

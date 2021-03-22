@@ -93,6 +93,7 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -117,6 +118,7 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;
@@ -136,6 +138,7 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeSet> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentEList<AttributeSet>(AttributeSet.class, this, MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__ATTRIBUTES);
@@ -148,6 +151,7 @@ public class ModifyInformationMutatorImpl extends MutatorImpl implements ModifyI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ReferenceSet> getReferences() {
 		if (references == null) {
 			references = new EObjectContainmentEList<ReferenceSet>(ReferenceSet.class, this, MutatorenvironmentPackage.MODIFY_INFORMATION_MUTATOR__REFERENCES);

@@ -25,10 +25,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -44,7 +40,6 @@ import org.eclipse.ui.ide.IDE;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
-import exceptions.MetaModelNotFoundException;
 import manager.IOUtils;
 import manager.ModelManager;
 import utils.EclipseHelper;
@@ -144,18 +139,19 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 
 		requiredBundles.add("wodel.utils;bundle-version=\"1.0.0\"");
 		requiredBundles.add("wodel.models;bundle-version=\"1.0.0\"");
-		requiredBundles
-				.add("org.eclipse.emf.ecore.xmi;bundle-version=\"2.9.0\"");
+		requiredBundles.add("org.eclipse.emf.ecore.xmi;bundle-version=\"2.9.0\"");
 		requiredBundles.add("org.eclipse.emf.ecore");
 		requiredBundles.add("org.eclipse.emf.compare;bundle-version=\"3.1.2\"");
 		requiredBundles.add("com.google.guava;bundle-version=\"15.0.0\"");
 		requiredBundles.add("org.apache.log4j;bundle-version=\"1.2.15\"");
 		requiredBundles.add("org.eclipse.ocl;bundle-version=\"3.4.2\"");
 		requiredBundles.add("org.eclipse.ocl.ecore;bundle-version=\"3.3.100\"");
-		requiredBundles.add("org.eclipse.core.resources");
+		requiredBundles.add("org.eclipse.core.resources;bundle-version=\"3.12.0\"");
 		requiredBundles.add("org.eclipse.emf.common");
 		requiredBundles.add("org.eclipse.core.runtime;bundle-version=\"3.10.0\"");
 		requiredBundles.add("org.eclipse.text");
+		requiredBundles.add("org.eclipse.e4.ui.workbench");
+		requiredBundles.add("org.eclipse.ui");
 
 		IProject project = EclipseHelper.createWodelProject(projectName,
 				folders, referencedProjects, requiredBundles, importPackages,
@@ -265,29 +261,38 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		final IFile file = srcFolder.getFile(new Path(fileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "generate 2 mutants\n"
+			String def = "generate 10 mutants\n"
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
-			def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
-			def += "\tsimple1 {\n";
+			def += "\tmts1 {\n";
 			def += "\t\tmodify target tar from one Transition to other State\n";
-			def += "\t} [2]\n";
-			def += "\tsimple2 {\n";
+			def += "\t} [4]\n";
+			def += "\tmts2nf {\n";
 			def += "\t\ts0 = select one State where {isInitial = true}\n";
 			def += "\t\ts1 = select one State where {isFinal = false}\n";
 			def += "\t\tt0 = select one Transition where {src = s0}\n";
-			def += "\t\tmodify one Transition where {tar = s1} with {swapref(tar, t0->tar)}\n";
-			def += "\t} [1]\n";
-			def += "\tfirst {\n";
-			def += "\t\tmodify target tar from one Transition to other State\n";
+			def += "\t\tmodify one Transition where {self <> t0 and tar = s1} with {swapref(tar, t0->tar)}\n";
+			def += "\t} [3]\n";
+			def += "\trfs1 {\n";
 			def += "\t\tmodify one State with {reverse(isFinal)}\n";
 			def += "\t}\n";
-			def += "\tsecond from first repeat=no{\n";
+			def += "\tmts2 {\n";
+			def += "\t\tmodify target tar from one Transition to other State\n";
+			def += "\t}\n";
+			def += "\trfs2 {\n";
+			def += "\t\tmodify one State with {reverse(isFinal)}\n";
+			def += "\t}\n";
+			def += "\tmtsrfs1 {\n";
 			def += "\t\tmodify target tar from one Transition to other State\n";
 			def += "\t\tmodify one State with {reverse(isFinal)}\n";
 			def += "\t} [3]\n";
-			def += "\tthird from first repeat=no {\n";
+			def += "\tmtsrfs2 from mtsrfs1 repeat=no {\n";
+			def += "\t\tmodify target tar from one Transition to other State\n";
+			def += "\t\tmodify one State with {reverse(isFinal)}\n";
+			def += "\t} [3]\n";
+			def += "\tmtsrfs3 from mtsrfs1 repeat=no {\n";
 			def += "\t\tmodify target tar from one Transition to other State\n";
 			def += "\t\tmodify one State with {reverse(isFinal)}\n";
 			def += "\t} [3]\n";
@@ -357,7 +362,7 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		final IFile graphFile = srcFolder.getFile(new Path(graphFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			String def = "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			
 			def += "Automaton: diagram {\n";
 			def += "\tState(isInitial): markednode\n"
@@ -382,27 +387,31 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		try {
 			InputStream stream = openContentStream();
 			String def = "navigation=free\n"
-					+ "MultiChoiceEmendation first {\n"
+					+ "AlternativeResponse mts2nf {\n"
+					+ "\tretry=no\n"
+					+ "\tdescription for 'exercise1.model' = 'Does this automaton accept only the language of the even binary numbers?'\n"
+					+ "\tdescription for 'exercise2.model' = 'Does this automaton accept only the language defined by \"a<sup>*</sup>b<sup>*</sup>\"?'\n"
+					+ "}\n"
+					+ "MultiChoiceDiagram mts1 {\n"
+					+ "\tretry=no\n"
+					+ "\tdescription for 'exercise3.model' = 'Select which of these automata accepts only the language defined by \"aa<sup>+</sup>b<sup>*</sup>|ab<sup>+</sup>\"'\n"
+					+ "\tdescription for 'exercise4.model' = 'Select which of these automata accepts only the language defined by \"a<sup>*</sup>b\"'\n"
+					+ "}\n"
+					+ "MultiChoiceEmendation mtsrfs1 {\n"
 					+ "\tretry=no, weighted=no, penalty=0.0,\n"
 					+ "\torder=options-descending, mode=checkbox\n"
-					+ "\tdescription for 'exercise4.model' = 'Which changes shall be applied to this automaton to accept only \"a<sup>+</sup>b<sup>+</sup>\"?'\n"
-					+ "\tdescription for 'exercise6.model' = 'Which changes shall be applied to this automaton to accept only \"a*b\"?'\n"
-					+ "\tdescription for 'exercise10.model' = 'Which changes shall be applied to this automaton to accept only \"a*b*\"?'\n"
-					+ "\tdescription for 'exercise12.model' = 'Which changes shall be applied to this automaton to accept only \"ba*|ba*b\"?'\n"
+					+ "\tdescription for 'exercise5.model' = 'Which changes shall be applied to this automaton to accept only the language defined by \"(ab)<sup>*</sup>ba\"'\n"
+					+ "\tdescription for 'exercise6.model' = 'Which changes shall be applied to this automaton to accept only the language defined by \"a<sup>+</sup>b<sup>+</sup>'\n"
 					+ "}\n"
-					+ "MultiChoiceDiagram simple1 {\n"
+					+ "MatchPairs rfs1, mts2, rfs2 {\n"
 					+ "\tretry=no"
-					+ "\tdescription for 'exercise1.model' = 'Select which of these automata accepts only the even binary numbers.'\n"
-					+ "\tdescription for 'exercise2.model' = 'Select which of these automata accepts only \"a<sup>2</sup>+b*|a<sup>2</sup>b+|ab+\"'\n"
-					+ "\tdescription for 'exercise3.model' = 'Select which of these automata accepts only \"a*bab*\"'\n"
-					+ "\tdescription for 'exercise5.model' = 'Select which of these automata accepts only \"0<sup>m</sup>1<sup>n</sup>0<sup>p</sup> (m >= 0, n >= 0, p >= 1)\"'\n"
+					+ "\tdescription for 'exercise7.model' = 'Select which of these options modifies the above automaton to accept only the language defined by ' %text('reg-exp')\n"
+					+ "\tdescription for 'exercise8.model' = 'Select which of these options modifies the above automaton to accept only the language defined by ' %text('reg-exp')\n"
 					+ "}\n"
-					+ "AlternativeResponse simple2 {\n"
+					+ "MissingWords mtsrfs1 {\n"
 					+ "\tretry=no\n"
-					+ "\tdescription for 'exercise7.model' = 'Does this automaton accept only \"((ab)*|(ba)*)<sup>+</sup>\"?'\n"
-					+ "\tdescription for 'exercise8.model' = 'Does this automaton accept only \"ab(ba)*\"?'\n"
-					+ "\tdescription for 'exercise9.model' = 'Does this automaton accept only \"(ab)*ba\"?'\n"
-					+ "\tdescription for 'exercise11.model' = 'Does this automaton accept only \"(a|b)(a(a|b)|b(a|b))*\"?'\n"
+					+ "\tdescription for 'exercise9.model' = 'Complete the following text with the options for each gap that modify this automaton to accept only the language defined by \"ab(ba)<sup>*</sup>\"'\n"
+					+ "\tdescription for 'exercise10.model' = 'Complete the following text with the options for each gap that modify this automaton to accept only the language defined by \"ba<sup>*</sup>|ba<sup>*</sup>b\"'\n"
 					+ "}";
 			if (testsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
@@ -420,8 +429,12 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		final IFile idelemsFile = srcFolder.getFile(new Path(idelemsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			String def = "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += ">State: State %name\n";
+			def += ">State(isFinal): final\n";
+			def += ">State(not isFinal): non final\n";
+			def += ">State(isInitial): initial\n";
+			def += ">State(not isInitial): non initial\n";
 			def += ">Transition: Transition %symbol.symbol\n";
 			def += ">Transition.tar: target\n";
 			def += ">Transition.src: source\n";
@@ -445,11 +458,13 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		final IFile cfgoptsFile = srcFolder.getFile(new Path(cfgoptsFileName));
 		try {
 			InputStream stream = openContentStream();
-			String def = "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
-			def += ">TargetReferenceChanged: Change %object from %fromObject to %toObject with new %refName %oldToObject /\n";
+			String def = "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
+			def += ">TargetReferenceChanged:\n";
+			def += "\tChange %object from %fromObject to %toObject with new %refName %oldToObject /\n";
 			def += "\tChange %object from %fromObject to %oldToObject with new %refName %toObject\n";
-			def += ">AttributeChanged: Change attribute %attName from %object with value %newValue to %oldValue /\n";
-			def += "\tChange attribute %attName from %object with value %oldValue to %newValue\n";
+			def += ">AttributeChanged:\n";
+			def += "\tChange %object to %value /\n";
+			def += "\tChange %object to %value\n";
 			if (cfgoptsFile.exists()) {
 				String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 				content += def;
@@ -537,6 +552,100 @@ public class WodelEduAutomataWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 
+		final IFolder configurationsFolder = project.getFolder(new Path("data/configurations"));
+		try {
+			configurationsFolder.create(true, true, monitor);
+		} catch (CoreException e) {
+		}
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+		    	if (! entry.isDirectory()) {
+		    		if (entry.getName().startsWith("configurations")) {
+		    			final String name = entry.getName();
+		    			final File f = configurationsFolder.getRawLocation().makeAbsolute().toFile();
+		    			File path = new File(f.getPath() + '/' + entry.getName().replace("configurations/", "").split("/")[0]);
+		    			if (!path.exists()) {
+		    				path.mkdir();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("configurations/", ""));
+		    			InputStream input = jar.getInputStream(entry);
+		    			FileOutputStream output = new FileOutputStream(dest);
+		    			while (input.available() > 0) {
+		    				output.write(input.read());
+		    			}
+		    			output.close();
+		    			input.close();
+		    		}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "configurations";
+			final File src = new Path(srcName).toFile();
+			final File dest = configurationsFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolder(src, dest);
+			}
+		}
+		} catch (IOException e) {
+		}
+		
+		final IFolder initialFolder = project.getFolder(new Path("data/initial"));
+		try {
+			initialFolder.create(true, true, monitor);
+		} catch (CoreException e) {
+		}
+		try {
+		//Bundle bundle = Platform.getBundle("wodel.wodeledu");
+		//URL fileURL = bundle.getEntry("content");
+		final File jarFile = new File(WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		String srcName = "";
+		if (jarFile.isFile()) {
+			final JarFile jar = new JarFile(jarFile);
+			final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+		    while(entries.hasMoreElements()) {
+		    	JarEntry entry = entries.nextElement();
+		    	if (! entry.isDirectory()) {
+		    		if (entry.getName().startsWith("initial")) {
+		    			final String name = entry.getName();
+		    			final File f = initialFolder.getRawLocation().makeAbsolute().toFile();
+		    			File path = new File(f.getPath() + '/' + entry.getName().replace("initial/", "").split("/")[0]);
+		    			if (!path.exists()) {
+		    				path.mkdir();
+		    			}
+		    			File dest = new File(f.getPath() + '/' + entry.getName().replace("initial/", ""));
+		    			InputStream input = jar.getInputStream(entry);
+		    			FileOutputStream output = new FileOutputStream(dest);
+		    			while (input.available() > 0) {
+		    				output.write(input.read());
+		    			}
+		    			output.close();
+		    			input.close();
+		    		}
+	    		}
+		    }
+		    jar.close();
+		}
+		else {
+			srcName = WodelEduAutomataWizard.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "initial";
+			final File src = new Path(srcName).toFile();
+			final File dest = initialFolder.getRawLocation().makeAbsolute().toFile();
+			if ((src != null) && (dest != null)) {
+				IOUtils.copyFolder(src, dest);
+			}
+		}
+		} catch (IOException e) {
+			
+		}
 	}
 	
 	/**

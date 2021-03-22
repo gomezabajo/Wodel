@@ -103,11 +103,23 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
 		scope.addAll(getEReferences((edge.eContainer as MutatorDraw).metamodel, edge.name.name))
 		Scopes.scopeFor(scope)
 	}
+	
+	def IScope scope_Relation_refType(Edge edge, EReference ref) {
+		val scope = new ArrayList<EReference>()
+		if (edge.reference !== null && edge.reference.size > 0) {
+			for (EReference reference : edge.reference) {
+				scope.addAll(getEReferences((edge.eContainer as MutatorDraw).metamodel, reference.EType.name))
+			}
+		}
+		Scopes.scopeFor(scope)
+	}
 
 	def IScope scope_Relation_label(Edge edge, EReference ref) {
 		val scope = new ArrayList<EAttribute>()
-		if (edge.reference != null) {
-			scope.addAll(getEAttributes((edge.eContainer as MutatorDraw).metamodel, edge.reference.EType.name))
+		if (edge.reference !== null && edge.reference.size > 0) {
+			for (EReference reference : edge.reference) {
+				scope.addAll(getEAttributes((edge.eContainer as MutatorDraw).metamodel, reference.EType.name))
+			}
 		}
 		else {
 			scope.addAll(getEAttributes((edge.eContainer as MutatorDraw).metamodel, edge.name.name))
@@ -188,7 +200,7 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
 	  	val List<EPackage>    metamodel  = ModelManager.loadMetaModel(metamodelFile)
 	  	val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
         val ArrayList<EAttribute> atts = new ArrayList<EAttribute>()
-        if (eclass != null) {
+        if (eclass !== null) {
         	atts.addAll(eclass.EAllAttributes)
         	for (EClass c : eclass.getESuperTypes) {
         		atts.addAll(c.EAllAttributes)
@@ -207,7 +219,7 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
         val List<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
         val EClass            eclass     = ModelManager.getObjectOfType(eclassName, metamodel) as EClass
         val ArrayList<EReference> refs = new ArrayList<EReference>()
-        if (eclass != null) {
+        if (eclass !== null) {
         	refs.addAll(eclass.EAllReferences)
         	for (EClass c : eclass.getESuperTypes) {
         		refs.addAll(c.EAllReferences)
@@ -226,7 +238,7 @@ class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
         val List<EPackage>   metamodel  = ModelManager.loadMetaModel(metamodelFile)
         val EEnum            eenum     = ModelManager.getObjectOfType(eenumName, metamodel) as EEnum
         val ArrayList<EEnumLiteral> lits = new ArrayList<EEnumLiteral>()
-        if (eenum != null) {
+        if (eenum !== null) {
         	lits.addAll(eenum.ELiterals)
         }
         return lits

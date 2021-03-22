@@ -134,6 +134,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isWeighted() {
 		return weighted;
 	}
@@ -143,6 +144,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWeighted(boolean newWeighted) {
 		boolean oldWeighted = weighted;
 		weighted = newWeighted;
@@ -155,6 +157,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getPenalty() {
 		return penalty;
 	}
@@ -164,6 +167,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPenalty(double newPenalty) {
 		double oldPenalty = penalty;
 		penalty = newPenalty;
@@ -176,6 +180,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Order getOrder() {
 		return order;
 	}
@@ -185,6 +190,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOrder(Order newOrder) {
 		Order oldOrder = order;
 		order = newOrder == null ? ORDER_EDEFAULT : newOrder;
@@ -197,6 +203,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Mode getMode() {
 		return mode;
 	}
@@ -206,6 +213,7 @@ public class MultiChoiceEmConfigImpl extends TestConfigurationImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMode(Mode newMode) {
 		Mode oldMode = mode;
 		mode = newMode == null ? MODE_EDEFAULT : newMode;

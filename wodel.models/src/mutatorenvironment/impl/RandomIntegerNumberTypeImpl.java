@@ -69,6 +69,7 @@ public class RandomIntegerNumberTypeImpl extends RandomNumberTypeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getMin() {
 		return min;
 	}
@@ -78,6 +79,7 @@ public class RandomIntegerNumberTypeImpl extends RandomNumberTypeImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMin(int newMin) {
 		int oldMin = min;
 		min = newMin;

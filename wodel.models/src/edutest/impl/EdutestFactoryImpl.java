@@ -65,6 +65,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 			case EdutestPackage.MULTI_CHOICE_DIAGRAM: return createMultiChoiceDiagram();
 			case EdutestPackage.MULTI_CHOICE_EMENDATION: return createMultiChoiceEmendation();
 			case EdutestPackage.MATCH_PAIRS: return createMatchPairs();
+			case EdutestPackage.MISSING_WORDS: return createMissingWords();
 			case EdutestPackage.TEST: return createTest();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -114,6 +115,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Program createProgram() {
 		ProgramImpl program = new ProgramImpl();
 		return program;
@@ -124,6 +126,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ProgramConfiguration createProgramConfiguration() {
 		ProgramConfigurationImpl programConfiguration = new ProgramConfigurationImpl();
 		return programConfiguration;
@@ -134,6 +137,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TestConfiguration createTestConfiguration() {
 		TestConfigurationImpl testConfiguration = new TestConfigurationImpl();
 		return testConfiguration;
@@ -144,6 +148,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MultiChoiceEmConfig createMultiChoiceEmConfig() {
 		MultiChoiceEmConfigImpl multiChoiceEmConfig = new MultiChoiceEmConfigImpl();
 		return multiChoiceEmConfig;
@@ -154,6 +159,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AlternativeResponse createAlternativeResponse() {
 		AlternativeResponseImpl alternativeResponse = new AlternativeResponseImpl();
 		return alternativeResponse;
@@ -164,6 +170,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MultiChoiceDiagram createMultiChoiceDiagram() {
 		MultiChoiceDiagramImpl multiChoiceDiagram = new MultiChoiceDiagramImpl();
 		return multiChoiceDiagram;
@@ -174,6 +181,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MultiChoiceEmendation createMultiChoiceEmendation() {
 		MultiChoiceEmendationImpl multiChoiceEmendation = new MultiChoiceEmendationImpl();
 		return multiChoiceEmendation;
@@ -184,6 +192,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MatchPairs createMatchPairs() {
 		MatchPairsImpl matchPairs = new MatchPairsImpl();
 		return matchPairs;
@@ -194,6 +203,18 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public MissingWords createMissingWords() {
+		MissingWordsImpl missingWords = new MissingWordsImpl();
+		return missingWords;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Test createTest() {
 		TestImpl test = new TestImpl();
 		return test;
@@ -264,6 +285,7 @@ public class EdutestFactoryImpl extends EFactoryImpl implements EdutestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdutestPackage getEdutestPackage() {
 		return (EdutestPackage)getEPackage();
 	}

@@ -84,6 +84,7 @@ public class IteratorVarCSImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getItName() {
 		return itName;
 	}
@@ -93,6 +94,7 @@ public class IteratorVarCSImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setItName(String newItName) {
 		String oldItName = itName;
 		itName = newItName;
@@ -105,6 +107,7 @@ public class IteratorVarCSImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getItType() {
 		return itType;
 	}
@@ -129,6 +132,7 @@ public class IteratorVarCSImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setItType(PathNameCS newItType) {
 		if (newItType != itType) {
 			NotificationChain msgs = null;

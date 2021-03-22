@@ -53,10 +53,15 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMatchPairsAccess().getGroup(), "rule__MatchPairs__Group__0");
 					put(grammarAccess.getMatchPairsAccess().getGroup_1(), "rule__MatchPairs__Group_1__0");
 					put(grammarAccess.getMatchPairsAccess().getGroup_1_1(), "rule__MatchPairs__Group_1_1__0");
+					put(grammarAccess.getMissingWordsAccess().getGroup(), "rule__MissingWords__Group__0");
+					put(grammarAccess.getMissingWordsAccess().getGroup_1(), "rule__MissingWords__Group_1__0");
+					put(grammarAccess.getMissingWordsAccess().getGroup_1_1(), "rule__MissingWords__Group_1_1__0");
 					put(grammarAccess.getProgramConfigurationAccess().getGroup(), "rule__ProgramConfiguration__Group__0");
 					put(grammarAccess.getTestConfigurationAccess().getGroup(), "rule__TestConfiguration__Group__0");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getGroup(), "rule__MultiChoiceEmConfig__Group__0");
 					put(grammarAccess.getTestAccess().getGroup(), "rule__Test__Group__0");
+					put(grammarAccess.getTestAccess().getGroup_5(), "rule__Test__Group_5__0");
+					put(grammarAccess.getTestAccess().getGroup_5_1(), "rule__Test__Group_5_1__0");
 					put(grammarAccess.getEDoubleAccess().getGroup(), "rule__EDouble__Group__0");
 					put(grammarAccess.getEDoubleAccess().getGroup_4(), "rule__EDouble__Group_4__0");
 					put(grammarAccess.getProgramAccess().getConfigAssignment_1(), "rule__Program__ConfigAssignment_1");
@@ -77,6 +82,10 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMatchPairsAccess().getBlocksAssignment_1_1_1(), "rule__MatchPairs__BlocksAssignment_1_1_1");
 					put(grammarAccess.getMatchPairsAccess().getConfigAssignment_3(), "rule__MatchPairs__ConfigAssignment_3");
 					put(grammarAccess.getMatchPairsAccess().getTestsAssignment_4(), "rule__MatchPairs__TestsAssignment_4");
+					put(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_0(), "rule__MissingWords__BlocksAssignment_1_0");
+					put(grammarAccess.getMissingWordsAccess().getBlocksAssignment_1_1_1(), "rule__MissingWords__BlocksAssignment_1_1_1");
+					put(grammarAccess.getMissingWordsAccess().getConfigAssignment_3(), "rule__MissingWords__ConfigAssignment_3");
+					put(grammarAccess.getMissingWordsAccess().getTestsAssignment_4(), "rule__MissingWords__TestsAssignment_4");
 					put(grammarAccess.getProgramConfigurationAccess().getNavigationAssignment_2(), "rule__ProgramConfiguration__NavigationAssignment_2");
 					put(grammarAccess.getTestConfigurationAccess().getRetryAssignment_3(), "rule__TestConfiguration__RetryAssignment_3");
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getRetryAssignment_3(), "rule__MultiChoiceEmConfig__RetryAssignment_3");
@@ -86,7 +95,8 @@ public class EduTestParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMultiChoiceEmConfigAccess().getModeAssignment_19(), "rule__MultiChoiceEmConfig__ModeAssignment_19");
 					put(grammarAccess.getTestAccess().getSourceAssignment_2(), "rule__Test__SourceAssignment_2");
 					put(grammarAccess.getTestAccess().getQuestionAssignment_4(), "rule__Test__QuestionAssignment_4");
-					put(grammarAccess.getTestAccess().getExpressionAssignment_5(), "rule__Test__ExpressionAssignment_5");
+					put(grammarAccess.getTestAccess().getExpressionAssignment_5_0(), "rule__Test__ExpressionAssignment_5_0");
+					put(grammarAccess.getTestAccess().getIdentifierAssignment_5_1_1(), "rule__Test__IdentifierAssignment_5_1_1");
 				}
 			};
 		}

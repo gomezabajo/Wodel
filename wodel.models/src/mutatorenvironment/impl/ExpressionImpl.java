@@ -93,6 +93,7 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Evaluation getFirst() {
 		return first;
 	}
@@ -117,6 +118,7 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFirst(Evaluation newFirst) {
 		if (newFirst != first) {
 			NotificationChain msgs = null;
@@ -136,6 +138,7 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<BinaryOperator> getOperator() {
 		if (operator == null) {
 			operator = new EObjectContainmentEList<BinaryOperator>(BinaryOperator.class, this, MutatorenvironmentPackage.EXPRESSION__OPERATOR);
@@ -148,6 +151,7 @@ public class ExpressionImpl extends MinimalEObjectImpl.Container implements Expr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Evaluation> getSecond() {
 		if (second == null) {
 			second = new EObjectContainmentEList<Evaluation>(Evaluation.class, this, MutatorenvironmentPackage.EXPRESSION__SECOND);

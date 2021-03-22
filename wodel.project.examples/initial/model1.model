@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xmi:id="_irBeUBz9EeuP75zuOoBayw" name="dfa1">
+  <states xmi:id="_kQUoMBz9EeuP75zuOoBayw" name="q0" isInitial="true" isFinal="true"/>
+  <states xmi:id="_uwvqcB0zEeu20Z_mCRn0YQ" name="q1"/>
+  <transitions xmi:id="_vpfQUB0zEeu20Z_mCRn0YQ" src="_kQUoMBz9EeuP75zuOoBayw" tar="_uwvqcB0zEeu20Z_mCRn0YQ" symbol="_xAEBsB0zEeu20Z_mCRn0YQ"/>
+  <transitions xmi:id="_y_KysB0zEeu20Z_mCRn0YQ" src="_uwvqcB0zEeu20Z_mCRn0YQ" tar="_kQUoMBz9EeuP75zuOoBayw" symbol="_xAEBsB0zEeu20Z_mCRn0YQ"/>
+  <alphabet xmi:id="_xAEBsB0zEeu20Z_mCRn0YQ" symbol="a"/>
+</DFAAutomaton:Automaton>

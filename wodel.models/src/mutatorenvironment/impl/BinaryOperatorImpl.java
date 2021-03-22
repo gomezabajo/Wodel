@@ -71,6 +71,7 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LogicOperator getType() {
 		return type;
 	}
@@ -80,6 +81,7 @@ public class BinaryOperatorImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(LogicOperator newType) {
 		LogicOperator oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;

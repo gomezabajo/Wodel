@@ -215,7 +215,7 @@ public class EnumeratorImpl extends MinimalEObjectImpl.Container implements Enum
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
 		result.append(value);
 		result.append(')');

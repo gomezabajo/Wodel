@@ -232,7 +232,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 				TreeMap<String, List<String>> classes = WodelTestUtils.loadClasses(classesPath);
 				boolean serialize = true;
 				try {
-					ob = cls.newInstance();
+					ob = cls.getDeclaredConstructor().newInstance();
 					Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class});
 					maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 					numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
@@ -355,7 +355,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 						IConfigurationElement appropriateExtension = null;
 						for (IConfigurationElement extension : extensions) {
 							Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-							postprocessing = extensionClass.newInstance();
+							postprocessing = extensionClass.getDeclaredConstructor().newInstance();
 							Method getURI = extensionClass.getDeclaredMethod("getURI");
 							String uri = (String) getURI.invoke(postprocessing);
 							Method getName = extensionClass.getDeclaredMethod("getName");
@@ -373,7 +373,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							}
 						}
 						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-						postprocessing = extensionClass.newInstance();
+						postprocessing = extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(postprocessing).equals(extensionName) ) {
 							doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, String.class, Resource.class, String.class});
@@ -529,7 +529,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							IConfigurationElement appropriateExtension = null;
 							for (IConfigurationElement extension : extensions) {
 								Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-								equivalence =  extensionClass.newInstance();
+								equivalence =  extensionClass.getDeclaredConstructor().newInstance();
 								Method getURI = extensionClass.getDeclaredMethod("getURI");
 								String uri = (String) getURI.invoke(equivalence);
 								Method getName = extensionClass.getDeclaredMethod("getName");
@@ -548,7 +548,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							}
 							if (appropriateExtension != null) {
 								Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-								equivalence = extensionClass.newInstance();
+								equivalence = extensionClass.getDeclaredConstructor().newInstance();
 								Method getName = extensionClass.getDeclaredMethod("getName");
 								outputPath = outputPath.substring(outputPath.indexOf(test.getProjectName()) + test.getProjectName().length() + 1, outputPath.length());
 								if (getName.invoke(equivalence).equals(discardExtensionName) ) {
@@ -672,7 +672,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							IConfigurationElement appropriateExtension = null;
 							for (IConfigurationElement extension : extensions) {
 								Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-								optimizer =  extensionClass.newInstance();
+								optimizer =  extensionClass.getDeclaredConstructor().newInstance();
 								Method getURI = extensionClass.getDeclaredMethod("getURI");
 								String uri = (String) getURI.invoke(optimizer);
 								Method getName = extensionClass.getDeclaredMethod("getName");
@@ -691,7 +691,7 @@ public class RunWodelTestHandler extends AbstractHandler {
 							}
 							if (appropriateExtension != null) {
 								Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-								optimizer = extensionClass.newInstance();
+								optimizer = extensionClass.getDeclaredConstructor().newInstance();
 								Method getName = extensionClass.getDeclaredMethod("getName");
 								outputPath = outputPath.substring(outputPath.indexOf(test.getProjectName()) + test.getProjectName().length() + 1, outputPath.length());
 								if (getName.invoke(optimizer).equals(optimizerExtensionName) ) {
@@ -702,7 +702,6 @@ public class RunWodelTestHandler extends AbstractHandler {
 					}
 					if (doOptimize != null) {
 						boolean result = (boolean) doOptimize.invoke(optimizer, sourceProject);
-						System.out.println(result);
 					}
 				}
 				String mutatorNames = "";

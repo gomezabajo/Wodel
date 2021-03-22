@@ -31,7 +31,8 @@ public interface BooleanExpCS extends BooleanLiteralExpCS {
 	 * @return the value of the '<em>Bool Symbol</em>' attribute.
 	 * @see #setBoolSymbol(boolean)
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getBooleanExpCS_BoolSymbol()
-	 * @model annotation="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName body='ExistsExpCS'"
+	 * @model required="true"
+	 *        annotation="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName body='ExistsExpCS'"
 	 * @generated
 	 */
 	boolean isBoolSymbol();

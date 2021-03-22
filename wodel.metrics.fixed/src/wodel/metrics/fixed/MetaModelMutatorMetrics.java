@@ -1627,88 +1627,90 @@ public class MetaModelMutatorMetrics extends manager.StaticMutatorMetrics {
 	
 	private static void processModificationMetrics(Resource model, EObject obj, WodelMetricClass metric, String atts, String refs, LinkedHashMap<URI, WodelMetricClass> metrics, int[] counters) {
 		try {
-			WodelMetricAttribute[] metricatt = metric.getAttributes();
-			if (atts != null) {
-				if (obj.eClass().getName().equals("ModifyInformationMutator")) {
-					List<EObject> attributes = ModelManager.getReferences(atts, obj);
-					for (EObject o : attributes) {
-						if (o.eClass().getName().equals("AttributeScalar")) {
-							for (EReference refatt : o.eClass().getEAllReferences()) {
-								if (refatt.getName().equals("attribute")) {
-									List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
-									for (WodelMetricAttribute wmatt : metricatt) {
-										if (wmatt.getName().equals(att.get(0).getName())) {
-											wmatt.modification++;
-											counters[0]++;
+			if (metric != null) {
+				WodelMetricAttribute[] metricatt = metric.getAttributes();
+				if (atts != null) {
+					if (obj.eClass().getName().equals("ModifyInformationMutator")) {
+						List<EObject> attributes = ModelManager.getReferences(atts, obj);
+						for (EObject o : attributes) {
+							if (o.eClass().getName().equals("AttributeScalar")) {
+								for (EReference refatt : o.eClass().getEAllReferences()) {
+									if (refatt.getName().equals("attribute")) {
+										List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
+										for (WodelMetricAttribute wmatt : metricatt) {
+											if (wmatt.getName().equals(att.get(0).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("AttributeUnset")) {
-							for (EReference refatt : o.eClass().getEAllReferences()) {
-								if (refatt.getName().equals("attribute")) {
-									List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
-									for (WodelMetricAttribute wmatt : metricatt) {
-										if (wmatt.getName().equals(att.get(0).getName())) {
-											wmatt.modification++;
-											counters[0]++;
+							if (o.eClass().getName().equals("AttributeUnset")) {
+								for (EReference refatt : o.eClass().getEAllReferences()) {
+									if (refatt.getName().equals("attribute")) {
+										List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
+										for (WodelMetricAttribute wmatt : metricatt) {
+											if (wmatt.getName().equals(att.get(0).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("AttributeSwap")) {
-							for (EReference refatt : o.eClass().getEAllReferences()) {
-								if (refatt.getName().equals("attribute")) {
-									List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
-									for (WodelMetricAttribute wmatt : metricatt) {
-										if (wmatt.getName().equals(att.get(0).getName())) {
-											wmatt.modification++;
-											counters[0]++;
-										}
-										if (wmatt.getName().equals(att.get(1).getName())) {
-											wmatt.modification++;
-											counters[0]++;
-										}
-									}
-								}
-							}
-						}
-						if (o.eClass().getName().equals("AttributeCopy")) {
-							for (EReference refatt : o.eClass().getEAllReferences()) {
-								if (refatt.getName().equals("attribute")) {
-									List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
-									for (WodelMetricAttribute wmatt : metricatt) {
-										if (wmatt.getName().equals(att.get(0).getName())) {
-											wmatt.modification++;
-											counters[0]++;
+							if (o.eClass().getName().equals("AttributeSwap")) {
+								for (EReference refatt : o.eClass().getEAllReferences()) {
+									if (refatt.getName().equals("attribute")) {
+										List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
+										for (WodelMetricAttribute wmatt : metricatt) {
+											if (wmatt.getName().equals(att.get(0).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
+											if (wmatt.getName().equals(att.get(1).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("AttributeReverse")) {
-							for (EReference refatt : o.eClass().getEAllReferences()) {
-								if (refatt.getName().equals("attribute")) {
-									List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
-									for (WodelMetricAttribute wmatt : metricatt) {
-										if (wmatt.getName().equals(att.get(0).getName())) {
-											wmatt.modification++;
-											counters[0]++;
+							if (o.eClass().getName().equals("AttributeCopy")) {
+								for (EReference refatt : o.eClass().getEAllReferences()) {
+									if (refatt.getName().equals("attribute")) {
+										List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
+										for (WodelMetricAttribute wmatt : metricatt) {
+											if (wmatt.getName().equals(att.get(0).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("AttributeOperation")) {
-							for (EReference refatt : o.eClass().getEAllReferences()) {
-								if (refatt.getName().equals("attribute")) {
-									List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
-									for (WodelMetricAttribute wmatt : metricatt) {
-										if (wmatt.getName().equals(att.get(0).getName())) {
-											wmatt.modification++;
-											counters[0]++;
+							if (o.eClass().getName().equals("AttributeReverse")) {
+								for (EReference refatt : o.eClass().getEAllReferences()) {
+									if (refatt.getName().equals("attribute")) {
+										List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
+										for (WodelMetricAttribute wmatt : metricatt) {
+											if (wmatt.getName().equals(att.get(0).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
+										}
+									}
+								}
+							}
+							if (o.eClass().getName().equals("AttributeOperation")) {
+								for (EReference refatt : o.eClass().getEAllReferences()) {
+									if (refatt.getName().equals("attribute")) {
+										List<EAttribute> att = (List<EAttribute>) o.eGet(refatt);
+										for (WodelMetricAttribute wmatt : metricatt) {
+											if (wmatt.getName().equals(att.get(0).getName())) {
+												wmatt.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
@@ -1716,103 +1718,103 @@ public class MetaModelMutatorMetrics extends manager.StaticMutatorMetrics {
 						}
 					}
 				}
-			}
-			WodelMetricReference[] metricref = metric.getReferences();
-			if (refs != null) {
-				if (obj.eClass().getName().equals("ModifyInformationMutator")) {
-					List<EObject> references = ModelManager.getReferences(refs, obj);
-					for (EObject o : references) {
-						if (o.eClass().getName().equals("ReferenceInit")) {
-							for (EReference refref : o.eClass().getEAllReferences()) {
-								if (refref.getName().equals("reference")) {
-									List<EReference> ref = (List<EReference>) o.eGet(refref);
-									for (WodelMetricReference wmref : metricref) {
-										if (wmref.getName().equals(ref.get(0).getName())) {
-											wmref.modification++;
-											counters[0]++;
+				WodelMetricReference[] metricref = metric.getReferences();
+				if (refs != null) {
+					if (obj.eClass().getName().equals("ModifyInformationMutator")) {
+						List<EObject> references = ModelManager.getReferences(refs, obj);
+						for (EObject o : references) {
+							if (o.eClass().getName().equals("ReferenceInit")) {
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										List<EReference> ref = (List<EReference>) o.eGet(refref);
+										for (WodelMetricReference wmref : metricref) {
+											if (wmref.getName().equals(ref.get(0).getName())) {
+												wmref.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("ReferenceAdd")) {
-							for (EReference refref : o.eClass().getEAllReferences()) {
-								if (refref.getName().equals("reference")) {
-									List<EReference> ref = (List<EReference>) o.eGet(refref);
-									for (WodelMetricReference wmref : metricref) {
-										if (wmref.getName().equals(ref.get(0).getName())) {
-											wmref.modification++;
-											counters[0]++;
-											counters[1]++;
+							if (o.eClass().getName().equals("ReferenceAdd")) {
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										List<EReference> ref = (List<EReference>) o.eGet(refref);
+										for (WodelMetricReference wmref : metricref) {
+											if (wmref.getName().equals(ref.get(0).getName())) {
+												wmref.modification++;
+												counters[0]++;
+												counters[1]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("ReferenceRemove")) {
-							for (EReference refref : o.eClass().getEAllReferences()) {
-								if (refref.getName().equals("reference")) {
-									List<EReference> ref = (List<EReference>) o.eGet(refref);
-									for (WodelMetricReference wmref : metricref) {
-										if (wmref.getName().equals(ref.get(0).getName())) {
-											wmref.modification++;
-											counters[0]++;
-											counters[1]++;
+							if (o.eClass().getName().equals("ReferenceRemove")) {
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										List<EReference> ref = (List<EReference>) o.eGet(refref);
+										for (WodelMetricReference wmref : metricref) {
+											if (wmref.getName().equals(ref.get(0).getName())) {
+												wmref.modification++;
+												counters[0]++;
+												counters[1]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("ReferenceSwap")) {
-							for (EReference refref : o.eClass().getEAllReferences()) {
-								if (refref.getName().equals("reference")) {
-									List<EReference> ref = (List<EReference>) o.eGet(refref);
-									for (WodelMetricReference wmref : metricref) {
-										if (wmref.getName().equals(ref.get(0).getName())) {
-											wmref.modification++;
-											counters[0]++;
-										}
-										if (wmref.getName().equals(ref.get(1).getName())) {
-											wmref.modification++;
-											counters[0]++;
+							if (o.eClass().getName().equals("ReferenceSwap")) {
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										List<EReference> ref = (List<EReference>) o.eGet(refref);
+										for (WodelMetricReference wmref : metricref) {
+											if (wmref.getName().equals(ref.get(0).getName())) {
+												wmref.modification++;
+												counters[0]++;
+											}
+											if (wmref.getName().equals(ref.get(1).getName())) {
+												wmref.modification++;
+												counters[0]++;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (o.eClass().getName().equals("ReferenceAtt")) {
-							List<EReference> ref = null;
-							EAttribute att = null;
-							for (EReference refref : o.eClass().getEAllReferences()) {
-								if (refref.getName().equals("reference")) {
-									ref = (List<EReference>) o.eGet(refref);
+							if (o.eClass().getName().equals("ReferenceAtt")) {
+								List<EReference> ref = null;
+								EAttribute att = null;
+								for (EReference refref : o.eClass().getEAllReferences()) {
+									if (refref.getName().equals("reference")) {
+										ref = (List<EReference>) o.eGet(refref);
+									}
+									if (refref.getName().equals("attribute")) {
+										att = (EAttribute) o.eGet(refref);
+									}
 								}
-								if (refref.getName().equals("attribute")) {
-									att = (EAttribute) o.eGet(refref);
-								}
-							}
-							// The mutation is applied on a referenced object
-							metric = metrics.get(EcoreUtil.getURI(((EClass) ref.get(0).getEType())));
-							for (WodelMetricAttribute wmatt : metric.getAttributes()) {
-								if (wmatt.getName().equals(att.getName())) {
-									wmatt.modification++;
-									counters[0]++;
+								// The mutation is applied on a referenced object
+								metric = metrics.get(EcoreUtil.getURI(((EClass) ref.get(0).getEType())));
+								for (WodelMetricAttribute wmatt : metric.getAttributes()) {
+									if (wmatt.getName().equals(att.getName())) {
+										wmatt.modification++;
+										counters[0]++;
+									}
 								}
 							}
 						}
 					}
-				}
-				if (obj.eClass().getName().equals("ModifySourceReferenceMutator") ||
-					obj.eClass().getName().equals("ModifyTargetReferenceMutator") ||
-					obj.eClass().getName().equals("CreateReferenceMutator") ||
-					obj.eClass().getName().equals("RemoveRandomReferenceMutator") ||
-					obj.eClass().getName().equals("RemoveSpecificReferenceMutator") ||
-					obj.eClass().getName().equals("RemoveCompleteReferenceMutator")) {
-					EReference reference = (EReference) ModelManager.getReference(refs, obj);
-					for (WodelMetricReference wmref : metric.getReferences()) {
-						if (wmref.getName().equals(reference.getName())) {
-							wmref.modification++;
-							counters[0]++;
+					if (obj.eClass().getName().equals("ModifySourceReferenceMutator") ||
+							obj.eClass().getName().equals("ModifyTargetReferenceMutator") ||
+							obj.eClass().getName().equals("CreateReferenceMutator") ||
+							obj.eClass().getName().equals("RemoveRandomReferenceMutator") ||
+							obj.eClass().getName().equals("RemoveSpecificReferenceMutator") ||
+							obj.eClass().getName().equals("RemoveCompleteReferenceMutator")) {
+						EReference reference = (EReference) ModelManager.getReference(refs, obj);
+						for (WodelMetricReference wmref : metric.getReferences()) {
+							if (wmref.getName().equals(reference.getName())) {
+								wmref.modification++;
+								counters[0]++;
+							}
 						}
 					}
 				}
@@ -2934,6 +2936,7 @@ public class MetaModelMutatorMetrics extends manager.StaticMutatorMetrics {
 
 	private static void staticMetricsHelper(Resource model, List<EClass> classes, List<EObject> objects, String mutatorName, URI uri, String refName, LinkedHashMap<URI, WodelMetricClass> metrics, int operation, LinkedHashMap<String, String> strategies, String atts, String refs, List<EPackage> packages, boolean filterAbstract) {
 		try {
+			String stringURI = uri.toString();
 			if (objects != null) {
 				if (objects.size() > 0) {
 					for (EObject obj : objects) {
@@ -2943,11 +2946,11 @@ public class MetaModelMutatorMetrics extends manager.StaticMutatorMetrics {
 								List<URI> classURIs = getClassURI(model, classes, mutatorName, obj, uri, strategies, metrics, filterAbstract, packages, cl);
 								if (classURIs != null && classURIs.size() > 0) {
 									for (URI classURI : classURIs) {
-										if (uri.equals(classURI) == true) {
-											WodelMetricClass metric = metrics.get(classURI);
+										if (stringURI.endsWith(classURI.toString()) == true) {
+											WodelMetricClass metric = metrics.get(uri);
 											int[] counters = new int[2];
 											processModificationMetrics(model, obj, metric, atts, refs, metrics, counters);
-											EClass mutatedClass = ModelManager.getEClassByURI(packages, classURI);
+											EClass mutatedClass = ModelManager.getEClassByURI(packages, uri);
 											if (operation == 0) {
 												processCreationMetrics(model, classes, obj, mutatedClass, metrics, metric, counters, filterAbstract, packages);
 											}

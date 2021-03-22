@@ -80,6 +80,7 @@ public class RootCSImpl extends MinimalEObjectImpl.Container implements RootCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PackageCS> getPackages() {
 		if (packages == null) {
 			packages = new EObjectContainmentEList<PackageCS>(PackageCS.class, this, MiniOCLPackage.ROOT_CS__PACKAGES);
@@ -92,6 +93,7 @@ public class RootCSImpl extends MinimalEObjectImpl.Container implements RootCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ConstraintCS> getContraints() {
 		if (contraints == null) {
 			contraints = new EObjectContainmentEList<ConstraintCS>(ConstraintCS.class, this, MiniOCLPackage.ROOT_CS__CONTRAINTS);

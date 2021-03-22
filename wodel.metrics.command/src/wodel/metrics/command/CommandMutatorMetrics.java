@@ -3,7 +3,6 @@ package wodel.metrics.command;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -2172,13 +2171,15 @@ public class CommandMutatorMetrics extends StaticMutatorMetrics {
 
 	private static void getCommandMetrics(Resource model, List<EClass> classes, EObject command, WodelMetricCommand metricCommand, EClass mutatedClass, String refName, LinkedHashMap<String, String> strategies, String atts, String refs, int operation, LinkedHashMap<URI, WodelMetricClass> classMetrics, boolean filterAbstract, List<EPackage> packages) {
 		try {
+			URI uri = EcoreUtil.getURI(mutatedClass);
+			String stringURI = uri.toString();
 			EObject cl = ModelManager.getReference(refName, command);
 			if (cl != null) {
 				List<URI> classURIs = getClassURI(model, classes, command, metricCommand, mutatedClass, strategies, classMetrics, filterAbstract, packages, cl);
 				if (classURIs != null && classURIs.size() > 0) {
 					for (URI classURI : classURIs) {
-						if (EcoreUtil.getURI(mutatedClass).equals(classURI) == true) {
-							WodelMetricClass metricClass = classMetrics.get(classURI);
+						if (stringURI.endsWith(classURI.toString()) == true) {
+							WodelMetricClass metricClass = classMetrics.get(uri);
 							if (metricClass != null) {
 								int[] counters = new int[2];
 								processModificationMetrics(command, classMetrics, metricClass, atts, refs, counters); 

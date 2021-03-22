@@ -62,14 +62,14 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	protected EReference ref;
 
 	/**
-	 * The cached value of the '{@link #getAtt() <em>Att</em>}' containment reference.
+	 * The cached value of the '{@link #getAtt() <em>Att</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getAtt()
 	 * @generated
 	 * @ordered
 	 */
-	protected Attribute att;
+	protected EList<Attribute> att;
 
 	/**
 	 * The cached value of the '{@link #getWords() <em>Words</em>}' containment reference list.
@@ -181,42 +181,11 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Attribute getAtt() {
+	public EList<Attribute> getAtt() {
+		if (att == null) {
+			att = new EObjectContainmentEList<Attribute>(Attribute.class, this, ModeltextPackage.ELEMENT__ATT);
+		}
 		return att;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetAtt(Attribute newAtt, NotificationChain msgs) {
-		Attribute oldAtt = att;
-		att = newAtt;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModeltextPackage.ELEMENT__ATT, oldAtt, newAtt);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAtt(Attribute newAtt) {
-		if (newAtt != att) {
-			NotificationChain msgs = null;
-			if (att != null)
-				msgs = ((InternalEObject)att).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModeltextPackage.ELEMENT__ATT, null, msgs);
-			if (newAtt != null)
-				msgs = ((InternalEObject)newAtt).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModeltextPackage.ELEMENT__ATT, null, msgs);
-			msgs = basicSetAtt(newAtt, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModeltextPackage.ELEMENT__ATT, newAtt, newAtt));
 	}
 
 	/**
@@ -240,7 +209,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ModeltextPackage.ELEMENT__ATT:
-				return basicSetAtt(null, msgs);
+				return ((InternalEList<?>)getAtt()).basicRemove(otherEnd, msgs);
 			case ModeltextPackage.ELEMENT__WORDS:
 				return ((InternalEList<?>)getWords()).basicRemove(otherEnd, msgs);
 		}
@@ -285,7 +254,8 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 				setRef((EReference)newValue);
 				return;
 			case ModeltextPackage.ELEMENT__ATT:
-				setAtt((Attribute)newValue);
+				getAtt().clear();
+				getAtt().addAll((Collection<? extends Attribute>)newValue);
 				return;
 			case ModeltextPackage.ELEMENT__WORDS:
 				getWords().clear();
@@ -310,7 +280,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 				setRef((EReference)null);
 				return;
 			case ModeltextPackage.ELEMENT__ATT:
-				setAtt((Attribute)null);
+				getAtt().clear();
 				return;
 			case ModeltextPackage.ELEMENT__WORDS:
 				getWords().clear();
@@ -332,7 +302,7 @@ public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 			case ModeltextPackage.ELEMENT__REF:
 				return ref != null;
 			case ModeltextPackage.ELEMENT__ATT:
-				return att != null;
+				return att != null && !att.isEmpty();
 			case ModeltextPackage.ELEMENT__WORDS:
 				return words != null && !words.isEmpty();
 		}

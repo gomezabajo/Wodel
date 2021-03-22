@@ -68,6 +68,7 @@ public class NavigationPathNameCSImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<NavigationPathCS> getPath() {
 		if (path == null) {
 			path = new EObjectContainmentEList<NavigationPathCS>(NavigationPathCS.class, this, MiniOCLPackage.NAVIGATION_PATH_NAME_CS__PATH);

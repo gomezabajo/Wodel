@@ -125,4 +125,12 @@
             genModel="models/ModelDraw.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ModelTag -->
+      <package
+            uri="http://modeltag/1.0"
+            class="modeltag.ModeltagPackage"
+            genModel="models/ModelTag.genmodel"/>
+   </extension>
+
 </plugin>

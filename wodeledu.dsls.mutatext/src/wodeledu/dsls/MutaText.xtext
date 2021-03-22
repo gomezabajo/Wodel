@@ -61,8 +61,21 @@ enum VariableType returns VariableType:
 	firstAttName = '%firstAttName' |
 	firstValue = '%firstValue' |
 	secondAttName = '%secondAttName' |
-	secondValue = '%secondValue'
-;
+	secondValue = '%secondValue' |
+//Remaining
+	value = '%value' |
+	describedObject = '%describedObject' |
+	describedFromObject = '%describedFromObject' | 
+	describedOldFromObject = '%describedOldFromObject' |
+	describedToObject = '%describedToObject' |
+	describedOldToObject = '%describedOldToObject' |
+	describedFirstObject = '%describedFirstObject' |
+	describedFirstFromObject = '%describedFirstFromObject' |
+	describedFirstToObject = '%describedFirstToObject' |
+	describedSecondObject = '%describedSecondObject' |
+	describedSecondFromObject = '%describedSecondFromObject' |
+	describedSecondToObject = '%describedSecondToObject' 
+	;
 
 EString returns ecore::EString:
 	STRING | ID;

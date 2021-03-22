@@ -74,6 +74,7 @@ public class ReferenceAttImpl extends ReferenceSetImpl implements ReferenceAtt {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute() {
 		if (attribute != null && attribute.eIsProxy()) {
 			InternalEObject oldAttribute = (InternalEObject)attribute;
@@ -100,6 +101,7 @@ public class ReferenceAttImpl extends ReferenceSetImpl implements ReferenceAtt {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttribute(EAttribute newAttribute) {
 		EAttribute oldAttribute = attribute;
 		attribute = newAttribute;
@@ -112,6 +114,7 @@ public class ReferenceAttImpl extends ReferenceSetImpl implements ReferenceAtt {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeType getValue() {
 		return value;
 	}
@@ -136,6 +139,7 @@ public class ReferenceAttImpl extends ReferenceSetImpl implements ReferenceAtt {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(AttributeType newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;

@@ -14,7 +14,6 @@ package manager;
 
 import java.util.Collection;
 
-import org.eclipse.emf.validation.internal.service.AbstractGetConstraintsOperation;
 import org.eclipse.emf.validation.model.IModelConstraint;
 import org.eclipse.emf.validation.service.IModelConstraintProvider;
 import org.eclipse.emf.validation.util.FilteredCollection;

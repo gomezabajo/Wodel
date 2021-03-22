@@ -73,6 +73,7 @@ public class CallExpCSImpl extends LogicExpCSImpl implements CallExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CallExpCS getSource() {
 		return source;
 	}
@@ -97,6 +98,7 @@ public class CallExpCSImpl extends LogicExpCSImpl implements CallExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(CallExpCS newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -116,6 +118,7 @@ public class CallExpCSImpl extends LogicExpCSImpl implements CallExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationExpCS getNavExp() {
 		return navExp;
 	}
@@ -140,6 +143,7 @@ public class CallExpCSImpl extends LogicExpCSImpl implements CallExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNavExp(NavigationExpCS newNavExp) {
 		if (newNavExp != navExp) {
 			NotificationChain msgs = null;

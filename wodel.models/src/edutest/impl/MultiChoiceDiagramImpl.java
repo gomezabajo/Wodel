@@ -62,6 +62,7 @@ public class MultiChoiceDiagramImpl extends MutatorTestsImpl implements MultiCho
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TestConfiguration getConfig() {
 		return config;
 	}
@@ -86,6 +87,7 @@ public class MultiChoiceDiagramImpl extends MutatorTestsImpl implements MultiCho
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfig(TestConfiguration newConfig) {
 		if (newConfig != config) {
 			NotificationChain msgs = null;

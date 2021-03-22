@@ -85,6 +85,7 @@ public class CreateReferenceMutatorImpl extends MutatorImpl implements CreateRef
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getSource() {
 		return source;
 	}
@@ -109,6 +110,7 @@ public class CreateReferenceMutatorImpl extends MutatorImpl implements CreateRef
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(ObSelectionStrategy newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -128,6 +130,7 @@ public class CreateReferenceMutatorImpl extends MutatorImpl implements CreateRef
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getTarget() {
 		return target;
 	}
@@ -152,6 +155,7 @@ public class CreateReferenceMutatorImpl extends MutatorImpl implements CreateRef
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(ObSelectionStrategy newTarget) {
 		if (newTarget != target) {
 			NotificationChain msgs = null;
@@ -171,6 +175,7 @@ public class CreateReferenceMutatorImpl extends MutatorImpl implements CreateRef
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -197,6 +202,7 @@ public class CreateReferenceMutatorImpl extends MutatorImpl implements CreateRef
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;

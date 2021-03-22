@@ -63,7 +63,7 @@ public interface Program extends Definition {
 	 * @return the value of the '<em>Num</em>' attribute.
 	 * @see #setNum(int)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getProgram_Num()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	int getNum();
@@ -142,7 +142,7 @@ public interface Program extends Definition {
 	 * @return the value of the '<em>Exhaustive</em>' attribute.
 	 * @see #setExhaustive(boolean)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getProgram_Exhaustive()
-	 * @model default="false"
+	 * @model default="false" required="true"
 	 * @generated
 	 */
 	boolean isExhaustive();

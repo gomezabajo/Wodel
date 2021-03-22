@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import wodeledu.dsls.generator.EduTestMobileAppGenerator;
 import wodeledu.dsls.generator.EduTestMoodleGenerator;
 import wodeledu.dsls.generator.EduTestWebGenerator;
 
@@ -26,6 +27,9 @@ public class EduTestGenerator extends AbstractGenerator {
   @Inject
   private EduTestMoodleGenerator moodleGenerator;
   
+  @Inject
+  private EduTestMobileAppGenerator mobileAppGenerator;
+  
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     String eduTestMode = Platform.getPreferencesService().getString("wodeledu.dsls.EduTest", "Wodel-Edu mode", "", null);
@@ -36,6 +40,10 @@ public class EduTestGenerator extends AbstractGenerator {
     boolean _equals_1 = eduTestMode.equals("Moodle");
     if (_equals_1) {
       this.moodleGenerator.doGenerate(input, fsa, context);
+    }
+    boolean _equals_2 = eduTestMode.equals("MobileApp");
+    if (_equals_2) {
+      this.mobileAppGenerator.doGenerate(input, fsa, context);
     }
   }
 }

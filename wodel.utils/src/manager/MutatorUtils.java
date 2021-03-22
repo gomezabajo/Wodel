@@ -16,8 +16,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
+import modeltext.Attribute;
 import modeltext.Element;
 import mutatext.Option;
+import mutatext.Variable;
+import mutatext.Word;
 import mutatorenvironment.AttributeOperation;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteTypeSelection;
@@ -9369,14 +9372,9 @@ public class MutatorUtils {
 						ModelManager.createModel(muts, registryFilename);
 
 						if (reverse == true && save == true) {
-							System.out.println("modelFilename: " + modelFilename);
-							System.out.println("hashmapModelFilenames.get(modelFilename): " + hashmapModelFilenames.get(modelFilename));
-							System.out.println("hashmapModelFolders.get(modelFilename): " + hashmapModelFolders.get(modelFilename));
-							System.out.println("block: " + block);
 							List<EPackage> registryPackages = new ArrayList<EPackage>();
 							if (muts.getMuts().size() > 0) {
 								registryPackages.add(muts.getMuts().get(0).eClass().getEPackage());
-								System.out.println("registryFilename: " + registryFilename);
 								Resource currentRegistry = ModelManager.loadModel(registryPackages, registryFilename);
 								List<EObject> mutations = MutatorUtils.getMutations(ModelManager.getObjects(currentRegistry));
 								Resource mutant = ModelManager.loadModel(packages, mutFilename);
@@ -9394,28 +9392,14 @@ public class MutatorUtils {
 										if (mutation instanceof InformationChanged) {
 											InformationChanged modify = (InformationChanged) mutation;
 											EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
-											System.out.println(EcoreUtil.getURI(modify.getObject()));
 											List<AttributeChanged> attChanges = modify.getAttChanges();
 											for (AttributeChanged attChange : attChanges) {
-												System.out.println(attChange.getAttName());
-												System.out.println(attChange.getOldVal());
-												System.out.println(attChange.getNewVal());
 												EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
-											}
-											List<ReferenceChanged> refChanges = modify.getRefChanges();
-											for (ReferenceChanged refChange : refChanges) {
-												System.out.println(refChange.getObject());
-												System.out.println(refChange.getFrom());
-												System.out.println(refChange.getTo());
 											}
 										}
 										if (mutation instanceof TargetReferenceChanged) {
 											TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
 											EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
-											System.out.println(EcoreUtil.getURI(modifyRef.getObject().get(0)));
-											System.out.println(EcoreUtil.getURI(modifyRef.getFrom()));
-											System.out.println(EcoreUtil.getURI(modifyRef.getOldTo()));
-											System.out.println(EcoreUtil.getURI(modifyRef.getTo()));
 											//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
 											EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
 										}
@@ -9425,11 +9409,9 @@ public class MutatorUtils {
 								}
 								
 								for (String fromBlock : fromBlocks) {
-									System.out.println("fromBlock: " + fromBlock);
 									String previousRegistryFilename = modelFilename.replaceAll("\\\\", "/");
 									previousRegistryFilename = previousRegistryFilename.substring(0, previousRegistryFilename.lastIndexOf("/")) + "/registry/" + previousRegistryFilename.substring(previousRegistryFilename.lastIndexOf("/") + "/".length(), previousRegistryFilename.length());
 									previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
-									System.out.println("previousRegistryFilename: " + previousRegistryFilename);
 									Resource previousRegistry = ModelManager.loadModel(registryPackages, previousRegistryFilename);
 									mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
 									mutant = ModelManager.loadModel(packages, mutFilename);
@@ -9447,28 +9429,14 @@ public class MutatorUtils {
 											if (mutation instanceof InformationChanged) {
 												InformationChanged modify = (InformationChanged) mutation;
 												EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
-												System.out.println(EcoreUtil.getURI(modify.getObject()));
 												List<AttributeChanged> attChanges = modify.getAttChanges();
 												for (AttributeChanged attChange : attChanges) {
-													System.out.println(attChange.getAttName());
-													System.out.println(attChange.getOldVal());
-													System.out.println(attChange.getNewVal());
 													EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
-												}
-												List<ReferenceChanged> refChanges = modify.getRefChanges();
-												for (ReferenceChanged refChange : refChanges) {
-													System.out.println(refChange.getObject());
-													System.out.println(refChange.getFrom());
-													System.out.println(refChange.getTo());
 												}
 											}
 											if (mutation instanceof TargetReferenceChanged) {
 												TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
 												EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
-												System.out.println(EcoreUtil.getURI(modifyRef.getObject().get(0)));
-												System.out.println(EcoreUtil.getURI(modifyRef.getFrom()));
-												System.out.println(EcoreUtil.getURI(modifyRef.getOldTo()));
-												System.out.println(EcoreUtil.getURI(modifyRef.getTo()));
 												//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
 												EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
 											}
@@ -9481,7 +9449,6 @@ public class MutatorUtils {
 									String ecore = FileLocator.resolve(fileURL).getFile();
 									List<EPackage> ecorePackages = ModelManager.loadMetaModel(ecore);
 									String xmiFileName = "file:/" + ModelManager.getOutputPath(cls) + "/" + ModelManager.getMutatorName(cls).replace(".mutator", ".model");
-									System.out.println(xmiFileName);
 									Resource program = ModelManager.loadModel(ecorePackages, URI.createURI(xmiFileName).toFileString());
 									List<EObject> blocks = ModelManager.getObjectsOfType("Block", program);
 									for (String prevBlock : fromBlocks) {
@@ -9501,17 +9468,13 @@ public class MutatorUtils {
 											}
 											for (EObject f : from) {
 												String fName = ModelManager.getStringAttribute("name", f);
-												System.out.println(fName);
 												String previousModelFilename = iterateModelFilename.replaceAll("\\\\", "/");
 												previousModelFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/"));
 												previousModelFilename = previousModelFilename.replace("/" + iterateFromBlock + "/", "/");
 												previousModelFilename = previousModelFilename + ".model";
 												if (previousModelFilename.contains("/" + fName + "/")) {
-													System.out.println("modelFilename: " + previousModelFilename);
-													System.out.println("block: " + fName);
 													previousRegistryFilename = previousModelFilename.substring(0, previousModelFilename.lastIndexOf("/")) + "/registry/" + previousModelFilename.substring(previousModelFilename.lastIndexOf("/") + "/".length(), previousModelFilename.length());
 													previousRegistryFilename = previousRegistryFilename.replace(".model", "Registry.model");
-													System.out.println("previousRegistryFilename: " + previousRegistryFilename);
 													previousRegistry = ModelManager.loadModel(registryPackages, previousRegistryFilename);
 													mutations = MutatorUtils.getMutations(ModelManager.getObjects(previousRegistry));
 													mutant = ModelManager.loadModel(packages, mutFilename);
@@ -9529,28 +9492,14 @@ public class MutatorUtils {
 															if (mutation instanceof InformationChanged) {
 																InformationChanged modify = (InformationChanged) mutation;
 																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modify.getObject())); 
-																System.out.println(EcoreUtil.getURI(modify.getObject()));
 																List<AttributeChanged> attChanges = modify.getAttChanges();
 																for (AttributeChanged attChange : attChanges) {
-																	System.out.println(attChange.getAttName());
-																	System.out.println(attChange.getOldVal());
-																	System.out.println(attChange.getNewVal());
 																	EMFUtils.setAttribute(packages.get(0), modifiedObject, attChange.getAttName(), attChange.getOldVal());
-																}
-																List<ReferenceChanged> refChanges = modify.getRefChanges();
-																for (ReferenceChanged refChange : refChanges) {
-																	System.out.println(refChange.getObject());
-																	System.out.println(refChange.getFrom());
-																	System.out.println(refChange.getTo());
 																}
 															}
 															if (mutation instanceof TargetReferenceChanged) {
 																TargetReferenceChanged modifyRef = (TargetReferenceChanged) mutation;
 																EObject modifiedObject = ModelManager.getObjectByURIEnding(mutant, EcoreUtil.getURI(modifyRef.getObject().get(0)));
-																System.out.println(EcoreUtil.getURI(modifyRef.getObject().get(0)));
-																System.out.println(EcoreUtil.getURI(modifyRef.getFrom()));
-																System.out.println(EcoreUtil.getURI(modifyRef.getOldTo()));
-																System.out.println(EcoreUtil.getURI(modifyRef.getTo()));
 																//ModelManager.setReference(modifyRef.getRefName(), modifiedObject, modifyRef.getOldTo());
 																EMFUtils.setReference(packages.get(0), modifiedObject, modifyRef.getRefName(), ModelManager.getObject(mutant, modifyRef.getOldTo()));
 															}
@@ -9920,16 +9869,35 @@ public class MutatorUtils {
 	public static Option getConfigureOption(String type, Resource model) {
 		Iterator<EObject> objects = model.getAllContents();
 
+		Option opt = null;
 		while (objects.hasNext()) {
 			EObject object = objects.next();
 			if (object instanceof Option) {
-				Option opt = (Option) object;
-				if (opt.getType().getName().equals(type)) {
-					return opt;
+				Option op = (Option) object;
+				if (op.getType().getName().equals(type)) {
+					opt = op;
+					break;
 				}
 			}
 		}
-		return null;
+		if (opt == null) {
+			opt = mutatext.MutatextFactory.eINSTANCE.createOption();
+			if (type.equals("TargetReferenceChanged")) {
+				Word w = mutatext.MutatextFactory.eINSTANCE.createConstant();
+				ModelManager.setStringAttribute("value", w, "Change");
+				opt.getValid().getWords().add(w);
+				Variable v = mutatext.MutatextFactory.eINSTANCE.createVariable();
+				//v.
+				//v.setType(value);
+				
+				//COMPLETE
+
+				opt.getInvalid().getWords().add(w);
+				
+			}
+		}
+		
+		return opt;
 	}
 
 	/**
@@ -9945,7 +9913,7 @@ public class MutatorUtils {
 				if (obj instanceof Element) {
 					Element element = (Element) obj;
 					if (EcoreUtil.equals(element.getType(), object.eClass())) {
-						if (element.getAtt() == null) {
+						if (element.getAtt() == null || element.getAtt().size() == 0) {
 							return element;
 						}
 					}
@@ -9955,6 +9923,90 @@ public class MutatorUtils {
 		return null;
 	}
 	
+	/**
+	 * Gets the corresponding element of the given object - DSL modelText
+	 */
+	public static Element getElementValues(EObject object, Resource model, boolean order) {
+		Iterator<EObject> objects = model.getAllContents();
+		
+		if (object != null) {
+			objects = model.getAllContents();
+			while (objects.hasNext()) {
+				EObject obj = objects.next();
+				if (obj instanceof Element) {
+					Element element = (Element) obj;
+					if (EcoreUtil.equals(element.getType(), object.eClass())) {
+						if (element.getAtt() == null || element.getAtt().size() == 0) {
+							continue;
+						}
+						Map<Attribute, EAttribute> atts = new HashMap<Attribute, EAttribute>();
+						for (Attribute att : element.getAtt()) {
+							EAttribute eAttribute = att.getAtt();
+							for (EAttribute eAtt : object.eClass().getEAllAttributes()) {
+								if (EcoreUtil.equals(eAttribute, eAtt)) {
+									atts.put(att, eAtt);
+								}
+							}
+						}
+						boolean found = true;
+						for (Attribute att : atts.keySet()) {
+							Object value = object.eGet(atts.get(att));
+							if (order == true) {
+								if (att.isNegation() && (boolean) value == true) {
+									found = false;
+									break;
+								}
+								else if (!att.isNegation() && (boolean) value == false) {
+									found = false;
+									break;
+								}
+							}
+							else {
+								if (!att.isNegation() && (boolean) value == true) {
+									found = false;
+									break;
+								}
+								else if (att.isNegation() && (boolean) value == false) {
+									found = false;
+									break;
+								}
+							}
+						}
+						if (found == true) {
+							return element;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the corresponding element of the given object - DSL modelText
+	 */
+	public static List<Element> getAllElementValues(EObject object, Resource model) {
+		Iterator<EObject> objects = model.getAllContents();
+		
+		List<Element> elements = new ArrayList<Element>();
+		if (object != null) {
+			objects = model.getAllContents();
+			while (objects.hasNext()) {
+				EObject obj = objects.next();
+				if (obj instanceof Element) {
+					Element element = (Element) obj;
+					if (EcoreUtil.equals(element.getType(), object.eClass())) {
+						if (element.getAtt() == null || element.getAtt().size() == 0) {
+							continue;
+						}
+						elements.add(element);
+					}
+				}
+			}
+		}
+		return elements;
+	}
+
 	/**
 	 * Gets the corresponding reference element for the give feature
 	 * DSL modelText
@@ -9968,7 +10020,7 @@ public class MutatorUtils {
 			if (obj instanceof Element) {
 				Element element = (Element) obj;
 				if (EcoreUtil.equals(element.getType(), object.eClass())) {
-					if (element.getAtt() == null) {
+					if (element.getAtt() == null || element.getAtt().size() == 0) {
 						if (feature != null) {
 							if (element.getRef() != null) {
 								if (EcoreUtil.equals(element.getRef().getEReferenceType(), feature.getEType())) {

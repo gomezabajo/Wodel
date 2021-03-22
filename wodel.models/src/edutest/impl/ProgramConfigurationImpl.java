@@ -70,6 +70,7 @@ public class ProgramConfigurationImpl extends ConfigurationImpl implements Progr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Navigation getNavigation() {
 		return navigation;
 	}
@@ -79,6 +80,7 @@ public class ProgramConfigurationImpl extends ConfigurationImpl implements Progr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNavigation(Navigation newNavigation) {
 		Navigation oldNavigation = navigation;
 		navigation = newNavigation == null ? NAVIGATION_EDEFAULT : newNavigation;

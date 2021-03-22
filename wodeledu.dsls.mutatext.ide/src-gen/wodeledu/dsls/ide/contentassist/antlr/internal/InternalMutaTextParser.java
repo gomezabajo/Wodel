@@ -22,32 +22,19 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalMutaTextParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'%object'", "'%attName'", "'%oldValue'", "'%newValue'", "'%refName'", "'%fromObject'", "'%oldFromObject'", "'%srcRefName'", "'%toObject'", "'%oldToObject'", "'%firstRefName'", "'%firstObject'", "'%firstFromObject'", "'%firstToObject'", "'%secondRefName'", "'%secondObject'", "'%secondFromObject'", "'%secondToObject'", "'%firstAttName'", "'%firstValue'", "'%secondAttName'", "'%secondValue'", "'metamodel'", "'>'", "':'", "'/'", "'('", "')'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'%object'", "'%attName'", "'%oldValue'", "'%newValue'", "'%refName'", "'%fromObject'", "'%oldFromObject'", "'%srcRefName'", "'%toObject'", "'%oldToObject'", "'%firstRefName'", "'%firstObject'", "'%firstFromObject'", "'%firstToObject'", "'%secondRefName'", "'%secondObject'", "'%secondFromObject'", "'%secondToObject'", "'%firstAttName'", "'%firstValue'", "'%secondAttName'", "'%secondValue'", "'%value'", "'%describedObject'", "'%describedFromObject'", "'%describedOldFromObject'", "'%describedToObject'", "'%describedOldToObject'", "'%describedFirstObject'", "'%describedFirstFromObject'", "'%describedFirstToObject'", "'%describedSecondObject'", "'%describedSecondFromObject'", "'%describedSecondToObject'", "'metamodel'", "'>'", "':'", "'/'", "'('", "')'"
     };
-    public static final int RULE_STRING=4;
-    public static final int RULE_SL_COMMENT=8;
+    public static final int T__50=50;
     public static final int T__19=19;
     public static final int T__15=15;
-    public static final int T__37=37;
     public static final int T__16=16;
-    public static final int T__38=38;
     public static final int T__17=17;
     public static final int T__18=18;
     public static final int T__11=11;
-    public static final int T__33=33;
     public static final int T__12=12;
-    public static final int T__34=34;
     public static final int T__13=13;
-    public static final int T__35=35;
     public static final int T__14=14;
-    public static final int T__36=36;
-    public static final int EOF=-1;
-    public static final int T__30=30;
-    public static final int T__31=31;
-    public static final int T__32=32;
     public static final int RULE_ID=5;
-    public static final int RULE_WS=9;
-    public static final int RULE_ANY_OTHER=10;
     public static final int T__26=26;
     public static final int T__27=27;
     public static final int T__28=28;
@@ -60,6 +47,31 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
     public static final int T__25=25;
     public static final int T__20=20;
     public static final int T__21=21;
+    public static final int RULE_STRING=4;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T__37=37;
+    public static final int T__38=38;
+    public static final int T__39=39;
+    public static final int T__33=33;
+    public static final int T__34=34;
+    public static final int T__35=35;
+    public static final int T__36=36;
+    public static final int EOF=-1;
+    public static final int T__30=30;
+    public static final int T__31=31;
+    public static final int T__32=32;
+    public static final int RULE_WS=9;
+    public static final int RULE_ANY_OTHER=10;
+    public static final int T__48=48;
+    public static final int T__49=49;
+    public static final int T__44=44;
+    public static final int T__45=45;
+    public static final int T__46=46;
+    public static final int T__47=47;
+    public static final int T__40=40;
+    public static final int T__41=41;
+    public static final int T__42=42;
+    public static final int T__43=43;
 
     // delegates
     // delegators
@@ -696,7 +708,7 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
             if ( ((LA1_0>=RULE_STRING && LA1_0<=RULE_ID)) ) {
                 alt1=1;
             }
-            else if ( ((LA1_0>=11 && LA1_0<=32)) ) {
+            else if ( ((LA1_0>=11 && LA1_0<=44)) ) {
                 alt1=2;
             }
             else {
@@ -833,14 +845,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__VariableType__Alternatives"
-    // InternalMutaText.g:285:1: rule__VariableType__Alternatives : ( ( ( '%object' ) ) | ( ( '%attName' ) ) | ( ( '%oldValue' ) ) | ( ( '%newValue' ) ) | ( ( '%refName' ) ) | ( ( '%fromObject' ) ) | ( ( '%oldFromObject' ) ) | ( ( '%srcRefName' ) ) | ( ( '%toObject' ) ) | ( ( '%oldToObject' ) ) | ( ( '%firstRefName' ) ) | ( ( '%firstObject' ) ) | ( ( '%firstFromObject' ) ) | ( ( '%firstToObject' ) ) | ( ( '%secondRefName' ) ) | ( ( '%secondObject' ) ) | ( ( '%secondFromObject' ) ) | ( ( '%secondToObject' ) ) | ( ( '%firstAttName' ) ) | ( ( '%firstValue' ) ) | ( ( '%secondAttName' ) ) | ( ( '%secondValue' ) ) );
+    // InternalMutaText.g:285:1: rule__VariableType__Alternatives : ( ( ( '%object' ) ) | ( ( '%attName' ) ) | ( ( '%oldValue' ) ) | ( ( '%newValue' ) ) | ( ( '%refName' ) ) | ( ( '%fromObject' ) ) | ( ( '%oldFromObject' ) ) | ( ( '%srcRefName' ) ) | ( ( '%toObject' ) ) | ( ( '%oldToObject' ) ) | ( ( '%firstRefName' ) ) | ( ( '%firstObject' ) ) | ( ( '%firstFromObject' ) ) | ( ( '%firstToObject' ) ) | ( ( '%secondRefName' ) ) | ( ( '%secondObject' ) ) | ( ( '%secondFromObject' ) ) | ( ( '%secondToObject' ) ) | ( ( '%firstAttName' ) ) | ( ( '%firstValue' ) ) | ( ( '%secondAttName' ) ) | ( ( '%secondValue' ) ) | ( ( '%value' ) ) | ( ( '%describedObject' ) ) | ( ( '%describedFromObject' ) ) | ( ( '%describedOldFromObject' ) ) | ( ( '%describedToObject' ) ) | ( ( '%describedOldToObject' ) ) | ( ( '%describedFirstObject' ) ) | ( ( '%describedFirstFromObject' ) ) | ( ( '%describedFirstToObject' ) ) | ( ( '%describedSecondObject' ) ) | ( ( '%describedSecondFromObject' ) ) | ( ( '%describedSecondToObject' ) ) );
     public final void rule__VariableType__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:289:1: ( ( ( '%object' ) ) | ( ( '%attName' ) ) | ( ( '%oldValue' ) ) | ( ( '%newValue' ) ) | ( ( '%refName' ) ) | ( ( '%fromObject' ) ) | ( ( '%oldFromObject' ) ) | ( ( '%srcRefName' ) ) | ( ( '%toObject' ) ) | ( ( '%oldToObject' ) ) | ( ( '%firstRefName' ) ) | ( ( '%firstObject' ) ) | ( ( '%firstFromObject' ) ) | ( ( '%firstToObject' ) ) | ( ( '%secondRefName' ) ) | ( ( '%secondObject' ) ) | ( ( '%secondFromObject' ) ) | ( ( '%secondToObject' ) ) | ( ( '%firstAttName' ) ) | ( ( '%firstValue' ) ) | ( ( '%secondAttName' ) ) | ( ( '%secondValue' ) ) )
-            int alt3=22;
+            // InternalMutaText.g:289:1: ( ( ( '%object' ) ) | ( ( '%attName' ) ) | ( ( '%oldValue' ) ) | ( ( '%newValue' ) ) | ( ( '%refName' ) ) | ( ( '%fromObject' ) ) | ( ( '%oldFromObject' ) ) | ( ( '%srcRefName' ) ) | ( ( '%toObject' ) ) | ( ( '%oldToObject' ) ) | ( ( '%firstRefName' ) ) | ( ( '%firstObject' ) ) | ( ( '%firstFromObject' ) ) | ( ( '%firstToObject' ) ) | ( ( '%secondRefName' ) ) | ( ( '%secondObject' ) ) | ( ( '%secondFromObject' ) ) | ( ( '%secondToObject' ) ) | ( ( '%firstAttName' ) ) | ( ( '%firstValue' ) ) | ( ( '%secondAttName' ) ) | ( ( '%secondValue' ) ) | ( ( '%value' ) ) | ( ( '%describedObject' ) ) | ( ( '%describedFromObject' ) ) | ( ( '%describedOldFromObject' ) ) | ( ( '%describedToObject' ) ) | ( ( '%describedOldToObject' ) ) | ( ( '%describedFirstObject' ) ) | ( ( '%describedFirstFromObject' ) ) | ( ( '%describedFirstToObject' ) ) | ( ( '%describedSecondObject' ) ) | ( ( '%describedSecondFromObject' ) ) | ( ( '%describedSecondToObject' ) ) )
+            int alt3=34;
             switch ( input.LA(1) ) {
             case 11:
                 {
@@ -950,6 +962,66 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
             case 32:
                 {
                 alt3=22;
+                }
+                break;
+            case 33:
+                {
+                alt3=23;
+                }
+                break;
+            case 34:
+                {
+                alt3=24;
+                }
+                break;
+            case 35:
+                {
+                alt3=25;
+                }
+                break;
+            case 36:
+                {
+                alt3=26;
+                }
+                break;
+            case 37:
+                {
+                alt3=27;
+                }
+                break;
+            case 38:
+                {
+                alt3=28;
+                }
+                break;
+            case 39:
+                {
+                alt3=29;
+                }
+                break;
+            case 40:
+                {
+                alt3=30;
+                }
+                break;
+            case 41:
+                {
+                alt3=31;
+                }
+                break;
+            case 42:
+                {
+                alt3=32;
+                }
+                break;
+            case 43:
+                {
+                alt3=33;
+                }
+                break;
+            case 44:
+                {
+                alt3=34;
                 }
                 break;
             default:
@@ -1422,6 +1494,258 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
                     }
                     break;
+                case 23 :
+                    // InternalMutaText.g:422:2: ( ( '%value' ) )
+                    {
+                    // InternalMutaText.g:422:2: ( ( '%value' ) )
+                    // InternalMutaText.g:423:3: ( '%value' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getValueEnumLiteralDeclaration_22()); 
+                    // InternalMutaText.g:424:3: ( '%value' )
+                    // InternalMutaText.g:424:4: '%value'
+                    {
+                    match(input,33,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getValueEnumLiteralDeclaration_22()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 24 :
+                    // InternalMutaText.g:428:2: ( ( '%describedObject' ) )
+                    {
+                    // InternalMutaText.g:428:2: ( ( '%describedObject' ) )
+                    // InternalMutaText.g:429:3: ( '%describedObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedObjectEnumLiteralDeclaration_23()); 
+                    // InternalMutaText.g:430:3: ( '%describedObject' )
+                    // InternalMutaText.g:430:4: '%describedObject'
+                    {
+                    match(input,34,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedObjectEnumLiteralDeclaration_23()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 25 :
+                    // InternalMutaText.g:434:2: ( ( '%describedFromObject' ) )
+                    {
+                    // InternalMutaText.g:434:2: ( ( '%describedFromObject' ) )
+                    // InternalMutaText.g:435:3: ( '%describedFromObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedFromObjectEnumLiteralDeclaration_24()); 
+                    // InternalMutaText.g:436:3: ( '%describedFromObject' )
+                    // InternalMutaText.g:436:4: '%describedFromObject'
+                    {
+                    match(input,35,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedFromObjectEnumLiteralDeclaration_24()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 26 :
+                    // InternalMutaText.g:440:2: ( ( '%describedOldFromObject' ) )
+                    {
+                    // InternalMutaText.g:440:2: ( ( '%describedOldFromObject' ) )
+                    // InternalMutaText.g:441:3: ( '%describedOldFromObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedOldFromObjectEnumLiteralDeclaration_25()); 
+                    // InternalMutaText.g:442:3: ( '%describedOldFromObject' )
+                    // InternalMutaText.g:442:4: '%describedOldFromObject'
+                    {
+                    match(input,36,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedOldFromObjectEnumLiteralDeclaration_25()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 27 :
+                    // InternalMutaText.g:446:2: ( ( '%describedToObject' ) )
+                    {
+                    // InternalMutaText.g:446:2: ( ( '%describedToObject' ) )
+                    // InternalMutaText.g:447:3: ( '%describedToObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedToObjectEnumLiteralDeclaration_26()); 
+                    // InternalMutaText.g:448:3: ( '%describedToObject' )
+                    // InternalMutaText.g:448:4: '%describedToObject'
+                    {
+                    match(input,37,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedToObjectEnumLiteralDeclaration_26()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 28 :
+                    // InternalMutaText.g:452:2: ( ( '%describedOldToObject' ) )
+                    {
+                    // InternalMutaText.g:452:2: ( ( '%describedOldToObject' ) )
+                    // InternalMutaText.g:453:3: ( '%describedOldToObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedOldToObjectEnumLiteralDeclaration_27()); 
+                    // InternalMutaText.g:454:3: ( '%describedOldToObject' )
+                    // InternalMutaText.g:454:4: '%describedOldToObject'
+                    {
+                    match(input,38,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedOldToObjectEnumLiteralDeclaration_27()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 29 :
+                    // InternalMutaText.g:458:2: ( ( '%describedFirstObject' ) )
+                    {
+                    // InternalMutaText.g:458:2: ( ( '%describedFirstObject' ) )
+                    // InternalMutaText.g:459:3: ( '%describedFirstObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedFirstObjectEnumLiteralDeclaration_28()); 
+                    // InternalMutaText.g:460:3: ( '%describedFirstObject' )
+                    // InternalMutaText.g:460:4: '%describedFirstObject'
+                    {
+                    match(input,39,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedFirstObjectEnumLiteralDeclaration_28()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 30 :
+                    // InternalMutaText.g:464:2: ( ( '%describedFirstFromObject' ) )
+                    {
+                    // InternalMutaText.g:464:2: ( ( '%describedFirstFromObject' ) )
+                    // InternalMutaText.g:465:3: ( '%describedFirstFromObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedFirstFromObjectEnumLiteralDeclaration_29()); 
+                    // InternalMutaText.g:466:3: ( '%describedFirstFromObject' )
+                    // InternalMutaText.g:466:4: '%describedFirstFromObject'
+                    {
+                    match(input,40,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedFirstFromObjectEnumLiteralDeclaration_29()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 31 :
+                    // InternalMutaText.g:470:2: ( ( '%describedFirstToObject' ) )
+                    {
+                    // InternalMutaText.g:470:2: ( ( '%describedFirstToObject' ) )
+                    // InternalMutaText.g:471:3: ( '%describedFirstToObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedFirstToObjectEnumLiteralDeclaration_30()); 
+                    // InternalMutaText.g:472:3: ( '%describedFirstToObject' )
+                    // InternalMutaText.g:472:4: '%describedFirstToObject'
+                    {
+                    match(input,41,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedFirstToObjectEnumLiteralDeclaration_30()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 32 :
+                    // InternalMutaText.g:476:2: ( ( '%describedSecondObject' ) )
+                    {
+                    // InternalMutaText.g:476:2: ( ( '%describedSecondObject' ) )
+                    // InternalMutaText.g:477:3: ( '%describedSecondObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedSecondObjectEnumLiteralDeclaration_31()); 
+                    // InternalMutaText.g:478:3: ( '%describedSecondObject' )
+                    // InternalMutaText.g:478:4: '%describedSecondObject'
+                    {
+                    match(input,42,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedSecondObjectEnumLiteralDeclaration_31()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 33 :
+                    // InternalMutaText.g:482:2: ( ( '%describedSecondFromObject' ) )
+                    {
+                    // InternalMutaText.g:482:2: ( ( '%describedSecondFromObject' ) )
+                    // InternalMutaText.g:483:3: ( '%describedSecondFromObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedSecondFromObjectEnumLiteralDeclaration_32()); 
+                    // InternalMutaText.g:484:3: ( '%describedSecondFromObject' )
+                    // InternalMutaText.g:484:4: '%describedSecondFromObject'
+                    {
+                    match(input,43,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedSecondFromObjectEnumLiteralDeclaration_32()); 
+
+                    }
+
+
+                    }
+                    break;
+                case 34 :
+                    // InternalMutaText.g:488:2: ( ( '%describedSecondToObject' ) )
+                    {
+                    // InternalMutaText.g:488:2: ( ( '%describedSecondToObject' ) )
+                    // InternalMutaText.g:489:3: ( '%describedSecondToObject' )
+                    {
+                     before(grammarAccess.getVariableTypeAccess().getDescribedSecondToObjectEnumLiteralDeclaration_33()); 
+                    // InternalMutaText.g:490:3: ( '%describedSecondToObject' )
+                    // InternalMutaText.g:490:4: '%describedSecondToObject'
+                    {
+                    match(input,44,FOLLOW_2); 
+
+                    }
+
+                     after(grammarAccess.getVariableTypeAccess().getDescribedSecondToObjectEnumLiteralDeclaration_33()); 
+
+                    }
+
+
+                    }
+                    break;
 
             }
         }
@@ -1440,14 +1764,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__0"
-    // InternalMutaText.g:426:1: rule__Configuration__Group__0 : rule__Configuration__Group__0__Impl rule__Configuration__Group__1 ;
+    // InternalMutaText.g:498:1: rule__Configuration__Group__0 : rule__Configuration__Group__0__Impl rule__Configuration__Group__1 ;
     public final void rule__Configuration__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:430:1: ( rule__Configuration__Group__0__Impl rule__Configuration__Group__1 )
-            // InternalMutaText.g:431:2: rule__Configuration__Group__0__Impl rule__Configuration__Group__1
+            // InternalMutaText.g:502:1: ( rule__Configuration__Group__0__Impl rule__Configuration__Group__1 )
+            // InternalMutaText.g:503:2: rule__Configuration__Group__0__Impl rule__Configuration__Group__1
             {
             pushFollow(FOLLOW_3);
             rule__Configuration__Group__0__Impl();
@@ -1478,21 +1802,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__0__Impl"
-    // InternalMutaText.g:438:1: rule__Configuration__Group__0__Impl : ( () ) ;
+    // InternalMutaText.g:510:1: rule__Configuration__Group__0__Impl : ( () ) ;
     public final void rule__Configuration__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:442:1: ( ( () ) )
-            // InternalMutaText.g:443:1: ( () )
+            // InternalMutaText.g:514:1: ( ( () ) )
+            // InternalMutaText.g:515:1: ( () )
             {
-            // InternalMutaText.g:443:1: ( () )
-            // InternalMutaText.g:444:2: ()
+            // InternalMutaText.g:515:1: ( () )
+            // InternalMutaText.g:516:2: ()
             {
              before(grammarAccess.getConfigurationAccess().getConfigurationAction_0()); 
-            // InternalMutaText.g:445:2: ()
-            // InternalMutaText.g:445:3: 
+            // InternalMutaText.g:517:2: ()
+            // InternalMutaText.g:517:3: 
             {
             }
 
@@ -1515,14 +1839,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__1"
-    // InternalMutaText.g:453:1: rule__Configuration__Group__1 : rule__Configuration__Group__1__Impl rule__Configuration__Group__2 ;
+    // InternalMutaText.g:525:1: rule__Configuration__Group__1 : rule__Configuration__Group__1__Impl rule__Configuration__Group__2 ;
     public final void rule__Configuration__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:457:1: ( rule__Configuration__Group__1__Impl rule__Configuration__Group__2 )
-            // InternalMutaText.g:458:2: rule__Configuration__Group__1__Impl rule__Configuration__Group__2
+            // InternalMutaText.g:529:1: ( rule__Configuration__Group__1__Impl rule__Configuration__Group__2 )
+            // InternalMutaText.g:530:2: rule__Configuration__Group__1__Impl rule__Configuration__Group__2
             {
             pushFollow(FOLLOW_4);
             rule__Configuration__Group__1__Impl();
@@ -1553,20 +1877,20 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__1__Impl"
-    // InternalMutaText.g:465:1: rule__Configuration__Group__1__Impl : ( 'metamodel' ) ;
+    // InternalMutaText.g:537:1: rule__Configuration__Group__1__Impl : ( 'metamodel' ) ;
     public final void rule__Configuration__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:469:1: ( ( 'metamodel' ) )
-            // InternalMutaText.g:470:1: ( 'metamodel' )
+            // InternalMutaText.g:541:1: ( ( 'metamodel' ) )
+            // InternalMutaText.g:542:1: ( 'metamodel' )
             {
-            // InternalMutaText.g:470:1: ( 'metamodel' )
-            // InternalMutaText.g:471:2: 'metamodel'
+            // InternalMutaText.g:542:1: ( 'metamodel' )
+            // InternalMutaText.g:543:2: 'metamodel'
             {
              before(grammarAccess.getConfigurationAccess().getMetamodelKeyword_1()); 
-            match(input,33,FOLLOW_2); 
+            match(input,45,FOLLOW_2); 
              after(grammarAccess.getConfigurationAccess().getMetamodelKeyword_1()); 
 
             }
@@ -1590,14 +1914,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__2"
-    // InternalMutaText.g:480:1: rule__Configuration__Group__2 : rule__Configuration__Group__2__Impl rule__Configuration__Group__3 ;
+    // InternalMutaText.g:552:1: rule__Configuration__Group__2 : rule__Configuration__Group__2__Impl rule__Configuration__Group__3 ;
     public final void rule__Configuration__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:484:1: ( rule__Configuration__Group__2__Impl rule__Configuration__Group__3 )
-            // InternalMutaText.g:485:2: rule__Configuration__Group__2__Impl rule__Configuration__Group__3
+            // InternalMutaText.g:556:1: ( rule__Configuration__Group__2__Impl rule__Configuration__Group__3 )
+            // InternalMutaText.g:557:2: rule__Configuration__Group__2__Impl rule__Configuration__Group__3
             {
             pushFollow(FOLLOW_5);
             rule__Configuration__Group__2__Impl();
@@ -1628,21 +1952,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__2__Impl"
-    // InternalMutaText.g:492:1: rule__Configuration__Group__2__Impl : ( ( rule__Configuration__MetamodelAssignment_2 ) ) ;
+    // InternalMutaText.g:564:1: rule__Configuration__Group__2__Impl : ( ( rule__Configuration__MetamodelAssignment_2 ) ) ;
     public final void rule__Configuration__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:496:1: ( ( ( rule__Configuration__MetamodelAssignment_2 ) ) )
-            // InternalMutaText.g:497:1: ( ( rule__Configuration__MetamodelAssignment_2 ) )
+            // InternalMutaText.g:568:1: ( ( ( rule__Configuration__MetamodelAssignment_2 ) ) )
+            // InternalMutaText.g:569:1: ( ( rule__Configuration__MetamodelAssignment_2 ) )
             {
-            // InternalMutaText.g:497:1: ( ( rule__Configuration__MetamodelAssignment_2 ) )
-            // InternalMutaText.g:498:2: ( rule__Configuration__MetamodelAssignment_2 )
+            // InternalMutaText.g:569:1: ( ( rule__Configuration__MetamodelAssignment_2 ) )
+            // InternalMutaText.g:570:2: ( rule__Configuration__MetamodelAssignment_2 )
             {
              before(grammarAccess.getConfigurationAccess().getMetamodelAssignment_2()); 
-            // InternalMutaText.g:499:2: ( rule__Configuration__MetamodelAssignment_2 )
-            // InternalMutaText.g:499:3: rule__Configuration__MetamodelAssignment_2
+            // InternalMutaText.g:571:2: ( rule__Configuration__MetamodelAssignment_2 )
+            // InternalMutaText.g:571:3: rule__Configuration__MetamodelAssignment_2
             {
             pushFollow(FOLLOW_2);
             rule__Configuration__MetamodelAssignment_2();
@@ -1675,14 +1999,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__3"
-    // InternalMutaText.g:507:1: rule__Configuration__Group__3 : rule__Configuration__Group__3__Impl ;
+    // InternalMutaText.g:579:1: rule__Configuration__Group__3 : rule__Configuration__Group__3__Impl ;
     public final void rule__Configuration__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:511:1: ( rule__Configuration__Group__3__Impl )
-            // InternalMutaText.g:512:2: rule__Configuration__Group__3__Impl
+            // InternalMutaText.g:583:1: ( rule__Configuration__Group__3__Impl )
+            // InternalMutaText.g:584:2: rule__Configuration__Group__3__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Configuration__Group__3__Impl();
@@ -1708,29 +2032,29 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group__3__Impl"
-    // InternalMutaText.g:518:1: rule__Configuration__Group__3__Impl : ( ( rule__Configuration__Group_3__0 )? ) ;
+    // InternalMutaText.g:590:1: rule__Configuration__Group__3__Impl : ( ( rule__Configuration__Group_3__0 )? ) ;
     public final void rule__Configuration__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:522:1: ( ( ( rule__Configuration__Group_3__0 )? ) )
-            // InternalMutaText.g:523:1: ( ( rule__Configuration__Group_3__0 )? )
+            // InternalMutaText.g:594:1: ( ( ( rule__Configuration__Group_3__0 )? ) )
+            // InternalMutaText.g:595:1: ( ( rule__Configuration__Group_3__0 )? )
             {
-            // InternalMutaText.g:523:1: ( ( rule__Configuration__Group_3__0 )? )
-            // InternalMutaText.g:524:2: ( rule__Configuration__Group_3__0 )?
+            // InternalMutaText.g:595:1: ( ( rule__Configuration__Group_3__0 )? )
+            // InternalMutaText.g:596:2: ( rule__Configuration__Group_3__0 )?
             {
              before(grammarAccess.getConfigurationAccess().getGroup_3()); 
-            // InternalMutaText.g:525:2: ( rule__Configuration__Group_3__0 )?
+            // InternalMutaText.g:597:2: ( rule__Configuration__Group_3__0 )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==34) ) {
+            if ( (LA4_0==46) ) {
                 alt4=1;
             }
             switch (alt4) {
                 case 1 :
-                    // InternalMutaText.g:525:3: rule__Configuration__Group_3__0
+                    // InternalMutaText.g:597:3: rule__Configuration__Group_3__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Configuration__Group_3__0();
@@ -1766,14 +2090,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group_3__0"
-    // InternalMutaText.g:534:1: rule__Configuration__Group_3__0 : rule__Configuration__Group_3__0__Impl rule__Configuration__Group_3__1 ;
+    // InternalMutaText.g:606:1: rule__Configuration__Group_3__0 : rule__Configuration__Group_3__0__Impl rule__Configuration__Group_3__1 ;
     public final void rule__Configuration__Group_3__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:538:1: ( rule__Configuration__Group_3__0__Impl rule__Configuration__Group_3__1 )
-            // InternalMutaText.g:539:2: rule__Configuration__Group_3__0__Impl rule__Configuration__Group_3__1
+            // InternalMutaText.g:610:1: ( rule__Configuration__Group_3__0__Impl rule__Configuration__Group_3__1 )
+            // InternalMutaText.g:611:2: rule__Configuration__Group_3__0__Impl rule__Configuration__Group_3__1
             {
             pushFollow(FOLLOW_5);
             rule__Configuration__Group_3__0__Impl();
@@ -1804,21 +2128,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group_3__0__Impl"
-    // InternalMutaText.g:546:1: rule__Configuration__Group_3__0__Impl : ( ( rule__Configuration__OptionsAssignment_3_0 ) ) ;
+    // InternalMutaText.g:618:1: rule__Configuration__Group_3__0__Impl : ( ( rule__Configuration__OptionsAssignment_3_0 ) ) ;
     public final void rule__Configuration__Group_3__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:550:1: ( ( ( rule__Configuration__OptionsAssignment_3_0 ) ) )
-            // InternalMutaText.g:551:1: ( ( rule__Configuration__OptionsAssignment_3_0 ) )
+            // InternalMutaText.g:622:1: ( ( ( rule__Configuration__OptionsAssignment_3_0 ) ) )
+            // InternalMutaText.g:623:1: ( ( rule__Configuration__OptionsAssignment_3_0 ) )
             {
-            // InternalMutaText.g:551:1: ( ( rule__Configuration__OptionsAssignment_3_0 ) )
-            // InternalMutaText.g:552:2: ( rule__Configuration__OptionsAssignment_3_0 )
+            // InternalMutaText.g:623:1: ( ( rule__Configuration__OptionsAssignment_3_0 ) )
+            // InternalMutaText.g:624:2: ( rule__Configuration__OptionsAssignment_3_0 )
             {
              before(grammarAccess.getConfigurationAccess().getOptionsAssignment_3_0()); 
-            // InternalMutaText.g:553:2: ( rule__Configuration__OptionsAssignment_3_0 )
-            // InternalMutaText.g:553:3: rule__Configuration__OptionsAssignment_3_0
+            // InternalMutaText.g:625:2: ( rule__Configuration__OptionsAssignment_3_0 )
+            // InternalMutaText.g:625:3: rule__Configuration__OptionsAssignment_3_0
             {
             pushFollow(FOLLOW_2);
             rule__Configuration__OptionsAssignment_3_0();
@@ -1851,14 +2175,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group_3__1"
-    // InternalMutaText.g:561:1: rule__Configuration__Group_3__1 : rule__Configuration__Group_3__1__Impl ;
+    // InternalMutaText.g:633:1: rule__Configuration__Group_3__1 : rule__Configuration__Group_3__1__Impl ;
     public final void rule__Configuration__Group_3__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:565:1: ( rule__Configuration__Group_3__1__Impl )
-            // InternalMutaText.g:566:2: rule__Configuration__Group_3__1__Impl
+            // InternalMutaText.g:637:1: ( rule__Configuration__Group_3__1__Impl )
+            // InternalMutaText.g:638:2: rule__Configuration__Group_3__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Configuration__Group_3__1__Impl();
@@ -1884,33 +2208,33 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__Group_3__1__Impl"
-    // InternalMutaText.g:572:1: rule__Configuration__Group_3__1__Impl : ( ( rule__Configuration__OptionsAssignment_3_1 )* ) ;
+    // InternalMutaText.g:644:1: rule__Configuration__Group_3__1__Impl : ( ( rule__Configuration__OptionsAssignment_3_1 )* ) ;
     public final void rule__Configuration__Group_3__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:576:1: ( ( ( rule__Configuration__OptionsAssignment_3_1 )* ) )
-            // InternalMutaText.g:577:1: ( ( rule__Configuration__OptionsAssignment_3_1 )* )
+            // InternalMutaText.g:648:1: ( ( ( rule__Configuration__OptionsAssignment_3_1 )* ) )
+            // InternalMutaText.g:649:1: ( ( rule__Configuration__OptionsAssignment_3_1 )* )
             {
-            // InternalMutaText.g:577:1: ( ( rule__Configuration__OptionsAssignment_3_1 )* )
-            // InternalMutaText.g:578:2: ( rule__Configuration__OptionsAssignment_3_1 )*
+            // InternalMutaText.g:649:1: ( ( rule__Configuration__OptionsAssignment_3_1 )* )
+            // InternalMutaText.g:650:2: ( rule__Configuration__OptionsAssignment_3_1 )*
             {
              before(grammarAccess.getConfigurationAccess().getOptionsAssignment_3_1()); 
-            // InternalMutaText.g:579:2: ( rule__Configuration__OptionsAssignment_3_1 )*
+            // InternalMutaText.g:651:2: ( rule__Configuration__OptionsAssignment_3_1 )*
             loop5:
             do {
                 int alt5=2;
                 int LA5_0 = input.LA(1);
 
-                if ( (LA5_0==34) ) {
+                if ( (LA5_0==46) ) {
                     alt5=1;
                 }
 
 
                 switch (alt5) {
             	case 1 :
-            	    // InternalMutaText.g:579:3: rule__Configuration__OptionsAssignment_3_1
+            	    // InternalMutaText.g:651:3: rule__Configuration__OptionsAssignment_3_1
             	    {
             	    pushFollow(FOLLOW_6);
             	    rule__Configuration__OptionsAssignment_3_1();
@@ -1949,14 +2273,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__0"
-    // InternalMutaText.g:588:1: rule__Option__Group__0 : rule__Option__Group__0__Impl rule__Option__Group__1 ;
+    // InternalMutaText.g:660:1: rule__Option__Group__0 : rule__Option__Group__0__Impl rule__Option__Group__1 ;
     public final void rule__Option__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:592:1: ( rule__Option__Group__0__Impl rule__Option__Group__1 )
-            // InternalMutaText.g:593:2: rule__Option__Group__0__Impl rule__Option__Group__1
+            // InternalMutaText.g:664:1: ( rule__Option__Group__0__Impl rule__Option__Group__1 )
+            // InternalMutaText.g:665:2: rule__Option__Group__0__Impl rule__Option__Group__1
             {
             pushFollow(FOLLOW_5);
             rule__Option__Group__0__Impl();
@@ -1987,21 +2311,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__0__Impl"
-    // InternalMutaText.g:600:1: rule__Option__Group__0__Impl : ( () ) ;
+    // InternalMutaText.g:672:1: rule__Option__Group__0__Impl : ( () ) ;
     public final void rule__Option__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:604:1: ( ( () ) )
-            // InternalMutaText.g:605:1: ( () )
+            // InternalMutaText.g:676:1: ( ( () ) )
+            // InternalMutaText.g:677:1: ( () )
             {
-            // InternalMutaText.g:605:1: ( () )
-            // InternalMutaText.g:606:2: ()
+            // InternalMutaText.g:677:1: ( () )
+            // InternalMutaText.g:678:2: ()
             {
              before(grammarAccess.getOptionAccess().getOptionAction_0()); 
-            // InternalMutaText.g:607:2: ()
-            // InternalMutaText.g:607:3: 
+            // InternalMutaText.g:679:2: ()
+            // InternalMutaText.g:679:3: 
             {
             }
 
@@ -2024,14 +2348,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__1"
-    // InternalMutaText.g:615:1: rule__Option__Group__1 : rule__Option__Group__1__Impl rule__Option__Group__2 ;
+    // InternalMutaText.g:687:1: rule__Option__Group__1 : rule__Option__Group__1__Impl rule__Option__Group__2 ;
     public final void rule__Option__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:619:1: ( rule__Option__Group__1__Impl rule__Option__Group__2 )
-            // InternalMutaText.g:620:2: rule__Option__Group__1__Impl rule__Option__Group__2
+            // InternalMutaText.g:691:1: ( rule__Option__Group__1__Impl rule__Option__Group__2 )
+            // InternalMutaText.g:692:2: rule__Option__Group__1__Impl rule__Option__Group__2
             {
             pushFollow(FOLLOW_4);
             rule__Option__Group__1__Impl();
@@ -2062,20 +2386,20 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__1__Impl"
-    // InternalMutaText.g:627:1: rule__Option__Group__1__Impl : ( '>' ) ;
+    // InternalMutaText.g:699:1: rule__Option__Group__1__Impl : ( '>' ) ;
     public final void rule__Option__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:631:1: ( ( '>' ) )
-            // InternalMutaText.g:632:1: ( '>' )
+            // InternalMutaText.g:703:1: ( ( '>' ) )
+            // InternalMutaText.g:704:1: ( '>' )
             {
-            // InternalMutaText.g:632:1: ( '>' )
-            // InternalMutaText.g:633:2: '>'
+            // InternalMutaText.g:704:1: ( '>' )
+            // InternalMutaText.g:705:2: '>'
             {
              before(grammarAccess.getOptionAccess().getGreaterThanSignKeyword_1()); 
-            match(input,34,FOLLOW_2); 
+            match(input,46,FOLLOW_2); 
              after(grammarAccess.getOptionAccess().getGreaterThanSignKeyword_1()); 
 
             }
@@ -2099,14 +2423,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__2"
-    // InternalMutaText.g:642:1: rule__Option__Group__2 : rule__Option__Group__2__Impl rule__Option__Group__3 ;
+    // InternalMutaText.g:714:1: rule__Option__Group__2 : rule__Option__Group__2__Impl rule__Option__Group__3 ;
     public final void rule__Option__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:646:1: ( rule__Option__Group__2__Impl rule__Option__Group__3 )
-            // InternalMutaText.g:647:2: rule__Option__Group__2__Impl rule__Option__Group__3
+            // InternalMutaText.g:718:1: ( rule__Option__Group__2__Impl rule__Option__Group__3 )
+            // InternalMutaText.g:719:2: rule__Option__Group__2__Impl rule__Option__Group__3
             {
             pushFollow(FOLLOW_7);
             rule__Option__Group__2__Impl();
@@ -2137,21 +2461,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__2__Impl"
-    // InternalMutaText.g:654:1: rule__Option__Group__2__Impl : ( ( rule__Option__TypeAssignment_2 ) ) ;
+    // InternalMutaText.g:726:1: rule__Option__Group__2__Impl : ( ( rule__Option__TypeAssignment_2 ) ) ;
     public final void rule__Option__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:658:1: ( ( ( rule__Option__TypeAssignment_2 ) ) )
-            // InternalMutaText.g:659:1: ( ( rule__Option__TypeAssignment_2 ) )
+            // InternalMutaText.g:730:1: ( ( ( rule__Option__TypeAssignment_2 ) ) )
+            // InternalMutaText.g:731:1: ( ( rule__Option__TypeAssignment_2 ) )
             {
-            // InternalMutaText.g:659:1: ( ( rule__Option__TypeAssignment_2 ) )
-            // InternalMutaText.g:660:2: ( rule__Option__TypeAssignment_2 )
+            // InternalMutaText.g:731:1: ( ( rule__Option__TypeAssignment_2 ) )
+            // InternalMutaText.g:732:2: ( rule__Option__TypeAssignment_2 )
             {
              before(grammarAccess.getOptionAccess().getTypeAssignment_2()); 
-            // InternalMutaText.g:661:2: ( rule__Option__TypeAssignment_2 )
-            // InternalMutaText.g:661:3: rule__Option__TypeAssignment_2
+            // InternalMutaText.g:733:2: ( rule__Option__TypeAssignment_2 )
+            // InternalMutaText.g:733:3: rule__Option__TypeAssignment_2
             {
             pushFollow(FOLLOW_2);
             rule__Option__TypeAssignment_2();
@@ -2184,14 +2508,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__3"
-    // InternalMutaText.g:669:1: rule__Option__Group__3 : rule__Option__Group__3__Impl rule__Option__Group__4 ;
+    // InternalMutaText.g:741:1: rule__Option__Group__3 : rule__Option__Group__3__Impl rule__Option__Group__4 ;
     public final void rule__Option__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:673:1: ( rule__Option__Group__3__Impl rule__Option__Group__4 )
-            // InternalMutaText.g:674:2: rule__Option__Group__3__Impl rule__Option__Group__4
+            // InternalMutaText.g:745:1: ( rule__Option__Group__3__Impl rule__Option__Group__4 )
+            // InternalMutaText.g:746:2: rule__Option__Group__3__Impl rule__Option__Group__4
             {
             pushFollow(FOLLOW_7);
             rule__Option__Group__3__Impl();
@@ -2222,29 +2546,29 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__3__Impl"
-    // InternalMutaText.g:681:1: rule__Option__Group__3__Impl : ( ( rule__Option__Group_3__0 )? ) ;
+    // InternalMutaText.g:753:1: rule__Option__Group__3__Impl : ( ( rule__Option__Group_3__0 )? ) ;
     public final void rule__Option__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:685:1: ( ( ( rule__Option__Group_3__0 )? ) )
-            // InternalMutaText.g:686:1: ( ( rule__Option__Group_3__0 )? )
+            // InternalMutaText.g:757:1: ( ( ( rule__Option__Group_3__0 )? ) )
+            // InternalMutaText.g:758:1: ( ( rule__Option__Group_3__0 )? )
             {
-            // InternalMutaText.g:686:1: ( ( rule__Option__Group_3__0 )? )
-            // InternalMutaText.g:687:2: ( rule__Option__Group_3__0 )?
+            // InternalMutaText.g:758:1: ( ( rule__Option__Group_3__0 )? )
+            // InternalMutaText.g:759:2: ( rule__Option__Group_3__0 )?
             {
              before(grammarAccess.getOptionAccess().getGroup_3()); 
-            // InternalMutaText.g:688:2: ( rule__Option__Group_3__0 )?
+            // InternalMutaText.g:760:2: ( rule__Option__Group_3__0 )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
-            if ( (LA6_0==37) ) {
+            if ( (LA6_0==49) ) {
                 alt6=1;
             }
             switch (alt6) {
                 case 1 :
-                    // InternalMutaText.g:688:3: rule__Option__Group_3__0
+                    // InternalMutaText.g:760:3: rule__Option__Group_3__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Option__Group_3__0();
@@ -2280,14 +2604,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__4"
-    // InternalMutaText.g:696:1: rule__Option__Group__4 : rule__Option__Group__4__Impl rule__Option__Group__5 ;
+    // InternalMutaText.g:768:1: rule__Option__Group__4 : rule__Option__Group__4__Impl rule__Option__Group__5 ;
     public final void rule__Option__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:700:1: ( rule__Option__Group__4__Impl rule__Option__Group__5 )
-            // InternalMutaText.g:701:2: rule__Option__Group__4__Impl rule__Option__Group__5
+            // InternalMutaText.g:772:1: ( rule__Option__Group__4__Impl rule__Option__Group__5 )
+            // InternalMutaText.g:773:2: rule__Option__Group__4__Impl rule__Option__Group__5
             {
             pushFollow(FOLLOW_8);
             rule__Option__Group__4__Impl();
@@ -2318,20 +2642,20 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__4__Impl"
-    // InternalMutaText.g:708:1: rule__Option__Group__4__Impl : ( ':' ) ;
+    // InternalMutaText.g:780:1: rule__Option__Group__4__Impl : ( ':' ) ;
     public final void rule__Option__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:712:1: ( ( ':' ) )
-            // InternalMutaText.g:713:1: ( ':' )
+            // InternalMutaText.g:784:1: ( ( ':' ) )
+            // InternalMutaText.g:785:1: ( ':' )
             {
-            // InternalMutaText.g:713:1: ( ':' )
-            // InternalMutaText.g:714:2: ':'
+            // InternalMutaText.g:785:1: ( ':' )
+            // InternalMutaText.g:786:2: ':'
             {
              before(grammarAccess.getOptionAccess().getColonKeyword_4()); 
-            match(input,35,FOLLOW_2); 
+            match(input,47,FOLLOW_2); 
              after(grammarAccess.getOptionAccess().getColonKeyword_4()); 
 
             }
@@ -2355,14 +2679,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__5"
-    // InternalMutaText.g:723:1: rule__Option__Group__5 : rule__Option__Group__5__Impl rule__Option__Group__6 ;
+    // InternalMutaText.g:795:1: rule__Option__Group__5 : rule__Option__Group__5__Impl rule__Option__Group__6 ;
     public final void rule__Option__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:727:1: ( rule__Option__Group__5__Impl rule__Option__Group__6 )
-            // InternalMutaText.g:728:2: rule__Option__Group__5__Impl rule__Option__Group__6
+            // InternalMutaText.g:799:1: ( rule__Option__Group__5__Impl rule__Option__Group__6 )
+            // InternalMutaText.g:800:2: rule__Option__Group__5__Impl rule__Option__Group__6
             {
             pushFollow(FOLLOW_9);
             rule__Option__Group__5__Impl();
@@ -2393,21 +2717,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__5__Impl"
-    // InternalMutaText.g:735:1: rule__Option__Group__5__Impl : ( ( rule__Option__ValidAssignment_5 ) ) ;
+    // InternalMutaText.g:807:1: rule__Option__Group__5__Impl : ( ( rule__Option__ValidAssignment_5 ) ) ;
     public final void rule__Option__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:739:1: ( ( ( rule__Option__ValidAssignment_5 ) ) )
-            // InternalMutaText.g:740:1: ( ( rule__Option__ValidAssignment_5 ) )
+            // InternalMutaText.g:811:1: ( ( ( rule__Option__ValidAssignment_5 ) ) )
+            // InternalMutaText.g:812:1: ( ( rule__Option__ValidAssignment_5 ) )
             {
-            // InternalMutaText.g:740:1: ( ( rule__Option__ValidAssignment_5 ) )
-            // InternalMutaText.g:741:2: ( rule__Option__ValidAssignment_5 )
+            // InternalMutaText.g:812:1: ( ( rule__Option__ValidAssignment_5 ) )
+            // InternalMutaText.g:813:2: ( rule__Option__ValidAssignment_5 )
             {
              before(grammarAccess.getOptionAccess().getValidAssignment_5()); 
-            // InternalMutaText.g:742:2: ( rule__Option__ValidAssignment_5 )
-            // InternalMutaText.g:742:3: rule__Option__ValidAssignment_5
+            // InternalMutaText.g:814:2: ( rule__Option__ValidAssignment_5 )
+            // InternalMutaText.g:814:3: rule__Option__ValidAssignment_5
             {
             pushFollow(FOLLOW_2);
             rule__Option__ValidAssignment_5();
@@ -2440,14 +2764,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__6"
-    // InternalMutaText.g:750:1: rule__Option__Group__6 : rule__Option__Group__6__Impl rule__Option__Group__7 ;
+    // InternalMutaText.g:822:1: rule__Option__Group__6 : rule__Option__Group__6__Impl rule__Option__Group__7 ;
     public final void rule__Option__Group__6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:754:1: ( rule__Option__Group__6__Impl rule__Option__Group__7 )
-            // InternalMutaText.g:755:2: rule__Option__Group__6__Impl rule__Option__Group__7
+            // InternalMutaText.g:826:1: ( rule__Option__Group__6__Impl rule__Option__Group__7 )
+            // InternalMutaText.g:827:2: rule__Option__Group__6__Impl rule__Option__Group__7
             {
             pushFollow(FOLLOW_8);
             rule__Option__Group__6__Impl();
@@ -2478,20 +2802,20 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__6__Impl"
-    // InternalMutaText.g:762:1: rule__Option__Group__6__Impl : ( '/' ) ;
+    // InternalMutaText.g:834:1: rule__Option__Group__6__Impl : ( '/' ) ;
     public final void rule__Option__Group__6__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:766:1: ( ( '/' ) )
-            // InternalMutaText.g:767:1: ( '/' )
+            // InternalMutaText.g:838:1: ( ( '/' ) )
+            // InternalMutaText.g:839:1: ( '/' )
             {
-            // InternalMutaText.g:767:1: ( '/' )
-            // InternalMutaText.g:768:2: '/'
+            // InternalMutaText.g:839:1: ( '/' )
+            // InternalMutaText.g:840:2: '/'
             {
              before(grammarAccess.getOptionAccess().getSolidusKeyword_6()); 
-            match(input,36,FOLLOW_2); 
+            match(input,48,FOLLOW_2); 
              after(grammarAccess.getOptionAccess().getSolidusKeyword_6()); 
 
             }
@@ -2515,14 +2839,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__7"
-    // InternalMutaText.g:777:1: rule__Option__Group__7 : rule__Option__Group__7__Impl ;
+    // InternalMutaText.g:849:1: rule__Option__Group__7 : rule__Option__Group__7__Impl ;
     public final void rule__Option__Group__7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:781:1: ( rule__Option__Group__7__Impl )
-            // InternalMutaText.g:782:2: rule__Option__Group__7__Impl
+            // InternalMutaText.g:853:1: ( rule__Option__Group__7__Impl )
+            // InternalMutaText.g:854:2: rule__Option__Group__7__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Option__Group__7__Impl();
@@ -2548,21 +2872,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group__7__Impl"
-    // InternalMutaText.g:788:1: rule__Option__Group__7__Impl : ( ( rule__Option__InvalidAssignment_7 ) ) ;
+    // InternalMutaText.g:860:1: rule__Option__Group__7__Impl : ( ( rule__Option__InvalidAssignment_7 ) ) ;
     public final void rule__Option__Group__7__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:792:1: ( ( ( rule__Option__InvalidAssignment_7 ) ) )
-            // InternalMutaText.g:793:1: ( ( rule__Option__InvalidAssignment_7 ) )
+            // InternalMutaText.g:864:1: ( ( ( rule__Option__InvalidAssignment_7 ) ) )
+            // InternalMutaText.g:865:1: ( ( rule__Option__InvalidAssignment_7 ) )
             {
-            // InternalMutaText.g:793:1: ( ( rule__Option__InvalidAssignment_7 ) )
-            // InternalMutaText.g:794:2: ( rule__Option__InvalidAssignment_7 )
+            // InternalMutaText.g:865:1: ( ( rule__Option__InvalidAssignment_7 ) )
+            // InternalMutaText.g:866:2: ( rule__Option__InvalidAssignment_7 )
             {
              before(grammarAccess.getOptionAccess().getInvalidAssignment_7()); 
-            // InternalMutaText.g:795:2: ( rule__Option__InvalidAssignment_7 )
-            // InternalMutaText.g:795:3: rule__Option__InvalidAssignment_7
+            // InternalMutaText.g:867:2: ( rule__Option__InvalidAssignment_7 )
+            // InternalMutaText.g:867:3: rule__Option__InvalidAssignment_7
             {
             pushFollow(FOLLOW_2);
             rule__Option__InvalidAssignment_7();
@@ -2595,14 +2919,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group_3__0"
-    // InternalMutaText.g:804:1: rule__Option__Group_3__0 : rule__Option__Group_3__0__Impl rule__Option__Group_3__1 ;
+    // InternalMutaText.g:876:1: rule__Option__Group_3__0 : rule__Option__Group_3__0__Impl rule__Option__Group_3__1 ;
     public final void rule__Option__Group_3__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:808:1: ( rule__Option__Group_3__0__Impl rule__Option__Group_3__1 )
-            // InternalMutaText.g:809:2: rule__Option__Group_3__0__Impl rule__Option__Group_3__1
+            // InternalMutaText.g:880:1: ( rule__Option__Group_3__0__Impl rule__Option__Group_3__1 )
+            // InternalMutaText.g:881:2: rule__Option__Group_3__0__Impl rule__Option__Group_3__1
             {
             pushFollow(FOLLOW_4);
             rule__Option__Group_3__0__Impl();
@@ -2633,20 +2957,20 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group_3__0__Impl"
-    // InternalMutaText.g:816:1: rule__Option__Group_3__0__Impl : ( '(' ) ;
+    // InternalMutaText.g:888:1: rule__Option__Group_3__0__Impl : ( '(' ) ;
     public final void rule__Option__Group_3__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:820:1: ( ( '(' ) )
-            // InternalMutaText.g:821:1: ( '(' )
+            // InternalMutaText.g:892:1: ( ( '(' ) )
+            // InternalMutaText.g:893:1: ( '(' )
             {
-            // InternalMutaText.g:821:1: ( '(' )
-            // InternalMutaText.g:822:2: '('
+            // InternalMutaText.g:893:1: ( '(' )
+            // InternalMutaText.g:894:2: '('
             {
              before(grammarAccess.getOptionAccess().getLeftParenthesisKeyword_3_0()); 
-            match(input,37,FOLLOW_2); 
+            match(input,49,FOLLOW_2); 
              after(grammarAccess.getOptionAccess().getLeftParenthesisKeyword_3_0()); 
 
             }
@@ -2670,14 +2994,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group_3__1"
-    // InternalMutaText.g:831:1: rule__Option__Group_3__1 : rule__Option__Group_3__1__Impl rule__Option__Group_3__2 ;
+    // InternalMutaText.g:903:1: rule__Option__Group_3__1 : rule__Option__Group_3__1__Impl rule__Option__Group_3__2 ;
     public final void rule__Option__Group_3__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:835:1: ( rule__Option__Group_3__1__Impl rule__Option__Group_3__2 )
-            // InternalMutaText.g:836:2: rule__Option__Group_3__1__Impl rule__Option__Group_3__2
+            // InternalMutaText.g:907:1: ( rule__Option__Group_3__1__Impl rule__Option__Group_3__2 )
+            // InternalMutaText.g:908:2: rule__Option__Group_3__1__Impl rule__Option__Group_3__2
             {
             pushFollow(FOLLOW_10);
             rule__Option__Group_3__1__Impl();
@@ -2708,21 +3032,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group_3__1__Impl"
-    // InternalMutaText.g:843:1: rule__Option__Group_3__1__Impl : ( ( rule__Option__ObjectAssignment_3_1 ) ) ;
+    // InternalMutaText.g:915:1: rule__Option__Group_3__1__Impl : ( ( rule__Option__ObjectAssignment_3_1 ) ) ;
     public final void rule__Option__Group_3__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:847:1: ( ( ( rule__Option__ObjectAssignment_3_1 ) ) )
-            // InternalMutaText.g:848:1: ( ( rule__Option__ObjectAssignment_3_1 ) )
+            // InternalMutaText.g:919:1: ( ( ( rule__Option__ObjectAssignment_3_1 ) ) )
+            // InternalMutaText.g:920:1: ( ( rule__Option__ObjectAssignment_3_1 ) )
             {
-            // InternalMutaText.g:848:1: ( ( rule__Option__ObjectAssignment_3_1 ) )
-            // InternalMutaText.g:849:2: ( rule__Option__ObjectAssignment_3_1 )
+            // InternalMutaText.g:920:1: ( ( rule__Option__ObjectAssignment_3_1 ) )
+            // InternalMutaText.g:921:2: ( rule__Option__ObjectAssignment_3_1 )
             {
              before(grammarAccess.getOptionAccess().getObjectAssignment_3_1()); 
-            // InternalMutaText.g:850:2: ( rule__Option__ObjectAssignment_3_1 )
-            // InternalMutaText.g:850:3: rule__Option__ObjectAssignment_3_1
+            // InternalMutaText.g:922:2: ( rule__Option__ObjectAssignment_3_1 )
+            // InternalMutaText.g:922:3: rule__Option__ObjectAssignment_3_1
             {
             pushFollow(FOLLOW_2);
             rule__Option__ObjectAssignment_3_1();
@@ -2755,14 +3079,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group_3__2"
-    // InternalMutaText.g:858:1: rule__Option__Group_3__2 : rule__Option__Group_3__2__Impl ;
+    // InternalMutaText.g:930:1: rule__Option__Group_3__2 : rule__Option__Group_3__2__Impl ;
     public final void rule__Option__Group_3__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:862:1: ( rule__Option__Group_3__2__Impl )
-            // InternalMutaText.g:863:2: rule__Option__Group_3__2__Impl
+            // InternalMutaText.g:934:1: ( rule__Option__Group_3__2__Impl )
+            // InternalMutaText.g:935:2: rule__Option__Group_3__2__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Option__Group_3__2__Impl();
@@ -2788,20 +3112,20 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__Group_3__2__Impl"
-    // InternalMutaText.g:869:1: rule__Option__Group_3__2__Impl : ( ')' ) ;
+    // InternalMutaText.g:941:1: rule__Option__Group_3__2__Impl : ( ')' ) ;
     public final void rule__Option__Group_3__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:873:1: ( ( ')' ) )
-            // InternalMutaText.g:874:1: ( ')' )
+            // InternalMutaText.g:945:1: ( ( ')' ) )
+            // InternalMutaText.g:946:1: ( ')' )
             {
-            // InternalMutaText.g:874:1: ( ')' )
-            // InternalMutaText.g:875:2: ')'
+            // InternalMutaText.g:946:1: ( ')' )
+            // InternalMutaText.g:947:2: ')'
             {
              before(grammarAccess.getOptionAccess().getRightParenthesisKeyword_3_2()); 
-            match(input,38,FOLLOW_2); 
+            match(input,50,FOLLOW_2); 
              after(grammarAccess.getOptionAccess().getRightParenthesisKeyword_3_2()); 
 
             }
@@ -2825,14 +3149,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group__0"
-    // InternalMutaText.g:885:1: rule__Text__Group__0 : rule__Text__Group__0__Impl rule__Text__Group__1 ;
+    // InternalMutaText.g:957:1: rule__Text__Group__0 : rule__Text__Group__0__Impl rule__Text__Group__1 ;
     public final void rule__Text__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:889:1: ( rule__Text__Group__0__Impl rule__Text__Group__1 )
-            // InternalMutaText.g:890:2: rule__Text__Group__0__Impl rule__Text__Group__1
+            // InternalMutaText.g:961:1: ( rule__Text__Group__0__Impl rule__Text__Group__1 )
+            // InternalMutaText.g:962:2: rule__Text__Group__0__Impl rule__Text__Group__1
             {
             pushFollow(FOLLOW_8);
             rule__Text__Group__0__Impl();
@@ -2863,21 +3187,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group__0__Impl"
-    // InternalMutaText.g:897:1: rule__Text__Group__0__Impl : ( () ) ;
+    // InternalMutaText.g:969:1: rule__Text__Group__0__Impl : ( () ) ;
     public final void rule__Text__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:901:1: ( ( () ) )
-            // InternalMutaText.g:902:1: ( () )
+            // InternalMutaText.g:973:1: ( ( () ) )
+            // InternalMutaText.g:974:1: ( () )
             {
-            // InternalMutaText.g:902:1: ( () )
-            // InternalMutaText.g:903:2: ()
+            // InternalMutaText.g:974:1: ( () )
+            // InternalMutaText.g:975:2: ()
             {
              before(grammarAccess.getTextAccess().getTextAction_0()); 
-            // InternalMutaText.g:904:2: ()
-            // InternalMutaText.g:904:3: 
+            // InternalMutaText.g:976:2: ()
+            // InternalMutaText.g:976:3: 
             {
             }
 
@@ -2900,14 +3224,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group__1"
-    // InternalMutaText.g:912:1: rule__Text__Group__1 : rule__Text__Group__1__Impl ;
+    // InternalMutaText.g:984:1: rule__Text__Group__1 : rule__Text__Group__1__Impl ;
     public final void rule__Text__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:916:1: ( rule__Text__Group__1__Impl )
-            // InternalMutaText.g:917:2: rule__Text__Group__1__Impl
+            // InternalMutaText.g:988:1: ( rule__Text__Group__1__Impl )
+            // InternalMutaText.g:989:2: rule__Text__Group__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Text__Group__1__Impl();
@@ -2933,29 +3257,29 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group__1__Impl"
-    // InternalMutaText.g:923:1: rule__Text__Group__1__Impl : ( ( rule__Text__Group_1__0 )? ) ;
+    // InternalMutaText.g:995:1: rule__Text__Group__1__Impl : ( ( rule__Text__Group_1__0 )? ) ;
     public final void rule__Text__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:927:1: ( ( ( rule__Text__Group_1__0 )? ) )
-            // InternalMutaText.g:928:1: ( ( rule__Text__Group_1__0 )? )
+            // InternalMutaText.g:999:1: ( ( ( rule__Text__Group_1__0 )? ) )
+            // InternalMutaText.g:1000:1: ( ( rule__Text__Group_1__0 )? )
             {
-            // InternalMutaText.g:928:1: ( ( rule__Text__Group_1__0 )? )
-            // InternalMutaText.g:929:2: ( rule__Text__Group_1__0 )?
+            // InternalMutaText.g:1000:1: ( ( rule__Text__Group_1__0 )? )
+            // InternalMutaText.g:1001:2: ( rule__Text__Group_1__0 )?
             {
              before(grammarAccess.getTextAccess().getGroup_1()); 
-            // InternalMutaText.g:930:2: ( rule__Text__Group_1__0 )?
+            // InternalMutaText.g:1002:2: ( rule__Text__Group_1__0 )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
-            if ( ((LA7_0>=RULE_STRING && LA7_0<=RULE_ID)||(LA7_0>=11 && LA7_0<=32)) ) {
+            if ( ((LA7_0>=RULE_STRING && LA7_0<=RULE_ID)||(LA7_0>=11 && LA7_0<=44)) ) {
                 alt7=1;
             }
             switch (alt7) {
                 case 1 :
-                    // InternalMutaText.g:930:3: rule__Text__Group_1__0
+                    // InternalMutaText.g:1002:3: rule__Text__Group_1__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Text__Group_1__0();
@@ -2991,14 +3315,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group_1__0"
-    // InternalMutaText.g:939:1: rule__Text__Group_1__0 : rule__Text__Group_1__0__Impl rule__Text__Group_1__1 ;
+    // InternalMutaText.g:1011:1: rule__Text__Group_1__0 : rule__Text__Group_1__0__Impl rule__Text__Group_1__1 ;
     public final void rule__Text__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:943:1: ( rule__Text__Group_1__0__Impl rule__Text__Group_1__1 )
-            // InternalMutaText.g:944:2: rule__Text__Group_1__0__Impl rule__Text__Group_1__1
+            // InternalMutaText.g:1015:1: ( rule__Text__Group_1__0__Impl rule__Text__Group_1__1 )
+            // InternalMutaText.g:1016:2: rule__Text__Group_1__0__Impl rule__Text__Group_1__1
             {
             pushFollow(FOLLOW_8);
             rule__Text__Group_1__0__Impl();
@@ -3029,21 +3353,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group_1__0__Impl"
-    // InternalMutaText.g:951:1: rule__Text__Group_1__0__Impl : ( ( rule__Text__WordsAssignment_1_0 ) ) ;
+    // InternalMutaText.g:1023:1: rule__Text__Group_1__0__Impl : ( ( rule__Text__WordsAssignment_1_0 ) ) ;
     public final void rule__Text__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:955:1: ( ( ( rule__Text__WordsAssignment_1_0 ) ) )
-            // InternalMutaText.g:956:1: ( ( rule__Text__WordsAssignment_1_0 ) )
+            // InternalMutaText.g:1027:1: ( ( ( rule__Text__WordsAssignment_1_0 ) ) )
+            // InternalMutaText.g:1028:1: ( ( rule__Text__WordsAssignment_1_0 ) )
             {
-            // InternalMutaText.g:956:1: ( ( rule__Text__WordsAssignment_1_0 ) )
-            // InternalMutaText.g:957:2: ( rule__Text__WordsAssignment_1_0 )
+            // InternalMutaText.g:1028:1: ( ( rule__Text__WordsAssignment_1_0 ) )
+            // InternalMutaText.g:1029:2: ( rule__Text__WordsAssignment_1_0 )
             {
              before(grammarAccess.getTextAccess().getWordsAssignment_1_0()); 
-            // InternalMutaText.g:958:2: ( rule__Text__WordsAssignment_1_0 )
-            // InternalMutaText.g:958:3: rule__Text__WordsAssignment_1_0
+            // InternalMutaText.g:1030:2: ( rule__Text__WordsAssignment_1_0 )
+            // InternalMutaText.g:1030:3: rule__Text__WordsAssignment_1_0
             {
             pushFollow(FOLLOW_2);
             rule__Text__WordsAssignment_1_0();
@@ -3076,14 +3400,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group_1__1"
-    // InternalMutaText.g:966:1: rule__Text__Group_1__1 : rule__Text__Group_1__1__Impl ;
+    // InternalMutaText.g:1038:1: rule__Text__Group_1__1 : rule__Text__Group_1__1__Impl ;
     public final void rule__Text__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:970:1: ( rule__Text__Group_1__1__Impl )
-            // InternalMutaText.g:971:2: rule__Text__Group_1__1__Impl
+            // InternalMutaText.g:1042:1: ( rule__Text__Group_1__1__Impl )
+            // InternalMutaText.g:1043:2: rule__Text__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Text__Group_1__1__Impl();
@@ -3109,33 +3433,33 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__Group_1__1__Impl"
-    // InternalMutaText.g:977:1: rule__Text__Group_1__1__Impl : ( ( rule__Text__WordsAssignment_1_1 )* ) ;
+    // InternalMutaText.g:1049:1: rule__Text__Group_1__1__Impl : ( ( rule__Text__WordsAssignment_1_1 )* ) ;
     public final void rule__Text__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:981:1: ( ( ( rule__Text__WordsAssignment_1_1 )* ) )
-            // InternalMutaText.g:982:1: ( ( rule__Text__WordsAssignment_1_1 )* )
+            // InternalMutaText.g:1053:1: ( ( ( rule__Text__WordsAssignment_1_1 )* ) )
+            // InternalMutaText.g:1054:1: ( ( rule__Text__WordsAssignment_1_1 )* )
             {
-            // InternalMutaText.g:982:1: ( ( rule__Text__WordsAssignment_1_1 )* )
-            // InternalMutaText.g:983:2: ( rule__Text__WordsAssignment_1_1 )*
+            // InternalMutaText.g:1054:1: ( ( rule__Text__WordsAssignment_1_1 )* )
+            // InternalMutaText.g:1055:2: ( rule__Text__WordsAssignment_1_1 )*
             {
              before(grammarAccess.getTextAccess().getWordsAssignment_1_1()); 
-            // InternalMutaText.g:984:2: ( rule__Text__WordsAssignment_1_1 )*
+            // InternalMutaText.g:1056:2: ( rule__Text__WordsAssignment_1_1 )*
             loop8:
             do {
                 int alt8=2;
                 int LA8_0 = input.LA(1);
 
-                if ( ((LA8_0>=RULE_STRING && LA8_0<=RULE_ID)||(LA8_0>=11 && LA8_0<=32)) ) {
+                if ( ((LA8_0>=RULE_STRING && LA8_0<=RULE_ID)||(LA8_0>=11 && LA8_0<=44)) ) {
                     alt8=1;
                 }
 
 
                 switch (alt8) {
             	case 1 :
-            	    // InternalMutaText.g:984:3: rule__Text__WordsAssignment_1_1
+            	    // InternalMutaText.g:1056:3: rule__Text__WordsAssignment_1_1
             	    {
             	    pushFollow(FOLLOW_11);
             	    rule__Text__WordsAssignment_1_1();
@@ -3174,14 +3498,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Constant__Group__0"
-    // InternalMutaText.g:993:1: rule__Constant__Group__0 : rule__Constant__Group__0__Impl rule__Constant__Group__1 ;
+    // InternalMutaText.g:1065:1: rule__Constant__Group__0 : rule__Constant__Group__0__Impl rule__Constant__Group__1 ;
     public final void rule__Constant__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:997:1: ( rule__Constant__Group__0__Impl rule__Constant__Group__1 )
-            // InternalMutaText.g:998:2: rule__Constant__Group__0__Impl rule__Constant__Group__1
+            // InternalMutaText.g:1069:1: ( rule__Constant__Group__0__Impl rule__Constant__Group__1 )
+            // InternalMutaText.g:1070:2: rule__Constant__Group__0__Impl rule__Constant__Group__1
             {
             pushFollow(FOLLOW_4);
             rule__Constant__Group__0__Impl();
@@ -3212,21 +3536,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Constant__Group__0__Impl"
-    // InternalMutaText.g:1005:1: rule__Constant__Group__0__Impl : ( () ) ;
+    // InternalMutaText.g:1077:1: rule__Constant__Group__0__Impl : ( () ) ;
     public final void rule__Constant__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1009:1: ( ( () ) )
-            // InternalMutaText.g:1010:1: ( () )
+            // InternalMutaText.g:1081:1: ( ( () ) )
+            // InternalMutaText.g:1082:1: ( () )
             {
-            // InternalMutaText.g:1010:1: ( () )
-            // InternalMutaText.g:1011:2: ()
+            // InternalMutaText.g:1082:1: ( () )
+            // InternalMutaText.g:1083:2: ()
             {
              before(grammarAccess.getConstantAccess().getConstantAction_0()); 
-            // InternalMutaText.g:1012:2: ()
-            // InternalMutaText.g:1012:3: 
+            // InternalMutaText.g:1084:2: ()
+            // InternalMutaText.g:1084:3: 
             {
             }
 
@@ -3249,14 +3573,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Constant__Group__1"
-    // InternalMutaText.g:1020:1: rule__Constant__Group__1 : rule__Constant__Group__1__Impl ;
+    // InternalMutaText.g:1092:1: rule__Constant__Group__1 : rule__Constant__Group__1__Impl ;
     public final void rule__Constant__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1024:1: ( rule__Constant__Group__1__Impl )
-            // InternalMutaText.g:1025:2: rule__Constant__Group__1__Impl
+            // InternalMutaText.g:1096:1: ( rule__Constant__Group__1__Impl )
+            // InternalMutaText.g:1097:2: rule__Constant__Group__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Constant__Group__1__Impl();
@@ -3282,21 +3606,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Constant__Group__1__Impl"
-    // InternalMutaText.g:1031:1: rule__Constant__Group__1__Impl : ( ( rule__Constant__ValueAssignment_1 ) ) ;
+    // InternalMutaText.g:1103:1: rule__Constant__Group__1__Impl : ( ( rule__Constant__ValueAssignment_1 ) ) ;
     public final void rule__Constant__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1035:1: ( ( ( rule__Constant__ValueAssignment_1 ) ) )
-            // InternalMutaText.g:1036:1: ( ( rule__Constant__ValueAssignment_1 ) )
+            // InternalMutaText.g:1107:1: ( ( ( rule__Constant__ValueAssignment_1 ) ) )
+            // InternalMutaText.g:1108:1: ( ( rule__Constant__ValueAssignment_1 ) )
             {
-            // InternalMutaText.g:1036:1: ( ( rule__Constant__ValueAssignment_1 ) )
-            // InternalMutaText.g:1037:2: ( rule__Constant__ValueAssignment_1 )
+            // InternalMutaText.g:1108:1: ( ( rule__Constant__ValueAssignment_1 ) )
+            // InternalMutaText.g:1109:2: ( rule__Constant__ValueAssignment_1 )
             {
              before(grammarAccess.getConstantAccess().getValueAssignment_1()); 
-            // InternalMutaText.g:1038:2: ( rule__Constant__ValueAssignment_1 )
-            // InternalMutaText.g:1038:3: rule__Constant__ValueAssignment_1
+            // InternalMutaText.g:1110:2: ( rule__Constant__ValueAssignment_1 )
+            // InternalMutaText.g:1110:3: rule__Constant__ValueAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Constant__ValueAssignment_1();
@@ -3329,14 +3653,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Variable__Group__0"
-    // InternalMutaText.g:1047:1: rule__Variable__Group__0 : rule__Variable__Group__0__Impl rule__Variable__Group__1 ;
+    // InternalMutaText.g:1119:1: rule__Variable__Group__0 : rule__Variable__Group__0__Impl rule__Variable__Group__1 ;
     public final void rule__Variable__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1051:1: ( rule__Variable__Group__0__Impl rule__Variable__Group__1 )
-            // InternalMutaText.g:1052:2: rule__Variable__Group__0__Impl rule__Variable__Group__1
+            // InternalMutaText.g:1123:1: ( rule__Variable__Group__0__Impl rule__Variable__Group__1 )
+            // InternalMutaText.g:1124:2: rule__Variable__Group__0__Impl rule__Variable__Group__1
             {
             pushFollow(FOLLOW_8);
             rule__Variable__Group__0__Impl();
@@ -3367,21 +3691,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Variable__Group__0__Impl"
-    // InternalMutaText.g:1059:1: rule__Variable__Group__0__Impl : ( () ) ;
+    // InternalMutaText.g:1131:1: rule__Variable__Group__0__Impl : ( () ) ;
     public final void rule__Variable__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1063:1: ( ( () ) )
-            // InternalMutaText.g:1064:1: ( () )
+            // InternalMutaText.g:1135:1: ( ( () ) )
+            // InternalMutaText.g:1136:1: ( () )
             {
-            // InternalMutaText.g:1064:1: ( () )
-            // InternalMutaText.g:1065:2: ()
+            // InternalMutaText.g:1136:1: ( () )
+            // InternalMutaText.g:1137:2: ()
             {
              before(grammarAccess.getVariableAccess().getVariableAction_0()); 
-            // InternalMutaText.g:1066:2: ()
-            // InternalMutaText.g:1066:3: 
+            // InternalMutaText.g:1138:2: ()
+            // InternalMutaText.g:1138:3: 
             {
             }
 
@@ -3404,14 +3728,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Variable__Group__1"
-    // InternalMutaText.g:1074:1: rule__Variable__Group__1 : rule__Variable__Group__1__Impl ;
+    // InternalMutaText.g:1146:1: rule__Variable__Group__1 : rule__Variable__Group__1__Impl ;
     public final void rule__Variable__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1078:1: ( rule__Variable__Group__1__Impl )
-            // InternalMutaText.g:1079:2: rule__Variable__Group__1__Impl
+            // InternalMutaText.g:1150:1: ( rule__Variable__Group__1__Impl )
+            // InternalMutaText.g:1151:2: rule__Variable__Group__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Variable__Group__1__Impl();
@@ -3437,21 +3761,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Variable__Group__1__Impl"
-    // InternalMutaText.g:1085:1: rule__Variable__Group__1__Impl : ( ( rule__Variable__TypeAssignment_1 ) ) ;
+    // InternalMutaText.g:1157:1: rule__Variable__Group__1__Impl : ( ( rule__Variable__TypeAssignment_1 ) ) ;
     public final void rule__Variable__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1089:1: ( ( ( rule__Variable__TypeAssignment_1 ) ) )
-            // InternalMutaText.g:1090:1: ( ( rule__Variable__TypeAssignment_1 ) )
+            // InternalMutaText.g:1161:1: ( ( ( rule__Variable__TypeAssignment_1 ) ) )
+            // InternalMutaText.g:1162:1: ( ( rule__Variable__TypeAssignment_1 ) )
             {
-            // InternalMutaText.g:1090:1: ( ( rule__Variable__TypeAssignment_1 ) )
-            // InternalMutaText.g:1091:2: ( rule__Variable__TypeAssignment_1 )
+            // InternalMutaText.g:1162:1: ( ( rule__Variable__TypeAssignment_1 ) )
+            // InternalMutaText.g:1163:2: ( rule__Variable__TypeAssignment_1 )
             {
              before(grammarAccess.getVariableAccess().getTypeAssignment_1()); 
-            // InternalMutaText.g:1092:2: ( rule__Variable__TypeAssignment_1 )
-            // InternalMutaText.g:1092:3: rule__Variable__TypeAssignment_1
+            // InternalMutaText.g:1164:2: ( rule__Variable__TypeAssignment_1 )
+            // InternalMutaText.g:1164:3: rule__Variable__TypeAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Variable__TypeAssignment_1();
@@ -3484,17 +3808,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__MetamodelAssignment_2"
-    // InternalMutaText.g:1101:1: rule__Configuration__MetamodelAssignment_2 : ( ruleEString ) ;
+    // InternalMutaText.g:1173:1: rule__Configuration__MetamodelAssignment_2 : ( ruleEString ) ;
     public final void rule__Configuration__MetamodelAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1105:1: ( ( ruleEString ) )
-            // InternalMutaText.g:1106:2: ( ruleEString )
+            // InternalMutaText.g:1177:1: ( ( ruleEString ) )
+            // InternalMutaText.g:1178:2: ( ruleEString )
             {
-            // InternalMutaText.g:1106:2: ( ruleEString )
-            // InternalMutaText.g:1107:3: ruleEString
+            // InternalMutaText.g:1178:2: ( ruleEString )
+            // InternalMutaText.g:1179:3: ruleEString
             {
              before(grammarAccess.getConfigurationAccess().getMetamodelEStringParserRuleCall_2_0()); 
             pushFollow(FOLLOW_2);
@@ -3525,17 +3849,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__OptionsAssignment_3_0"
-    // InternalMutaText.g:1116:1: rule__Configuration__OptionsAssignment_3_0 : ( ruleOption ) ;
+    // InternalMutaText.g:1188:1: rule__Configuration__OptionsAssignment_3_0 : ( ruleOption ) ;
     public final void rule__Configuration__OptionsAssignment_3_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1120:1: ( ( ruleOption ) )
-            // InternalMutaText.g:1121:2: ( ruleOption )
+            // InternalMutaText.g:1192:1: ( ( ruleOption ) )
+            // InternalMutaText.g:1193:2: ( ruleOption )
             {
-            // InternalMutaText.g:1121:2: ( ruleOption )
-            // InternalMutaText.g:1122:3: ruleOption
+            // InternalMutaText.g:1193:2: ( ruleOption )
+            // InternalMutaText.g:1194:3: ruleOption
             {
              before(grammarAccess.getConfigurationAccess().getOptionsOptionParserRuleCall_3_0_0()); 
             pushFollow(FOLLOW_2);
@@ -3566,17 +3890,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Configuration__OptionsAssignment_3_1"
-    // InternalMutaText.g:1131:1: rule__Configuration__OptionsAssignment_3_1 : ( ruleOption ) ;
+    // InternalMutaText.g:1203:1: rule__Configuration__OptionsAssignment_3_1 : ( ruleOption ) ;
     public final void rule__Configuration__OptionsAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1135:1: ( ( ruleOption ) )
-            // InternalMutaText.g:1136:2: ( ruleOption )
+            // InternalMutaText.g:1207:1: ( ( ruleOption ) )
+            // InternalMutaText.g:1208:2: ( ruleOption )
             {
-            // InternalMutaText.g:1136:2: ( ruleOption )
-            // InternalMutaText.g:1137:3: ruleOption
+            // InternalMutaText.g:1208:2: ( ruleOption )
+            // InternalMutaText.g:1209:3: ruleOption
             {
              before(grammarAccess.getConfigurationAccess().getOptionsOptionParserRuleCall_3_1_0()); 
             pushFollow(FOLLOW_2);
@@ -3607,21 +3931,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__TypeAssignment_2"
-    // InternalMutaText.g:1146:1: rule__Option__TypeAssignment_2 : ( ( ruleEString ) ) ;
+    // InternalMutaText.g:1218:1: rule__Option__TypeAssignment_2 : ( ( ruleEString ) ) ;
     public final void rule__Option__TypeAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1150:1: ( ( ( ruleEString ) ) )
-            // InternalMutaText.g:1151:2: ( ( ruleEString ) )
+            // InternalMutaText.g:1222:1: ( ( ( ruleEString ) ) )
+            // InternalMutaText.g:1223:2: ( ( ruleEString ) )
             {
-            // InternalMutaText.g:1151:2: ( ( ruleEString ) )
-            // InternalMutaText.g:1152:3: ( ruleEString )
+            // InternalMutaText.g:1223:2: ( ( ruleEString ) )
+            // InternalMutaText.g:1224:3: ( ruleEString )
             {
              before(grammarAccess.getOptionAccess().getTypeEClassCrossReference_2_0()); 
-            // InternalMutaText.g:1153:3: ( ruleEString )
-            // InternalMutaText.g:1154:4: ruleEString
+            // InternalMutaText.g:1225:3: ( ruleEString )
+            // InternalMutaText.g:1226:4: ruleEString
             {
              before(grammarAccess.getOptionAccess().getTypeEClassEStringParserRuleCall_2_0_1()); 
             pushFollow(FOLLOW_2);
@@ -3656,21 +3980,21 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__ObjectAssignment_3_1"
-    // InternalMutaText.g:1165:1: rule__Option__ObjectAssignment_3_1 : ( ( ruleEString ) ) ;
+    // InternalMutaText.g:1237:1: rule__Option__ObjectAssignment_3_1 : ( ( ruleEString ) ) ;
     public final void rule__Option__ObjectAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1169:1: ( ( ( ruleEString ) ) )
-            // InternalMutaText.g:1170:2: ( ( ruleEString ) )
+            // InternalMutaText.g:1241:1: ( ( ( ruleEString ) ) )
+            // InternalMutaText.g:1242:2: ( ( ruleEString ) )
             {
-            // InternalMutaText.g:1170:2: ( ( ruleEString ) )
-            // InternalMutaText.g:1171:3: ( ruleEString )
+            // InternalMutaText.g:1242:2: ( ( ruleEString ) )
+            // InternalMutaText.g:1243:3: ( ruleEString )
             {
              before(grammarAccess.getOptionAccess().getObjectEObjectCrossReference_3_1_0()); 
-            // InternalMutaText.g:1172:3: ( ruleEString )
-            // InternalMutaText.g:1173:4: ruleEString
+            // InternalMutaText.g:1244:3: ( ruleEString )
+            // InternalMutaText.g:1245:4: ruleEString
             {
              before(grammarAccess.getOptionAccess().getObjectEObjectEStringParserRuleCall_3_1_0_1()); 
             pushFollow(FOLLOW_2);
@@ -3705,17 +4029,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__ValidAssignment_5"
-    // InternalMutaText.g:1184:1: rule__Option__ValidAssignment_5 : ( ruleText ) ;
+    // InternalMutaText.g:1256:1: rule__Option__ValidAssignment_5 : ( ruleText ) ;
     public final void rule__Option__ValidAssignment_5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1188:1: ( ( ruleText ) )
-            // InternalMutaText.g:1189:2: ( ruleText )
+            // InternalMutaText.g:1260:1: ( ( ruleText ) )
+            // InternalMutaText.g:1261:2: ( ruleText )
             {
-            // InternalMutaText.g:1189:2: ( ruleText )
-            // InternalMutaText.g:1190:3: ruleText
+            // InternalMutaText.g:1261:2: ( ruleText )
+            // InternalMutaText.g:1262:3: ruleText
             {
              before(grammarAccess.getOptionAccess().getValidTextParserRuleCall_5_0()); 
             pushFollow(FOLLOW_2);
@@ -3746,17 +4070,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Option__InvalidAssignment_7"
-    // InternalMutaText.g:1199:1: rule__Option__InvalidAssignment_7 : ( ruleText ) ;
+    // InternalMutaText.g:1271:1: rule__Option__InvalidAssignment_7 : ( ruleText ) ;
     public final void rule__Option__InvalidAssignment_7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1203:1: ( ( ruleText ) )
-            // InternalMutaText.g:1204:2: ( ruleText )
+            // InternalMutaText.g:1275:1: ( ( ruleText ) )
+            // InternalMutaText.g:1276:2: ( ruleText )
             {
-            // InternalMutaText.g:1204:2: ( ruleText )
-            // InternalMutaText.g:1205:3: ruleText
+            // InternalMutaText.g:1276:2: ( ruleText )
+            // InternalMutaText.g:1277:3: ruleText
             {
              before(grammarAccess.getOptionAccess().getInvalidTextParserRuleCall_7_0()); 
             pushFollow(FOLLOW_2);
@@ -3787,17 +4111,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__WordsAssignment_1_0"
-    // InternalMutaText.g:1214:1: rule__Text__WordsAssignment_1_0 : ( ruleWord ) ;
+    // InternalMutaText.g:1286:1: rule__Text__WordsAssignment_1_0 : ( ruleWord ) ;
     public final void rule__Text__WordsAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1218:1: ( ( ruleWord ) )
-            // InternalMutaText.g:1219:2: ( ruleWord )
+            // InternalMutaText.g:1290:1: ( ( ruleWord ) )
+            // InternalMutaText.g:1291:2: ( ruleWord )
             {
-            // InternalMutaText.g:1219:2: ( ruleWord )
-            // InternalMutaText.g:1220:3: ruleWord
+            // InternalMutaText.g:1291:2: ( ruleWord )
+            // InternalMutaText.g:1292:3: ruleWord
             {
              before(grammarAccess.getTextAccess().getWordsWordParserRuleCall_1_0_0()); 
             pushFollow(FOLLOW_2);
@@ -3828,17 +4152,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Text__WordsAssignment_1_1"
-    // InternalMutaText.g:1229:1: rule__Text__WordsAssignment_1_1 : ( ruleWord ) ;
+    // InternalMutaText.g:1301:1: rule__Text__WordsAssignment_1_1 : ( ruleWord ) ;
     public final void rule__Text__WordsAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1233:1: ( ( ruleWord ) )
-            // InternalMutaText.g:1234:2: ( ruleWord )
+            // InternalMutaText.g:1305:1: ( ( ruleWord ) )
+            // InternalMutaText.g:1306:2: ( ruleWord )
             {
-            // InternalMutaText.g:1234:2: ( ruleWord )
-            // InternalMutaText.g:1235:3: ruleWord
+            // InternalMutaText.g:1306:2: ( ruleWord )
+            // InternalMutaText.g:1307:3: ruleWord
             {
              before(grammarAccess.getTextAccess().getWordsWordParserRuleCall_1_1_0()); 
             pushFollow(FOLLOW_2);
@@ -3869,17 +4193,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Constant__ValueAssignment_1"
-    // InternalMutaText.g:1244:1: rule__Constant__ValueAssignment_1 : ( ruleEString ) ;
+    // InternalMutaText.g:1316:1: rule__Constant__ValueAssignment_1 : ( ruleEString ) ;
     public final void rule__Constant__ValueAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1248:1: ( ( ruleEString ) )
-            // InternalMutaText.g:1249:2: ( ruleEString )
+            // InternalMutaText.g:1320:1: ( ( ruleEString ) )
+            // InternalMutaText.g:1321:2: ( ruleEString )
             {
-            // InternalMutaText.g:1249:2: ( ruleEString )
-            // InternalMutaText.g:1250:3: ruleEString
+            // InternalMutaText.g:1321:2: ( ruleEString )
+            // InternalMutaText.g:1322:3: ruleEString
             {
              before(grammarAccess.getConstantAccess().getValueEStringParserRuleCall_1_0()); 
             pushFollow(FOLLOW_2);
@@ -3910,17 +4234,17 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Variable__TypeAssignment_1"
-    // InternalMutaText.g:1259:1: rule__Variable__TypeAssignment_1 : ( ruleVariableType ) ;
+    // InternalMutaText.g:1331:1: rule__Variable__TypeAssignment_1 : ( ruleVariableType ) ;
     public final void rule__Variable__TypeAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalMutaText.g:1263:1: ( ( ruleVariableType ) )
-            // InternalMutaText.g:1264:2: ( ruleVariableType )
+            // InternalMutaText.g:1335:1: ( ( ruleVariableType ) )
+            // InternalMutaText.g:1336:2: ( ruleVariableType )
             {
-            // InternalMutaText.g:1264:2: ( ruleVariableType )
-            // InternalMutaText.g:1265:3: ruleVariableType
+            // InternalMutaText.g:1336:2: ( ruleVariableType )
+            // InternalMutaText.g:1337:3: ruleVariableType
             {
              before(grammarAccess.getVariableAccess().getTypeVariableTypeEnumRuleCall_1_0()); 
             pushFollow(FOLLOW_2);
@@ -3956,14 +4280,14 @@ public class InternalMutaTextParser extends AbstractInternalContentAssistParser 
 
     public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000200000000000L});
     public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000000030L});
-    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000400000002L});
-    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000002800000000L});
-    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x00000001FFFFF830L});
-    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000001000000000L});
-    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x00000001FFFFF832L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000400000000002L});
+    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0002800000000000L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x00001FFFFFFFF830L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0001000000000000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x00001FFFFFFFF832L});
 
 }

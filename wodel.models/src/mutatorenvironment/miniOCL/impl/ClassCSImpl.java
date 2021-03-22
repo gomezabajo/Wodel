@@ -115,6 +115,7 @@ public class ClassCSImpl extends MinimalEObjectImpl.Container implements ClassCS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -124,6 +125,7 @@ public class ClassCSImpl extends MinimalEObjectImpl.Container implements ClassCS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -136,6 +138,7 @@ public class ClassCSImpl extends MinimalEObjectImpl.Container implements ClassCS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getExtends() {
 		return extends_;
 	}
@@ -160,6 +163,7 @@ public class ClassCSImpl extends MinimalEObjectImpl.Container implements ClassCS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtends(PathNameCS newExtends) {
 		if (newExtends != extends_) {
 			NotificationChain msgs = null;
@@ -179,6 +183,7 @@ public class ClassCSImpl extends MinimalEObjectImpl.Container implements ClassCS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PropertyCS> getProperties() {
 		if (properties == null) {
 			properties = new EObjectContainmentEList<PropertyCS>(PropertyCS.class, this, MiniOCLPackage.CLASS_CS__PROPERTIES);
@@ -191,6 +196,7 @@ public class ClassCSImpl extends MinimalEObjectImpl.Container implements ClassCS
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OperationCS> getOperations() {
 		if (operations == null) {
 			operations = new EObjectContainmentEList<OperationCS>(OperationCS.class, this, MiniOCLPackage.CLASS_CS__OPERATIONS);

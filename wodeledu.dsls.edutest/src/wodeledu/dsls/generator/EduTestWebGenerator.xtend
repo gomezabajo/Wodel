@@ -136,8 +136,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		«/* GENERATES THE PUNTUATION FOR EACH TEST */»
 		//«var points = new HashMap<Test, Double>()»
 		«FOR test : exercise.tests»
-			«IF options.get(exercise).get(test) != null»
-				«IF total.get(exercise) != null»
+			«IF options.get(exercise).get(test) !== null»
+				«IF total.get(exercise) !== null»
 					//«points.put(test, 1.0 * options.get(exercise).get(test).size / total.get(exercise))»
 				«ENDIF»
 			«ENDIF»
@@ -147,7 +147,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		//«var penal = new HashMap<Test, Double>()»
 		«FOR test : exercise.tests»
 			«IF exercise instanceof MultiChoiceEmendation»
-			«IF puntuation.get(exercise).get(test) != null»
+			«IF puntuation.get(exercise).get(test) !== null»
 			//«penal.put(test, puntuation.get(exercise).get(test) * exercise.config.penalty)»
 			«ELSE»
 			//«penal.put(test, 0.0)»
@@ -174,7 +174,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		«IF exercise.config.order == Order.ASCENDING»
 		//«Collections.sort(ltests, new Comparator<Test>() {
 			override compare(Test t1, Test t2) {
-				if (options.get(exercise).get(t1) != null && options.get(exercise).get(t2) != null) {
+				if (options.get(exercise).get(t1) !== null && options.get(exercise).get(t2) !== null) {
 					return options.get(exercise).get(t1).size - options.get(exercise).get(t2).size
 				}
 				return 0
@@ -184,7 +184,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 		«IF exercise.config.order == Order.DESCENDING»
 		//«Collections.sort(ltests, new Comparator<Test>() {
 			override compare(Test t1, Test t2) {
-				if (options.get(exercise).get(t1) != null && options.get(exercise).get(t2) != null) {
+				if (options.get(exercise).get(t1) !== null && options.get(exercise).get(t2) !== null) {
 					return options.get(exercise).get(t2).size - options.get(exercise).get(t1).size
 				}
 				return 0
@@ -205,7 +205,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
    		//COUNTER: «num = num + 1»
    		var exercise«num»_«part»Mark = false;
    		«IF exercise instanceof MultiChoiceEmendation»
-   		«IF puntuation.get(exercise).get(test) != null»
+   		«IF puntuation.get(exercise).get(test) !== null»
    		var weight«num»_«part»Mark = «puntuation.get(exercise).get(test)»;
    		«ELSE»
    		var weight«num»_«part»Mark = 0.0;
@@ -213,7 +213,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
    		«ENDIF»
    		var answered«num»_«part»Exercise = false;
    		«IF exercise instanceof MultiChoiceEmendation»
-   		«IF penalty.get(exercise).get(test) != null»
+   		«IF penalty.get(exercise).get(test) !== null»
    		var penalty«num»_«part»Mark = «penalty.get(exercise).get(test)»;
    		«ELSE»
    		var penalty«num»_«part»Mark = 0.0;
@@ -279,7 +279,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
    			}
    			«ENDIF»
     		«ENDFOR»
-    		if (document.getElementById('current-mark-«part»') != null) {
+    		if (document.getElementById('current-mark-«part»') !=!== null{
     			document.getElementById('current-mark-«part»').innerHTML = '<label class="text">Current mark: ' + currentMark + '/' + currentTotal«part» + '</label>';//SETS THE CURRENT MARK
     		}
 			window.location.replace(window.location);
@@ -394,7 +394,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     		if (num == «num») {
     			var answered«num»_«part»Exercise = false;
 				//«var String diagram = ''»
-				«IF options.get(exercise).get(test) != null»
+				«IF options.get(exercise).get(test) !== null»
 				«FOR opt : options.get(exercise).get(test)»
 				«IF opt.solution == true»
 				//«diagram = opt.path»
@@ -501,7 +501,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 	    «ELSE»
 	    <table class="table-test-«part»" id="table-test-«part»" style="height: 100%; display: none;">
 	    «ENDIF»
-	    «IF program.config != null»
+	    «IF program.config !== null»
 	    «IF program.config.navigation == Navigation.FREE»
 		«IF part > 1»
 		<tr>
@@ -715,7 +715,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
     	<!--COUNTER: «num = 0»--> 
 		«FOR test : tests.get(sc)»
 			<!--«var String diagram = ''»-->
-			«IF (options.get(sc).get(test) != null)»
+			«IF (options.get(sc).get(test) !== null)»
 			«FOR opt : options.get(sc).get(test)»
 			«IF opt.solution == true»
 				<!--«diagram = opt.path»-->
@@ -742,7 +742,7 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 			<td>
 			<table class="pretty" width="100%">
 			<!--«var i = 0»-->
-			«IF options.get(sc).get(test) != null»
+			«IF options.get(sc).get(test) !== null»
 			«FOR opt : options.get(sc).get(test)»
 			«IF sc.config.mode == Mode.CHECKBOX»
 			«IF opt.text.size > 0»
@@ -759,8 +759,8 @@ class EduTestWebGenerator extends EduTestSuperGenerator {
 			<td valign="top" style="text-align:left">
 			<input type="radio" name="radiobutton-«num»-«part»-«diagram.replace('/', '-')»" value="«opt.path.replace('/', '-')»-«i»" />
 			<!--«var j = 0»-->
-			«FOR text : opt.text»
-			«IF j < opt.text.size»
+			«FOR text : opt.text.get(0)»
+			«IF j < opt.text.get(0).size»
 			«text»<br/>
 			«ELSE»
 			«text»

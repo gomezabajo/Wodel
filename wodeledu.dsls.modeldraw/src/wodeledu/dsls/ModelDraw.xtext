@@ -45,7 +45,12 @@ Edge returns Edge:
 	{Edge}
 	name=[ecore::EClass|ID] '('source=[ecore::EReference|ID] ',' target=[ecore::EReference|ID] ')' ':'
 	'edge' ('=' attName=[ecore::EAttribute|ID])?
-	( 'label' '=' (reference=[ecore::EReference|ID] '.')? label=[ecore::EAttribute|ID])?
+	( 'label' '=' ( (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] |
+		"{" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
+				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )?
+			("," (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
+				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )? )*
+		"}" ))
 	( 'src_decoration' '=' src_decoration=Decoration)?
 	( 'src_label' '=' src_label=[ecore::EAttribute|ID])?
 	( 'tar_decoration' '=' tar_decoration=Decoration)?
@@ -56,7 +61,12 @@ Level returns Level:
 	{Level}
 	name=[ecore::EClass|ID] '.' upper=[ecore::EReference|ID] ':'
 	'edge' ('=' attName=[ecore::EAttribute|ID])?
-	( 'label' '=' (reference=[ecore::EReference|ID] '.')? label=[ecore::EAttribute|ID])?
+	( 'label' '=' ( (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] |
+		"{" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
+				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )?
+			("," (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID]
+				("(" (reference+=[ecore::EReference|ID] ('->' refType+=[ecore::EReference|ID])? '.')? label+=[ecore::EAttribute|ID] ")" )? )*
+		"}" ))
 	( 'src_decoration' '=' src_decoration=Decoration)?
 	( 'src_label' '=' src_label=[ecore::EAttribute|ID])?
 	( 'tar_decoration' '=' tar_decoration=Decoration)?

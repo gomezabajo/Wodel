@@ -84,6 +84,7 @@ public class ParameterCSImpl extends MinimalEObjectImpl.Container implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -93,6 +94,7 @@ public class ParameterCSImpl extends MinimalEObjectImpl.Container implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -105,6 +107,7 @@ public class ParameterCSImpl extends MinimalEObjectImpl.Container implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getTypeRef() {
 		return typeRef;
 	}
@@ -129,6 +132,7 @@ public class ParameterCSImpl extends MinimalEObjectImpl.Container implements Par
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTypeRef(PathNameCS newTypeRef) {
 		if (newTypeRef != typeRef) {
 			NotificationChain msgs = null;

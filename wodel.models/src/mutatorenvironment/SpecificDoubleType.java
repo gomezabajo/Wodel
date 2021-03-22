@@ -31,7 +31,7 @@ public interface SpecificDoubleType extends DoubleType {
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(double)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificDoubleType_Value()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	double getValue();

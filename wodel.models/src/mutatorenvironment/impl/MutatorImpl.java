@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getMin <em>Min</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getMax <em>Max</em>}</li>
  *   <li>{@link mutatorenvironment.impl.MutatorImpl#getFixed <em>Fixed</em>}</li>
- *   <li>{@link mutatorenvironment.impl.MutatorImpl#isMode <em>Mode</em>}</li>
  * </ul>
  *
  * @generated
@@ -89,26 +88,6 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	protected int fixed = FIXED_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isMode() <em>Mode</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isMode()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean MODE_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isMode() <em>Mode</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isMode()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean mode = MODE_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -132,6 +111,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getMin() {
 		return min;
 	}
@@ -141,6 +121,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMin(int newMin) {
 		int oldMin = min;
 		min = newMin;
@@ -153,6 +134,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getMax() {
 		return max;
 	}
@@ -162,6 +144,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMax(int newMax) {
 		int oldMax = max;
 		max = newMax;
@@ -174,6 +157,7 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getFixed() {
 		return fixed;
 	}
@@ -183,32 +167,12 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFixed(int newFixed) {
 		int oldFixed = fixed;
 		fixed = newFixed;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MUTATOR__FIXED, oldFixed, fixed));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isMode() {
-		return mode;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMode(boolean newMode) {
-		boolean oldMode = mode;
-		mode = newMode;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MutatorenvironmentPackage.MUTATOR__MODE, oldMode, mode));
 	}
 
 	/**
@@ -225,8 +189,6 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 				return getMax();
 			case MutatorenvironmentPackage.MUTATOR__FIXED:
 				return getFixed();
-			case MutatorenvironmentPackage.MUTATOR__MODE:
-				return isMode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -247,9 +209,6 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 				return;
 			case MutatorenvironmentPackage.MUTATOR__FIXED:
 				setFixed((Integer)newValue);
-				return;
-			case MutatorenvironmentPackage.MUTATOR__MODE:
-				setMode((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -272,9 +231,6 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 			case MutatorenvironmentPackage.MUTATOR__FIXED:
 				setFixed(FIXED_EDEFAULT);
 				return;
-			case MutatorenvironmentPackage.MUTATOR__MODE:
-				setMode(MODE_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -293,8 +249,6 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 				return max != MAX_EDEFAULT;
 			case MutatorenvironmentPackage.MUTATOR__FIXED:
 				return fixed != FIXED_EDEFAULT;
-			case MutatorenvironmentPackage.MUTATOR__MODE:
-				return mode != MODE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -315,8 +269,6 @@ public abstract class MutatorImpl extends ObjectEmitterImpl implements Mutator {
 		result.append(max);
 		result.append(", fixed: ");
 		result.append(fixed);
-		result.append(", mode: ");
-		result.append(mode);
 		result.append(')');
 		return result.toString();
 	}

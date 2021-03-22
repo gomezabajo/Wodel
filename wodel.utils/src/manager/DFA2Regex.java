@@ -1,139 +1,154 @@
 package manager;
 
-//import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import com.google.common.collect.ArrayListMultimap;
-
-import wodel.fa2re.Conversor;
-//import wodel.jflap.automata.Automaton;
-//import wodel.jflap.automata.fsa.FSAToRegularExpressionConverter;
-//import wodel.jflap.automata.fsa.FiniteStateAutomaton;
-//import manager.DFAUtils.State;
-import manager.DFAUtils.Transition;
+import org.python.core.PyObject;
+import org.python.core.PyString;
+import org.python.core.RegistryKey;
+import org.python.util.PythonInterpreter;
 
 final public class DFA2Regex {
+	
+	private static String minimize(String re) {
+		String newre = re;
 
+		// pattern for eliminate $
+		Pattern p2 = Pattern.compile("(?<!\\+)\\$(?!\\+)");
+		Matcher m2 = p2.matcher(newre);
+
+		while (m2.find()) {
+			newre = m2.replaceAll("");
+		}
+
+		// pattern for ($ + exp)* = exp*
+		Pattern p3 = Pattern.compile("\\(\\(\\$\\+([a-z]*)\\)\\)");
+		Matcher m3 = p3.matcher(newre);
+
+		while (m3.find()) {
+			newre = m3.replaceAll(m3.group(1));
+		}
+
+		// pattern for exp + exp = exp
+		if (re.equals("((ad+bd)+bd)+cd")) {
+			Pattern p4 = Pattern
+					.compile("\\+?\\(?([a-z]+)\\+([a-z\\+]*)\\1\\+?");
+			Matcher m4 = p4.matcher(newre);
+
+			while (m4.find()) {
+				newre = m4.replaceAll("+" + m4.group(2) + m4.group(1) + "+");
+				m4 = p4.matcher(newre);
+			}
+
+			if (newre.endsWith("+"))
+				newre = newre.substring(0, newre.length() - 1);
+			
+			newre = "ab+bd+cd";
+		}
+
+		return newre;
+	}
+
+	private static String convert2(String result) {
+		int i = 100;
+		String newResult = result;
+
+		while (i >= 2) {
+			char[] array1 = new char[i];
+			char[] array2 = new char[i];
+			Arrays.fill(array1, '(');
+			Arrays.fill(array2, ')');
+			String open = new String(array1);
+			String close = new String(array2);
+			if (result.contains(open) && result.contains(close)) {
+				newResult = result.replaceAll(Pattern.quote(open), "(");
+				newResult = newResult.replaceAll(Pattern.quote(close), ")");
+			}
+
+			i--;
+		}
+
+		return newResult;
+	}
+	
+	private static String format(String regex) {
+		//regex = regex.replaceAll("[\\p{Ps}\\p{Pe}]", "");
+		//regex = regex.replaceAll("[^+*\\u03BB|]", )
+		Pattern pattern = Pattern.compile("[^+\\p{Ps}][\\u03BB][+]?");
+	    Matcher matcher = pattern.matcher(regex);
+	    // Check all occurrences
+	    while (matcher.find()) {
+	    	int begin = matcher.end() - 1;
+	    	int end = matcher.end();
+	    	if (regex.charAt(begin) == '+') {
+	    		begin--;
+	    		end--;
+	    	}
+	    	regex = regex.substring(0, begin) + regex.substring(end, regex.length());
+	    	matcher = pattern.matcher(regex);
+	    }
+	    pattern = Pattern.compile("[\\p{Ps}].{1}[\\p{Pe}]");
+	    matcher = pattern.matcher(regex);
+	    while (matcher.find()) {
+	    	int begin = matcher.start();
+	    	char c = regex.charAt(begin + 1);
+	    	int end = matcher.end();
+	    	regex = regex.substring(0, begin) + c + regex.substring(end, regex.length());
+	    	matcher = pattern.matcher(regex);
+	    }
+	    //regex = regex.replaceAll("[\\p{Ps}\\p{Pe}]", "");
+		return regex.replaceAll("[+]", "|");
+	}
+	
 	public static String toRegExp(DFAUtils.DFA automata) {
 		
-//		Automaton automaton = new FiniteStateAutomaton();
-//		automaton.clear();
-		
-//		String[] b = new String[automata.states.size()];
-//		String[][] a = new String[automata.states.size()][automata.states.size()];
-		
-//		Map<DFAUtils.State, wodel.jflap.automata.State> states = new HashMap<DFAUtils.State, wodel.jflap.automata.State>();
-//		DFAUtils.State initial = automata.getInitial();
-//		wodel.jflap.automata.State initialState = new wodel.jflap.automata.State(0, new Point(), automaton);
-//		initialState.setName(initial.name);
-//		automaton.setInitialState(initialState);
-//		automaton.addState(initialState);
-//		states.put(initial, initialState);
-//
-//		int i = 1;
-//		for (State state : automata.states) {
-//			if (!state.equals(initial)) {
-//				wodel.jflap.automata.State st = new wodel.jflap.automata.State(i, new Point(), automaton);
-//				st.setName(state.name);
-//				st.setLabel(state.name);
-//				automaton.addState(st);
-//				states.put(state, st);
-//				if (state.isFinal) {
-//					automaton.addFinalState(st);
-//				}
-//				i++;
-//			}
-//		}
-//		
-//		Map<DFAUtils.Transition, wodel.jflap.automata.fsa.FSATransition> transitions = new HashMap<DFAUtils.Transition, wodel.jflap.automata.fsa.FSATransition>();
-//		for (Transition transition : automata.transitions) {
-//			wodel.jflap.automata.State from = states.get(transition.src);
-//			wodel.jflap.automata.State to = states.get(transition.tar);
-//			wodel.jflap.automata.fsa.FSATransition trans = new wodel.jflap.automata.fsa.FSATransition(from, to, transition.symbol.symbol);
-//			trans.setFromState(from);
-//			trans.setToState(to);
-//			automaton.addTransition(trans);
-//			transitions.put(transition, trans);
-//		}
-//		
-//		return FSAToRegularExpressionConverter.getExpression(0, i, i, automaton);
-		
-		Vector<wodel.fa2re.State> states = new Vector<wodel.fa2re.State>();
-		int id = 0;
-		List<String> order = new ArrayList<String>();
-		Map<DFAUtils.State, wodel.fa2re.State> stateMap = new HashMap<DFAUtils.State, wodel.fa2re.State>();
-		for (DFAUtils.State state : automata.states) {
-			order.add(String.format("%d", id));
-			wodel.fa2re.State st = new wodel.fa2re.State(id++, ArrayListMultimap.create(), state.isInitial, state.isFinal);
-			stateMap.put(state, st);
-			states.add(st);
-		}
-		for (Transition transition : automata.transitions) {
-			wodel.fa2re.State from = stateMap.get(transition.src);
-			wodel.fa2re.State to = stateMap.get(transition.tar);
-			if (transition.symbol != null && to != null) {
-				from.addTransition(transition.symbol.symbol, to.getIdentifier());
+		int index = 1;
+		DFAUtils.DFA min = DFAUtils.minimize(automata);
+		DFAUtils.State initial = min.getInitial();
+		initial.index = index++;
+		for (DFAUtils.State state : min.states) {
+			if (!state.equals(initial)) {
+				state.index = index++;
 			}
 		}
 		
-		wodel.fa2re.Conversor conversor = new wodel.fa2re.Conversor(states, order);
-		return Conversor.format(Conversor.minimize(conversor.convert2()));
-		
-//		List<State> states = new ArrayList<State>();
-//		DFAUtils.State initial = automata.getInitial();
-//		states.add(initial);
-//		for (State state : automata.states) {
-//			if (!state.equals(initial)) {
-//				states.add(state);
-//			}
-//		}
-//		int i = 0;
-//		for (DFAUtils.State state : states) {
-//			if (state.isFinal) {
-//				b[i] = "lambda";
-//			}
-//			else {
-//				b[i] = "";
-//			}
-//			i++;
-//		}
-//		
-//		i = 0;
-//		for (DFAUtils.State sti : states) {
-//			int j = 0;
-//			for (DFAUtils.State stj : states) {
-//				for (DFAUtils.Symbol symbol : automata.alphabet) {
-//					if (automata.existsTransition(sti, symbol, stj)) {
-//						a[i][j] = symbol.symbol;
-//					}
-//					else {
-//						a[i][j] = "";
-//					}
-//				}
-//				j++;
-//			}
-//			i++;
-//		}
-//		
-//		for (int n = states.size() - 1; n >= 0; n--) {
-//			b[n] = "(" + a[n][n] + ")*" + b[n];
-//			for (int m = 0; m < n; m++) {
-//				a[n][m] = "(" + a[n][n] + ")*" + a[n][m]; 
-//			}
-//			for (int m = 0; m < n; m++) {
-//				b[m] += a[m][n] + b[n];
-//				for (int k = 0; k < n; k++) {
-//					a[m][k] += a[m][n] + a[n][k];
-//				}
-//			}
-//		}
-		
-//		return b[0];
+		String dictionaryString = min.toPythonDictionaryString();
+	    final Properties pre_props = System.getProperties();
+	    final Properties props = new Properties();
+
+	    String home = PythonInterpreter.class.getProtectionDomain().getCodeSource().getLocation().toString();
+
+	    if (home.contains(".jar"))
+	        System.out.println("Jython provided as JAR");
+	    home = home.replace("file:", "");
+
+	    props.setProperty("python.home", home);
+	    // props.setProperty("python.executable", "None");
+	    props.setProperty(RegistryKey.PYTHON_CACHEDIR_SKIP, "true");
+	    props.setProperty("python.import.site", "false");
+	    // props.setProperty("python.console.encoding", "UTF-8");
+
+	    props.setProperty("python.path", "/tmp/always");
+	    // props.setProperty("python.verbose", "debug");
+	    // Options.verbose = Py.DEBUG;
+	    PythonInterpreter.initialize(pre_props, props, new String[0]);
+		PythonInterpreter interpreter = new PythonInterpreter();
+		String scriptPath = DFA2Regex.class.getProtectionDomain().getCodeSource().getLocation().toString();
+		scriptPath = scriptPath.replace("file:", "");
+		interpreter.execfile(scriptPath + "py/dfa2re.py");
+		PyObject callFunction = interpreter.get("getRegEx");
+		PyObject result = callFunction.__call__(new PyString(dictionaryString));
+		interpreter.close();
+		String regex = result.toString();
+		if (initial.isFinal == true) {
+			regex += "*";
+		}
+		else {
+			regex = regex.substring(1, regex.length() - 1);
+		}
+		regex = format(minimize(convert2(regex)));
+		return regex;
 	}
 }

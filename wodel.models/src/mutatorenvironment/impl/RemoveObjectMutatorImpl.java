@@ -73,6 +73,7 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -97,6 +98,7 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;
@@ -116,6 +118,7 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getContainer() {
 		return container;
 	}
@@ -140,6 +143,7 @@ public class RemoveObjectMutatorImpl extends MutatorImpl implements RemoveObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContainer(ObSelectionStrategy newContainer) {
 		if (newContainer != container) {
 			NotificationChain msgs = null;

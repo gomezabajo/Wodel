@@ -95,7 +95,7 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ModeltextPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -109,7 +109,8 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 		if (isInited) return (ModeltextPackage)EPackage.Registry.INSTANCE.getEPackage(ModeltextPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ModeltextPackageImpl theModeltextPackage = (ModeltextPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ModeltextPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ModeltextPackageImpl());
+		Object registeredModeltextPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ModeltextPackageImpl theModeltextPackage = registeredModeltextPackage instanceof ModeltextPackageImpl ? (ModeltextPackageImpl)registeredModeltextPackage : new ModeltextPackageImpl();
 
 		isInited = true;
 
@@ -122,7 +123,6 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 		// Mark meta-data to indicate it can't be changed
 		theModeltextPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ModeltextPackage.eNS_URI, theModeltextPackage);
 		return theModeltextPackage;
@@ -372,11 +372,11 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 		initEClass(elementEClass, Element.class, "Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getElement_Type(), ecorePackage.getEClass(), null, "type", null, 1, 1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getElement_Ref(), ecorePackage.getEReference(), null, "ref", null, 0, 1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getElement_Att(), this.getAttribute(), null, "att", null, 0, 1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getElement_Att(), this.getAttribute(), null, "att", null, 0, -1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getElement_Words(), this.getWord(), null, "words", null, 0, -1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAttribute_Negation(), ecorePackage.getEBoolean(), "negation", "true", 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAttribute_Negation(), ecorePackage.getEBoolean(), "negation", "false", 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttribute_Att(), ecorePackage.getEAttribute(), null, "att", null, 1, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(wordEClass, Word.class, "Word", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -405,12 +405,12 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 
@@ -421,14 +421,14 @@ public class ModeltextPackageImpl extends EPackageImpl implements ModeltextPacka
 	 * @generated
 	 */
 	protected void createEmofAnnotations() {
-		String source = "http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName";	
+		String source = "http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName";
 		addAnnotation
-		  (getConstant_Value(), 
-		   source, 
+		  (getConstant_Value(),
+		   source,
 		   new String[] {
-			 "body", "Variable",
-			 "unique", "false",
-			 "upper", "*"
+			   "body", "Variable",
+			   "unique", "false",
+			   "upper", "*"
 		   });
 	}
 

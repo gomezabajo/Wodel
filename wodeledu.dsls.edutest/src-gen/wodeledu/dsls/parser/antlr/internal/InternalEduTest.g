@@ -176,6 +176,15 @@ ruleMutatorTests returns [EObject current=null]
 			$current = $this_MatchPairs_3.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getMutatorTestsAccess().getMissingWordsParserRuleCall_4());
+		}
+		this_MissingWords_4=ruleMissingWords
+		{
+			$current = $this_MissingWords_4.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -591,6 +600,109 @@ ruleMatchPairs returns [EObject current=null]
 	)
 ;
 
+// Entry rule entryRuleMissingWords
+entryRuleMissingWords returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getMissingWordsRule()); }
+	iv_ruleMissingWords=ruleMissingWords
+	{ $current=$iv_ruleMissingWords.current; }
+	EOF;
+
+// Rule MissingWords
+ruleMissingWords returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='MissingWords'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getMissingWordsAccess().getMissingWordsKeyword_0());
+		}
+		(
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getMissingWordsRule());
+						}
+					}
+					otherlv_1=RULE_ID
+					{
+						newLeafNode(otherlv_1, grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_0_0());
+					}
+				)
+			)
+			(
+				otherlv_2=','
+				{
+					newLeafNode(otherlv_2, grammarAccess.getMissingWordsAccess().getCommaKeyword_1_1_0());
+				}
+				(
+					(
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getMissingWordsRule());
+							}
+						}
+						otherlv_3=RULE_ID
+						{
+							newLeafNode(otherlv_3, grammarAccess.getMissingWordsAccess().getBlocksBlockCrossReference_1_1_1_0());
+						}
+					)
+				)
+			)*
+		)?
+		otherlv_4='{'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getMissingWordsAccess().getLeftCurlyBracketKeyword_2());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMissingWordsAccess().getConfigTestConfigurationParserRuleCall_3_0());
+				}
+				lv_config_5_0=ruleTestConfiguration
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMissingWordsRule());
+					}
+					set(
+						$current,
+						"config",
+						lv_config_5_0,
+						"wodeledu.dsls.EduTest.TestConfiguration");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getMissingWordsAccess().getTestsTestParserRuleCall_4_0());
+				}
+				lv_tests_6_0=ruleTest
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getMissingWordsRule());
+					}
+					add(
+						$current,
+						"tests",
+						lv_tests_6_0,
+						"wodeledu.dsls.EduTest.Test");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)*
+		otherlv_7='}'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getMissingWordsAccess().getRightCurlyBracketKeyword_5());
+		}
+	)
+;
+
 // Entry rule entryRuleProgramConfiguration
 entryRuleProgramConfiguration returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getProgramConfigurationRule()); }
@@ -959,17 +1071,48 @@ ruleTest returns [EObject current=null]
 		)
 		(
 			(
-				lv_expression_5_0='%text'
-				{
-					newLeafNode(lv_expression_5_0, grammarAccess.getTestAccess().getExpressionTextKeyword_5_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getTestRule());
+				(
+					lv_expression_5_0='%text'
+					{
+						newLeafNode(lv_expression_5_0, grammarAccess.getTestAccess().getExpressionTextKeyword_5_0_0());
 					}
-					setWithLastConsumed($current, "expression", true, "\%text");
-				}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getTestRule());
+						}
+						setWithLastConsumed($current, "expression", true, "\%text");
+					}
+				)
 			)
+			(
+				otherlv_6='('
+				{
+					newLeafNode(otherlv_6, grammarAccess.getTestAccess().getLeftParenthesisKeyword_5_1_0());
+				}
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getTestAccess().getIdentifierEStringParserRuleCall_5_1_1_0());
+						}
+						lv_identifier_7_0=ruleEString
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getTestRule());
+							}
+							set(
+								$current,
+								"identifier",
+								lv_identifier_7_0,
+								"wodeledu.dsls.EduTest.EString");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+				otherlv_8=')'
+				{
+					newLeafNode(otherlv_8, grammarAccess.getTestAccess().getRightParenthesisKeyword_5_1_2());
+				}
+			)?
 		)?
 	)
 ;

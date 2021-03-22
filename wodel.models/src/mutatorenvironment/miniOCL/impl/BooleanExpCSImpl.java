@@ -69,6 +69,7 @@ public class BooleanExpCSImpl extends BooleanLiteralExpCSImpl implements Boolean
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isBoolSymbol() {
 		return boolSymbol;
 	}
@@ -78,6 +79,7 @@ public class BooleanExpCSImpl extends BooleanLiteralExpCSImpl implements Boolean
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBoolSymbol(boolean newBoolSymbol) {
 		boolean oldBoolSymbol = boolSymbol;
 		boolSymbol = newBoolSymbol;

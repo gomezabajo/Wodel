@@ -104,7 +104,7 @@ public class MutatextPackageImpl extends EPackageImpl implements MutatextPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link MutatextPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -118,7 +118,8 @@ public class MutatextPackageImpl extends EPackageImpl implements MutatextPackage
 		if (isInited) return (MutatextPackage)EPackage.Registry.INSTANCE.getEPackage(MutatextPackage.eNS_URI);
 
 		// Obtain or create and register package
-		MutatextPackageImpl theMutatextPackage = (MutatextPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MutatextPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MutatextPackageImpl());
+		Object registeredMutatextPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		MutatextPackageImpl theMutatextPackage = registeredMutatextPackage instanceof MutatextPackageImpl ? (MutatextPackageImpl)registeredMutatextPackage : new MutatextPackageImpl();
 
 		isInited = true;
 
@@ -131,7 +132,6 @@ public class MutatextPackageImpl extends EPackageImpl implements MutatextPackage
 		// Mark meta-data to indicate it can't be changed
 		theMutatextPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MutatextPackage.eNS_URI, theMutatextPackage);
 		return theMutatextPackage;
@@ -411,6 +411,18 @@ public class MutatextPackageImpl extends EPackageImpl implements MutatextPackage
 		addEEnumLiteral(variableTypeEEnum, VariableType.FIRST_VALUE);
 		addEEnumLiteral(variableTypeEEnum, VariableType.SECOND_ATT_NAME);
 		addEEnumLiteral(variableTypeEEnum, VariableType.SECOND_VALUE);
+		addEEnumLiteral(variableTypeEEnum, VariableType.VALUE);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_FROM_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_OLD_FROM_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_TO_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_OLD_TO_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_FIRST_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_FIRST_FROM_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_FIRST_TO_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_SECOND_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_SECOND_FROM_OBJECT);
+		addEEnumLiteral(variableTypeEEnum, VariableType.DESCRIBED_SECOND_TO_OBJECT);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -427,12 +439,12 @@ public class MutatextPackageImpl extends EPackageImpl implements MutatextPackage
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 

@@ -3,7 +3,6 @@
  */
 package wodeledu.dsls.scoping;
 
-import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.List;
 import manager.ModelManager;
@@ -166,15 +165,32 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
     return _xblockexpression;
   }
   
+  public IScope scope_Relation_refType(final Edge edge, final EReference ref) {
+    IScope _xblockexpression = null;
+    {
+      final ArrayList<EReference> scope = new ArrayList<EReference>();
+      if (((edge.getReference() != null) && (edge.getReference().size() > 0))) {
+        EList<EReference> _reference = edge.getReference();
+        for (final EReference reference : _reference) {
+          EObject _eContainer = edge.eContainer();
+          scope.addAll(this.getEReferences(((MutatorDraw) _eContainer).getMetamodel(), reference.getEType().getName()));
+        }
+      }
+      _xblockexpression = Scopes.scopeFor(scope);
+    }
+    return _xblockexpression;
+  }
+  
   public IScope scope_Relation_label(final Edge edge, final EReference ref) {
     IScope _xblockexpression = null;
     {
       final ArrayList<EAttribute> scope = new ArrayList<EAttribute>();
-      EReference _reference = edge.getReference();
-      boolean _notEquals = (!Objects.equal(_reference, null));
-      if (_notEquals) {
-        EObject _eContainer = edge.eContainer();
-        scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer).getMetamodel(), edge.getReference().getEType().getName()));
+      if (((edge.getReference() != null) && (edge.getReference().size() > 0))) {
+        EList<EReference> _reference = edge.getReference();
+        for (final EReference reference : _reference) {
+          EObject _eContainer = edge.eContainer();
+          scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer).getMetamodel(), reference.getEType().getName()));
+        }
       } else {
         EObject _eContainer_1 = edge.eContainer();
         scope.addAll(this.getEAttributes(((MutatorDraw) _eContainer_1).getMetamodel(), edge.getName().getName()));
@@ -309,8 +325,7 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);
       final ArrayList<EAttribute> atts = new ArrayList<EAttribute>();
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
+      if ((eclass != null)) {
         atts.addAll(eclass.getEAllAttributes());
         EList<EClass> _eSuperTypes = eclass.getESuperTypes();
         for (final EClass c : _eSuperTypes) {
@@ -335,8 +350,7 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
       EObject _objectOfType = ModelManager.getObjectOfType(eclassName, metamodel);
       final EClass eclass = ((EClass) _objectOfType);
       final ArrayList<EReference> refs = new ArrayList<EReference>();
-      boolean _notEquals = (!Objects.equal(eclass, null));
-      if (_notEquals) {
+      if ((eclass != null)) {
         refs.addAll(eclass.getEAllReferences());
         EList<EClass> _eSuperTypes = eclass.getESuperTypes();
         for (final EClass c : _eSuperTypes) {
@@ -361,8 +375,7 @@ public class ModelDrawScopeProvider extends AbstractDeclarativeScopeProvider {
       EObject _objectOfType = ModelManager.getObjectOfType(eenumName, metamodel);
       final EEnum eenum = ((EEnum) _objectOfType);
       final ArrayList<EEnumLiteral> lits = new ArrayList<EEnumLiteral>();
-      boolean _notEquals = (!Objects.equal(eenum, null));
-      if (_notEquals) {
+      if ((eenum != null)) {
         lits.addAll(eenum.getELiterals());
       }
       return lits;

@@ -94,6 +94,15 @@ public interface EdutestFactory extends EFactory {
 	MatchPairs createMatchPairs();
 
 	/**
+	 * Returns a new object of class '<em>Missing Words</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Missing Words</em>'.
+	 * @generated
+	 */
+	MissingWords createMissingWords();
+
+	/**
 	 * Returns a new object of class '<em>Test</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

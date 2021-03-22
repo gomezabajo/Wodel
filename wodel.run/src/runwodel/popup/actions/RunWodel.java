@@ -125,7 +125,7 @@ public class RunWodel extends AbstractHandler {
 				e2.printStackTrace();
 			}
 			try {
-				ob = cls.newInstance();
+				ob = cls.getDeclaredConstructor().newInstance();
 				Method m = cls.getMethod("execute", new Class[]{int.class, int.class, boolean.class, boolean.class, boolean.class, String[].class, IProject.class, IProgressMonitor.class, boolean.class, Object.class, TreeMap.class});
 				maxAttempts = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of attempts", "0", null));
 				numMutants = Integer.parseInt(Platform.getPreferencesService().getString("wodel.dsls.Wodel", "Number of mutants", "3", null));
@@ -270,7 +270,7 @@ public class RunWodel extends AbstractHandler {
 					IConfigurationElement appropriateExtension = null;
 					for (IConfigurationElement extension : extensions) {
 						Class<?> extensionClass = Platform.getBundle(extension.getDeclaringExtension().getContributor().getName()).loadClass(extension.getAttribute("class"));
-						Object postprocessing =  extensionClass.newInstance();
+						Object postprocessing =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getURI = extensionClass.getDeclaredMethod("getURI");
 						String uri = (String) getURI.invoke(postprocessing);
 						Method getName = extensionClass.getDeclaredMethod("getName");
@@ -289,7 +289,7 @@ public class RunWodel extends AbstractHandler {
 					}
 					if (appropriateExtension != null) {
 						Class<?> extensionClass = Platform.getBundle(appropriateExtension.getDeclaringExtension().getContributor().getName()).loadClass(appropriateExtension.getAttribute("class"));
-						Object postprocessing =  extensionClass.newInstance();
+						Object postprocessing =  extensionClass.getDeclaredConstructor().newInstance();
 						Method getName = extensionClass.getDeclaredMethod("getName");
 						if (getName.invoke(postprocessing).equals(extensionName) ) {
 							Method doProcess = extensionClass.getDeclaredMethod("doProcess", new Class[]{String.class, String.class, Resource.class, String.class});

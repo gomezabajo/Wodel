@@ -116,6 +116,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -140,6 +141,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;
@@ -159,6 +161,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getContainer() {
 		return container;
 	}
@@ -183,6 +186,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContainer(ObSelectionStrategy newContainer) {
 		if (newContainer != container) {
 			NotificationChain msgs = null;
@@ -202,6 +206,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -228,6 +233,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;
@@ -240,6 +246,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeSet> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentEList<AttributeSet>(AttributeSet.class, this, MutatorenvironmentPackage.RETYPE_OBJECT_MUTATOR__ATTRIBUTES);
@@ -252,6 +259,7 @@ public class RetypeObjectMutatorImpl extends MutatorImpl implements RetypeObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ReferenceSet> getReferences() {
 		if (references == null) {
 			references = new EObjectContainmentEList<ReferenceSet>(ReferenceSet.class, this, MutatorenvironmentPackage.RETYPE_OBJECT_MUTATOR__REFERENCES);

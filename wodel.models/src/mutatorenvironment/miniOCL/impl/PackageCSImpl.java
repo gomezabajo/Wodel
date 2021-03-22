@@ -102,6 +102,7 @@ public class PackageCSImpl extends MinimalEObjectImpl.Container implements Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -111,6 +112,7 @@ public class PackageCSImpl extends MinimalEObjectImpl.Container implements Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -123,6 +125,7 @@ public class PackageCSImpl extends MinimalEObjectImpl.Container implements Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PackageCS> getPackages() {
 		if (packages == null) {
 			packages = new EObjectContainmentEList<PackageCS>(PackageCS.class, this, MiniOCLPackage.PACKAGE_CS__PACKAGES);
@@ -135,6 +138,7 @@ public class PackageCSImpl extends MinimalEObjectImpl.Container implements Packa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ClassCS> getClasses() {
 		if (classes == null) {
 			classes = new EObjectContainmentEList<ClassCS>(ClassCS.class, this, MiniOCLPackage.PACKAGE_CS__CLASSES);

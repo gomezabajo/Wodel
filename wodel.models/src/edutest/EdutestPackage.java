@@ -546,6 +546,61 @@ public interface EdutestPackage extends EPackage {
 	int MATCH_PAIRS_OPERATION_COUNT = MUTATOR_TESTS_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link edutest.impl.MissingWordsImpl <em>Missing Words</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see edutest.impl.MissingWordsImpl
+	 * @see edutest.impl.EdutestPackageImpl#getMissingWords()
+	 * @generated
+	 */
+	int MISSING_WORDS = 10;
+
+	/**
+	 * The feature id for the '<em><b>Blocks</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISSING_WORDS__BLOCKS = MUTATOR_TESTS__BLOCKS;
+
+	/**
+	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISSING_WORDS__TESTS = MUTATOR_TESTS__TESTS;
+
+	/**
+	 * The feature id for the '<em><b>Config</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISSING_WORDS__CONFIG = MUTATOR_TESTS_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Missing Words</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISSING_WORDS_FEATURE_COUNT = MUTATOR_TESTS_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Missing Words</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISSING_WORDS_OPERATION_COUNT = MUTATOR_TESTS_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link edutest.impl.TestImpl <em>Test</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -553,7 +608,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getTest()
 	 * @generated
 	 */
-	int TEST = 10;
+	int TEST = 11;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' attribute.
@@ -583,13 +638,22 @@ public interface EdutestPackage extends EPackage {
 	int TEST__EXPRESSION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST__IDENTIFIER = 3;
+
+	/**
 	 * The number of structural features of the '<em>Test</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_FEATURE_COUNT = 3;
+	int TEST_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Test</em>' class.
@@ -608,7 +672,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getOrder()
 	 * @generated
 	 */
-	int ORDER = 11;
+	int ORDER = 12;
 
 	/**
 	 * The meta object id for the '{@link edutest.Navigation <em>Navigation</em>}' enum.
@@ -618,7 +682,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getNavigation()
 	 * @generated
 	 */
-	int NAVIGATION = 12;
+	int NAVIGATION = 13;
 
 	/**
 	 * The meta object id for the '{@link edutest.Mode <em>Mode</em>}' enum.
@@ -628,7 +692,7 @@ public interface EdutestPackage extends EPackage {
 	 * @see edutest.impl.EdutestPackageImpl#getMode()
 	 * @generated
 	 */
-	int MODE = 13;
+	int MODE = 14;
 
 
 	/**
@@ -886,6 +950,27 @@ public interface EdutestPackage extends EPackage {
 	EReference getMatchPairs_Config();
 
 	/**
+	 * Returns the meta object for class '{@link edutest.MissingWords <em>Missing Words</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Missing Words</em>'.
+	 * @see edutest.MissingWords
+	 * @generated
+	 */
+	EClass getMissingWords();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link edutest.MissingWords#getConfig <em>Config</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Config</em>'.
+	 * @see edutest.MissingWords#getConfig()
+	 * @see #getMissingWords()
+	 * @generated
+	 */
+	EReference getMissingWords_Config();
+
+	/**
 	 * Returns the meta object for class '{@link edutest.Test <em>Test</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -927,6 +1012,17 @@ public interface EdutestPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTest_Expression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edutest.Test#getIdentifier <em>Identifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Identifier</em>'.
+	 * @see edutest.Test#getIdentifier()
+	 * @see #getTest()
+	 * @generated
+	 */
+	EAttribute getTest_Identifier();
 
 	/**
 	 * Returns the meta object for enum '{@link edutest.Order <em>Order</em>}'.
@@ -1194,6 +1290,24 @@ public interface EdutestPackage extends EPackage {
 		EReference MATCH_PAIRS__CONFIG = eINSTANCE.getMatchPairs_Config();
 
 		/**
+		 * The meta object literal for the '{@link edutest.impl.MissingWordsImpl <em>Missing Words</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see edutest.impl.MissingWordsImpl
+		 * @see edutest.impl.EdutestPackageImpl#getMissingWords()
+		 * @generated
+		 */
+		EClass MISSING_WORDS = eINSTANCE.getMissingWords();
+
+		/**
+		 * The meta object literal for the '<em><b>Config</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MISSING_WORDS__CONFIG = eINSTANCE.getMissingWords_Config();
+
+		/**
 		 * The meta object literal for the '{@link edutest.impl.TestImpl <em>Test</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1226,6 +1340,14 @@ public interface EdutestPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TEST__EXPRESSION = eINSTANCE.getTest_Expression();
+
+		/**
+		 * The meta object literal for the '<em><b>Identifier</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST__IDENTIFIER = eINSTANCE.getTest_Identifier();
 
 		/**
 		 * The meta object literal for the '{@link edutest.Order <em>Order</em>}' enum.

@@ -82,6 +82,7 @@ public class ConstraintCSImpl extends MinimalEObjectImpl.Container implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getTypeRef() {
 		return typeRef;
 	}
@@ -106,6 +107,7 @@ public class ConstraintCSImpl extends MinimalEObjectImpl.Container implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTypeRef(PathNameCS newTypeRef) {
 		if (newTypeRef != typeRef) {
 			NotificationChain msgs = null;
@@ -125,6 +127,7 @@ public class ConstraintCSImpl extends MinimalEObjectImpl.Container implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<InvariantCS> getInvariants() {
 		if (invariants == null) {
 			invariants = new EObjectContainmentEList<InvariantCS>(InvariantCS.class, this, MiniOCLPackage.CONSTRAINT_CS__INVARIANTS);

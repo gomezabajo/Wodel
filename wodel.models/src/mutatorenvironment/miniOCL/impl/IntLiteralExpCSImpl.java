@@ -69,6 +69,7 @@ public class IntLiteralExpCSImpl extends LiteralExpCSImpl implements IntLiteralE
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getIntSymbol() {
 		return intSymbol;
 	}
@@ -78,6 +79,7 @@ public class IntLiteralExpCSImpl extends LiteralExpCSImpl implements IntLiteralE
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIntSymbol(int newIntSymbol) {
 		int oldIntSymbol = intSymbol;
 		intSymbol = newIntSymbol;

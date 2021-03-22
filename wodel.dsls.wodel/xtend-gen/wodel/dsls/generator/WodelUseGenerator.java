@@ -3,9 +3,9 @@
  */
 package wodel.dsls.generator;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import java.io.File;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +68,15 @@ public class WodelUseGenerator extends AbstractGenerator {
   
   private String dummyClassName = "Dummy";
   
-  private HashMap<URI, HashMap<URI, Map.Entry<String, String>>> useReferences = new HashMap<URI, HashMap<URI, Map.Entry<String, String>>>();
+  private Map<URI, Map<URI, Map.Entry<String, String>>> useReferences = new HashMap<URI, Map<URI, Map.Entry<String, String>>>();
+  
+  public String predefinedConfiguration = null;
+  
+  public String configurationName = null;
+  
+  public Map<String, Integer> numObjects = null;
+  
+  public Map<String, AbstractMap.SimpleEntry<String, String>> tagsByClass = null;
   
   private int maxInteger;
   
@@ -87,7 +95,7 @@ public class WodelUseGenerator extends AbstractGenerator {
   public List<String> getMutators(final File[] files) {
     List<String> mutators = new ArrayList<String>();
     int i = 0;
-    while (((!Objects.equal(files, null)) && (i < ((List<File>)Conversions.doWrapArray(files)).size()))) {
+    while (((files != null) && (i < ((List<File>)Conversions.doWrapArray(files)).size()))) {
       {
         File file = files[i];
         boolean _isFile = file.isFile();
@@ -121,7 +129,7 @@ public class WodelUseGenerator extends AbstractGenerator {
   public String getMutatorPath(final File[] files) {
     String mutatorPath = null;
     int i = 0;
-    while (((Objects.equal(mutatorPath, null) && (!Objects.equal(files, null))) && (i < ((List<File>)Conversions.doWrapArray(files)).size()))) {
+    while ((((mutatorPath == null) && (files != null)) && (i < ((List<File>)Conversions.doWrapArray(files)).size()))) {
       {
         File file = files[i];
         boolean _isFile = file.isFile();
@@ -170,8 +178,8 @@ public class WodelUseGenerator extends AbstractGenerator {
         this.modelName = this.fileName.replaceAll(".java", "");
         this.useName = this.fileName.replaceAll(".java", ".use");
         this.propertiesName = this.fileName.replaceAll(".java", ".properties");
-        fsa.generateFile(this.useName, this.removeComments(this.use(e, resource), "use"));
-        fsa.generateFile(this.propertiesName, this.removeComments(this.properties(e), "properties"));
+        fsa.generateFile(this.useName, this.removeComments(this.use(e, resource, resource), "use"));
+        fsa.generateFile(this.propertiesName, this.removeComments(this.properties(e, resource, resource), "properties"));
         mutatorEnvironment = e;
         EList<Block> _blocks = mutatorEnvironment.getBlocks();
         for (final Block b : _blocks) {
@@ -204,8 +212,8 @@ public class WodelUseGenerator extends AbstractGenerator {
             String _plus_13 = (_plus_12 + ".model");
             final Resource blockResource = ModelManager.createModel(_plus_13);
             blockResource.getContents().add(blockMutatorEnvironment);
-            fsa.generateFile(this.useName, this.removeComments(this.use(blockMutatorEnvironment, blockResource), "use"));
-            fsa.generateFile(this.propertiesName, this.removeComments(this.properties(blockMutatorEnvironment), "properties"));
+            fsa.generateFile(this.useName, this.removeComments(this.use(blockMutatorEnvironment, resource, blockResource), "use"));
+            fsa.generateFile(this.propertiesName, this.removeComments(this.properties(blockMutatorEnvironment, resource, blockResource), "properties"));
           }
         }
       }
@@ -279,113 +287,239 @@ public class WodelUseGenerator extends AbstractGenerator {
     }
   }
   
-  public CharSequence generate(final MutatorEnvironment e, final List<EPackage> packages, final List<EClass> eclasses, final HashMap<URI, String> classNames) {
+  public CharSequence generate(final MutatorEnvironment e, final Resource program, final List<EClass> eclasses, final HashMap<URI, String> classNames) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("# ");
     HashMap<String, WodelUseGenerator.Cardinality> classes = new HashMap<String, WodelUseGenerator.Cardinality>();
     _builder.newLineIfNotEmpty();
     {
-      Set<URI> _keySet = classNames.keySet();
-      for(final URI classURI : _keySet) {
-        _builder.append("# ");
-        WodelUseGenerator.Cardinality cardinality = new WodelUseGenerator.Cardinality();
-        _builder.newLineIfNotEmpty();
-        _builder.append("# ");
-        _builder.append(cardinality.min = 0);
-        _builder.newLineIfNotEmpty();
+      if ((this.numObjects == null)) {
         {
-          boolean _equals = EcoreUtil.getURI(this.root).equals(classURI);
-          if (_equals) {
+          Set<URI> _keySet = classNames.keySet();
+          for(final URI classURI : _keySet) {
             _builder.append("# ");
-            int _plusPlus = cardinality.min++;
-            _builder.append(_plusPlus);
+            WodelUseGenerator.Cardinality cardinality = new WodelUseGenerator.Cardinality();
             _builder.newLineIfNotEmpty();
             _builder.append("# ");
-            _builder.append(cardinality.max = 1);
+            _builder.append(cardinality.min = 0);
             _builder.newLineIfNotEmpty();
-          } else {
+            {
+              boolean _equals = EcoreUtil.getURI(this.root).equals(classURI);
+              if (_equals) {
+                _builder.append("# ");
+                int _plusPlus = cardinality.min++;
+                _builder.append(_plusPlus);
+                _builder.newLineIfNotEmpty();
+                _builder.append("# ");
+                _builder.append(cardinality.max = 1);
+                _builder.newLineIfNotEmpty();
+              } else {
+                _builder.append("# ");
+                _builder.append(cardinality.max = this.maxObjectsCardinality);
+                _builder.newLineIfNotEmpty();
+              }
+            }
             _builder.append("# ");
-            _builder.append(cardinality.max = this.maxObjectsCardinality);
+            WodelUseGenerator.Cardinality _put = classes.put(classNames.get(classURI), cardinality);
+            _builder.append(_put);
             _builder.newLineIfNotEmpty();
           }
         }
-        _builder.append("# ");
-        WodelUseGenerator.Cardinality _put = classes.put(classNames.get(classURI), cardinality);
-        _builder.append(_put);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.newLine();
-    {
-      int _size = e.getBlocks().size();
-      boolean _greaterThan = (_size > 0);
-      if (_greaterThan) {
-        _builder.append("# ");
-        HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>> blockCardinalities = new HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>>();
-        _builder.newLineIfNotEmpty();
+        _builder.newLine();
         {
-          EList<Block> _blocks = e.getBlocks();
-          for(final Block b : _blocks) {
+          int _size = e.getBlocks().size();
+          boolean _greaterThan = (_size > 0);
+          if (_greaterThan) {
             _builder.append("# ");
-            HashMap<String, WodelUseGenerator.Cardinality> cls = new HashMap<String, WodelUseGenerator.Cardinality>();
+            HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>> blockCardinalities = new HashMap<String, HashMap<String, WodelUseGenerator.Cardinality>>();
             _builder.newLineIfNotEmpty();
             {
-              Set<URI> _keySet_1 = classNames.keySet();
-              for(final URI classURI_1 : _keySet_1) {
+              EList<Block> _blocks = e.getBlocks();
+              for(final Block b : _blocks) {
                 _builder.append("# ");
-                WodelUseGenerator.Cardinality cardinality_1 = new WodelUseGenerator.Cardinality();
-                _builder.newLineIfNotEmpty();
-                _builder.append("# ");
-                _builder.append(cardinality_1.min = 0);
+                HashMap<String, WodelUseGenerator.Cardinality> cls = new HashMap<String, WodelUseGenerator.Cardinality>();
                 _builder.newLineIfNotEmpty();
                 {
-                  boolean _equals_1 = EcoreUtil.getURI(this.root).equals(classURI_1);
-                  if (_equals_1) {
+                  Set<URI> _keySet_1 = classNames.keySet();
+                  for(final URI classURI_1 : _keySet_1) {
                     _builder.append("# ");
-                    int _plusPlus_1 = cardinality_1.min++;
-                    _builder.append(_plusPlus_1);
+                    WodelUseGenerator.Cardinality cardinality_1 = new WodelUseGenerator.Cardinality();
                     _builder.newLineIfNotEmpty();
                     _builder.append("# ");
-                    _builder.append(cardinality_1.max = 1);
+                    _builder.append(cardinality_1.min = 0);
                     _builder.newLineIfNotEmpty();
-                  } else {
+                    {
+                      boolean _equals_1 = EcoreUtil.getURI(this.root).equals(classURI_1);
+                      if (_equals_1) {
+                        _builder.append("# ");
+                        int _plusPlus_1 = cardinality_1.min++;
+                        _builder.append(_plusPlus_1);
+                        _builder.newLineIfNotEmpty();
+                        _builder.append("# ");
+                        _builder.append(cardinality_1.max = 1);
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("# ");
+                        _builder.append(cardinality_1.max = this.maxObjectsCardinality);
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                  }
+                }
+                _builder.append("# ");
+                HashMap<String, WodelUseGenerator.Cardinality> _put_1 = blockCardinalities.put(b.getName(), cls);
+                _builder.append(_put_1);
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.newLine();
+            _builder.append("#");
+            this.processBlocks(classes, blockCardinalities);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        {
+          Set<URI> _keySet_2 = classNames.keySet();
+          for(final URI classURI_2 : _keySet_2) {
+            String useClassName = classNames.get(classURI_2);
+            _builder.newLineIfNotEmpty();
+            String _encodeWord = UseGeneratorUtils.encodeWord(useClassName);
+            _builder.append(_encodeWord);
+            _builder.append("_min = ");
+            _builder.append(classes.get(useClassName).min);
+            _builder.newLineIfNotEmpty();
+            String _encodeWord_1 = UseGeneratorUtils.encodeWord(useClassName);
+            _builder.append(_encodeWord_1);
+            _builder.append("_max = ");
+            _builder.append(classes.get(useClassName).max);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      } else {
+        _builder.newLine();
+        {
+          for(final EClass eclass : eclasses) {
+            _builder.append("# ");
+            WodelUseGenerator.Cardinality cardinality_2 = new WodelUseGenerator.Cardinality();
+            _builder.newLineIfNotEmpty();
+            _builder.append("# ");
+            _builder.append(cardinality_2.min = 0);
+            _builder.newLineIfNotEmpty();
+            {
+              boolean _equals_2 = EcoreUtil.getURI(this.root).equals(EcoreUtil.getURI(eclass));
+              if (_equals_2) {
+                _builder.append("# ");
+                int _plusPlus_2 = cardinality_2.min++;
+                _builder.append(_plusPlus_2);
+                _builder.newLineIfNotEmpty();
+                _builder.append("# ");
+                _builder.append(cardinality_2.max = 1);
+                _builder.newLineIfNotEmpty();
+              } else {
+                {
+                  boolean _containsKey = this.numObjects.containsKey(eclass.getName());
+                  if (_containsKey) {
                     _builder.append("# ");
-                    _builder.append(cardinality_1.max = this.maxObjectsCardinality);
+                    _builder.append(cardinality_2.min = (this.numObjects.get(eclass.getName())).intValue());
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("# ");
+                    _builder.append(cardinality_2.max = (this.numObjects.get(eclass.getName())).intValue());
                     _builder.newLineIfNotEmpty();
                   }
                 }
               }
             }
             _builder.append("# ");
-            HashMap<String, WodelUseGenerator.Cardinality> _put_1 = blockCardinalities.put(b.getName(), cls);
-            _builder.append(_put_1);
+            WodelUseGenerator.Cardinality _put_2 = classes.put(classNames.get(EcoreUtil.getURI(eclass)), cardinality_2);
+            _builder.append(_put_2);
             _builder.newLineIfNotEmpty();
           }
         }
         _builder.newLine();
-        _builder.append("#");
-        this.processBlocks(classes, blockCardinalities);
-        _builder.newLineIfNotEmpty();
+        {
+          Set<URI> _keySet_3 = classNames.keySet();
+          for(final URI classURI_3 : _keySet_3) {
+            String useClassName_1 = classNames.get(classURI_3);
+            _builder.newLineIfNotEmpty();
+            String _encodeWord_2 = UseGeneratorUtils.encodeWord(useClassName_1);
+            _builder.append(_encodeWord_2);
+            _builder.append("_min = ");
+            _builder.append(classes.get(useClassName_1).min);
+            _builder.newLineIfNotEmpty();
+            String _encodeWord_3 = UseGeneratorUtils.encodeWord(useClassName_1);
+            _builder.append(_encodeWord_3);
+            _builder.append("_max = ");
+            _builder.append(classes.get(useClassName_1).max);
+            _builder.newLineIfNotEmpty();
+          }
+        }
       }
     }
     _builder.newLine();
     {
-      Set<URI> _keySet_2 = classNames.keySet();
-      for(final URI classURI_2 : _keySet_2) {
-        String useClassName = classNames.get(classURI_2);
+      if (((this.tagsByClass != null) && (this.tagsByClass.size() > 0))) {
+        _builder.append("# ");
+        Map<String, AbstractMap.SimpleEntry<String, String>> tagsByClassURI = new HashMap<String, AbstractMap.SimpleEntry<String, String>>();
         _builder.newLineIfNotEmpty();
-        String _encodeWord = UseGeneratorUtils.encodeWord(useClassName);
-        _builder.append(_encodeWord);
+        {
+          for(final EClass eclass_1 : eclasses) {
+            {
+              boolean _containsKey_1 = this.tagsByClass.containsKey(eclass_1.getName());
+              if (_containsKey_1) {
+                _builder.append("# ");
+                AbstractMap.SimpleEntry<String, String> _put_3 = tagsByClassURI.put(classNames.get(EcoreUtil.getURI(eclass_1)), this.tagsByClass.get(eclass_1.getName()));
+                _builder.append(_put_3);
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
+        _builder.newLine();
+        {
+          Set<URI> _keySet_4 = classNames.keySet();
+          for(final URI classURI_4 : _keySet_4) {
+            String useClassName_2 = classNames.get(classURI_4);
+            _builder.newLineIfNotEmpty();
+            {
+              boolean _containsKey_2 = tagsByClassURI.containsKey(classNames.get(classURI_4));
+              if (_containsKey_2) {
+                String _encodeWord_4 = UseGeneratorUtils.encodeWord(useClassName_2);
+                _builder.append(_encodeWord_4);
+                _builder.append("_");
+                String _key = tagsByClassURI.get(classNames.get(classURI_4)).getKey();
+                _builder.append(_key);
+                _builder.append(" = Set{");
+                String _value = tagsByClassURI.get(classNames.get(classURI_4)).getValue();
+                _builder.append(_value);
+                _builder.append("}");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
+      }
+    }
+    _builder.newLine();
+    _builder.newLine();
+    {
+      Set<URI> _keySet_5 = classNames.keySet();
+      for(final URI classURI_5 : _keySet_5) {
+        String useClassName_3 = classNames.get(classURI_5);
+        _builder.newLineIfNotEmpty();
+        String _encodeWord_5 = UseGeneratorUtils.encodeWord(useClassName_3);
+        _builder.append(_encodeWord_5);
         _builder.append("_min = ");
-        _builder.append(classes.get(useClassName).min);
+        _builder.append(classes.get(useClassName_3).min);
         _builder.newLineIfNotEmpty();
-        String _encodeWord_1 = UseGeneratorUtils.encodeWord(useClassName);
-        _builder.append(_encodeWord_1);
+        String _encodeWord_6 = UseGeneratorUtils.encodeWord(useClassName_3);
+        _builder.append(_encodeWord_6);
         _builder.append("_max = ");
-        _builder.append(classes.get(useClassName).max);
+        _builder.append(classes.get(useClassName_3).max);
         _builder.newLineIfNotEmpty();
       }
     }
+    _builder.newLine();
     _builder.newLine();
     _builder.append("# Associations");
     _builder.newLine();
@@ -393,12 +527,12 @@ public class WodelUseGenerator extends AbstractGenerator {
     HashMap<String, Integer> associationNames = new HashMap<String, Integer>();
     _builder.newLineIfNotEmpty();
     {
-      for(final EClass eclass : eclasses) {
+      for(final EClass eclass_2 : eclasses) {
         _builder.append("# ");
-        EPackage pck = eclass.getEPackage();
+        EPackage pck = eclass_2.getEPackage();
         _builder.newLineIfNotEmpty();
         _builder.append("# ");
-        List<EReference> refs = eclass.getEAllReferences();
+        List<EReference> refs = eclass_2.getEAllReferences();
         _builder.newLineIfNotEmpty();
         {
           int _size_1 = refs.size();
@@ -410,12 +544,11 @@ public class WodelUseGenerator extends AbstractGenerator {
                 EPackage refEPackage = ref.getEReferenceType().getEPackage();
                 _builder.newLineIfNotEmpty();
                 {
-                  boolean _notEquals = (!Objects.equal(refEPackage, null));
-                  if (_notEquals) {
+                  if ((refEPackage != null)) {
                     _builder.append("# ");
                     String _name = pck.getName();
                     String _plus = (_name + "XxxX");
-                    String _name_1 = eclass.getName();
+                    String _name_1 = eclass_2.getName();
                     String _plus_1 = (_plus + _name_1);
                     String _plus_2 = (_plus_1 + "XxxX");
                     String _name_2 = refEPackage.getName();
@@ -426,13 +559,13 @@ public class WodelUseGenerator extends AbstractGenerator {
                     _builder.newLineIfNotEmpty();
                     {
                       Integer _get = associationNames.get(associationName);
-                      boolean _notEquals_1 = (!Objects.equal(_get, null));
-                      if (_notEquals_1) {
+                      boolean _tripleNotEquals = (_get != null);
+                      if (_tripleNotEquals) {
                         _builder.append("# ");
                         Integer _get_1 = associationNames.get(associationName);
                         int _plus_5 = ((_get_1).intValue() + 1);
-                        Integer _put_2 = associationNames.put(associationName, Integer.valueOf(_plus_5));
-                        _builder.append(_put_2);
+                        Integer _put_4 = associationNames.put(associationName, Integer.valueOf(_plus_5));
+                        _builder.append(_put_4);
                         _builder.newLineIfNotEmpty();
                         _builder.append("# ");
                         String _associationName = associationName;
@@ -442,8 +575,8 @@ public class WodelUseGenerator extends AbstractGenerator {
                         _builder.newLineIfNotEmpty();
                       } else {
                         _builder.append("# ");
-                        Integer _put_3 = associationNames.put(associationName, Integer.valueOf(0));
-                        _builder.append(_put_3);
+                        Integer _put_5 = associationNames.put(associationName, Integer.valueOf(0));
+                        _builder.append(_put_5);
                         _builder.newLineIfNotEmpty();
                       }
                     }
@@ -456,12 +589,12 @@ public class WodelUseGenerator extends AbstractGenerator {
                       String _name_5 = ref.getEType().getName();
                       String _plus_8 = (_plus_7 + _name_5);
                       WodelUseGenerator.Cardinality _get_3 = classes.get(_plus_8);
-                      boolean _notEquals_2 = (!Objects.equal(_get_3, null));
-                      if (_notEquals_2) {
+                      boolean _tripleNotEquals_1 = (_get_3 != null);
+                      if (_tripleNotEquals_1) {
                         {
                           String _name_6 = pck.getName();
                           String _plus_9 = (_name_6 + "XxxX");
-                          String _name_7 = eclass.getName();
+                          String _name_7 = eclass_2.getName();
                           String _plus_10 = (_plus_9 + _name_7);
                           String _name_8 = refEPackage.getName();
                           String _plus_11 = (_name_8 + "XxxX");
@@ -471,7 +604,7 @@ public class WodelUseGenerator extends AbstractGenerator {
                             _builder.append("# ");
                             String _name_10 = pck.getName();
                             String _plus_13 = (_name_10 + "XxxX");
-                            String _name_11 = eclass.getName();
+                            String _name_11 = eclass_2.getName();
                             String _plus_14 = (_plus_13 + _name_11);
                             _builder.append(min = classes.get(_plus_14).min);
                             _builder.newLineIfNotEmpty();
@@ -491,13 +624,13 @@ public class WodelUseGenerator extends AbstractGenerator {
                         _builder.newLineIfNotEmpty();
                       }
                     }
-                    String _encodeWord_2 = UseGeneratorUtils.encodeWord(associationName);
-                    _builder.append(_encodeWord_2);
+                    String _encodeWord_7 = UseGeneratorUtils.encodeWord(associationName);
+                    _builder.append(_encodeWord_7);
                     _builder.append("_min = ");
                     _builder.append(min);
                     _builder.newLineIfNotEmpty();
-                    String _encodeWord_3 = UseGeneratorUtils.encodeWord(associationName);
-                    _builder.append(_encodeWord_3);
+                    String _encodeWord_8 = UseGeneratorUtils.encodeWord(associationName);
+                    _builder.append(_encodeWord_8);
                     _builder.append("_max = ");
                     _builder.append(this.maxAssociationsCardinality);
                     _builder.newLineIfNotEmpty();
@@ -512,7 +645,7 @@ public class WodelUseGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence properties(final MutatorEnvironment e) {
+  public CharSequence properties(final MutatorEnvironment e, final Resource program, final Resource model) {
     try {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("[default]");
@@ -556,7 +689,7 @@ public class WodelUseGenerator extends AbstractGenerator {
       _builder.append(this.root = ModelManager.getRootEClass(packages));
       _builder.newLineIfNotEmpty();
       _builder.newLine();
-      CharSequence _generate = this.generate(e, packages, eclasses, classNames);
+      CharSequence _generate = this.generate(e, program, eclasses, classNames);
       _builder.append(_generate);
       _builder.newLineIfNotEmpty();
       _builder.append("aggregationcyclefreeness = on");
@@ -570,7 +703,7 @@ public class WodelUseGenerator extends AbstractGenerator {
     }
   }
   
-  public CharSequence use(final MutatorEnvironment e, final Resource model) {
+  public CharSequence use(final MutatorEnvironment e, final Resource program, final Resource model) {
     StringConcatenation _builder = new StringConcatenation();
     String _generateUSE = UseGeneratorUtils.generateUSE(model, e, this.modelName, this.useReferences);
     _builder.append(_generateUSE);
@@ -582,8 +715,8 @@ public class WodelUseGenerator extends AbstractGenerator {
       for(final Constraint constraint : _constraints) {
         {
           EList<InvariantCS> _expressions = constraint.getExpressions();
-          boolean _notEquals = (!Objects.equal(_expressions, null));
-          if (_notEquals) {
+          boolean _tripleNotEquals = (_expressions != null);
+          if (_tripleNotEquals) {
             {
               EList<InvariantCS> _expressions_1 = constraint.getExpressions();
               for(final InvariantCS inv : _expressions_1) {
@@ -614,8 +747,7 @@ public class WodelUseGenerator extends AbstractGenerator {
                       }
                     }
                     {
-                      boolean _notEquals_1 = (!Objects.equal(featureclass, null));
-                      if (_notEquals_1) {
+                      if ((featureclass != null)) {
                         _builder.append("inv mutcode");
                         _builder.append(i);
                         _builder.append(" : ");
@@ -642,8 +774,8 @@ public class WodelUseGenerator extends AbstractGenerator {
         }
         {
           EList<String> _rules = constraint.getRules();
-          boolean _notEquals_2 = (!Objects.equal(_rules, null));
-          if (_notEquals_2) {
+          boolean _tripleNotEquals_1 = (_rules != null);
+          if (_tripleNotEquals_1) {
             {
               EList<String> _rules_1 = constraint.getRules();
               for(final String rule : _rules_1) {
@@ -672,8 +804,7 @@ public class WodelUseGenerator extends AbstractGenerator {
                       }
                     }
                     {
-                      boolean _notEquals_3 = (!Objects.equal(featureclass_1, null));
-                      if (_notEquals_3) {
+                      if ((featureclass_1 != null)) {
                         _builder.append("inv mutcode");
                         _builder.append(i);
                         _builder.append(" : ");

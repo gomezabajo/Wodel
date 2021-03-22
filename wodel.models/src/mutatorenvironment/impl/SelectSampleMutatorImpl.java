@@ -102,6 +102,7 @@ public class SelectSampleMutatorImpl extends MutatorImpl implements SelectSample
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getObject() {
 		return object;
 	}
@@ -126,6 +127,7 @@ public class SelectSampleMutatorImpl extends MutatorImpl implements SelectSample
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(ObSelectionStrategy newObject) {
 		if (newObject != object) {
 			NotificationChain msgs = null;
@@ -145,6 +147,7 @@ public class SelectSampleMutatorImpl extends MutatorImpl implements SelectSample
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SampleClause getClause() {
 		return clause;
 	}
@@ -154,6 +157,7 @@ public class SelectSampleMutatorImpl extends MutatorImpl implements SelectSample
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setClause(SampleClause newClause) {
 		SampleClause oldClause = clause;
 		clause = newClause == null ? CLAUSE_EDEFAULT : newClause;
@@ -166,6 +170,7 @@ public class SelectSampleMutatorImpl extends MutatorImpl implements SelectSample
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EStructuralFeature> getFeatures() {
 		if (features == null) {
 			features = new EObjectResolvingEList<EStructuralFeature>(EStructuralFeature.class, this, MutatorenvironmentPackage.SELECT_SAMPLE_MUTATOR__FEATURES);

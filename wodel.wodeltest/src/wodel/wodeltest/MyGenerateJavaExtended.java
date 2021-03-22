@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gmt.modisco.java.generation.Messages;
+import org.eclipse.modisco.java.generation.Messages;
 
 public class MyGenerateJavaExtended extends MyGenerateJava {
 	
@@ -57,7 +57,7 @@ public class MyGenerateJavaExtended extends MyGenerateJava {
 	public static void main(String[] args) {
 		try {
 			if (args.length < 2) {
-				System.out.println(org.eclipse.gmt.modisco.java.generation.files.Messages.GenerateJava_0);
+				System.out.println(org.eclipse.modisco.java.generation.files.Messages.GenerateJava_0);
 			} else {
 				URI modelURI = URI.createFileURI(args[0]);
 				File folder = new File(args[1]);

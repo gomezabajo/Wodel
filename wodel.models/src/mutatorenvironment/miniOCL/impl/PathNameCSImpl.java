@@ -68,6 +68,7 @@ public class PathNameCSImpl extends MinimalEObjectImpl.Container implements Path
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PathCS> getPath() {
 		if (path == null) {
 			path = new EObjectContainmentEList<PathCS>(PathCS.class, this, MiniOCLPackage.PATH_NAME_CS__PATH);

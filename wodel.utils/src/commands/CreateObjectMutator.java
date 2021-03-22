@@ -12,7 +12,6 @@ import manager.EMFCopier;
 import manager.EMFUtils;
 import manager.ModelManager;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.TreeIterator;

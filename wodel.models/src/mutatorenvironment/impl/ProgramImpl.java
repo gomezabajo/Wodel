@@ -165,6 +165,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOutput() {
 		return output;
 	}
@@ -174,6 +175,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOutput(String newOutput) {
 		String oldOutput = output;
 		output = newOutput;
@@ -186,6 +188,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getNum() {
 		return num;
 	}
@@ -195,6 +198,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNum(int newNum) {
 		int oldNum = num;
 		num = newNum;
@@ -207,6 +211,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Source getSource() {
 		return source;
 	}
@@ -231,6 +236,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(Source newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -250,6 +256,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -259,6 +266,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		String oldDescription = description;
 		description = newDescription;
@@ -271,6 +279,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isExhaustive() {
 		return exhaustive;
 	}
@@ -280,6 +289,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExhaustive(boolean newExhaustive) {
 		boolean oldExhaustive = exhaustive;
 		exhaustive = newExhaustive;
@@ -292,6 +302,7 @@ public class ProgramImpl extends DefinitionImpl implements Program {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Resource> getResources() {
 		if (resources == null) {
 			resources = new EObjectContainmentEList<Resource>(Resource.class, this, MutatorenvironmentPackage.PROGRAM__RESOURCES);

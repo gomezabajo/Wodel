@@ -295,12 +295,12 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
               for(final Test test : _tests) {
                 {
                   List<EduTestSuperGenerator.TestOption> _get = this.options.get(exercise_1).get(test);
-                  boolean _notEquals = (!Objects.equal(_get, null));
-                  if (_notEquals) {
+                  boolean _tripleNotEquals = (_get != null);
+                  if (_tripleNotEquals) {
                     {
                       Integer _get_1 = this.total.get(exercise_1);
-                      boolean _notEquals_1 = (!Objects.equal(_get_1, null));
-                      if (_notEquals_1) {
+                      boolean _tripleNotEquals_1 = (_get_1 != null);
+                      if (_tripleNotEquals_1) {
                         _builder.append("//");
                         int _size = this.options.get(exercise_1).get(test).size();
                         double _multiply = (1.0 * _size);
@@ -330,8 +330,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                   if ((exercise_1 instanceof MultiChoiceEmendation)) {
                     {
                       Double _get_3 = this.puntuation.get(exercise_1).get(test_1);
-                      boolean _notEquals_2 = (!Objects.equal(_get_3, null));
-                      if (_notEquals_2) {
+                      boolean _tripleNotEquals_2 = (_get_3 != null);
+                      if (_tripleNotEquals_2) {
                         _builder.append("//");
                         Double _get_4 = this.puntuation.get(exercise_1).get(test_1);
                         double _penalty = ((MultiChoiceEmendation)exercise_1).getConfig().getPenalty();
@@ -404,7 +404,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 Collections.<Test>sort(ltests, new Comparator<Test>() {
                   @Override
                   public int compare(final Test t1, final Test t2) {
-                    if (((!Objects.equal(EduTestWebGenerator.this.options.get(exercise_1).get(t1), null)) && (!Objects.equal(EduTestWebGenerator.this.options.get(exercise_1).get(t2), null)))) {
+                    if (((EduTestWebGenerator.this.options.get(exercise_1).get(t1) != null) && (EduTestWebGenerator.this.options.get(exercise_1).get(t2) != null))) {
                       int _size = EduTestWebGenerator.this.options.get(exercise_1).get(t1).size();
                       int _size_1 = EduTestWebGenerator.this.options.get(exercise_1).get(t2).size();
                       return (_size - _size_1);
@@ -423,7 +423,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 Collections.<Test>sort(ltests, new Comparator<Test>() {
                   @Override
                   public int compare(final Test t1, final Test t2) {
-                    if (((!Objects.equal(EduTestWebGenerator.this.options.get(exercise_1).get(t1), null)) && (!Objects.equal(EduTestWebGenerator.this.options.get(exercise_1).get(t2), null)))) {
+                    if (((EduTestWebGenerator.this.options.get(exercise_1).get(t1) != null) && (EduTestWebGenerator.this.options.get(exercise_1).get(t2) != null))) {
                       int _size = EduTestWebGenerator.this.options.get(exercise_1).get(t2).size();
                       int _size_1 = EduTestWebGenerator.this.options.get(exercise_1).get(t1).size();
                       return (_size - _size_1);
@@ -482,8 +482,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
               if ((exercise_1 instanceof MultiChoiceEmendation)) {
                 {
                   Double _get_6 = this.puntuation.get(exercise_1).get(test_3);
-                  boolean _notEquals_3 = (!Objects.equal(_get_6, null));
-                  if (_notEquals_3) {
+                  boolean _tripleNotEquals_3 = (_get_6 != null);
+                  if (_tripleNotEquals_3) {
                     _builder.append("var weight");
                     _builder.append(this.num);
                     _builder.append("_");
@@ -514,8 +514,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
               if ((exercise_1 instanceof MultiChoiceEmendation)) {
                 {
                   Double _get_8 = this.penalty.get(exercise_1).get(test_3);
-                  boolean _notEquals_4 = (!Objects.equal(_get_8, null));
-                  if (_notEquals_4) {
+                  boolean _tripleNotEquals_4 = (_get_8 != null);
+                  if (_tripleNotEquals_4) {
                     _builder.append("var penalty");
                     _builder.append(this.num);
                     _builder.append("_");
@@ -806,7 +806,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
             _builder.append("\t");
             _builder.append("if (document.getElementById(\'current-mark-");
             _builder.append(part, "    \t\t");
-            _builder.append("\') != null) {");
+            _builder.append("\') !=!== null{");
             _builder.newLineIfNotEmpty();
             _builder.append("    \t");
             _builder.append("\t\t");
@@ -1330,8 +1330,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                 _builder.newLineIfNotEmpty();
                 {
                   List<EduTestSuperGenerator.TestOption> _get_16 = this.options.get(exercise_1).get(test_8);
-                  boolean _notEquals_5 = (!Objects.equal(_get_16, null));
-                  if (_notEquals_5) {
+                  boolean _tripleNotEquals_5 = (_get_16 != null);
+                  if (_tripleNotEquals_5) {
                     {
                       List<EduTestSuperGenerator.TestOption> _get_17 = this.options.get(exercise_1).get(test_8);
                       for(final EduTestSuperGenerator.TestOption opt : _get_17) {
@@ -1774,8 +1774,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         }
         {
           ProgramConfiguration _config = program.getConfig();
-          boolean _notEquals_6 = (!Objects.equal(_config, null));
-          if (_notEquals_6) {
+          boolean _tripleNotEquals_6 = (_config != null);
+          if (_tripleNotEquals_6) {
             {
               Navigation _navigation = program.getConfig().getNavigation();
               boolean _equals_10 = Objects.equal(_navigation, Navigation.FREE);
@@ -2675,8 +2675,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         _builder.newLineIfNotEmpty();
         {
           List<EduTestSuperGenerator.TestOption> _get_2 = this.options.get(sc).get(test_1);
-          boolean _notEquals = (!Objects.equal(_get_2, null));
-          if (_notEquals) {
+          boolean _tripleNotEquals = (_get_2 != null);
+          if (_tripleNotEquals) {
             {
               List<EduTestSuperGenerator.TestOption> _get_3 = this.options.get(sc).get(test_1);
               for(final EduTestSuperGenerator.TestOption opt : _get_3) {
@@ -2787,8 +2787,8 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
         _builder.newLineIfNotEmpty();
         {
           List<EduTestSuperGenerator.TestOption> _get_4 = this.options.get(sc).get(test_1);
-          boolean _notEquals_1 = (!Objects.equal(_get_4, null));
-          if (_notEquals_1) {
+          boolean _tripleNotEquals_1 = (_get_4 != null);
+          if (_tripleNotEquals_1) {
             {
               List<EduTestSuperGenerator.TestOption> _get_5 = this.options.get(sc).get(test_1);
               for(final EduTestSuperGenerator.TestOption opt_1 : _get_5) {
@@ -2818,7 +2818,7 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                         _builder.append(i);
                         _builder.append("\" />");
                         _builder.newLineIfNotEmpty();
-                        String _get_6 = opt_1.text.get(0);
+                        List<String> _get_6 = opt_1.text.get(Integer.valueOf(0));
                         _builder.append(_get_6);
                         _builder.newLineIfNotEmpty();
                         _builder.append("<!--");
@@ -2859,9 +2859,10 @@ public class EduTestWebGenerator extends EduTestSuperGenerator {
                       _builder.append("-->");
                       _builder.newLineIfNotEmpty();
                       {
-                        for(final String text : opt_1.text) {
+                        List<String> _get_7 = opt_1.text.get(Integer.valueOf(0));
+                        for(final String text : _get_7) {
                           {
-                            int _size_1 = opt_1.text.size();
+                            int _size_1 = opt_1.text.get(Integer.valueOf(0)).size();
                             boolean _lessThan = (j < _size_1);
                             if (_lessThan) {
                               _builder.append(text);

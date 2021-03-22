@@ -46,8 +46,6 @@ import appliedMutations.ObjectRemoved;
 import appliedMutations.ReferenceChanged;
 import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
-import manager.ModelManager;
-import manager.MutatorUtils;
 
 public class WodelTestUtils {
 	

@@ -111,6 +111,7 @@ public class RandomStringNumberTypeImpl extends StringTypeImpl implements Random
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getMin() {
 		return min;
 	}
@@ -120,6 +121,7 @@ public class RandomStringNumberTypeImpl extends StringTypeImpl implements Random
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMin(int newMin) {
 		int oldMin = min;
 		min = newMin;
@@ -132,6 +134,7 @@ public class RandomStringNumberTypeImpl extends StringTypeImpl implements Random
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getMax() {
 		return max;
 	}
@@ -141,6 +144,7 @@ public class RandomStringNumberTypeImpl extends StringTypeImpl implements Random
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMax(int newMax) {
 		int oldMax = max;
 		max = newMax;
@@ -153,6 +157,7 @@ public class RandomStringNumberTypeImpl extends StringTypeImpl implements Random
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isAllowsNull() {
 		return allowsNull;
 	}
@@ -162,6 +167,7 @@ public class RandomStringNumberTypeImpl extends StringTypeImpl implements Random
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAllowsNull(boolean newAllowsNull) {
 		boolean oldAllowsNull = allowsNull;
 		allowsNull = newAllowsNull;

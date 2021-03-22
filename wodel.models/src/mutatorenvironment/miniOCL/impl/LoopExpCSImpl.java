@@ -93,6 +93,7 @@ public class LoopExpCSImpl extends NavigationExpCSImpl implements LoopExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IteratorVarCS getItVar() {
 		return itVar;
 	}
@@ -117,6 +118,7 @@ public class LoopExpCSImpl extends NavigationExpCSImpl implements LoopExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setItVar(IteratorVarCS newItVar) {
 		if (newItVar != itVar) {
 			NotificationChain msgs = null;
@@ -136,6 +138,7 @@ public class LoopExpCSImpl extends NavigationExpCSImpl implements LoopExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getLogicOp() {
 		if (logicOp == null) {
 			logicOp = new EDataTypeUniqueEList<String>(String.class, this, MiniOCLPackage.LOOP_EXP_CS__LOGIC_OP);
@@ -148,6 +151,7 @@ public class LoopExpCSImpl extends NavigationExpCSImpl implements LoopExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ExpCS> getExp() {
 		if (exp == null) {
 			exp = new EObjectContainmentEList<ExpCS>(ExpCS.class, this, MiniOCLPackage.LOOP_EXP_CS__EXP);

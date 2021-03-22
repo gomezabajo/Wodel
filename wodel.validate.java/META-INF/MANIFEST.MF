@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.common,
- org.eclipse.gmt.modisco.java,
+ org.eclipse.modisco.java,
  wodel.utils,
  org.eclipse.jdt.core,
  wodel.wodeltest

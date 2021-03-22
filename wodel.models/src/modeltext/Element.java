@@ -81,30 +81,20 @@ public interface Element extends EObject {
 	void setRef(EReference value);
 
 	/**
-	 * Returns the value of the '<em><b>Att</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Att</b></em>' containment reference list.
+	 * The list contents are of type {@link modeltext.Attribute}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Att</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Att</em>' containment reference.
-	 * @see #setAtt(Attribute)
+	 * @return the value of the '<em>Att</em>' containment reference list.
 	 * @see modeltext.ModeltextPackage#getElement_Att()
 	 * @model containment="true"
 	 * @generated
 	 */
-	Attribute getAtt();
-
-	/**
-	 * Sets the value of the '{@link modeltext.Element#getAtt <em>Att</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Att</em>' containment reference.
-	 * @see #getAtt()
-	 * @generated
-	 */
-	void setAtt(Attribute value);
+	EList<Attribute> getAtt();
 
 	/**
 	 * Returns the value of the '<em><b>Words</b></em>' containment reference list.

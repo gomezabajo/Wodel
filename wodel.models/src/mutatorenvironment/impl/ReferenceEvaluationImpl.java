@@ -174,6 +174,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getName() {
 		if (name != null && name.eIsProxy()) {
 			InternalEObject oldName = (InternalEObject)name;
@@ -200,6 +201,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(EReference newName) {
 		EReference oldName = name;
 		name = newName;
@@ -212,6 +214,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefName() {
 		if (refName != null && refName.eIsProxy()) {
 			InternalEObject oldRefName = (InternalEObject)refName;
@@ -238,6 +241,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefName(EReference newRefName) {
 		EReference oldRefName = refName;
 		refName = newRefName;
@@ -250,6 +254,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefRefName() {
 		if (refRefName != null && refRefName.eIsProxy()) {
 			InternalEObject oldRefRefName = (InternalEObject)refRefName;
@@ -276,6 +281,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefRefName(EReference newRefRefName) {
 		EReference oldRefRefName = refRefName;
 		refRefName = newRefRefName;
@@ -288,6 +294,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operator getOperator() {
 		return operator;
 	}
@@ -297,6 +304,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperator(Operator newOperator) {
 		Operator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
@@ -309,6 +317,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getValue() {
 		return value;
 	}
@@ -333,6 +342,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(ObSelectionStrategy newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
@@ -352,6 +362,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -378,6 +389,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;
@@ -390,6 +402,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttName() {
 		if (attName != null && attName.eIsProxy()) {
 			InternalEObject oldAttName = (InternalEObject)attName;
@@ -416,6 +429,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttName(EAttribute newAttName) {
 		EAttribute oldAttName = attName;
 		attName = newAttName;
@@ -428,6 +442,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeEvaluationType getAttValue() {
 		return attValue;
 	}
@@ -452,6 +467,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttValue(AttributeEvaluationType newAttValue) {
 		if (newAttValue != attValue) {
 			NotificationChain msgs = null;
@@ -471,6 +487,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isContainer() {
 		return container;
 	}
@@ -480,6 +497,7 @@ public class ReferenceEvaluationImpl extends EvaluationImpl implements Reference
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContainer(boolean newContainer) {
 		boolean oldContainer = container;
 		container = newContainer;

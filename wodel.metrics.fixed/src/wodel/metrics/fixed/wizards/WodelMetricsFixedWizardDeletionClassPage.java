@@ -29,8 +29,6 @@ import org.eclipse.swt.widgets.Group;
 
 public class WodelMetricsFixedWizardDeletionClassPage extends WizardPage {
 	
-	private String className;
-	
 	private static String[] blockItems = null;
 	
 	private static String[] mainItems = null;
@@ -51,8 +49,6 @@ public class WodelMetricsFixedWizardDeletionClassPage extends WizardPage {
 	
 	private List<EPackage> mutatorPackages = null;
 	
-	private List<EPackage> packages = null;
-	
 	private Combo blockCombo = null;
 	private Combo mainCombo = null;
 	private Combo subCombo = null;
@@ -64,8 +60,6 @@ public class WodelMetricsFixedWizardDeletionClassPage extends WizardPage {
 		setDescription("Wodel Mutation Creation Tool");
 		setMessage("");
 		this.mutatorPackages = mutatorPackages;
-		this.packages = packages;
-		this.className = className;
 
 		List<EObject> blockObjects = MutatorUtils.getBlocks(model);
 		List<String> blockNames = new ArrayList<String>();

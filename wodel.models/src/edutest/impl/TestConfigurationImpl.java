@@ -69,6 +69,7 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isRetry() {
 		return retry;
 	}
@@ -78,6 +79,7 @@ public class TestConfigurationImpl extends ConfigurationImpl implements TestConf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRetry(boolean newRetry) {
 		boolean oldRetry = retry;
 		retry = newRetry;

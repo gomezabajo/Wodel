@@ -36,10 +36,6 @@
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//SampleClause/equals"/>
       <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//SampleClause/distinct"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MutatorEnvironment.ecore#//Reverse">
-      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Reverse/no"/>
-      <genEnumLiterals ecoreEnumLiteral="MutatorEnvironment.ecore#//Reverse/yes"/>
-    </genEnums>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//MutatorEnvironment">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/definition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//MutatorEnvironment/commands"/>
@@ -68,7 +64,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/min"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/max"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/fixed"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Mutator/mode"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//CompositeMutator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//CompositeMutator/commands"/>
@@ -252,12 +247,10 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Block/commands"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MutatorEnvironment.ecore#//Block/from"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/repeat"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/reverse"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/min"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/max"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/fixed"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Block/mode"/>
     </genClasses>
     <genClasses ecoreClass="MutatorEnvironment.ecore#//Constraint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutatorEnvironment.ecore#//Constraint/id"/>

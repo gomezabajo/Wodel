@@ -82,6 +82,7 @@ public class ResourceImpl extends DefinitionImpl implements Resource {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -91,6 +92,7 @@ public class ResourceImpl extends DefinitionImpl implements Resource {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -103,6 +105,7 @@ public class ResourceImpl extends DefinitionImpl implements Resource {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Source getPath() {
 		return path;
 	}
@@ -127,6 +130,7 @@ public class ResourceImpl extends DefinitionImpl implements Resource {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPath(Source newPath) {
 		if (newPath != path) {
 			NotificationChain msgs = null;

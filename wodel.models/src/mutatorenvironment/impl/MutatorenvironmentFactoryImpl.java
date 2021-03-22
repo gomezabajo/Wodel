@@ -150,8 +150,6 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 				return createArithmeticOperatorFromString(eDataType, initialValue);
 			case MutatorenvironmentPackage.SAMPLE_CLAUSE:
 				return createSampleClauseFromString(eDataType, initialValue);
-			case MutatorenvironmentPackage.REVERSE:
-				return createReverseFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -175,8 +173,6 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 				return convertArithmeticOperatorToString(eDataType, instanceValue);
 			case MutatorenvironmentPackage.SAMPLE_CLAUSE:
 				return convertSampleClauseToString(eDataType, instanceValue);
-			case MutatorenvironmentPackage.REVERSE:
-				return convertReverseToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -187,6 +183,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MutatorEnvironment createMutatorEnvironment() {
 		MutatorEnvironmentImpl mutatorEnvironment = new MutatorEnvironmentImpl();
 		return mutatorEnvironment;
@@ -197,6 +194,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Library createLibrary() {
 		LibraryImpl library = new LibraryImpl();
 		return library;
@@ -207,6 +205,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Program createProgram() {
 		ProgramImpl program = new ProgramImpl();
 		return program;
@@ -217,6 +216,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CompositeMutator createCompositeMutator() {
 		CompositeMutatorImpl compositeMutator = new CompositeMutatorImpl();
 		return compositeMutator;
@@ -227,6 +227,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Load createLoad() {
 		LoadImpl load = new LoadImpl();
 		return load;
@@ -237,6 +238,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CreateObjectMutator createCreateObjectMutator() {
 		CreateObjectMutatorImpl createObjectMutator = new CreateObjectMutatorImpl();
 		return createObjectMutator;
@@ -247,6 +249,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomTypeSelection createRandomTypeSelection() {
 		RandomTypeSelectionImpl randomTypeSelection = new RandomTypeSelectionImpl();
 		return randomTypeSelection;
@@ -257,6 +260,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificObjectSelection createSpecificObjectSelection() {
 		SpecificObjectSelectionImpl specificObjectSelection = new SpecificObjectSelectionImpl();
 		return specificObjectSelection;
@@ -267,6 +271,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeScalar createAttributeScalar() {
 		AttributeScalarImpl attributeScalar = new AttributeScalarImpl();
 		return attributeScalar;
@@ -277,6 +282,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificBooleanType createSpecificBooleanType() {
 		SpecificBooleanTypeImpl specificBooleanType = new SpecificBooleanTypeImpl();
 		return specificBooleanType;
@@ -287,6 +293,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomBooleanType createRandomBooleanType() {
 		RandomBooleanTypeImpl randomBooleanType = new RandomBooleanTypeImpl();
 		return randomBooleanType;
@@ -297,6 +304,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificStringType createSpecificStringType() {
 		SpecificStringTypeImpl specificStringType = new SpecificStringTypeImpl();
 		return specificStringType;
@@ -307,6 +315,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomStringType createRandomStringType() {
 		RandomStringTypeImpl randomStringType = new RandomStringTypeImpl();
 		return randomStringType;
@@ -317,6 +326,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificIntegerType createSpecificIntegerType() {
 		SpecificIntegerTypeImpl specificIntegerType = new SpecificIntegerTypeImpl();
 		return specificIntegerType;
@@ -327,6 +337,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomIntegerType createRandomIntegerType() {
 		RandomIntegerTypeImpl randomIntegerType = new RandomIntegerTypeImpl();
 		return randomIntegerType;
@@ -337,6 +348,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificDoubleType createSpecificDoubleType() {
 		SpecificDoubleTypeImpl specificDoubleType = new SpecificDoubleTypeImpl();
 		return specificDoubleType;
@@ -347,6 +359,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomDoubleType createRandomDoubleType() {
 		RandomDoubleTypeImpl randomDoubleType = new RandomDoubleTypeImpl();
 		return randomDoubleType;
@@ -357,6 +370,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModifySourceReferenceMutator createModifySourceReferenceMutator() {
 		ModifySourceReferenceMutatorImpl modifySourceReferenceMutator = new ModifySourceReferenceMutatorImpl();
 		return modifySourceReferenceMutator;
@@ -367,6 +381,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificReferenceSelection createSpecificReferenceSelection() {
 		SpecificReferenceSelectionImpl specificReferenceSelection = new SpecificReferenceSelectionImpl();
 		return specificReferenceSelection;
@@ -377,6 +392,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModifyTargetReferenceMutator createModifyTargetReferenceMutator() {
 		ModifyTargetReferenceMutatorImpl modifyTargetReferenceMutator = new ModifyTargetReferenceMutatorImpl();
 		return modifyTargetReferenceMutator;
@@ -387,6 +403,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CreateReferenceMutator createCreateReferenceMutator() {
 		CreateReferenceMutatorImpl createReferenceMutator = new CreateReferenceMutatorImpl();
 		return createReferenceMutator;
@@ -397,6 +414,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RemoveObjectMutator createRemoveObjectMutator() {
 		RemoveObjectMutatorImpl removeObjectMutator = new RemoveObjectMutatorImpl();
 		return removeObjectMutator;
@@ -407,6 +425,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModifyInformationMutator createModifyInformationMutator() {
 		ModifyInformationMutatorImpl modifyInformationMutator = new ModifyInformationMutatorImpl();
 		return modifyInformationMutator;
@@ -417,6 +436,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UpperStringType createUpperStringType() {
 		UpperStringTypeImpl upperStringType = new UpperStringTypeImpl();
 		return upperStringType;
@@ -427,6 +447,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LowerStringType createLowerStringType() {
 		LowerStringTypeImpl lowerStringType = new LowerStringTypeImpl();
 		return lowerStringType;
@@ -437,6 +458,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ListStringType createListStringType() {
 		ListStringTypeImpl listStringType = new ListStringTypeImpl();
 		return listStringType;
@@ -447,6 +469,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CatStartStringType createCatStartStringType() {
 		CatStartStringTypeImpl catStartStringType = new CatStartStringTypeImpl();
 		return catStartStringType;
@@ -457,6 +480,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CatEndStringType createCatEndStringType() {
 		CatEndStringTypeImpl catEndStringType = new CatEndStringTypeImpl();
 		return catEndStringType;
@@ -467,6 +491,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeUnset createAttributeUnset() {
 		AttributeUnsetImpl attributeUnset = new AttributeUnsetImpl();
 		return attributeUnset;
@@ -477,6 +502,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeSet createAttributeSet() {
 		AttributeSetImpl attributeSet = new AttributeSetImpl();
 		return attributeSet;
@@ -487,6 +513,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeSwap createAttributeSwap() {
 		AttributeSwapImpl attributeSwap = new AttributeSwapImpl();
 		return attributeSwap;
@@ -497,6 +524,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReplaceStringType createReplaceStringType() {
 		ReplaceStringTypeImpl replaceStringType = new ReplaceStringTypeImpl();
 		return replaceStringType;
@@ -507,6 +535,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeCopy createAttributeCopy() {
 		AttributeCopyImpl attributeCopy = new AttributeCopyImpl();
 		return attributeCopy;
@@ -517,6 +546,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RemoveRandomReferenceMutator createRemoveRandomReferenceMutator() {
 		RemoveRandomReferenceMutatorImpl removeRandomReferenceMutator = new RemoveRandomReferenceMutatorImpl();
 		return removeRandomReferenceMutator;
@@ -527,6 +557,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RemoveSpecificReferenceMutator createRemoveSpecificReferenceMutator() {
 		RemoveSpecificReferenceMutatorImpl removeSpecificReferenceMutator = new RemoveSpecificReferenceMutatorImpl();
 		return removeSpecificReferenceMutator;
@@ -537,6 +568,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CompleteSelection createCompleteSelection() {
 		CompleteSelectionImpl completeSelection = new CompleteSelectionImpl();
 		return completeSelection;
@@ -547,6 +579,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CompleteTypeSelection createCompleteTypeSelection() {
 		CompleteTypeSelectionImpl completeTypeSelection = new CompleteTypeSelectionImpl();
 		return completeTypeSelection;
@@ -557,6 +590,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RemoveCompleteReferenceMutator createRemoveCompleteReferenceMutator() {
 		RemoveCompleteReferenceMutatorImpl removeCompleteReferenceMutator = new RemoveCompleteReferenceMutatorImpl();
 		return removeCompleteReferenceMutator;
@@ -567,6 +601,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Source createSource() {
 		SourceImpl source = new SourceImpl();
 		return source;
@@ -577,6 +612,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OtherSelection createOtherSelection() {
 		OtherSelectionImpl otherSelection = new OtherSelectionImpl();
 		return otherSelection;
@@ -587,6 +623,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OtherTypeSelection createOtherTypeSelection() {
 		OtherTypeSelectionImpl otherTypeSelection = new OtherTypeSelectionImpl();
 		return otherTypeSelection;
@@ -597,6 +634,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SelectObjectMutator createSelectObjectMutator() {
 		SelectObjectMutatorImpl selectObjectMutator = new SelectObjectMutatorImpl();
 		return selectObjectMutator;
@@ -607,6 +645,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeEvaluation createAttributeEvaluation() {
 		AttributeEvaluationImpl attributeEvaluation = new AttributeEvaluationImpl();
 		return attributeEvaluation;
@@ -617,6 +656,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeReverse createAttributeReverse() {
 		AttributeReverseImpl attributeReverse = new AttributeReverseImpl();
 		return attributeReverse;
@@ -627,6 +667,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceSet createReferenceSet() {
 		ReferenceSetImpl referenceSet = new ReferenceSetImpl();
 		return referenceSet;
@@ -637,6 +678,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceInit createReferenceInit() {
 		ReferenceInitImpl referenceInit = new ReferenceInitImpl();
 		return referenceInit;
@@ -647,6 +689,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceAtt createReferenceAtt() {
 		ReferenceAttImpl referenceAtt = new ReferenceAttImpl();
 		return referenceAtt;
@@ -657,6 +700,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceEvaluation createReferenceEvaluation() {
 		ReferenceEvaluationImpl referenceEvaluation = new ReferenceEvaluationImpl();
 		return referenceEvaluation;
@@ -667,6 +711,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression createExpression() {
 		ExpressionImpl expression = new ExpressionImpl();
 		return expression;
@@ -677,6 +722,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceSwap createReferenceSwap() {
 		ReferenceSwapImpl referenceSwap = new ReferenceSwapImpl();
 		return referenceSwap;
@@ -687,6 +733,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BinaryOperator createBinaryOperator() {
 		BinaryOperatorImpl binaryOperator = new BinaryOperatorImpl();
 		return binaryOperator;
@@ -697,6 +744,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Block createBlock() {
 		BlockImpl block = new BlockImpl();
 		return block;
@@ -707,6 +755,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Constraint createConstraint() {
 		ConstraintImpl constraint = new ConstraintImpl();
 		return constraint;
@@ -717,6 +766,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomType createRandomType() {
 		RandomTypeImpl randomType = new RandomTypeImpl();
 		return randomType;
@@ -727,6 +777,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CloneObjectMutator createCloneObjectMutator() {
 		CloneObjectMutatorImpl cloneObjectMutator = new CloneObjectMutatorImpl();
 		return cloneObjectMutator;
@@ -737,6 +788,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ListType createListType() {
 		ListTypeImpl listType = new ListTypeImpl();
 		return listType;
@@ -747,6 +799,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectAttributeType createObjectAttributeType() {
 		ObjectAttributeTypeImpl objectAttributeType = new ObjectAttributeTypeImpl();
 		return objectAttributeType;
@@ -757,6 +810,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MinValueType createMinValueType() {
 		MinValueTypeImpl minValueType = new MinValueTypeImpl();
 		return minValueType;
@@ -767,6 +821,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MaxValueType createMaxValueType() {
 		MaxValueTypeImpl maxValueType = new MaxValueTypeImpl();
 		return maxValueType;
@@ -777,6 +832,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeOperation createAttributeOperation() {
 		AttributeOperationImpl attributeOperation = new AttributeOperationImpl();
 		return attributeOperation;
@@ -787,6 +843,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomDoubleNumberType createRandomDoubleNumberType() {
 		RandomDoubleNumberTypeImpl randomDoubleNumberType = new RandomDoubleNumberTypeImpl();
 		return randomDoubleNumberType;
@@ -797,6 +854,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomIntegerNumberType createRandomIntegerNumberType() {
 		RandomIntegerNumberTypeImpl randomIntegerNumberType = new RandomIntegerNumberTypeImpl();
 		return randomIntegerNumberType;
@@ -807,6 +865,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SpecificClosureSelection createSpecificClosureSelection() {
 		SpecificClosureSelectionImpl specificClosureSelection = new SpecificClosureSelectionImpl();
 		return specificClosureSelection;
@@ -817,6 +876,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SelectSampleMutator createSelectSampleMutator() {
 		SelectSampleMutatorImpl selectSampleMutator = new SelectSampleMutatorImpl();
 		return selectSampleMutator;
@@ -827,6 +887,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceAdd createReferenceAdd() {
 		ReferenceAddImpl referenceAdd = new ReferenceAddImpl();
 		return referenceAdd;
@@ -837,6 +898,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceRemove createReferenceRemove() {
 		ReferenceRemoveImpl referenceRemove = new ReferenceRemoveImpl();
 		return referenceRemove;
@@ -847,6 +909,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RetypeObjectMutator createRetypeObjectMutator() {
 		RetypeObjectMutatorImpl retypeObjectMutator = new RetypeObjectMutatorImpl();
 		return retypeObjectMutator;
@@ -857,6 +920,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TypedSelection createTypedSelection() {
 		TypedSelectionImpl typedSelection = new TypedSelectionImpl();
 		return typedSelection;
@@ -867,6 +931,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RandomStringNumberType createRandomStringNumberType() {
 		RandomStringNumberTypeImpl randomStringNumberType = new RandomStringNumberTypeImpl();
 		return randomStringNumberType;
@@ -877,6 +942,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource() {
 		ResourceImpl resource = new ResourceImpl();
 		return resource;
@@ -987,26 +1053,7 @@ public class MutatorenvironmentFactoryImpl extends EFactoryImpl implements Mutat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Reverse createReverseFromString(EDataType eDataType, String initialValue) {
-		Reverse result = Reverse.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertReverseToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public MutatorenvironmentPackage getMutatorenvironmentPackage() {
 		return (MutatorenvironmentPackage)getEPackage();
 	}

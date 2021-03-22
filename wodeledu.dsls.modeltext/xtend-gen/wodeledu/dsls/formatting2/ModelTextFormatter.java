@@ -31,10 +31,15 @@ public class ModelTextFormatter extends AbstractFormatter2 {
   }
   
   protected void _format(final Element element, @Extension final IFormattableDocument document) {
-    document.<Attribute>format(element.getAtt());
-    EList<Word> _words = element.getWords();
-    for (final Word word : _words) {
-      document.<Word>format(word);
+    EList<Attribute> _att = element.getAtt();
+    for (final Attribute att : _att) {
+      {
+        document.<Attribute>format(att);
+        EList<Word> _words = element.getWords();
+        for (final Word word : _words) {
+          document.<Word>format(word);
+        }
+      }
     }
   }
   

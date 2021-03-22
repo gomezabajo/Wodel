@@ -96,6 +96,7 @@ public class AccVarCSImpl extends MinimalEObjectImpl.Container implements AccVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAccVarName() {
 		return accVarName;
 	}
@@ -105,6 +106,7 @@ public class AccVarCSImpl extends MinimalEObjectImpl.Container implements AccVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAccVarName(String newAccVarName) {
 		String oldAccVarName = accVarName;
 		accVarName = newAccVarName;
@@ -117,6 +119,7 @@ public class AccVarCSImpl extends MinimalEObjectImpl.Container implements AccVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getAccType() {
 		return accType;
 	}
@@ -141,6 +144,7 @@ public class AccVarCSImpl extends MinimalEObjectImpl.Container implements AccVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAccType(PathNameCS newAccType) {
 		if (newAccType != accType) {
 			NotificationChain msgs = null;
@@ -160,6 +164,7 @@ public class AccVarCSImpl extends MinimalEObjectImpl.Container implements AccVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExpCS getAccInitExp() {
 		return accInitExp;
 	}
@@ -184,6 +189,7 @@ public class AccVarCSImpl extends MinimalEObjectImpl.Container implements AccVar
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAccInitExp(ExpCS newAccInitExp) {
 		if (newAccInitExp != accInitExp) {
 			NotificationChain msgs = null;

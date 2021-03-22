@@ -80,6 +80,7 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Block> getBlocks() {
 		if (blocks == null) {
 			blocks = new EObjectResolvingEList<Block>(Block.class, this, EdutestPackage.MUTATOR_TESTS__BLOCKS);
@@ -92,6 +93,7 @@ public abstract class MutatorTestsImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Test> getTests() {
 		if (tests == null) {
 			tests = new EObjectContainmentEList<Test>(Test.class, this, EdutestPackage.MUTATOR_TESTS__TESTS);

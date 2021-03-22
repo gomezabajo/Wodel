@@ -13,12 +13,12 @@ IdentifyElements returns IdentifyElements:
 
 Element returns Element:
 	{Element}
-	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference|ID])? ('(' att=Attribute ')')? ':' ((words+=Word) (words+=Word)*)?
+	'>' type=[ecore::EClass|EString] ('.' ref=[ecore::EReference|ID])? ('(' att+=Attribute (',' att+=Attribute)* ')')? ':' ((words+=Word) (words+=Word)*)?
 ;
 
 Attribute returns Attribute:
 	{Attribute}
-	(negation?='yes' |'not')? att=[ecore::EAttribute|ID]
+	(negation?='not')? att=[ecore::EAttribute|ID]
 ;
 
 Word returns Word:

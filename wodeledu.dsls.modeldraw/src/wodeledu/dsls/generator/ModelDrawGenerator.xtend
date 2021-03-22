@@ -20,6 +20,8 @@ import modeldraw.Decoration
 import modeldraw.NodeStyle
 import modeldraw.Relation
 import manager.JavaUtils
+import org.eclipse.emf.ecore.EAttribute
+import org.eclipse.emf.ecore.EReference
 
 /**
  * @author Pablo Gomez-Abajo - modelDraw code generator.
@@ -35,16 +37,17 @@ class ModelDrawGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		var i = 0;
+		fileName = resource.URI.lastSegment
+		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"
 		for(e: resource.allContents.toIterable.filter(MutatorDraw)) {
-		
 			if (i == 0) {
-				fileName = resource.URI.lastSegment.replace(".draw", "") + '_Draw.java'
+				fileName = fileName.replace(".draw", "") + 'Draw.java'
 			}
 			else {
-				fileName = resource.URI.lastSegment.replace(".draw", "") + i + '_Draw.java'
+				fileName = fileName.replace(".draw", "") + i + 'Draw.java'
 			}
-			className = fileName.replaceAll(".java", "")
-			fsa.generateFile(fileName, JavaUtils.format(e.compile, false))
+			className = fileName.replaceAll("Draw.java", "")
+     		fsa.generateFile("mutator/" + className + "/" + fileName, JavaUtils.format(e.compile, false))
 			i++
 		}
 	}
@@ -54,17 +57,17 @@ class ModelDrawGenerator extends AbstractGenerator {
 		HashMap<String, ArrayList<HashMap<String, String>>> dotrels = new HashMap<String, ArrayList<HashMap<String, String>>>();
 		HashMap<String, ArrayList<String>> dottext = new HashMap<String, ArrayList<String>>();
 		ArrayList<String> dotcode = new ArrayList<String>();
-		«IF draw.nodes != null»
+		«IF draw.nodes !== null»
 		«IF draw.nodes.size() > 0»
 		generateNodes(packages, model, dotnodes, dotrels);
 		«ENDIF»
 		«ENDIF»
-		«IF draw.relations != null»
+		«IF draw.relations !== null»
 		«IF draw.relations.size() > 0»
 		generateRelations(model, dotrels, dottext);
 		«ENDIF»
 		«ENDIF»
-		dotcode.add("digraph «draw.name.name» {\n");
+		dotcode.add("digraph «draw.name.name» {\n\nrankdir=LR;\n");
 		for (EObject dotnode : dotnodes.keySet()) {
 			if (dotnodes.get(dotnode) != null) {
 				dotcode.add(dotnodes.get(dotnode).name.replaceAll("'", "") + " [" + dotnodes.get(dotnode).label.replaceAll("'", "") + "];\n");
@@ -89,11 +92,11 @@ class ModelDrawGenerator extends AbstractGenerator {
 	'''
 	
 	def compile(Content content, String hmname) '''
-		«IF content != null»
-		«IF content.nodenum != null && content.nodenum.size() > 0»
+		«IF content !== null»
+		«IF content.nodenum !== null && content.nodenum.size() > 0»
 		«FOR nodenum : content.nodenum»
 		for (EAttribute attribute : obj.eClass().getEAllAttributes()) {
-			«IF nodenum.att != null»
+			«IF nodenum.att !== null»
 			if (attribute.getName().equals("«nodenum.att.name»")) {
 			«ELSE»
 			if (attribute.getName().equals("name")) {
@@ -102,7 +105,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 					EObject o = (EObject) obj.eGet(attribute);
 					if (o instanceof EEnumLiteral) {
 						EEnumLiteral lit = (EEnumLiteral) o;
-						«IF nodenum.enumerator != null && nodenum.enumerator.size() > 0»
+						«IF nodenum.enumerator !== null && nodenum.enumerator.size() > 0»
 						«FOR lit : nodenum.enumerator»
 							if (lit.getLiteral().equals("«lit.literal.name»")) {
 								text = «hmname».get(obj);
@@ -119,10 +122,10 @@ class ModelDrawGenerator extends AbstractGenerator {
 		}
 		«ENDFOR»
 		«ENDIF»
-		«IF content.info != null && content.info.size() > 0»
+		«IF content.info !== null && content.info.size() > 0»
 		«FOR info : content.info»
 		for (EReference r : obj.eClass().getEAllReferences()) {
-			«IF info.type != null»
+			«IF info.type !== null»
 			if (r.getName().equals("«info.type.name»")) {
 			«ELSE»
 			if (r.getName().equals("name")) {
@@ -130,7 +133,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 				if (obj.eGet(r) != null) {
 					EObject o = (EObject) obj.eGet(r);
 					for (EAttribute attribute : o.eClass().getEAllAttributes()) {
-						«IF info.att != null»
+						«IF info.att !== null»
 						if (attribute.getName().equals("«info.att.name»")) {
 						«ELSE»
 						if (attribute.getName().equals("name")) {
@@ -148,7 +151,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		«ENDFOR»
 		«ENDIF»
 		for (EAttribute attribute : obj.eClass().getEAllAttributes()) {
-			«IF content.attName != null»
+			«IF content.attName !== null»
 			if (attribute.getName().equals("«content.attName.name»")) {
 			«ELSE»
 			if (attribute.getName().equals("name")) {
@@ -159,7 +162,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 				break;
 			}
 		}
-		«IF content.symbol != null»
+		«IF content.symbol !== null»
 			text = «hmname».get(obj);
 			text = text + "«content.symbol»";
 			«hmname».put(obj, text);
@@ -168,7 +171,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	'''
 	
 	def decorate(Relation rel) '''
-		«IF rel.label != null»
+		«IF rel.label !== null && rel.label.size > 0»
 		parameters.put("label", label);
 		«ENDIF»
 		«IF rel.tar_decoration != Decoration.NONE»
@@ -188,7 +191,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		«ENDIF»
 		«ENDIF»
 		«ENDIF»
-		«IF rel.tar_label != null»
+		«IF rel.tar_label !== null»
 		if (parameters.containsKey("dir") == false) {
 			parameters.put("dir", "both");
 		}
@@ -217,7 +220,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		«ENDIF»
 		«ENDIF»
 		«ENDIF»
-		«IF rel.src_label != null»
+		«IF rel.src_label !== null»
 		if (parameters.containsKey("dir") == false) {
 			parameters.put("dir", "both");
 		}
@@ -233,6 +236,8 @@ class ModelDrawGenerator extends AbstractGenerator {
 	
 	
 	def compile(MutatorDraw draw) '''
+	package mutator.«manager.WodelContext.getProject»;
+	
 	import java.io.File;
 	import java.io.FileNotFoundException;
 	import java.io.PrintWriter;
@@ -246,6 +251,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 	
 	import org.eclipse.emf.ecore.EAttribute;
 	import org.eclipse.emf.ecore.EClass;
+	import org.eclipse.emf.ecore.EEnum;
 	import org.eclipse.emf.ecore.EEnumLiteral;
 	import org.eclipse.emf.ecore.EObject;
 	import org.eclipse.emf.ecore.EPackage;
@@ -258,12 +264,12 @@ class ModelDrawGenerator extends AbstractGenerator {
 	import manager.ModelManager;
 	import manager.DrawUtils.LabelStyle;
 	
-	public class «className» implements manager.IMutatorDraw {
+	public class «className»Draw implements manager.IMutatorDraw {
 		
    		«var String folder = ModelManager.getWorkspaceAbsolutePath() + "/"
 	   			+ WodelContext.getProject()»
 
-		«IF draw.nodes != null»
+		«IF draw.nodes !== null»
 		«IF draw.nodes.size() > 0»
 		private static void generateNodes(List<EPackage> packages, Resource model, HashMap<EObject, LabelStyle> dotnodes, HashMap<String, ArrayList<HashMap<String, String>>> dotrels) {
 			// COUNTER: «var counter = 0»
@@ -274,7 +280,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 				ArrayList<HashMap<String, String>> rels = new ArrayList<HashMap<String, String>>();
 				String name = "";
 				for (EAttribute att : node.eClass().getEAllAttributes()) {
-					«IF node.attName != null»
+					«IF node.attName !== null»
 					if (att.getName().equals("«node.attName.name»")) {
 					«ELSE»
 					if (att.getName().equals("name")) {
@@ -283,7 +289,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 						break;
 					}
 				}
-				«IF node.attribute != null»
+				«IF node.attribute !== null»
 				«IF node.attribute.size() > 0»
 				«FOR att : node.attribute»
 				for (EAttribute att : node.eClass().getEAllAttributes()) {
@@ -345,11 +351,11 @@ class ModelDrawGenerator extends AbstractGenerator {
 							style.shape ="shape = plaintext, style= filled, fillcolor=«node.color»";
 							dotnodes.put(node, style);
 						«ENDIF»
-						«IF node.reference != null»
+						«IF node.reference !== null»
 						«IF node.reference.size() > 0»
 						HashMap<EObject, String> table = new HashMap<EObject, String>();
 						«FOR ref : node.reference»
-						«IF draw.contents != null»
+						«IF draw.contents !== null»
 						«IF draw.contents.size() > 0»
 						for (EReference ref : node.eClass().getEAllReferences()) {
 							String label = "";
@@ -481,7 +487,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 		«ENDIF»
 		«ENDIF»
 		
-		«IF draw.relations != null»
+		«IF draw.relations !== null»
 		«IF draw.relations.size() >0»
 		private static void generateRelations(Resource model, HashMap<String, ArrayList<HashMap<String, String>>> dotrels, HashMap<String, ArrayList<String>> dottext) {
 			// COUNTER: «var counter = 0»
@@ -498,12 +504,12 @@ class ModelDrawGenerator extends AbstractGenerator {
 				String src_label = "";
 				String tar_label = "";
 				for (EReference ref : edge.eClass().getEAllReferences()) {
-					«IF edge.source != null»
+					«IF edge.source !== null»
 					if (ref.getName().equals("«edge.source.name»")) {
 						EObject src = (EObject) edge.eGet(ref);
 						if (src != null) {
 							for (EAttribute att : src.eClass().getEAllAttributes()) {
-							«IF edge.attName != null»
+							«IF edge.attName !== null»
 								if (att.getName().equals("«edge.attName.name»")) {
 							«ELSE»
 								if (att.getName().equals("name")) {
@@ -515,12 +521,12 @@ class ModelDrawGenerator extends AbstractGenerator {
 						}
 					}
 					«ENDIF»
-					«IF edge.target != null»
+					«IF edge.target !== null»
 					if (ref.getName().equals("«edge.target.name»")) {
 						EObject tar = (EObject) edge.eGet(ref);
 						if (tar != null) {
 							for (EAttribute att : tar.eClass().getEAllAttributes()) {
-								«IF edge.attName != null»
+								«IF edge.attName !== null»
 								if (att.getName().equals("«edge.attName.name»")) {
 								«ELSE»
 								if (att.getName().equals("name")) {
@@ -533,52 +539,113 @@ class ModelDrawGenerator extends AbstractGenerator {
 					}
 				}
 				«ENDIF»
-				«IF edge.reference != null»
-				«IF edge.label != null || edge.src_label != null || edge.tar_label != null»
+				«IF edge.reference !== null»
+				«IF edge.label !== null || edge.src_label !== null || edge.tar_label !== null»
+				label += "\"";
 				for (EReference ref : edge.eClass().getEAllReferences()) {
-					if (ref.getName().equals("«edge.reference.name»")) {
+					«IF edge.reference.size > 0»
+					«var int i = 0»
+					«var int j = 0»
+					«FOR EReference reference : edge.reference»
+					if (ref.getName().equals("«reference.name»")) {
 						EObject obj = (EObject) edge.eGet(ref);
 						if (obj != null) {
+							«IF edge.label !== null && edge.label.size > i»
+							«var boolean found = false»
+							«FOR EAttribute att : reference.getEReferenceType.getEAllAttributes»
+							«IF att.getName().equals(edge.label.get(i).getName())»
 							for (EAttribute att : obj.eClass().getEAllAttributes()) {
-							«IF edge.label != null»
-								if (att.getName().equals("«edge.label.name»")) {
-									label = "\"" + (String) obj.eGet(att) + "\"";
-								}
-							«ENDIF»
-							«IF edge.src_label != null»
-								if (att.getName().equals("«edge.src_label.name»")) {
-									src_label = "\"" + (String) obj.eGet(att) + "\"";
-								}
-							«ENDIF»
-							«IF edge.tar_label != null»
-								if (att.getName().equals("«edge.tar_label.name»")) {
-									tar_label = "\"" + (String) obj.eGet(att) + "\"";
-								}
-							«ENDIF»
+							    if (att.getName().equals("«edge.label.get(i).name»")) {
+								    if (att.getEType().getName().equals("EString")) {
+									    label += (String) obj.eGet(att) + ", ";
+								    }
+								    if (att.getEType() instanceof EEnum) {
+									    EEnumLiteral value = (EEnumLiteral) obj.eGet(att);
+									    label += value.getName() + ", ";
+								    }
+							    }
 							}
+							//«found = true»
+                            //«i++»
+							«ENDIF»
+							«ENDFOR»
+							«IF found == false»
+							for (EReference refType : obj.eClass().getEAllReferences()) {
+							    if (refType.getName().equals("«edge.refType.get(j).name»")) {
+							    	EObject o = (EObject) ((EObject) edge.eGet(ref)).eGet(refType);
+							    	if (o != null) {
+							    	    for (EAttribute att : o.eClass().getEAllAttributes()) {
+							    		    if (att.getName().equals("«edge.label.get(i).name»")) {
+								    	        if (att.getEType().getName().equals("EString")) {
+									    	        label += (String) o.eGet(att) + ", ";
+								    	        }
+								    	        if (att.getEType() instanceof EEnum) {
+									    	        EEnumLiteral value = (EEnumLiteral) o.eGet(att);
+									    	        label += value.getName() + ", ";
+									    	    }
+								    	    }
+								        }
+								    }
+							    }
+							}
+						    //«i++»
+						    //«j++»
+							«ENDIF»
+							«ENDIF»
+							«IF edge.src_label !== null»
+                            if (att.getName().equals("«edge.src_label.name»")) {
+							    src_label = "\"" + (String) obj.eGet(att) + "\"";
+                            }
+							«ENDIF»
+							«IF edge.tar_label !== null»
+                            if (att.getName().equals("«edge.tar_label.name»")) {
+                                tar_label = "\"" + (String) obj.eGet(att) + "\"";
+                            }
+							«ENDIF»
 						}
 					}
+					«ENDFOR»
+					«ENDIF»
 				}
+				if (label.indexOf(",") > 0) {
+					label = label.substring(0, label.lastIndexOf(","));
+				}
+				label += "\"";
 				«ENDIF»
 				«ELSE»
-				«IF edge.label != null || edge.src_label != null || edge.tar_label != null»
+				«IF edge.label !== null || edge.src_label !== null || edge.tar_label !== null»
+				label = "\"";
 				for (EAttribute att : edge.eClass().getEAllAttributes()) {
-				«IF edge.label != null»
-				if (att.getName().equals("«edge.label.name»")) {
-					label = "\"" + (String) edge.eGet(att) + "\"";
+				«IF edge.label !== null && edge.label.size > 0»
+				«var int i = 0»
+				«FOR EAttribute label : edge.label»
+				if (att.getName().equals("«label.name»")) {
+					if (att.getEType().getName().equals("EString")) {
+						label += (String) edge.eGet(att) + ", ";
+					}
+					if (att.getEType() instanceof EEnum) {
+						EEnumLiteral value = (EEnumLiteral) obj.eGet(att);
+						label += value.getName() + ", ";
+					}
 				}
+				//«i++»
+				«ENDFOR»
 				«ENDIF»
-				«IF edge.src_label != null»
+				«IF edge.src_label !== null»
 					if (att.getName().equals("«edge.src_label.name»")) {
 						src_label = "\"" + (String) edge.eGet(att) + "\"";
 					}
 				«ENDIF»
-				«IF edge.tar_label != null»
+				«IF edge.tar_label !== null»
 					if (att.getName().equals("«edge.tar_label.name»")) {
 						tar_label = "\"" + (String) edge.eGet(att) + "\"";
 					}
 				«ENDIF»
 				}
+				if (label.indexOf(",") > 0) {
+					label = label.substring(0, label.lastIndexOf(","));
+				}
+				label += "\""; 
 				«ENDIF»
 				«ENDIF»
 				«edge.decorate»
@@ -589,7 +656,23 @@ class ModelDrawGenerator extends AbstractGenerator {
 					rels = new ArrayList<HashMap<String, String>>();
 				}
 				if (source.length() > 0 && target.length() > 0) {
-					rels.add(parameters);
+					boolean found = false;
+					for (HashMap<String, String> rel : rels) {
+						for (String key : rel.keySet()) {
+							for (String keyParameters : parameters.keySet()) {
+								if (key.equals(keyParameters)) {
+									String value = rel.get(key);
+									value = value.substring(0, value.length() - 1);
+									value += "\n" + parameters.get(keyParameters).substring(1, parameters.get(keyParameters).length());
+									rel.put(key, value);
+									found = true;
+								}
+							}
+						}
+					}
+					if (found == false) {
+						rels.add(parameters);
+					}
 					dotrels.put(source + "->" + target, rels);
 				}
 			}
@@ -603,7 +686,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 				String source = "";
 				ArrayList<String> target = new ArrayList<String>();
 				for (EAttribute att : level.eClass().getEAllAttributes()) {
-					«IF level.attName != null»
+					«IF level.attName !== null»
 					if (att.getName().equals("«level.attName.name»")) {
 					«ELSE»
 					if (att.getName().equals("name")) {
@@ -613,7 +696,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 					}
 				}
 				for (EReference ref : level.eClass().getEAllReferences()) {
-					«IF level.upper != null»
+					«IF level.upper !== null»
 					if (ref.getName().equals("«level.upper.name»")) {
 						if (ref.getUpperBound() < 0 || ref.getUpperBound() > 1) {
 							List<EObject> ltar = (List<EObject>) level.eGet(ref);
@@ -621,7 +704,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 								for (EObject otar : ltar) {
 									if (otar != null) {
 										for (EAttribute att : otar.eClass().getEAllAttributes()) {
-											«IF level.attName != null»
+											«IF level.attName !== null»
 											if (att.getName().equals("«level.attName.name»")) {
 											«ELSE»
 											if (att.getName().equals("name")) {
@@ -638,7 +721,7 @@ class ModelDrawGenerator extends AbstractGenerator {
 							EObject tar = (EObject) level.eGet(ref);
 							if (tar != null) {
 								for (EAttribute att : tar.eClass().getEAllAttributes()) {
-								«IF level.attName != null»
+								«IF level.attName !== null»
 									if (att.getName().equals("«level.attName.name»")) {
 								«ELSE»
 									if (att.getName().equals("name")) {

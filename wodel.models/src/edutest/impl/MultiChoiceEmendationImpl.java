@@ -62,6 +62,7 @@ public class MultiChoiceEmendationImpl extends MutatorTestsImpl implements Multi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MultiChoiceEmConfig getConfig() {
 		return config;
 	}
@@ -86,6 +87,7 @@ public class MultiChoiceEmendationImpl extends MutatorTestsImpl implements Multi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConfig(MultiChoiceEmConfig newConfig) {
 		if (newConfig != config) {
 			NotificationChain msgs = null;

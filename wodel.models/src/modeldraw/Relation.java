@@ -2,6 +2,7 @@
  */
 package modeldraw;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EReference;
 
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.EReference;
  * </p>
  * <ul>
  *   <li>{@link modeldraw.Relation#getReference <em>Reference</em>}</li>
+ *   <li>{@link modeldraw.Relation#getRefType <em>Ref Type</em>}</li>
  *   <li>{@link modeldraw.Relation#getLabel <em>Label</em>}</li>
  *   <li>{@link modeldraw.Relation#getSrc_decoration <em>Src decoration</em>}</li>
  *   <li>{@link modeldraw.Relation#getSrc_label <em>Src label</em>}</li>
@@ -28,56 +30,52 @@ import org.eclipse.emf.ecore.EReference;
  */
 public interface Relation extends NamedItem {
 	/**
-	 * Returns the value of the '<em><b>Reference</b></em>' reference.
+	 * Returns the value of the '<em><b>Reference</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Reference</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Reference</em>' reference.
-	 * @see #setReference(EReference)
+	 * @return the value of the '<em>Reference</em>' reference list.
 	 * @see modeldraw.ModeldrawPackage#getRelation_Reference()
 	 * @model
 	 * @generated
 	 */
-	EReference getReference();
+	EList<EReference> getReference();
 
 	/**
-	 * Sets the value of the '{@link modeldraw.Relation#getReference <em>Reference</em>}' reference.
+	 * Returns the value of the '<em><b>Ref Type</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EReference}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ref Type</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Reference</em>' reference.
-	 * @see #getReference()
+	 * @return the value of the '<em>Ref Type</em>' reference list.
+	 * @see modeldraw.ModeldrawPackage#getRelation_RefType()
+	 * @model
 	 * @generated
 	 */
-	void setReference(EReference value);
+	EList<EReference> getRefType();
 
 	/**
-	 * Returns the value of the '<em><b>Label</b></em>' reference.
+	 * Returns the value of the '<em><b>Label</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EAttribute}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Label</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label</em>' reference.
-	 * @see #setLabel(EAttribute)
+	 * @return the value of the '<em>Label</em>' reference list.
 	 * @see modeldraw.ModeldrawPackage#getRelation_Label()
 	 * @model
 	 * @generated
 	 */
-	EAttribute getLabel();
-
-	/**
-	 * Sets the value of the '{@link modeldraw.Relation#getLabel <em>Label</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label</em>' reference.
-	 * @see #getLabel()
-	 * @generated
-	 */
-	void setLabel(EAttribute value);
+	EList<EAttribute> getLabel();
 
 	/**
 	 * Returns the value of the '<em><b>Src decoration</b></em>' attribute.

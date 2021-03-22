@@ -2,6 +2,8 @@
  */
 package mutatorenvironment.miniOCL.impl;
 
+import edutest.EdutestPackage;
+import edutest.impl.EdutestPackageImpl;
 import mutatorenvironment.MutatorenvironmentPackage;
 
 import mutatorenvironment.impl.MutatorenvironmentPackageImpl;
@@ -359,15 +361,19 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(EdutestPackage.eNS_URI);
+		EdutestPackageImpl theEdutestPackage = (EdutestPackageImpl)(registeredPackage instanceof EdutestPackageImpl ? registeredPackage : EdutestPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(MutatorenvironmentPackage.eNS_URI);
 		MutatorenvironmentPackageImpl theMutatorenvironmentPackage = (MutatorenvironmentPackageImpl)(registeredPackage instanceof MutatorenvironmentPackageImpl ? registeredPackage : MutatorenvironmentPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theMiniOCLPackage.createPackageContents();
+		theEdutestPackage.createPackageContents();
 		theMutatorenvironmentPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMiniOCLPackage.initializePackageContents();
+		theEdutestPackage.initializePackageContents();
 		theMutatorenvironmentPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -383,6 +389,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRootCS() {
 		return rootCSEClass;
 	}
@@ -392,6 +399,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRootCS_Packages() {
 		return (EReference)rootCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -401,6 +409,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRootCS_Contraints() {
 		return (EReference)rootCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -410,6 +419,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPackageCS() {
 		return packageCSEClass;
 	}
@@ -419,6 +429,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPackageCS_Name() {
 		return (EAttribute)packageCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -428,6 +439,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPackageCS_Packages() {
 		return (EReference)packageCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -437,6 +449,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPackageCS_Classes() {
 		return (EReference)packageCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -446,6 +459,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getClassCS() {
 		return classCSEClass;
 	}
@@ -455,6 +469,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getClassCS_Name() {
 		return (EAttribute)classCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -464,6 +479,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getClassCS_Extends() {
 		return (EReference)classCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -473,6 +489,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getClassCS_Properties() {
 		return (EReference)classCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -482,6 +499,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getClassCS_Operations() {
 		return (EReference)classCSEClass.getEStructuralFeatures().get(3);
 	}
@@ -491,6 +509,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPropertyCS() {
 		return propertyCSEClass;
 	}
@@ -500,6 +519,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPropertyCS_Name() {
 		return (EAttribute)propertyCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -509,6 +529,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCS_TypeRef() {
 		return (EReference)propertyCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -518,6 +539,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOperationCS() {
 		return operationCSEClass;
 	}
@@ -527,6 +549,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperationCS_Name() {
 		return (EAttribute)operationCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -536,6 +559,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationCS_Params() {
 		return (EReference)operationCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -545,6 +569,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationCS_ResultRef() {
 		return (EReference)operationCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -554,6 +579,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationCS_Body() {
 		return (EReference)operationCSEClass.getEStructuralFeatures().get(3);
 	}
@@ -563,6 +589,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameterCS() {
 		return parameterCSEClass;
 	}
@@ -572,6 +599,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameterCS_Name() {
 		return (EAttribute)parameterCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -581,6 +609,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameterCS_TypeRef() {
 		return (EReference)parameterCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -590,6 +619,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConstraintCS() {
 		return constraintCSEClass;
 	}
@@ -599,6 +629,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConstraintCS_TypeRef() {
 		return (EReference)constraintCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -608,6 +639,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConstraintCS_Invariants() {
 		return (EReference)constraintCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -617,6 +649,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInvariantCS() {
 		return invariantCSEClass;
 	}
@@ -626,6 +659,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInvariantCS_Exp() {
 		return (EReference)invariantCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -635,6 +669,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExpCS() {
 		return expCSEClass;
 	}
@@ -644,6 +679,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLogicExpCS() {
 		return logicExpCSEClass;
 	}
@@ -653,6 +689,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLogicExpCS_Left() {
 		return (EReference)logicExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -662,6 +699,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLogicExpCS_Op() {
 		return (EAttribute)logicExpCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -671,6 +709,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLogicExpCS_Right() {
 		return (EReference)logicExpCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -680,6 +719,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCallExpCS() {
 		return callExpCSEClass;
 	}
@@ -689,6 +729,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCallExpCS_Source() {
 		return (EReference)callExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -698,6 +739,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCallExpCS_NavExp() {
 		return (EReference)callExpCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -707,6 +749,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPrimaryExpCS() {
 		return primaryExpCSEClass;
 	}
@@ -716,6 +759,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationExpCS() {
 		return navigationExpCSEClass;
 	}
@@ -725,6 +769,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNameExpCS() {
 		return nameExpCSEClass;
 	}
@@ -734,6 +779,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNameExpCS_ExpName() {
 		return (EReference)nameExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -743,6 +789,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNameExpCS_RoundedBrackets() {
 		return (EReference)nameExpCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -752,6 +799,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNameExpCS_CallExp() {
 		return (EReference)nameExpCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -761,6 +809,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLoopExpCS() {
 		return loopExpCSEClass;
 	}
@@ -770,6 +819,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLoopExpCS_ItVar() {
 		return (EReference)loopExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -779,6 +829,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLoopExpCS_LogicOp() {
 		return (EAttribute)loopExpCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -788,6 +839,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLoopExpCS_Exp() {
 		return (EReference)loopExpCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -797,6 +849,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCollectExpCS() {
 		return collectExpCSEClass;
 	}
@@ -806,6 +859,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIteratorVarCS() {
 		return iteratorVarCSEClass;
 	}
@@ -815,6 +869,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIteratorVarCS_ItName() {
 		return (EAttribute)iteratorVarCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -824,6 +879,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIteratorVarCS_ItType() {
 		return (EReference)iteratorVarCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -833,6 +889,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIterateExpCS() {
 		return iterateExpCSEClass;
 	}
@@ -842,6 +899,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIterateExpCS_AccVar() {
 		return (EReference)iterateExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -851,6 +909,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAccVarCS() {
 		return accVarCSEClass;
 	}
@@ -860,6 +919,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAccVarCS_AccVarName() {
 		return (EAttribute)accVarCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -869,6 +929,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAccVarCS_AccType() {
 		return (EReference)accVarCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -878,6 +939,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAccVarCS_AccInitExp() {
 		return (EReference)accVarCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -887,6 +949,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRoundedBracketClauseCS() {
 		return roundedBracketClauseCSEClass;
 	}
@@ -896,6 +959,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRoundedBracketClauseCS_Args() {
 		return (EReference)roundedBracketClauseCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -905,6 +969,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLiteralExpCS() {
 		return literalExpCSEClass;
 	}
@@ -914,6 +979,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIntLiteralExpCS() {
 		return intLiteralExpCSEClass;
 	}
@@ -923,6 +989,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIntLiteralExpCS_IntSymbol() {
 		return (EAttribute)intLiteralExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -932,6 +999,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStringLiteralExpCS() {
 		return stringLiteralExpCSEClass;
 	}
@@ -941,6 +1009,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStringLiteralExpCS_StringSymbol() {
 		return (EAttribute)stringLiteralExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -950,6 +1019,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBooleanLiteralExpCS() {
 		return booleanLiteralExpCSEClass;
 	}
@@ -959,6 +1029,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPathNameCS() {
 		return pathNameCSEClass;
 	}
@@ -968,6 +1039,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPathNameCS_Path() {
 		return (EReference)pathNameCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -977,6 +1049,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPathCS() {
 		return pathCSEClass;
 	}
@@ -986,6 +1059,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPathVariableCS() {
 		return pathVariableCSEClass;
 	}
@@ -995,6 +1069,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPathVariableCS_VarName() {
 		return (EAttribute)pathVariableCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1004,6 +1079,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPathElementCS() {
 		return pathElementCSEClass;
 	}
@@ -1013,6 +1089,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPathElementCS_PathName() {
 		return (EReference)pathElementCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1022,6 +1099,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBooleanExpCS() {
 		return booleanExpCSEClass;
 	}
@@ -1031,6 +1109,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBooleanExpCS_BoolSymbol() {
 		return (EAttribute)booleanExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1040,6 +1119,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExistsExpCS() {
 		return existsExpCSEClass;
 	}
@@ -1049,6 +1129,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExistsExpCS_AccVars() {
 		return (EReference)existsExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1058,6 +1139,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationNameExpCS() {
 		return navigationNameExpCSEClass;
 	}
@@ -1067,6 +1149,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNavigationNameExpCS_ExpName() {
 		return (EReference)navigationNameExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1076,6 +1159,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNavigationNameExpCS_RoundedBrackets() {
 		return (EReference)navigationNameExpCSEClass.getEStructuralFeatures().get(1);
 	}
@@ -1085,6 +1169,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNavigationNameExpCS_CallExp() {
 		return (EReference)navigationNameExpCSEClass.getEStructuralFeatures().get(2);
 	}
@@ -1094,6 +1179,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationPathNameCS() {
 		return navigationPathNameCSEClass;
 	}
@@ -1103,6 +1189,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNavigationPathNameCS_Path() {
 		return (EReference)navigationPathNameCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1112,6 +1199,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationPathCS() {
 		return navigationPathCSEClass;
 	}
@@ -1121,6 +1209,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationPathVariableCS() {
 		return navigationPathVariableCSEClass;
 	}
@@ -1130,6 +1219,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNavigationPathVariableCS_VarName() {
 		return (EAttribute)navigationPathVariableCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1139,6 +1229,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationPathElementCS() {
 		return navigationPathElementCSEClass;
 	}
@@ -1148,6 +1239,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNavigationPathElementCS_PathName() {
 		return (EReference)navigationPathElementCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1157,6 +1249,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getForAllExpCS() {
 		return forAllExpCSEClass;
 	}
@@ -1166,6 +1259,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForAllExpCS_AccVars() {
 		return (EReference)forAllExpCSEClass.getEStructuralFeatures().get(0);
 	}
@@ -1175,6 +1269,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MiniOCLFactory getMiniOCLFactory() {
 		return (MiniOCLFactory)getEFactoryInstance();
 	}
@@ -1454,7 +1549,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 		initEClass(literalExpCSEClass, LiteralExpCS.class, "LiteralExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(intLiteralExpCSEClass, IntLiteralExpCS.class, "IntLiteralExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIntLiteralExpCS_IntSymbol(), ecorePackage.getEInt(), "intSymbol", null, 0, 1, IntLiteralExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIntLiteralExpCS_IntSymbol(), ecorePackage.getEInt(), "intSymbol", null, 1, 1, IntLiteralExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringLiteralExpCSEClass, StringLiteralExpCS.class, "StringLiteralExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringLiteralExpCS_StringSymbol(), ecorePackage.getEString(), "stringSymbol", null, 0, 1, StringLiteralExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1473,7 +1568,7 @@ public class MiniOCLPackageImpl extends EPackageImpl implements MiniOCLPackage {
 		initEReference(getPathElementCS_PathName(), ecorePackage.getEStructuralFeature(), null, "pathName", null, 0, 1, PathElementCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(booleanExpCSEClass, BooleanExpCS.class, "BooleanExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBooleanExpCS_BoolSymbol(), ecorePackage.getEBoolean(), "boolSymbol", null, 0, 1, BooleanExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBooleanExpCS_BoolSymbol(), ecorePackage.getEBoolean(), "boolSymbol", null, 1, 1, BooleanExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(existsExpCSEClass, ExistsExpCS.class, "ExistsExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExistsExpCS_AccVars(), this.getAccVarCS(), null, "accVars", null, 0, -1, ExistsExpCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

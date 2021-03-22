@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import manager.IWodelTest;
-import manager.WodelTestUtils;
-
 public class WodelTestClassInfo {
 	
 	public String packagename;

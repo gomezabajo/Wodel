@@ -96,6 +96,7 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -122,6 +123,7 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClass newType) {
 		EClass oldType = type;
 		type = newType;
@@ -134,6 +136,7 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -143,6 +146,7 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -155,6 +159,7 @@ public abstract class ObjectEmitterImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EClass> getTypes() {
 		if (types == null) {
 			types = new EObjectResolvingEList<EClass>(EClass.class, this, MutatorenvironmentPackage.OBJECT_EMITTER__TYPES);

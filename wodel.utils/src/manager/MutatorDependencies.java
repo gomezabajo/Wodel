@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import manager.MutatorUtils;
 import mutatorenvironment.CloneObjectMutator;
 import mutatorenvironment.CompleteTypeSelection;
 import mutatorenvironment.CreateObjectMutator;

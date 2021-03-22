@@ -74,6 +74,7 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -100,6 +101,7 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;
@@ -112,6 +114,7 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObSelectionStrategy getContainer() {
 		return container;
 	}
@@ -136,6 +139,7 @@ public class RemoveSpecificReferenceMutatorImpl extends RemoveReferenceMutatorIm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContainer(ObSelectionStrategy newContainer) {
 		if (newContainer != container) {
 			NotificationChain msgs = null;

@@ -117,6 +117,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefType() {
 		if (refType != null && refType.eIsProxy()) {
 			InternalEObject oldRefType = (InternalEObject)refType;
@@ -143,6 +144,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefType(EReference newRefType) {
 		EReference oldRefType = refType;
 		refType = newRefType;
@@ -155,6 +157,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getExpression() {
 		return expression;
 	}
@@ -179,6 +182,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpression(Expression newExpression) {
 		if (newExpression != expression) {
 			NotificationChain msgs = null;
@@ -198,6 +202,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getResource() {
 		return resource;
 	}
@@ -207,6 +212,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setResource(String newResource) {
 		String oldResource = resource;
 		resource = newResource;
@@ -219,6 +225,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefRefType() {
 		if (refRefType != null && refRefType.eIsProxy()) {
 			InternalEObject oldRefRefType = (InternalEObject)refRefType;
@@ -245,6 +252,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefRefType(EReference newRefRefType) {
 		EReference oldRefRefType = refRefType;
 		refRefType = newRefRefType;
@@ -257,6 +265,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRefRefRefType() {
 		if (refRefRefType != null && refRefRefType.eIsProxy()) {
 			InternalEObject oldRefRefRefType = (InternalEObject)refRefRefType;
@@ -283,6 +292,7 @@ public abstract class ObSelectionStrategyImpl extends ObjectEmitterImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRefRefRefType(EReference newRefRefRefType) {
 		EReference oldRefRefRefType = refRefRefType;
 		refRefRefType = newRefRefRefType;

@@ -84,6 +84,7 @@ public class AttributeOperationImpl extends AttributeSetImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ArithmeticOperator getOperator() {
 		return operator;
 	}
@@ -93,6 +94,7 @@ public class AttributeOperationImpl extends AttributeSetImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperator(ArithmeticOperator newOperator) {
 		ArithmeticOperator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
@@ -105,6 +107,7 @@ public class AttributeOperationImpl extends AttributeSetImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeEvaluationType getValue() {
 		return value;
 	}
@@ -129,6 +132,7 @@ public class AttributeOperationImpl extends AttributeSetImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(AttributeEvaluationType newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;

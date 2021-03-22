@@ -102,6 +102,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RootCS createRootCS() {
 		RootCSImpl rootCS = new RootCSImpl();
 		return rootCS;
@@ -112,6 +113,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PackageCS createPackageCS() {
 		PackageCSImpl packageCS = new PackageCSImpl();
 		return packageCS;
@@ -122,6 +124,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ClassCS createClassCS() {
 		ClassCSImpl classCS = new ClassCSImpl();
 		return classCS;
@@ -132,6 +135,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PropertyCS createPropertyCS() {
 		PropertyCSImpl propertyCS = new PropertyCSImpl();
 		return propertyCS;
@@ -142,6 +146,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationCS createOperationCS() {
 		OperationCSImpl operationCS = new OperationCSImpl();
 		return operationCS;
@@ -152,6 +157,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParameterCS createParameterCS() {
 		ParameterCSImpl parameterCS = new ParameterCSImpl();
 		return parameterCS;
@@ -162,6 +168,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConstraintCS createConstraintCS() {
 		ConstraintCSImpl constraintCS = new ConstraintCSImpl();
 		return constraintCS;
@@ -172,6 +179,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InvariantCS createInvariantCS() {
 		InvariantCSImpl invariantCS = new InvariantCSImpl();
 		return invariantCS;
@@ -182,6 +190,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExpCS createExpCS() {
 		ExpCSImpl expCS = new ExpCSImpl();
 		return expCS;
@@ -192,6 +201,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LogicExpCS createLogicExpCS() {
 		LogicExpCSImpl logicExpCS = new LogicExpCSImpl();
 		return logicExpCS;
@@ -202,6 +212,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CallExpCS createCallExpCS() {
 		CallExpCSImpl callExpCS = new CallExpCSImpl();
 		return callExpCS;
@@ -212,6 +223,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PrimaryExpCS createPrimaryExpCS() {
 		PrimaryExpCSImpl primaryExpCS = new PrimaryExpCSImpl();
 		return primaryExpCS;
@@ -222,6 +234,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationExpCS createNavigationExpCS() {
 		NavigationExpCSImpl navigationExpCS = new NavigationExpCSImpl();
 		return navigationExpCS;
@@ -232,6 +245,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NameExpCS createNameExpCS() {
 		NameExpCSImpl nameExpCS = new NameExpCSImpl();
 		return nameExpCS;
@@ -242,6 +256,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LoopExpCS createLoopExpCS() {
 		LoopExpCSImpl loopExpCS = new LoopExpCSImpl();
 		return loopExpCS;
@@ -252,6 +267,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CollectExpCS createCollectExpCS() {
 		CollectExpCSImpl collectExpCS = new CollectExpCSImpl();
 		return collectExpCS;
@@ -262,6 +278,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IteratorVarCS createIteratorVarCS() {
 		IteratorVarCSImpl iteratorVarCS = new IteratorVarCSImpl();
 		return iteratorVarCS;
@@ -272,6 +289,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IterateExpCS createIterateExpCS() {
 		IterateExpCSImpl iterateExpCS = new IterateExpCSImpl();
 		return iterateExpCS;
@@ -282,6 +300,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AccVarCS createAccVarCS() {
 		AccVarCSImpl accVarCS = new AccVarCSImpl();
 		return accVarCS;
@@ -292,6 +311,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RoundedBracketClauseCS createRoundedBracketClauseCS() {
 		RoundedBracketClauseCSImpl roundedBracketClauseCS = new RoundedBracketClauseCSImpl();
 		return roundedBracketClauseCS;
@@ -302,6 +322,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LiteralExpCS createLiteralExpCS() {
 		LiteralExpCSImpl literalExpCS = new LiteralExpCSImpl();
 		return literalExpCS;
@@ -312,6 +333,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IntLiteralExpCS createIntLiteralExpCS() {
 		IntLiteralExpCSImpl intLiteralExpCS = new IntLiteralExpCSImpl();
 		return intLiteralExpCS;
@@ -322,6 +344,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public StringLiteralExpCS createStringLiteralExpCS() {
 		StringLiteralExpCSImpl stringLiteralExpCS = new StringLiteralExpCSImpl();
 		return stringLiteralExpCS;
@@ -332,6 +355,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BooleanLiteralExpCS createBooleanLiteralExpCS() {
 		BooleanLiteralExpCSImpl booleanLiteralExpCS = new BooleanLiteralExpCSImpl();
 		return booleanLiteralExpCS;
@@ -342,6 +366,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS createPathNameCS() {
 		PathNameCSImpl pathNameCS = new PathNameCSImpl();
 		return pathNameCS;
@@ -352,6 +377,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathCS createPathCS() {
 		PathCSImpl pathCS = new PathCSImpl();
 		return pathCS;
@@ -362,6 +388,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathVariableCS createPathVariableCS() {
 		PathVariableCSImpl pathVariableCS = new PathVariableCSImpl();
 		return pathVariableCS;
@@ -372,6 +399,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathElementCS createPathElementCS() {
 		PathElementCSImpl pathElementCS = new PathElementCSImpl();
 		return pathElementCS;
@@ -382,6 +410,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BooleanExpCS createBooleanExpCS() {
 		BooleanExpCSImpl booleanExpCS = new BooleanExpCSImpl();
 		return booleanExpCS;
@@ -392,6 +421,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExistsExpCS createExistsExpCS() {
 		ExistsExpCSImpl existsExpCS = new ExistsExpCSImpl();
 		return existsExpCS;
@@ -402,6 +432,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationNameExpCS createNavigationNameExpCS() {
 		NavigationNameExpCSImpl navigationNameExpCS = new NavigationNameExpCSImpl();
 		return navigationNameExpCS;
@@ -412,6 +443,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationPathNameCS createNavigationPathNameCS() {
 		NavigationPathNameCSImpl navigationPathNameCS = new NavigationPathNameCSImpl();
 		return navigationPathNameCS;
@@ -422,6 +454,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationPathCS createNavigationPathCS() {
 		NavigationPathCSImpl navigationPathCS = new NavigationPathCSImpl();
 		return navigationPathCS;
@@ -432,6 +465,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationPathVariableCS createNavigationPathVariableCS() {
 		NavigationPathVariableCSImpl navigationPathVariableCS = new NavigationPathVariableCSImpl();
 		return navigationPathVariableCS;
@@ -442,6 +476,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NavigationPathElementCS createNavigationPathElementCS() {
 		NavigationPathElementCSImpl navigationPathElementCS = new NavigationPathElementCSImpl();
 		return navigationPathElementCS;
@@ -452,6 +487,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ForAllExpCS createForAllExpCS() {
 		ForAllExpCSImpl forAllExpCS = new ForAllExpCSImpl();
 		return forAllExpCS;
@@ -462,6 +498,7 @@ public class MiniOCLFactoryImpl extends EFactoryImpl implements MiniOCLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MiniOCLPackage getMiniOCLPackage() {
 		return (MiniOCLPackage)getEPackage();
 	}

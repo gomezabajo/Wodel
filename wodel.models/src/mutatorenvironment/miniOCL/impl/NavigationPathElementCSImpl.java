@@ -61,6 +61,7 @@ public class NavigationPathElementCSImpl extends NavigationPathCSImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getPathName() {
 		if (pathName != null && pathName.eIsProxy()) {
 			InternalEObject oldPathName = (InternalEObject)pathName;
@@ -87,6 +88,7 @@ public class NavigationPathElementCSImpl extends NavigationPathCSImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPathName(EStructuralFeature newPathName) {
 		EStructuralFeature oldPathName = pathName;
 		pathName = newPathName;

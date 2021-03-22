@@ -29,6 +29,18 @@
       <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/firstValue"/>
       <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/secondAttName"/>
       <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/secondValue"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/value"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedFromObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedOldFromObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedToObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedOldToObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedFirstObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedFirstFromObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedFirstToObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedSecondObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedSecondFromObject"/>
+      <genEnumLiterals ecoreEnumLiteral="MutaText.ecore#//VariableType/describedSecondToObject"/>
     </genEnums>
     <genClasses ecoreClass="MutaText.ecore#//Configuration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MutaText.ecore#//Configuration/metamodel"/>

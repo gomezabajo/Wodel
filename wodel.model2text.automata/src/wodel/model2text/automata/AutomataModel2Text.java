@@ -32,6 +32,11 @@ public class AutomataModel2Text extends Model2Text {
 	public String getURI() {
 		return "http://dfaAutomaton/1.0";
 	}
+	
+	@Override
+	public String getId() {
+		return "reg-exp";
+	}
 
 	@Override
 	public String getText(String metamodel, String model) {
@@ -48,6 +53,7 @@ public class AutomataModel2Text extends Model2Text {
 			e.printStackTrace();
 		}
 		//Resource model = ModelManager.loadModel(packages, URI.createURI("file://" + ModelManager.getModelsFolder() + "/" + fileName).toFileString());
-		return DFA2Regex.toRegExp(DFAUtils.convertToDFA(packages, resource));
+		String regex = DFA2Regex.toRegExp(DFAUtils.convertToDFA(packages, resource));
+		return regex;
 	}
 }

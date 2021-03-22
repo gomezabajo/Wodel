@@ -61,6 +61,7 @@ public class ListStringTypeImpl extends AttributeTypeImpl implements ListStringT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getValue() {
 		if (value == null) {
 			value = new EDataTypeUniqueEList<String>(String.class, this, MutatorenvironmentPackage.LIST_STRING_TYPE__VALUE);

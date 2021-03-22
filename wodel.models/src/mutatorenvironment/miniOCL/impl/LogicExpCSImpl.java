@@ -94,6 +94,7 @@ public class LogicExpCSImpl extends ExpCSImpl implements LogicExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LogicExpCS getLeft() {
 		return left;
 	}
@@ -118,6 +119,7 @@ public class LogicExpCSImpl extends ExpCSImpl implements LogicExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLeft(LogicExpCS newLeft) {
 		if (newLeft != left) {
 			NotificationChain msgs = null;
@@ -137,6 +139,7 @@ public class LogicExpCSImpl extends ExpCSImpl implements LogicExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOp() {
 		return op;
 	}
@@ -146,6 +149,7 @@ public class LogicExpCSImpl extends ExpCSImpl implements LogicExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOp(String newOp) {
 		String oldOp = op;
 		op = newOp;
@@ -158,6 +162,7 @@ public class LogicExpCSImpl extends ExpCSImpl implements LogicExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CallExpCS getRight() {
 		return right;
 	}
@@ -182,6 +187,7 @@ public class LogicExpCSImpl extends ExpCSImpl implements LogicExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRight(CallExpCS newRight) {
 		if (newRight != right) {
 			NotificationChain msgs = null;

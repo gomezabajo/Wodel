@@ -31,7 +31,7 @@ public interface SpecificBooleanType extends BooleanType {
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(boolean)
 	 * @see mutatorenvironment.MutatorenvironmentPackage#getSpecificBooleanType_Value()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	boolean isValue();

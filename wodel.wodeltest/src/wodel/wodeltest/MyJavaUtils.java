@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.gmt.modisco.infra.common.core.internal.utils.FolderUtils;
-import org.eclipse.gmt.modisco.java.generation.Messages;
+import org.eclipse.modisco.infra.common.core.internal.utils.FolderUtils;
+import org.eclipse.modisco.java.generation.Messages;
 
 /**
  * Util Class for formatting Java code.

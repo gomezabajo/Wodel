@@ -871,45 +871,16 @@ ruleBlock returns [EObject current=null]
 				)
 			)
 		)?
-		(
-			otherlv_9='reverse'
-			{
-				newLeafNode(otherlv_9, grammarAccess.getBlockAccess().getReverseKeyword_4_0());
-			}
-			otherlv_10='='
-			{
-				newLeafNode(otherlv_10, grammarAccess.getBlockAccess().getEqualsSignKeyword_4_1());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getBlockAccess().getReverseReverseEnumRuleCall_4_2_0());
-					}
-					lv_reverse_11_0=ruleReverse
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getBlockRule());
-						}
-						set(
-							$current,
-							"reverse",
-							lv_reverse_11_0,
-							"wodel.dsls.Wodel.Reverse");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)?
-		otherlv_12='{'
+		otherlv_9='{'
 		{
-			newLeafNode(otherlv_12, grammarAccess.getBlockAccess().getLeftCurlyBracketKeyword_5());
+			newLeafNode(otherlv_9, grammarAccess.getBlockAccess().getLeftCurlyBracketKeyword_4());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getBlockAccess().getCommandsMutatorParserRuleCall_6_0());
+					newCompositeNode(grammarAccess.getBlockAccess().getCommandsMutatorParserRuleCall_5_0());
 				}
-				lv_commands_13_0=ruleMutator
+				lv_commands_10_0=ruleMutator
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getBlockRule());
@@ -917,7 +888,7 @@ ruleBlock returns [EObject current=null]
 					add(
 						$current,
 						"commands",
-						lv_commands_13_0,
+						lv_commands_10_0,
 						"wodel.dsls.Wodel.Mutator");
 					afterParserOrEnumRuleCall();
 				}
@@ -926,9 +897,9 @@ ruleBlock returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getBlockAccess().getCommandsMutatorParserRuleCall_7_0());
+					newCompositeNode(grammarAccess.getBlockAccess().getCommandsMutatorParserRuleCall_6_0());
 				}
-				lv_commands_14_0=ruleMutator
+				lv_commands_11_0=ruleMutator
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getBlockRule());
@@ -936,29 +907,29 @@ ruleBlock returns [EObject current=null]
 					add(
 						$current,
 						"commands",
-						lv_commands_14_0,
+						lv_commands_11_0,
 						"wodel.dsls.Wodel.Mutator");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-		otherlv_15='}'
+		otherlv_12='}'
 		{
-			newLeafNode(otherlv_15, grammarAccess.getBlockAccess().getRightCurlyBracketKeyword_8());
+			newLeafNode(otherlv_12, grammarAccess.getBlockAccess().getRightCurlyBracketKeyword_7());
 		}
 		(
-			otherlv_16='['
+			otherlv_13='['
 			{
-				newLeafNode(otherlv_16, grammarAccess.getBlockAccess().getLeftSquareBracketKeyword_9_0());
+				newLeafNode(otherlv_13, grammarAccess.getBlockAccess().getLeftSquareBracketKeyword_8_0());
 			}
 			(
 				(
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getBlockAccess().getMinEIntParserRuleCall_9_1_0_0_0());
+								newCompositeNode(grammarAccess.getBlockAccess().getMinEIntParserRuleCall_8_1_0_0_0());
 							}
-							lv_min_17_0=ruleEInt
+							lv_min_14_0=ruleEInt
 							{
 								if ($current==null) {
 									$current = createModelElementForParent(grammarAccess.getBlockRule());
@@ -966,22 +937,22 @@ ruleBlock returns [EObject current=null]
 								set(
 									$current,
 									"min",
-									lv_min_17_0,
+									lv_min_14_0,
 									"wodel.dsls.Wodel.EInt");
 								afterParserOrEnumRuleCall();
 							}
 						)
 					)
-					otherlv_18='..'
+					otherlv_15='..'
 					{
-						newLeafNode(otherlv_18, grammarAccess.getBlockAccess().getFullStopFullStopKeyword_9_1_0_1());
+						newLeafNode(otherlv_15, grammarAccess.getBlockAccess().getFullStopFullStopKeyword_8_1_0_1());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getBlockAccess().getMaxMaxCardinalityParserRuleCall_9_1_0_2_0());
+								newCompositeNode(grammarAccess.getBlockAccess().getMaxMaxCardinalityParserRuleCall_8_1_0_2_0());
 							}
-							lv_max_19_0=ruleMaxCardinality
+							lv_max_16_0=ruleMaxCardinality
 							{
 								if ($current==null) {
 									$current = createModelElementForParent(grammarAccess.getBlockRule());
@@ -989,7 +960,7 @@ ruleBlock returns [EObject current=null]
 								set(
 									$current,
 									"max",
-									lv_max_19_0,
+									lv_max_16_0,
 									"wodel.dsls.Wodel.MaxCardinality");
 								afterParserOrEnumRuleCall();
 							}
@@ -1000,9 +971,9 @@ ruleBlock returns [EObject current=null]
 				(
 					(
 						{
-							newCompositeNode(grammarAccess.getBlockAccess().getFixedEIntParserRuleCall_9_1_1_0());
+							newCompositeNode(grammarAccess.getBlockAccess().getFixedEIntParserRuleCall_8_1_1_0());
 						}
-						lv_fixed_20_0=ruleEInt
+						lv_fixed_17_0=ruleEInt
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getBlockRule());
@@ -1010,31 +981,16 @@ ruleBlock returns [EObject current=null]
 							set(
 								$current,
 								"fixed",
-								lv_fixed_20_0,
+								lv_fixed_17_0,
 								"wodel.dsls.Wodel.EInt");
 							afterParserOrEnumRuleCall();
 						}
 					)
 				)
-				    |
-				(
-					(
-						lv_mode_21_0='*'
-						{
-							newLeafNode(lv_mode_21_0, grammarAccess.getBlockAccess().getModeAsteriskKeyword_9_1_2_0());
-						}
-						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getBlockRule());
-							}
-							setWithLastConsumed($current, "mode", true, "*");
-						}
-					)
-				)
 			)
-			otherlv_22=']'
+			otherlv_18=']'
 			{
-				newLeafNode(otherlv_22, grammarAccess.getBlockAccess().getRightSquareBracketKeyword_9_2());
+				newLeafNode(otherlv_18, grammarAccess.getBlockAccess().getRightSquareBracketKeyword_8_2());
 			}
 		)?
 	)
@@ -10381,33 +10337,6 @@ ruleRepeat returns [Enumerator current=null]
 			{
 				$current = grammarAccess.getRepeatAccess().getNoEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
 				newLeafNode(enumLiteral_1, grammarAccess.getRepeatAccess().getNoEnumLiteralDeclaration_1());
-			}
-		)
-	)
-;
-
-// Rule Reverse
-ruleReverse returns [Enumerator current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		(
-			enumLiteral_0='yes'
-			{
-				$current = grammarAccess.getReverseAccess().getYesEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_0, grammarAccess.getReverseAccess().getYesEnumLiteralDeclaration_0());
-			}
-		)
-		    |
-		(
-			enumLiteral_1='no'
-			{
-				$current = grammarAccess.getReverseAccess().getNoEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_1, grammarAccess.getReverseAccess().getNoEnumLiteralDeclaration_1());
 			}
 		)
 	)

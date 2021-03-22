@@ -69,6 +69,7 @@ public class PathVariableCSImpl extends PathCSImpl implements PathVariableCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getVarName() {
 		return varName;
 	}
@@ -78,6 +79,7 @@ public class PathVariableCSImpl extends PathCSImpl implements PathVariableCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVarName(String newVarName) {
 		String oldVarName = varName;
 		varName = newVarName;

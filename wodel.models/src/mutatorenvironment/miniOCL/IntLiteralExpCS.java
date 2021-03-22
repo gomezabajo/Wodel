@@ -31,7 +31,7 @@ public interface IntLiteralExpCS extends LiteralExpCS {
 	 * @return the value of the '<em>Int Symbol</em>' attribute.
 	 * @see #setIntSymbol(int)
 	 * @see mutatorenvironment.miniOCL.MiniOCLPackage#getIntLiteralExpCS_IntSymbol()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	int getIntSymbol();

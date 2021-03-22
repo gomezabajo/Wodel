@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Attribute extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Negation</b></em>' attribute.
-	 * The default value is <code>"true"</code>.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Negation</em>' attribute isn't clear,
@@ -35,7 +35,7 @@ public interface Attribute extends EObject {
 	 * @return the value of the '<em>Negation</em>' attribute.
 	 * @see #setNegation(boolean)
 	 * @see modeltext.ModeltextPackage#getAttribute_Negation()
-	 * @model default="true"
+	 * @model default="false"
 	 * @generated
 	 */
 	boolean isNegation();

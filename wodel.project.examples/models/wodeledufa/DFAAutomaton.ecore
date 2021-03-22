@@ -8,12 +8,15 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Automaton">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="one_initial some_final alphabet"/>
+      <details key="constraints" value="one_initial some_final alphabet diff_states_names connected deterministic"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
       <details key="one_initial" value="self.states->one(s | s.isInitial)"/>
       <details key="some_final" value="self.states->exists(s | s.isFinal)"/>
       <details key="alphabet" value="self.alphabet->forAll(a1,a2 |a1.symbol=a2.symbol implies a1=a2)"/>
+      <details key="diff_states_names" value="self.states->forAll(s1, s2 | s1 &lt;> s2 implies s1.name &lt;> s2.name)"/>
+      <details key="connected" value="self.states->forAll(s1 | s1.isInitial = true or Set{s1}->closure(s2 | self.transitions->select(t1 | t1.tar = s2)->collect(src))->exists(s3 | s3.isInitial = true))"/>
+      <details key="deterministic" value="self.transitions->forAll(t1, t2 | (t1 &lt;> t2 and t1.src = t2.src) implies t1.symbol &lt;> t2.symbol) and self.states->forAll(s | self.transitions->select(t | t.src = s)->asSet()->size() = self.alphabet->size())"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" ordered="false"
@@ -37,6 +40,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Transition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//State"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tar" lowerBound="1" eType="#//State"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="symbol" eType="#//Symbol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="symbol" lowerBound="1"
+        eType="#//Symbol"/>
   </eClassifiers>
 </ecore:EPackage>

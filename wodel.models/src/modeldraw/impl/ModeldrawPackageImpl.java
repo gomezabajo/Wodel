@@ -192,7 +192,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ModeldrawPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -206,7 +206,8 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		if (isInited) return (ModeldrawPackage)EPackage.Registry.INSTANCE.getEPackage(ModeldrawPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ModeldrawPackageImpl theModeldrawPackage = (ModeldrawPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ModeldrawPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ModeldrawPackageImpl());
+		Object registeredModeldrawPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ModeldrawPackageImpl theModeldrawPackage = registeredModeldrawPackage instanceof ModeldrawPackageImpl ? (ModeldrawPackageImpl)registeredModeldrawPackage : new ModeldrawPackageImpl();
 
 		isInited = true;
 
@@ -219,7 +220,6 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		// Mark meta-data to indicate it can't be changed
 		theModeldrawPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ModeldrawPackage.eNS_URI, theModeldrawPackage);
 		return theModeldrawPackage;
@@ -428,7 +428,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRelation_Label() {
+	public EReference getRelation_RefType() {
 		return (EReference)relationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -437,8 +437,17 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getRelation_Label() {
+		return (EReference)relationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getRelation_Src_decoration() {
-		return (EAttribute)relationEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)relationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -447,7 +456,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * @generated
 	 */
 	public EReference getRelation_Src_label() {
-		return (EReference)relationEClass.getEStructuralFeatures().get(3);
+		return (EReference)relationEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -456,7 +465,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * @generated
 	 */
 	public EAttribute getRelation_Tar_decoration() {
-		return (EAttribute)relationEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)relationEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -465,7 +474,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * @generated
 	 */
 	public EReference getRelation_Tar_label() {
-		return (EReference)relationEClass.getEStructuralFeatures().get(5);
+		return (EReference)relationEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -739,6 +748,7 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 
 		relationEClass = createEClass(RELATION);
 		createEReference(relationEClass, RELATION__REFERENCE);
+		createEReference(relationEClass, RELATION__REF_TYPE);
 		createEReference(relationEClass, RELATION__LABEL);
 		createEAttribute(relationEClass, RELATION__SRC_DECORATION);
 		createEReference(relationEClass, RELATION__SRC_LABEL);
@@ -844,8 +854,9 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 		initEAttribute(getNode_Style(), this.getNodeStyle(), "style", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(relationEClass, Relation.class, "Relation", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRelation_Reference(), ecorePackage.getEReference(), null, "reference", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRelation_Label(), ecorePackage.getEAttribute(), null, "label", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_Reference(), ecorePackage.getEReference(), null, "reference", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_RefType(), ecorePackage.getEReference(), null, "refType", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_Label(), ecorePackage.getEAttribute(), null, "label", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRelation_Src_decoration(), this.getDecoration(), "src_decoration", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRelation_Src_label(), ecorePackage.getEAttribute(), null, "src_label", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRelation_Tar_decoration(), this.getDecoration(), "tar_decoration", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -919,12 +930,12 @@ public class ModeldrawPackageImpl extends EPackageImpl implements ModeldrawPacka
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 

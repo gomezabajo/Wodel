@@ -69,6 +69,7 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getValue() {
 		return value;
 	}
@@ -78,6 +79,7 @@ public class SpecificDoubleTypeImpl extends DoubleTypeImpl implements SpecificDo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(double newValue) {
 		double oldValue = value;
 		value = newValue;

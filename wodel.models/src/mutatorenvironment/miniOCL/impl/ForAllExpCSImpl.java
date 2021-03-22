@@ -66,6 +66,7 @@ public class ForAllExpCSImpl extends LoopExpCSImpl implements ForAllExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AccVarCS> getAccVars() {
 		if (accVars == null) {
 			accVars = new EObjectContainmentEList<AccVarCS>(AccVarCS.class, this, MiniOCLPackage.FOR_ALL_EXP_CS__ACC_VARS);

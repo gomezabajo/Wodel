@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link edutest.impl.TestImpl#getSource <em>Source</em>}</li>
  *   <li>{@link edutest.impl.TestImpl#getQuestion <em>Question</em>}</li>
  *   <li>{@link edutest.impl.TestImpl#isExpression <em>Expression</em>}</li>
+ *   <li>{@link edutest.impl.TestImpl#getIdentifier <em>Identifier</em>}</li>
  * </ul>
  *
  * @generated
@@ -89,6 +90,26 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	protected boolean expression = EXPRESSION_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIdentifier()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String IDENTIFIER_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIdentifier()
+	 * @generated
+	 * @ordered
+	 */
+	protected String identifier = IDENTIFIER_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -112,6 +133,7 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getSource() {
 		return source;
 	}
@@ -121,6 +143,7 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(String newSource) {
 		String oldSource = source;
 		source = newSource;
@@ -133,6 +156,7 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getQuestion() {
 		return question;
 	}
@@ -142,6 +166,7 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setQuestion(String newQuestion) {
 		String oldQuestion = question;
 		question = newQuestion;
@@ -154,6 +179,7 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isExpression() {
 		return expression;
 	}
@@ -163,11 +189,35 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpression(boolean newExpression) {
 		boolean oldExpression = expression;
 		expression = newExpression;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST__EXPRESSION, oldExpression, expression));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setIdentifier(String newIdentifier) {
+		String oldIdentifier = identifier;
+		identifier = newIdentifier;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EdutestPackage.TEST__IDENTIFIER, oldIdentifier, identifier));
 	}
 
 	/**
@@ -184,6 +234,8 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 				return getQuestion();
 			case EdutestPackage.TEST__EXPRESSION:
 				return isExpression();
+			case EdutestPackage.TEST__IDENTIFIER:
+				return getIdentifier();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -204,6 +256,9 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 				return;
 			case EdutestPackage.TEST__EXPRESSION:
 				setExpression((Boolean)newValue);
+				return;
+			case EdutestPackage.TEST__IDENTIFIER:
+				setIdentifier((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -226,6 +281,9 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 			case EdutestPackage.TEST__EXPRESSION:
 				setExpression(EXPRESSION_EDEFAULT);
 				return;
+			case EdutestPackage.TEST__IDENTIFIER:
+				setIdentifier(IDENTIFIER_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -244,6 +302,8 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 				return QUESTION_EDEFAULT == null ? question != null : !QUESTION_EDEFAULT.equals(question);
 			case EdutestPackage.TEST__EXPRESSION:
 				return expression != EXPRESSION_EDEFAULT;
+			case EdutestPackage.TEST__IDENTIFIER:
+				return IDENTIFIER_EDEFAULT == null ? identifier != null : !IDENTIFIER_EDEFAULT.equals(identifier);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -264,6 +324,8 @@ public class TestImpl extends MinimalEObjectImpl.Container implements Test {
 		result.append(question);
 		result.append(", expression: ");
 		result.append(expression);
+		result.append(", identifier: ");
+		result.append(identifier);
 		result.append(')');
 		return result.toString();
 	}

@@ -24,8 +24,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import exceptions.MetaModelNotFoundException;
 import exceptions.ReferenceNonExistingException;
-import manager.ModelManager;
-import manager.MutatorUtils;
 import mutatorenvironment.AttributeCopy;
 import mutatorenvironment.AttributeEvaluation;
 import mutatorenvironment.AttributeOperation;
@@ -164,9 +162,9 @@ public class UseGeneratorUtils {
 		 * @param n
 		 * @return
 		 */
-		private static String getUniqueName(String newName, HashMap<URI, String> names, int n) {
+		private static String getUniqueName(String newName, Map<URI, String> names, int n) {
 		   	String returnName = newName;
-		   	HashMap<URI, String> nextNames = new HashMap<URI, String>();
+		   	Map<URI, String> nextNames = new HashMap<URI, String>();
 		   	if (names.size() > 0) {
 		   		if (names.containsValue(newName)) {
 		   			returnName = newName + n;
@@ -316,7 +314,7 @@ public class UseGeneratorUtils {
 		/**
 		 * Gets the size constraint of the reference
 		 */
-		private static int getSizeReferenceConstraint(EClass eClass, List<EPackage> packages, List<Constraint> constraints, String blockName, HashMap<URI, String> classNames) {
+		private static int getSizeReferenceConstraint(EClass eClass, List<EPackage> packages, List<Constraint> constraints, String blockName, Map<URI, String> classNames) {
 			int size = 0;
 			List<EClass> containedTypes = ModelManager.getContainmentTypes(packages, EcoreUtil.getURI(eClass));
 			for (Constraint constraint : constraints) {
@@ -349,7 +347,7 @@ public class UseGeneratorUtils {
 		 * @param mutName
 		 * @param classNames
 		 */
-		private static void getObjectConstraints(EClass rootClass, EClass eClass, List<EPackage> packages, List<Constraint> constraints, String mutName, HashMap<URI, String> classNames) {
+		private static void getObjectConstraints(EClass rootClass, EClass eClass, List<EPackage> packages, List<Constraint> constraints, String mutName, Map<URI, String> classNames) {
 			if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
 				String className = classNames.get(EcoreUtil.getURI(eClass));
 				Constraint constraint = new Constraint();
@@ -376,7 +374,7 @@ public class UseGeneratorUtils {
 		 * @param classNames
 		 * @param recursion
 		 */
-		private static void getSizeConstraints(EClass rootClass, EClass eClass, List<EPackage> packages, List<Constraint> constraints, boolean inc, EReference ref, String blockName, String mutName, boolean isContainer, HashMap<URI, String> classNames, List<EClass> recursion) {
+		private static void getSizeConstraints(EClass rootClass, EClass eClass, List<EPackage> packages, List<Constraint> constraints, boolean inc, EReference ref, String blockName, String mutName, boolean isContainer, Map<URI, String> classNames, List<EClass> recursion) {
 			try {
 				if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
 					String className = classNames.get(EcoreUtil.getURI(eClass));
@@ -487,7 +485,7 @@ public class UseGeneratorUtils {
 		 * @param classNames
 		 * @param recursion
 		 */
-		private static void getEnoughSpaceContainerReferenceConstraint(EClass rootClass, EClass eClass, EReference containerReference, List<Constraint> constraints, String mutName, HashMap<URI, String> classNames, Map<String, List<Relation>> roleNames, int numObjects) {
+		private static void getEnoughSpaceContainerReferenceConstraint(EClass rootClass, EClass eClass, EReference containerReference, List<Constraint> constraints, String mutName, Map<URI, String> classNames, Map<String, List<Relation>> roleNames, int numObjects) {
 			if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
 				String className = classNames.get(EcoreUtil.getURI(eClass));
 				String refName = containerReference.getName();
@@ -564,7 +562,7 @@ public class UseGeneratorUtils {
 		 * @param classNames
 		 * @param recursion
 		 */
-		private static void getEnoughObjectsReferenceConstraint(EClass rootClass, EClass eClass, EReference containerReference, List<Constraint> constraints, String mutName, HashMap<URI, String> classNames, Map<String, List<Relation>> roleNames, int numObjects) {
+		private static void getEnoughObjectsReferenceConstraint(EClass rootClass, EClass eClass, EReference containerReference, List<Constraint> constraints, String mutName, Map<URI, String> classNames, Map<String, List<Relation>> roleNames, int numObjects) {
 			if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
 				String containerName = classNames.get(EcoreUtil.getURI(eClass));
 				String className = classNames.get(EcoreUtil.getURI(containerReference.getEReferenceType()));
@@ -788,7 +786,7 @@ public class UseGeneratorUtils {
 		 * @param uriUseReferences
 		 * @return
 		 */
-		public static String getTarUseReference(EReference ref, HashMap<URI, HashMap<URI, Entry<String, String>>> uriUseReferences) {
+		public static String getTarUseReference(EReference ref, Map<URI, Map<URI, Entry<String, String>>> uriUseReferences) {
 			String refName = "";
 			if (ref != null && ref.eContainer() != null) {
 				EClass container = (EClass) ref.eContainer();
@@ -809,7 +807,7 @@ public class UseGeneratorUtils {
 		 * @param uriUseReferences
 		 * @return
 		 */
-		public static String getSrcUseReference(EReference ref, HashMap<URI, HashMap<URI, Entry<String, String>>> uriUseReferences) {
+		public static String getSrcUseReference(EReference ref, Map<URI, Map<URI, Entry<String, String>>> uriUseReferences) {
 			String refName = "";
 			if (ref != null && ref.eContainer() != null) {
 				EClass container = (EClass) ref.eContainer();
@@ -859,7 +857,7 @@ public class UseGeneratorUtils {
 		 * @param classNames
 		 * @return
 		 */
-		public static String ensureContainer(List<EPackage> packages, List<EClass> classes, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames) {
+		public static String ensureContainer(List<EPackage> packages, List<EClass> classes, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
 			String constraints = "";
 			for (EClass eClass : classes) {
 				if (!eClass.isAbstract() && classNames.get(EcoreUtil.getURI(eClass)) != null) {
@@ -907,7 +905,7 @@ public class UseGeneratorUtils {
 		
 		// constraint: an object cannot be contained in two containers
 		// [NOTE: we do this because the USE Validator does not take into account the semantics of composition]
-		public static String compositionConstraint (List<EPackage> packages, List<EReference> references, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames) {
+		public static String compositionConstraint (List<EPackage> packages, List<EReference> references, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
 			String constraints = "";
 
 			// obtain the containment references that can contain each class
@@ -966,7 +964,7 @@ public class UseGeneratorUtils {
 		
 		// constraint: an object cannot be contained itself through a composition relation, directly or indirectly
 		// [NOTE: we do this because the USE Validator does not take into account the semantics of composition]
-		public static String compositionConstraint (EReference ref, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames) {
+		public static String compositionConstraint (EReference ref, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
 			String constraint = "";
 
 			if (ref!=null && ref.isContainment() &&
@@ -1089,48 +1087,239 @@ public class UseGeneratorUtils {
 		private static void subsume(List<Constraint> constraints, Constraint constraint) {
 	 		if (constraint != null && !constraint.text.equals("")) {
 				for (Constraint c : constraints) {
+//					System.out.println("-----SUBSUME------");
+//					System.out.println(c.text);
+//					System.out.println(constraint.text);
 					if (c.nested == false) {
 						if (c.type.equals("exists")) {
-							String clause1 = c.text.substring(c.text.indexOf("exists(") + "exists(".length(), c.text.lastIndexOf(")"));
 							if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
-								String v1 = c.variables.get(0);
-								String v2 = c.variables.get(1);
-								String clause2 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
-								while (clause1.endsWith(")")) {
-									clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
-								}
-								String v3 = constraint.variables.get(1);
-								String newClause = clause2.replace("| ", "| " + clause1.substring(clause1.indexOf("|") + 1, clause1.length()) + " and ");
-								newClause = newClause.replace(newClause.substring(0, newClause.indexOf("|") + 1), clause1.substring(0, clause1.indexOf("|") + 1));
-								newClause = newClause.replace(v3, v2);
-								constraint.variables.clear();
-								constraint.variables.add(v1);
-								constraint.variables.add(v2);
-								constraint.text = c.text.replace(clause1, newClause);
-								constraints.remove(c);
-								addConstraint(constraints, constraint);
+//								String clause1 = c.text;
+//								while (clause1.endsWith(")") == true) {
+//									clause1 = clause1.substring(0, clause1.length() - 1);
+//								}
+//								int n = 0;
+//								for (String variable : c.variables) {
+//									int value = Integer.parseInt(variable.substring(1, variable.length()));
+//									if (value > n) {
+//										n = value;
+//									}
+//								}
+//								n++;
+//								String clause2 = constraint.text;
+//								for (String variable : constraint.variables) {
+//									String newVar = variable.substring(0, 1) + n;
+//									clause2 = clause2.replaceAll("[(]" + variable + "[ ]", "(" + newVar + " ");
+//									clause2 = clause2.replaceAll("[ ]" + variable + "[.]", " " + newVar + ".");
+//									clause2 = clause2.replaceAll("[ ]" + variable + "[)]", " " + newVar + ")");
+//									n++;
+//								}
+//								constraint.text = clause1 + " and " + clause2;
+//								int countRemainingParentheses = countRemainingParentheses(constraint.text);
+//								for (int i = 0; i < countRemainingParentheses; i++) {
+//									constraint.text += ")";
+//								}
+//								System.out.println("-----SUBSUME2------");
+//								System.out.println(constraint.text);
+//								constraints.remove(c);
+//								addConstraint(constraints, constraint);
 								return;
 							}
+							
+//							System.out.println(constraint.text);
+//							String clause1 = c.text.substring(c.text.indexOf("exists(") + "exists(".length(), c.text.lastIndexOf(")"));
+//							if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
+//								String v1 = c.variables.get(0);
+//								String v2 = c.variables.get(1);
+//								String clause2 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
+//								while (clause1.endsWith(")")) {
+//									clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
+//								}
+//								String v3 = constraint.variables.get(1);
+//								String newClause = clause2.replace("| ", "| " + clause1.substring(clause1.indexOf("|") + 1, clause1.length()) + " and ");
+//								newClause = newClause.replace(newClause.substring(0, newClause.indexOf("|") + 1), clause1.substring(0, clause1.indexOf("|") + 1));
+//								newClause = newClause.replace(v3, v2);
+//								constraint.variables.clear();
+//								constraint.variables.add(v1);
+//								constraint.variables.add(v2);
+//								constraint.text = c.text.replace(clause1, newClause);
+//								int countRemainingParentheses = countRemainingParentheses(constraint.text);
+//								for (int i = 0; i < countRemainingParentheses; i++) {
+//									constraint.text += ")";
+//								}
+//								String[] values = constraint.text.split("exists");
+//								for (String value : values) {
+//									if (value.startsWith("(")) {
+//										System.out.println(value.substring(1, value.indexOf("|")).trim());
+//									}
+//								}
+//								System.out.println(constraint.text);
+//								constraints.remove(c);
+//								addConstraint(constraints, constraint);
+//								return;
+//							}
 						}
 					}
 					if (c.nested == true) {
 						if (c.type.equals("exists")) {
-							String clause1 = c.text.substring(c.text.indexOf("exists(") + "exists(".length(), c.text.lastIndexOf(")"));
+							String clause1 = c.text;
 							if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
-								String v1 = c.variables.get(0);
-								String v2 = c.variables.get(1);
-								String clause2 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
-								String tmpClause = clause1;
-								while (clause1.endsWith(")")) {
-									clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
-								}
-								String newClause = clause1 + " and " + clause2.substring(clause2.lastIndexOf("|") + 1, clause2.length());
-								constraint.variables.clear();
-								constraint.variables.add(v1);
-								constraint.variables.add(v2);
-								constraint.text = c.text.replace(tmpClause, newClause);
-								constraints.remove(c);
-								addConstraint(constraints, constraint);
+//								String v1 = c.variables.get(0);
+//								String v2 = c.variables.get(1);
+//								String v3 = c.variables.size() > 2 ? c.variables.get(2) : "";
+//								String v4 = c.variables.size() > 3 ? c.variables.get(3) : "";
+//								String v5 = constraint.variables.get(0);
+//								String v6 = constraint.variables.get(1);
+//								String v7 = constraint.variables.size() > 2 ? constraint.variables.get(2) : "";
+//								String v8 = constraint.variables.size() > 3 ? constraint.variables.get(3) : "";
+//								String ctext = new String(constraint.text);
+////								//String v11 = constraint.variables.size() > 2 ? v10.substring(0, 1) + (Integer.parseInt(v10.substring(1, v10.length())) + 1) : "";
+////								int n = 0;
+////								if (v1.length() > 1 && Integer.parseInt(v1.substring(1, v1.length())) > n) {
+////									n = Integer.parseInt(v1.substring(1, v1.length()));
+////								}
+////								if (v2.length() > 1 && Integer.parseInt(v2.substring(1, v2.length())) > n) {
+////									n = Integer.parseInt(v2.substring(1, v2.length()));
+////								}
+////								if (v3.length() > 1 && Integer.parseInt(v3.substring(1, v3.length())) > n) {
+////									n = Integer.parseInt(v3.substring(1, v3.length()));
+////								}
+////								if (v4.length() > 1 && Integer.parseInt(v4.substring(1, v4.length())) > n) {
+////									n = Integer.parseInt(v4.substring(1, v4.length()));
+////								}
+////								if (v5.length() > 1 && Integer.parseInt(v5.substring(1, v5.length())) > n) {
+////									n = Integer.parseInt(v5.substring(1, v5.length()));
+////								}
+////								if (v6.length() > 1 && Integer.parseInt(v6.substring(1, v6.length())) > n) {
+////									n = Integer.parseInt(v6.substring(1, v6.length()));
+////								}
+////								if (v7.length() > 1 && Integer.parseInt(v7.substring(1, v7.length())) > n) {
+////									n = Integer.parseInt(v7.substring(1, v7.length()));
+////								}
+////								if (v8.length() > 1 && Integer.parseInt(v8.substring(1, v8.length())) > n) {
+////									n = Integer.parseInt(v8.substring(1, v8.length()));
+////								}
+////								if (v1.equals(v5) && v1.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v1, v12);
+////								}
+////								if (v1.equals(v6) && v1.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v1, v12);
+////								}
+////								if (constraint.variables.size() > 2 && v1.equals(v7) && v1.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v1, v12);
+////								}
+////								if (constraint.variables.size() > 3 && v1.equals(v8) && v1.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v1, v12);
+////								}
+////								if (v2.equals(v5) && v2.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v2, v12);
+////								}
+////								if (v2.equals(v6) && v2.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v2, v12);
+////								}
+////								if (constraint.variables.size() > 2 && v2.equals(v7) && v1.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v2, v12);
+////								}
+////								if (constraint.variables.size() > 3 && v2.equals(v8) && v1.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v2, v12);
+////								}
+////								if (v3.equals(v5) && v3.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v3 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v3 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v3 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v3, v12);
+////								}
+////								if (v3.equals(v6) && v3.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v3 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v3 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v3 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v3, v12);
+////								}
+////								if (c.variables.size() > 2 && constraint.variables.size() > 2 && v3.equals(v7) && v3.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v3 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v3 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v3 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v3, v12);
+////								}
+////								if (c.variables.size() > 3 && v4.equals(v5) && v4.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v4 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v4 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v4 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v4, v12);
+////								}
+////								if (c.variables.size() > 3 && v4.equals(v6) && v4.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v4 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v4 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v4 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v4, v12);
+////								}
+////								if (c.variables.size() > 3 && constraint.variables.size() > 3 && v4.equals(v8) && v4.length() > 1) {
+////									String v12 = v6.substring(0, 1) + ++n;
+////									ctext = ctext.replaceAll("[(]" + v4 + "[ ]", "(" + v12 + " ");
+////									ctext = ctext.replaceAll("[ ]" + v4 + "[.]", " " + v12 + ".");
+////									ctext = ctext.replaceAll("[ ]" + v4 + "[)]", " " + v12 + ")");
+////									ctext = ctext.replace(v4, v12);
+////								}
+//								String clause2 = ctext;
+//								String tmpClause = clause1;
+//								while (clause1.endsWith(")")) {
+//									clause1 = clause1.substring(0, clause1.lastIndexOf(")"));
+//								}
+//								while (clause2.endsWith(")")) {
+//									clause2 = clause2.substring(0, clause2.lastIndexOf(")"));
+//								}
+//								String newClause = clause1 + " and " + clause2;
+//								constraint.variables.clear();
+//								constraint.variables.add(v1);
+//								constraint.variables.add(v2);
+//								constraint.text = c.text.replace(tmpClause, newClause);
+//								System.out.println("-----SUBSUME3------");
+//								System.out.println(c.text);
+//								System.out.println(constraint.text);
+//								System.out.println(tmpClause);
+//								System.out.println(newClause);
+//								int countRemainingParentheses = countRemainingParentheses(constraint.text);
+//								for (int i = 0; i < countRemainingParentheses; i++) {
+//									constraint.text += ")";
+//								}
+//								constraints.remove(c);
+//								addConstraint(constraints, constraint);
 								return;
 							}
 						}
@@ -1166,41 +1355,193 @@ public class UseGeneratorUtils {
 				}
 				if (c != null) {
 					if (c.variables != null && c.variables.size() > 1 && constraint.variables != null && constraint.variables.size() > 1) {
-						String clause1 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
-						String v1 = c.variables.get(0);
-						String v2 = c.variables.get(1);
-						String v3 = constraint.variables.get(0);
-						String v4 = constraint.variables.get(1);
-						String v5 = v3.substring(0, 1) + (Integer.parseInt(v4.substring(1, v4.length())) + 1);
-						String clause2 = clause1.replace(v3, v5).replace(v4, v2);
-						String newClause = constraint.text.substring(0, constraint.text.indexOf("| ") + "| ".length()) + c.text.substring(0, c.text.length() - countEndParentheses(c)) + " and " + clause1.substring(clause1.indexOf("| ") + "| ".length(), clause1.length()) + " and " + clause2.substring(clause2.indexOf("| ") + "| ".length(), clause2.length());
-						int countRemainingParentheses = countRemainingParentheses(newClause);
-						for (int i = 0; i < countRemainingParentheses; i++) {
-							newClause += ")";
-						}
-						newClause = newClause.replace(v4, v1);
-						String vars = clause1.substring(0, clause1.indexOf(" |") + " |".length());
-						String newVars = vars.replace(" |", ", " + v5 + " |");
-						constraint.text = newClause.replace(vars, newVars);
-						constraint.variables.clear();
-						constraint.variables.add(v3);
-						constraint.variables.add(v5);
-						constraint.variables.add(v1);
-						constraint.variables.add(v2);
-						return constraint;
+//						String clause1 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
+//						String v1 = c.variables.get(0);
+//						String v2 = c.variables.get(1);
+//						String v3 = c.variables.size() > 2 ? c.variables.get(2) : "";
+//						String v4 = c.variables.size() > 3 ? c.variables.get(3) : "";
+//						String v5 = constraint.variables.get(0);
+//						String v6 = constraint.variables.get(1);
+//						String v7 = constraint.variables.size() > 2 ? constraint.variables.get(2) : "";
+//						String v8 = constraint.variables.size() > 3 ? constraint.variables.get(3) : "";
+//						String ctext = new String(c.text);
+//						//String v11 = constraint.variables.size() > 2 ? v10.substring(0, 1) + (Integer.parseInt(v10.substring(1, v10.length())) + 1) : "";
+//						int n = 0;
+//						if (v1.length() > 1 && Integer.parseInt(v1.substring(1, v1.length())) > n) {
+//							n = Integer.parseInt(v1.substring(1, v1.length()));
+//						}
+//						if (v2.length() > 1 && Integer.parseInt(v2.substring(1, v2.length())) > n) {
+//							n = Integer.parseInt(v2.substring(1, v2.length()));
+//						}
+//						if (v3.length() > 1 && Integer.parseInt(v3.substring(1, v3.length())) > n) {
+//							n = Integer.parseInt(v3.substring(1, v3.length()));
+//						}
+//						if (v4.length() > 1 && Integer.parseInt(v4.substring(1, v4.length())) > n) {
+//							n = Integer.parseInt(v4.substring(1, v4.length()));
+//						}
+//						if (v5.length() > 1 && Integer.parseInt(v5.substring(1, v5.length())) > n) {
+//							n = Integer.parseInt(v5.substring(1, v5.length()));
+//						}
+//						if (v6.length() > 1 && Integer.parseInt(v6.substring(1, v6.length())) > n) {
+//							n = Integer.parseInt(v6.substring(1, v6.length()));
+//						}
+//						if (v7.length() > 1 && Integer.parseInt(v7.substring(1, v7.length())) > n) {
+//							n = Integer.parseInt(v7.substring(1, v7.length()));
+//						}
+//						if (v8.length() > 1 && Integer.parseInt(v8.substring(1, v8.length())) > n) {
+//							n = Integer.parseInt(v8.substring(1, v8.length()));
+//						}
+//						if (v1.equals(v5) && v1.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v1, v12);
+//						}
+//						if (v1.equals(v6) && v1.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v1, v12);
+//						}
+//						if (constraint.variables.size() > 2 && v1.equals(v7) && v1.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v1, v12);
+//						}
+//						if (constraint.variables.size() > 3 && v1.equals(v8) && v1.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v1 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v1 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v1, v12);
+//						}
+//						if (v2.equals(v5) && v2.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v2, v12);
+//						}
+//						if (v2.equals(v6) && v2.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v2, v12);
+//						}
+//						if (constraint.variables.size() > 2 && v2.equals(v7) && v2.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v2, v12);
+//						}
+//						if (constraint.variables.size() > 3 && v2.equals(v8) && v2.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v2 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v2 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v2, v12);
+//						}
+//						if (v3.equals(v5) && v3.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v3 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v3 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v3 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v3, v12);
+//						}
+//						if (v3.equals(v6) && v3.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v3 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v3 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v3 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v3, v12);
+//						}
+//						if (c.variables.size() > 2 && constraint.variables.size() > 2 && v3.equals(v7)  && v3.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v3 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v3 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v3 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v3, v12);
+//						}
+//						if (c.variables.size() > 3 && v4.equals(v5) && v4.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v4 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v4 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v4 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v4, v12);
+//						}
+//						if (c.variables.size() > 3 && v4.equals(v6) && v4.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v4 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v4 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v4 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v4, v12);
+//						}
+//						if (c.variables.size() > 3 && constraint.variables.size() > 3 && v4.equals(v8) && v4.length() > 1) {
+//							String v12 = v6.substring(0, 1) + ++n;
+//							ctext = ctext.replaceAll("[(]" + v4 + "[ ]", "(" + v12 + " ");
+//							ctext = ctext.replaceAll("[ ]" + v4 + "[.]", " " + v12 + ".");
+//							ctext = ctext.replaceAll("[ ]" + v4 + "[)]", " " + v12 + ")");
+//							ctext = ctext.replace(v4, v12);
+//						}
+//						String v9 = v6.substring(0, 1) + ++n;
+//						String v10 = v6.substring(0, 1) + ++n;
+//						String clause2 = clause1.replace(v6, v10);
+//						while (clause2.endsWith(")") == true) {
+//							clause2 = clause2.substring(0, clause2.length() - 1);
+//						}
+//						String newClause = constraint.text.substring(0, constraint.text.indexOf("| ") + "| ".length()) + c.text.substring(0, c.text.length() - countEndParentheses(c)) + " and " + clause1.substring(clause1.indexOf("| ") + "| ".length(), clause1.length()) + " and " + clause2.substring(clause2.indexOf("| ") + "| ".length(), clause2.length());
+//						System.out.println("-----JOIN------");
+//						System.out.println(constraint.text);
+//						System.out.println(c.text);
+//						System.out.println(clause1);
+//						System.out.println(clause2);
+//						System.out.println(newClause);
+//						int countRemainingParentheses = countRemainingParentheses(newClause);
+//						for (int i = 0; i < countRemainingParentheses; i++) {
+//							newClause += ")";
+//						}
+//						//newClause = newClause.replace(v4, v1);
+//						//String vars = clause1.substring(0, clause1.indexOf(" |") + " |".length());
+//						//String newVars = vars.replace(" |", ", " + v6 + " |");
+//						//constraint.text = newClause.replace(vars, newVars);
+//						constraint.text = newClause;
+//						System.out.println(constraint.text);
+//						constraint.variables.clear();
+//						constraint.variables.add(v3);
+//						constraint.variables.add(v5);
+//						constraint.variables.add(v1);
+//						constraint.variables.add(v2);
+//						return constraint;
 					}
 					if (c.variables != null && c.variables.size() > 0 && constraint.variables != null && constraint.variables.size() > 1) {
-						String clause1 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
-						String v1 = c.variables.get(0);
-						String v2 = constraint.variables.get(0);
-						String v3 = constraint.variables.get(1);
-						String newClause = constraint.text.substring(0, constraint.text.indexOf("| ") + "| ".length()) + c.text.substring(0, c.text.lastIndexOf(")")) + " and " + clause1.substring(clause1.indexOf("| ") + "| ".length(), clause1.length()) + "))";
-						newClause = newClause.replace(v3, v1);
-						constraint.text = newClause;
-						constraint.variables.clear();
-						constraint.variables.add(v1);
-						constraint.variables.add(v2);
-						return constraint;
+//						String clause1 = constraint.text.substring(constraint.text.indexOf("exists(") + "exists(".length(), constraint.text.lastIndexOf(")"));
+//						String v1 = c.variables.get(0);
+//						String v2 = constraint.variables.get(0);
+//						String v3 = constraint.variables.get(1);
+//						while (clause1.endsWith(")") == true) {
+//							clause1 = clause1.substring(0, clause1.length() - 1);
+//						}
+//						String newClause = constraint.text.substring(0, constraint.text.indexOf("| ") + "| ".length()) + c.text.substring(0, c.text.lastIndexOf(")")) + " and " + clause1.substring(clause1.lastIndexOf("| ") + "| ".length(), clause1.length());
+//						//String newClause = constraint.text.substring(0, constraint.text.indexOf("| ") + "| ".length()) + " and " + c.text + "))";
+//						int countRemainingParentheses = countRemainingParentheses(newClause);
+//						for (int i = 0; i < countRemainingParentheses; i++) {
+//							newClause += ")";
+//						}
+//						newClause = newClause.replaceAll("[(]" + v3 + "[ ]", "(" + v1 + " ");
+//						newClause = newClause.replaceAll("[ ]" + v3 + "[.]", " " + v1 + ".");
+//						newClause = newClause.replaceAll("[ ]" + v3 + "[)]", " " + v1 + ")");
+//						//newClause = newClause.replace(v3, v1);
+//						constraint.text = newClause;
+//						constraint.variables.clear();
+//						constraint.variables.add(v1);
+//						constraint.variables.add(v2);
+//						return constraint;
 					}
 				}
 			}
@@ -1359,16 +1700,24 @@ public class UseGeneratorUtils {
 				if (referedConstraint.type.equals("exists") && referedConstraint.className.equals(className)) {
 					if (referedConstraint.type.equals("exists") && referedConstraint.className.equals(className)) {
 						String vref = referedConstraint.variables.get(referedConstraint.variables.size() - 1);
-						String vrepref = "";
-						if (vref.length() > 1) {
-							vrepref = vref.substring(0, 1) + (Integer.parseInt(vref.substring(1, vref.length())) + 1);
+						int n = 0;
+						for (String variable : referedConstraint.variables) {
+							if (variable.length() > 1 && Integer.parseInt(variable.substring(1, variable.length())) > n) {
+								n = Integer.parseInt(variable.substring(1, variable.length()));
+							}
 						}
-						else {
-							vrepref = vref + referedConstraint.variables.size();
-						}
+						n+=2;
+						String vrepref = v2.substring(0, 1) + n;
 						if (referedConstraint.variables.size() == 1) {
 							String constraintText = referedConstraint.text.replaceAll(vref + " ", vrepref + " ").replaceAll(vref + "[.]", vrepref + ".").replaceAll(vref + "[)]", vrepref + ")");
-							refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + constraintText.substring(0, constraintText.length() - 1) + " and " + v1 + " " + operator + " " + vrepref + "))";
+							while (constraintText.endsWith(")")) {
+								constraintText = constraintText.substring(0, constraintText.lastIndexOf(")"));
+							}
+							refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v1 + " | " + constraintText + " and " + v1 + " " + operator + " " + vrepref;
+							int countRemainingParentheses = countRemainingParentheses(refConstraint.text);
+							for (int i = 0; i < countRemainingParentheses; i++) {
+								refConstraint.text += ")";
+							}
 							refConstraint.variables.add(v1);
 							refConstraint.variables.add(vrepref);
 							if (getConstraint(constraints, refConstraint) == null) {
@@ -1377,7 +1726,38 @@ public class UseGeneratorUtils {
 						}
 						if (referedConstraint.variables.size() == 2) {
 							String constraintText = referedConstraint.text.replaceAll(vref + " ", vrepref + " ").replaceAll(vref + "[.]", vrepref + ".").replaceAll(vref + "[)]", vrepref + ")");
-							refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + v2 + " | " + constraintText.substring(0, constraintText.length() - 1) + " and " + v2 + " " + operator + " " + vrepref + "))";
+							while (constraintText.endsWith(")")) {
+								constraintText = constraintText.substring(0, constraintText.lastIndexOf(")"));
+							}
+							n = 0;
+							for (String variable : referedConstraint.variables) {
+								if (variable.length() > 1 && Integer.parseInt(variable.substring(1, variable.length())) > n) {
+									n = Integer.parseInt(variable.substring(1, variable.length()));
+								}
+							}
+							if (Integer.parseInt(vrepref.substring(1, vrepref.length())) > n) {
+								n = Integer.parseInt(vrepref.substring(1, vrepref.length()));
+							}
+							n++;
+							String newVar = v2.substring(0, 1) + n;
+							refConstraint.text = encodeWord(className) + ".allInstances()->exists(" + newVar + " | " + constraintText + " and " + newVar + " " + operator + " " + vrepref;
+//							if (constraintText.contains("<>")) {
+////								String[] splitted = constraintText.split("<>");
+////								while (splitted[0].charAt(splitted[0].length() - 1) == ' ') {
+////									splitted[0] = splitted[0].substring(0, splitted[0].length() - 1);
+////								}
+////								String variable1 = "";
+////								while (Character.isAlphabetic(splitted[0].charAt(splitted[0].length() - 1)) || Character.isDigit(splitted[0].charAt(splitted[0].length() - 1))) {
+////									variable1 = splitted[0].charAt(splitted[0].length() - 1) + variable1;
+////									splitted[0] = splitted[0].substring(0, splitted[0].length() - 1);
+////								}
+////								String variable2 = splitted[1].trim();
+//								refConstraint.text += " and " + v1 + " <> " + newVar;
+//							}
+							int countRemainingParentheses = countRemainingParentheses(refConstraint.text);
+							for (int i = 0; i < countRemainingParentheses; i++) {
+								refConstraint.text += ")";
+							}
 							refConstraint.variables.add(v1);
 							refConstraint.variables.add(vrepref);
 							if (getConstraint(constraints, refConstraint) == null) {
@@ -1402,7 +1782,7 @@ public class UseGeneratorUtils {
 		 * @param classNames
 		 * @param operator
 		 */
-		private static void compileReferenceExpressionNoName(ReferenceEvaluation refev, EClass eClass, List<Constraint> constraints, List<Constraint> expConstraints, String blockName, String mutName, String className, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames, String operator, boolean isFirst) {
+		private static void compileReferenceExpressionNoName(ReferenceEvaluation refev, EClass eClass, List<Constraint> constraints, List<Constraint> expConstraints, String blockName, String mutName, String className, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames, String operator, boolean isFirst) {
 			String v1 = className.substring(0, 1).toLowerCase() + "0";
 			String v2 = className.substring(0, 1).toLowerCase() + "1";
 			Constraint refConstraint = new Constraint();
@@ -1454,7 +1834,7 @@ public class UseGeneratorUtils {
 		 * @param classNames
 		 * @param operator
 		 */
-		private static void compileReferenceExpressionName(ReferenceEvaluation refev, EClass eClass, List<Constraint> constraints, List<Constraint> expConstraints, String blockName, String mutName, String className, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames, String operator, boolean isFirst) {
+		private static void compileReferenceExpressionName(ReferenceEvaluation refev, EClass eClass, List<Constraint> constraints, List<Constraint> expConstraints, String blockName, String mutName, String className, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames, String operator, boolean isFirst) {
 			String v1 = className.substring(0, 1).toLowerCase() + "0";
 			String refName = getTarUseReference(refev.getName(), useReferences);
 			boolean multiple = refev.getName().getUpperBound() > 1 || refev.getName().getUpperBound() == -1;
@@ -1700,7 +2080,7 @@ public class UseGeneratorUtils {
 		 * @param mutName
 		 * @param className
 		 */
-		private static void compileReferenceExpression(ReferenceEvaluation refev, EClass eClass, List<Constraint> constraints, List<Constraint> expConstraints, String blockName, String mutName, String className, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames, boolean isFirst) {
+		private static void compileReferenceExpression(ReferenceEvaluation refev, EClass eClass, List<Constraint> constraints, List<Constraint> expConstraints, String blockName, String mutName, String className, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames, boolean isFirst) {
 			String operator = "";
 			if (refev.getOperator().getLiteral().equals(Operator.EQUALS.getLiteral())) {
 				operator = "=";
@@ -1739,7 +2119,7 @@ public class UseGeneratorUtils {
 		 * @param useReferences
 		 * @param classNames
 		 */
-		private static void compile(Resource model, Expression exp, EClass eClass, List<Constraint> constraints, String blockName, String mutName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames)
+		private static void compile(Resource model, Expression exp, EClass eClass, List<Constraint> constraints, String blockName, String mutName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames)
 		{
 			List<Constraint> expConstraints = new ArrayList<Constraint>();
 			if (classNames.get(EcoreUtil.getURI(eClass)) != null) {
@@ -1781,7 +2161,7 @@ public class UseGeneratorUtils {
 		 * @param useReferences
 		 * @param classNames
 		 */
-		public static void compile(Resource model, Expression exp, EClass eClass, List<AttributeSet> attributes, List<Constraint> constraints, String blockName, String mutName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames) {
+		public static void compile(Resource model, Expression exp, EClass eClass, List<AttributeSet> attributes, List<Constraint> constraints, String blockName, String mutName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames) {
 			String className = classNames.get(EcoreUtil.getURI(eClass));
 			if (exp.getFirst() instanceof AttributeEvaluation) {
 				String operator = "";
@@ -1917,7 +2297,7 @@ public class UseGeneratorUtils {
 		 * @param useReferences
 		 * @param classNames
 		 */
-		public static void compile(EClass rootClass, Resource model, List<EPackage> packages, EClass mutEClass, List<ReferenceSet> references, List<Constraint> constraints, String blockName, String mutName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, HashMap<URI, String> classNames, Map<String, List<Relation>> roleNames) {
+		public static void compile(EClass rootClass, Resource model, List<EPackage> packages, EClass mutEClass, List<ReferenceSet> references, List<Constraint> constraints, String blockName, String mutName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<URI, String> classNames, Map<String, List<Relation>> roleNames) {
 			for (ReferenceSet ref : references) {
 				Constraint constraint = new Constraint();
 				constraint.name = mutName;
@@ -2254,7 +2634,7 @@ public class UseGeneratorUtils {
 		 * @param blockName
 		 * @param useReferences
 		 */
-		public static void compile(Resource model, List<Mutator> commands, EClass rootClass, List<EPackage> packages, HashMap<URI, String> classNames, List<Constraint> constraints, String blockName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences, Map<String, List<Relation>> roleNames) {
+		public static void compile(Resource model, List<Mutator> commands, EClass rootClass, List<EPackage> packages, Map<URI, String> classNames, List<Constraint> constraints, String blockName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<String, List<Relation>> roleNames) {
 			for (Mutator mut : commands) {
 				Integer times = mutatorDependencies.needsOCLConstraints(mut);
 				if (times != null && times > 0) {
@@ -2781,15 +3161,16 @@ public class UseGeneratorUtils {
 		 * @param useReferences
 		 * @return
 		 */
-		public static String generateUSE(Resource model, MutatorEnvironment e, String modelName, HashMap<URI, HashMap<URI, Entry<String, String>>> useReferences) {
+//		public static String generateUSE(Resource model, MutatorEnvironment e, String modelName, Map<URI, Map<URI, Entry<String, String>>> useReferences, Map<String, Integer> numObjects, List<String> classesWithAttributeName, List<String> specificOCLCode) {
+		public static String generateUSE(Resource model, MutatorEnvironment e, String modelName, Map<URI, Map<URI, Entry<String, String>>> useReferences) {
 			String useText = "";
 			try {
 				useText = "model " + encodeWord(modelName) + "\n";
 				List<EPackage> packages = ModelManager.loadMetaModel(e.getDefinition().getMetamodel());
 				List<EClass> classes = ModelManager.getEClasses(packages);
-				HashMap<URI, String> classNames = new HashMap<URI, String>();
+				Map<URI, String> classNames = new HashMap<URI, String>();
 				List<Constraint> constraints = new ArrayList<Constraint>();
-				HashMap<String, Integer> maxSize = new HashMap<String, Integer>();
+				Map<String, Integer> maxSize = new HashMap<String, Integer>();
 				
 				EClass rootClass = null;
 				for (EClass eClass : classes) {
@@ -2804,7 +3185,7 @@ public class UseGeneratorUtils {
 				}
 				
 				for (EClass eClass : classes) {
-					HashMap<EClass, String> superClasses = new HashMap<EClass, String>();
+					Map<EClass, String> superClasses = new HashMap<EClass, String>();
 					for (EClass superClass : eClass.getESuperTypes()) {
 						EPackage pck = superClass.getEPackage();
 						String superClName = pck.getName() + "XxxX" + superClass.getName();
@@ -2907,7 +3288,7 @@ public class UseGeneratorUtils {
 									relations.add(relation);
 									associationNames.put(associationName, relations);
 								}
-								HashMap<URI, Entry<String, String>> uriUseReference = null;
+								Map<URI, Entry<String, String>> uriUseReference = null;
 								if (useReferences.get(EcoreUtil.getURI(eClass)) != null) {
 									uriUseReference = useReferences.get(EcoreUtil.getURI(eClass));
 								}
@@ -3101,10 +3482,29 @@ public class UseGeneratorUtils {
 												//ocl = ocl.replace("self." + refName, refETypeName + ".allInstances()");
 												constraint.text = ocl.replace("self." + refName, className + ".allInstances()");
 												if (constraint.text.indexOf("self.") != -1) {
-													constraint.text = constraint.text.replace(" =", "." + encodeWord(classNames.get(EcoreUtil.getURI(ref))) + " =");
-													constraint.text = constraint.text.replace("self.", v1 + ".");
+													String remConstraint = constraint.text.substring(constraint.text.indexOf("self."), constraint.text.length());
+													while (remConstraint.indexOf("self.") >= 0 && remConstraint.indexOf("->") >= 0) {
+														String rfName = remConstraint.substring("self.".length(), remConstraint.indexOf("->"));
+														EReference rf = null;
+														for (EReference r : eClass.getEReferences()) {
+															if (r.getName().equals(rfName)) {
+																rf = r;
+																break;
+															}
+														}
+														String clName = classNames.get(EcoreUtil.getURI(rf.getEReferenceType()));
+														constraint.text = constraint.text.replace("self." + rf.getName(), clName + ".allInstances()");
+														if (constraint.text.indexOf("self.") != -1) {
+															remConstraint = constraint.text.substring(constraint.text.indexOf("self."), constraint.text.length());
+														}
+														else {
+															break;
+														}
+													}
+													//constraint.text = constraint.text.replace(" =", "." + encodeWord(classNames.get(EcoreUtil.getURI(ref.getEReferenceType()))) + " =");
+													//constraint.text = constraint.text.replace("self.", v1 + ".");
 												}
-												if (constraint.text.indexOf("=") == -1) {
+												if (constraint.text.indexOf("=") == -1 && constraint.text.indexOf("<>") == -1) {
 													constraint.text = constraint.text.substring(0, constraint.text.lastIndexOf(")")) + " = true)";
 												}
 												if (constraint.text.indexOf(".") != -1) {
@@ -3254,9 +3654,75 @@ public class UseGeneratorUtils {
 						useText += "inv mut" + i + " : " + constraint.text + "\n";
 					}
 				}
+//				if (numObjects != null && numObjects.keySet().size() > 0) {
+//					for (String className : numObjects.keySet()) {
+//						EClass eClass = ModelManager.getEClassByName(packages, className);
+//						if (eClass != null) {
+//							i++;
+//							String useClassName = classNames.get(EcoreUtil.getURI(eClass));
+//							useText += "inv mut" + i + " : " + useClassName + ".allInstances()->size() >= " + numObjects.get(className) + "\n"; 
+//						}
+//					}
+//				}
+//				if (classesWithAttributeName != null && classesWithAttributeName.size() > 0) {
+//					for (String className : classesWithAttributeName) {
+//						EClass eClass = ModelManager.getEClassByName(packages, className);
+//						if (eClass != null) {
+//							i++;
+//							String useClassName = classNames.get(EcoreUtil.getURI(eClass));
+//							String varInitial = eClass.getName().substring(0, 1).toLowerCase();
+//							String v0 = varInitial + "0";
+//							String v1 = varInitial + "1";
+//							useText += "inv mut" + i + " : " + useClassName + ".allInstances()->forAll(" + v0 + ", " + v1 + " | " + v0 + " <> " + v1 + " implies " + v0 + ".name <> " + v1 + ".name)\n"; 
+//						}
+//					}
+//				}
+//				if (predefinedOCL != null && predefinedOCL.length() > 0) {
+//					List<String> predefinedOCLCode = new ArrayList<String>();
+//					File predefinedOCLFile = new File(predefinedOCL);
+//					if (predefinedOCLFile.exists()) {
+//						FileReader fr = new FileReader(predefinedOCLFile);
+//						BufferedReader br = new BufferedReader(fr);
+//						String line = "";
+//						while ((line = br.readLine()) != null && line.length() > 0) {
+//							predefinedOCLCode.add(line);
+//						}
+//						br.close();
+//						fr.close();
+//					}
+//					for (String predefinedOCLInvariant : predefinedOCLCode) {
+//						i++;
+//						String oclCodeToUSE = predefinedOCLInvariant;
+//						for (URI classURI : classNames.keySet()) {
+//							EClass eClass = ModelManager.getEClassByURI(packages, classURI);
+//							String useClassName = classNames.get(EcoreUtil.getURI(eClass));
+//							oclCodeToUSE = oclCodeToUSE.replaceAll(eClass.getName() + "[.]", useClassName + ".");
+//						}
+//						useText += "inv mut" + i + " : " + oclCodeToUSE + "\n"; 
+//						System.out.println("inv mut" + i + " : " + oclCodeToUSE);
+//					}
+//				}
+//				if (specificOCLCode != null && specificOCLCode.size() > 0) {
+//					for (String oclCode : specificOCLCode) {
+//						i++;
+//						String oclCodeToUSE = oclCode;
+//						for (URI classURI : classNames.keySet()) {
+//							EClass eClass = ModelManager.getEClassByURI(packages, classURI);
+//							String useClassName = classNames.get(EcoreUtil.getURI(eClass));
+//							oclCodeToUSE = oclCodeToUSE.replaceAll(eClass.getName() + "[.]", useClassName + ".");
+//						}
+//						useText += "inv mut" + i + " : " + oclCodeToUSE + "\n"; 
+//					}
+//				}
 			} catch (MetaModelNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+//			} catch (FileNotFoundException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
 			}
 			return useText;
 		}
@@ -3276,4 +3742,127 @@ public class UseGeneratorUtils {
 			}
 			return classNames;
 		}
-	}
+
+		/**
+		 * Generates USE code for the given Wodel program
+		 * @param model
+		 * @param e
+		 * @param modelName
+		 * @param useReferences
+		 * @return
+		 */
+//		public static String processPropertiesConfiguration(MutatorEnvironment e, Resource program, String modelName, Map<URI, Map<URI, Entry<String, String>>> useReferences, String predefinedOCL, String complexityLevel) {
+//			String propertiesNamesToUSE = "";
+//			try {
+//				List<EPackage> packages = ModelManager.loadMetaModel(e.getDefinition().getMetamodel());
+//				List<EClass> classes = ModelManager.getEClasses(packages);
+//				Map<URI, String> classNames = new HashMap<URI, String>();
+//				
+//				for (EClass eClass : classes) {
+//					EPackage pck = eClass.getEPackage();
+//					String clName = pck.getName() + "XxxX" + eClass.getName();
+//					classNames.put(EcoreUtil.getURI(eClass), clName);
+//				}
+//				
+//				//String complexityLevelOCLFile = ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() + "/data/ocl/" + packages.get(0).getName() + "." + complexityLevel.toLowerCase() + ".txt";
+//
+//				//read the configuration files of the ocl code
+//				//read the model for the modelTag DSL program
+//				//create the rules of the corresponding properties file
+//				
+//				Map<String, Integer> objectsSizeMap = new HashMap<String, Integer>();
+//				if (predefinedOCL != null && predefinedOCL.length() > 0) {
+//					List<String> predefinedOCLCode = new ArrayList<String>();
+//					File predefinedOCLFile = new File(predefinedOCL);
+//					if (predefinedOCLFile.exists()) {
+//						FileReader fr = new FileReader(predefinedOCLFile);
+//						BufferedReader br = new BufferedReader(fr);
+//						String line = "";
+//						while ((line = br.readLine()) != null) {
+//							predefinedOCLCode.add(line);
+//						}
+//						br.close();
+//						fr.close();
+//					}
+//					for (String predefinedOCLInvariant : predefinedOCLCode) {
+//						if (predefinedOCLInvariant.contains("->size()") != false) {
+//							String className = predefinedOCLInvariant.substring(0, predefinedOCLInvariant.indexOf("."));
+//							int size = Integer.parseInt(predefinedOCLInvariant.substring(predefinedOCLInvariant.indexOf("=") + 1, predefinedOCLInvariant.length()).trim());
+//							objectsSizeMap.put(className, size);
+//						}
+//					}
+//				}
+//				
+//				Bundle bundle = Platform.getBundle("wodel.models");
+//				URL fileURL = bundle.getEntry("/models/ModelTag.ecore");
+//				String tagelemsecore = FileLocator.resolve(fileURL).getFile();
+//				List<EPackage> tagelemspackages = ModelManager.loadMetaModel(tagelemsecore);
+//				String xmiFileName = "file:/" + ModelManager.getWorkspaceAbsolutePath() + "/" + WodelContext.getProject() +
+//						"/" + ModelManager.getOutputFolder() + "/" + program.getURI().lastSegment().replaceAll(".model", "_modeltag.model");
+//				Resource tagelemsresource = ModelManager.loadModel(tagelemspackages, URI.createURI(xmiFileName).toFileString());
+//				List<EObject> elements = ModelManager.getObjectsOfType("Element", tagelemsresource);
+//				Map<String, SimpleEntry<String, List<String>>> objectsTagMap = new HashMap<String, SimpleEntry<String, List<String>>>();
+//				for (EObject element : elements) {
+//					EObject type = ModelManager.getReference("type", element);
+//					String className = ModelManager.getStringAttribute("name", type);
+//					String attName = "name";
+//					if (ModelManager.getReference("att", element) != null) {
+//						EObject attribute = ModelManager.getReference("att", element);
+//						EObject attValue = ModelManager.getReference("att", attribute);
+//						attName = ModelManager.getStringAttribute("name", attValue);
+//					}
+//					List<EObject> tags = ModelManager.getReferences("tags", element);
+//					//String tagsValue = "";
+//					//for (EObject tag : tags) {
+//					//	tagsValue += ModelManager.getStringAttribute("value", tag) + ", ";
+//					//}
+//					//tagsValue = tagsValue.substring(0, tagsValue.lastIndexOf(",")).trim();
+//					List<String> tagValues = new ArrayList<String>();
+//					for (EObject tag : tags) {
+//						tagValues.add(ModelManager.getStringAttribute("value", tag));
+//					}
+//					//objectsTagMap.put(className, new SimpleEntry<String, String>(attName, tagsValue));
+//					objectsTagMap.put(className, new SimpleEntry<String, List<String>>(attName, tagValues));
+//				}
+//				
+//				propertiesNamesToUSE = "";
+//				for (URI classURI : classNames.keySet()) {
+//					EClass eClass = ModelManager.getEClassByURI(packages, classURI);
+//					String useClassName = classNames.get(EcoreUtil.getURI(eClass));
+//					if (objectsTagMap.containsKey(eClass.getName())) {
+//						SimpleEntry<String, List<String>> propertiesValues = objectsTagMap.get(eClass.getName());
+//						String tagsValue = "";
+//						int size = objectsSizeMap.get(eClass.getName());
+//						for (int i = 0; i < size; i++) {
+//							tagsValue += propertiesValues.getValue().get(i) + ", ";
+//						}
+//						tagsValue = tagsValue.substring(0, tagsValue.lastIndexOf(",")).trim();
+//						propertiesNamesToUSE += useClassName + "_" + propertiesValues.getKey() + " = Set{" + tagsValue + "}\n"; 
+//					}
+//				}
+//			
+////				propertiesNamesToUSE = propertiesNames;
+////				for (URI classURI : classNames.keySet()) {
+////					EClass eClass = ModelManager.getEClassByURI(packages, classURI);
+////					String useClassName = classNames.get(EcoreUtil.getURI(eClass));
+////					propertiesNamesToUSE = propertiesNamesToUSE.replaceAll(eClass.getName() + "[_]", useClassName + "_");
+////				}
+//			} catch (MetaModelNotFoundException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (FileNotFoundException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (ModelNotFoundException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (ReferenceNonExistingException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			return propertiesNamesToUSE;
+//		}
+}

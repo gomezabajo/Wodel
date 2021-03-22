@@ -211,7 +211,7 @@ public class IdentifyElementsImpl extends MinimalEObjectImpl.Container implement
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (metamodel: ");
 		result.append(metamodel);
 		result.append(')');

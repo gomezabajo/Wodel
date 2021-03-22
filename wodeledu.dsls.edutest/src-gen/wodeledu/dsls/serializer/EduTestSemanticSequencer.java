@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import edutest.AlternativeResponse;
 import edutest.EdutestPackage;
 import edutest.MatchPairs;
+import edutest.MissingWords;
 import edutest.MultiChoiceDiagram;
 import edutest.MultiChoiceEmConfig;
 import edutest.MultiChoiceEmendation;
@@ -45,6 +46,9 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 				return; 
 			case EdutestPackage.MATCH_PAIRS:
 				sequence_MatchPairs(context, (MatchPairs) semanticObject); 
+				return; 
+			case EdutestPackage.MISSING_WORDS:
+				sequence_MissingWords(context, (MissingWords) semanticObject); 
 				return; 
 			case EdutestPackage.MULTI_CHOICE_DIAGRAM:
 				sequence_MultiChoiceDiagram(context, (MultiChoiceDiagram) semanticObject); 
@@ -94,6 +98,19 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
 	 */
 	protected void sequence_MatchPairs(ISerializationContext context, MatchPairs semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     MutatorTests returns MissingWords
+	 *     MissingWords returns MissingWords
+	 *
+	 * Constraint:
+	 *     ((blocks+=[Block|ID] blocks+=[Block|ID]*)? config=TestConfiguration tests+=Test*)
+	 */
+	protected void sequence_MissingWords(ISerializationContext context, MissingWords semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -183,7 +200,7 @@ public class EduTestSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     Test returns Test
 	 *
 	 * Constraint:
-	 *     (source=EString question=EString expression?='%text'?)
+	 *     (source=EString question=EString (expression?='%text' identifier=EString?)?)
 	 */
 	protected void sequence_Test(ISerializationContext context, Test semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

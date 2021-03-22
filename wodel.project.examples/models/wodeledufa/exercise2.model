@@ -1,18 +1,14 @@
-<?xml version="1.0" encoding="ASCII"?>
-<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xmi:id="_C86LgETQEeWBqqmJ86vvWA" name="Exercise 2">
-  <states xmi:id="_EddYQETQEeWBqqmJ86vvWA" name="q0" isInitial="true"/>
-  <states xmi:id="_Hx7ZsETQEeWBqqmJ86vvWA" name="q1"/>
-  <states xmi:id="_J5zsMETQEeWBqqmJ86vvWA" name="q2"/>
-  <states xmi:id="_LRdboETQEeWBqqmJ86vvWA" name="q3" isFinal="true"/>
-  <states xmi:id="_RkwlsETQEeWBqqmJ86vvWA" name="q4" isFinal="true"/>
-  <transitions xmi:id="_Z4EfsETQEeWBqqmJ86vvWA" src="_EddYQETQEeWBqqmJ86vvWA" tar="_Hx7ZsETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_c8wYsETQEeWBqqmJ86vvWA" src="_Hx7ZsETQEeWBqqmJ86vvWA" tar="_J5zsMETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_g7uvsETQEeWBqqmJ86vvWA" src="_Hx7ZsETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_kvLzMETQEeWBqqmJ86vvWA" src="_J5zsMETQEeWBqqmJ86vvWA" tar="_LRdboETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_nNfosETQEeWBqqmJ86vvWA" src="_J5zsMETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_r1IiMETQEeWBqqmJ86vvWA" src="_LRdboETQEeWBqqmJ86vvWA" tar="_LRdboETQEeWBqqmJ86vvWA" symbol="_VYhLMETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_1wAP4ETQEeWBqqmJ86vvWA" src="_LRdboETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
-  <transitions xmi:id="_GN0RQAOvEeaVnrRLCzUZCw" src="_RkwlsETQEeWBqqmJ86vvWA" tar="_RkwlsETQEeWBqqmJ86vvWA" symbol="_WqskwETQEeWBqqmJ86vvWA"/>
-  <alphabet xmi:id="_VYhLMETQEeWBqqmJ86vvWA" symbol="a"/>
-  <alphabet xmi:id="_WqskwETQEeWBqqmJ86vvWA" symbol="b"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<DFAAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DFAAutomaton="http://dfaAutomaton/1.0" xmi:id="_P7VCABg8EeuUd5wpkgojdw" name="Exercise 2">
+  <states xmi:id="_RkYDcBg8EeuUd5wpkgojdw" name="q0" isInitial="true" isFinal="true"/>
+  <states xmi:id="_SuOncBg8EeuUd5wpkgojdw" name="q1" isFinal="true"/>
+  <states xmi:id="_Tb6z4Bg8EeuUd5wpkgojdw" name="q2"/>
+  <transitions xmi:id="_UlPzcBg8EeuUd5wpkgojdw" src="_RkYDcBg8EeuUd5wpkgojdw" tar="_RkYDcBg8EeuUd5wpkgojdw" symbol="_W-I9cBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_VNhUYBg8EeuUd5wpkgojdw" src="_RkYDcBg8EeuUd5wpkgojdw" tar="_SuOncBg8EeuUd5wpkgojdw" symbol="_Xqr6YBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_VltK4Bg8EeuUd5wpkgojdw" src="_SuOncBg8EeuUd5wpkgojdw" tar="_SuOncBg8EeuUd5wpkgojdw" symbol="_Xqr6YBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_V4s_YBg8EeuUd5wpkgojdw" src="_SuOncBg8EeuUd5wpkgojdw" tar="_Tb6z4Bg8EeuUd5wpkgojdw" symbol="_W-I9cBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_WP-P4Bg8EeuUd5wpkgojdw" src="_Tb6z4Bg8EeuUd5wpkgojdw" tar="_Tb6z4Bg8EeuUd5wpkgojdw" symbol="_W-I9cBg8EeuUd5wpkgojdw"/>
+  <transitions xmi:id="_WmVhcBg8EeuUd5wpkgojdw" src="_Tb6z4Bg8EeuUd5wpkgojdw" tar="_Tb6z4Bg8EeuUd5wpkgojdw" symbol="_Xqr6YBg8EeuUd5wpkgojdw"/>
+  <alphabet xmi:id="_W-I9cBg8EeuUd5wpkgojdw" symbol="a"/>
+  <alphabet xmi:id="_Xqr6YBg8EeuUd5wpkgojdw" symbol="b"/>
 </DFAAutomaton:Automaton>

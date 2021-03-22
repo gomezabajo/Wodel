@@ -70,6 +70,7 @@ public abstract class AttributeTypeImpl extends AttributeEvaluationTypeImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operator getOperator() {
 		return operator;
 	}
@@ -79,6 +80,7 @@ public abstract class AttributeTypeImpl extends AttributeEvaluationTypeImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperator(Operator newOperator) {
 		Operator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;

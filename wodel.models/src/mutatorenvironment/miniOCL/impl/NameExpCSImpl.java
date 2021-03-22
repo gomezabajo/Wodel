@@ -86,6 +86,7 @@ public class NameExpCSImpl extends NavigationExpCSImpl implements NameExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PathNameCS getExpName() {
 		return expName;
 	}
@@ -110,6 +111,7 @@ public class NameExpCSImpl extends NavigationExpCSImpl implements NameExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpName(PathNameCS newExpName) {
 		if (newExpName != expName) {
 			NotificationChain msgs = null;
@@ -129,6 +131,7 @@ public class NameExpCSImpl extends NavigationExpCSImpl implements NameExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RoundedBracketClauseCS getRoundedBrackets() {
 		return roundedBrackets;
 	}
@@ -153,6 +156,7 @@ public class NameExpCSImpl extends NavigationExpCSImpl implements NameExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRoundedBrackets(RoundedBracketClauseCS newRoundedBrackets) {
 		if (newRoundedBrackets != roundedBrackets) {
 			NotificationChain msgs = null;
@@ -172,6 +176,7 @@ public class NameExpCSImpl extends NavigationExpCSImpl implements NameExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CallExpCS getCallExp() {
 		return callExp;
 	}
@@ -196,6 +201,7 @@ public class NameExpCSImpl extends NavigationExpCSImpl implements NameExpCS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCallExp(CallExpCS newCallExp) {
 		if (newCallExp != callExp) {
 			NotificationChain msgs = null;

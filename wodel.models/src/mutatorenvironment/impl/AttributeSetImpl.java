@@ -64,6 +64,7 @@ public class AttributeSetImpl extends MinimalEObjectImpl.Container implements At
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EAttribute> getAttribute() {
 		if (attribute == null) {
 			attribute = new EObjectResolvingEList<EAttribute>(EAttribute.class, this, MutatorenvironmentPackage.ATTRIBUTE_SET__ATTRIBUTE);

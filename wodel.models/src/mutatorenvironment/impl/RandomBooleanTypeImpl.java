@@ -69,6 +69,7 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isAllowsNull() {
 		return allowsNull;
 	}
@@ -78,6 +79,7 @@ public class RandomBooleanTypeImpl extends BooleanTypeImpl implements RandomBool
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAllowsNull(boolean newAllowsNull) {
 		boolean oldAllowsNull = allowsNull;
 		allowsNull = newAllowsNull;

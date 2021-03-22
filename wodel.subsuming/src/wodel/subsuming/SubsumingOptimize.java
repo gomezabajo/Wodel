@@ -164,7 +164,6 @@ public class SubsumingOptimize extends Optimize {
 					SubsumedMutantsData subsumedMutants = subsumeMutants(killed);
 					List<WodelTestClassInfo> killedTmp = new ArrayList<WodelTestClassInfo>();
 					if (subsumedMutants.mutant != null) {
-						System.out.println(subsumedMutants.mutant.path + " " + subsumedMutants.max);
 						subsuming.add(subsumedMutants.mutant);
 						killed.remove(subsumedMutants.mutant);
 						killedTmp.addAll(killed);

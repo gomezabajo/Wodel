@@ -282,7 +282,9 @@ public class CreateObjectMutator extends Mutator {
 				}
 				if (e.getValue().getObjects() != null) {
 					for (EObject o : e.getValue().getObjects()) {
-						ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+						if (o != null) {
+							ModelManager.setReference(e.getKey(), newObj, EcoreUtil.copy(o));
+						}
 					}
 				}
 				

@@ -260,7 +260,7 @@ public class UMLClassDiagramsWizard extends Wizard implements INewWizard {
 			String def = "generate 2 mutants\n"
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
-			def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
 			def += "\tuco1 {\n";
 			def += "\t\tdeep clone one Constraint\n";

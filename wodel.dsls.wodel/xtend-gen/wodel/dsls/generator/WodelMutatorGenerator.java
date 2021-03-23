@@ -3976,7 +3976,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                         _builder.append("max = (int) Math.floor(ModelManager.getDoubleAttribute(\"");
                         String _name_69 = rnNumDouble.getMax().getName();
                         _builder.append(_name_69);
-                        _builder.append("\", recoovered) * 100);");
+                        _builder.append("\", recovered) * 100);");
                         _builder.newLineIfNotEmpty();
                       }
                     }
@@ -5537,7 +5537,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             ObSelectionStrategy _container_8 = mut.getContainer();
             String _name_7 = ((SpecificObjectSelection) _container_8).getObjSel().getName();
             _builder.append(_name_7);
-            _builder.append(" !== null) {");
+            _builder.append(" != null) {");
             _builder.newLineIfNotEmpty();
             {
               EReference _refType_2 = mut.getContainer().getRefType();
@@ -5840,7 +5840,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             ObSelectionStrategy _container_8 = mut.getContainer();
             String _name_7 = ((SpecificObjectSelection) _container_8).getObjSel().getName();
             _builder.append(_name_7);
-            _builder.append(" !== null) {");
+            _builder.append(" != null) {");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("EObject recovered = ModelManager.getObject(model, entry_");
@@ -9843,7 +9843,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                     _builder.append("if (rules.get(\"");
                     String _name_50 = constraint.getType().getName();
                     _builder.append(_name_50, "\t\t");
-                    _builder.append("\") === null) {");
+                    _builder.append("\") == null) {");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t\t");
                     _builder.append("\t");
@@ -10208,7 +10208,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
                             ObSelectionStrategy _container_46 = mut.getContainer();
                             String _name_65 = ((SpecificObjectSelection) _container_46).getObjSel().getName();
                             _builder.append(_name_65, "\t");
-                            _builder.append(" !== null) {");
+                            _builder.append(" != null) {");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t");
                             _builder.append("\t");
@@ -12860,7 +12860,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             ObSelectionStrategy _container_23 = mut.getContainer();
             String _name_38 = ((SpecificObjectSelection) _container_23).getObjSel().getName();
             _builder.append(_name_38);
-            _builder.append(" !== null) {");
+            _builder.append(" != null) {");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("referenceSelection = new SpecificReferenceSelection(entry_");
@@ -21818,7 +21818,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", hmObjects.get(\"");
             String _name_1 = sel.getObjSel().getName();
             _builder.append(_name_1);
-            _builder.append("\")).getKey(), false)");
+            _builder.append("\").getKey()), false)");
             _builder.newLineIfNotEmpty();
           } else {
             _builder.append("new RandomIntegerConfigurationStrategy(");
@@ -21830,7 +21830,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
             _builder.append("\", hmObjects.get(\"");
             String _name_3 = sel.getObjSel().getName();
             _builder.append(_name_3);
-            _builder.append("\")).getKey(), false)");
+            _builder.append("\").getKey()), false)");
             _builder.newLineIfNotEmpty();
           }
         }
@@ -21857,7 +21857,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
         _builder.append("\", hmObjects.get(\"");
         String _name_1 = sel.getObjSel().getName();
         _builder.append(_name_1);
-        _builder.append("\")).getKey(), false)");
+        _builder.append("\").getKey()), false)");
         _builder.newLineIfNotEmpty();
       }
     }

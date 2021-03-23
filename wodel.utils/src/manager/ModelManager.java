@@ -633,6 +633,64 @@ public class ModelManager {
 		return "";
 	}
 
+	public static String getModelName() {
+		try {
+			String path = getWorkspaceAbsolutePath() + '/'
+					+ WodelContext.getProject();
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getModelName(String project) {
+		try {
+			String path = getWorkspaceAbsolutePath() + '/'
+					+ project;
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getModelName(Class<?> cls) {
+		try {
+			String path = cls.getProtectionDomain().getCodeSource().getLocation().getPath();
+			int index = path.lastIndexOf("/bin");
+			if (index == -1) {
+				index = path.lastIndexOf("/");
+			}
+			path = path.substring(0, index);
+
+			BufferedReader br = new BufferedReader(new FileReader(path
+					+ "/data/config/config.txt"));
+
+			String ret = br.readLine();
+			br.close();
+			return ret;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
 	public static ResourceSet initializeResource(String modelURI) {
 		ResourceSet resourceSet = new ResourceSetImpl();
 

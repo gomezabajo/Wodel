@@ -222,7 +222,7 @@ public class WodelWizard extends Wizard implements INewWizard {
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
 			if (metamodel != null) {
-				def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+				def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			}
 			else {
 				def += "metamodel \"\" //fill this with the path to the meta-model\n\n";

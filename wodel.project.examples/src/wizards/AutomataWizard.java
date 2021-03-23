@@ -262,7 +262,7 @@ public class AutomataWizard extends Wizard implements INewWizard {
 			String def = "generate 2 mutants\n"
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
-			def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
 			def += "\tcfs {\n";
 			def += "\t\ts = create State with {isFinal = true}\n";

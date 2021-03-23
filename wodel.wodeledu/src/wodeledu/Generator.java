@@ -70,12 +70,13 @@ public class Generator implements IGenerator {
 		String idelemsFileName = fileName.replace(fileExtension, "modeltext");
 		String cfgoptsFileName = fileName.replace(fileExtension, "mutatext");
 		
+		final String modelName = ModelManager.getModelName(project);
 		final IFile graphFile = srcPath.getFile(new Path(graphFileName));
 		try {
 			InputStream stream = openContentStream();
 			String def = "";
 			if (metamodel != null) {
-				def += "metamodel \"" + ModelManager.getMetaModelPath(project) + "/" + metamodel + "\"\n\n";
+				def += "metamodel \"/" + project + "/" + modelName + "/" + metamodel + "\"\n\n";
 			}
 			else {
 				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
@@ -127,18 +128,28 @@ public class Generator implements IGenerator {
 			InputStream stream = openContentStream();
 			String def = "navigation=free\n"
 					+ "AlternativeResponse {\n"
-					+ "\tretry=yes"
+					+ "\tretry=yes\n"
 					+ "\t//description for 'model1-name.model' = 'Description for model1'\n"
 					+ "\t//other descriptions...\n"
 					+ "}\n"
 					+ "MultiChoiceDiagram {\n"
-					+ "\tretry=no"
-					+ "\t//description for 'model1-name.model' = 'Description for model1'\n"
+					+ "\tretry=no\n"
+					+ "\t//description for 'model2-name.model' = 'Description for model2'\n"
 					+ "\t//other descriptions...\n"
 					+ "}\n"
 					+ "MultiChoiceEmendation {\n"
 					+ "\tretry=yes, weighted=no, penalty=0.0, order=options-descending, mode=checkbox\n"
-					+ "\t//description for 'model2-name.model' = 'Description for model2'\n"
+					+ "\t//description for 'model3-name.model' = 'Description for model3'\n"
+					+ "\t//other descriptions...\n"
+					+ "}\n"
+					+ "MatchPairs {\n"
+					+ "\tretry=no\n"
+					+ "\t//description for 'model4-name.model' = 'Description for model4'\n"
+					+ "\t//other descriptions...\n"
+					+ "}\n"
+					+ "MissingWords {\n"
+					+ "\tretry=no\n"
+					+ "\t//description for 'model5-name.model' = 'Description for model5'\n"
 					+ "\t//other descriptions...\n"
 					+ "}";
 			if (testsFile.exists()) {
@@ -159,7 +170,7 @@ public class Generator implements IGenerator {
 			InputStream stream = openContentStream();
 			String def = "";
 			if (metamodel != null) {
-				def += "metamodel \"" + ModelManager.getMetaModelPath(project) + "/" + metamodel + "\"\n\n";
+				def += "metamodel \"/" + project + "/" + modelName + "/" + metamodel + "\"\n\n";
 			}
 			else {
 				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";
@@ -213,7 +224,7 @@ public class Generator implements IGenerator {
 			InputStream stream = openContentStream();
 			String def = "";
 			if (metamodel != null) {
-				def += "metamodel \"" + ModelManager.getMetaModelPath(project) + "/" + metamodel + "\"\n\n";
+				def += "metamodel \"/" + project + "/" + modelName + "/" + metamodel + "\"\n\n";
 			}
 			else {
 				def = "metamodel \"\" //fill this with the path to the meta-model\n\n";

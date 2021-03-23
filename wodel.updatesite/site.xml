@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/wodel_1.0.0.202103222057.jar" id="wodel" version="1.0.0.202103222057">
+   <feature url="features/wodel_1.0.0.202103231249.jar" id="wodel" version="1.0.0.202103231249">
       <category name="Wodel"/>
    </feature>
    <category-def name="Wodel" label="Wodel"/>

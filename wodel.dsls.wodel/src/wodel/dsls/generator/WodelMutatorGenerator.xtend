@@ -1180,7 +1180,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					if (recovered == null) {
 						recovered = entry_«sel.objSel.name».getKey();
 					}
-					max = (int) Math.floor(ModelManager.getDoubleAttribute("«rnNumDouble.max.name»", recoovered) * 100);
+					max = (int) Math.floor(ModelManager.getDoubleAttribute("«rnNumDouble.max.name»", recovered) * 100);
 	   				«ENDIF»
 					Object value = 0.0;
 					if (min != 0 || max != 0) {
@@ -1595,7 +1595,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				ObSelectionStrategy containerSelection = null;
 				SpecificReferenceSelection referenceSelection = null;
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(mut.container as SpecificObjectSelection).objSel.name» = hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»");
-				if (entry_«(mut.container as SpecificObjectSelection).objSel.name» !== null) {
+				if (entry_«(mut.container as SpecificObjectSelection).objSel.name» != null) {
 				«IF mut.container.refType !== null»
 					containerSelection = new SpecificObjectSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey());
 					referenceSelection = new SpecificReferenceSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), "«mut.container.refType.name»", entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey());
@@ -1675,7 +1675,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				ObSelectionStrategy containerSelection = null;
 				SpecificReferenceSelection referenceSelection = null;
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(mut.container as SpecificObjectSelection).objSel.name» = hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»");
-				if (entry_«(mut.container as SpecificObjectSelection).objSel.name» !== null) {
+				if (entry_«(mut.container as SpecificObjectSelection).objSel.name» != null) {
 					EObject recovered = ModelManager.getObject(model, entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey());
 					if (recovered == null) {
 						recovered = entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey();
@@ -2574,7 +2574,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				// MUTANT COMPLETION AND REGISTRY
 				Map<String, List<String>> rules = new HashMap<String, List<String>>();
 				«FOR constraint : e.constraints»
-				if (rules.get("«constraint.type.name»") === null) {
+				if (rules.get("«constraint.type.name»") == null) {
 					rules.put("«constraint.type.name»", new ArrayList<String>());
 				}
 				List<String> newrules = rules.get("«constraint.type.name»");
@@ -2677,7 +2677,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					«ENDIF»
 				«ELSEIF mut.container instanceof SpecificObjectSelection»
 					SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(mut.container as SpecificObjectSelection).objSel.name» = hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»");
-					if (entry_«(mut.container as SpecificObjectSelection).objSel.name» !== null) {
+					if (entry_«(mut.container as SpecificObjectSelection).objSel.name» != null) {
 						EObject recovered = ModelManager.getObject(resource, entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey());
 						if (recovered == null) {
 							recovered = entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey();
@@ -3354,7 +3354,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				SpecificReferenceSelection referenceSelection = null;
 				«IF mut.container instanceof SpecificObjectSelection»
 				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(mut.container as SpecificObjectSelection).objSel.name» = hmObjects.get("«(mut.container as SpecificObjectSelection).objSel.name»");
-				if (entry_«(mut.container as SpecificObjectSelection).objSel.name» !== null) {
+				if (entry_«(mut.container as SpecificObjectSelection).objSel.name» != null) {
 					referenceSelection = new SpecificReferenceSelection(entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.container as SpecificObjectSelection).objSel.name».getValue().getKey(), "«mut.container.refType.name»", entry_«(mut.container as SpecificObjectSelection).objSel.name».getKey());
 				} else {
 					return mutations;
@@ -5853,16 +5853,16 @@ public class «className» extends MutatorUtils {
 		«IF e.object instanceof SpecificObjectSelection»
 		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
 		«IF exhaustive == false»
-		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»")).getKey(), false)
+		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false)
 		«ELSE»
-		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»")).getKey(), false)
+		new RandomIntegerConfigurationStrategy(«e.min», ModelManager.getIntAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false)
 		«ENDIF»
 		«ENDIF»
 		'''
 	def method(RandomDoubleNumberType e, boolean exhaustive) '''
 		«IF e.object instanceof SpecificObjectSelection»
 		//«var SpecificObjectSelection sel = e.object as SpecificObjectSelection»
-		new RandomDoubleConfigurationStrategy(«e.min», ModelManager.getDoubleAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»")).getKey(), false)
+		new RandomDoubleConfigurationStrategy(«e.min», ModelManager.getDoubleAttribute("«e.max.name»", hmObjects.get("«sel.objSel.name»").getKey()), false)
 		«ENDIF»
 	'''
 

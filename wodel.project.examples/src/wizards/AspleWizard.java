@@ -261,7 +261,7 @@ public class AspleWizard extends Wizard implements INewWizard {
 			String def = "generate 2 mutants\n"
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
-			def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
 			def += "\trao {\n";
 			def += "\t\tmodify one BinaryOperator where {operator in ['add', 'subtract', 'multiply', 'divide', 'module']}\n";

@@ -261,7 +261,7 @@ public class PFSMWizard extends Wizard implements INewWizard {
 			String def = "generate 2 mutants\n"
 					+ "in \"" + mutantName + "/\"\n"
 					+ "from \"" + modelName + "/\"\n";
-			def += "metamodel \"" + ModelManager.getMetaModelPath(projectName) + "/" + metamodel + "\"\n\n";
+			def += "metamodel \"/" + projectName + "/" + modelName + "/" + metamodel + "\"\n\n";
 			def += "with blocks {\n";
 			def += "\tcis {\n";
 			def += "\t\ts0 = modify one State where {isInitial = true} with {isInitial = false}\n";

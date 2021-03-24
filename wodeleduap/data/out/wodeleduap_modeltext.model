@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<modeltext:IdentifyElements xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeltext="http://modeltext/1.0" metamodel="/wodeleduap/data/model/StackAutomaton.ecore">
+  <elements>
+    <type href="/wodeleduap/data/model/StackAutomaton.ecore#//Automaton"/>
+    <words xsi:type="modeltext:Constant" value="Automaton"/>
+    <words xsi:type="modeltext:Variable">
+      <id href="/wodeleduap/data/model/StackAutomaton.ecore#//Automaton/name"/>
+    </words>
+  </elements>
+</modeltext:IdentifyElements>

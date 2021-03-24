@@ -1,0 +1,12 @@
+navigation=free
+AlternativeResponse mts1 {
+	retry=no
+	description for 'sa1.model' = 'Does this pushdown automaton accept only the language defined by {a<sup>n</sup>b<sup>n</sup>,n>=0}|{a}, s&#237;mbolo inicial de pila = {A}? stack initial symbol = {A}? (transitions are labelled as follows: processed symbol, stack symbol, stack operation, symbol stored)'
+	description for 'sa2.model' = 'Does this pushdown automaton accept only the language defined by {w&#8712;{a,b}<sup>*</sup>, w has the same number of a\'s than b\'s}, stack initial symbol = {Z}?'
+  	description for 'sa5.model' = 'Does this pushdown automaton accept only the language defined by {ca<sup>n</sup>cb<sup>n</sup>c,n&#8712;N}, stack initial symbol = {A}?'
+}
+MultiChoiceDiagram mts1 {
+	retry=no
+  	description for 'sa3.model' = 'Which of these pushdown automata accepts only the language defined by {wcw<sup>-1</sup>,w&#8712;{a,b}<sup>*</sup>}, stack initial symbol = {Z}?'
+  	description for 'sa4.model' = 'Which of these pushdown automata accepts only the language defined by {a<sup>n</sup>b<sup>n</sup>,n>0}, stack initial symbol = {A}?'
+}

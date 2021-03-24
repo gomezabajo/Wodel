@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StackAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:StackAutomaton="http://stackAutomaton/1.0" xsi:schemaLocation="http://stackAutomaton/1.0 StackAutomaton.ecore" xmi:id="_cvNTIDl4Eeukb-OYkHKcGQ" name="sa2">
+  <inputAlphabet xmi:id="_nzW9EDl4Eeukb-OYkHKcGQ" symbol="a"/>
+  <inputAlphabet xmi:id="_o57jkDl4Eeukb-OYkHKcGQ" symbol="b"/>
+  <inputAlphabet xmi:id="_q4zrEDl4Eeukb-OYkHKcGQ" symbol="A"/>
+  <inputAlphabet xmi:id="_r_hbgDl4Eeukb-OYkHKcGQ" symbol="B"/>
+  <stackAlphabet xmi:id="_uca7wDl4Eeukb-OYkHKcGQ" symbol="Z"/>
+  <states xmi:id="_eaP4oDl4Eeukb-OYkHKcGQ" name="q0" isInitial="true"/>
+  <states xmi:id="_kADqkDl4Eeukb-OYkHKcGQ" name="q1" isFinal="true"/>
+  <initialStackSymbol xmi:id="_w_ANQDl4Eeukb-OYkHKcGQ" symbol="Z"/>
+  <transitions xmi:id="_DsbVsDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_kADqkDl4Eeukb-OYkHKcGQ" stackSymbol="_w_ANQDl4Eeukb-OYkHKcGQ"/>
+  <transitions xmi:id="_OvNtsDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_eaP4oDl4Eeukb-OYkHKcGQ" symbol="_nzW9EDl4Eeukb-OYkHKcGQ" stackSymbol="_uca7wDl4Eeukb-OYkHKcGQ" action="_TrrAoDl5Eeukb-OYkHKcGQ"/>
+  <transitions xmi:id="_fUwjoDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_eaP4oDl4Eeukb-OYkHKcGQ" symbol="_o57jkDl4Eeukb-OYkHKcGQ" stackSymbol="_uca7wDl4Eeukb-OYkHKcGQ" action="_U8AnIDl5Eeukb-OYkHKcGQ"/>
+  <transitions xmi:id="_juOeQDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_eaP4oDl4Eeukb-OYkHKcGQ" symbol="_nzW9EDl4Eeukb-OYkHKcGQ" stackSymbol="_q4zrEDl4Eeukb-OYkHKcGQ" action="_TrrAoDl5Eeukb-OYkHKcGQ"/>
+  <transitions xmi:id="_oW7HsDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_eaP4oDl4Eeukb-OYkHKcGQ" symbol="_o57jkDl4Eeukb-OYkHKcGQ" stackSymbol="_q4zrEDl4Eeukb-OYkHKcGQ" action="_VuSYoDl5Eeukb-OYkHKcGQ"/>
+  <transitions xmi:id="_t03XEDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_eaP4oDl4Eeukb-OYkHKcGQ" symbol="_nzW9EDl4Eeukb-OYkHKcGQ" stackSymbol="_r_hbgDl4Eeukb-OYkHKcGQ" action="_VuSYoDl5Eeukb-OYkHKcGQ"/>
+  <transitions xmi:id="_yu0voDl5Eeukb-OYkHKcGQ" src="_eaP4oDl4Eeukb-OYkHKcGQ" tar="_eaP4oDl4Eeukb-OYkHKcGQ" symbol="_o57jkDl4Eeukb-OYkHKcGQ" stackSymbol="_r_hbgDl4Eeukb-OYkHKcGQ" action="_U8AnIDl5Eeukb-OYkHKcGQ"/>
+  <actions xmi:id="_TrrAoDl5Eeukb-OYkHKcGQ" symbol="_q4zrEDl4Eeukb-OYkHKcGQ"/>
+  <actions xmi:id="_U8AnIDl5Eeukb-OYkHKcGQ" symbol="_r_hbgDl4Eeukb-OYkHKcGQ"/>
+  <actions xmi:id="_VuSYoDl5Eeukb-OYkHKcGQ" operation="pop"/>
+  <actions xmi:id="_WoNDMDl5Eeukb-OYkHKcGQ" operation="nothing"/>
+</StackAutomaton:Automaton>

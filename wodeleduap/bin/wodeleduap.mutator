@@ -1,0 +1,14 @@
+generate 4 mutants
+in "data/out/"
+from "data/model/"
+metamodel "/wodeleduap/data/model/StackAutomaton.ecore"
+
+with blocks {
+	mts1 {
+		modify target tar from one Transition to other State
+	} [5]
+}
+
+constraints {
+	context State connected:: "isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)"
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StackAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:StackAutomaton="http://stackAutomaton/1.0" xsi:schemaLocation="http://stackAutomaton/1.0 StackAutomaton.ecore" xmi:id="_ASRbUDhuEeuHBoBmeimV7w" name="sa1">
+  <inputAlphabet xmi:id="_vhX0gDhuEeuHBoBmeimV7w" symbol="a"/>
+  <inputAlphabet xmi:id="_yreZADhuEeuHBoBmeimV7w" symbol="b"/>
+  <stackAlphabet xmi:id="_1PLr4DhuEeuHBoBmeimV7w" symbol="A"/>
+  <stackAlphabet xmi:id="_2WTE8DhuEeuHBoBmeimV7w" symbol="B"/>
+  <states xmi:id="_B8qgkDhuEeuHBoBmeimV7w" name="q0" isInitial="true"/>
+  <states xmi:id="_D10akDhuEeuHBoBmeimV7w" name="q1"/>
+  <states xmi:id="_E-D1ADhuEeuHBoBmeimV7w" name="q2"/>
+  <states xmi:id="_s-3bgDhuEeuHBoBmeimV7w" name="q3" isFinal="true"/>
+  <initialStackSymbol xmi:id="_KDV3UDhvEeuHBoBmeimV7w" symbol="A"/>
+  <transitions xmi:id="_niFNQDhvEeuHBoBmeimV7w" src="_B8qgkDhuEeuHBoBmeimV7w" tar="_D10akDhuEeuHBoBmeimV7w" symbol="_vhX0gDhuEeuHBoBmeimV7w" stackSymbol="_1PLr4DhuEeuHBoBmeimV7w" action="_YhbmoDhxEeuHBoBmeimV7w"/>
+  <transitions xmi:id="_JsWMQDhyEeuHBoBmeimV7w" src="_B8qgkDhuEeuHBoBmeimV7w" tar="_s-3bgDhuEeuHBoBmeimV7w" symbol="_vhX0gDhuEeuHBoBmeimV7w" stackSymbol="_1PLr4DhuEeuHBoBmeimV7w"/>
+  <transitions xmi:id="_VSiMQDhyEeuHBoBmeimV7w" src="_B8qgkDhuEeuHBoBmeimV7w" tar="_s-3bgDhuEeuHBoBmeimV7w" stackSymbol="_1PLr4DhuEeuHBoBmeimV7w" action="_aOV0YDhxEeuHBoBmeimV7w"/>
+  <transitions xmi:id="_cOyzwDhyEeuHBoBmeimV7w" src="_D10akDhuEeuHBoBmeimV7w" tar="_D10akDhuEeuHBoBmeimV7w" symbol="_vhX0gDhuEeuHBoBmeimV7w" stackSymbol="_2WTE8DhuEeuHBoBmeimV7w" action="_YhbmoDhxEeuHBoBmeimV7w"/>
+  <transitions xmi:id="_hDvJcDhyEeuHBoBmeimV7w" src="_D10akDhuEeuHBoBmeimV7w" tar="_E-D1ADhuEeuHBoBmeimV7w" symbol="_yreZADhuEeuHBoBmeimV7w" stackSymbol="_2WTE8DhuEeuHBoBmeimV7w" action="_aOV0YDhxEeuHBoBmeimV7w"/>
+  <transitions xmi:id="_11uKoDhyEeuHBoBmeimV7w" src="_E-D1ADhuEeuHBoBmeimV7w" tar="_s-3bgDhuEeuHBoBmeimV7w" stackSymbol="_1PLr4DhuEeuHBoBmeimV7w"/>
+  <transitions xmi:id="_mPWSsDhyEeuHBoBmeimV7w" src="_E-D1ADhuEeuHBoBmeimV7w" tar="_E-D1ADhuEeuHBoBmeimV7w" symbol="_yreZADhuEeuHBoBmeimV7w" stackSymbol="_2WTE8DhuEeuHBoBmeimV7w" action="_aOV0YDhxEeuHBoBmeimV7w"/>
+  <actions xmi:id="_U-lyADhxEeuHBoBmeimV7w" symbol="_1PLr4DhuEeuHBoBmeimV7w"/>
+  <actions xmi:id="_YhbmoDhxEeuHBoBmeimV7w" symbol="_2WTE8DhuEeuHBoBmeimV7w"/>
+  <actions xmi:id="_aOV0YDhxEeuHBoBmeimV7w" operation="pop"/>
+  <actions xmi:id="_bQ0lEDhxEeuHBoBmeimV7w" operation="nothing"/>
+</StackAutomaton:Automaton>

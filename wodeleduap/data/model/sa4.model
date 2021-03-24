@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StackAutomaton:Automaton xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:StackAutomaton="http://stackAutomaton/1.0" xsi:schemaLocation="http://stackAutomaton/1.0 StackAutomaton.ecore" xmi:id="_ep9hcD7PEeuNePvs2lsnDg" name="sa4">
+  <inputAlphabet xmi:id="_j-6M4D7PEeuNePvs2lsnDg" symbol="a"/>
+  <inputAlphabet xmi:id="_k6o1UD7PEeuNePvs2lsnDg" symbol="b"/>
+  <inputAlphabet xmi:id="_y2bawD7PEeuNePvs2lsnDg" symbol="A"/>
+  <stackAlphabet xmi:id="_mypf0D7PEeuNePvs2lsnDg" symbol="B"/>
+  <states xmi:id="_uMqaUD7PEeuNePvs2lsnDg" name="q0" isInitial="true"/>
+  <states xmi:id="_4e7UUD7PEeuNePvs2lsnDg" name="q1"/>
+  <states xmi:id="_730iwD7PEeuNePvs2lsnDg" name="q2" isFinal="true"/>
+  <transitions xmi:id="_O2o9MD7QEeuNePvs2lsnDg" src="_uMqaUD7PEeuNePvs2lsnDg" tar="_uMqaUD7PEeuNePvs2lsnDg" symbol="_j-6M4D7PEeuNePvs2lsnDg" stackSymbol="_y2bawD7PEeuNePvs2lsnDg" action="_okI2ID7QEeuNePvs2lsnDg"/>
+  <transitions xmi:id="_Y3WNID7QEeuNePvs2lsnDg" src="_uMqaUD7PEeuNePvs2lsnDg" tar="_4e7UUD7PEeuNePvs2lsnDg" symbol="_k6o1UD7PEeuNePvs2lsnDg" stackSymbol="_mypf0D7PEeuNePvs2lsnDg" action="_ACsnwD7QEeuNePvs2lsnDg"/>
+  <transitions xmi:id="_cuxKoD7QEeuNePvs2lsnDg" src="_4e7UUD7PEeuNePvs2lsnDg" tar="_4e7UUD7PEeuNePvs2lsnDg" symbol="_k6o1UD7PEeuNePvs2lsnDg" stackSymbol="_mypf0D7PEeuNePvs2lsnDg" action="_ACsnwD7QEeuNePvs2lsnDg"/>
+  <transitions xmi:id="_hgkFsD7QEeuNePvs2lsnDg" src="_4e7UUD7PEeuNePvs2lsnDg" tar="_730iwD7PEeuNePvs2lsnDg" stackSymbol="_y2bawD7PEeuNePvs2lsnDg"/>
+  <actions xmi:id="_-PCRwD7PEeuNePvs2lsnDg" symbol="_y2bawD7PEeuNePvs2lsnDg"/>
+  <actions xmi:id="_okI2ID7QEeuNePvs2lsnDg" symbol="_mypf0D7PEeuNePvs2lsnDg"/>
+  <actions xmi:id="_ACsnwD7QEeuNePvs2lsnDg" operation="pop"/>
+  <actions xmi:id="_CKHnQD7QEeuNePvs2lsnDg" operation="nothing"/>
+</StackAutomaton:Automaton>

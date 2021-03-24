@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatorenvironment:MutatorEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatorenvironment="http://mutatorenvironment/1.0">
+  <definition xsi:type="mutatorenvironment:Program" metamodel="/wodeleduap/data/model/StackAutomaton.ecore" output="data/out/" num="4">
+    <source path="data/model/"/>
+  </definition>
+  <blocks name="mts1" fixed="5">
+    <commands xsi:type="mutatorenvironment:ModifyTargetReferenceMutator">
+      <refType href="/wodeleduap/data/model/StackAutomaton.ecore#//Transition/tar"/>
+      <source xsi:type="mutatorenvironment:RandomTypeSelection">
+        <type href="/wodeleduap/data/model/StackAutomaton.ecore#//Transition"/>
+      </source>
+      <newTarget xsi:type="mutatorenvironment:OtherTypeSelection">
+        <type href="/wodeleduap/data/model/StackAutomaton.ecore#//State"/>
+      </newTarget>
+    </commands>
+  </blocks>
+  <constraints id="connected">
+    <type href="/wodeleduap/data/model/StackAutomaton.ecore#//State"/>
+    <rules>isInitial or Set{self}->closure(s | Transition.allInstances()->select(t | t.tar=s)->collect(src))->exists(s | s.isInitial)</rules>
+  </constraints>
+</mutatorenvironment:MutatorEnvironment>

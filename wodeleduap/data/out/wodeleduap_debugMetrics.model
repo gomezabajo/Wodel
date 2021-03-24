@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mutatormetrics:MutatorMetrics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mutatormetrics="http://mutatormetrics/1.0">
+  <trees xsi:type="mutatormetrics:Folder" name="sa1" path="C:\eclipse\workspace\wodeleduap\data\out\sa1">
+    <mutants name="mts1" path="C:\eclipse\workspace\wodeleduap\data\out\sa1\mts1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa1\mts1\Output0.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa1\mts1\Output1.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa1\mts1\Output2.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa1\mts1\Output4.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="inputAlphabet"/>
+        <references name="stackAlphabet"/>
+        <references name="states"/>
+        <references name="initialStackSymbol"/>
+        <references name="transitions"/>
+        <references name="actions"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="4" cmodified="4">
+        <references name="src"/>
+        <references name="tar" modified="4"/>
+        <references name="symbol"/>
+        <references name="stackSymbol"/>
+        <references name="action"/>
+      </classes>
+      <classes name="StackAction">
+        <attributes name="operation"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="inputAlphabet"/>
+      <references name="stackAlphabet"/>
+      <references name="states"/>
+      <references name="initialStackSymbol"/>
+      <references name="transitions"/>
+      <references name="actions"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="4" cmodified="4">
+      <references name="src"/>
+      <references name="tar" modified="4"/>
+      <references name="symbol"/>
+      <references name="stackSymbol"/>
+      <references name="action"/>
+    </classes>
+    <classes name="StackAction">
+      <attributes name="operation"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="sa2" path="C:\eclipse\workspace\wodeleduap\data\out\sa2">
+    <mutants name="mts1" path="C:\eclipse\workspace\wodeleduap\data\out\sa2\mts1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa2\mts1\Output0.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa2\mts1\Output1.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa2\mts1\Output2.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa2\mts1\Output3.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa2\mts1\Output4.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="inputAlphabet"/>
+        <references name="stackAlphabet"/>
+        <references name="states"/>
+        <references name="initialStackSymbol"/>
+        <references name="transitions"/>
+        <references name="actions"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="5" cmodified="5">
+        <references name="src"/>
+        <references name="tar" modified="5"/>
+        <references name="symbol"/>
+        <references name="stackSymbol"/>
+        <references name="action"/>
+      </classes>
+      <classes name="StackAction">
+        <attributes name="operation"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="inputAlphabet"/>
+      <references name="stackAlphabet"/>
+      <references name="states"/>
+      <references name="initialStackSymbol"/>
+      <references name="transitions"/>
+      <references name="actions"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="5" cmodified="5">
+      <references name="src"/>
+      <references name="tar" modified="5"/>
+      <references name="symbol"/>
+      <references name="stackSymbol"/>
+      <references name="action"/>
+    </classes>
+    <classes name="StackAction">
+      <attributes name="operation"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="sa3" path="C:\eclipse\workspace\wodeleduap\data\out\sa3">
+    <mutants name="mts1" path="C:\eclipse\workspace\wodeleduap\data\out\sa3\mts1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa3\mts1\Output0.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa3\mts1\Output1.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa3\mts1\Output2.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa3\mts1\Output3.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output4.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa3\mts1\Output4.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="inputAlphabet"/>
+        <references name="stackAlphabet"/>
+        <references name="states"/>
+        <references name="initialStackSymbol"/>
+        <references name="transitions"/>
+        <references name="actions"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="5" cmodified="5">
+        <references name="src"/>
+        <references name="tar" modified="5"/>
+        <references name="symbol"/>
+        <references name="stackSymbol"/>
+        <references name="action"/>
+      </classes>
+      <classes name="StackAction">
+        <attributes name="operation"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="inputAlphabet"/>
+      <references name="stackAlphabet"/>
+      <references name="states"/>
+      <references name="initialStackSymbol"/>
+      <references name="transitions"/>
+      <references name="actions"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="5" cmodified="5">
+      <references name="src"/>
+      <references name="tar" modified="5"/>
+      <references name="symbol"/>
+      <references name="stackSymbol"/>
+      <references name="action"/>
+    </classes>
+    <classes name="StackAction">
+      <attributes name="operation"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="sa4" path="C:\eclipse\workspace\wodeleduap\data\out\sa4">
+    <mutants name="mts1" path="C:\eclipse\workspace\wodeleduap\data\out\sa4\mts1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output0.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa4\mts1\Output0.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa4\mts1\Output1.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa4\mts1\Output3.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="inputAlphabet"/>
+        <references name="stackAlphabet"/>
+        <references name="states"/>
+        <references name="initialStackSymbol"/>
+        <references name="transitions"/>
+        <references name="actions"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="3" cmodified="3">
+        <references name="src"/>
+        <references name="tar" modified="3"/>
+        <references name="symbol"/>
+        <references name="stackSymbol"/>
+        <references name="action"/>
+      </classes>
+      <classes name="StackAction">
+        <attributes name="operation"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="inputAlphabet"/>
+      <references name="stackAlphabet"/>
+      <references name="states"/>
+      <references name="initialStackSymbol"/>
+      <references name="transitions"/>
+      <references name="actions"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="3" cmodified="3">
+      <references name="src"/>
+      <references name="tar" modified="3"/>
+      <references name="symbol"/>
+      <references name="stackSymbol"/>
+      <references name="action"/>
+    </classes>
+    <classes name="StackAction">
+      <attributes name="operation"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <trees xsi:type="mutatormetrics:Folder" name="sa5" path="C:\eclipse\workspace\wodeleduap\data\out\sa5">
+    <mutants name="mts1" path="C:\eclipse\workspace\wodeleduap\data\out\sa5\mts1">
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output1.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa5\mts1\Output1.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output2.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa5\mts1\Output2.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <mutants xsi:type="mutatormetrics:Mutant" name="Output3.model" path="C:\eclipse\workspace\wodeleduap\data\out\sa5\mts1\Output3.model">
+        <classes name="Automaton">
+          <attributes name="name"/>
+          <references name="inputAlphabet"/>
+          <references name="stackAlphabet"/>
+          <references name="states"/>
+          <references name="initialStackSymbol"/>
+          <references name="transitions"/>
+          <references name="actions"/>
+        </classes>
+        <classes name="Symbol">
+          <attributes name="symbol"/>
+        </classes>
+        <classes name="State">
+          <attributes name="name"/>
+          <attributes name="isInitial"/>
+          <attributes name="isFinal"/>
+        </classes>
+        <classes name="Transition" modified="1" cmodified="1">
+          <references name="src"/>
+          <references name="tar" modified="1"/>
+          <references name="symbol"/>
+          <references name="stackSymbol"/>
+          <references name="action"/>
+        </classes>
+        <classes name="StackAction">
+          <attributes name="operation"/>
+          <references name="symbol"/>
+        </classes>
+      </mutants>
+      <classes name="Automaton">
+        <attributes name="name"/>
+        <references name="inputAlphabet"/>
+        <references name="stackAlphabet"/>
+        <references name="states"/>
+        <references name="initialStackSymbol"/>
+        <references name="transitions"/>
+        <references name="actions"/>
+      </classes>
+      <classes name="Symbol">
+        <attributes name="symbol"/>
+      </classes>
+      <classes name="State">
+        <attributes name="name"/>
+        <attributes name="isInitial"/>
+        <attributes name="isFinal"/>
+      </classes>
+      <classes name="Transition" modified="3" cmodified="3">
+        <references name="src"/>
+        <references name="tar" modified="3"/>
+        <references name="symbol"/>
+        <references name="stackSymbol"/>
+        <references name="action"/>
+      </classes>
+      <classes name="StackAction">
+        <attributes name="operation"/>
+        <references name="symbol"/>
+      </classes>
+    </mutants>
+    <classes name="Automaton">
+      <attributes name="name"/>
+      <references name="inputAlphabet"/>
+      <references name="stackAlphabet"/>
+      <references name="states"/>
+      <references name="initialStackSymbol"/>
+      <references name="transitions"/>
+      <references name="actions"/>
+    </classes>
+    <classes name="Symbol">
+      <attributes name="symbol"/>
+    </classes>
+    <classes name="State">
+      <attributes name="name"/>
+      <attributes name="isInitial"/>
+      <attributes name="isFinal"/>
+    </classes>
+    <classes name="Transition" modified="3" cmodified="3">
+      <references name="src"/>
+      <references name="tar" modified="3"/>
+      <references name="symbol"/>
+      <references name="stackSymbol"/>
+      <references name="action"/>
+    </classes>
+    <classes name="StackAction">
+      <attributes name="operation"/>
+      <references name="symbol"/>
+    </classes>
+  </trees>
+  <classes xsi:type="mutatormetrics:Class" name="Automaton">
+    <attributes name="name"/>
+    <references name="inputAlphabet"/>
+    <references name="stackAlphabet"/>
+    <references name="states"/>
+    <references name="initialStackSymbol"/>
+    <references name="transitions"/>
+    <references name="actions"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Symbol">
+    <attributes name="symbol"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="State">
+    <attributes name="name"/>
+    <attributes name="isInitial"/>
+    <attributes name="isFinal"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="Transition" modified="20" cmodified="20">
+    <references name="src"/>
+    <references name="tar" modified="20"/>
+    <references name="symbol"/>
+    <references name="stackSymbol"/>
+    <references name="action"/>
+  </classes>
+  <classes xsi:type="mutatormetrics:Class" name="StackAction">
+    <attributes name="operation"/>
+    <references name="symbol"/>
+  </classes>
+</mutatormetrics:MutatorMetrics>

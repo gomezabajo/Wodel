@@ -1,0 +1,4 @@
+data/model
+data/out
+wodeleduap.mutator
+Wodel-Edu: Generation of a web environment with test exercises for education

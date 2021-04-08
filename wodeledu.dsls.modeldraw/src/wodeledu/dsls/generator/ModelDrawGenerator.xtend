@@ -36,6 +36,8 @@ class ModelDrawGenerator extends AbstractGenerator {
 	private String className;
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		manager.WodelContext.setProject(null)
+		ModelManager.setProjectNameByResource(resource)
 		var i = 0;
 		fileName = resource.URI.lastSegment
 		fileName = fileName.replaceAll(".draw", "").replaceAll("[.]", "_") + ".draw"

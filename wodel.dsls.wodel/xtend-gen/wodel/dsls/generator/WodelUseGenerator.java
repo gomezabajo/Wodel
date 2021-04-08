@@ -156,7 +156,7 @@ public class WodelUseGenerator extends AbstractGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     WodelContext.setProject(null);
-    WodelContext.getProject();
+    ModelManager.setProjectNameByResource(resource);
     String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();
     String _plus = (_workspaceAbsolutePath + "/");
     String _project = WodelContext.getProject();

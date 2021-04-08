@@ -24,6 +24,8 @@ class ModelTextGenerator extends AbstractGenerator {
 	private String xmiFileName;
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		manager.WodelContext.setProject(null)
+		ModelManager.setProjectNameByResource(resource)
 		path = ModelManager.getWorkspaceAbsolutePath+'/'+manager.WodelContext.getProject		
 
 		for(e: resource.allContents.toIterable.filter(IdentifyElements)) {

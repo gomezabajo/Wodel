@@ -187,7 +187,7 @@ public class WodelMutatorGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
 		manager.WodelContext.setProject(null)
-		manager.WodelContext.getProject
+		ModelManager.setProjectNameByResource(resource)
 		path = ModelManager.getWorkspaceAbsolutePath+"/"+manager.WodelContext.getProject		
 
 		var projectFolderName = ModelManager.getWorkspaceAbsolutePath+ "/" +manager.WodelContext.getProject + "/"

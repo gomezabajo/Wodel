@@ -48,6 +48,8 @@ public class ModelDrawGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    WodelContext.setProject(null);
+    ModelManager.setProjectNameByResource(resource);
     int i = 0;
     this.fileName = resource.getURI().lastSegment();
     String _replaceAll = this.fileName.replaceAll(".draw", "").replaceAll("[.]", "_");

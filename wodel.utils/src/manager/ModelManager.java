@@ -210,6 +210,13 @@ public class ModelManager {
 	private static String extract(String s, String extract) {
 		return s.replaceFirst("^" + extract, "");
 	}
+	
+	public static void setProjectNameByResource(Resource resource) {
+		String projectName = resource.getURI().devicePath();
+		projectName = projectName.substring("/resource/".length(), projectName.length());
+		projectName = projectName.substring(0, projectName.indexOf("/"));
+		manager.WodelContext.setProject(projectName);
+	}
 
 	public static String getWorkspaceAbsolutePath() {
 		IPath path = Platform.getLocation().makeAbsolute();

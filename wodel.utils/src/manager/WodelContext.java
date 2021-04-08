@@ -17,7 +17,7 @@ public class WodelContext implements Runnable {
 	private static String project;
 	private static String fileName;
 	
-	private WodelContext(){
+	private WodelContext() {
 	}
 	
 	

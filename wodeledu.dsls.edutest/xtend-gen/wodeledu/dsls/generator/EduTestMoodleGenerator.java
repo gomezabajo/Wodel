@@ -60,6 +60,8 @@ public class EduTestMoodleGenerator extends EduTestSuperGenerator {
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     try {
+      WodelContext.setProject(null);
+      ModelManager.setProjectNameByResource(resource);
       try {
         int i = 0;
         String _workspaceAbsolutePath = ModelManager.getWorkspaceAbsolutePath();

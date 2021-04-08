@@ -37,6 +37,9 @@ public class WodelUtils {
 		
 		Injector injector = new WodelStandaloneSetup().createInjectorAndDoEMFRegistration();
 		ResourceSet xTextRS = injector.getInstance(XtextResourceSet.class);
+		if (xTextRS == null) {
+			return;
+		}
 		XtextResource xtextInput = (XtextResource)xTextRS.getResource(URI.createURI(xTextURI), true);
 		EcoreUtil.resolveAll(xtextInput);
 		

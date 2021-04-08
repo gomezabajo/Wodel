@@ -49,6 +49,8 @@ class EduTestMoodleGenerator extends EduTestSuperGenerator {
 	private List<EObject> blocks
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		manager.WodelContext.setProject(null)
+		ModelManager.setProjectNameByResource(resource)
 		try {
 			var i = 0;
 			//loads the mutator model

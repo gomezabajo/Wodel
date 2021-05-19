@@ -11,6 +11,7 @@ import java.util.List;
 
 import manager.ModelManager;
 import manager.MutatorUtils;
+import manager.ViewUtils;
 import manager.WodelContext;
 import mutatorenvironment.MutatorEnvironment;
 import wodel.metrics.info.MutatorInfo;
@@ -81,6 +82,9 @@ public class WodelMetricsInfoView extends ViewPart implements ISelectionChangedL
 	}
 
 	public void createPartControl(Composite parent) {
+		if (!ViewUtils.isReady()) {
+			return;
+		}
 		try {
 			WodelContext.setProject(null);
 			String output = ModelManager.getOutputPath();

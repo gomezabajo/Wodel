@@ -213,9 +213,14 @@ public class ModelManager {
 	
 	public static void setProjectNameByResource(Resource resource) {
 		String projectName = resource.getURI().devicePath();
-		projectName = projectName.substring("/resource/".length(), projectName.length());
+		if (projectName.startsWith("/resource/")) {
+			projectName = projectName.substring("/resource/".length(), projectName.length());
+		}
+		else {
+			projectName = projectName.substring(ModelManager.getWorkspaceAbsolutePath().length() + 1, projectName.length());
+		}
 		projectName = projectName.substring(0, projectName.indexOf("/"));
-		manager.WodelContext.setProject(projectName);
+		WodelContext.setProject(projectName);
 	}
 
 	public static String getWorkspaceAbsolutePath() {

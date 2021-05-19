@@ -25,6 +25,7 @@ import manager.StaticMutatorMetrics.WodelMetricAttribute;
 import manager.StaticMutatorMetrics.WodelMetricClass;
 import manager.StaticMutatorMetrics.WodelMetricFeature;
 import manager.StaticMutatorMetrics.WodelMetricReference;
+import manager.ViewUtils;
 
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.command.CreateRepresentationCommand;

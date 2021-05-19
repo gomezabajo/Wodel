@@ -96,7 +96,6 @@ import appliedMutations.ObjectCloned;
 import appliedMutations.ObjectCreated;
 import appliedMutations.ObjectRemoved;
 import appliedMutations.ObjectRetyped;
-import appliedMutations.ReferenceChanged;
 import appliedMutations.TargetReferenceChanged;
 
 /**

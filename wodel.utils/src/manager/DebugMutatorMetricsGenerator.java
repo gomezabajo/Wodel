@@ -340,7 +340,18 @@ public class DebugMutatorMetricsGenerator extends MutatorMetricsGenerator {
 		this.metrics = metrics;
 		this.output = output;
 		this.metamodel = metamodel;
-		this.modelsFolder = modelsFolder;
+		File modelsFolderFile = new File(modelsFolder);
+		if (!modelsFolderFile.isDirectory()) {
+			if (modelsFolder.lastIndexOf("\\") != -1) {
+				this.modelsFolder = modelsFolder.substring(0, modelsFolder.lastIndexOf("\\"));
+			}
+			else {
+				this.modelsFolder = modelsFolder.substring(0, modelsFolder.lastIndexOf("/"));
+			}
+		}
+		else {
+			this.modelsFolder = modelsFolder;
+		}
 		this.fileName = fileName;
 		this.hashmapMutVersions = hashmapMutVersions;
 		this.cls = cls;		

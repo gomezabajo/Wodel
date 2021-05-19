@@ -41,6 +41,7 @@ import exceptions.MetaModelNotFoundException;
 import exceptions.ModelNotFoundException;
 import manager.ModelManager;
 import manager.MutatorUtils;
+import manager.ViewUtils;
 import utils.MutatorHelper;
 import manager.IWodelTest;
 import manager.WodelTestClass;
@@ -275,21 +276,10 @@ public class WodelTestGlobalGraphicalResultsViewPart extends ViewPart implements
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-	    if (window != null)
-	    {
-	        IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
-	        if (selection != null) {
-	        	Object firstElement = selection.getFirstElement();
-	        	if (firstElement instanceof IAdaptable)
-	        	{
-	            	project = (IProject)((IAdaptable)firstElement).getAdapter(IProject.class);
-	        	}
-	        }
-	    }
-	    if (project == null) {
-	    	return;
-	    }
+		if (!ViewUtils.isReady()) {
+			return;
+		}
+		project = ViewUtils.getProject();
 	    composite = parent;
 	    resultsProvider = new GlobalResultsProvider(); 
 	    final Canvas canvas = new Canvas(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);

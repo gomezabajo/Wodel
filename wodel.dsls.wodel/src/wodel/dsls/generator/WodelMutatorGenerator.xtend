@@ -3673,7 +3673,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDIF»
 			«ELSEIF mut.object instanceof CompleteTypeSelection»
 			//«var CompleteTypeSelection selection = mut.object as CompleteTypeSelection»
-			«IF selection.types !== null»
+			«IF selection.types !== null && selection.types.size > 0»
 			«FOR EClass type : selection.types»
 			mutTypes.add("«type.name»");
 			«ENDFOR»
@@ -4062,7 +4062,7 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 			«ENDIF»
 			«ELSEIF mut.object instanceof CompleteTypeSelection»
 			//«var CompleteTypeSelection selection = mut.object as CompleteTypeSelection»
-			«IF selection.types !== null»
+			«IF selection.types !== null && selection.types.size > 0»
 			«FOR EClass type : selection.types»
 			mutTypes.add("«type.name»");
 			«ENDFOR»
@@ -4130,7 +4130,12 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 					«ENDIF»	
 				«ENDIF»
 				«IF ((mut.object.expression === null) && (mut.container === null))»
+				«IF mut.object instanceof RandomTypeSelection»
 					EObject object = rts.getObject();
+				«ENDIF»
+				«IF mut.object instanceof CompleteTypeSelection»
+					List<EObject> objects = rts.getObjects();
+				«ENDIF»
 				«ENDIF»
 				«IF mut.object.refType !== null»
 				Object o = object.eGet("«mut.object.refType»");

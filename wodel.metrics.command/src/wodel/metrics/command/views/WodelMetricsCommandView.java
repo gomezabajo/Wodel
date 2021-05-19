@@ -14,6 +14,7 @@ import manager.StaticMutatorMetrics.WodelMetricFeature;
 import manager.StaticMutatorMetrics.WodelMetricReference;
 import wodel.metrics.command.CommandMutatorMetrics.WodelMetricCommand;
 import manager.ModelManager;
+import manager.ViewUtils;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;

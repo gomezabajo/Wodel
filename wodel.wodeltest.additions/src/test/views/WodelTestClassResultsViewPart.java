@@ -47,6 +47,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import manager.ModelManager;
+import manager.ViewUtils;
 import utils.MutatorHelper;
 import manager.WodelTestUtils;
 import manager.IWodelTest;
@@ -196,22 +197,10 @@ public class WodelTestClassResultsViewPart extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		IProject project = null;
-	    if (window != null)
-	    {
-	        IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
-	        if (selection != null) {
-	        	Object firstElement = selection.getFirstElement();
-	        	if (firstElement instanceof IAdaptable)
-	        	{
-	        		project = (IProject)((IAdaptable)firstElement).getAdapter(IProject.class);
-	        	}
-	        }
-	    }
-	    if (project == null) {
-	    	return;
-	    }
+		if (!ViewUtils.isReady()) {
+			return;
+		}
+		IProject project = ViewUtils.getProject();
 	    
 	    String path = ModelManager.getWorkspaceAbsolutePath() + "/" + project.getFullPath().toFile().getPath().toString();
 	    String classespath = path + "/data/classes.txt";

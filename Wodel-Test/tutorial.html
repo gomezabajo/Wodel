@@ -99,47 +99,50 @@
 	});
 </script>
 
-<p style="text-align: justify; text-justify: inter-word;"><strong>Wodel-Test</strong> is built on top of <strong>Wodel</strong>, a domain-specific language to define and execute model mutations.</p>
+<p>Role of WodelTestGlobalResult, WodelTestResult, WodelTestResultClass, and WodelTestInfo classes:</p>
 
-<p style="text-align: justify; text-justify: inter-word;">Wodel is <strong>language independent</strong>, enabling the creation of mutation operators for any language defined by a meta-model.</p>
+<p>WodelTestInfo(String testName, boolean value, String info, String message)</p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestInfo.java">WodelTestInfo.java</a></p>.
 
-<p style="text-align: justify; text-justify: inter-word;">Once the mutation operators are defined, <strong>Wodel-Test</strong> generates a complete <strong>Mutation Testing (MT) environment</strong> for the language as an <strong>Eclipse plugin</strong>.</p>
+<p>testName: the name of the test (this is an atomic test case, it can be included in a file with more test cases)<br />
+value: whether the test has passed (mutant is live) : false, or the test has not passed (mutant is killed) : true<br />
+info: some other string info that you can need, like the test file path<br />
+message: the error message from the test in case it has not passed</p>
 
-<p style="text-align: justify; text-justify: inter-word;">This MT tool parses the program representing it as a model conformant to the language meta-model, applies the mutation operators, and evaluates the test suite on the generated mutants, offering a rich collection of metrics about the MT process.</p>
+<p>WodelTestResult(String className, String modelPath, List<Object> tests, List<WodelTestInfo> info)</p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestResult.java">WodelTestResult.java</a></p>.
 
-<p style="text-align: justify; text-justify: inter-word;">This is an example of a Wodel program to replace a constructor call by a null literal in a Java program:</p>
+<p>className: the name of the class containing the tests<br />
+modelPath: the path to the model that has been tested<br />
+tests: the tests that had been executed (although it is a List<Object> variable, it is used as a List<String>)<br />
+info: a list of the single test cases corresponding to this test file and their results in the format of the previous WodelTestInfo class</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>generate 2 mutants
-in "data/out/"
-from "data/model/"
-metamodel "data/model/java.ecore"
-description "Simple mutation operator for Java"
-
-with blocks {
-	cir "Replaces a call to a constructor by null" {
-		a = select one Assignment
-			where {rightHandSide is typed ClassInstanceCreation}
-		create NullLiteral in a->rightHandSide
-	}
+<p>WodelTestResultClass</p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestResultClass.java">WodelTestResultClass.java</a></p>.
+<p>Collection of the mutation testing results so far. When each test file finishes its execution, you need to update it with:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WodelTestResultClass resultClass = WodelTestResultClass.getWodelTestResultClassByName(results, modelPath);
+if (resultClass == null) {        //if we need a new WodelTestResultClass object
+        resultClass = new WodelTestResultClass(modelPath);
+        results.add(resultClass);      //we add the new WodelTestResultClass object to the WodelTestGlobalResult results list
 }
+resultClass.addResult(wtr); //wtr is the WodelTestResult object obtained in the previous step
 </code></pre></div></div>
 
-<p>MT tools generated with Wodel-Test:<br />
-  <a href="/Wodel/Wodel-Test/plugins/testFA.zip" class="btn btn-github"><span class="icon"></span>Wodel-Test for FA</a>
-  <a href="/Wodel/Wodel-Test/ecore/DFAAutomaton.ecore" class="btn btn-github"><span class="icon"></span>FA ecore Meta-model</a><br />
-  <a href="/Wodel/Wodel-Test/plugins/testJava.zip" class="btn btn-github"><span class="icon"></span>Wodel-Test for Java</a>
-  <a href="/Wodel/Wodel-Test/ecore/java.ecore" class="btn btn-github"><span class="icon"></span>Java ecore Meta-model</a><br />
-  <a href="/Wodel/Wodel-Test/plugins/testATL.zip" class="btn btn-github"><span class="icon"></span>Wodel-Test for ATL</a>
-  <a href="/Wodel/Wodel-Test/ecore/ATL.ecore" class="btn btn-github"><span class="icon"></span>ATL ecore Meta-model</a>
+<p>WodelTestGlobalResult</p>
+<p><a href="https://github.com/gomezabajo/Wodel/blob/master/wodel.utils/src/manager/WodelTestGlobalResult.java">WodelTestGlobalResult.java</a></p>.
+<p>This is the root class for the mutation testing process results. It is the object that the run() method returns. We only need to create it at the beginning of the run() method:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WodelTestGlobalResult globalResult = new WodelTestGlobalResult();
+List<WodelTestResultClass> results = globalResult.getResults();
+</code></pre></div></div>
 </p>
 
-<p>This is a short video demo of Wodel-Test for Java execution:</p>
+<p>In case the Wodel-Test views do not show properly, proceed as follows:</p>
 
-<iframe width="520" height="315" src="https://www.youtube.com/embed/jbLxW2AOY3A" frameborder="0" allowfullscreen></iframe>
+<p>1. Close all of them<br />
+2. Select the SUT project in the Model Explorer<br />
+3. Reopen the Wodel-Test views with the SUT project selected in the Model Explorer</p>
 
-<p>This video shows Wodel-Test environment features useful for MT tools:</p>
-
-<iframe width="520" height="280" src="https://www.youtube.com/embed/P0_5Lcioq9Q" frameborder="0" allowfullscreen></iframe>
+<p>I would like to especially acknowledge <a href="https://gitlab.univ-nantes.fr/khorram-f">Faezeh Khorram</a> for her feedback when using Wodel-Test :-)</p>
 
 <ul>
   <li><span class="site-footer-owner"><a href="https://github.com/gomezabajo/Wodel/">Wodel-Test</a> is maintained by <a href="https://github.com/gomezabajo">gomezabajo</a>. Send your comments or questions to <a href="mailto:pablo.gomeza@uam.es">pablo.gomeza@uam.es</a>.</span></li>
@@ -147,19 +150,5 @@ with blocks {
 <ul>
   <li><span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/pages-themes/hacker">Hacker theme</a>.</span></li>
 </ul>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!--<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-2319112-5"></script>-->
-
-<!--<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-2319112-5');
-</script>-->
-
-
-   
   </body>
 </html>

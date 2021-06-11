@@ -57,7 +57,6 @@
       </div>
     </header>
 	
-
     <div class="container">
       <section id="main_content">
         <script>
@@ -71,6 +70,7 @@
 		var wodelTestFAPath = "/Wodel/Wodel-Test/fa.html"
 		var wodelTestJavaPath = "/Wodel/Wodel-Test/java.html"
 		var wodelTestATLPath = "/Wodel/Wodel-Test/atl.html"
+		var wodelTestTutorialPath = "/Wodel/Wodel-Test/tutorial.html"
 		
 		containerEls[0].style.maxWidth = '800px';
 		containerEls[1].style.maxWidth = '800px';
@@ -87,6 +87,8 @@
 			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for Java', wodelTestJavaPath));
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
 			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test for ATL', wodelTestATLPath));
+		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
+			downloadsSectionEl.appendChild(generateNavLink('Wodel-Test Tutorial', wodelTestTutorialPath));
 		    downloadsSectionEl.appendChild(document.createTextNode(' | '));
 			downloadsSectionEl.appendChild(generateNavLink('Wodel', wodelRootPath));
 		}

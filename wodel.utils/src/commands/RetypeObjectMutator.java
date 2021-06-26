@@ -1,6 +1,5 @@
 package commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -206,12 +205,13 @@ public class RetypeObjectMutator extends Mutator {
 			}
 		}
 		newEType = ModelManager.getEClassByName(this.getMetaModel(), objName);
-		//If there is not a selected reference we choose a random one
+		//If there is not a selected reference we choose the reference of the object to be retyped
 		if(reference == null && objName != null){
-			ArrayList<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
-			Collections.shuffle(refs);
+			List<EReference> refs = ModelManager.getContainingReferences(this.getMetaModel(), container, objName);
+			EReference initialRef = ModelManager.getContainingReference(container.eClass(), object.eClass());
+			//Collections.shuffle(refs);
 			for (EReference ref : refs) {
-				if (ref.getEReferenceType().isSuperTypeOf(newEType)) {
+				if (ref.getEReferenceType().isSuperTypeOf(newEType) && EcoreUtil.getURI(ref).equals(EcoreUtil.getURI(initialRef))) {
 					reference = ref;
 					break;
 				}
@@ -259,6 +259,7 @@ public class RetypeObjectMutator extends Mutator {
 			}
 		}
 		
+
 		// copies compatible features
 		for (EStructuralFeature sf1 : obj.eClass().getEAllStructuralFeatures()) {
 			boolean sameFeature = false;
@@ -340,6 +341,10 @@ public class RetypeObjectMutator extends Mutator {
 			}
 		}
 		
+		removed = EcoreUtil.copy(obj);
+		identification = EcoreUtil.getIdentification(obj);
+		uri = EcoreUtil.getURI(obj);
+		
 		//Multivalued
 		if(reference.getUpperBound() < 0 || reference.getUpperBound() > 1){
 			List<EObject> o = null;
@@ -365,11 +370,7 @@ public class RetypeObjectMutator extends Mutator {
 			this.result = newObj;
 		}
 
-		removed = EcoreUtil.copy(obj);
-		identification = EcoreUtil.getIdentification(obj);
-		uri = EcoreUtil.getURI(obj);
-		
-		// updates all non-containment references to previous object to the new object
+		// updates all references to previous object to the new object
 		for (EObject o : ModelManager.getAllObjects(this.getModel())) {
 			for (EReference r : o.eClass().getEAllReferences()) {
 				if (!r.isContainment() && r.getEReferenceType().isSuperTypeOf(newObj.eClass())) {
@@ -382,7 +383,18 @@ public class RetypeObjectMutator extends Mutator {
 						o.eUnset(r);
 						o.eSet(r, newObj);
 					}
-				}	
+				}
+				else if(r.isContainment() && r.getEReferenceType().isSuperTypeOf(newObj.eClass())) {
+					if (o.eGet(r) instanceof List<?> && ((List<EObject>) o.eGet(r)).contains(obj)) {
+						List<EObject> objects = (List<EObject>) o.eGet(r);
+						objects.remove(obj);
+						objects.add(newObj);
+					}
+					else if (o.eGet(r) instanceof EObject && EcoreUtil.equals((EObject) o.eGet(r), obj)) {
+						o.eUnset(r);
+						o.eSet(r, newObj);
+					}
+				}
 			}
 		}
 		
@@ -391,7 +403,7 @@ public class RetypeObjectMutator extends Mutator {
 			if (container.eGet(reference) instanceof List<?>) {
 				List<EObject> objects = (List<EObject>) container.eGet(reference);
 				for (EObject o : objects) {
-					if (EcoreUtil.getURI(o).equals(EcoreUtil.getURI(obj))) {
+					if (ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(o)).equals(ModelManager.getObjectByURIEnding(this.getModel(), EcoreUtil.getURI(obj)))) {
 						objects.remove(o);
 						break;
 					}
@@ -399,11 +411,12 @@ public class RetypeObjectMutator extends Mutator {
 			}
 			else {
 				EObject o = (EObject) container.eGet(reference);
-				if (EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(o))) {
+				if (o != null && EcoreUtil.getURI(obj).equals(EcoreUtil.getURI(o))) {
 					ModelManager.unsetReference(reference.getName(), container);
 				}
 			}
 		}
+
 		return newObj;
 	}
 

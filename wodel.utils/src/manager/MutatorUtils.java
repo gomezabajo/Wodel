@@ -1015,6 +1015,9 @@ public class MutatorUtils {
 											}
 										}
 									}
+									else if (candidate.eGet(ref) == null) {
+										selected.add(candidate);
+									}
 								}
 							}
 						}
@@ -1162,6 +1165,9 @@ public class MutatorUtils {
 														}
 													}
 												}
+												if (object.eGet(reff) == null) {
+													selected.add(candidate);
+												}
 											}
 										}
 									}
@@ -1242,6 +1248,9 @@ public class MutatorUtils {
 																}
 															}
 														}
+													}
+													if (object.eGet(reff) == null) {
+														selected.add(candidate);
 													}
 												}
 											}

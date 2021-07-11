@@ -429,11 +429,9 @@ public class MutatorUtils {
 									}
 								}
 								else {
-									if (candidate.eGet(ref) instanceof EObject) {
-										if (candidate.eGet(ref) == null) {
-											if (!selected.contains(candidate)) {
-												selected.add(candidate);
-											}
+									if (candidate.eGet(ref) == null) {
+										if (!selected.contains(candidate)) {
+											selected.add(candidate);
 										}
 									}
 								}

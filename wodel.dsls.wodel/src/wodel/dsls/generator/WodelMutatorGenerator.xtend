@@ -2532,9 +2532,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
 				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
 				ObSelectionStrategy objectSelection = null;
-				«IF mut.object.refType !== null»
+				«IF mut.object.refType !== null && mut.object.refType.many»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
 				object = o.get(ModelManager.getRandomIndex(o));
+				«ELSEIF mut.object.refType !== null && !mut.object.refType.many»
+				object = (EObject) ModelManager.getReferenced("«mut.object.refType.name»", object);
 				«ENDIF»
 				object = ModelManager.getObject(resource, object);
 				if (object != null) {
@@ -2856,9 +2858,11 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 				tempModelsFolder = tempModelsFolder.replace("/", "\\");
 				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
 				ObSelectionStrategy objectSelection = null;
-				«IF mut.object.refType !== null»
+				«IF mut.object.refType !== null && mut.object.refType.many»
 				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
 				object = o.get(ModelManager.getRandomIndex(o));
+				«ELSEIF mut.object.refType !== null && !mut.object.refType.many»
+				object = (EObject) ModelManager.getReferenced("«mut.object.refType.name»", object);
 				«ENDIF»
 				object = ModelManager.getObject(resource, object);
 				if (object != null) {
@@ -2939,7 +2943,212 @@ public class «manager.WodelContext.getProject.replaceAll("[.]", "_")»Launcher im
 		}
 			«ENDIF»
 			«ENDIF»
-			«ENDIF»
+			«ELSEIF mut.object instanceof SpecificObjectSelection || mut.object instanceof SpecificClosureSelection»
+				«IF mut.object instanceof SpecificObjectSelection» 
+				ObSelectionStrategy objectSelection = null;
+				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(mut.object as SpecificObjectSelection).objSel.name» = hmObjects.get("«(mut.object as SpecificObjectSelection).objSel.name»");
+				if (entry_«(mut.object as SpecificObjectSelection).objSel.name» != null) {
+					resourcePackages = entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getValue();
+					resources = new ArrayList<Resource>();
+					resources.add(entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getKey());
+					objectSelection = new SpecificObjectSelection(entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getValue(), entry_«(mut.object as SpecificObjectSelection).objSel.name».getValue().getKey(), entry_«(mut.object as SpecificObjectSelection).objSel.name».getKey());
+				} else {
+					return 0;
+				}
+				«ENDIF»
+				«IF mut.object instanceof SpecificClosureSelection»
+				ObSelectionStrategy obSelection = null;
+				SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry_«(mut.object as SpecificClosureSelection).objSel.name» = hmObjects.get("«(mut.object as SpecificClosureSelection).objSel.name»");
+				if (entry_«(mut.object as SpecificClosureSelection).objSel.name» != null) {
+					resourcePackages = entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getValue();
+					resources = new ArrayList<Resource>();
+					resources.add(entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getKey());
+					objectSelection = new SpecificClosureSelection(entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getValue(), entry_«(mut.object as SpecificClosureSelection).objSel.name».getValue().getKey(), entry_«(mut.object as SpecificClosureSelection).objSel.name».getKey(), "«(mut.object as SpecificClosureSelection).refType.name»");
+				} else {
+					return 0;
+				}
+				«ENDIF»
+				if (objectSelection.getObjects() != null) {
+					for (EObject object : objectSelection.getObjects()) {
+						String modelsFolder = ModelManager.getModelsFolder(this.getClass());
+						String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
+						modelsFolder = modelsFolder.replace("/", "\\"); 
+						tempModelsFolder = tempModelsFolder.replace("/", "\\");
+						Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+						ObSelectionStrategy obSelection = null;
+						«IF mut.object.refType !== null && mut.object.refType.many»
+						List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
+						object = o.get(ModelManager.getRandomIndex(o);
+						«ELSEIF mut.object.refType !== null && !mut.object.refType.many»
+						object = (EObject) ModelManager.getReferenced("«mut.object.refType.name»", object);
+						«ENDIF»
+						object = ModelManager.getObject(resource, object);
+						if (object != null) {
+							obSelection = new SpecificObjectSelection(packages, resource, object);
+							SelectObjectMutator mut = new SelectObjectMutator(obSelection.getModel(), obSelection.getMetaModel(), referenceSelection, containerSelection, obSelection);
+							Mutator mutator = null;
+							Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+							//COUNTER: «nRegistryMutation = nRegistryMutation + 1»
+							//COUNTER: «nRegistryMethodCall = nRegistryMethodCall + 1»
+							//REGISTRY METHOD NAME:«registryMethodName = "registry" + nRegistryMethodCall.toString()»
+							«IF executeMutation == true»
+							if (mut != null) {
+								Object mutated = mut.mutate();
+								if (mutated != null) {
+									«IF mut.name !== null»
+									SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+									SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+									hmObjects.put("«mut.name»", entry);
+									«ENDIF»
+									AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+									if (appMut != null) {
+										muts.getMuts().add(appMut);
+									}
+								}
+							}
+							«ENDIF»
+							mutator = mut;
+							if (mutator != null) {
+							//«nMethodCall = nMethodCall + 1»
+							«IF last == false»
+							numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+									modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
+									registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+							k += numMutantsGenerated;
+							«ENDIF»
+							«IF last == true»
+							// MUTANT COMPLETION AND REGISTRY
+							Map<String, List<String>> rules = new HashMap<String, List<String>>();
+							«FOR constraint : e.constraints»
+							if (rules.get("«constraint.type.name»") == null) {
+								rules.put("«constraint.type.name»", new ArrayList<String>());
+							}
+							List<String> newrules = rules.get("«constraint.type.name»");
+							«IF constraint.expressions !== null»
+								«FOR expression : constraint.expressions»
+								newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
+								«ENDFOR»
+							«ENDIF»
+							«IF constraint.rules !== null»
+								«FOR rule : constraint.rules»
+								newrules.add("«rule»");
+			       			«ENDFOR»
+			       			«ENDIF»
+							rules.put("«constraint.type.name»", newrules);
+			       			«ENDFOR»
+							«IF b === null»
+							String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+							«ELSE»
+				   			«IF b.from.size == 0»
+								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+				   			«ELSE»
+								String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+				   			«ENDIF»
+				   			«ENDIF»
+				   			«IF b === null»
+					   			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+				   			«ELSE»
+								boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
+							«ENDIF»
+								if (isRepeated == false) {
+									numMutantsGenerated++;
+									monitor.worked(1);
+									k++;
+								}
+							}
+				«ENDIF»
+						}
+					}
+				}
+			}
+			if (objectSelection.getObject() != null) {
+				EObject object = objectSelection.getObject();
+				String modelsFolder = ModelManager.getModelsFolder(this.getClass());
+				String tempModelsFolder = modelsFolder.replace(modelsFolder.indexOf("/") > 0 ? modelsFolder.substring(modelsFolder.indexOf("/") + 1, modelsFolder.length()) : modelsFolder, "temp");
+				modelsFolder = modelsFolder.replace("/", "\\"); 
+				tempModelsFolder = tempModelsFolder.replace("/", "\\");
+				Resource resource = ModelManager.cloneModel(model, model.getURI().toFileString().replace(modelsFolder + "\\", tempModelsFolder + "\\").replace(".model", ".«methodName»." + k +".model"));
+				ObSelectionStrategy obSelection = null;
+				«IF mut.object.refType !== null && mut.object.refType.many»
+				List<EObject> o = ModelManager.getReferences("«mut.object.refType.name»", object);
+				object = o.get(ModelManager.getRandomIndex(o));
+				«ELSEIF mut.object.refType !== null && !mut.object.refType.many»
+				object = (EObject) ModelManager.getReferenced("«mut.object.refType.name»", object);
+				«ENDIF»
+				object = ModelManager.getObject(resource, object);
+				if (object != null) {
+					obSelection = new SpecificObjectSelection(packages, resource, object);
+					SelectObjectMutator mut = new SelectObjectMutator(obSelection.getModel(), obSelection.getMetaModel(), referenceSelection, containerSelection, obSelection);
+					Mutator mutator = null;
+					Mutations muts = AppliedMutationsFactory.eINSTANCE.createMutations();
+					«IF executeMutation == true»
+					if (mut != null) {
+						Object mutated = mut.mutate();
+						if (mutated != null) {
+							«IF mut.name !== null»
+							SimpleEntry<Resource, List<EPackage>> resourceEntry = new SimpleEntry(mut.getModel(), mut.getMetaModel());
+							SimpleEntry<EObject, SimpleEntry<Resource, List<EPackage>>> entry = new SimpleEntry(mut.getObject(), resourceEntry);
+							hmObjects.put("«mut.name»", entry);
+							«ENDIF»
+							AppMutation appMut = «registryMethodName»(mut, hmMutator, seed, mutPaths, packages);
+							if (appMut != null) {
+								muts.getMuts().add(appMut);
+							}
+						}
+					}
+					«ENDIF»
+					mutator = mut;
+					if (mutator != null) {
+					«IF last == false»
+					numMutantsGenerated = mutation«nMethodCall»(packages, obSelection.getModel(), hmObjects, hmList, hashmapModelFilenames,
+							modelFilename, mutPaths, hmMutator, seed, registeredPackages, hashmapModelFolders, ecoreURI,
+							registry, hashsetMutantsBlock, fromNames, hashmapMutVersions, project, monitor, k, serialize, test, classes);
+					k += numMutantsGenerated;
+					«ENDIF»
+					«IF last == true»
+					// MUTANT COMPLETION AND REGISTRY
+					Map<String, List<String>> rules = new HashMap<String, List<String>>();
+					«FOR constraint : e.constraints»
+					if (rules.get("«constraint.type.name»") == null) {
+						rules.put("«constraint.type.name»", new ArrayList<String>());
+					}
+					List<String> newrules = rules.get("«constraint.type.name»");
+					«IF constraint.expressions !== null»
+						«FOR expression : constraint.expressions»
+						newrules.add("«WodelUtils.getConstraintText(fileName, expression)»");
+						«ENDFOR»
+					«ENDIF»
+					«IF constraint.rules !== null»
+						«FOR rule : constraint.rules»
+						newrules.add("«rule»");
+			  			«ENDFOR»
+			  			«ENDIF»
+					rules.put("«constraint.type.name»", newrules);
+					«ENDFOR»
+					«IF b === null»
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/" + "Output" + k + ".model";
+					«ELSE»
+					«IF b.from.size == 0»
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/Output" + k + ".model";
+					«ELSE»
+					String mutFilename = hashmapModelFilenames.get(modelFilename) + "/«b.name»/" + hashmapModelFolders.get(modelFilename) + "/Output" + k + ".model";
+					«ENDIF»
+					«ENDIF»
+					«IF b === null»
+			  			boolean isRepeated = registryMutant(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true);
+					«ELSE»
+						boolean isRepeated = registryMutantWithBlocks(ecoreURI, packages, registeredPackages, seed, mutator.getModel(), rules, muts, modelFilename, mutFilename, registry, hashsetMutantsBlock, hashmapModelFilenames, hashmapModelFolders, "«b.name»", fromNames, k, mutPaths, hashmapMutVersions, project, serialize, test, classes, this.getClass(), true, false);
+					«ENDIF»
+						if (isRepeated == false) {
+							numMutantsGenerated++;
+							monitor.worked(1);
+							k++;
+						}
+					}
+		«ENDIF»
+			}
+		}
+	«ENDIF»
 	}
 	//END SELECT OBJECT «methodName»
 	'''
